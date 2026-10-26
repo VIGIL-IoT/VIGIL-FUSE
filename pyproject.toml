@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vigil-fuse"
+version = "0.1.0"
+description = "FUSE, the Firmware & Unified Security Engine - a VIGIL-IoT project"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+vigil-fuse = "vigil_fuse.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+vigil_fuse = ["schemas/*.json"]
