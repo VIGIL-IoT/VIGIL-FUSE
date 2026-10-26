@@ -1,15 +1,27 @@
 # FUSE project site
 
-The static landing page lives in [site/](../site/) and uses plain HTML, CSS, and JavaScript. It has no build step or JavaScript package dependencies. The root Vercel configuration points at the site output directory; the Python analyzer package remains independent.
+The static landing page lives in [site/](../site/) and uses plain HTML, CSS, and JavaScript. It has no build step, package dependencies, or environment variables. The root [Vercel configuration](../vercel.json) sets the output directory to `site`; the Python analyzer package remains independent.
+
+## Deploy to Vercel
+
+Import `VIGIL-IoT/VIGIL-FUSE` from GitHub and use these project settings:
+
+| Setting | Value |
+| --- | --- |
+| Root Directory | `./` |
+| Framework Preset | `Other` |
+| Build Command | Leave blank |
+| Output Directory | `site` |
+| Environment Variables | None |
+
+Keep the root directory at the repository root so Vercel can read `vercel.json`. Vercel serves the files in the configured output directory.
 
 Preview locally from the repository root with:
 
     py -m http.server 4173 --directory site
 
-Then open http://localhost:4173. The website's command example installs the package from the repository and writes a scan's text, JSON, and SARIF reports to the .fuse-results folder.
+Then open http://localhost:4173. The website's command example installs the package from the repository and writes a scan's text, JSON, and SARIF reports to the `.fuse-results` folder.
 
-The interactive finding panel is populated from the vulnerable fixtures for FUSE001, FUSE003, and FUSE006. Every example is labelled as a test fixture; it is not represented as a scan of a device or customer project. The scope and limits shown on the site reflect the current CLI implementation.
+The interactive finding panel uses vulnerable fixtures for FUSE001, FUSE003, and FUSE006. They are labelled as test examples, not results from a customer project or device. The validation section describes the repository's seven vulnerable and secure rule fixture pairs. It does not claim that third-party repositories or physical boards have been scanned. The SPECTRA-32 research loop is presented as planned work.
 
-The physical-board image is credited in the website footer and kept unaltered. Downloaded source and licence metadata for the image search are recorded in site/assets/credits.json.
-
-The page does not use video: FUSE is a CLI-first package and no genuine product footage exists yet. The interactive finding panel demonstrates real fixture content without implying that FUSE has already scanned a pictured board. The report-fragment row scrolls horizontally by design and includes arrow controls and a visible swipe hint.
+The page uses no stock board imagery. The report-fragment row scrolls horizontally by design and includes arrow controls and a visible swipe hint.
