@@ -263,12 +263,17 @@ p {
   white-space: nowrap;
 }
 
+.hero-selection-track {
+  display: inline-block;
+  position: relative;
+}
+
 .hero-select-word {
   display: inline-block;
   position: relative;
   isolation: isolate;
   border-radius: 2px;
-  animation: firmware-selection 5.6s ease-in-out 0.2s infinite;
+  color: var(--ink);
 }
 
 .hero-select-word::before {
@@ -284,13 +289,17 @@ p {
 }
 
 .hero-type-caret {
-  display: inline-block;
+  position: absolute;
+  top: 0.09em;
+  left: 0;
+  display: block;
   width: 2px;
-  height: 0.86em;
-  margin-inline: 0.06em 0.1em;
+  height: 0.8em;
+  border-radius: 1px;
   background: var(--signal);
-  vertical-align: -0.05em;
-  animation: typing-caret 1s steps(2, end) infinite;
+  animation:
+    firmware-cursor-travel 5.6s ease-in-out 0.2s infinite,
+    firmware-cursor-blink 5.6s steps(1, end) 0.2s infinite;
 }
 
 .hero-intro {
@@ -1815,21 +1824,20 @@ p {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes firmware-selection {
-  0%, 12%, 80%, 100% { color: var(--ink); }
-  18%, 67% { color: var(--white); }
-  74% { color: var(--ink); }
-}
-
 @keyframes firmware-selection-fill {
   0%, 12%, 80%, 100% { transform: scaleX(0); }
-  18%, 67% { transform: scaleX(1); }
+  25%, 67% { transform: scaleX(1); }
   74% { transform: scaleX(0); }
 }
 
-@keyframes typing-caret {
-  0%, 46% { opacity: 1; }
-  47%, 100% { opacity: 0; }
+@keyframes firmware-cursor-travel {
+  0%, 12% { left: 0; }
+  25%, 67%, 100% { left: calc(100% + 0.06em); }
+}
+
+@keyframes firmware-cursor-blink {
+  0%, 12%, 25%, 46%, 67%, 74%, 93%, 100% { opacity: 1; }
+  35.5%, 56.5%, 83.5% { opacity: 0; }
 }
 
 @media (max-width: 1050px) {
@@ -2347,17 +2355,13 @@ p {
     transition-duration: 0.01ms !important;
   }
 
-  .hero-select-word {
-    color: var(--white);
-    animation: none;
-  }
-
   .hero-select-word::before {
     transform: scaleX(1);
     animation: none;
   }
 
   .hero-type-caret {
+    left: calc(100% + 0.06em);
     opacity: 1;
     animation: none;
   }
