@@ -1,0 +1,2 @@
+network:
+  mqtt_password: "${MQTT_PASSWORD}"
