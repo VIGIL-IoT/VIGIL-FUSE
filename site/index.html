@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="FUSE is the CLI-first embedded security inspection engine from VIGIL-IoT. Scan source, configuration and firmware artifacts; keep findings tied to evidence.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="FUSE - Firmware &amp; Unified Security Engine">
+    <meta property="og:description" content="Inspect embedded projects with evidence-led security findings from a CLI-first VIGIL-IoT tool.">
+    <title>FUSE - Firmware &amp; Unified Security Engine</title>
+    <link rel="icon" href="assets/fuse-mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand-lockup" href="#top" aria-label="FUSE, Firmware and Unified Security Engine, a VIGIL-IoT project">
+        <span class="brand-name">FUSE</span>
+        <span class="brand-subtitle">Firmware &amp; Unified Security Engine</span>
+      </a>
+      <p class="project-tag">A VIGIL-IoT Project</p>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#workflow">Workflow</a>
+        <a href="#rules">Rules</a>
+        <a href="#research">Research loop</a>
+      </nav>
+      <a class="header-action" href="#install">Get FUSE <span aria-hidden="true">↗</span></a>
+    </header>
+
+    <main id="main">
+      <section class="hero page-wrap" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy reveal">
+          <h1 id="hero-title">Inspect before<br>firmware ships.</h1>
+          <p class="hero-intro">FUSE is a CLI-first security inspection engine for embedded projects. It reports source and configuration signals with evidence, separate severity and confidence, and a next step.</p>
+          <div class="hero-actions">
+            <a class="button button-dark" href="#install">Run a first scan <span aria-hidden="true">↓</span></a>
+            <a class="text-link" href="#rules">See the current rules</a>
+          </div>
+          <p class="hero-note">Python 3.11+ <span aria-hidden="true">·</span> no runtime dependencies <span aria-hidden="true">·</span> local reports</p>
+        </div>
+        <div class="hero-stage reveal" role="group" aria-label="Interactive FUSE finding example">
+          <article class="finding-demo" data-ui="finding-record" aria-labelledby="demo-title" aria-live="polite" aria-atomic="true">
+            <div class="demo-topline">
+              <span class="demo-product">FUSE finding</span>
+              <span class="demo-fixture">Vulnerable test fixture</span>
+            </div>
+            <p class="demo-rule" id="demo-rule"><code>FUSE003</code> <span>transport security</span></p>
+            <h2 class="demo-title" id="demo-title">TLS peer verification appears disabled</h2>
+            <code class="demo-location" id="demo-location">tests/fixtures/rules/FUSE003-vulnerable.fixture:1</code>
+            <pre class="evidence-line"><code id="demo-evidence">verify=False</code></pre>
+            <div class="finding-scores" aria-label="Finding rating">
+              <div class="score-item"><span>Severity</span><strong id="demo-severity">High</strong><small>Potential impact</small></div>
+              <div class="score-item"><span>Confidence</span><strong id="demo-confidence">High</strong><small>Evidence strength</small></div>
+            </div>
+            <p class="demo-explanation" id="demo-explanation">An explicit TLS verification bypass appears in the source. FUSE cannot establish whether this code path runs.</p>
+            <p class="demo-remediation"><strong>Next step</strong><span id="demo-remediation">Enable certificate-chain and hostname verification; keep any test override out of release builds.</span></p>
+            <p class="demo-path-note">Example from the rule's vulnerable fixture, not a scan of a connected device.</p>
+            <div class="demo-switches" role="group" aria-label="Choose a tested rule example">
+              <button type="button" class="demo-switch is-selected" aria-pressed="true" data-example="tls">TLS bypass</button>
+              <button type="button" class="demo-switch" aria-pressed="false" data-example="secret">Credential literal</button>
+              <button type="button" class="demo-switch" aria-pressed="false" data-example="boot">ESP-IDF setting</button>
+            </div>
+          </article>
+          <p class="stage-caption">One signal, with its evidence and limits attached.</p>
+        </div>
+      </section>
+
+      <section class="showcase page-wrap" id="findings" aria-labelledby="findings-title">
+        <div class="section-heading reveal">
+          <h2 id="findings-title">Every finding carries its source context.</h2>
+          <p>FUSE keeps the observed line beside the claim. Severity describes possible impact; confidence describes how strongly the rule's evidence supports the finding.</p>
+        </div>
+        <div class="showcase-bar reveal">
+          <p>FUSE report fragments</p>
+          <div class="carousel-controls">
+            <span class="carousel-hint">Use arrows or swipe</span>
+            <button type="button" class="carousel-button" data-scroll="back" aria-label="Scroll report fragments left">←</button>
+            <button type="button" class="carousel-button" data-scroll="next" aria-label="Scroll report fragments right">→</button>
+          </div>
+        </div>
+        <div class="showcase-track" id="showcase-track" tabindex="0" aria-label="Scrollable FUSE report fragments">
+          <article class="showcase-slide slide-finding reveal">
+            <h3>Location stays specific.</h3>
+            <div class="fragment finding-fragment" data-ui="finding-location">
+              <div class="fragment-heading"><code>FUSE003</code><span>High severity</span></div>
+              <p class="fragment-title">TLS peer verification appears disabled</p>
+              <code class="fragment-path">tests/fixtures/rules/FUSE003-vulnerable.fixture:1</code>
+              <code class="fragment-evidence">verify=False</code>
+              <p class="fragment-note">The source contains a bypass indicator. Execution is not established.</p>
+            </div>
+          </article>
+          <article class="showcase-slide slide-redaction reveal">
+            <h3>Secret-like values are redacted.</h3>
+            <div class="fragment redaction-fragment" data-ui="redacted-evidence">
+              <p class="fragment-label">FUSE001 · vulnerable fixture</p>
+              <pre><code>mqtt_password: <span>"[REDACTED]"</span></code></pre>
+              <div class="redaction-foot"><span>Category</span><strong>Secrets</strong></div>
+              <p class="fragment-note">FUSE cannot determine whether the original value is valid or used.</p>
+            </div>
+          </article>
+          <article class="showcase-slide slide-confidence reveal">
+            <h3>Impact and evidence stay separate.</h3>
+            <div class="fragment confidence-fragment" data-ui="severity-confidence">
+              <div class="axis-row"><code>FUSE001</code><strong>Credential-like literal</strong></div>
+              <div class="axis-value">
+                <div><span>Severity</span><b>Medium</b><small>Potential impact</small></div>
+                <div><span>Confidence</span><b>High</b><small>Evidence strength</small></div>
+              </div>
+              <p class="fragment-note">A strong match does not increase the potential impact rating.</p>
+            </div>
+          </article>
+          <article class="showcase-slide slide-coverage reveal">
+            <h3>Coverage shows what was inspected.</h3>
+            <div class="fragment coverage-fragment" data-ui="coverage-fields">
+              <p class="fragment-label">Recorded for each report</p>
+              <dl>
+                <div><dt><code>rules_available</code></dt><dd>Rule IDs</dd></div>
+                <div><dt><code>rules_enabled</code></dt><dd>Rule IDs</dd></div>
+                <div><dt><code>files_skipped_by_reason</code></dt><dd>Skip reasons</dd></div>
+              </dl>
+              <p class="fragment-note">An empty finding list alone is not proof of full coverage.</p>
+            </div>
+          </article>
+          <article class="showcase-slide slide-output reveal">
+            <h3>Reports land in one folder.</h3>
+            <div class="fragment output-fragment" data-ui="report-files">
+              <p class="fragment-label">.fuse-results/</p>
+              <ul>
+                <li><code>findings.json</code><small>versioned report</small></li>
+                <li><code>findings.txt</code><small>human readable</small></li>
+                <li><code>findings.sarif</code><small>code-scanning format</small></li>
+              </ul>
+            </div>
+          </article>
+        </div>
+        <p class="showcase-note reveal">These examples use FUSE's own vulnerable rule fixtures and report schema. They are not results from a customer or device scan.</p>
+      </section>
+
+      <section class="workflow page-wrap" id="workflow" aria-labelledby="workflow-title">
+        <div class="section-heading workflow-heading reveal">
+          <h2 id="workflow-title">From project tree to reviewable output.</h2>
+          <p>Install the package from the repository once. Each scan writes the report set to the folder you choose.</p>
+        </div>
+        <div class="workflow-layout">
+          <ol class="workflow-steps">
+            <li class="workflow-step"><h3>Install once</h3><p>From the FUSE repository root, install the local package with Python 3.11 or newer.</p></li>
+            <li class="workflow-step"><h3>Choose a project</h3><p>Scan selected source and configuration files, or choose an embedded profile to expand file discovery.</p></li>
+            <li class="workflow-step"><h3>Review each signal</h3><p>Find the affected file, evidence, explanation, potential impact, confidence and remediation together.</p></li>
+            <li class="workflow-step"><h3>Share the reports</h3><p>Keep readable text, machine-readable JSON and SARIF side by side in the output folder.</p></li>
+          </ol>
+          <div class="command-stack reveal" id="install">
+            <div class="command-panel" data-ui="terminal-command">
+              <div class="command-heading"><span>PowerShell · repository root</span><span>Python 3.11+</span></div>
+              <p class="command-label">Install the package</p>
+              <pre><code>py -m pip install -e .</code></pre>
+              <p class="command-label command-label-scan">Run a generic project scan</p>
+              <div class="copy-command-row">
+                <pre><code id="scan-command">py -m vigil_fuse scan . --profile generic --output-dir .fuse-results</code></pre>
+                <button type="button" class="copy-button" id="copy-command" aria-label="Copy the generic scan command">Copy</button>
+              </div>
+            </div>
+            <div class="output-panel" data-ui="output-folder">
+              <p class="output-title"><span class="folder-mark" aria-hidden="true"></span><code>.fuse-results/</code></p>
+              <ul>
+                <li><code>findings.json</code><small>schema 1.2</small></li>
+                <li><code>findings.txt</code><small>human readable</small></li>
+                <li><code>findings.sarif</code><small>tool interchange</small></li>
+              </ul>
+              <p class="output-note">The command creates all three reports together.</p>
+            </div>
+          </div>
+        </div>
+        <p class="workflow-boundary reveal">Native rules inspect selected text and configuration files. Optional Syft and OSV-Scanner adapters add component inventory and advisory matching. Optional Binwalk identifies firmware signatures only; FUSE does not extract or execute firmware.</p>
+      </section>
+
+      <section class="rules page-wrap" id="rules" aria-labelledby="rules-title">
+        <div class="section-heading rules-heading reveal">
+          <h2 id="rules-title">Seven focused rules to start.</h2>
+          <p>Each current rule has high-confidence fixture coverage. A static indicator is described as an indicator, not proof of runtime exposure.</p>
+        </div>
+        <div class="rule-table-wrap">
+          <table class="rule-table">
+            <thead><tr><th scope="col">Rule</th><th scope="col">Signal reported</th><th scope="col">Severity</th><th scope="col">Confidence</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>FUSE001</code><small>Secrets</small></th><td>Credential-like literal assignment</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE002</code><small>Secrets</small></th><td>PEM private-key block marker</td><td data-label="Severity"><span class="rating rating-high">High</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE003</code><small>Transport security</small></th><td>TLS peer verification appears disabled</td><td data-label="Severity"><span class="rating rating-high">High</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE004</code><small>Transport security</small></th><td>Non-loopback plaintext HTTP endpoint</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE005</code><small>Transport security</small></th><td>Plaintext MQTT broker URI</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE006</code><small>Boot integrity</small></th><td>ESP-IDF app-image validation skipped</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE007</code><small>Boot integrity</small></th><td>ESP-IDF validation skipped after deep sleep</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="rules-note reveal">Every enabled rule is paired with a vulnerable fixture, a secure fixture and an automated expectation. ESP-IDF findings describe settings found in scanned input; they do not establish that a file is the active release configuration.</p>
+      </section>
+
+      <section class="boundaries" aria-labelledby="boundaries-title">
+        <div class="boundary-inner page-wrap">
+          <h2 id="boundaries-title" class="reveal">Signals stay inside their evidence.</h2>
+          <div class="boundary-columns">
+            <p><strong>Source inspection</strong><span>FUSE does not validate credentials, contact endpoints or claim that a flagged code path is reachable.</span></p>
+            <p><strong>Firmware intake</strong><span>Binwalk signature identification is partial coverage. Firmware extraction and execution are outside the current workflow.</span></p>
+            <p><strong>Advisories</strong><span>Dependency matching uses optional system tools and reports missing tools or partial coverage explicitly.</span></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="research page-wrap" id="research" aria-labelledby="research-title">
+        <div class="research-intro reveal">
+          <h2 id="research-title">A VIGIL-IoT Project.</h2>
+          <p class="initiative-name"><strong>VIGIL-IoT</strong> means Vulnerability Intelligence &amp; Guarding for IoT Layers.</p>
+          <p>FUSE is its Firmware &amp; Unified Security Engine: an analysis and inspection module for embedded software and firmware artifacts.</p>
+        </div>
+        <figure class="board-figure reveal">
+          <img src="assets/tiva-c-launchpad-ek-tm4c1294xl.jpg" alt="Texas Instruments Tiva-C LaunchPad development board, shown in full with its USB cable connected" width="1920" height="893" loading="lazy" decoding="async">
+          <figcaption>Example hardware, not a FUSE product or scanned target. “Tiva-C LaunchPad EK-TM4C1294XL” by wdwd, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Tiva-C_LaunchPad_EK-TM4C1294XL.JPG" target="_blank" rel="noreferrer">Wikimedia Commons</a>.</figcaption>
+        </figure>
+        <aside class="research-tile reveal" aria-label="How FUSE complements SPECTRA-32">
+          <p class="tile-label">The VIGIL-IoT research loop</p>
+          <p class="tile-copy">FUSE identifies a candidate weakness. SPECTRA-32 can reproduce selected cases in a controlled lab. After mitigation, FUSE rescans and SPECTRA-32 measures the overhead.</p>
+          <p class="tile-flow"><span>Inspect</span><b aria-hidden="true">→</b><span>Reproduce</span><b aria-hidden="true">→</b><span>Mitigate</span><b aria-hidden="true">→</b><span>Measure</span></p>
+        </aside>
+        <div class="hardware-gallery" aria-labelledby="hardware-title">
+          <div class="gallery-heading reveal">
+            <h3 id="hardware-title">From microcontroller to development board.</h3>
+            <p>Reference imagery from open archives. These are examples of embedded hardware, not FUSE scans.</p>
+          </div>
+          <div class="gallery-grid">
+            <figure class="reveal">
+              <img src="assets/microcontrollers-atmega32-atmega8.jpg" alt="Two black Atmel microcontroller integrated circuits on a plain white surface" width="1920" height="1764" loading="lazy" decoding="async">
+              <figcaption><a href="https://commons.wikimedia.org/w/index.php?curid=37544740" target="_blank" rel="noreferrer">“Microcontrollers Atmega32 Atmega8”</a> by Vahid alpha at English Wikipedia, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a>, via Wikimedia Commons.</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/top-view-of-a-raspberry-pi-pico.jpg" alt="Raspberry Pi Pico 2 microcontroller board photographed on a red background" width="1920" height="2560" loading="lazy" decoding="async">
+              <figcaption><a href="https://commons.wikimedia.org/w/index.php?curid=169801140" target="_blank" rel="noreferrer">Raspberry Pi Pico 2, top view</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>.</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/macro-photograph-of-the-rp2350-microcontroller-on.jpg" alt="Close-up photograph of an RP2350 microcontroller mounted on a Raspberry Pi Pico 2 board" width="1920" height="1440" loading="lazy" decoding="async">
+              <figcaption><a href="https://commons.wikimedia.org/wiki/File:Macro_photograph_of_the_RP2350_microcontroller_on_a_Raspberry_Pi_Pico_2_board.jpg" target="_blank" rel="noreferrer">RP2350 on Raspberry Pi Pico 2</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="cta page-wrap reveal" aria-label="Get the FUSE source code">
+        <p>Clone FUSE, install it once, and run a focused scan from your terminal.</p>
+        <a class="button button-red" href="https://github.com/shaxntanu/VIGIL-FUSE" target="_blank" rel="noreferrer">Open the FUSE repository <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner page-wrap">
+        <a class="footer-wordmark reveal" href="#top">FUSE</a>
+        <div class="footer-bottom">
+          <div class="footer-identity"><p>Firmware &amp; Unified Security Engine</p><p>A VIGIL-IoT Project</p><p>Vulnerability Intelligence &amp; Guarding for IoT Layers</p></div>
+          <nav class="footer-links" aria-label="Footer navigation">
+            <a href="#workflow">Workflow</a><a href="#rules">Rules</a>
+            <a href="https://github.com/shaxntanu/VIGIL-FUSE" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          </nav>
+          <a class="back-top" href="#top">Back to top ↑</a>
+        </div>
+        <details class="image-credits">
+          <summary>Image credits and licences</summary>
+          <ul>
+            <li><a href="https://commons.wikimedia.org/wiki/File:Tiva-C_LaunchPad_EK-TM4C1294XL.JPG" target="_blank" rel="noreferrer">“Tiva-C LaunchPad EK-TM4C1294XL”</a> by wdwd, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>, via Wikimedia Commons.</li>
+            <li><a href="https://commons.wikimedia.org/w/index.php?curid=37544740" target="_blank" rel="noreferrer">“Microcontrollers Atmega32 Atmega8”</a> by Vahid alpha at English Wikipedia, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a>, via Wikimedia Commons.</li>
+            <li><a href="https://commons.wikimedia.org/w/index.php?curid=169801140" target="_blank" rel="noreferrer">“Top view of a Raspberry Pi Pico 2 microcontroller board”</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>, via Wikimedia Commons.</li>
+            <li><a href="https://commons.wikimedia.org/wiki/File:Macro_photograph_of_the_RP2350_microcontroller_on_a_Raspberry_Pi_Pico_2_board.jpg" target="_blank" rel="noreferrer">“Macro photograph of the RP2350 microcontroller on a Raspberry Pi Pico 2 board”</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>, via Wikimedia Commons.</li>
+          </ul>
+          <p>The original image files are used without recolouring or compositing.</p>
+        </details>
+        <p class="footer-legal">FUSE is an early, CLI-first VIGIL-IoT module. Findings describe observed signals and their limits.</p>
+      </div>
+    </footer>
+  </body>
+</html>
