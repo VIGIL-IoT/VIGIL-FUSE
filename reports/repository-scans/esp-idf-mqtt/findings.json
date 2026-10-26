@@ -2,27 +2,27 @@
   "schema_version": "1.2",
   "tool": {
     "name": "FUSE",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "target": "espressif/esp-idf/examples/protocols/mqtt",
   "scan": {
     "target_kind": "directory",
     "profile": "esp-idf",
-    "started_at": "2026-10-26T13:58:28Z",
-    "completed_at": "2026-10-26T13:58:28Z",
-    "input_manifest_sha256": "84c3719f4d9320031d53801b4607602d7129f060a5b238812a4ff37cba7b1035"
+    "started_at": "2026-10-26T17:33:44Z",
+    "completed_at": "2026-10-26T17:33:44Z",
+    "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc"
   },
   "summary": {
-    "files_discovered": 8,
+    "files_discovered": 94,
     "files_selected": 8,
-    "files_filtered": 0,
+    "files_filtered": 86,
     "files_scanned": 8,
     "files_skipped": 0,
     "analysis_performed": true,
-    "finding_count": 1,
+    "finding_count": 0,
     "severity_counts": {
       "critical": 0,
-      "high": 1,
+      "high": 0,
       "medium": 0,
       "low": 0,
       "info": 0,
@@ -53,36 +53,12 @@
       {
         "name": "fuse-native",
         "status": "completed",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "detail": "Native rules completed.",
-        "findings": 1
+        "findings": 0
       }
     ]
   },
-  "findings": [
-    {
-      "id": "FUSE003:pytest_mqtt_ssl.py:71",
-      "fingerprint": "5b90f3bf4d003085889fd3ce4c026d7da8af79fc8889acea2dfb3b85fbee9d46",
-      "rule_id": "FUSE003",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "TLS peer verification appears disabled",
-      "severity": "high",
-      "confidence": "high",
-      "category": "transport-security",
-      "location": {
-        "file": "pytest_mqtt_ssl.py",
-        "start_line": 71,
-        "end_line": 71
-      },
-      "evidence": "CERT_NONE",
-      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
-      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
-      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/295.html"
-      ]
-    }
-  ],
+  "findings": [],
   "artifacts": []
 }

@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-10-26T14:18:59Z",
+  "generated_at": "2026-10-26T17:34:08Z",
   "scan_date": "2026-10-26",
   "fuse": {
-    "version": "0.1.0",
-    "commit": "773a9b978616e1f1ad9e900dbce6909b0e926e59"
+    "version": "0.2.0",
+    "commit": "6a32e8782eb614612bc27bba525510c632e0bf83"
   },
-  "latest_scan_completed_at": "2026-10-26T14:06:39Z",
+  "latest_scan_completed_at": "2026-10-26T17:34:00Z",
   "interpretation": "Raw static indicators from the listed source/configuration scopes. Findings are not confirmed vulnerabilities.",
   "totals": {
     "repository_count": 8,
     "scan_scope_count": 9,
-    "files_discovered": 8859,
-    "files_selected": 8859,
-    "files_scanned": 8856,
+    "files_discovered": 9590,
+    "files_selected": 9463,
+    "files_scanned": 9460,
     "files_skipped": 3,
-    "finding_count": 1663,
+    "finding_count": 20,
     "severity_counts": {
       "critical": 0,
-      "high": 23,
-      "medium": 1640,
+      "high": 13,
+      "medium": 7,
       "low": 0,
       "info": 0,
       "unknown": 0
     },
     "rule_counts": {
-      "FUSE001": 218,
-      "FUSE002": 12,
-      "FUSE003": 11,
-      "FUSE004": 1422,
+      "FUSE001": 5,
+      "FUSE002": 3,
+      "FUSE003": 10,
+      "FUSE004": 2,
       "FUSE005": 0,
       "FUSE006": 0,
       "FUSE007": 0
@@ -56,7 +56,7 @@
           "files_skipped_by_reason": {
             "not_utf8": 1
           },
-          "finding_count": 30,
+          "finding_count": 1,
           "analysis_performed": true,
           "input_manifest_sha256": "3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c",
           "report_files": {
@@ -73,67 +73,35 @@
       "files_selected": 1652,
       "files_scanned": 1651,
       "files_skipped": 1,
-      "finding_count": 30,
+      "finding_count": 1,
       "severity_counts": {
         "critical": 0,
         "high": 0,
-        "medium": 30,
+        "medium": 1,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 2,
+        "FUSE001": 1,
         "FUSE002": 0,
         "FUSE003": 0,
-        "FUSE004": 28,
+        "FUSE004": 0,
         "FUSE005": 0,
         "FUSE006": 0,
         "FUSE007": 0
       },
       "finding_groups": [
         {
-          "rule_id": "FUSE004",
-          "title": "Non-loopback HTTP endpoint configured",
-          "severity": "medium",
-          "category": "transport-security",
-          "count": 28,
-          "confidence_counts": {
-            "high": 28
-          },
-          "examples": [
-            {
-              "scan_id": "iotgoat",
-              "file": "OpenWrt/openwrt-18.06.2/package/base-files/Makefile",
-              "line": 42
-            },
-            {
-              "scan_id": "iotgoat",
-              "file": "OpenWrt/openwrt-18.06.2/package/network/services/dnsmasq/Makefile",
-              "line": 15
-            },
-            {
-              "scan_id": "iotgoat",
-              "file": "OpenWrt/openwrt-18.06.2/package/network/services/dnsmasq/Makefile",
-              "line": 36
-            }
-          ]
-        },
-        {
           "rule_id": "FUSE001",
           "title": "Credential-like literal assigned in source",
           "severity": "medium",
           "category": "secrets",
-          "count": 2,
+          "count": 1,
           "confidence_counts": {
-            "high": 2
+            "high": 1
           },
           "examples": [
-            {
-              "scan_id": "iotgoat",
-              "file": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/ead.c",
-              "line": 47
-            },
             {
               "scan_id": "iotgoat",
               "file": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h",
@@ -154,16 +122,16 @@
           "id": "tasmota",
           "profile": "generic",
           "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
-          "files_discovered": 6198,
-          "files_selected": 6198,
-          "files_scanned": 6196,
+          "files_discovered": 6802,
+          "files_selected": 6802,
+          "files_scanned": 6800,
           "files_skipped": 2,
           "files_skipped_by_reason": {
             "too_large": 2
           },
-          "finding_count": 1592,
+          "finding_count": 15,
           "analysis_performed": true,
-          "input_manifest_sha256": "20faadfdc0ec67f28e6030192f47997c0a6f3154a0c64142bdf41ba2b7e3578a",
+          "input_manifest_sha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638",
           "report_files": {
             "json": "reports/repository-scans/tasmota/findings.json",
             "text": "reports/repository-scans/tasmota/findings.txt",
@@ -174,83 +142,29 @@
           }
         }
       ],
-      "files_discovered": 6198,
-      "files_selected": 6198,
-      "files_scanned": 6196,
+      "files_discovered": 6802,
+      "files_selected": 6802,
+      "files_scanned": 6800,
       "files_skipped": 2,
-      "finding_count": 1592,
+      "finding_count": 15,
       "severity_counts": {
         "critical": 0,
         "high": 10,
-        "medium": 1582,
+        "medium": 5,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 205,
+        "FUSE001": 3,
         "FUSE002": 0,
         "FUSE003": 10,
-        "FUSE004": 1377,
+        "FUSE004": 2,
         "FUSE005": 0,
         "FUSE006": 0,
         "FUSE007": 0
       },
       "finding_groups": [
-        {
-          "rule_id": "FUSE004",
-          "title": "Non-loopback HTTP endpoint configured",
-          "severity": "medium",
-          "category": "transport-security",
-          "count": 1377,
-          "confidence_counts": {
-            "high": 1377
-          },
-          "examples": [
-            {
-              "scan_id": "tasmota",
-              "file": "boards/esp8266_16M14M.json",
-              "line": 28
-            },
-            {
-              "scan_id": "tasmota",
-              "file": "boards/esp8266_1M.json",
-              "line": 28
-            },
-            {
-              "scan_id": "tasmota",
-              "file": "boards/esp8266_2M1M.json",
-              "line": 28
-            }
-          ]
-        },
-        {
-          "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
-          "severity": "medium",
-          "category": "secrets",
-          "count": 205,
-          "confidence_counts": {
-            "high": 205
-          },
-          "examples": [
-            {
-              "scan_id": "tasmota",
-              "file": "lib/default/TasmotaPubSub/tests/src/harness_props_test.cpp",
-              "line": 609
-            },
-            {
-              "scan_id": "tasmota",
-              "file": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
-              "line": 47
-            },
-            {
-              "scan_id": "tasmota",
-              "file": "tasmota/include/i18n.h",
-              "line": 351
-            }
-          ]
-        },
         {
           "rule_id": "FUSE003",
           "title": "TLS peer verification appears disabled",
@@ -277,6 +191,55 @@
               "line": 6029
             }
           ]
+        },
+        {
+          "rule_id": "FUSE001",
+          "title": "Credential-like literal assigned in source",
+          "severity": "medium",
+          "category": "secrets",
+          "count": 3,
+          "confidence_counts": {
+            "high": 3
+          },
+          "examples": [
+            {
+              "scan_id": "tasmota",
+              "file": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
+              "line": 47
+            },
+            {
+              "scan_id": "tasmota",
+              "file": "tasmota/berry/drivers/ftp.be",
+              "line": 60
+            },
+            {
+              "scan_id": "tasmota",
+              "file": "tasmota/berry/drivers/ssh.be",
+              "line": 871
+            }
+          ]
+        },
+        {
+          "rule_id": "FUSE004",
+          "title": "Non-loopback HTTP endpoint configured",
+          "severity": "medium",
+          "category": "transport-security",
+          "count": 2,
+          "confidence_counts": {
+            "high": 2
+          },
+          "examples": [
+            {
+              "scan_id": "tasmota",
+              "file": "pio-tools/post_esp32.py",
+              "line": 230
+            },
+            {
+              "scan_id": "tasmota",
+              "file": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be",
+              "line": 18
+            }
+          ]
         }
       ]
     },
@@ -291,14 +254,14 @@
           "id": "esp-idf-mqtt",
           "profile": "esp-idf",
           "scope": "examples/protocols/mqtt",
-          "files_discovered": 8,
+          "files_discovered": 94,
           "files_selected": 8,
           "files_scanned": 8,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 1,
+          "finding_count": 0,
           "analysis_performed": true,
-          "input_manifest_sha256": "84c3719f4d9320031d53801b4607602d7129f060a5b238812a4ff37cba7b1035",
+          "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc",
           "report_files": {
             "json": "reports/repository-scans/esp-idf-mqtt/findings.json",
             "text": "reports/repository-scans/esp-idf-mqtt/findings.txt",
@@ -312,14 +275,14 @@
           "id": "esp-idf-ota",
           "profile": "esp-idf",
           "scope": "examples/system/ota",
-          "files_discovered": 65,
+          "files_discovered": 94,
           "files_selected": 65,
           "files_scanned": 65,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 9,
+          "finding_count": 0,
           "analysis_performed": true,
-          "input_manifest_sha256": "4d7bb675eb873b35574cb591485a2dbf621aeb5ada00c1d5ad973e7b30888ff6",
+          "input_manifest_sha256": "527e86dc20ec1ecdbd0792f7aa139a90414ab718e3b769c3ab3252916511d35c",
           "report_files": {
             "json": "reports/repository-scans/esp-idf-ota/findings.json",
             "text": "reports/repository-scans/esp-idf-ota/findings.txt",
@@ -330,14 +293,14 @@
           }
         }
       ],
-      "files_discovered": 73,
+      "files_discovered": 188,
       "files_selected": 73,
       "files_scanned": 73,
       "files_skipped": 0,
-      "finding_count": 10,
+      "finding_count": 0,
       "severity_counts": {
         "critical": 0,
-        "high": 10,
+        "high": 0,
         "medium": 0,
         "low": 0,
         "info": 0,
@@ -345,59 +308,14 @@
       },
       "rule_counts": {
         "FUSE001": 0,
-        "FUSE002": 9,
-        "FUSE003": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
         "FUSE004": 0,
         "FUSE005": 0,
         "FUSE006": 0,
         "FUSE007": 0
       },
-      "finding_groups": [
-        {
-          "rule_id": "FUSE002",
-          "title": "Private key PEM marker embedded in scanned file",
-          "severity": "high",
-          "category": "secrets",
-          "count": 9,
-          "confidence_counts": {
-            "high": 9
-          },
-          "examples": [
-            {
-              "scan_id": "esp-idf-ota",
-              "file": "advanced_https_ota/test_certs/server_key.pem",
-              "line": 1
-            },
-            {
-              "scan_id": "esp-idf-ota",
-              "file": "native_ota_example/pytest_native_ota.py",
-              "line": 44
-            },
-            {
-              "scan_id": "esp-idf-ota",
-              "file": "partitions_ota/pytest_partitions_ota.py",
-              "line": 50
-            }
-          ]
-        },
-        {
-          "rule_id": "FUSE003",
-          "title": "TLS peer verification appears disabled",
-          "severity": "high",
-          "category": "transport-security",
-          "count": 1,
-          "confidence_counts": {
-            "high": 1
-          },
-          "examples": [
-            {
-              "scan_id": "esp-idf-mqtt",
-              "file": "pytest_mqtt_ssl.py",
-              "line": 71
-            }
-          ]
-        }
-      ]
+      "finding_groups": []
     },
     {
       "id": "esphome-devices",
@@ -415,7 +333,7 @@
           "files_scanned": 73,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 8,
+          "finding_count": 0,
           "analysis_performed": true,
           "input_manifest_sha256": "b5c022ed006e8f5a46538c06acdb1ca497bf98a11ed5cf02fa70feef8a08b7db",
           "report_files": {
@@ -432,75 +350,25 @@
       "files_selected": 73,
       "files_scanned": 73,
       "files_skipped": 0,
-      "finding_count": 8,
+      "finding_count": 0,
       "severity_counts": {
         "critical": 0,
         "high": 0,
-        "medium": 8,
+        "medium": 0,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 6,
+        "FUSE001": 0,
         "FUSE002": 0,
         "FUSE003": 0,
-        "FUSE004": 2,
+        "FUSE004": 0,
         "FUSE005": 0,
         "FUSE006": 0,
         "FUSE007": 0
       },
-      "finding_groups": [
-        {
-          "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
-          "severity": "medium",
-          "category": "secrets",
-          "count": 6,
-          "confidence_counts": {
-            "high": 6
-          },
-          "examples": [
-            {
-              "scan_id": "esphome-devices",
-              "file": "scripts/review-made-for-esphome.test.ts",
-              "line": 137
-            },
-            {
-              "scan_id": "esphome-devices",
-              "file": "scripts/review-made-for-esphome.test.ts",
-              "line": 142
-            },
-            {
-              "scan_id": "esphome-devices",
-              "file": "scripts/review-made-for-esphome.test.ts",
-              "line": 143
-            }
-          ]
-        },
-        {
-          "rule_id": "FUSE004",
-          "title": "Non-loopback HTTP endpoint configured",
-          "severity": "medium",
-          "category": "transport-security",
-          "count": 2,
-          "confidence_counts": {
-            "high": 2
-          },
-          "examples": [
-            {
-              "scan_id": "esphome-devices",
-              "file": "scripts/upstream-url.test.ts",
-              "line": 198
-            },
-            {
-              "scan_id": "esphome-devices",
-              "file": "scripts/upstream-url.test.ts",
-              "line": 208
-            }
-          ]
-        }
-      ]
+      "finding_groups": []
     },
     {
       "id": "arduino-examples",
@@ -518,7 +386,7 @@
           "files_scanned": 92,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 5,
+          "finding_count": 0,
           "analysis_performed": true,
           "input_manifest_sha256": "dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760",
           "report_files": {
@@ -535,11 +403,11 @@
       "files_selected": 92,
       "files_scanned": 92,
       "files_skipped": 0,
-      "finding_count": 5,
+      "finding_count": 0,
       "severity_counts": {
         "critical": 0,
         "high": 0,
-        "medium": 5,
+        "medium": 0,
         "low": 0,
         "info": 0,
         "unknown": 0
@@ -548,40 +416,12 @@
         "FUSE001": 0,
         "FUSE002": 0,
         "FUSE003": 0,
-        "FUSE004": 5,
+        "FUSE004": 0,
         "FUSE005": 0,
         "FUSE006": 0,
         "FUSE007": 0
       },
-      "finding_groups": [
-        {
-          "rule_id": "FUSE004",
-          "title": "Non-loopback HTTP endpoint configured",
-          "severity": "medium",
-          "category": "transport-security",
-          "count": 5,
-          "confidence_counts": {
-            "high": 5
-          },
-          "examples": [
-            {
-              "scan_id": "arduino-examples",
-              "file": "examples/02.Digital/Button/Button.ino",
-              "line": 16
-            },
-            {
-              "scan_id": "arduino-examples",
-              "file": "examples/04.Communication/ASCIITable/ASCIITable.ino",
-              "line": 8
-            },
-            {
-              "scan_id": "arduino-examples",
-              "file": "examples/04.Communication/ASCIITable/ASCIITable.ino",
-              "line": 13
-            }
-          ]
-        }
-      ]
+      "finding_groups": []
     },
     {
       "id": "pico-examples",
@@ -599,7 +439,7 @@
           "files_scanned": 373,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 6,
+          "finding_count": 3,
           "analysis_performed": true,
           "input_manifest_sha256": "ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42",
           "report_files": {
@@ -616,17 +456,17 @@
       "files_selected": 373,
       "files_scanned": 373,
       "files_skipped": 0,
-      "finding_count": 6,
+      "finding_count": 3,
       "severity_counts": {
         "critical": 0,
         "high": 3,
-        "medium": 3,
+        "medium": 0,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 3,
+        "FUSE001": 0,
         "FUSE002": 3,
         "FUSE003": 0,
         "FUSE004": 0,
@@ -635,33 +475,6 @@
         "FUSE007": 0
       },
       "finding_groups": [
-        {
-          "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
-          "severity": "medium",
-          "category": "secrets",
-          "count": 3,
-          "confidence_counts": {
-            "high": 3
-          },
-          "examples": [
-            {
-              "scan_id": "pico-examples",
-              "file": "bluetooth/ble_wifi_provisioner/set_credentials.py",
-              "line": 30
-            },
-            {
-              "scan_id": "pico-examples",
-              "file": "pico_w/wifi/access_point/picow_access_point.c",
-              "line": 112
-            },
-            {
-              "scan_id": "pico-examples",
-              "file": "pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c",
-              "line": 101
-            }
-          ]
-        },
         {
           "rule_id": "FUSE002",
           "title": "Private key PEM marker embedded in scanned file",
@@ -702,14 +515,14 @@
           "id": "zephyr-net-samples",
           "profile": "zephyr",
           "scope": "samples/net/mqtt_publisher and samples/net/secure_mqtt_sensor_actuator",
-          "files_discovered": 30,
+          "files_discovered": 42,
           "files_selected": 30,
           "files_scanned": 30,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
-          "input_manifest_sha256": "bb20b888f3d3525c86dc4a234395ae400fa98dad6ae8d14f20789629b8e7b9d9",
+          "input_manifest_sha256": "ce5784ac1cdb575cc7e1264554727902b0a96cb6dd72cc8e7194ad91c0aea93c",
           "report_files": {
             "json": "reports/repository-scans/zephyr-net-samples/findings.json",
             "text": "reports/repository-scans/zephyr-net-samples/findings.txt",
@@ -720,7 +533,7 @@
           }
         }
       ],
-      "files_discovered": 30,
+      "files_discovered": 42,
       "files_selected": 30,
       "files_scanned": 30,
       "files_skipped": 0,
@@ -760,7 +573,7 @@
           "files_scanned": 368,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 12,
+          "finding_count": 1,
           "analysis_performed": true,
           "input_manifest_sha256": "5f027ca78e90de016aaf8d26fcf5e6c47de03d75c8b0af2582b5cf375e5804df",
           "report_files": {
@@ -777,67 +590,35 @@
       "files_selected": 368,
       "files_scanned": 368,
       "files_skipped": 0,
-      "finding_count": 12,
+      "finding_count": 1,
       "severity_counts": {
         "critical": 0,
         "high": 0,
-        "medium": 12,
+        "medium": 1,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 2,
+        "FUSE001": 1,
         "FUSE002": 0,
         "FUSE003": 0,
-        "FUSE004": 10,
+        "FUSE004": 0,
         "FUSE005": 0,
         "FUSE006": 0,
         "FUSE007": 0
       },
       "finding_groups": [
         {
-          "rule_id": "FUSE004",
-          "title": "Non-loopback HTTP endpoint configured",
-          "severity": "medium",
-          "category": "transport-security",
-          "count": 10,
-          "confidence_counts": {
-            "high": 10
-          },
-          "examples": [
-            {
-              "scan_id": "openwrt",
-              "file": "package/network/services/dnsmasq/Makefile",
-              "line": 46
-            },
-            {
-              "scan_id": "openwrt",
-              "file": "package/network/utils/ipset/Makefile",
-              "line": 33
-            },
-            {
-              "scan_id": "openwrt",
-              "file": "package/network/utils/nftables/Makefile",
-              "line": 41
-            }
-          ]
-        },
-        {
           "rule_id": "FUSE001",
           "title": "Credential-like literal assigned in source",
           "severity": "medium",
           "category": "secrets",
-          "count": 2,
+          "count": 1,
           "confidence_counts": {
-            "high": 2
+            "high": 1
           },
           "examples": [
-            {
-              "scan_id": "openwrt",
-              "file": "package/network/services/ead/src/ead.c",
-              "line": 47
-            },
             {
               "scan_id": "openwrt",
               "file": "package/network/services/ead/src/tinysrp/t_pwd.h",

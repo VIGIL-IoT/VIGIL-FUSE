@@ -10,19 +10,19 @@ FUSE is CLI-first and reports security signals with evidence, severity, confiden
 
 ## Current capabilities
 
-The initial scanner has seven conservative rules:
+The native scanner currently has seven conservative rules:
 
 | Rule | What it reports | Severity | Confidence |
 | --- | --- | --- | --- |
-| `FUSE001` | Credential-like names assigned literal values (including unquoted `.env` values) | Medium | High |
-| `FUSE002` | PEM private-key block markers in a scanned file | High | High |
-| `FUSE003` | Explicit TLS peer or certificate verification bypasses | High | High |
-| `FUSE004` | Non-loopback `http://` endpoints | Medium | High |
-| `FUSE005` | `mqtt://` broker URIs, which select plaintext MQTT | Medium | High |
-| `FUSE006` | ESP-IDF configuration explicitly skips bootloader app-image validation | Medium | High |
-| `FUSE007` | ESP-IDF configuration skips image validation after deep-sleep wake | Medium | High |
+| `FUSE001` | Credential-like names assigned non-placeholder literals, including unquoted `.env` values | Medium | High |
+| `FUSE002` | PEM private-key block markers outside recognized test-only paths | High | High |
+| `FUSE003` | Explicit TLS verification bypass syntax in code, excluding comments, strings, and test-only paths | High | High |
+| `FUSE004` | Non-loopback `http://` endpoints in endpoint-specific assignments or recognized network calls | Medium | High |
+| `FUSE005` | Non-loopback `mqtt://` URIs in broker/endpoint context | Medium | High |
+| `FUSE006` | ESP-IDF Kconfig inputs explicitly skip bootloader app-image validation | Medium | High |
+| `FUSE007` | ESP-IDF Kconfig inputs skip image validation after deep-sleep wake | Medium | High |
 
-These findings describe static indicators. For example, an HTTP URL shows that the source configures an unencrypted endpoint; it does not prove the endpoint is reachable or that a code path uses it. FUSE006 and FUSE007 report explicit Kconfig settings, but do not prove those files are the active release configuration or that the device uses a related runtime path. FUSE does not test credentials, contact endpoints, or claim exploitability. Secret-like values are redacted in evidence.
+These findings describe static indicators. HTTP and MQTT rules require endpoint context and skip recognized test-only paths, comments, loopback addresses, and obvious URL templates. They still do not prove that a connection is reachable or that a code path uses it. Credential checks skip localization files, likely UI labels, path and characteristic constants, placeholders, computed string expressions, and test-only source while continuing to inspect `.env.test` files. Private-key and TLS checks also skip recognized test-only paths. FUSE006 and FUSE007 are limited to Kconfig-style input filenames and do not prove those files are the active release configuration. FUSE does not test credentials, contact endpoints, or claim exploitability. Secret-like values are redacted in evidence. These filters reduce known noise and can also miss indicators in excluded context, so review the coverage and rule limits.
 
 ## Install and run
 
@@ -48,7 +48,7 @@ The normal project flow is a one-time editable install followed by one scan comm
 └── findings.sarif
 ```
 
-The scanner reads selected code and configuration extensions, including C/C++, Arduino, Python, JavaScript/TypeScript, Go, Rust, YAML, JSON, TOML, INI, environment files, and PEM files. `--profile` expands discovery to common ESP-IDF, Zephyr, and embedded-Linux filenames. `FUSE006` and `FUSE007` are the first platform-specific checks; other platform rule families remain future work. It skips common generated/dependency directories and files larger than 2 MiB. Unsupported and binary files are not analyzed by native rules.
+The scanner reads selected code and configuration extensions, including C/C++, Arduino, Berry scripts, Python, JavaScript/TypeScript, Go, Rust, YAML, JSON, TOML, INI, environment files, and PEM files. `--profile` expands discovery to common ESP-IDF, Zephyr, and embedded-Linux filenames. `FUSE006` and `FUSE007` are the first platform-specific checks; other platform rule families remain future work. It skips common generated/dependency directories and files larger than 2 MiB. Unsupported and binary files are not analyzed by native rules.
 
 `--output-dir` creates `findings.json`, `findings.txt`, and `findings.sarif` together. JSON schema 1.2 records the profile, input-manifest digest, timestamps, rules/analyzers, artifacts, and skipped-file reasons so incomplete scans are not presented as clean scans. If optional analyzers are enabled without an explicit output directory, FUSE writes to `.fuse-results`.
 
@@ -120,7 +120,7 @@ The CLI-first landing page is in [site/](site/) and follows the FUSE identity wi
 
 ## Repository scan pilot
 
-On 2026-10-26, FUSE 0.1.0 scanned eight public embedded and IoT repository snapshots at pinned commits. The pilot covered nine scan scopes and 8,856 source or configuration files, producing 1,663 raw static signals. These counts are not confirmed vulnerabilities. Repeated language strings, test code, vendor libraries, source-download URLs, and overlapping OpenWrt code affect the totals. See the [scan report and scope notes](reports/repository-scans/README.md), [triage notes](reports/repository-scans/triage.md), and [machine-readable summary](reports/repository-scans/summary.json).
+On 2026-10-26, FUSE 0.2.0 rescanned eight pinned public repository snapshots across nine scan scopes. It scanned 9,460 files and reported 20 raw signals, down from 1,663 in 0.1.0. Coverage also expanded by 604 Tasmota Berry source files, so the count drop is not a precision score or a strict like-for-like comparison. See the [scan report and scope notes](reports/repository-scans/README.md), [triage notes](reports/repository-scans/triage.md), and [machine-readable summary](reports/repository-scans/summary.json). The scans did not build repositories, run their test suites, or validate behavior on hardware.
 
 The web page reads the generated snapshot from `site/data/repository-scan-results.json`. After updating scan reports, regenerate the summary and plots with:
 

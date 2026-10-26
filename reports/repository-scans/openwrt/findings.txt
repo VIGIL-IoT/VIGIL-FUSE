@@ -6,27 +6,9 @@ Files discovered/selected: 368/368
 Files filtered by path policy: 0
 Files scanned: 368
 Files skipped: 0
-Findings: 12
+Findings: 1
 Analyzers:
   fuse-native: completed (Native rules completed.)
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: package/network/services/dnsmasq/Makefile:46
-  Evidence: http://www.thekelleys.org.uk
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
-  Confidence: high
-  Location: package/network/services/ead/src/ead.c:47
-  Evidence: #define PASSWD_FILE "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
-  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
-  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
-  References: https://cwe.mitre.org/data/definitions/798.html
 
 [MEDIUM] FUSE001 - Credential-like literal assigned in source
   Confidence: high
@@ -36,84 +18,3 @@ Analyzers:
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: package/network/utils/ipset/Makefile:33
-  Evidence: http://ipset.netfilter.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: package/network/utils/nftables/Makefile:41
-  Evidence: http://netfilter.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: package/network/utils/wireless-tools/Makefile:29
-  Evidence: http://hplabs.hp.com
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: target/linux/generic/files/Documentation/devicetree/bindings/mtd/partitions/openwrt,uimage.yaml:4
-  Evidence: http://devicetree.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: target/linux/generic/files/Documentation/devicetree/bindings/mtd/partitions/openwrt,uimage.yaml:5
-  Evidence: http://devicetree.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: target/linux/generic/files/Documentation/devicetree/bindings/net/realtek,rtl8367b.yaml:4
-  Evidence: http://devicetree.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: target/linux/generic/files/Documentation/devicetree/bindings/net/realtek,rtl8367b.yaml:5
-  Evidence: http://devicetree.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: target/linux/generic/image/lzma-loader/src/LzmaDecode.c:6
-  Evidence: http://www.7-zip.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html
-
-[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
-  Confidence: high
-  Location: target/linux/generic/image/lzma-loader/src/LzmaDecode.h:6
-  Evidence: http://www.7-zip.org
-  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
-  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
-  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
-  References: https://cwe.mitre.org/data/definitions/319.html

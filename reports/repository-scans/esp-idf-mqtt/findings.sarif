@@ -6,79 +6,22 @@
       "tool": {
         "driver": {
           "name": "FUSE",
-          "semanticVersion": "0.1.0",
-          "rules": [
-            {
-              "id": "FUSE003",
-              "shortDescription": {
-                "text": "TLS peer verification appears disabled"
-              },
-              "fullDescription": {
-                "text": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs."
-              },
-              "defaultConfiguration": {
-                "level": "error"
-              },
-              "properties": {
-                "severity": "high",
-                "confidence": "high",
-                "category": "transport-security",
-                "version": "1.0.0"
-              },
-              "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
-            }
-          ]
+          "semanticVersion": "0.2.0",
+          "rules": []
         }
       },
       "artifacts": [],
-      "results": [
-        {
-          "ruleId": "FUSE003",
-          "level": "error",
-          "message": {
-            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: CERT_NONE"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "pytest_mqtt_ssl.py"
-                },
-                "region": {
-                  "startLine": 71,
-                  "endLine": 71
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "vigilIoTFingerprint/v1": "5b90f3bf4d003085889fd3ce4c026d7da8af79fc8889acea2dfb3b85fbee9d46"
-          },
-          "properties": {
-            "fuseId": "FUSE003:pytest_mqtt_ssl.py:71",
-            "severity": "high",
-            "confidence": "high",
-            "category": "transport-security",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
-            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
-            "evidence": "CERT_NONE",
-            "references": [
-              "https://cwe.mitre.org/data/definitions/295.html"
-            ]
-          }
-        }
-      ],
+      "results": [],
       "properties": {
         "target": "espressif/esp-idf/examples/protocols/mqtt",
         "profile": "esp-idf",
-        "inputManifestSha256": "84c3719f4d9320031d53801b4607602d7129f060a5b238812a4ff37cba7b1035",
+        "inputManifestSha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc",
         "analysisPerformed": true,
         "analyzers": [
           {
             "name": "fuse-native",
             "status": "completed",
-            "version": "0.1.0"
+            "version": "0.2.0"
           }
         ]
       }

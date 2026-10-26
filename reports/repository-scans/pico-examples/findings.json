@@ -2,14 +2,14 @@
   "schema_version": "1.2",
   "tool": {
     "name": "FUSE",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "target": "raspberrypi/pico-examples",
   "scan": {
     "target_kind": "directory",
     "profile": "generic",
-    "started_at": "2026-10-26T13:55:28Z",
-    "completed_at": "2026-10-26T13:56:22Z",
+    "started_at": "2026-10-26T17:33:48Z",
+    "completed_at": "2026-10-26T17:33:55Z",
     "input_manifest_sha256": "ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42"
   },
   "summary": {
@@ -19,11 +19,11 @@
     "files_scanned": 373,
     "files_skipped": 0,
     "analysis_performed": true,
-    "finding_count": 6,
+    "finding_count": 3,
     "severity_counts": {
       "critical": 0,
       "high": 3,
-      "medium": 3,
+      "medium": 0,
       "low": 0,
       "info": 0,
       "unknown": 0
@@ -53,41 +53,18 @@
       {
         "name": "fuse-native",
         "status": "completed",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "detail": "Native rules completed.",
-        "findings": 6
+        "findings": 3
       }
     ]
   },
   "findings": [
     {
-      "id": "FUSE001:bluetooth/ble_wifi_provisioner/set_credentials.py:30",
-      "fingerprint": "7e195f1d8340916b6099e513b14cc8b09a62bade8686119d15b81099fe18d36c",
-      "rule_id": "FUSE001",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "secrets",
-      "location": {
-        "file": "bluetooth/ble_wifi_provisioner/set_credentials.py",
-        "start_line": 30,
-        "end_line": 30
-      },
-      "evidence": "PASSWORD_CHARACTERISTIC = \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
-      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/798.html"
-      ]
-    },
-    {
       "id": "FUSE002:bootloaders/encrypted/private.pem:4",
       "fingerprint": "b675f69de470182a330c7b005822822272c5ace0ffaa9fb0c1c35a595e6ac61d",
       "rule_id": "FUSE002",
-      "rule_version": "1.0.0",
+      "rule_version": "1.1.0",
       "analyzer": "fuse-native",
       "title": "Private key PEM marker embedded in scanned file",
       "severity": "high",
@@ -110,7 +87,7 @@
       "id": "FUSE002:encrypted/hello_encrypted/private.pem:4",
       "fingerprint": "3a294f3223d464db3936dd89635985e9d0b8711463a705bee02448c79b0462fb",
       "rule_id": "FUSE002",
-      "rule_version": "1.0.0",
+      "rule_version": "1.1.0",
       "analyzer": "fuse-native",
       "title": "Private key PEM marker embedded in scanned file",
       "severity": "high",
@@ -130,56 +107,10 @@
       ]
     },
     {
-      "id": "FUSE001:pico_w/wifi/access_point/picow_access_point.c:112",
-      "fingerprint": "cd335f21417050cb10d5b86f413735d82567ffdd40569caafbeb0148ff343814",
-      "rule_id": "FUSE001",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "secrets",
-      "location": {
-        "file": "pico_w/wifi/access_point/picow_access_point.c",
-        "start_line": 112,
-        "end_line": 112
-      },
-      "evidence": "const char *password = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
-      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/798.html"
-      ]
-    },
-    {
-      "id": "FUSE001:pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c:101",
-      "fingerprint": "07ed5b5b5bf9c35db8ed01075d3885c8d01c40f570da7d59a28a3d84cfc32ed9",
-      "rule_id": "FUSE001",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "secrets",
-      "location": {
-        "file": "pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c",
-        "start_line": 101,
-        "end_line": 101
-      },
-      "evidence": "#define AP_PASSWORD \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
-      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/798.html"
-      ]
-    },
-    {
       "id": "FUSE002:pico_w/wifi/ota_update/private.pem:4",
       "fingerprint": "4ccb0edc5e65f589f32718d8fc783b9f52a5c4d8f9d408b97db098c633d347ed",
       "rule_id": "FUSE002",
-      "rule_version": "1.0.0",
+      "rule_version": "1.1.0",
       "analyzer": "fuse-native",
       "title": "Private key PEM marker embedded in scanned file",
       "severity": "high",

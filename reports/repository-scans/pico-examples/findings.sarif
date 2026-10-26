@@ -6,27 +6,8 @@
       "tool": {
         "driver": {
           "name": "FUSE",
-          "semanticVersion": "0.1.0",
+          "semanticVersion": "0.2.0",
           "rules": [
-            {
-              "id": "FUSE001",
-              "shortDescription": {
-                "text": "Credential-like literal assigned in source"
-              },
-              "fullDescription": {
-                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
-              },
-              "defaultConfiguration": {
-                "level": "warning"
-              },
-              "properties": {
-                "severity": "medium",
-                "confidence": "high",
-                "category": "secrets",
-                "version": "1.0.0"
-              },
-              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
-            },
             {
               "id": "FUSE002",
               "shortDescription": {
@@ -42,7 +23,7 @@
                 "severity": "high",
                 "confidence": "high",
                 "category": "secrets",
-                "version": "1.0.0"
+                "version": "1.1.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/321.html"
             }
@@ -51,42 +32,6 @@
       },
       "artifacts": [],
       "results": [
-        {
-          "ruleId": "FUSE001",
-          "level": "warning",
-          "message": {
-            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: PASSWORD_CHARACTERISTIC = \"[REDACTED]\""
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "bluetooth/ble_wifi_provisioner/set_credentials.py"
-                },
-                "region": {
-                  "startLine": 30,
-                  "endLine": 30
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "vigilIoTFingerprint/v1": "7e195f1d8340916b6099e513b14cc8b09a62bade8686119d15b81099fe18d36c"
-          },
-          "properties": {
-            "fuseId": "FUSE001:bluetooth/ble_wifi_provisioner/set_credentials.py:30",
-            "severity": "medium",
-            "confidence": "high",
-            "category": "secrets",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-            "evidence": "PASSWORD_CHARACTERISTIC = \"[REDACTED]\"",
-            "references": [
-              "https://cwe.mitre.org/data/definitions/798.html"
-            ]
-          }
-        },
         {
           "ruleId": "FUSE002",
           "level": "error",
@@ -160,78 +105,6 @@
           }
         },
         {
-          "ruleId": "FUSE001",
-          "level": "warning",
-          "message": {
-            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "pico_w/wifi/access_point/picow_access_point.c"
-                },
-                "region": {
-                  "startLine": 112,
-                  "endLine": 112
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "vigilIoTFingerprint/v1": "cd335f21417050cb10d5b86f413735d82567ffdd40569caafbeb0148ff343814"
-          },
-          "properties": {
-            "fuseId": "FUSE001:pico_w/wifi/access_point/picow_access_point.c:112",
-            "severity": "medium",
-            "confidence": "high",
-            "category": "secrets",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-            "evidence": "const char *password = \"[REDACTED]\";",
-            "references": [
-              "https://cwe.mitre.org/data/definitions/798.html"
-            ]
-          }
-        },
-        {
-          "ruleId": "FUSE001",
-          "level": "warning",
-          "message": {
-            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define AP_PASSWORD \"[REDACTED]\""
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c"
-                },
-                "region": {
-                  "startLine": 101,
-                  "endLine": 101
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "vigilIoTFingerprint/v1": "07ed5b5b5bf9c35db8ed01075d3885c8d01c40f570da7d59a28a3d84cfc32ed9"
-          },
-          "properties": {
-            "fuseId": "FUSE001:pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c:101",
-            "severity": "medium",
-            "confidence": "high",
-            "category": "secrets",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-            "evidence": "#define AP_PASSWORD \"[REDACTED]\"",
-            "references": [
-              "https://cwe.mitre.org/data/definitions/798.html"
-            ]
-          }
-        },
-        {
           "ruleId": "FUSE002",
           "level": "error",
           "message": {
@@ -277,7 +150,7 @@
           {
             "name": "fuse-native",
             "status": "completed",
-            "version": "0.1.0"
+            "version": "0.2.0"
           }
         ]
       }

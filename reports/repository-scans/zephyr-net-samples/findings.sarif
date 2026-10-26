@@ -6,7 +6,7 @@
       "tool": {
         "driver": {
           "name": "FUSE",
-          "semanticVersion": "0.1.0",
+          "semanticVersion": "0.2.0",
           "rules": []
         }
       },
@@ -15,13 +15,13 @@
       "properties": {
         "target": "zephyrproject-rtos/zephyr, selected MQTT samples",
         "profile": "zephyr",
-        "inputManifestSha256": "bb20b888f3d3525c86dc4a234395ae400fa98dad6ae8d14f20789629b8e7b9d9",
+        "inputManifestSha256": "ce5784ac1cdb575cc7e1264554727902b0a96cb6dd72cc8e7194ad91c0aea93c",
         "analysisPerformed": true,
         "analyzers": [
           {
             "name": "fuse-native",
             "status": "completed",
-            "version": "0.1.0"
+            "version": "0.2.0"
           }
         ]
       }

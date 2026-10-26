@@ -39,7 +39,7 @@ Severity and confidence are separate dimensions. A rule can have high confidence
 ```json
 {
   "schema_version": "1.2",
-  "tool": {"name": "FUSE", "version": "0.1.0"},
+  "tool": {"name": "FUSE", "version": "0.2.0"},
   "target": "device-project",
   "scan": {
     "target_kind": "directory",
@@ -63,7 +63,7 @@ Severity and confidence are separate dimensions. A rule can have high confidence
     "rules_available": ["FUSE001"],
     "rules_enabled": ["FUSE001"],
     "analyzers": [
-      {"name": "fuse-native", "status": "completed", "version": "0.1.0", "detail": "Native rules completed.", "findings": 1}
+      {"name": "fuse-native", "status": "completed", "version": "0.2.0", "detail": "Native rules completed.", "findings": 1}
     ]
   },
   "findings": [
@@ -71,7 +71,7 @@ Severity and confidence are separate dimensions. A rule can have high confidence
       "id": "FUSE001:src/network.cpp:18",
       "fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "rule_id": "FUSE001",
-      "rule_version": "1.0.0",
+      "rule_version": "1.1.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal assigned in source",
       "severity": "medium",

@@ -166,7 +166,7 @@
             <p class="scan-kicker">Repository scan pilot · 26 Oct 2026</p>
             <h2 id="results-title">A first read across embedded projects.</h2>
           </div>
-          <p>FUSE 0.1.0 scanned pinned public source snapshots with native static rules. These are raw indicators for review, not confirmed vulnerabilities.</p>
+          <p>FUSE 0.2.0 rescanned pinned public source snapshots after reducing known rule noise. These are raw static indicators for review, not confirmed vulnerabilities.</p>
         </div>
         <div class="scan-metrics" id="scan-metrics" aria-label="Scan coverage summary"></div>
         <p class="scan-severity-summary"><strong>Severity labels</strong><span id="scan-severity-counts"></span><small>Severity describes potential impact. Confidence describes evidence strength and is recorded separately.</small></p>
@@ -267,13 +267,13 @@
           <table class="rule-table">
             <thead><tr><th scope="col">Rule</th><th scope="col">Signal reported</th><th scope="col">Severity</th><th scope="col">Confidence</th></tr></thead>
             <tbody>
-              <tr><th scope="row"><code>FUSE001</code><small>Secrets</small></th><td>Credential-like literal assignment</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE001</code><small>Secrets</small></th><td>Credential-like non-placeholder literal assignment</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
               <tr><th scope="row"><code>FUSE002</code><small>Secrets</small></th><td>PEM private-key block marker</td><td data-label="Severity"><span class="rating rating-high">High</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
               <tr><th scope="row"><code>FUSE003</code><small>Transport security</small></th><td>TLS peer verification appears disabled</td><td data-label="Severity"><span class="rating rating-high">High</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
-              <tr><th scope="row"><code>FUSE004</code><small>Transport security</small></th><td>Non-loopback plaintext HTTP endpoint</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
-              <tr><th scope="row"><code>FUSE005</code><small>Transport security</small></th><td>Plaintext MQTT broker URI</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
-              <tr><th scope="row"><code>FUSE006</code><small>Boot integrity</small></th><td>ESP-IDF app-image validation skipped</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
-              <tr><th scope="row"><code>FUSE007</code><small>Boot integrity</small></th><td>ESP-IDF validation skipped after deep sleep</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE004</code><small>Transport security</small></th><td>Non-loopback HTTP endpoint in endpoint context</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE005</code><small>Transport security</small></th><td>Non-loopback plaintext MQTT broker URI in broker context</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE006</code><small>Boot integrity</small></th><td>Kconfig input skips ESP-IDF app-image validation</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE007</code><small>Boot integrity</small></th><td>Kconfig input skips ESP-IDF validation after deep sleep</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
             </tbody>
           </table>
         </div>

@@ -2,7 +2,7 @@
   "scan_date": "2026-10-26",
   "fuse": {
     "version": "0.2.0",
-    "commit": "6936fd2920eaf7bd908b251b8a502ba5ae9e10b2"
+    "commit": "6a32e8782eb614612bc27bba525510c632e0bf83"
   },
   "repositories": [
     {

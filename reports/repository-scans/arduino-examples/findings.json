@@ -2,14 +2,14 @@
   "schema_version": "1.2",
   "tool": {
     "name": "FUSE",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "target": "arduino/arduino-examples",
   "scan": {
     "target_kind": "directory",
     "profile": "generic",
-    "started_at": "2026-10-26T13:55:28Z",
-    "completed_at": "2026-10-26T13:55:37Z",
+    "started_at": "2026-10-26T17:33:47Z",
+    "completed_at": "2026-10-26T17:33:47Z",
     "input_manifest_sha256": "dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760"
   },
   "summary": {
@@ -19,11 +19,11 @@
     "files_scanned": 92,
     "files_skipped": 0,
     "analysis_performed": true,
-    "finding_count": 5,
+    "finding_count": 0,
     "severity_counts": {
       "critical": 0,
       "high": 0,
-      "medium": 5,
+      "medium": 0,
       "low": 0,
       "info": 0,
       "unknown": 0
@@ -53,128 +53,12 @@
       {
         "name": "fuse-native",
         "status": "completed",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "detail": "Native rules completed.",
-        "findings": 5
+        "findings": 0
       }
     ]
   },
-  "findings": [
-    {
-      "id": "FUSE004:examples/02.Digital/Button/Button.ino:16",
-      "fingerprint": "779f4c95c05f184f9016e3f3e53a7c209db6ce9fdd9283d6d7a8c665409c1c61",
-      "rule_id": "FUSE004",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Non-loopback HTTP endpoint configured",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "transport-security",
-      "location": {
-        "file": "examples/02.Digital/Button/Button.ino",
-        "start_line": 16,
-        "end_line": 16
-      },
-      "evidence": "http://www.0j0.org",
-      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
-      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
-      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/319.html"
-      ]
-    },
-    {
-      "id": "FUSE004:examples/04.Communication/ASCIITable/ASCIITable.ino:8",
-      "fingerprint": "efe0730f6161067494658442d671d1c4d76c7a0981a4891d432411d307d84475",
-      "rule_id": "FUSE004",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Non-loopback HTTP endpoint configured",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "transport-security",
-      "location": {
-        "file": "examples/04.Communication/ASCIITable/ASCIITable.ino",
-        "start_line": 8,
-        "end_line": 8
-      },
-      "evidence": "http://www.asciitable.com",
-      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
-      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
-      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/319.html"
-      ]
-    },
-    {
-      "id": "FUSE004:examples/04.Communication/ASCIITable/ASCIITable.ino:13",
-      "fingerprint": "f42911946c9016012b20a35d181bf1ab80fdd9b3be13ffd403ff098c92bd9a73",
-      "rule_id": "FUSE004",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Non-loopback HTTP endpoint configured",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "transport-security",
-      "location": {
-        "file": "examples/04.Communication/ASCIITable/ASCIITable.ino",
-        "start_line": 13,
-        "end_line": 13
-      },
-      "evidence": "http://www.zambetti.com",
-      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
-      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
-      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/319.html"
-      ]
-    },
-    {
-      "id": "FUSE004:examples/06.Sensors/Knock/Knock.ino:15",
-      "fingerprint": "140525e84242f1c752dc81b4a8d28479a8c28d872930966ded5b1d88e7482ac4",
-      "rule_id": "FUSE004",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Non-loopback HTTP endpoint configured",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "transport-security",
-      "location": {
-        "file": "examples/06.Sensors/Knock/Knock.ino",
-        "start_line": 15,
-        "end_line": 15
-      },
-      "evidence": "http://www.0j0.org",
-      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
-      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
-      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/319.html"
-      ]
-    },
-    {
-      "id": "FUSE004:examples/10.StarterKit_BasicKit/p14_TweakTheArduinoLogo/p14_TweakTheArduinoLogo.ino:61",
-      "fingerprint": "bec38c73cdac41ac7e29a1b9c8ed90710d345c41508bf3035826e149a6aa6de3",
-      "rule_id": "FUSE004",
-      "rule_version": "1.0.0",
-      "analyzer": "fuse-native",
-      "title": "Non-loopback HTTP endpoint configured",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "transport-security",
-      "location": {
-        "file": "examples/10.StarterKit_BasicKit/p14_TweakTheArduinoLogo/p14_TweakTheArduinoLogo.ino",
-        "start_line": 61,
-        "end_line": 61
-      },
-      "evidence": "http://www.arduino.cc",
-      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
-      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
-      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/319.html"
-      ]
-    }
-  ],
+  "findings": [],
   "artifacts": []
 }
