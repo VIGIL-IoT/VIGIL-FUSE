@@ -1,0 +1,21 @@
+[scan]
+profile = "generic"
+include = []
+exclude = ["vendor/**", "third_party/**"]
+max_file_bytes = 2097152
+
+[rules]
+disabled = []
+
+[report]
+output_dir = ".fuse-results"
+
+[analysis]
+# Syft and OSV-Scanner are optional executables. A dependency scan attempts to
+# build a local inventory first, then falls back to project manifests if needed.
+sbom = false
+vulnerabilities = false
+# Binwalk performs signature identification only; FUSE does not extract images.
+firmware = false
+# Uses OSV-Scanner's locally cached vulnerability database when enabled.
+offline_vulnerabilities = false
