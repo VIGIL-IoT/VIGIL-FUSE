@@ -1,0 +1,1 @@
+broker_uri = "mqtt://broker.device.example:1883"
