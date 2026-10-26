@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FUSE Scan Report 1.1",
+  "type": "object",
+  "required": ["schema_version", "tool", "target", "scan", "summary", "coverage", "findings"],
+  "properties": {
+    "schema_version": { "const": "1.1" },
+    "tool": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "FUSE" },
+        "version": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "target": { "type": "string" },
+    "scan": {
+      "type": "object",
+      "required": ["target_kind", "profile", "started_at", "completed_at", "input_manifest_sha256"],
+      "properties": {
+        "target_kind": { "enum": ["directory", "source-file", "unsupported-file"] },
+        "profile": { "type": "string" },
+        "started_at": { "type": "string", "format": "date-time" },
+        "completed_at": { "type": "string", "format": "date-time" },
+        "input_manifest_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["files_discovered", "files_selected", "files_filtered", "files_scanned", "files_skipped", "analysis_performed", "finding_count", "severity_counts"],
+      "properties": {
+        "files_discovered": { "type": "integer", "minimum": 0 },
+        "files_selected": { "type": "integer", "minimum": 0 },
+        "files_filtered": { "type": "integer", "minimum": 0 },
+        "files_scanned": { "type": "integer", "minimum": 0 },
+        "files_skipped": { "type": "integer", "minimum": 0 },
+        "analysis_performed": { "type": "boolean" },
+        "finding_count": { "type": "integer", "minimum": 0 },
+        "severity_counts": {
+          "type": "object",
+          "required": ["critical", "high", "medium", "low", "info"],
+          "properties": {
+            "critical": { "type": "integer", "minimum": 0 },
+            "high": { "type": "integer", "minimum": 0 },
+            "medium": { "type": "integer", "minimum": 0 },
+            "low": { "type": "integer", "minimum": 0 },
+            "info": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["files_skipped_by_reason", "rules_available", "rules_enabled", "analyzers"],
+      "properties": {
+        "files_skipped_by_reason": { "type": "object", "additionalProperties": { "type": "integer", "minimum": 0 } },
+        "rules_available": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "rules_enabled": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "analyzers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "status", "findings"],
+            "properties": {
+              "name": { "type": "string" },
+              "status": { "enum": ["completed", "partial", "unavailable", "skipped", "failed"] },
+              "version": { "type": ["string", "null"] },
+              "detail": { "type": ["string", "null"] },
+              "findings": { "type": "integer", "minimum": 0 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": ["id", "fingerprint", "rule_id", "rule_version", "analyzer", "title", "severity", "confidence", "category", "location", "evidence", "explanation", "potential_impact", "remediation", "references"],
+      "properties": {
+        "id": { "type": "string" },
+        "fingerprint": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "rule_id": { "type": "string" },
+        "rule_version": { "type": "string" },
+        "analyzer": { "type": "string" },
+        "title": { "type": "string" },
+        "severity": { "enum": ["critical", "high", "medium", "low", "info"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "category": { "type": "string" },
+        "location": {
+          "type": "object",
+          "required": ["file", "start_line", "end_line"],
+          "properties": {
+            "file": { "type": "string" },
+            "start_line": { "type": "integer", "minimum": 1 },
+            "end_line": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "evidence": { "type": "string" },
+        "explanation": { "type": "string" },
+        "potential_impact": { "type": "string" },
+        "remediation": { "type": "string" },
+        "references": { "type": "array", "items": { "type": "string", "format": "uri" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
