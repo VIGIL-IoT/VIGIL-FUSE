@@ -28,6 +28,20 @@ class ScannerAndReporterTests(unittest.TestCase):
         value = "device" + "-secret" + "-123456"
         return f'{key}="{value}"\n'
 
+    def test_generic_profile_scans_berry_source_and_detects_http_ota_endpoint(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "partition_wizard.be"
+            source.write_text(
+                'static OTA_URL = "http://ota.device.example/releases/latest.bin"\n',
+                encoding="utf-8",
+            )
+
+            result = scan(root, profile="generic")
+
+        self.assertEqual(1, result.files_scanned)
+        self.assertEqual(["FUSE004"], [finding.rule_id for finding in result.findings])
+
     def test_scan_and_json_report_have_schema_and_relative_location(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

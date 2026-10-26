@@ -8,16 +8,16 @@ from .base import RuleDefinition, is_localization_path, is_test_path, iter_code_
 
 _SECRET_NAME = r"(?:password|passwd|pwd|secret|token|api[_-]?key|access[_-]?token|auth[_-]?token)"
 _ASSIGNMENT = re.compile(
-    r"(?i)\b[\w.-]*" + _SECRET_NAME +
-    r"[\w.-]*\b\s*(?:=|:)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    r"(?i)\b(?P<name>[\w.-]*" + _SECRET_NAME +
+    r"[\w.-]*)\b\s*(?:=|:)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _C_DEFINE = re.compile(
-    r"(?i)^\s*#\s*define\s+[\w]*" + _SECRET_NAME +
-    r"[\w]*\s+(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    r"(?i)^\s*#\s*define\s+(?P<name>[\w]*" + _SECRET_NAME +
+    r"[\w]*)\s+(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _ENV_ASSIGNMENT = re.compile(
-    r"(?i)^\s*(?:export\s+)?[\w.-]*" + _SECRET_NAME +
-    r"[\w.-]*\s*=\s*(?P<value>(?![\"'])[^\s#]{4,})\s*(?:#.*)?$"
+    r"(?i)^\s*(?:export\s+)?(?P<name>[\w.-]*" + _SECRET_NAME +
+    r"[\w.-]*)\s*=\s*(?P<value>(?![\"'])[^\s#]{4,})\s*(?:#.*)?$"
 )
 _PLACEHOLDER = re.compile(
     r"(?i)^(?:your(?:[_ -])|change[_-]?me|replace[_-]?me|example|placeholder|dummy|"
@@ -29,11 +29,23 @@ _NON_SECRET_LABEL = re.compile(
     r"(?:password|passwd|secret|token|api[ _-]?key)"
     r"(?:\s+(?:is\s+)?(?:required|invalid|incorrect|missing|empty|not set|failed))?[.!:]?$"
 )
+_NON_SECRET_NAME_SUFFIX = re.compile(
+    r"(?i)(?:^|[_-])(?:file|path|characteristic|uuid|label|prompt|message|title|description|placeholder|text)$"
+)
+_EXPRESSION_CONTINUATION = re.compile(r"(?i)^\s*(?:\+|\.|\|\||&&|\?|\b(?:or|and|if)\b)")
 
 
 def _is_placeholder_or_label(value: str) -> bool:
     normalized = value.strip()
     return bool(_PLACEHOLDER.match(normalized) or _NON_SECRET_LABEL.fullmatch(normalized))
+
+
+def _is_secret_literal(match: re.Match[str], line: str) -> bool:
+    if _NON_SECRET_NAME_SUFFIX.search(match.group("name")):
+        return False
+    if _is_placeholder_or_label(match.group("value")):
+        return False
+    return not _EXPRESSION_CONTINUATION.match(line[match.end():])
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
@@ -46,7 +58,7 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
         if is_env_file:
             matches.extend(_ENV_ASSIGNMENT.finditer(line))
         match = next(
-            (item for item in matches if not _is_placeholder_or_label(item.group("value"))),
+            (item for item in matches if _is_secret_literal(item, line)),
             None,
         )
         if not match:

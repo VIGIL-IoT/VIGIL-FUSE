@@ -10,7 +10,7 @@ BASE_SUFFIXES = frozenset(
         ".swift", ".m", ".mm", ".php", ".rb", ".sh", ".bash", ".zsh", ".ps1",
         ".bat", ".cmd", ".yaml", ".yml", ".json", ".toml", ".ini", ".cfg",
         ".conf", ".config", ".properties", ".xml", ".env", ".pem", ".gradle",
-        ".mk", ".cmake",
+        ".mk", ".cmake", ".be",
     }
 )
 BASE_NAMES = frozenset({"dockerfile", "makefile", "platformio.ini", "idf_component.yml"})

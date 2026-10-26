@@ -90,6 +90,18 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual(1, len(findings))
         self.assertIn("[REDACTED]", findings[0].evidence)
 
+    def test_credentials_ignore_path_and_characteristic_constants_and_computed_values(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        text = (
+            '#define PASSWD_FILE "/etc/passwd"\n'
+            'const char *PASSWORD_CHARACTERISTIC = "7b8a0001-0000-0000-0000-000000000001";\n'
+            'String realSASToken = "prefix" + createToken(deviceId);\n'
+        )
+        self.assertEqual([], list(rule.scan(SourceFile("src/config.cpp", text))))
+
+        literal = SourceFile("src/config.cpp", 'const char *DEFAULT_PASSWORD = "device-default";\n')
+        self.assertEqual(1, len(list(rule.scan(literal))))
+
     def test_private_key_rule_ignores_comments_and_test_material(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE002")
         sources = (
@@ -134,6 +146,14 @@ class RuleFixtureTests(unittest.TestCase):
         findings = list(rule.scan(SourceFile("src/config.h", text)))
         self.assertEqual(1, len(findings))
         self.assertEqual(4, findings[0].start_line)
+
+    def test_http_rule_keeps_http_ota_endpoint_in_safeboot_context(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE004")
+        source = SourceFile(
+            "berry/extensions/Partition_Wizard/partition_wizard.be",
+            'static _default_safeboot_URL = "http://ota.device.example/release/%s.bin"\n',
+        )
+        self.assertEqual(1, len(list(rule.scan(source))))
 
     def test_mqtt_rule_requires_broker_context_and_ignores_comments_tests_and_loopback(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE005")

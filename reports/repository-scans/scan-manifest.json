@@ -2,7 +2,7 @@
   "scan_date": "2026-10-26",
   "fuse": {
     "version": "0.2.0",
-    "commit": "773a9b978616e1f1ad9e900dbce6909b0e926e59"
+    "commit": "6936fd2920eaf7bd908b251b8a502ba5ae9e10b2"
   },
   "repositories": [
     {
@@ -17,6 +17,10 @@
           "scope": "OpenWrt/openwrt-18.06.2/config, files, package/base-files, package/network/services, package/system, target/linux",
           "target_label": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source",
           "includes": [
+            "OpenWrt/openwrt-18.06.2/Makefile",
+            "OpenWrt/openwrt-18.06.2/rules.mk",
+            "OpenWrt/openwrt-18.06.2/package/Makefile",
+            "OpenWrt/openwrt-18.06.2/target/Makefile",
             "OpenWrt/openwrt-18.06.2/config/**",
             "OpenWrt/openwrt-18.06.2/files/**",
             "OpenWrt/openwrt-18.06.2/package/base-files/**",
@@ -134,6 +138,11 @@
           "scope": "package/base-files, package/network/services, package/network/utils, package/system, target/linux/generic",
           "target_label": "openwrt/openwrt, selected source and configuration",
           "includes": [
+            "Makefile",
+            "rules.mk",
+            "package/Makefile",
+            "target/Makefile",
+            "target/linux/Makefile",
             "package/base-files/**",
             "package/network/services/**",
             "package/network/utils/**",

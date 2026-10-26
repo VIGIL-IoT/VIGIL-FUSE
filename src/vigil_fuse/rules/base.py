@@ -225,7 +225,7 @@ def is_kconfig_input_path(path: str) -> bool:
 _ENDPOINT_TOKENS = frozenset(
     {
         "api", "http", "https", "rest", "mqtt", "broker", "server", "endpoint",
-        "service", "cloud", "ota", "update", "firmware", "upload", "download",
+        "service", "cloud", "ota", "safeboot", "update", "firmware", "upload", "download",
         "gateway", "host", "listen", "base", "web", "websocket", "socket", "proxy",
     }
 )

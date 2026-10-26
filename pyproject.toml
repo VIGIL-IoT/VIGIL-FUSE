@@ -9,6 +9,25 @@ description = "FUSE, the Firmware & Unified Security Engine, a VIGIL Project"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
+keywords = ["embedded security", "firmware analysis", "IoT", "static analysis"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Information Technology",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Security",
+  "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.urls]
+Repository = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
+Issues = "https://github.com/VIGIL-IoT/VIGIL-FUSE/issues"
 
 [project.scripts]
 vigil-fuse = "vigil_fuse.cli:main"

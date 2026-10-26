@@ -21,9 +21,21 @@ def git_head(repository: Path) -> str:
     return result.stdout.strip()
 
 
-def run(checkouts_root: Path) -> None:
+def git_status(repository: Path) -> str:
+    result = subprocess.run(
+        ["git", "-C", str(repository), "status", "--porcelain", "--untracked-files=all"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
+
+
+def run(checkouts_root: Path, repository_ids: set[str] | None = None) -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     for repository in manifest["repositories"]:
+        if repository_ids and repository["id"] not in repository_ids:
+            continue
         checkout = checkouts_root / repository["id"]
         if not checkout.is_dir():
             raise FileNotFoundError(f"Missing checkout for {repository['name']}: {checkout}")
@@ -32,6 +44,12 @@ def run(checkouts_root: Path) -> None:
             raise RuntimeError(
                 f"Pinned checkout mismatch for {repository['name']}: "
                 f"expected {repository['commit']}, got {actual_commit}"
+            )
+        dirty = git_status(checkout)
+        if dirty:
+            raise RuntimeError(
+                f"Checkout for {repository['name']} has local changes; "
+                f"refusing to scan an unpinned tree:\n{dirty}"
             )
 
         for scan in repository["scans"]:
@@ -63,8 +81,22 @@ def main() -> None:
         default=ROOT.parent / "fuse-scan-targets",
         help="directory containing checkouts named after manifest repository IDs",
     )
+    parser.add_argument(
+        "--repository",
+        action="append",
+        dest="repository_ids",
+        help="rescan one manifest repository ID; may be repeated",
+    )
     args = parser.parse_args()
-    run(args.checkouts_root.expanduser().resolve())
+    selected = set(args.repository_ids) if args.repository_ids else None
+    if selected:
+        manifest_ids = {
+            item["id"] for item in json.loads(MANIFEST.read_text(encoding="utf-8"))["repositories"]
+        }
+        unknown = selected - manifest_ids
+        if unknown:
+            parser.error(f"unknown repository ID(s): {', '.join(sorted(unknown))}")
+    run(args.checkouts_root.expanduser().resolve(), selected)
 
 
 if __name__ == "__main__":
