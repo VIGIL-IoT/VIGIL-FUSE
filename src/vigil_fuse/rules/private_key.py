@@ -4,7 +4,7 @@ import re
 from collections.abc import Iterable
 
 from ..model import Finding, SourceFile
-from .base import RuleDefinition
+from .base import RuleDefinition, is_test_path, iter_code_lines
 
 _PEM_MARKER = re.compile(
     r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----"
@@ -12,7 +12,9 @@ _PEM_MARKER = re.compile(
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
-    for line_number, line in enumerate(source.text.splitlines(), start=1):
+    if is_test_path(source.path):
+        return
+    for line_number, line in iter_code_lines(source.text, source.path):
         match = _PEM_MARKER.search(line)
         if match:
             yield rule.finding(
@@ -41,5 +43,6 @@ RULE = RuleDefinition(
         "provision unique keys through a protected process."
     ),
     scanner=_scan,
+    version="1.1.0",
     references=("https://cwe.mitre.org/data/definitions/321.html",),
 )

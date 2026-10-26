@@ -9,11 +9,16 @@ FIXTURES = ROOT / "fixtures" / "rules"
 
 
 class RuleFixtureTests(unittest.TestCase):
+    @staticmethod
+    def fixture_source(rule_id: str, kind: str) -> SourceFile:
+        path = FIXTURES / f"{rule_id}-{kind}.fixture"
+        source_path = "sdkconfig" if rule_id in {"FUSE006", "FUSE007"} else path.name
+        return SourceFile(path=source_path, text=path.read_text(encoding="utf-8"))
+
     def test_each_vulnerable_fixture_produces_expected_rule(self) -> None:
         for rule in RULES:
             with self.subTest(rule=rule.id):
-                path = FIXTURES / f"{rule.id}-vulnerable.fixture"
-                source = SourceFile(path=path.name, text=path.read_text(encoding="utf-8"))
+                source = self.fixture_source(rule.id, "vulnerable")
                 findings = list(rule.scan(source))
                 self.assertTrue(findings, f"{rule.id} did not match its vulnerable fixture")
                 self.assertEqual({rule.id}, {finding.rule_id for finding in findings})
@@ -22,22 +27,19 @@ class RuleFixtureTests(unittest.TestCase):
     def test_each_secure_fixture_has_no_finding(self) -> None:
         for rule in RULES:
             with self.subTest(rule=rule.id):
-                path = FIXTURES / f"{rule.id}-secure.fixture"
-                source = SourceFile(path=path.name, text=path.read_text(encoding="utf-8"))
+                source = self.fixture_source(rule.id, "secure")
                 self.assertEqual([], list(rule.scan(source)))
 
     def test_credentials_are_redacted_from_evidence(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
-        path = FIXTURES / "FUSE001-vulnerable.fixture"
-        source = SourceFile(path=path.name, text=path.read_text(encoding="utf-8"))
+        source = self.fixture_source("FUSE001", "vulnerable")
         finding = next(iter(rule.scan(source)))
         self.assertNotIn("S0me-realistic-secret", finding.evidence)
         self.assertIn("[REDACTED]", finding.evidence)
 
     def test_private_key_contents_are_not_in_evidence(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE002")
-        path = FIXTURES / "FUSE002-vulnerable.fixture"
-        source = SourceFile(path=path.name, text=path.read_text(encoding="utf-8"))
+        source = self.fixture_source("FUSE002", "vulnerable")
         finding = next(iter(rule.scan(source)))
         self.assertNotIn("ZmFrZS1maXh0dXJl", finding.evidence)
 
@@ -70,6 +72,99 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual(2, findings[0].start_line)
         self.assertEqual(f"{key}=y", findings[0].evidence)
         self.assertIn("does not establish that the file is the active build configuration", findings[0].explanation)
+
+    def test_credentials_ignore_labels_locales_comments_and_test_source_but_scan_env_test(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        cases = (
+            SourceFile("src/language/en.h", 'PASSWORD_LABEL = "Enter password"\n'),
+            SourceFile("src/app.c", 'PASSWORD = "password is required"\n'),
+            SourceFile("src/app.c", '// PASSWORD = "actual-secret-value"\n'),
+            SourceFile("tests/test_config.py", 'password = "actual-secret-value"\n'),
+        )
+        for source in cases:
+            with self.subTest(path=source.path):
+                self.assertEqual([], list(rule.scan(source)))
+
+        env_source = SourceFile(".env.test", "API_TOKEN=actual-secret-value\n")
+        findings = list(rule.scan(env_source))
+        self.assertEqual(1, len(findings))
+        self.assertIn("[REDACTED]", findings[0].evidence)
+
+    def test_private_key_rule_ignores_comments_and_test_material(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE002")
+        sources = (
+            SourceFile("src/keys.c", "// -----BEGIN PRIVATE KEY-----\n"),
+            SourceFile("tests/test_key.pem", "-----BEGIN PRIVATE KEY-----\n"),
+        )
+        for source in sources:
+            with self.subTest(path=source.path):
+                self.assertEqual([], list(rule.scan(source)))
+
+    def test_tls_rule_ignores_comments_strings_and_test_sources(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        sources = (
+            SourceFile("src/tls.c", "// client.setInsecure()\n"),
+            SourceFile("src/tls.c", 'const char *note = "client.setInsecure()";\n'),
+            SourceFile("tests/test_tls.py", "session.verify = False\n"),
+        )
+        for source in sources:
+            with self.subTest(path=source.path, text=source.text):
+                self.assertEqual([], list(rule.scan(source)))
+
+    def test_http_rule_requires_endpoint_context_and_ignores_comment_test_and_templates(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE004")
+        sources = (
+            SourceFile("src/http.c", 'const char *homepage = "http://docs.vendor.example";\n'),
+            SourceFile("src/http.c", 'const char *url = "http://api.device.example";\n'),
+            SourceFile("src/http.c", 'const char *url = "http://ip";\n'),
+            SourceFile("src/http.c", 'const char *API_URL = "http://%HOST%/api";\n'),
+            SourceFile("src/http.c", '/* API_URL = "http://api.device.example"; */\n'),
+            SourceFile("tests/test_http.py", 'API_URL = "http://api.device.example"\n'),
+        )
+        for source in sources:
+            with self.subTest(path=source.path, text=source.text):
+                self.assertEqual([], list(rule.scan(source)))
+
+        direct_call = SourceFile("src/client.py", 'requests.get("http://api.device.example/status")\n')
+        self.assertEqual(1, len(list(rule.scan(direct_call))))
+
+    def test_http_rule_strips_multiline_comments_and_keeps_endpoint_assignments(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE004")
+        text = "/* license comment\n API_URL = \\\"http://api.device.example\\\";\n*/\nAPI_URL = \"http://api.device.example/v1\"\n"
+        findings = list(rule.scan(SourceFile("src/config.h", text)))
+        self.assertEqual(1, len(findings))
+        self.assertEqual(4, findings[0].start_line)
+
+    def test_mqtt_rule_requires_broker_context_and_ignores_comments_tests_and_loopback(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE005")
+        sources = (
+            SourceFile("src/app.c", 'const char *uri = "mqtt://broker.device.example";\n'),
+            SourceFile("src/app.c", '// broker_uri = "mqtt://broker.device.example"\n'),
+            SourceFile("tests/test_mqtt.py", 'broker_uri = "mqtt://broker.device.example"\n'),
+            SourceFile("src/app.c", 'broker_uri = "mqtt://127.0.0.1:1883"\n'),
+            SourceFile("src/app.c", 'broker_uri = "mqtt://%BROKER%:1883"\n'),
+        )
+        for source in sources:
+            with self.subTest(path=source.path, text=source.text):
+                self.assertEqual([], list(rule.scan(source)))
+
+        configured = SourceFile("src/mqtt/client.c", 'broker_uri = "mqtt://broker.device.example:1883"\n')
+        self.assertEqual(1, len(list(rule.scan(configured))))
+
+    def test_esp_idf_configuration_rules_are_scoped_to_kconfig_inputs(self) -> None:
+        for rule_id, key in (
+            ("FUSE006", "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS"),
+            ("FUSE007", "CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP"),
+        ):
+            rule = next(rule for rule in RULES if rule.id == rule_id)
+            with self.subTest(rule=rule_id):
+                self.assertEqual([], list(rule.scan(SourceFile("README.md", f"{key}=y\n"))))
+                self.assertEqual([], list(rule.scan(SourceFile("tests/sdkconfig", f"{key}=y\n"))))
+                self.assertEqual([], list(rule.scan(SourceFile("sdkconfig", f"# {key}=y\n"))))
+                findings = list(rule.scan(SourceFile("sdkconfig.defaults", f"{key}=y # reviewed\n")))
+                self.assertEqual(1, len(findings))
+                self.assertEqual("medium", findings[0].severity)
+                self.assertEqual("high", findings[0].confidence)
 
     def test_esp_idf_deep_sleep_rule_explains_its_ota_context(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE007")

@@ -2,27 +2,38 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
+from ipaddress import ip_address
 from urllib.parse import urlsplit
 
 from ..model import Finding, SourceFile
-from .base import RuleDefinition, is_comment_line
+from .base import RuleDefinition, is_endpoint_context, is_test_path, iter_code_lines
 
 _MQTT_URL = re.compile(r"(?i)\bmqtt:" + r"//[^\s\"'<>]+")
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
-    for line_number, line in enumerate(source.text.splitlines(), start=1):
-        if is_comment_line(line):
-            continue
+    if is_test_path(source.path):
+        return
+    for line_number, line in iter_code_lines(source.text, source.path):
         match = _MQTT_URL.search(line)
         if not match:
+            continue
+        if not is_endpoint_context(line, match.start(), source.path):
             continue
         try:
             host = urlsplit(match.group(0)).hostname
         except ValueError:
             continue
-        if host:
-            yield rule.finding(source, line_number, "mqtt:" + f"//{host}")
+        if not host or host.casefold() in {"ip", "host", "example", "localhost"}:
+            continue
+        if any(token in host for token in ("%", "$", "{", "}")):
+            continue
+        try:
+            if ip_address(host).is_loopback:
+                continue
+        except ValueError:
+            pass
+        yield rule.finding(source, line_number, "mqtt:" + f"//{host}")
 
 
 RULE = RuleDefinition(
@@ -44,5 +55,6 @@ RULE = RuleDefinition(
         "configured TLS transport), verify the broker certificate, and protect credentials."
     ),
     scanner=_scan,
+    version="1.1.0",
     references=("https://cwe.mitre.org/data/definitions/319.html",),
 )

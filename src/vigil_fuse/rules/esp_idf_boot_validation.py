@@ -4,7 +4,7 @@ import re
 from collections.abc import Iterable
 
 from ..model import Finding, SourceFile
-from .base import RuleDefinition, is_comment_line
+from .base import RuleDefinition, is_kconfig_input_path, is_test_path, iter_code_lines
 
 _SKIP_VALIDATION = re.compile(
     r"^\s*CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS\s*=\s*y\s*(?:#.*)?$"
@@ -12,8 +12,10 @@ _SKIP_VALIDATION = re.compile(
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
-    for line_number, line in enumerate(source.text.splitlines(), start=1):
-        if is_comment_line(line) or not _SKIP_VALIDATION.fullmatch(line):
+    if is_test_path(source.path) or not is_kconfig_input_path(source.path):
+        return
+    for line_number, line in iter_code_lines(source.text, source.path):
+        if not _SKIP_VALIDATION.fullmatch(line):
             continue
         yield rule.finding(source, line_number, "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y")
 
@@ -39,6 +41,7 @@ RULE = RuleDefinition(
         "Verify the effective sdkconfig and resulting bootloader configuration for the release build."
     ),
     scanner=_scan,
+    version="1.1.0",
     references=(
         "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html",
     ),

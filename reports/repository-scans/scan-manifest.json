@@ -1,7 +1,7 @@
 {
   "scan_date": "2026-10-26",
   "fuse": {
-    "version": "0.1.0",
+    "version": "0.2.0",
     "commit": "773a9b978616e1f1ad9e900dbce6909b0e926e59"
   },
   "repositories": [
@@ -15,7 +15,15 @@
         {
           "id": "iotgoat",
           "scope": "OpenWrt/openwrt-18.06.2/config, files, package/base-files, package/network/services, package/system, target/linux",
-          "target_label": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source"
+          "target_label": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source",
+          "includes": [
+            "OpenWrt/openwrt-18.06.2/config/**",
+            "OpenWrt/openwrt-18.06.2/files/**",
+            "OpenWrt/openwrt-18.06.2/package/base-files/**",
+            "OpenWrt/openwrt-18.06.2/package/network/services/**",
+            "OpenWrt/openwrt-18.06.2/package/system/**",
+            "OpenWrt/openwrt-18.06.2/target/linux/**"
+          ]
         }
       ]
     },
@@ -43,12 +51,14 @@
         {
           "id": "esp-idf-mqtt",
           "scope": "examples/protocols/mqtt",
-          "target_label": "espressif/esp-idf/examples/protocols/mqtt"
+          "target_label": "espressif/esp-idf/examples/protocols/mqtt",
+          "includes": ["examples/protocols/mqtt/**"]
         },
         {
           "id": "esp-idf-ota",
           "scope": "examples/system/ota",
-          "target_label": "espressif/esp-idf/examples/system/ota"
+          "target_label": "espressif/esp-idf/examples/system/ota",
+          "includes": ["examples/system/ota/**"]
         }
       ]
     },
@@ -104,7 +114,11 @@
         {
           "id": "zephyr-net-samples",
           "scope": "samples/net/mqtt_publisher and samples/net/secure_mqtt_sensor_actuator",
-          "target_label": "zephyrproject-rtos/zephyr, selected MQTT samples"
+          "target_label": "zephyrproject-rtos/zephyr, selected MQTT samples",
+          "includes": [
+            "samples/net/mqtt_publisher/**",
+            "samples/net/secure_mqtt_sensor_actuator/**"
+          ]
         }
       ]
     },
@@ -118,7 +132,14 @@
         {
           "id": "openwrt",
           "scope": "package/base-files, package/network/services, package/network/utils, package/system, target/linux/generic",
-          "target_label": "openwrt/openwrt, selected source and configuration"
+          "target_label": "openwrt/openwrt, selected source and configuration",
+          "includes": [
+            "package/base-files/**",
+            "package/network/services/**",
+            "package/network/utils/**",
+            "package/system/**",
+            "target/linux/generic/**"
+          ]
         }
       ]
     }

@@ -4,7 +4,7 @@ import re
 from collections.abc import Iterable
 
 from ..model import Finding, SourceFile
-from .base import RuleDefinition, is_comment_line
+from .base import RuleDefinition, is_localization_path, is_test_path, iter_code_lines
 
 _SECRET_NAME = r"(?:password|passwd|pwd|secret|token|api[_-]?key|access[_-]?token|auth[_-]?token)"
 _ASSIGNMENT = re.compile(
@@ -21,21 +21,32 @@ _ENV_ASSIGNMENT = re.compile(
 )
 _PLACEHOLDER = re.compile(
     r"(?i)^(?:your(?:[_ -])|change[_-]?me|replace[_-]?me|example|placeholder|dummy|"
-    r"redacted|test|none|null|undefined|sample|x{3,}|\*+|<[^>]+>|\$\{[^}]+\}|%\w+%)"
+    r"fake|mock|fixture|redacted|test|none|null|undefined|sample|x{3,}|\*+|<[^>]+>|"
+    r"\$\{[^}]+\}|%\w+%)"
 )
+_NON_SECRET_LABEL = re.compile(
+    r"(?i)^(?:(?:enter|set|change|reset|update|new|old|current|wrong|invalid|incorrect|confirm)\s+)?"
+    r"(?:password|passwd|secret|token|api[ _-]?key)"
+    r"(?:\s+(?:is\s+)?(?:required|invalid|incorrect|missing|empty|not set|failed))?[.!:]?$"
+)
+
+
+def _is_placeholder_or_label(value: str) -> bool:
+    normalized = value.strip()
+    return bool(_PLACEHOLDER.match(normalized) or _NON_SECRET_LABEL.fullmatch(normalized))
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
     basename = source.path.replace("\\", "/").rsplit("/", 1)[-1].lower()
     is_env_file = basename == ".env" or basename.startswith(".env.")
-    for line_number, line in enumerate(source.text.splitlines(), start=1):
-        if is_comment_line(line):
-            continue
+    if is_localization_path(source.path) or (is_test_path(source.path) and not is_env_file):
+        return
+    for line_number, line in iter_code_lines(source.text, source.path):
         matches = list(_ASSIGNMENT.finditer(line)) + list(_C_DEFINE.finditer(line))
         if is_env_file:
             matches.extend(_ENV_ASSIGNMENT.finditer(line))
         match = next(
-            (item for item in matches if not _PLACEHOLDER.match(item.group("value").strip())),
+            (item for item in matches if not _is_placeholder_or_label(item.group("value"))),
             None,
         )
         if not match:
@@ -70,5 +81,6 @@ RULE = RuleDefinition(
         "through a deployment-specific secret store or protected device provisioning flow."
     ),
     scanner=_scan,
+    version="1.1.0",
     references=("https://cwe.mitre.org/data/definitions/798.html",),
 )

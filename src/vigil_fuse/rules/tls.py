@@ -4,7 +4,7 @@ import re
 from collections.abc import Iterable
 
 from ..model import Finding, SourceFile
-from .base import RuleDefinition, is_comment_line
+from .base import RuleDefinition, code_without_string_literals, is_test_path, iter_code_lines
 
 _BYPASS_PATTERNS = (
     re.compile(r"(?i)\bverify\s*=\s*false\b"),
@@ -17,11 +17,12 @@ _BYPASS_PATTERNS = (
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
-    for line_number, line in enumerate(source.text.splitlines(), start=1):
-        if is_comment_line(line):
-            continue
+    if is_test_path(source.path):
+        return
+    for line_number, line in iter_code_lines(source.text, source.path):
+        code = code_without_string_literals(line)
         for pattern in _BYPASS_PATTERNS:
-            match = pattern.search(line)
+            match = pattern.search(code)
             if match:
                 yield rule.finding(source, line_number, match.group(0))
                 break
@@ -46,5 +47,6 @@ RULE = RuleDefinition(
         "anchor, and use a test-only override that cannot enter production builds."
     ),
     scanner=_scan,
+    version="1.1.0",
     references=("https://cwe.mitre.org/data/definitions/295.html",),
 )
