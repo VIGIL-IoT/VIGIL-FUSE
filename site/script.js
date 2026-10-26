@@ -1,3 +1,30 @@
+const themeToggle = document.querySelector("#theme-toggle");
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+const root = document.documentElement;
+
+function syncThemeControl() {
+  const isDark = root.dataset.theme === "dark";
+  const action = isDark ? "Switch to light mode" : "Switch to dark mode";
+  const label = themeToggle?.querySelector(".theme-toggle-label");
+  themeToggle?.setAttribute("aria-pressed", String(isDark));
+  themeToggle?.setAttribute("aria-label", action);
+  themeToggle?.setAttribute("title", action);
+  if (label) label.textContent = isDark ? "Light mode" : "Dark mode";
+  if (themeMeta) themeMeta.content = isDark ? "#111417" : "#ffffff";
+}
+
+syncThemeControl();
+themeToggle?.addEventListener("click", () => {
+  const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+  root.dataset.theme = nextTheme;
+  try {
+    localStorage.setItem("vigil-fuse-theme", nextTheme);
+  } catch {
+    // The toggle still works for this page view when storage is unavailable.
+  }
+  syncThemeControl();
+});
+
 const examples = {
   tls: {
     rule: "FUSE003",
