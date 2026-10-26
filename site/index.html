@@ -13,6 +13,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      (() => {
+        try {
+          document.documentElement.dataset.theme = localStorage.getItem("vigil-fuse-theme") === "dark" ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
   </head>
@@ -29,12 +38,20 @@
         <a href="#rules">Rules</a>
         <a href="#research">Research loop</a>
       </nav>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+        <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="icon-moon" d="M20.2 15.3A8.5 8.5 0 0 1 8.7 3.8 8.5 8.5 0 1 0 20.2 15.3Z"></path>
+          <circle class="icon-sun" cx="12" cy="12" r="4"></circle>
+          <path class="icon-sun" d="M12 2v2m0 16v2m10-10h-2M4 12H2m17.07-7.07-1.42 1.42M6.35 17.65l-1.42 1.42m14.14 0-1.42-1.42M6.35 6.35 4.93 4.93"></path>
+        </svg>
+        <span class="theme-toggle-label">Dark mode</span>
+      </button>
       <a class="header-action" href="#install">Get FUSE <span aria-hidden="true">↗</span></a>
     </header>
 
     <main id="main">
       <section class="hero page-wrap" id="top" aria-labelledby="hero-title">
-        <div class="hero-copy reveal">
+        <div class="hero-copy">
           <h1 id="hero-title">Inspect before<br>firmware ships.</h1>
           <p class="hero-intro">FUSE is a CLI-first security inspection engine for embedded projects. It reports source and configuration signals with evidence, separate severity and confidence, and a next step.</p>
           <div class="hero-actions">
@@ -217,40 +234,21 @@
           <p class="initiative-name"><strong>VIGIL-IoT</strong> means Vulnerability Intelligence &amp; Guarding for IoT Layers.</p>
           <p>FUSE is its Firmware &amp; Unified Security Engine: an analysis and inspection module for embedded software and firmware artifacts.</p>
         </div>
-        <figure class="board-figure reveal">
-          <img src="assets/tiva-c-launchpad-ek-tm4c1294xl.jpg" alt="Texas Instruments Tiva-C LaunchPad development board, shown in full with its USB cable connected" width="1920" height="893" loading="lazy" decoding="async">
-          <figcaption>Example hardware, not a FUSE product or scanned target. “Tiva-C LaunchPad EK-TM4C1294XL” by wdwd, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>, via <a href="https://commons.wikimedia.org/wiki/File:Tiva-C_LaunchPad_EK-TM4C1294XL.JPG" target="_blank" rel="noreferrer">Wikimedia Commons</a>.</figcaption>
-        </figure>
+        <div class="validation-panel reveal" aria-labelledby="validation-title">
+          <h3 id="validation-title">Fixture coverage.</h3>
+          <p class="validation-count"><strong>7</strong><span>rules have vulnerable and secure fixture cases with expected outcomes.</span></p>
+          <p class="validation-limit"><strong>Not yet scanned</strong>Third-party repositories, physical boards or live devices.</p>
+        </div>
         <aside class="research-tile reveal" aria-label="How FUSE complements SPECTRA-32">
-          <p class="tile-label">The VIGIL-IoT research loop</p>
+          <p class="tile-label">Planned VIGIL-IoT research loop</p>
           <p class="tile-copy">FUSE identifies a candidate weakness. SPECTRA-32 can reproduce selected cases in a controlled lab. After mitigation, FUSE rescans and SPECTRA-32 measures the overhead.</p>
           <p class="tile-flow"><span>Inspect</span><b aria-hidden="true">→</b><span>Reproduce</span><b aria-hidden="true">→</b><span>Mitigate</span><b aria-hidden="true">→</b><span>Measure</span></p>
         </aside>
-        <div class="hardware-gallery" aria-labelledby="hardware-title">
-          <div class="gallery-heading reveal">
-            <h3 id="hardware-title">From microcontroller to development board.</h3>
-            <p>Reference imagery from open archives. These are examples of embedded hardware, not FUSE scans.</p>
-          </div>
-          <div class="gallery-grid">
-            <figure class="reveal">
-              <img src="assets/microcontrollers-atmega32-atmega8.jpg" alt="Two black Atmel microcontroller integrated circuits on a plain white surface" width="1920" height="1764" loading="lazy" decoding="async">
-              <figcaption><a href="https://commons.wikimedia.org/w/index.php?curid=37544740" target="_blank" rel="noreferrer">“Microcontrollers Atmega32 Atmega8”</a> by Vahid alpha at English Wikipedia, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a>, via Wikimedia Commons.</figcaption>
-            </figure>
-            <figure class="reveal">
-              <img src="assets/top-view-of-a-raspberry-pi-pico.jpg" alt="Raspberry Pi Pico 2 microcontroller board photographed on a red background" width="1920" height="2560" loading="lazy" decoding="async">
-              <figcaption><a href="https://commons.wikimedia.org/w/index.php?curid=169801140" target="_blank" rel="noreferrer">Raspberry Pi Pico 2, top view</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>.</figcaption>
-            </figure>
-            <figure class="reveal">
-              <img src="assets/macro-photograph-of-the-rp2350-microcontroller-on.jpg" alt="Close-up photograph of an RP2350 microcontroller mounted on a Raspberry Pi Pico 2 board" width="1920" height="1440" loading="lazy" decoding="async">
-              <figcaption><a href="https://commons.wikimedia.org/wiki/File:Macro_photograph_of_the_RP2350_microcontroller_on_a_Raspberry_Pi_Pico_2_board.jpg" target="_blank" rel="noreferrer">RP2350 on Raspberry Pi Pico 2</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>.</figcaption>
-            </figure>
-          </div>
-        </div>
       </section>
 
       <section class="cta page-wrap reveal" aria-label="Get the FUSE source code">
         <p>Clone FUSE, install it once, and run a focused scan from your terminal.</p>
-        <a class="button button-red" href="https://github.com/shaxntanu/VIGIL-FUSE" target="_blank" rel="noreferrer">Open the FUSE repository <span aria-hidden="true">↗</span></a>
+        <a class="button button-red" href="https://github.com/VIGIL-IoT/VIGIL-FUSE" target="_blank" rel="noreferrer">Open the FUSE repository <span aria-hidden="true">↗</span></a>
       </section>
     </main>
 
@@ -261,20 +259,10 @@
           <div class="footer-identity"><p>Firmware &amp; Unified Security Engine</p><p>A VIGIL-IoT Project</p><p>Vulnerability Intelligence &amp; Guarding for IoT Layers</p></div>
           <nav class="footer-links" aria-label="Footer navigation">
             <a href="#workflow">Workflow</a><a href="#rules">Rules</a>
-            <a href="https://github.com/shaxntanu/VIGIL-FUSE" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
           </nav>
           <a class="back-top" href="#top">Back to top ↑</a>
         </div>
-        <details class="image-credits">
-          <summary>Image credits and licences</summary>
-          <ul>
-            <li><a href="https://commons.wikimedia.org/wiki/File:Tiva-C_LaunchPad_EK-TM4C1294XL.JPG" target="_blank" rel="noreferrer">“Tiva-C LaunchPad EK-TM4C1294XL”</a> by wdwd, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>, via Wikimedia Commons.</li>
-            <li><a href="https://commons.wikimedia.org/w/index.php?curid=37544740" target="_blank" rel="noreferrer">“Microcontrollers Atmega32 Atmega8”</a> by Vahid alpha at English Wikipedia, <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noreferrer">CC BY 3.0</a>, via Wikimedia Commons.</li>
-            <li><a href="https://commons.wikimedia.org/w/index.php?curid=169801140" target="_blank" rel="noreferrer">“Top view of a Raspberry Pi Pico 2 microcontroller board”</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>, via Wikimedia Commons.</li>
-            <li><a href="https://commons.wikimedia.org/wiki/File:Macro_photograph_of_the_RP2350_microcontroller_on_a_Raspberry_Pi_Pico_2_board.jpg" target="_blank" rel="noreferrer">“Macro photograph of the RP2350 microcontroller on a Raspberry Pi Pico 2 board”</a> by Profpcde, <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noreferrer">CC0</a>, via Wikimedia Commons.</li>
-          </ul>
-          <p>The original image files are used without recolouring or compositing.</p>
-        </details>
         <p class="footer-legal">FUSE is an early, CLI-first VIGIL-IoT module. Findings describe observed signals and their limits.</p>
       </div>
     </footer>
