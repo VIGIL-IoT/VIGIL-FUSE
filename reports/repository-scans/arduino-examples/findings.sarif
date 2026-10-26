@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.1.0",
+          "rules": [
+            {
+              "id": "FUSE004",
+              "shortDescription": {
+                "text": "Non-loopback HTTP endpoint configured"
+              },
+              "fullDescription": {
+                "text": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "confidence": "high",
+                "category": "transport-security",
+                "version": "1.0.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/319.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "results": [
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://www.0j0.org"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/02.Digital/Button/Button.ino"
+                },
+                "region": {
+                  "startLine": 16,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "779f4c95c05f184f9016e3f3e53a7c209db6ce9fdd9283d6d7a8c665409c1c61"
+          },
+          "properties": {
+            "fuseId": "FUSE004:examples/02.Digital/Button/Button.ino:16",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://www.0j0.org",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://www.asciitable.com"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/04.Communication/ASCIITable/ASCIITable.ino"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "efe0730f6161067494658442d671d1c4d76c7a0981a4891d432411d307d84475"
+          },
+          "properties": {
+            "fuseId": "FUSE004:examples/04.Communication/ASCIITable/ASCIITable.ino:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://www.asciitable.com",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://www.zambetti.com"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/04.Communication/ASCIITable/ASCIITable.ino"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "f42911946c9016012b20a35d181bf1ab80fdd9b3be13ffd403ff098c92bd9a73"
+          },
+          "properties": {
+            "fuseId": "FUSE004:examples/04.Communication/ASCIITable/ASCIITable.ino:13",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://www.zambetti.com",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://www.0j0.org"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/06.Sensors/Knock/Knock.ino"
+                },
+                "region": {
+                  "startLine": 15,
+                  "endLine": 15
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "140525e84242f1c752dc81b4a8d28479a8c28d872930966ded5b1d88e7482ac4"
+          },
+          "properties": {
+            "fuseId": "FUSE004:examples/06.Sensors/Knock/Knock.ino:15",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://www.0j0.org",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://www.arduino.cc"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/10.StarterKit_BasicKit/p14_TweakTheArduinoLogo/p14_TweakTheArduinoLogo.ino"
+                },
+                "region": {
+                  "startLine": 61,
+                  "endLine": 61
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "bec38c73cdac41ac7e29a1b9c8ed90710d345c41508bf3035826e149a6aa6de3"
+          },
+          "properties": {
+            "fuseId": "FUSE004:examples/10.StarterKit_BasicKit/p14_TweakTheArduinoLogo/p14_TweakTheArduinoLogo.ino:61",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://www.arduino.cc",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "arduino/arduino-examples",
+        "profile": "generic",
+        "inputManifestSha256": "dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.1.0"
+          }
+        ]
+      }
+    }
+  ]
+}

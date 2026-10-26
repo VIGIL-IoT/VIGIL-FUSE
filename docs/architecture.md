@@ -1,6 +1,6 @@
 # FUSE architecture
 
-FUSE is a VIGIL-IoT project. The initial implementation is a small Python package with a CLI boundary and no runtime dependencies.
+FUSE is a [VIGIL](https://github.com/VIGIL-IoT) Project in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT). The initial implementation is a small Python package with a CLI boundary and no runtime dependencies.
 
 ```text
 CLI
@@ -37,4 +37,4 @@ Native rules analyze selected source/configuration text only. Optional Syft inve
 
 Profiles currently control file discovery only. They are not claims that platform-specific rules already exist. The result records profile, selected/skipped files, active rules, analyzer status, an input-manifest digest, and artifact paths/hashes. The canonical JSON report is schema-versioned; new adapters must report missing tools, partial coverage, and failures explicitly instead of returning an empty result as if analysis completed. SARIF exports normalized findings for code-scanning tools; CycloneDX remains the component-inventory format.
 
-FUSE and SPECTRA-32 have complementary roles in VIGIL-IoT: FUSE inspects candidate weaknesses, while SPECTRA-32 can reproduce selected cases in a controlled lab and measure mitigation overhead.
+FUSE and SPECTRA-32 have complementary roles in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT): FUSE inspects candidate weaknesses, while SPECTRA-32 can reproduce selected cases in a controlled lab and measure mitigation overhead.

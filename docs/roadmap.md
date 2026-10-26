@@ -1,6 +1,6 @@
 # FUSE development roadmap
 
-FUSE is the inspection and evidence-orchestration module of VIGIL-IoT. This roadmap follows the [research-backed universal-tool strategy](research/universal-fuse-tool-strategy.md). “Universal” means multiple input types with clear coverage and profile boundaries, not an unsupported claim to analyze every device equally.
+FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT), and a [VIGIL](https://github.com/VIGIL-IoT) Project. This roadmap follows the [research-backed universal-tool strategy](research/universal-fuse-tool-strategy.md). “Universal” means multiple input types with clear coverage and profile boundaries, not an unsupported claim to analyze every device equally.
 
 ## 0. Trusted CLI foundation - implemented
 
@@ -42,10 +42,10 @@ FUSE is the inspection and evidence-orchestration module of VIGIL-IoT. This road
 ## 5. Interoperability and workflows
 
 - Export findings as SARIF and component inventory as CycloneDX; both formats are implemented in the CLI baseline.
-- Add GitHub Actions and CI examples, then HTML, editor, and VIGIL-IoT dashboard adapters.
+- Add GitHub Actions and CI examples, then HTML, editor, and dashboard adapters for the [VIGIL-IoT suite](https://github.com/VIGIL-IoT).
 - Keep report exporters independent from rule implementations.
 
-## 6. VIGIL-IoT lab loop
+## 6. [VIGIL-IoT suite](https://github.com/VIGIL-IoT) lab loop
 
 - Add an explicit handoff from selected FUSE findings to SPECTRA-32.
 - Track static evidence, controlled reproduction, mitigation, FUSE rescan, and overhead measurement as linked but distinct results.

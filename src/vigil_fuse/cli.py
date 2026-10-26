@@ -21,7 +21,7 @@ _SEVERITY_ORDER = {"unknown": -1, "info": 0, "low": 1, "medium": 2, "high": 3, "
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="vigil-fuse",
-        description="FUSE - Firmware & Unified Security Engine, a VIGIL-IoT project.",
+        description="FUSE, the Firmware & Unified Security Engine. A VIGIL Project.",
     )
     parser.add_argument("--version", action="version", version=f"FUSE {__version__}")
     commands = parser.add_subparsers(dest="command", required=True)

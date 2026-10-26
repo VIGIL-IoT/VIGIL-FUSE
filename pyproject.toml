@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vigil-fuse"
 version = "0.1.0"
-description = "FUSE, the Firmware & Unified Security Engine - a VIGIL-IoT project"
+description = "FUSE, the Firmware & Unified Security Engine, a VIGIL Project"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []

@@ -1,0 +1,92 @@
+FUSE scan: espressif/esp-idf/examples/system/ota
+Target kind: directory
+Profile: esp-idf
+Scanned manifest SHA-256: 4d7bb675eb873b35574cb591485a2dbf621aeb5ada00c1d5ad973e7b30888ff6
+Files discovered/selected: 65/65
+Files filtered by path policy: 0
+Files scanned: 65
+Files skipped: 0
+Findings: 9
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: advanced_https_ota/test_certs/server_key.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: native_ota_example/pytest_native_ota.py:44
+  Evidence: '[PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: partitions_ota/pytest_partitions_ota.py:50
+  Evidence: '[PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: partitions_ota/test/secure_boot_signing_key.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: partitions_ota/test/secure_boot_signing_key_ecdsa.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: simple_ota_example/pytest_simple_ota.py:51
+  Evidence: '[PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: simple_ota_example/test/secure_boot_signing_key.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: simple_ota_example/test/secure_boot_signing_key_ecdsa.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Confidence: high
+  Location: simple_ota_example/test/secure_boot_signing_key_ecdsa_p384.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html

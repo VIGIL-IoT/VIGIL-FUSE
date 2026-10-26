@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#ffffff">
-    <meta name="description" content="FUSE is the CLI-first embedded security inspection engine from VIGIL-IoT. Scan source, configuration and firmware artifacts; keep findings tied to evidence.">
+    <meta name="description" content="FUSE is a VIGIL Project for CLI-first embedded security inspection. Scan source, configuration and firmware artifacts with evidence-led findings.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="FUSE - Firmware &amp; Unified Security Engine">
-    <meta property="og:description" content="Inspect embedded projects with evidence-led security findings from a CLI-first VIGIL-IoT tool.">
+    <meta property="og:description" content="Inspect embedded projects with evidence-led security findings from a CLI-first VIGIL Project.">
     <title>FUSE - Firmware &amp; Unified Security Engine</title>
     <link rel="icon" href="assets/fuse-mark.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,14 +28,16 @@
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <a class="brand-lockup" href="#top" aria-label="FUSE, Firmware and Unified Security Engine, a VIGIL-IoT project">
+      <a class="brand-lockup" href="#top" aria-label="FUSE, Firmware and Unified Security Engine, a VIGIL Project">
         <span class="brand-name">FUSE</span>
         <span class="brand-subtitle">Firmware &amp; Unified Security Engine</span>
       </a>
-      <p class="project-tag">A VIGIL-IoT Project</p>
+      <p class="project-tag">A <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL</a> Project</p>
       <nav class="main-nav" aria-label="Main navigation">
         <a href="#workflow">Workflow</a>
+        <a href="#architecture">Architecture</a>
         <a href="#rules">Rules</a>
+        <a href="#results">Results</a>
         <a href="#research">Research loop</a>
       </nav>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
@@ -52,7 +54,7 @@
     <main id="main">
       <section class="hero page-wrap" id="top" aria-labelledby="hero-title">
         <div class="hero-copy">
-          <h1 id="hero-title">Inspect before<br>firmware ships.</h1>
+          <h1 id="hero-title">Inspect before<br><span class="hero-final-line"><span class="hero-select-word">firmware</span><span class="hero-type-caret" aria-hidden="true"></span> ships.</span></h1>
           <p class="hero-intro">FUSE is a CLI-first security inspection engine for embedded projects. It reports source and configuration signals with evidence, separate severity and confidence, and a next step.</p>
           <div class="hero-actions">
             <a class="button button-dark" href="#install">Run a first scan <span aria-hidden="true">↓</span></a>
@@ -158,6 +160,36 @@
         <p class="showcase-note reveal">These examples use FUSE's own vulnerable rule fixtures and report schema. They are not results from a customer or device scan.</p>
       </section>
 
+      <section class="scan-results page-wrap" id="results" aria-labelledby="results-title">
+        <div class="section-heading reveal">
+          <div>
+            <p class="scan-kicker">Repository scan pilot · 26 Oct 2026</p>
+            <h2 id="results-title">A first read across embedded projects.</h2>
+          </div>
+          <p>FUSE 0.1.0 scanned pinned public source snapshots with native static rules. These are raw indicators for review, not confirmed vulnerabilities.</p>
+        </div>
+        <div class="scan-metrics" id="scan-metrics" aria-label="Scan coverage summary"></div>
+        <p class="scan-severity-summary"><strong>Severity labels</strong><span id="scan-severity-counts"></span><small>Severity describes potential impact. Confidence describes evidence strength and is recorded separately.</small></p>
+        <div class="scan-chart-grid">
+          <figure class="scan-chart-panel scan-chart-wide">
+            <figcaption><span>01 / Repository coverage</span><strong>Raw signals by snapshot</strong></figcaption>
+            <div class="scan-chart" id="repository-chart" aria-label="Raw signals by repository"></div>
+          </figure>
+          <figure class="scan-chart-panel">
+            <figcaption><span>02 / Rule coverage</span><strong>Signals by rule</strong></figcaption>
+            <div class="scan-chart" id="rule-chart" aria-label="Raw signals by rule"></div>
+          </figure>
+        </div>
+        <div class="scan-detail-heading">
+          <div><p class="scan-kicker">Pinned snapshots</p><h3>Explore the scan records.</h3></div>
+          <p>Counts stay grouped by repository. Open a row for scope, rule groups, example locations and report files.</p>
+        </div>
+        <div class="scan-repository-list" id="repository-list" aria-live="polite">
+          <p class="scan-loading">Loading the published scan summary...</p>
+        </div>
+        <p class="scan-caveat">The scan covered different paths and file types per project. IoTGoat contains OpenWrt source also scanned in the OpenWrt snapshot, and repeated localization strings inflate Tasmota matches. See the <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/triage.md" target="_blank" rel="noreferrer">triage notes</a> for reviewed context and known detection limits.</p>
+      </section>
+
       <section class="workflow page-wrap" id="workflow" aria-labelledby="workflow-title">
         <div class="section-heading workflow-heading reveal">
           <h2 id="workflow-title">From project tree to reviewable output.</h2>
@@ -195,6 +227,26 @@
         <p class="workflow-boundary reveal">Native rules inspect selected text and configuration files. Optional Syft and OSV-Scanner adapters add component inventory and advisory matching. Optional Binwalk identifies firmware signatures only; FUSE does not extract or execute firmware.</p>
       </section>
 
+      <section class="archify-section page-wrap" id="architecture" aria-labelledby="architecture-title">
+        <div class="section-heading archify-heading reveal">
+          <div>
+            <p class="scan-kicker">Workflow map · generated with <a class="vigil-link" href="https://github.com/tt-a1i/archify" target="_blank" rel="noreferrer">Archify</a></p>
+            <h2 id="architecture-title">How FUSE turns a project into reviewable findings.</h2>
+          </div>
+          <p>The diagram follows the current CLI path, keeps optional analyzers distinct, and marks the SPECTRA-32 lab handoff as planned.</p>
+        </div>
+        <div class="archify-frame" data-ui="archify-workflow">
+          <iframe src="diagrams/fuse-scan.html" title="Interactive FUSE scan workflow diagram" loading="lazy" allow="fullscreen" allowfullscreen></iframe>
+        </div>
+        <div class="archify-caption">
+          <p>Current behavior is grounded in the FUSE source. The research lab connection is a future workflow.</p>
+          <div class="archify-caption-links">
+            <a class="text-link" href="diagrams/fuse-scan.html" target="_blank" rel="noreferrer">Open full diagram <span aria-hidden="true">↗</span></a>
+            <a class="text-link" href="https://github.com/tt-a1i/archify" target="_blank" rel="noreferrer">About Archify <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
       <section class="rules page-wrap" id="rules" aria-labelledby="rules-title">
         <div class="section-heading rules-heading reveal">
           <h2 id="rules-title">Seven focused rules to start.</h2>
@@ -230,17 +282,17 @@
 
       <section class="research page-wrap" id="research" aria-labelledby="research-title">
         <div class="research-intro reveal">
-          <h2 id="research-title">A VIGIL-IoT Project.</h2>
-          <p class="initiative-name"><strong>VIGIL-IoT</strong> means Vulnerability Intelligence &amp; Guarding for IoT Layers.</p>
+          <h2 id="research-title">A <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL</a> Project.</h2>
+          <p class="initiative-name"><strong><a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL-IoT</a></strong> means Vulnerability Intelligence &amp; Guarding for IoT Layers.</p>
           <p>FUSE is its Firmware &amp; Unified Security Engine: an analysis and inspection module for embedded software and firmware artifacts.</p>
         </div>
         <div class="validation-panel reveal" aria-labelledby="validation-title">
           <h3 id="validation-title">Fixture coverage.</h3>
           <p class="validation-count"><strong>7</strong><span>rules have vulnerable and secure fixture cases with expected outcomes.</span></p>
-          <p class="validation-limit"><strong>Not yet scanned</strong>Third-party repositories, physical boards or live devices.</p>
+          <p class="validation-limit"><strong>8 repository snapshots scanned</strong>Source and configuration scopes only. No physical boards or live devices were tested.</p>
         </div>
         <aside class="research-tile reveal" aria-label="How FUSE complements SPECTRA-32">
-          <p class="tile-label">Planned VIGIL-IoT research loop</p>
+          <p class="tile-label">Planned <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL-IoT</a> research loop</p>
           <p class="tile-copy">FUSE identifies a candidate weakness. SPECTRA-32 can reproduce selected cases in a controlled lab. After mitigation, FUSE rescans and SPECTRA-32 measures the overhead.</p>
           <p class="tile-flow"><span>Inspect</span><b aria-hidden="true">→</b><span>Reproduce</span><b aria-hidden="true">→</b><span>Mitigate</span><b aria-hidden="true">→</b><span>Measure</span></p>
         </aside>
@@ -256,14 +308,14 @@
       <div class="footer-inner page-wrap">
         <a class="footer-wordmark reveal" href="#top">FUSE</a>
         <div class="footer-bottom">
-          <div class="footer-identity"><p>Firmware &amp; Unified Security Engine</p><p>A VIGIL-IoT Project</p><p>Vulnerability Intelligence &amp; Guarding for IoT Layers</p></div>
+          <div class="footer-identity"><p>Firmware &amp; Unified Security Engine</p><p>A <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL</a> Project</p><p>Vulnerability Intelligence &amp; Guarding for IoT Layers</p></div>
           <nav class="footer-links" aria-label="Footer navigation">
-            <a href="#workflow">Workflow</a><a href="#rules">Rules</a>
+            <a href="#workflow">Workflow</a><a href="#architecture">Architecture</a><a href="#rules">Rules</a><a href="#results">Results</a>
             <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
           </nav>
           <a class="back-top" href="#top">Back to top ↑</a>
         </div>
-        <p class="footer-legal">FUSE is an early, CLI-first VIGIL-IoT module. Findings describe observed signals and their limits.</p>
+        <p class="footer-legal">FUSE is an early, CLI-first project in the <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL-IoT suite</a>. Findings describe observed signals and their limits.</p>
       </div>
     </footer>
   </body>

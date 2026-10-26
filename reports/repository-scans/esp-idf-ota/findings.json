@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.2",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.1.0"
+  },
+  "target": "espressif/esp-idf/examples/system/ota",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "esp-idf",
+    "started_at": "2026-10-26T13:58:28Z",
+    "completed_at": "2026-10-26T13:58:40Z",
+    "input_manifest_sha256": "4d7bb675eb873b35574cb591485a2dbf621aeb5ada00c1d5ad973e7b30888ff6"
+  },
+  "summary": {
+    "files_discovered": 65,
+    "files_selected": 65,
+    "files_filtered": 0,
+    "files_scanned": 65,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 9,
+    "severity_counts": {
+      "critical": 0,
+      "high": 9,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.1.0",
+        "detail": "Native rules completed.",
+        "findings": 9
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "FUSE002:advanced_https_ota/test_certs/server_key.pem:1",
+      "fingerprint": "ddaba012dff5d593ccb913bad97094d175be630558a93a1782b41554142c6732",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "advanced_https_ota/test_certs/server_key.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:native_ota_example/pytest_native_ota.py:44",
+      "fingerprint": "8e77229978435895e316e5b7af44539fdaf08efc2d31fd1109e1aeff2d392315",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "native_ota_example/pytest_native_ota.py",
+        "start_line": 44,
+        "end_line": 44
+      },
+      "evidence": "'[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:partitions_ota/pytest_partitions_ota.py:50",
+      "fingerprint": "e33d87d10b8fbe0c4d176a906cce38b513d861bc26b5201f426a61b9158b7b32",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "partitions_ota/pytest_partitions_ota.py",
+        "start_line": 50,
+        "end_line": 50
+      },
+      "evidence": "'[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:partitions_ota/test/secure_boot_signing_key.pem:1",
+      "fingerprint": "3a2746d2fcee44cac12f4beb950dd34d970698684935aaf9edaa818918c186c8",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "partitions_ota/test/secure_boot_signing_key.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:partitions_ota/test/secure_boot_signing_key_ecdsa.pem:1",
+      "fingerprint": "9a145fc882a535f25e5899b266ff1b7098976f4884885eaa0a3d7717c1b9ad1c",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "partitions_ota/test/secure_boot_signing_key_ecdsa.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:simple_ota_example/pytest_simple_ota.py:51",
+      "fingerprint": "5218a2c94daf4a744318a28e51eb56ce71cf8d99402d570eeb75fe4eeefab9df",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "simple_ota_example/pytest_simple_ota.py",
+        "start_line": 51,
+        "end_line": 51
+      },
+      "evidence": "'[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:simple_ota_example/test/secure_boot_signing_key.pem:1",
+      "fingerprint": "e5dded28a14176fd29cf03a7cb1a2b88220ce57ef8ba893200aab2ac5cc29a56",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "simple_ota_example/test/secure_boot_signing_key.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:simple_ota_example/test/secure_boot_signing_key_ecdsa.pem:1",
+      "fingerprint": "7e160f78ee863bf298e0f3655d43349775776319094a82f3ea19f1e7a4a17601",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "simple_ota_example/test/secure_boot_signing_key_ecdsa.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    },
+    {
+      "id": "FUSE002:simple_ota_example/test/secure_boot_signing_key_ecdsa_p384.pem:1",
+      "fingerprint": "334439fc05c87899bc73c102e7c6b314c8a2ae85b17060cdabdbc60d5a4a7f1d",
+      "rule_id": "FUSE002",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "simple_ota_example/test/secure_boot_signing_key_ecdsa_p384.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ]
+    }
+  ],
+  "artifacts": []
+}

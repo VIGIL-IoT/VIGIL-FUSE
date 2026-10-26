@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.2",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.1.0"
+  },
+  "target": "zephyrproject-rtos/zephyr, selected MQTT samples",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "zephyr",
+    "started_at": "2026-10-26T13:58:28Z",
+    "completed_at": "2026-10-26T13:58:30Z",
+    "input_manifest_sha256": "bb20b888f3d3525c86dc4a234395ae400fa98dad6ae8d14f20789629b8e7b9d9"
+  },
+  "summary": {
+    "files_discovered": 30,
+    "files_selected": 30,
+    "files_filtered": 0,
+    "files_scanned": 30,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.1.0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      }
+    ]
+  },
+  "findings": [],
+  "artifacts": []
+}

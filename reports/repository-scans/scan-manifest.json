@@ -1,0 +1,126 @@
+{
+  "scan_date": "2026-10-26",
+  "fuse": {
+    "version": "0.1.0",
+    "commit": "773a9b978616e1f1ad9e900dbce6909b0e926e59"
+  },
+  "repositories": [
+    {
+      "id": "iotgoat",
+      "name": "OWASP/IoTGoat",
+      "url": "https://github.com/OWASP/IoTGoat",
+      "commit": "f67b7f961301d7a56b435fd7cffac73600f0c97b",
+      "profile": "embedded-linux",
+      "scans": [
+        {
+          "id": "iotgoat",
+          "scope": "OpenWrt/openwrt-18.06.2/config, files, package/base-files, package/network/services, package/system, target/linux",
+          "target_label": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source"
+        }
+      ]
+    },
+    {
+      "id": "tasmota",
+      "name": "arendst/Tasmota",
+      "url": "https://github.com/arendst/Tasmota",
+      "commit": "63c38614ed0f19c550148d2d17f6e8cbaf8faea0",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "tasmota",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "target_label": "arendst/Tasmota"
+        }
+      ]
+    },
+    {
+      "id": "esp-idf",
+      "name": "espressif/esp-idf",
+      "url": "https://github.com/espressif/esp-idf",
+      "commit": "d35ea023029363d97c42565f85e0db23486f26b2",
+      "profile": "esp-idf",
+      "scans": [
+        {
+          "id": "esp-idf-mqtt",
+          "scope": "examples/protocols/mqtt",
+          "target_label": "espressif/esp-idf/examples/protocols/mqtt"
+        },
+        {
+          "id": "esp-idf-ota",
+          "scope": "examples/system/ota",
+          "target_label": "espressif/esp-idf/examples/system/ota"
+        }
+      ]
+    },
+    {
+      "id": "esphome-devices",
+      "name": "esphome/devices.esphome.io",
+      "url": "https://github.com/esphome/devices.esphome.io",
+      "commit": "232bac526f06237daabba9111cee7910ac282f9c",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "esphome-devices",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "target_label": "esphome/devices.esphome.io"
+        }
+      ]
+    },
+    {
+      "id": "arduino-examples",
+      "name": "arduino/arduino-examples",
+      "url": "https://github.com/arduino/arduino-examples",
+      "commit": "50b66a3ce1e4e5e69cd96d3af5ca41a3383b311a",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "arduino-examples",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "target_label": "arduino/arduino-examples"
+        }
+      ]
+    },
+    {
+      "id": "pico-examples",
+      "name": "raspberrypi/pico-examples",
+      "url": "https://github.com/raspberrypi/pico-examples",
+      "commit": "0d62f75bafc2c8120d3276c3343d1a9195e909e9",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "pico-examples",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "target_label": "raspberrypi/pico-examples"
+        }
+      ]
+    },
+    {
+      "id": "zephyr",
+      "name": "zephyrproject-rtos/zephyr",
+      "url": "https://github.com/zephyrproject-rtos/zephyr",
+      "commit": "c4aa9324508f6226bc6c491f114dbecaf9dffb36",
+      "profile": "zephyr",
+      "scans": [
+        {
+          "id": "zephyr-net-samples",
+          "scope": "samples/net/mqtt_publisher and samples/net/secure_mqtt_sensor_actuator",
+          "target_label": "zephyrproject-rtos/zephyr, selected MQTT samples"
+        }
+      ]
+    },
+    {
+      "id": "openwrt",
+      "name": "openwrt/openwrt",
+      "url": "https://github.com/openwrt/openwrt",
+      "commit": "b5ff052caf4b7e90eb4b84941dec77bb5e4b5e08",
+      "profile": "embedded-linux",
+      "scans": [
+        {
+          "id": "openwrt",
+          "scope": "package/base-files, package/network/services, package/network/utils, package/system, target/linux/generic",
+          "target_label": "openwrt/openwrt, selected source and configuration"
+        }
+      ]
+    }
+  ]
+}

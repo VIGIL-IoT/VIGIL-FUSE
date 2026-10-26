@@ -22,6 +22,8 @@ Preview locally from the repository root with:
 
 Then open http://localhost:4173. The website's command example installs the package from the repository and writes a scan's text, JSON, and SARIF reports to the `.fuse-results` folder.
 
-The interactive finding panel uses vulnerable fixtures for FUSE001, FUSE003, and FUSE006. They are labelled as test examples, not results from a customer project or device. The validation section describes the repository's seven vulnerable and secure rule fixture pairs. It does not claim that third-party repositories or physical boards have been scanned. The SPECTRA-32 research loop is presented as planned work.
+The interactive finding panel uses vulnerable fixtures for FUSE001, FUSE003, and FUSE006. They are labelled as test examples. The repository scan section reads its pinned snapshot from `site/data/repository-scan-results.json`; full JSON, text, and SARIF reports are in `reports/repository-scans/`. Its counts are raw static indicators, not confirmed vulnerabilities or hardware results. The scan scope, reviewed false-positive patterns, and limits are documented in the report directory. The SPECTRA-32 research loop remains planned work.
+
+After regenerating repository scan reports, run `py scripts\build_repository_scan_dashboard.py` from the repository root to refresh the site data and SVG plots in `reports/repository-scans/plots/` and `site/assets/`.
 
 The page uses no stock board imagery. The report-fragment row scrolls horizontally by design and includes arrow controls and a visible swipe hint.

@@ -1,0 +1,249 @@
+{
+  "schema_version": "1.2",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.1.0"
+  },
+  "target": "esphome/devices.esphome.io",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "started_at": "2026-10-26T13:58:28Z",
+    "completed_at": "2026-10-26T13:58:51Z",
+    "input_manifest_sha256": "b5c022ed006e8f5a46538c06acdb1ca497bf98a11ed5cf02fa70feef8a08b7db"
+  },
+  "summary": {
+    "files_discovered": 73,
+    "files_selected": 73,
+    "files_filtered": 0,
+    "files_scanned": 73,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 8,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 8,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.1.0",
+        "detail": "Native rules completed.",
+        "findings": 8
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "FUSE001:scripts/review-made-for-esphome.test.ts:137",
+      "fingerprint": "e35045200f233647f5e3a334b20c2bf25b1ad55e35a89777b4fe9a874d6a73e2",
+      "rule_id": "FUSE001",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "scripts/review-made-for-esphome.test.ts",
+        "start_line": 137,
+        "end_line": 137
+      },
+      "evidence": "{ platform: \"http_request\", password: \"[REDACTED]\" }, // secret ref -> flag",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ]
+    },
+    {
+      "id": "FUSE001:scripts/review-made-for-esphome.test.ts:142",
+      "fingerprint": "b36eb147e13fc5b7ba29a384d042629a2cf161676d7e0f88fcca94967ded319b",
+      "rule_id": "FUSE001",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "scripts/review-made-for-esphome.test.ts",
+        "start_line": 142,
+        "end_line": 142
+      },
+      "evidence": "ap: { password: \"[REDACTED]\" },",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ]
+    },
+    {
+      "id": "FUSE001:scripts/review-made-for-esphome.test.ts:143",
+      "fingerprint": "e0fb25bbc0984ecdb0400db2483318b8ed1a540df8d615c645e4b24f65b062ed",
+      "rule_id": "FUSE001",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "scripts/review-made-for-esphome.test.ts",
+        "start_line": 143,
+        "end_line": 143
+      },
+      "evidence": "password: \"[REDACTED]\",",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ]
+    },
+    {
+      "id": "FUSE001:scripts/review-made-for-esphome.test.ts:148",
+      "fingerprint": "4ccc652e3607b55a2291065552f866ba8c272c5d84a7cfed66deb8559458bf43",
+      "rule_id": "FUSE001",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "scripts/review-made-for-esphome.test.ts",
+        "start_line": 148,
+        "end_line": 148
+      },
+      "evidence": "mqtt: { password: \"[REDACTED]\" }, // literal -> flag",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ]
+    },
+    {
+      "id": "FUSE001:scripts/review-made-for-esphome.test.ts:311",
+      "fingerprint": "caa11fd91f42c6f3b0ba09fdbb283e55579fae5e03e6e95958daa67e2118bbbe",
+      "rule_id": "FUSE001",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "scripts/review-made-for-esphome.test.ts",
+        "start_line": 311,
+        "end_line": 311
+      },
+      "evidence": "api: { password: \"[REDACTED]\" }, // baked password",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ]
+    },
+    {
+      "id": "FUSE001:scripts/review-made-for-esphome.test.ts:338",
+      "fingerprint": "14e808d840cdcfeeb6fd421fccc6b05b0ce49de39ce1fab7b3640c0115e2d9a3",
+      "rule_id": "FUSE001",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "scripts/review-made-for-esphome.test.ts",
+        "start_line": 338,
+        "end_line": 338
+      },
+      "evidence": "password: \"[REDACTED]\",",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ]
+    },
+    {
+      "id": "FUSE004:scripts/upstream-url.test.ts:198",
+      "fingerprint": "bb3714f1cd86c6177aa55e3b2c256cf1d995aee0c3910f7b39cc8d417aa748d5",
+      "rule_id": "FUSE004",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Non-loopback HTTP endpoint configured",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "scripts/upstream-url.test.ts",
+        "start_line": 198,
+        "end_line": 198
+      },
+      "evidence": "http://github.com",
+      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
+      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/319.html"
+      ]
+    },
+    {
+      "id": "FUSE004:scripts/upstream-url.test.ts:208",
+      "fingerprint": "acf0212640fb30f750b59ad88d6c940d222edceff5037b01c06f19b46e1026a1",
+      "rule_id": "FUSE004",
+      "rule_version": "1.0.0",
+      "analyzer": "fuse-native",
+      "title": "Non-loopback HTTP endpoint configured",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "scripts/upstream-url.test.ts",
+        "start_line": 208,
+        "end_line": 208
+      },
+      "evidence": "http://codeberg.org",
+      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
+      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/319.html"
+      ]
+    }
+  ],
+  "artifacts": []
+}

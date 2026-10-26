@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.1.0",
+          "rules": []
+        }
+      },
+      "artifacts": [],
+      "results": [],
+      "properties": {
+        "target": "zephyrproject-rtos/zephyr, selected MQTT samples",
+        "profile": "zephyr",
+        "inputManifestSha256": "bb20b888f3d3525c86dc4a234395ae400fa98dad6ae8d14f20789629b8e7b9d9",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.1.0"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.1.0",
+          "rules": [
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "confidence": "high",
+                "category": "secrets",
+                "version": "1.0.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            },
+            {
+              "id": "FUSE002",
+              "shortDescription": {
+                "text": "Private key PEM marker embedded in scanned file"
+              },
+              "fullDescription": {
+                "text": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "confidence": "high",
+                "category": "secrets",
+                "version": "1.0.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/321.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "results": [
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: PASSWORD_CHARACTERISTIC = \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bluetooth/ble_wifi_provisioner/set_credentials.py"
+                },
+                "region": {
+                  "startLine": 30,
+                  "endLine": 30
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "7e195f1d8340916b6099e513b14cc8b09a62bade8686119d15b81099fe18d36c"
+          },
+          "properties": {
+            "fuseId": "FUSE001:bluetooth/ble_wifi_provisioner/set_credentials.py:30",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "PASSWORD_CHARACTERISTIC = \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "bootloaders/encrypted/private.pem"
+                },
+                "region": {
+                  "startLine": 4,
+                  "endLine": 4
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "b675f69de470182a330c7b005822822272c5ace0ffaa9fb0c1c35a595e6ac61d"
+          },
+          "properties": {
+            "fuseId": "FUSE002:bootloaders/encrypted/private.pem:4",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "encrypted/hello_encrypted/private.pem"
+                },
+                "region": {
+                  "startLine": 4,
+                  "endLine": 4
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "3a294f3223d464db3936dd89635985e9d0b8711463a705bee02448c79b0462fb"
+          },
+          "properties": {
+            "fuseId": "FUSE002:encrypted/hello_encrypted/private.pem:4",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pico_w/wifi/access_point/picow_access_point.c"
+                },
+                "region": {
+                  "startLine": 112,
+                  "endLine": 112
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "cd335f21417050cb10d5b86f413735d82567ffdd40569caafbeb0148ff343814"
+          },
+          "properties": {
+            "fuseId": "FUSE001:pico_w/wifi/access_point/picow_access_point.c:112",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define AP_PASSWORD \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c"
+                },
+                "region": {
+                  "startLine": 101,
+                  "endLine": 101
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "07ed5b5b5bf9c35db8ed01075d3885c8d01c40f570da7d59a28a3d84cfc32ed9"
+          },
+          "properties": {
+            "fuseId": "FUSE001:pico_w/wifi/access_point_wifi_provisioning/AP_provisioning.c:101",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define AP_PASSWORD \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pico_w/wifi/ota_update/private.pem"
+                },
+                "region": {
+                  "startLine": 4,
+                  "endLine": 4
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "vigilIoTFingerprint/v1": "4ccb0edc5e65f589f32718d8fc783b9f52a5c4d8f9d408b97db098c633d347ed"
+          },
+          "properties": {
+            "fuseId": "FUSE002:pico_w/wifi/ota_update/private.pem:4",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "raspberrypi/pico-examples",
+        "profile": "generic",
+        "inputManifestSha256": "ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.1.0"
+          }
+        ]
+      }
+    }
+  ]
+}

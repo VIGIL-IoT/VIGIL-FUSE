@@ -1,7 +1,7 @@
 # FUSE feature opportunities
 
 **Research note - 26 October 2026**  
-**A VIGIL-IoT Project**
+**A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
 ## Summary
 

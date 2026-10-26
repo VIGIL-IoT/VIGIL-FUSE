@@ -1,7 +1,7 @@
 # FUSE as a broad embedded and IoT security analysis tool
 
 **Research and architecture recommendation - 25 October 2026**  
-**A VIGIL-IoT Project**
+**A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
 ## Executive recommendation
 
@@ -43,7 +43,7 @@ FUSE should be the **glue and IoT analysis layer**, not an attempt to replace ev
 - **Language analyzers:** use parser-aware tools such as Semgrep or compiler/static-analysis tooling for C/C++ and other supported languages when the detection depends on control flow, data flow, or syntax. Keep simple literal/configuration rules small and tested.
 - **Firmware extraction:** call an optional, version-checked extractor such as Binwalk or a selected firmware-analysis framework. Record extraction warnings and never treat “files were extracted” as proof that the full image was understood.
 - **Component inventory:** use an SBOM generator such as Syft, then query known-vulnerability data through OSV-Scanner or another explicit provider. Do not scrape arbitrary web pages at scan time to make vulnerability decisions.
-- **Dynamic validation:** hand selected candidates to a controlled lab workflow. FUSE should not automatically execute or emulate unknown firmware; SPECTRA-32 is the natural VIGIL-IoT partner for controlled reproduction and overhead measurement.
+- **Dynamic validation:** hand selected candidates to a controlled lab workflow. FUSE should not automatically execute or emulate unknown firmware; SPECTRA-32 is the natural partner in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT) for controlled reproduction and overhead measurement.
 
 Crawl4AI is useful for the **research and documentation collection** that informed this plan. Crawl4AI 0.9.5 was installed here and used to retrieve the upstream EMBA, FACT, and Binwalk project READMEs. It should not be a required runtime dependency of the scanner. For vulnerability intelligence, prefer structured APIs and versioned feeds with identifiers and provenance over general-purpose page crawling. See the [Crawl4AI SDK reference](https://docs.crawl4ai.com/complete-sdk-reference/).
 
@@ -140,7 +140,7 @@ The baseline includes two ESP-IDF boot-integrity rules for explicit settings tha
 
 Versioned JSON, SARIF findings export, and CycloneDX inventory generation are implemented. Add GitHub Actions/CI templates and HTML. Add editor/dashboard integrations only after report identities, baselines, and diff behavior are stable.
 
-### Phase 6 - VIGIL-IoT lab loop
+### Phase 6 - [VIGIL-IoT suite](https://github.com/VIGIL-IoT) lab loop
 
 Add an explicit handoff contract to SPECTRA-32 for chosen hypotheses. Record FUSE static evidence, lab reproduction, mitigation, rescan, and measured overhead as separate linked artifacts.
 

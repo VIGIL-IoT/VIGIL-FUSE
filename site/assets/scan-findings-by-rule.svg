@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 400" role="img" aria-labelledby="title desc">
+<title id="title">Raw FUSE signals by rule</title>
+<desc id="desc">Horizontal bars show raw FUSE signal counts. Bar lengths use a logarithmic scale; exact values appear at the right.</desc>
+<style>text{font-family:Arial,sans-serif;fill:#161616}.axis{fill:#595959;font-size:12px}.label{font-size:14px}.value{font-size:14px;font-weight:700}.grid{stroke:#dedede;stroke-width:1}.track{fill:#eeeeee}.bar{fill:#d92b21}</style>
+<text x="0" y="24" font-size="18" font-weight="700">Raw FUSE signals by rule</text>
+<text x="0" y="45" class="axis">Log scale for bar length, exact count shown</text>
+<line x1="340.0" y1="50" x2="340.0" y2="348" class="grid"/>
+<text x="340.0" y="388" text-anchor="middle" class="axis">0</text>
+<line x1="399.2" y1="50" x2="399.2" y2="348" class="grid"/>
+<text x="399.2" y="388" text-anchor="middle" class="axis">1</text>
+<line x1="544.8" y1="50" x2="544.8" y2="348" class="grid"/>
+<text x="544.8" y="388" text-anchor="middle" class="axis">10</text>
+<line x1="734.1" y1="50" x2="734.1" y2="348" class="grid"/>
+<text x="734.1" y="388" text-anchor="middle" class="axis">100</text>
+<line x1="930.0" y1="50" x2="930.0" y2="348" class="grid"/>
+<text x="930.0" y="388" text-anchor="middle" class="axis">1000</text>
+<line x1="960.0" y1="50" x2="960.0" y2="348" class="grid"/>
+<text x="960.0" y="388" text-anchor="middle" class="axis">1422</text>
+<text x="0" y="79" class="label">FUSE001</text>
+<rect x="340" y="62" width="620" height="22" class="track"/>
+<rect x="340" y="62" width="460.2" height="22" class="bar"/>
+<text x="974" y="79" class="value">218</text>
+<text x="0" y="121" class="label">FUSE002</text>
+<rect x="340" y="104" width="620" height="22" class="track"/>
+<rect x="340" y="104" width="219.0" height="22" class="bar"/>
+<text x="974" y="121" class="value">12</text>
+<text x="0" y="163" class="label">FUSE003</text>
+<rect x="340" y="146" width="620" height="22" class="track"/>
+<rect x="340" y="146" width="212.2" height="22" class="bar"/>
+<text x="974" y="163" class="value">11</text>
+<text x="0" y="205" class="label">FUSE004</text>
+<rect x="340" y="188" width="620" height="22" class="track"/>
+<rect x="340" y="188" width="620.0" height="22" class="bar"/>
+<text x="974" y="205" class="value">1422</text>
+<text x="0" y="247" class="label">FUSE005</text>
+<rect x="340" y="230" width="620" height="22" class="track"/>
+<rect x="340" y="230" width="0.0" height="22" class="bar"/>
+<text x="974" y="247" class="value">0</text>
+<text x="0" y="289" class="label">FUSE006</text>
+<rect x="340" y="272" width="620" height="22" class="track"/>
+<rect x="340" y="272" width="0.0" height="22" class="bar"/>
+<text x="974" y="289" class="value">0</text>
+<text x="0" y="331" class="label">FUSE007</text>
+<rect x="340" y="314" width="620" height="22" class="track"/>
+<rect x="340" y="314" width="0.0" height="22" class="bar"/>
+<text x="974" y="331" class="value">0</text>
+</svg>

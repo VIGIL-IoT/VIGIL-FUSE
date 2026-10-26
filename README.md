@@ -1,10 +1,10 @@
-# VIGIL-IoT
+# FUSE
 
 ## FUSE - Firmware & Unified Security Engine
 
-**A VIGIL-IoT Project**
+**A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
-FUSE is a VIGIL-IoT module for analyzing embedded firmware, configurations, secrets, debug exposure, dependencies, and common IoT security weaknesses. It is the planned analysis and security-inspection engine of the **VIGIL-IoT - Vulnerability Intelligence & Guarding for IoT Layers** initiative.
+FUSE is the Firmware & Unified Security Engine, a VIGIL Project in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT). It analyzes embedded projects and firmware artifacts for security-relevant weaknesses, with evidence and clear coverage limits.
 
 FUSE is CLI-first and reports security signals with evidence, severity, confidence, and remediation guidance. The native scanner checks selected source and configuration files. Optional Syft and OSV-Scanner adapters can create a component inventory and match known dependency advisories. The optional Binwalk adapter identifies firmware signatures only; FUSE does not extract or execute firmware.
 
@@ -85,9 +85,9 @@ CLI → input/profile → native rules + optional analyzers → normalized findi
 
 Rules are isolated modules with metadata and a scanner function. The scanner supplies each rule with a normalized relative path and decoded source text. Rules emit the common finding model; reporters serialize it without changing its meaning. See [the architecture notes](docs/architecture.md) and the [research-backed universal-tool strategy](docs/research/universal-fuse-tool-strategy.md).
 
-## VIGIL-IoT relationship
+## Relationship to the VIGIL-IoT suite
 
-FUSE complements **SPECTRA-32** within the VIGIL-IoT architecture. A typical research workflow is:
+FUSE complements **SPECTRA-32** within the [VIGIL-IoT suite](https://github.com/VIGIL-IoT). A typical research workflow is:
 
 ```text
 embedded project → FUSE analysis → controlled SPECTRA-32 reproduction → mitigation
@@ -112,8 +112,18 @@ See the [incremental roadmap](docs/roadmap.md) and [research-backed universal-to
 
 **FUSE - Firmware & Unified Security Engine**
 
-**A VIGIL-IoT Project**
+**A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
 ## Project site
 
-The CLI-first landing page is in [site/](site/) and follows the VIGIL-IoT identity. Its report examples come from rule fixtures and are labelled as test data. Vercel serves the static site from the site output directory configured in [vercel.json](vercel.json); the analyzer package remains independent. See the [site notes](docs/website.md) for local preview instructions.
+The CLI-first landing page is in [site/](site/) and follows the FUSE identity within the [VIGIL-IoT suite](https://github.com/VIGIL-IoT). Its report examples come from rule fixtures and are labelled as test data. Vercel serves the static site from the site output directory configured in [vercel.json](vercel.json); the analyzer package remains independent. See the [site notes](docs/website.md) for local preview instructions.
+
+## Repository scan pilot
+
+On 2026-10-26, FUSE 0.1.0 scanned eight public embedded and IoT repository snapshots at pinned commits. The pilot covered nine scan scopes and 8,856 source or configuration files, producing 1,663 raw static signals. These counts are not confirmed vulnerabilities. Repeated language strings, test code, vendor libraries, source-download URLs, and overlapping OpenWrt code affect the totals. See the [scan report and scope notes](reports/repository-scans/README.md), [triage notes](reports/repository-scans/triage.md), and [machine-readable summary](reports/repository-scans/summary.json).
+
+The web page reads the generated snapshot from `site/data/repository-scan-results.json`. After updating scan reports, regenerate the summary and plots with:
+
+```powershell
+py scripts\build_repository_scan_dashboard.py
+```

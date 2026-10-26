@@ -1,0 +1,282 @@
+FUSE scan: OWASP/IoTGoat, selected OpenWrt 18.06.2 source
+Target kind: directory
+Profile: embedded-linux
+Scanned manifest SHA-256: 3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c
+Files discovered/selected: 1652/1652
+Files filtered by path policy: 0
+Files scanned: 1651
+Files skipped: 1
+Findings: 30
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+Skip reasons: not_utf8=1
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/base-files/Makefile:42
+  Evidence: http://openwrt.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/dnsmasq/Makefile:15
+  Evidence: http://thekelleys.org.uk
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/dnsmasq/Makefile:36
+  Evidence: http://www.thekelleys.org.uk
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/dropbear/Makefile:16
+  Evidence: http://matt.ucc.asn.au
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/dropbear/Makefile:39
+  Evidence: http://matt.ucc.asn.au
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/ead/Makefile:26
+  Evidence: http://bridge.sourceforge.net
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/ead/src/ead.c:47
+  Evidence: #define PASSWD_FILE "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h:96
+  Evidence: #define DEFAULT_PASSWD "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/hostapd/Makefile:12
+  Evidence: http://w1.fi
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/hostapd/Makefile:140
+  Evidence: http://hostap.epitest.fi
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/hostapd/Makefile:192
+  Evidence: http://hostap.epitest.fi
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/hostapd/Makefile:270
+  Evidence: http://hostap.epitest.fi
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/hostapd/Makefile:341
+  Evidence: http://hostap.epitest.fi
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/igmpproxy/Makefile:30
+  Evidence: http://sourceforge.net
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/ipset-dns/Makefile:14
+  Evidence: http://git.zx2c4.com
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/ipset-dns/Makefile:32
+  Evidence: http://git.zx2c4.com
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/lldpd/Makefile:15
+  Evidence: http://media.luffy.cx
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/openvpn-easy-rsa/Makefile:27
+  Evidence: http://openvpn.net
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/network/services/openvpn/Makefile:36
+  Evidence: http://openvpn.net
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/package/system/ca-certificates/Makefile:15
+  Evidence: http://ftp.debian.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/ar71xx/image/lzma-loader/src/LzmaDecode.c:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/ar71xx/image/lzma-loader/src/LzmaDecode.h:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/brcm47xx/image/lzma-loader/src/LzmaDecode.c:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/brcm47xx/image/lzma-loader/src/LzmaDecode.h:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/brcm63xx/image/lzma-loader/src/LzmaDecode.c:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/brcm63xx/image/lzma-loader/src/LzmaDecode.h:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/generic/image/lzma-loader/src/LzmaDecode.c:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/generic/image/lzma-loader/src/LzmaDecode.h:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/ramips/image/lzma-loader/src/LzmaDecode.c:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Confidence: high
+  Location: OpenWrt/openwrt-18.06.2/target/linux/ramips/image/lzma-loader/src/LzmaDecode.h:6
+  Evidence: http://www.7-zip.org
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
