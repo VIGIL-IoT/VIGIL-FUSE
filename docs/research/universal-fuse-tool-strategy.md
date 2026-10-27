@@ -154,6 +154,6 @@ These are product choices, not blockers for the current CLI:
 2. Which optional tools can users install and run in their environment, and which supported platforms will FUSE maintain?
 3. Should firmware extraction run locally in a container, a separate worker, or remain an external user-managed step in the first firmware release?
 4. Which disclosure/privacy model should apply to advisory lookups, logs, and uploaded reports?
-5. What distribution license will FUSE choose, and which upstream tools can be bundled versus documented as optional adapters?
+5. FUSE now uses a custom source-available license that allows personal and commercial use but prohibits redistribution and published modifications. This is not an OSI-approved open-source license. Continue to keep third-party tools as optional adapters and review each upstream license before bundling code or binaries.
 
 These choices affect implementation order; they do not change the core recommendation: **FUSE owns orchestration, IoT-specific evidence, and honest coverage; specialist tools own their mature extraction, language, SBOM, and advisory functions.**

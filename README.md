@@ -4,7 +4,10 @@
 
 **A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
-FUSE is released under the [MIT License](LICENSE).
+FUSE is available under the custom [VIGIL-FUSE Restricted Use License](LICENSE).
+Individuals and organizations may use it for personal or commercial work, but may
+not redistribute it or publish modified copies. It is source-available, not
+open-source software.
 
 FUSE is the Firmware & Unified Security Engine, a VIGIL Project in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT). It analyzes embedded projects and firmware artifacts for security-relevant weaknesses, with evidence and clear coverage limits.
 
