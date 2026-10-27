@@ -4,6 +4,8 @@
 
 **A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
+FUSE is released under the [MIT License](LICENSE).
+
 FUSE is the Firmware & Unified Security Engine, a VIGIL Project in the [VIGIL-IoT suite](https://github.com/VIGIL-IoT). It analyzes embedded projects and firmware artifacts for security-relevant weaknesses, with evidence and clear coverage limits.
 
 FUSE is CLI-first and reports security signals with evidence, severity, confidence, and remediation guidance. The native scanner checks selected source and configuration files. Optional Syft and OSV-Scanner adapters can create a component inventory and match known dependency advisories. The optional Binwalk adapter identifies firmware signatures only; FUSE does not extract or execute firmware.

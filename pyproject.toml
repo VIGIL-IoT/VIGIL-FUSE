@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,6 +9,8 @@ description = "FUSE, the Firmware & Unified Security Engine, a VIGIL Project"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
+license = "MIT"
+license-files = ["LICENSE"]
 keywords = ["embedded security", "firmware analysis", "IoT", "static analysis"]
 classifiers = [
   "Development Status :: 3 - Alpha",
