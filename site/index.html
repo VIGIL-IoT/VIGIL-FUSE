@@ -22,7 +22,7 @@
         }
       })();
     </script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=20261027-coverage">
     <script src="script.js" defer></script>
   </head>
   <body>
@@ -38,6 +38,7 @@
         <a href="#architecture">Architecture</a>
         <a href="#rules">Rules</a>
         <a href="#results">Results</a>
+        <a href="#coverage">Coverage</a>
         <a href="#research">Research loop</a>
       </nav>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
@@ -163,10 +164,10 @@
       <section class="scan-results page-wrap" id="results" aria-labelledby="results-title">
         <div class="section-heading reveal">
           <div>
-            <p class="scan-kicker">Repository scan pilot · 26 Oct 2026</p>
+            <p class="scan-kicker" id="scan-date">Repository scan pilot</p>
             <h2 id="results-title">A first read across embedded projects.</h2>
           </div>
-          <p>FUSE 0.2.0 rescanned pinned public source snapshots after reducing known rule noise. These are raw static indicators for review, not confirmed vulnerabilities.</p>
+          <p>This pinned source snapshot spans embedded and IoT repositories. Signals are static review leads, not confirmed vulnerabilities.</p>
         </div>
         <div class="scan-metrics" id="scan-metrics" aria-label="Scan coverage summary"></div>
         <p class="scan-severity-summary"><strong>Severity labels</strong><span id="scan-severity-counts"></span><small>Severity describes potential impact. Confidence describes evidence strength and is recorded separately.</small></p>
@@ -187,7 +188,26 @@
         <div class="scan-repository-list" id="repository-list" aria-live="polite">
           <p class="scan-loading">Loading the published scan summary...</p>
         </div>
-        <p class="scan-caveat">The scan covered different paths and file types per project. IoTGoat contains OpenWrt source also scanned in the OpenWrt snapshot, and repeated localization strings inflate Tasmota matches. See the <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/triage.md" target="_blank" rel="noreferrer">triage notes</a> for reviewed context and known detection limits.</p>
+        <p class="scan-caveat">Hardware inventory reports filename matches and categories only. It does not parse schematic or PCB contents or assess hardware security. Scopes differ by project, and IoTGoat includes OpenWrt source also scanned in the OpenWrt snapshot. See the <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/triage.md" target="_blank" rel="noreferrer">triage notes</a> for reviewed context and known detection limits.</p>
+      </section>
+
+      <section class="support-section page-wrap" id="coverage" aria-labelledby="coverage-title">
+        <div class="section-heading support-heading reveal">
+          <div>
+            <h2 id="coverage-title">What FUSE covers today.</h2>
+          </div>
+          <p>Support labels describe each capability's scope. A scan report records which stages actually ran, what was skipped, and where coverage remains limited.</p>
+        </div>
+        <dl class="support-legend reveal" id="support-legend" aria-label="Meaning of support labels">
+          <div><dt>Basic</dt><dd>Documented checks on selected inputs.</dd></div>
+          <div><dt>Experimental</dt><dd>Opt-in analysis with limited or evolving scope.</dd></div>
+          <div><dt>Detected</dt><dd>FUSE recognizes the artifact but does not assess its security.</dd></div>
+          <div><dt>Planned</dt><dd>No analyzer is available yet.</dd></div>
+        </dl>
+        <div class="support-list" id="support-list" aria-live="polite">
+          <p class="scan-loading">Loading the FUSE capability matrix...</p>
+        </div>
+        <p class="support-note reveal">A support label is not a security rating or compliance result. Read the scan's coverage and limitations before interpreting an empty finding list.</p>
       </section>
 
       <section class="workflow page-wrap" id="workflow" aria-labelledby="workflow-title">
@@ -216,7 +236,7 @@
             <div class="output-panel" data-ui="output-folder">
               <p class="output-title"><span class="folder-mark" aria-hidden="true"></span><code>.fuse-results/</code></p>
               <ul>
-                <li><code>findings.json</code><small>schema 1.2</small></li>
+                <li><code>findings.json</code><small>schema 1.7</small></li>
                 <li><code>findings.txt</code><small>human readable</small></li>
                 <li><code>findings.sarif</code><small>tool interchange</small></li>
               </ul>
@@ -224,7 +244,7 @@
             </div>
           </div>
         </div>
-        <p class="workflow-boundary reveal">Native rules inspect selected text and configuration files. Optional Syft and OSV-Scanner adapters add component inventory and advisory matching. Optional Binwalk identifies firmware signatures only; FUSE does not extract or execute firmware.</p>
+        <p class="workflow-boundary reveal">Native rules inspect selected text and configuration files. Optional Syft and OSV-Scanner adapters add component inventory and advisory matching. Baseline review tracks new, persistent and resolved findings; reasoned suppressions remain counted, and incomplete scans never mark missing findings resolved. Optional Binwalk identifies firmware signatures only; FUSE does not extract or execute firmware.</p>
       </section>
 
       <section class="archify-section page-wrap" id="architecture" aria-labelledby="architecture-title">
@@ -300,7 +320,7 @@
         <div class="validation-panel reveal" aria-labelledby="validation-title">
           <h3 id="validation-title">Fixture coverage.</h3>
           <p class="validation-count"><strong>7</strong><span>rules have vulnerable and secure fixture cases with expected outcomes.</span></p>
-          <p class="validation-limit"><strong>8 repository snapshots scanned</strong>Source and configuration scopes only. No physical boards or live devices were tested.</p>
+          <p class="validation-limit"><strong><span id="repo-snapshot-count">14</span> repository snapshots scanned</strong>Source and configuration scopes only. No physical boards or live devices were tested.</p>
         </div>
         <aside class="research-tile reveal" aria-label="How FUSE complements SPECTRA-32">
           <p class="tile-label">Planned <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL-IoT</a> research loop</p>
@@ -321,12 +341,12 @@
         <div class="footer-bottom">
           <div class="footer-identity"><p>Firmware &amp; Unified Security Engine</p><p>A <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL</a> Project</p><p>Vulnerability Intelligence &amp; Guarding for IoT Layers</p></div>
           <nav class="footer-links" aria-label="Footer navigation">
-            <a href="#workflow">Workflow</a><a href="#architecture">Architecture</a><a href="#rules">Rules</a><a href="#results">Results</a>
+            <a href="#workflow">Workflow</a><a href="#architecture">Architecture</a><a href="#rules">Rules</a><a href="#results">Results</a><a href="#coverage">Coverage</a>
             <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
           </nav>
           <a class="back-top" href="#top">Back to top ↑</a>
         </div>
-        <p class="footer-legal">FUSE is an early, CLI-first project in the <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL-IoT suite</a>. Findings describe observed signals and their limits.</p>
+        <p class="footer-legal">FUSE is an early, CLI-first <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL Project</a>. Findings describe observed signals and their limits.</p>
       </div>
     </footer>
   </body>

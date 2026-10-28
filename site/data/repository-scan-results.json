@@ -1,39 +1,49 @@
 {
-  "generated_at": "2026-10-26T17:34:08Z",
-  "scan_date": "2026-10-26",
+  "generated_at": "2026-10-27T21:09:57Z",
+  "scan_date": "2026-10-28",
   "fuse": {
     "version": "0.2.0",
-    "commit": "6a32e8782eb614612bc27bba525510c632e0bf83"
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "8bc132b4c4bc2595884cc9db269641b1a50ff5c15a539e6c0fa7e39a8afba069",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
   },
-  "latest_scan_completed_at": "2026-10-26T17:34:00Z",
+  "latest_scan_completed_at": "2026-10-27T21:09:54Z",
   "interpretation": "Raw static indicators from the listed source/configuration scopes. Findings are not confirmed vulnerabilities.",
   "totals": {
-    "repository_count": 8,
-    "scan_scope_count": 9,
-    "files_discovered": 9590,
-    "files_selected": 9463,
-    "files_scanned": 9460,
-    "files_skipped": 3,
-    "finding_count": 20,
+    "repository_count": 14,
+    "scan_scope_count": 15,
+    "files_discovered": 18999,
+    "files_selected": 18859,
+    "files_scanned": 18855,
+    "files_skipped": 4,
+    "hardware_file_count": 28,
+    "hardware_category_counts": {
+      "hardware-project": 27,
+      "netlist": 1
+    },
+    "hardware_inventory_complete": true,
+    "finding_count": 61,
     "severity_counts": {
       "critical": 0,
-      "high": 13,
-      "medium": 7,
+      "high": 19,
+      "medium": 42,
       "low": 0,
       "info": 0,
       "unknown": 0
     },
     "rule_counts": {
-      "FUSE001": 5,
-      "FUSE002": 3,
-      "FUSE003": 10,
+      "FUSE001": 40,
+      "FUSE002": 4,
+      "FUSE003": 15,
       "FUSE004": 2,
       "FUSE005": 0,
       "FUSE006": 0,
       "FUSE007": 0
     },
     "files_skipped_by_reason": {
-      "not_utf8": 1,
+      "not_utf8": 2,
       "too_large": 2
     }
   },
@@ -58,6 +68,18 @@
           },
           "finding_count": 1,
           "analysis_performed": true,
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c",
           "report_files": {
             "json": "reports/repository-scans/iotgoat/findings.json",
@@ -73,6 +95,9 @@
       "files_selected": 1652,
       "files_scanned": 1651,
       "files_skipped": 1,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
       "finding_count": 1,
       "severity_counts": {
         "critical": 0,
@@ -131,6 +156,22 @@
           },
           "finding_count": 15,
           "analysis_performed": true,
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 2,
+          "hardware_category_counts": {
+            "hardware-project": 2
+          },
+          "hardware_inventory": {
+            "present": true,
+            "file_count": 2,
+            "category_counts": {
+              "hardware-project": 2
+            },
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638",
           "report_files": {
             "json": "reports/repository-scans/tasmota/findings.json",
@@ -146,6 +187,11 @@
       "files_selected": 6802,
       "files_scanned": 6800,
       "files_skipped": 2,
+      "hardware_file_count": 2,
+      "hardware_category_counts": {
+        "hardware-project": 2
+      },
+      "hardware_inventory_complete": true,
       "finding_count": 15,
       "severity_counts": {
         "critical": 0,
@@ -254,13 +300,25 @@
           "id": "esp-idf-mqtt",
           "profile": "esp-idf",
           "scope": "examples/protocols/mqtt",
-          "files_discovered": 94,
+          "files_discovered": 98,
           "files_selected": 8,
           "files_scanned": 8,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc",
           "report_files": {
             "json": "reports/repository-scans/esp-idf-mqtt/findings.json",
@@ -275,14 +333,26 @@
           "id": "esp-idf-ota",
           "profile": "esp-idf",
           "scope": "examples/system/ota",
-          "files_discovered": 94,
-          "files_selected": 65,
-          "files_scanned": 65,
+          "files_discovered": 98,
+          "files_selected": 69,
+          "files_scanned": 69,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
-          "input_manifest_sha256": "527e86dc20ec1ecdbd0792f7aa139a90414ab718e3b769c3ab3252916511d35c",
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "707c519ba8dfdc796b7788eb468b363c0f0a788658567aa99ff77023380d4ba9",
           "report_files": {
             "json": "reports/repository-scans/esp-idf-ota/findings.json",
             "text": "reports/repository-scans/esp-idf-ota/findings.txt",
@@ -293,10 +363,13 @@
           }
         }
       ],
-      "files_discovered": 188,
-      "files_selected": 73,
-      "files_scanned": 73,
+      "files_discovered": 196,
+      "files_selected": 77,
+      "files_scanned": 77,
       "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
       "finding_count": 0,
       "severity_counts": {
         "critical": 0,
@@ -335,6 +408,18 @@
           "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "b5c022ed006e8f5a46538c06acdb1ca497bf98a11ed5cf02fa70feef8a08b7db",
           "report_files": {
             "json": "reports/repository-scans/esphome-devices/findings.json",
@@ -350,6 +435,9 @@
       "files_selected": 73,
       "files_scanned": 73,
       "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
       "finding_count": 0,
       "severity_counts": {
         "critical": 0,
@@ -388,6 +476,18 @@
           "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760",
           "report_files": {
             "json": "reports/repository-scans/arduino-examples/findings.json",
@@ -403,6 +503,9 @@
       "files_selected": 92,
       "files_scanned": 92,
       "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
       "finding_count": 0,
       "severity_counts": {
         "critical": 0,
@@ -441,6 +544,22 @@
           "files_skipped_by_reason": {},
           "finding_count": 3,
           "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 25,
+          "hardware_category_counts": {
+            "hardware-project": 25
+          },
+          "hardware_inventory": {
+            "present": true,
+            "file_count": 25,
+            "category_counts": {
+              "hardware-project": 25
+            },
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42",
           "report_files": {
             "json": "reports/repository-scans/pico-examples/findings.json",
@@ -456,6 +575,11 @@
       "files_selected": 373,
       "files_scanned": 373,
       "files_skipped": 0,
+      "hardware_file_count": 25,
+      "hardware_category_counts": {
+        "hardware-project": 25
+      },
+      "hardware_inventory_complete": true,
       "finding_count": 3,
       "severity_counts": {
         "critical": 0,
@@ -522,6 +646,18 @@
           "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "ce5784ac1cdb575cc7e1264554727902b0a96cb6dd72cc8e7194ad91c0aea93c",
           "report_files": {
             "json": "reports/repository-scans/zephyr-net-samples/findings.json",
@@ -537,6 +673,9 @@
       "files_selected": 30,
       "files_scanned": 30,
       "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
       "finding_count": 0,
       "severity_counts": {
         "critical": 0,
@@ -575,6 +714,18 @@
           "files_skipped_by_reason": {},
           "finding_count": 1,
           "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
           "input_manifest_sha256": "5f027ca78e90de016aaf8d26fcf5e6c47de03d75c8b0af2582b5cf375e5804df",
           "report_files": {
             "json": "reports/repository-scans/openwrt/findings.json",
@@ -590,6 +741,9 @@
       "files_selected": 368,
       "files_scanned": 368,
       "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
       "finding_count": 1,
       "severity_counts": {
         "critical": 0,
@@ -627,6 +781,495 @@
           ]
         }
       ]
+    },
+    {
+      "id": "pico-sdk",
+      "name": "raspberrypi/pico-sdk",
+      "url": "https://github.com/raspberrypi/pico-sdk",
+      "commit": "079c6f39023649b154152db30f1d781e884879bc",
+      "profile": "generic",
+      "scopes": [
+        {
+          "id": "pico-sdk",
+          "profile": "generic",
+          "scope": "SDK C/C++ sources, public headers, library code, CMake files, and tools",
+          "files_discovered": 774,
+          "files_selected": 772,
+          "files_scanned": 772,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 1,
+          "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "f396d01c6b95f71a3838c5a46b44f70eee226a1832a56e72a38ec75facf70f50",
+          "report_files": {
+            "json": "reports/repository-scans/pico-sdk/findings.json",
+            "text": "reports/repository-scans/pico-sdk/findings.txt",
+            "sarif": "reports/repository-scans/pico-sdk/findings.sarif",
+            "github_json": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/pico-sdk/findings.json",
+            "github_text": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/pico-sdk/findings.txt",
+            "github_sarif": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/pico-sdk/findings.sarif"
+          }
+        }
+      ],
+      "files_discovered": 774,
+      "files_selected": 772,
+      "files_scanned": 772,
+      "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
+      "finding_count": 1,
+      "severity_counts": {
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 1,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "finding_groups": [
+        {
+          "rule_id": "FUSE002",
+          "title": "Private key PEM marker embedded in scanned file",
+          "severity": "high",
+          "category": "secrets",
+          "count": 1,
+          "confidence_counts": {
+            "high": 1
+          },
+          "examples": [
+            {
+              "scan_id": "pico-sdk",
+              "file": "tools/example_keys/private.pem",
+              "line": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arduino-esp32",
+      "name": "espressif/arduino-esp32",
+      "url": "https://github.com/espressif/arduino-esp32",
+      "commit": "8e29d4de275cf58c767f453ff6ed26bea692dfec",
+      "profile": "generic",
+      "scopes": [
+        {
+          "id": "arduino-esp32",
+          "profile": "generic",
+          "scope": "Arduino-ESP32 core, libraries, variants, and ESP-IDF component examples",
+          "files_discovered": 1784,
+          "files_selected": 1778,
+          "files_scanned": 1778,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 40,
+          "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "1045c5f3cafe0b358a3bafc755e821bedb3f07ed0d1fc3ca1e6c5dffa71aba5b",
+          "report_files": {
+            "json": "reports/repository-scans/arduino-esp32/findings.json",
+            "text": "reports/repository-scans/arduino-esp32/findings.txt",
+            "sarif": "reports/repository-scans/arduino-esp32/findings.sarif",
+            "github_json": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/arduino-esp32/findings.json",
+            "github_text": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/arduino-esp32/findings.txt",
+            "github_sarif": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/arduino-esp32/findings.sarif"
+          }
+        }
+      ],
+      "files_discovered": 1784,
+      "files_selected": 1778,
+      "files_scanned": 1778,
+      "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
+      "finding_count": 40,
+      "severity_counts": {
+        "critical": 0,
+        "high": 5,
+        "medium": 35,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "rule_counts": {
+        "FUSE001": 35,
+        "FUSE002": 0,
+        "FUSE003": 5,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "finding_groups": [
+        {
+          "rule_id": "FUSE001",
+          "title": "Credential-like literal assigned in source",
+          "severity": "medium",
+          "category": "secrets",
+          "count": 35,
+          "confidence_counts": {
+            "high": 35
+          },
+          "examples": [
+            {
+              "scan_id": "arduino-esp32",
+              "file": "libraries/ArduinoOTA/examples/BasicOTA/BasicOTA.ino",
+              "line": 22
+            },
+            {
+              "scan_id": "arduino-esp32",
+              "file": "libraries/ArduinoOTA/examples/SignedOTA/SignedOTA.ino",
+              "line": 49
+            },
+            {
+              "scan_id": "arduino-esp32",
+              "file": "libraries/ESPmDNS/examples/mDNS_Web_Server/mDNS_Web_Server.ino",
+              "line": 24
+            }
+          ]
+        },
+        {
+          "rule_id": "FUSE003",
+          "title": "TLS peer verification appears disabled",
+          "severity": "high",
+          "category": "transport-security",
+          "count": 5,
+          "confidence_counts": {
+            "high": 5
+          },
+          "examples": [
+            {
+              "scan_id": "arduino-esp32",
+              "file": "libraries/HTTPClient/src/HTTPClient.cpp",
+              "line": 90
+            },
+            {
+              "scan_id": "arduino-esp32",
+              "file": "libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino",
+              "line": 40
+            },
+            {
+              "scan_id": "arduino-esp32",
+              "file": "libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino",
+              "line": 86
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "buildroot",
+      "name": "buildroot/buildroot",
+      "url": "https://github.com/buildroot/buildroot",
+      "commit": "1cfdb4efd539ad5917bc43ac806a95687e7f4b6b",
+      "profile": "embedded-linux",
+      "scopes": [
+        {
+          "id": "buildroot",
+          "profile": "embedded-linux",
+          "scope": "Buildroot package recipes, board support, system configuration, and package tooling",
+          "files_discovered": 4822,
+          "files_selected": 4821,
+          "files_scanned": 4820,
+          "files_skipped": 1,
+          "files_skipped_by_reason": {
+            "not_utf8": 1
+          },
+          "finding_count": 0,
+          "analysis_performed": true,
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "bc7dc42ba14a6e5a37ae4a77e1490698aedc389c9e022386354c8837b50102a9",
+          "report_files": {
+            "json": "reports/repository-scans/buildroot/findings.json",
+            "text": "reports/repository-scans/buildroot/findings.txt",
+            "sarif": "reports/repository-scans/buildroot/findings.sarif",
+            "github_json": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/buildroot/findings.json",
+            "github_text": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/buildroot/findings.txt",
+            "github_sarif": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/buildroot/findings.sarif"
+          }
+        }
+      ],
+      "files_discovered": 4822,
+      "files_selected": 4821,
+      "files_scanned": 4820,
+      "files_skipped": 1,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
+      "finding_count": 0,
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "finding_groups": []
+    },
+    {
+      "id": "openembedded-core",
+      "name": "openembedded/openembedded-core",
+      "url": "https://github.com/openembedded/openembedded-core",
+      "commit": "fa83da7da277a641c3a997d3da26041fa46d48ab",
+      "profile": "embedded-linux",
+      "scopes": [
+        {
+          "id": "openembedded-core",
+          "profile": "embedded-linux",
+          "scope": "OpenEmbedded Core classes, configuration, recipes, and build scripts",
+          "files_discovered": 819,
+          "files_selected": 819,
+          "files_scanned": 819,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 1,
+          "hardware_category_counts": {
+            "netlist": 1
+          },
+          "hardware_inventory": {
+            "present": true,
+            "file_count": 1,
+            "category_counts": {
+              "netlist": 1
+            },
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "61e47efcef471d9b091281de20ce95fe24460f69062d9f1867808d81449c4e5c",
+          "report_files": {
+            "json": "reports/repository-scans/openembedded-core/findings.json",
+            "text": "reports/repository-scans/openembedded-core/findings.txt",
+            "sarif": "reports/repository-scans/openembedded-core/findings.sarif",
+            "github_json": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/openembedded-core/findings.json",
+            "github_text": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/openembedded-core/findings.txt",
+            "github_sarif": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/openembedded-core/findings.sarif"
+          }
+        }
+      ],
+      "files_discovered": 819,
+      "files_selected": 819,
+      "files_scanned": 819,
+      "files_skipped": 0,
+      "hardware_file_count": 1,
+      "hardware_category_counts": {
+        "netlist": 1
+      },
+      "hardware_inventory_complete": true,
+      "finding_count": 0,
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "finding_groups": []
+    },
+    {
+      "id": "meta-openembedded",
+      "name": "openembedded/meta-openembedded",
+      "url": "https://github.com/openembedded/meta-openembedded",
+      "commit": "53276e6882048b990201b3c230e0b1fd0b8311b6",
+      "profile": "embedded-linux",
+      "scopes": [
+        {
+          "id": "meta-openembedded",
+          "profile": "embedded-linux",
+          "scope": "OpenEmbedded community recipes for core, networking, security, cryptography, and Python tools",
+          "files_discovered": 1183,
+          "files_selected": 1183,
+          "files_scanned": 1183,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "164282ede4646a44f291ec117a6cc18c88917a738f00283c6de8d2877a52094c",
+          "report_files": {
+            "json": "reports/repository-scans/meta-openembedded/findings.json",
+            "text": "reports/repository-scans/meta-openembedded/findings.txt",
+            "sarif": "reports/repository-scans/meta-openembedded/findings.sarif",
+            "github_json": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/meta-openembedded/findings.json",
+            "github_text": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/meta-openembedded/findings.txt",
+            "github_sarif": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/meta-openembedded/findings.sarif"
+          }
+        }
+      ],
+      "files_discovered": 1183,
+      "files_selected": 1183,
+      "files_scanned": 1183,
+      "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
+      "finding_count": 0,
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "finding_groups": []
+    },
+    {
+      "id": "meta-yocto",
+      "name": "yoctoproject/meta-yocto",
+      "url": "https://github.com/yoctoproject/meta-yocto",
+      "commit": "82013b83db7ba41da07694e201a7c43f561a9e00",
+      "profile": "embedded-linux",
+      "scopes": [
+        {
+          "id": "meta-yocto",
+          "profile": "embedded-linux",
+          "scope": "Poky distribution configuration and Yocto board support recipes",
+          "files_discovered": 19,
+          "files_selected": 19,
+          "files_scanned": 19,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "analysis_performed": true,
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_file_count": 0,
+          "hardware_category_counts": {},
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "hardware_inventory_complete": true,
+          "input_manifest_sha256": "d4a457fe449675df2331bfb6847ad4b14e15d0bcd084592be395a777e1fa929b",
+          "report_files": {
+            "json": "reports/repository-scans/meta-yocto/findings.json",
+            "text": "reports/repository-scans/meta-yocto/findings.txt",
+            "sarif": "reports/repository-scans/meta-yocto/findings.sarif",
+            "github_json": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/meta-yocto/findings.json",
+            "github_text": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/meta-yocto/findings.txt",
+            "github_sarif": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/meta-yocto/findings.sarif"
+          }
+        }
+      ],
+      "files_discovered": 19,
+      "files_selected": 19,
+      "files_scanned": 19,
+      "files_skipped": 0,
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "hardware_inventory_complete": true,
+      "finding_count": 0,
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "finding_groups": []
     }
   ]
 }

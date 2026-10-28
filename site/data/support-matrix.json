@@ -1,0 +1,158 @@
+{
+  "schema_version": "1.0",
+  "labels": {
+    "detected": "FUSE recognizes the input or artifact type, but this alone means no security analyzer completed.",
+    "basic": "Documented native checks ran over selected file types without resolving the effective product build.",
+    "supported": "The named input, tool versions, operating systems, and positive, negative, and boundary cases have regression coverage.",
+    "partial": "Some useful stages completed while an applicable stage was skipped, unavailable, or failed.",
+    "experimental": "An opt-in adapter is available, but its scope or output contract is not stable enough for a broad support claim.",
+    "planned": "No analysis capability is available yet.",
+    "unsupported": "FUSE did not select a security analyzer for this input type."
+  },
+  "capabilities": [
+    {
+      "id": "source.generic",
+      "input": "Common source and configuration files",
+      "profile": "generic",
+      "label": "basic",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    {
+      "id": "source.esp-idf",
+      "input": "ESP-IDF source and configuration files",
+      "profile": "esp-idf",
+      "label": "basic",
+      "scope": "Generic native rules plus explicit boot-image validation setting checks.",
+      "limitations": [
+        "Source-only settings are conditional",
+        "Generated build inspection requires explicit --build-dir",
+        "Does not prove the selected build is released"
+      ]
+    },
+    {
+      "id": "source.zephyr",
+      "input": "Zephyr source and configuration files",
+      "profile": "zephyr",
+      "label": "basic",
+      "scope": "Generic native rules over the expanded Zephyr file profile.",
+      "limitations": [
+        "Generated build metadata requires explicit --build-dir",
+        "Does not run Zephyr hardenconfig",
+        "Does not prove the selected build is released"
+      ]
+    },
+    {
+      "id": "build-context.esp-idf",
+      "input": "User-selected ESP-IDF build directory",
+      "profile": "esp-idf",
+      "label": "experimental",
+      "scope": "Reads bounded generated sdkconfig metadata, records selected sdkconfig and defaults provenance, and applies initial boot-validation checks to the selected configuration.",
+      "limitations": [
+        "Does not invoke the build system",
+        "Does not prove that the selected build is shipped",
+        "Does not evaluate Kconfig dependencies"
+      ]
+    },
+    {
+      "id": "build-context.zephyr",
+      "input": "User-selected Zephyr build directory",
+      "profile": "zephyr",
+      "label": "experimental",
+      "scope": "Reads bounded generated Kconfig metadata and can import the selected build's JSON report from Zephyr hardenconfig.",
+      "limitations": [
+        "Does not invoke west or the build system",
+        "Hardening results require an explicit report produced by Zephyr",
+        "Does not prove that the selected build is shipped"
+      ]
+    },
+    {
+      "id": "inventory.esp-idf-lock",
+      "input": "ESP-IDF dependencies.lock",
+      "profile": "esp-idf",
+      "label": "experimental",
+      "scope": "Optional, bounded inventory of resolved component versions and dependency edges.",
+      "limitations": [
+        "Requires the optional PyYAML extra",
+        "Does not prove a resolved component was built or shipped",
+        "Manifest freshness is not verified"
+      ]
+    },
+    {
+      "id": "source.embedded-linux",
+      "input": "Embedded Linux source, service, and recipe files",
+      "profile": "embedded-linux",
+      "label": "basic",
+      "scope": "Generic native rules over the expanded embedded Linux file profile.",
+      "limitations": [
+        "Does not resolve the selected image build or installed package set"
+      ]
+    },
+    {
+      "id": "inventory.sbom-detected",
+      "input": "CycloneDX or SPDX SBOM",
+      "profile": null,
+      "label": "detected",
+      "scope": "Recognizes the supplied inventory and records it as the analysis target.",
+      "limitations": [
+        "Advisory matching requires OSV-Scanner"
+      ]
+    },
+    {
+      "id": "inventory.sbom-advisories",
+      "input": "CycloneDX or SPDX SBOM with advisory lookup",
+      "profile": null,
+      "label": "basic",
+      "scope": "Matches identified package versions to OSV advisories.",
+      "limitations": [
+        "Does not prove package inclusion in a shipped device or vulnerable code reachability"
+      ]
+    },
+    {
+      "id": "firmware.signature-identification",
+      "input": "Single firmware image with Binwalk",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional signature identification only.",
+      "limitations": [
+        "No extraction, filesystem analysis, or execution",
+        "Default 512 MiB input cap is configurable up to 2 GiB"
+      ]
+    },
+    {
+      "id": "history.git-secrets",
+      "input": "Git commits reachable from HEAD",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional Gitleaks history scan with redacted finding metadata.",
+      "limitations": [
+        "Requires Git and Gitleaks",
+        "Shallow history is partial",
+        "Does not validate whether a matched credential is still usable"
+      ]
+    },
+    {
+      "id": "hardware.presence-inventory",
+      "input": "Schematics, PCB, fabrication, BOM, CAD, netlist, and HDL files",
+      "profile": null,
+      "label": "detected",
+      "scope": "Filename-based presence inventory with category counts and paths.",
+      "limitations": [
+        "Does not parse files or assess hardware security"
+      ]
+    },
+    {
+      "id": "runtime.lab-validation",
+      "input": "Physical device or controlled lab evidence",
+      "profile": null,
+      "label": "planned",
+      "scope": "Future linked validation with tools such as SPECTRA-32.",
+      "limitations": [
+        "Not performed by the current FUSE scanner"
+      ]
+    }
+  ]
+}

@@ -144,7 +144,24 @@ function element(tag, className, text) {
 
 function externalLink(label, href, className = "") {
   const link = element("a", className, label);
-  link.href = href;
+  let parsed;
+  try {
+    parsed = new URL(href, window.location.href);
+  } catch {
+    parsed = null;
+  }
+  if (
+    !parsed
+    || parsed.protocol !== "https:"
+    || parsed.hostname.toLowerCase() !== "github.com"
+    || parsed.username
+    || parsed.password
+  ) {
+    link.setAttribute("aria-disabled", "true");
+    link.title = "Link omitted because it is not an approved HTTPS GitHub URL.";
+    return link;
+  }
+  link.href = parsed.href;
   link.target = "_blank";
   link.rel = "noreferrer";
   return link;
@@ -154,13 +171,26 @@ function renderScanMetrics(data) {
   const root = document.querySelector("#scan-metrics");
   if (!root) return;
   const totals = data.totals;
+  const repositoryCount = document.querySelector("#repo-snapshot-count");
+  if (repositoryCount) repositoryCount.textContent = numberFormat.format(totals.repository_count);
+  const scanDate = document.querySelector("#scan-date");
+  if (scanDate && /^\d{4}-\d{2}-\d{2}$/.test(data.scan_date || "")) {
+    const date = new Date(`${data.scan_date}T00:00:00Z`);
+    scanDate.textContent = `Repository scan pilot · ${new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC"
+    }).format(date)}`;
+  }
   const severityCounts = document.querySelector("#scan-severity-counts");
   if (severityCounts) severityCounts.textContent = `${numberFormat.format(totals.severity_counts.high)} high · ${numberFormat.format(totals.severity_counts.medium)} medium`;
   const metrics = [
     [numberFormat.format(totals.finding_count), "raw FUSE signals"],
     [numberFormat.format(totals.repository_count), "repository snapshots"],
     [numberFormat.format(totals.files_scanned), "supported files scanned"],
-    [numberFormat.format(totals.files_skipped), "files skipped by scanner"]
+    [numberFormat.format(totals.files_skipped), "files skipped by scanner"],
+    [numberFormat.format(totals.hardware_file_count || 0), "hardware artifacts inventoried"]
   ];
   root.replaceChildren(...metrics.map(([value, label]) => {
     const item = element("div", "scan-metric");
@@ -233,16 +263,29 @@ function renderRepositoryDetails(data) {
     meta.append(
       element("span", "", `${numberFormat.format(repo.files_scanned)} files scanned`),
       element("span", "", `${numberFormat.format(repo.severity_counts.high)} high severity labels`),
-      element("span", "", `${numberFormat.format(repo.severity_counts.medium)} medium severity labels`)
+      element("span", "", `${numberFormat.format(repo.severity_counts.medium)} medium severity labels`),
+      element("span", "", `${numberFormat.format(repo.hardware_file_count || 0)} hardware artifacts inventoried`)
     );
     body.append(meta);
 
     const scopes = element("ul", "scan-scopes");
     repo.scopes.forEach((scope) => {
       const item = element("li", "scan-scope");
+      const hardware = scope.hardware_inventory || {};
+      const hardwareCategories = Object.entries(hardware.category_counts || {})
+        .map(([category, count]) => `${numberFormat.format(count)} ${category}`)
+        .join(" · ");
+      const hardwareLabel = hardware.file_count
+        ? `${numberFormat.format(hardware.file_count)} hardware artifacts${hardwareCategories ? ` · ${hardwareCategories}` : ""}`
+        : `No recognized hardware artifacts${hardware.complete ? "" : " · inventory partial"}`;
       item.append(
         element("p", "", scope.scope),
-        element("small", "", `${scope.profile} profile · ${numberFormat.format(scope.files_scanned)} files · ${numberFormat.format(scope.finding_count)} signals`)
+        element(
+          "small",
+          "",
+          `${scope.profile} profile · ${numberFormat.format(scope.files_scanned)} files · ${numberFormat.format(scope.finding_count)} signals · ${scope.scan_status || "status unavailable"} scan · ${scope.support_label || "support unlabelled"}`
+        ),
+        element("small", "", hardwareLabel)
       );
       scopes.append(item);
     });
@@ -297,6 +340,69 @@ function renderRepositoryDetails(data) {
   }));
 }
 
+function renderSupportMatrix(data) {
+  const list = document.querySelector("#support-list");
+  const legend = document.querySelector("#support-legend");
+  if (!list || !Array.isArray(data.capabilities) || !data.labels || typeof data.labels !== "object") return;
+
+  const usedLabels = [...new Set(data.capabilities.map((capability) => capability.label))]
+    .filter((label) => typeof label === "string" && data.labels[label]);
+  if (legend) {
+    legend.replaceChildren(...usedLabels.map((label) => {
+      const entry = element("div", "");
+      entry.append(element("dt", "", label[0].toUpperCase() + label.slice(1)));
+      entry.append(element("dd", "", data.labels[label]));
+      return entry;
+    }));
+  }
+
+  const entries = data.capabilities.map((capability) => {
+    const details = element("details", "support-entry");
+    const summary = element("summary", "support-entry-summary");
+    const identity = element("span", "support-entry-identity");
+    identity.append(element("strong", "", capability.input || "Unspecified input"));
+    identity.append(element("code", "support-entry-id", capability.id || "unknown"));
+    summary.append(identity);
+
+    const scope = element("span", "support-entry-scope", capability.scope || "Scope not documented.");
+    summary.append(scope);
+    const knownLabels = ["basic", "supported", "partial", "experimental", "detected", "planned", "unsupported"];
+    const status = knownLabels.includes(capability.label) ? capability.label : "unknown";
+    summary.append(element("span", `support-status support-status-${status}`, status));
+    summary.append(element("span", "support-entry-caret", "＋"));
+    details.append(summary);
+
+    const body = element("div", "support-entry-details");
+    const limitations = Array.isArray(capability.limitations) ? capability.limitations : [];
+    body.append(element("strong", "", "Limits"));
+    if (limitations.length) {
+      const listNode = element("ul", "");
+      limitations.forEach((limitation) => listNode.append(element("li", "", String(limitation))));
+      body.append(listNode);
+    } else {
+      body.append(element("p", "", "No additional limitations recorded."));
+    }
+    details.append(body);
+    details.addEventListener("toggle", () => {
+      const caret = details.querySelector(".support-entry-caret");
+      if (caret) caret.textContent = details.open ? "−" : "＋";
+    });
+    return details;
+  });
+  list.replaceChildren(...entries);
+}
+
+async function loadSupportMatrix() {
+  try {
+    const response = await fetch("data/support-matrix.json", { cache: "no-cache" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    renderSupportMatrix(await response.json());
+  } catch {
+    const list = document.querySelector("#support-list");
+    if (list) list.replaceChildren(element("p", "scan-empty", "The capability matrix could not be loaded. The support limits remain documented in the repository."));
+  }
+}
+
 async function loadRepositoryScanResults() {
   try {
     const response = await fetch("data/repository-scan-results.json", { cache: "no-cache" });
@@ -329,6 +435,7 @@ async function loadRepositoryScanResults() {
 }
 
 loadRepositoryScanResults();
+loadSupportMatrix();
 
 const revealItems = document.querySelectorAll(".reveal, .workflow-step, .rule-table tbody tr, .boundary-columns p");
 if ("IntersectionObserver" in window) {
