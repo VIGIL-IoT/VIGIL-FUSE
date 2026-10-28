@@ -27,6 +27,9 @@ classifiers = [
   "Topic :: Software Development :: Quality Assurance",
 ]
 
+[project.optional-dependencies]
+esp-idf = ["PyYAML>=6,<7"]
+
 [project.urls]
 Repository = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 Issues = "https://github.com/VIGIL-IoT/VIGIL-FUSE/issues"
@@ -38,4 +41,4 @@ vigil-fuse = "vigil_fuse.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-vigil_fuse = ["schemas/*.json"]
+vigil_fuse = ["schemas/*.json", "support-matrix.json"]

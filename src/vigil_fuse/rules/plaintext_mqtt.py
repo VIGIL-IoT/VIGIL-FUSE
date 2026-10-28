@@ -57,4 +57,5 @@ RULE = RuleDefinition(
     scanner=_scan,
     version="1.1.0",
     references=("https://cwe.mitre.org/data/definitions/319.html",),
+    prefilter=lambda source: "mqtt:" in source.text.casefold(),
 )

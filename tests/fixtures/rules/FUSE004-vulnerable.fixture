@@ -1,2 +1,2 @@
-API_URL = "http://api.device.example/v1/status"
+API_URL = "http://api.device.local/v1/status"
 LISTEN_URL = "http://0.0.0.0:8080"

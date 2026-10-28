@@ -1,6 +1,7 @@
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from vigil_fuse.input_types import is_sbom_file
 
@@ -27,6 +28,13 @@ class InputTypeTests(unittest.TestCase):
             source = Path(temporary) / "inventory.spdx"
             source.write_text("SPDXVersion: SPDX-2.3\nDataLicense: CC0-1.0\n", encoding="utf-8")
             self.assertTrue(is_sbom_file(source))
+
+    def test_sbom_detection_reads_no_more_than_the_configured_limit(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "bom.json"
+            source.write_bytes(b'{"bomFormat":"CycloneDX"}')
+            with patch("vigil_fuse.input_types.MAX_SBOM_DETECTION_BYTES", 8):
+                self.assertFalse(is_sbom_file(source))
 
 
 if __name__ == "__main__":

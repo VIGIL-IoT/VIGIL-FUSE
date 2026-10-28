@@ -1,1 +1,1 @@
-client = requests.get(endpoint, verify=False)
+client = requests.get("https://device.example", verify=False)

@@ -14,6 +14,27 @@ _BYPASS_PATTERNS = (
     re.compile(r"(?i)\bInsecureSkipVerify\s*:\s*true\b"),
     re.compile(r"(?i)\.\s*setInsecure\s*\(\s*\)"),
 )
+_BYPASS_PREFILTER_TOKENS = (
+    "verify", "check_hostname", "cert_none", "insecure_skip_verify", "insecureskipverify", "setinsecure",
+)
+_TLS_CONTEXT = re.compile(
+    r"(?i)(?:\b(?:tls|ssl|https|certificate|certificates|cert_verify|verify_peer|peer_verification)\b|https?://)"
+)
+
+
+def _may_contain_tls_bypass(source: SourceFile) -> bool:
+    lowered = source.text.casefold()
+    return any(token in lowered for token in _BYPASS_PREFILTER_TOKENS)
+
+
+def _has_tls_context(source: SourceFile, line: str) -> bool:
+    if _TLS_CONTEXT.search(source.path) or _TLS_CONTEXT.search(line):
+        return True
+    code = "\n".join(
+        code_without_string_literals(candidate)
+        for _, candidate in iter_code_lines(source.text, source.path)
+    )
+    return bool(_TLS_CONTEXT.search(code))
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
@@ -21,8 +42,10 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
         return
     for line_number, line in iter_code_lines(source.text, source.path):
         code = code_without_string_literals(line)
-        for pattern in _BYPASS_PATTERNS:
+        for index, pattern in enumerate(_BYPASS_PATTERNS):
             match = pattern.search(code)
+            if match and index == 0 and not _has_tls_context(source, line):
+                continue
             if match:
                 yield rule.finding(source, line_number, match.group(0))
                 break
@@ -47,6 +70,7 @@ RULE = RuleDefinition(
         "anchor, and use a test-only override that cannot enter production builds."
     ),
     scanner=_scan,
-    version="1.1.0",
+    version="1.2.0",
     references=("https://cwe.mitre.org/data/definitions/295.html",),
+    prefilter=_may_contain_tls_bypass,
 )

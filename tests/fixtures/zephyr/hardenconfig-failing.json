@@ -1,0 +1,39 @@
+{
+  "profile": "strict",
+  "fail_count": 1,
+  "options": [
+    {
+      "name": "BUILD_OUTPUT_STRIPPED",
+      "recommended": "y",
+      "rationale": "A released ELF without debug symbols gives an attacker less information about the image.",
+      "result": "FAIL",
+      "current": "n",
+      "visible": true,
+      "origin": "database",
+      "references": ["CWE-200"],
+      "source": "/private/build/zephyr/scripts/kconfig/hardening.yaml"
+    },
+    {
+      "name": "STACK_SENTINEL",
+      "recommended": "y",
+      "rationale": "Checks thread stacks for overflow on targets without hardware stack protection.",
+      "result": "PASS",
+      "current": "y",
+      "visible": true,
+      "origin": "database",
+      "references": ["CWE-121"],
+      "source": "scripts/kconfig/hardening.yaml"
+    },
+    {
+      "name": "MPU_STACK_GUARD",
+      "recommended": "y",
+      "rationale": "Hardware support is required for this recommendation.",
+      "result": "NA",
+      "current": null,
+      "visible": false,
+      "origin": "database",
+      "references": [],
+      "source": "arch/arm/hardening.yaml"
+    }
+  ]
+}

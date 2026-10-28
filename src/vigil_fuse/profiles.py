@@ -30,6 +30,7 @@ class ScanProfile:
             or name == ".env"
             or name.startswith(".env.")
             or name in BASE_NAMES | self.additional_names
+            or (self.name == "esp-idf" and name.startswith("sdkconfig.defaults."))
         )
 
 

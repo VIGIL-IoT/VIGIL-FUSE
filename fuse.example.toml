@@ -1,8 +1,15 @@
 [scan]
 profile = "generic"
+# Optional stable identity for reports and baselines. Set this to your own name.
+# target_label = "organization/repository"
 include = []
 exclude = ["vendor/**", "third_party/**"]
 max_file_bytes = 2097152
+max_discovered_paths = 100000
+max_discovered_directories = 20000
+max_source_bytes = 536870912
+max_scan_seconds = 600
+max_firmware_bytes = 536870912
 
 [rules]
 disabled = []
@@ -19,3 +26,5 @@ vulnerabilities = false
 firmware = false
 # Uses OSV-Scanner's locally cached vulnerability database when enabled.
 offline_vulnerabilities = false
+# Opt-in scan of commits reachable from HEAD. Requires Git and Gitleaks.
+git_history = false

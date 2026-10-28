@@ -9,6 +9,7 @@ from typing import Callable, Iterable
 from ..model import Confidence, Finding, Severity, SourceFile
 
 Scanner = Callable[[SourceFile, "RuleDefinition"], Iterable[Finding]]
+Prefilter = Callable[[SourceFile], bool]
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,7 @@ class RuleDefinition:
     scanner: Scanner
     version: str = "1.0.0"
     references: tuple[str, ...] = ()
+    prefilter: Prefilter | None = None
 
     def finding(self, source: SourceFile, line: int, evidence: str) -> Finding:
         evidence = " ".join(evidence.strip().split())
@@ -49,10 +51,16 @@ class RuleDefinition:
             potential_impact=self.potential_impact,
             remediation=self.remediation,
             references=self.references,
+            applicability="candidate" if source.generated_config else "unknown",
+            validation_method="generated-config" if source.generated_config else "static",
         )
 
     def scan(self, source: SourceFile) -> Iterable[Finding]:
         return self.scanner(source, self)
+
+    def may_scan(self, source: SourceFile) -> bool:
+        """Return false only when a cheap rule-owned prefilter proves no match is possible."""
+        return self.prefilter(source) if self.prefilter is not None else True
 
 
 def is_comment_line(line: str) -> bool:
@@ -74,6 +82,9 @@ def iter_code_lines(text: str, path: str) -> Iterable[tuple[int, str]]:
     that need to inspect configured values.
     """
     suffix = PurePosixPath(path.replace("\\", "/")).suffix.casefold()
+    simple_markers = ("'", '"', "`", "//", "/*", "<!--", "#")
+    if suffix in {".ini", ".cfg", ".conf"}:
+        simple_markers = (*simple_markers, ";")
     in_block: str | None = None
     in_triple_string: str | None = None
     strip_triple_string = False
@@ -83,6 +94,14 @@ def iter_code_lines(text: str, path: str) -> Iterable[tuple[int, str]]:
     )
 
     for line_number, line in enumerate(text.splitlines(), start=1):
+        if (
+            in_block is None
+            and in_triple_string is None
+            and not any(marker in line for marker in simple_markers)
+        ):
+            yield line_number, line
+            continue
+
         code: list[str] = []
         index = 0
         quote: str | None = None
@@ -158,6 +177,8 @@ def iter_code_lines(text: str, path: str) -> Iterable[tuple[int, str]]:
 
 def code_without_string_literals(line: str) -> str:
     """Keep code identifiers while blanking quoted text for code-pattern rules."""
+    if not any(quote in line for quote in ("'", '"', "`")):
+        return line
     output = list(line)
     quote: str | None = None
     escaped = False
@@ -181,6 +202,7 @@ _TEST_DIRECTORY_NAMES = frozenset(
         "test", "tests", "spec", "specs", "__tests__", "testdata", "test_data",
         "fixtures", "fixture", "test_certs", "test-certs", "test_certificates",
         "unit_test", "unit_tests", "integration_test", "integration_tests",
+        "selftest", "oeqa",
     }
 )
 _TEST_BASENAME = re.compile(r"(?i)(?:^|[._-])(?:test|tests|spec|specs|pytest)(?:[._-]|$)")
@@ -206,9 +228,12 @@ _LOCALIZATION_NAMES = frozenset(
 
 def is_localization_path(path: str) -> bool:
     parts = PurePosixPath(path.replace("\\", "/")).parts
-    names = {part.casefold() for part in parts}
-    basename = PurePosixPath(path.replace("\\", "/")).stem.casefold()
-    return bool(names & _LOCALIZATION_NAMES) or basename in {"i18n", "l10n"}
+    for part in parts:
+        name = PurePosixPath(part.casefold()).stem
+        tokens = re.split(r"[^a-z0-9]+", name)
+        if any(token in _LOCALIZATION_NAMES for token in tokens):
+            return True
+    return False
 
 
 def is_kconfig_input_path(path: str) -> bool:

@@ -18,14 +18,27 @@ _SBOM_SUFFIXES = (
 )
 
 
+def is_sbom_candidate(path: Path) -> bool:
+    """Return whether a filename convention suggests an SBOM input."""
+    name = path.name.casefold()
+    return (
+        name.endswith(".spdx")
+        or name in _SBOM_FILENAMES
+        or name.endswith(_SBOM_SUFFIXES)
+    )
+
+
 def is_sbom_file(path: Path) -> bool:
     """Recognize common CycloneDX/SPDX files without trusting the filename alone."""
     try:
         size = path.stat().st_size
         if size > MAX_SBOM_DETECTION_BYTES:
             return False
-        data = path.read_bytes()
+        with path.open("rb") as source:
+            data = source.read(MAX_SBOM_DETECTION_BYTES + 1)
     except OSError:
+        return False
+    if len(data) > MAX_SBOM_DETECTION_BYTES:
         return False
 
     name = path.name.casefold()

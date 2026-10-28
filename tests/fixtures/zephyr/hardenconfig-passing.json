@@ -1,0 +1,17 @@
+{
+  "profile": "base",
+  "fail_count": 0,
+  "options": [
+    {
+      "name": "STACK_SENTINEL",
+      "recommended": "y",
+      "rationale": "Checks thread stacks for overflow on targets without hardware stack protection.",
+      "result": "PASS",
+      "current": "y",
+      "visible": true,
+      "origin": "database",
+      "references": ["CWE-121"],
+      "source": "scripts/kconfig/hardening.yaml"
+    }
+  ]
+}

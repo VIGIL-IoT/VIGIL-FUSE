@@ -19,6 +19,7 @@ class RuleFixtureTests(unittest.TestCase):
         for rule in RULES:
             with self.subTest(rule=rule.id):
                 source = self.fixture_source(rule.id, "vulnerable")
+                self.assertTrue(rule.may_scan(source), f"{rule.id} prefilter rejected its vulnerable fixture")
                 findings = list(rule.scan(source))
                 self.assertTrue(findings, f"{rule.id} did not match its vulnerable fixture")
                 self.assertEqual({rule.id}, {finding.rule_id for finding in findings})
@@ -77,6 +78,8 @@ class RuleFixtureTests(unittest.TestCase):
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         cases = (
             SourceFile("src/language/en.h", 'PASSWORD_LABEL = "Enter password"\n'),
+            SourceFile("src/core/language.h", '#define STR_PASSWORD_TOO_LONG "Password is too long"\n'),
+            SourceFile("src/lcd/mks_ui/tft_Language_s_cn.h", '#define WIFI_SETTINGS_PASSWORD_CN "Password"\n'),
             SourceFile("src/app.c", 'PASSWORD = "password is required"\n'),
             SourceFile("src/app.c", '// PASSWORD = "actual-secret-value"\n'),
             SourceFile("tests/test_config.py", 'password = "actual-secret-value"\n'),
@@ -90,6 +93,14 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual(1, len(findings))
         self.assertIn("[REDACTED]", findings[0].evidence)
 
+    def test_credentials_ignore_password_prompt_literals_inside_code_strings(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        source = SourceFile(
+            "ports/cc3200/tools/update-wipy.py",
+            'if b"Password:" in tn.read_until(b"Password:", timeout=5):\n',
+        )
+        self.assertEqual([], list(rule.scan(source)))
+
     def test_credentials_ignore_path_and_characteristic_constants_and_computed_values(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         text = (
@@ -101,6 +112,60 @@ class RuleFixtureTests(unittest.TestCase):
 
         literal = SourceFile("src/config.cpp", 'const char *DEFAULT_PASSWORD = "device-default";\n')
         self.assertEqual(1, len(list(rule.scan(literal))))
+
+    def test_credentials_ignore_hash_tutorial_inputs_and_build_expressions(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        hash_demo = SourceFile(
+            "libraries/Hash/examples/MD5/MD5.ino",
+            'String password = "Hello World";\n'
+            'String passwordAsHex = "48656c6c6f20576f726c64";\n'
+            "MD5Builder md;\nmd.add(password);\n",
+        )
+        make_expression = SourceFile(
+            "package/skeleton-init-common.mk",
+            'ROOT_PASSWORD = "`$(MKPASSWD) -m $(METHOD) $(ROOT_PASSWD)`"\n',
+        )
+        self.assertEqual([], list(rule.scan(hash_demo)))
+        self.assertEqual([], list(rule.scan(make_expression)))
+
+        ordinary_password = SourceFile("src/auth.cpp", 'const char *password = "Hello World";\n')
+        self.assertEqual(1, len(list(rule.scan(ordinary_password))))
+
+        ordinary_token = SourceFile("src/auth.cpp", 'const char *token = "auth-token-value";\n')
+        self.assertEqual(1, len(list(rule.scan(ordinary_token))))
+
+    def test_credentials_ignore_nmea_parser_sentence_tokens(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        parser_tokens = SourceFile(
+            "src/gps_parser.c",
+            'static ParserConfig parsers[] = {\n'
+            '  {.token = "GPGSA", .parser = gpgsaParser},\n'
+            '  {.token = "GPGGA", .parser = gpggaParser}\n'
+            '};\n',
+        )
+        self.assertEqual([], list(rule.scan(parser_tokens)))
+
+    def test_credentials_ignore_bitbake_metadata_and_disabled_xml_accounts(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        metadata = SourceFile(
+            "recipes-connectivity/ppp/ppp.bb",
+            'SUMMARY:${PN}-password = "Plugin to get passwords via a pipe"\n',
+        )
+        disabled_xml = SourceFile(
+            "package/gerbera/config.xml",
+            '<accounts enabled="no">\n'
+            '  <account user="gerbera" password="gerbera" />\n'
+            '</accounts>\n',
+        )
+        enabled_xml = SourceFile(
+            "package/device/config.xml",
+            '<accounts enabled="yes">\n'
+            '  <account user="gerbera" password="device-default" />\n'
+            '</accounts>\n',
+        )
+        self.assertEqual([], list(rule.scan(metadata)))
+        self.assertEqual([], list(rule.scan(disabled_xml)))
+        self.assertEqual(1, len(list(rule.scan(enabled_xml))))
 
     def test_private_key_rule_ignores_comments_and_test_material(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE002")
@@ -118,10 +183,30 @@ class RuleFixtureTests(unittest.TestCase):
             SourceFile("src/tls.c", "// client.setInsecure()\n"),
             SourceFile("src/tls.c", 'const char *note = "client.setInsecure()";\n'),
             SourceFile("tests/test_tls.py", "session.verify = False\n"),
+            SourceFile("src/menu_bed_tramming.cpp", "bool probe(const bool verify=false);\n"),
+            SourceFile("src/device.cpp", "// https://docs.example/tls\nbool probe(bool verify=false);\n"),
         )
         for source in sources:
             with self.subTest(path=source.path, text=source.text):
                 self.assertEqual([], list(rule.scan(source)))
+
+    def test_tls_rule_keeps_generic_verify_false_when_https_context_is_present(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        source = SourceFile(
+            "src/http_client.py",
+            'requests.get("https://device.example", verify=False)\n',
+        )
+        self.assertEqual(1, len(list(rule.scan(source))))
+
+    def test_tls_rule_ignores_api_definition_but_keeps_bypass_call(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        definition = SourceFile(
+            "libraries/NetworkClientSecure/src/NetworkClientSecure.cpp",
+            "void NetworkClientSecure::setInsecure() {\n  _use_insecure = true;\n}\n",
+        )
+        call = SourceFile("src/client.cpp", "client.setInsecure();\n")
+        self.assertEqual([], list(rule.scan(definition)))
+        self.assertEqual(1, len(list(rule.scan(call))))
 
     def test_http_rule_requires_endpoint_context_and_ignores_comment_test_and_templates(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE004")
@@ -137,12 +222,38 @@ class RuleFixtureTests(unittest.TestCase):
             with self.subTest(path=source.path, text=source.text):
                 self.assertEqual([], list(rule.scan(source)))
 
-        direct_call = SourceFile("src/client.py", 'requests.get("http://api.device.example/status")\n')
+        direct_call = SourceFile("src/client.py", 'requests.get("http://api.device.local/status")\n')
         self.assertEqual(1, len(list(rule.scan(direct_call))))
+
+    def test_http_rule_ignores_reserved_test_domains_and_example_private_addresses(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE004")
+        sources = (
+            SourceFile("examples/client.ino", 'http.begin("http://example.com/index.html");\n'),
+            SourceFile("examples/client.ino", 'http.begin("http://api.device.invalid/update");\n'),
+            SourceFile("examples/client.ino", 'http.begin("http://192.168.1.12/status");\n'),
+            SourceFile("meta/lib/oeqa/selftest/cases/spdx.py", 'url = "http://foo.bar/spdx"\n'),
+        )
+        for source in sources:
+            with self.subTest(path=source.path, text=source.text):
+                self.assertEqual([], list(rule.scan(source)))
+
+        application_private_host = SourceFile("src/client.ino", 'http.begin("http://192.168.1.12/status");\n')
+        self.assertEqual(1, len(list(rule.scan(application_private_host))))
+
+    def test_http_rule_ignores_an_explicit_https_redirect_probe(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE004")
+        source = SourceFile(
+            "examples/WiFiMultiAdvanced.ino",
+            'http.begin("http://www.vendor.com");\n'
+            "int httpCode = http.GET();\n"
+            "// We expect to get a 301 because the server redirects to HTTPS.\n"
+            "if (httpCode == HTTP_CODE_MOVED_PERMANENTLY) return true;\n",
+        )
+        self.assertEqual([], list(rule.scan(source)))
 
     def test_http_rule_strips_multiline_comments_and_keeps_endpoint_assignments(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE004")
-        text = "/* license comment\n API_URL = \\\"http://api.device.example\\\";\n*/\nAPI_URL = \"http://api.device.example/v1\"\n"
+        text = "/* license comment\n API_URL = \\\"http://api.device.local\\\";\n*/\nAPI_URL = \"http://api.device.local/v1\"\n"
         findings = list(rule.scan(SourceFile("src/config.h", text)))
         self.assertEqual(1, len(findings))
         self.assertEqual(4, findings[0].start_line)
@@ -151,7 +262,7 @@ class RuleFixtureTests(unittest.TestCase):
         rule = next(rule for rule in RULES if rule.id == "FUSE004")
         source = SourceFile(
             "berry/extensions/Partition_Wizard/partition_wizard.be",
-            'static _default_safeboot_URL = "http://ota.device.example/release/%s.bin"\n',
+            'static _default_safeboot_URL = "http://ota.device.local/release/%s.bin"\n',
         )
         self.assertEqual(1, len(list(rule.scan(source))))
 

@@ -45,4 +45,5 @@ RULE = RuleDefinition(
     scanner=_scan,
     version="1.1.0",
     references=("https://cwe.mitre.org/data/definitions/321.html",),
+    prefilter=lambda source: "-----BEGIN" in source.text,
 )

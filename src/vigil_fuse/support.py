@@ -1,0 +1,138 @@
+from __future__ import annotations
+
+import json
+from functools import lru_cache
+from importlib.resources import files
+from typing import Any
+
+from .model import ScanResult
+
+
+@lru_cache(maxsize=1)
+def support_matrix() -> dict[str, Any]:
+    resource = files("vigil_fuse").joinpath("support-matrix.json")
+    return json.loads(resource.read_text(encoding="utf-8"))
+
+
+def _capability(capability_id: str) -> dict[str, Any]:
+    for item in support_matrix()["capabilities"]:
+        if item["id"] == capability_id:
+            return dict(item)
+    raise ValueError(f"Unknown FUSE support capability: {capability_id}")
+
+
+def source_capability(profile: str) -> dict[str, Any]:
+    return _capability(f"source.{profile}")
+
+
+def capability_for_scan(result: ScanResult) -> dict[str, Any]:
+    if result.target_kind == "firmware-image":
+        input_status = next((item for item in result.analyzers if item.name == "firmware-input"), None)
+        if input_status is not None:
+            capability = {
+                "id": "input.unsupported",
+                "input": "Firmware image over the configured size limit",
+                "label": "unsupported",
+                "scope": "The firmware image was rejected before hashing or signature identification.",
+                "limitations": ["Reduce the image size or raise scan.max_firmware_bytes within the configured maximum"],
+            }
+            status = "unsupported"
+        else:
+            capability = _capability("firmware.signature-identification")
+            analyzer = next((item for item in result.analyzers if item.name == "binwalk"), None)
+            status = analyzer.status if analyzer else "skipped"
+    elif result.target_kind == "sbom":
+        input_status = next((item for item in result.analyzers if item.name == "sbom-input"), None)
+        analyzer = next((item for item in result.analyzers if item.name == "osv-scanner"), None)
+        if input_status is not None:
+            capability = {
+                "id": "input.unsupported",
+                "input": "Oversized SBOM",
+                "label": "unsupported",
+                "scope": "The SBOM exceeds the configured parse and hash limit.",
+                "limitations": ["No SBOM parsing or advisory lookup was performed"],
+            }
+            status = "unsupported"
+        elif analyzer is not None:
+            capability = _capability("inventory.sbom-advisories")
+            status = analyzer.status
+        else:
+            capability = _capability("inventory.sbom-detected")
+            status = "detected"
+    elif result.target_kind == "unsupported-file":
+        capability = {
+            "id": "input.unsupported",
+            "input": "Unrecognized or unsupported input",
+            "profile": result.profile,
+            "label": "unsupported",
+            "scope": "FUSE did not select a security analyzer for this target.",
+            "limitations": ["No security analysis was performed"],
+        }
+        status = "unsupported"
+    else:
+        capability = source_capability(result.profile)
+        native = next((item for item in result.analyzers if item.name == "fuse-native"), None)
+        status = native.status if native else "skipped"
+        if status == "skipped" and result.files_scanned == 0:
+            status = "detected"
+
+    return {
+        "capability_id": capability["id"],
+        "label": capability["label"],
+        "status": status,
+        "scope": capability["scope"],
+        "limitations": capability["limitations"],
+    }
+
+
+def capability_for_plan(
+    profile: str,
+    *,
+    sbom_input: bool,
+    firmware: bool,
+    oversized_sbom: bool,
+    oversized_firmware: bool = False,
+    unsupported_input: bool = False,
+) -> dict[str, Any]:
+    if oversized_firmware:
+        return {
+            "capability_id": "input.unsupported",
+            "label": "unsupported",
+            "status": "unsupported",
+            "scope": "The firmware image exceeds the configured input size limit.",
+            "limitations": ["No image hashing or signature identification will run"],
+        }
+    if oversized_sbom:
+        return {
+            "capability_id": "input.unsupported",
+            "label": "unsupported",
+            "status": "unsupported",
+            "scope": "The SBOM exceeds the configured parse and hash limit.",
+            "limitations": ["No SBOM parsing or advisory lookup will run"],
+        }
+    if firmware:
+        capability = _capability("firmware.signature-identification")
+        status = "planned"
+    elif sbom_input:
+        capability = _capability("inventory.sbom-detected")
+        status = "detected"
+    elif unsupported_input:
+        capability = {
+            "id": "input.unsupported",
+            "input": "Unrecognized or unsupported input",
+            "profile": profile,
+            "label": "unsupported",
+            "scope": "FUSE will not select a security analyzer for this target.",
+            "limitations": ["No security analysis will be performed"],
+        }
+        status = "unsupported"
+    else:
+        capability = source_capability(profile)
+        status = "planned"
+    return {
+        "capability_id": capability["id"],
+        "label": capability["label"],
+        "status": status,
+        "scope": capability["scope"],
+        "limitations": capability["limitations"],
+    }
