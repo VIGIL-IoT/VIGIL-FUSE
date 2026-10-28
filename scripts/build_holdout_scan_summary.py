@@ -31,7 +31,7 @@ def _read_report(report_root: Path, scan_id: str) -> dict[str, Any]:
     if not path.is_relative_to(report_root.resolve()):
         raise ValueError(f"Holdout report path escapes report root: {scan_id!r}")
     report = json.loads(path.read_text(encoding="utf-8"))
-    if str(report.get("schema_version", "")) not in {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7"}:
+    if str(report.get("schema_version", "")) not in {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"}:
         raise ValueError(f"Unsupported or missing FUSE report schema in {path}")
     if not isinstance(report.get("summary"), dict) or not isinstance(report.get("coverage"), dict):
         raise ValueError(f"FUSE report is missing summary or coverage: {path}")

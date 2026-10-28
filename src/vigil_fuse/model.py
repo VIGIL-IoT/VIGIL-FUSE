@@ -68,6 +68,116 @@ class HardwareInventory:
 
 
 @dataclass(frozen=True)
+class PlatformIOEnvironment:
+    """Allow-listed metadata for one declared PlatformIO environment."""
+
+    name: str
+    platform: str | None = None
+    board: str | None = None
+    frameworks: tuple[str, ...] = ()
+    build_type: str | None = None
+    upload_protocol: str | None = None
+    debug_tool: str | None = None
+    extends: str | None = None
+
+
+@dataclass(frozen=True)
+class PlatformIOInventory:
+    status: Literal["not-detected", "parsed", "partial", "invalid"] = "not-detected"
+    path: str | None = None
+    sha256: str | None = None
+    byte_size: int = 0
+    default_environments: tuple[str, ...] = ()
+    selected_environments: tuple[str, ...] = ()
+    environments: tuple[PlatformIOEnvironment, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class CompilationDatabaseInventory:
+    """Metadata-only index of a compile_commands.json file. Commands are never run."""
+
+    status: Literal["not-detected", "indexed", "partial", "invalid"] = "not-detected"
+    path: str | None = None
+    sha256: str | None = None
+    byte_size: int = 0
+    entry_count: int = 0
+    unique_translation_units: int = 0
+    in_target_source_count: int = 0
+    external_source_count: int = 0
+    compiler_families: dict[str, int] = field(default_factory=dict)
+    malformed_entries: int = 0
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class HardwareBOMComponent:
+    reference: str
+    name: str
+    quantity: int
+    footprint: str | None = None
+    manufacturer: str | None = None
+    part_number: str | None = None
+    description: str | None = None
+
+
+@dataclass(frozen=True)
+class HardwareBOMInventory:
+    status: Literal["not-requested", "imported", "partial", "invalid"] = "not-requested"
+    source_path: str | None = None
+    sha256: str | None = None
+    byte_size: int = 0
+    format: str | None = None
+    component_count: int = 0
+    quantity_total: int = 0
+    components: tuple[HardwareBOMComponent, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class DependencyComponent:
+    name: str
+    version: str
+    ecosystem: str
+    purl: str | None = None
+
+
+@dataclass(frozen=True)
+class VexReview:
+    state: str
+    justification: str | None = None
+    detail: str | None = None
+
+
+@dataclass(frozen=True)
+class VexImport:
+    status: Literal["not-requested", "imported", "partial", "invalid"] = "not-requested"
+    source_path: str | None = None
+    sha256: str | None = None
+    byte_size: int = 0
+    product_purl: str | None = None
+    record_count: int = 0
+    matched_findings: int = 0
+    unmatched_records: int = 0
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class ProvenanceRecord:
+    status: Literal["not-requested", "unverified", "subject-match", "subject-mismatch", "invalid"] = "not-requested"
+    source_path: str | None = None
+    sha256: str | None = None
+    byte_size: int = 0
+    predicate_type: str | None = None
+    builder_id: str | None = None
+    build_type: str | None = None
+    subject_name: str | None = None
+    subject_sha256: str | None = None
+    signature_verified: bool = False
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
 class ContextArtifact:
     """A bounded, selected build-context file recorded by a platform adapter."""
 
@@ -191,6 +301,8 @@ class Finding:
     severity_score: float | None = None
     severity_vector: str | None = None
     severity_version: str | None = None
+    component: DependencyComponent | None = None
+    vex_review: VexReview | None = None
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -220,6 +332,25 @@ class Finding:
             "severity_score": self.severity_score,
             "severity_vector": self.severity_vector,
             "severity_version": self.severity_version,
+            "component": (
+                {
+                    "name": self.component.name,
+                    "version": self.component.version,
+                    "ecosystem": self.component.ecosystem,
+                    "purl": self.component.purl,
+                }
+                if self.component
+                else None
+            ),
+            "vex_review": (
+                {
+                    "state": self.vex_review.state,
+                    "justification": self.vex_review.justification,
+                    "detail": self.vex_review.detail,
+                }
+                if self.vex_review
+                else None
+            ),
         }
 
 
@@ -243,6 +374,12 @@ class ScanResult:
     unsupported_file_types: dict[str, int] = field(default_factory=dict)
     hardware_inventory: HardwareInventory = HardwareInventory(scope="single-file")
     project_context: ProjectContext = ProjectContext()
+    platformio_inventory: PlatformIOInventory = PlatformIOInventory()
+    compilation_database: CompilationDatabaseInventory = CompilationDatabaseInventory()
+    hardware_bom: HardwareBOMInventory = HardwareBOMInventory()
+    product_purl: str | None = None
+    vex_import: VexImport = VexImport()
+    provenance: ProvenanceRecord = ProvenanceRecord()
     network_policy: str = "not-requested"
     source_bytes_read: int = 0
     discovery_complete: bool = True

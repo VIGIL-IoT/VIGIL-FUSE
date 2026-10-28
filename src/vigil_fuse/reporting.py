@@ -25,7 +25,7 @@ def _input_inventory_scope(result: ScanResult) -> str:
 def to_json(result: ScanResult) -> str:
     counts = Counter(finding.severity for finding in result.findings)
     report = {
-        "schema_version": "1.7",
+        "schema_version": "1.8",
         "tool": {"name": "FUSE", "version": __version__},
         "target": result.target,
         "scan": {
@@ -88,6 +88,92 @@ def to_json(result: ScanResult) -> str:
                 }
                 for item in result.hardware_inventory.artifacts
             ],
+        },
+        "build_context": {
+            "platformio": {
+                "status": result.platformio_inventory.status,
+                "path": result.platformio_inventory.path,
+                "sha256": result.platformio_inventory.sha256,
+                "byte_size": result.platformio_inventory.byte_size,
+                "default_environments": list(result.platformio_inventory.default_environments),
+                "selected_environments": list(result.platformio_inventory.selected_environments),
+                "environments": [
+                    {
+                        "name": item.name,
+                        "platform": item.platform,
+                        "board": item.board,
+                        "frameworks": list(item.frameworks),
+                        "build_type": item.build_type,
+                        "upload_protocol": item.upload_protocol,
+                        "debug_tool": item.debug_tool,
+                        "extends": item.extends,
+                    }
+                    for item in result.platformio_inventory.environments
+                ],
+                "limitations": list(result.platformio_inventory.limitations),
+            },
+            "compilation_database": {
+                "status": result.compilation_database.status,
+                "path": result.compilation_database.path,
+                "sha256": result.compilation_database.sha256,
+                "byte_size": result.compilation_database.byte_size,
+                "entry_count": result.compilation_database.entry_count,
+                "unique_translation_units": result.compilation_database.unique_translation_units,
+                "in_target_source_count": result.compilation_database.in_target_source_count,
+                "external_source_count": result.compilation_database.external_source_count,
+                "compiler_families": result.compilation_database.compiler_families,
+                "malformed_entries": result.compilation_database.malformed_entries,
+                "limitations": list(result.compilation_database.limitations),
+            },
+        },
+        "hardware_bom": {
+            "status": result.hardware_bom.status,
+            "source_path": result.hardware_bom.source_path,
+            "sha256": result.hardware_bom.sha256,
+            "byte_size": result.hardware_bom.byte_size,
+            "format": result.hardware_bom.format,
+            "component_count": result.hardware_bom.component_count,
+            "quantity_total": result.hardware_bom.quantity_total,
+            "components": [
+                {
+                    "reference": item.reference,
+                    "name": item.name,
+                    "quantity": item.quantity,
+                    "footprint": item.footprint,
+                    "manufacturer": item.manufacturer,
+                    "part_number": item.part_number,
+                    "description": item.description,
+                }
+                for item in result.hardware_bom.components
+            ],
+            "limitations": list(result.hardware_bom.limitations),
+        },
+        "product_context": {
+            "product_purl": result.product_purl,
+            "vex_import": {
+                "status": result.vex_import.status,
+                "source_path": result.vex_import.source_path,
+                "sha256": result.vex_import.sha256,
+                "byte_size": result.vex_import.byte_size,
+                "product_purl": result.vex_import.product_purl,
+                "record_count": result.vex_import.record_count,
+                "matched_findings": result.vex_import.matched_findings,
+                "unmatched_records": result.vex_import.unmatched_records,
+                "limitations": list(result.vex_import.limitations),
+            },
+        },
+        "provenance": {
+            "status": result.provenance.status,
+            "source_path": result.provenance.source_path,
+            "sha256": result.provenance.sha256,
+            "byte_size": result.provenance.byte_size,
+            "predicate_type": result.provenance.predicate_type,
+            "builder_id": result.provenance.builder_id,
+            "build_type": result.provenance.build_type,
+            "subject_name": result.provenance.subject_name,
+            "subject_sha256": result.provenance.subject_sha256,
+            "signature_verified": result.provenance.signature_verified,
+            "limitations": list(result.provenance.limitations),
         },
         "project_context": {
             "framework": result.project_context.framework,
@@ -201,6 +287,49 @@ def to_text(result: ScanResult) -> str:
         f"Findings: {len(result.findings)}",
         f"Hardware artifacts: {len(result.hardware_inventory.artifacts)}",
     ]
+    pio = result.platformio_inventory
+    if pio.status != "not-detected":
+        lines.append(
+            f"PlatformIO: {pio.status}; {len(pio.environments)} environment(s), "
+            f"selected: {', '.join(pio.selected_environments) or 'none'}"
+        )
+        for item in pio.environments:
+            details = ", ".join(value for value in (item.platform, item.board, ",".join(item.frameworks)) if value)
+            lines.append(f"  {item.name}" + (f" [{details}]" if details else ""))
+        lines.extend(f"  PlatformIO limit: {item}" for item in pio.limitations)
+    database = result.compilation_database
+    if database.status != "not-detected":
+        lines.append(
+            f"Compilation database: {database.status}; {database.unique_translation_units} unique "
+            f"translation unit(s), {database.in_target_source_count} in target, "
+            f"{database.external_source_count} external"
+        )
+        lines.append("  Commands were indexed as data and were not executed.")
+        lines.extend(f"  Compilation database limit: {item}" for item in database.limitations)
+    bom = result.hardware_bom
+    if bom.status != "not-requested":
+        lines.append(
+            f"Hardware BOM: {bom.status}; {bom.component_count} line item(s), "
+            f"{bom.quantity_total} listed part(s)"
+        )
+        lines.extend(f"  BOM limit: {item}" for item in bom.limitations)
+    if result.product_purl:
+        lines.append(f"Product PURL: {result.product_purl}")
+    if result.vex_import.status != "not-requested":
+        lines.append(
+            f"CycloneDX VEX: {result.vex_import.status}; "
+            f"{result.vex_import.matched_findings} finding(s) annotated; base findings remain unchanged"
+        )
+        lines.extend(f"  VEX limit: {item}" for item in result.vex_import.limitations)
+    provenance = result.provenance
+    if provenance.status != "not-requested":
+        lines.append(
+            f"SLSA provenance: {provenance.status}; signature verified: "
+            f"{'yes' if provenance.signature_verified else 'no'}"
+        )
+        if provenance.builder_id:
+            lines.append(f"  Claimed builder: {provenance.builder_id}")
+        lines.extend(f"  Provenance limit: {item}" for item in provenance.limitations)
     if result.target_kind in {"firmware-image", "sbom"}:
         lines.append("Source-profile file inventory: not applicable to this specialized input.")
     else:
@@ -357,6 +486,21 @@ def to_text(result: ScanResult) -> str:
                 f"  Severity vector: {finding.severity_vector}"
                 + (f" (CVSS {finding.severity_version})" if finding.severity_version else "")
             )
+        if finding.component:
+            lines.append(
+                f"  Component: {finding.component.ecosystem} {finding.component.name}@{finding.component.version}"
+            )
+            if finding.component.purl:
+                lines.append(f"  Component PURL: {finding.component.purl}")
+        if finding.vex_review:
+            lines.append(
+                f"  Product review: CycloneDX VEX state {finding.vex_review.state}; "
+                "this context does not remove or downgrade the finding"
+            )
+            if finding.vex_review.justification:
+                lines.append(f"  Review justification: {finding.vex_review.justification}")
+            if finding.vex_review.detail:
+                lines.append(f"  Review detail: {finding.vex_review.detail}")
         if finding.references:
             lines.append(f"  References: {', '.join(finding.references)}")
         lines.append("")

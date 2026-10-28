@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import platform
 import shutil
@@ -18,10 +19,13 @@ from .analyzers import (
     scan_vulnerabilities,
 )
 from .baseline import create_baseline, diff_baseline, suppress_finding, unsuppress_finding
+from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
 from .esp_idf_lock import lock_parser_available
-from .model import AnalyzerStatus
+from .hardware_bom import hardware_bom_document
+from .model import AnalysisArtifact, AnalyzerStatus
 from .platform_context import detect_project_frameworks, resolve_build_dir
+from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
 from .rule_execution import (
@@ -104,6 +108,41 @@ def _parser() -> argparse.ArgumentParser:
         "--build-dir",
         type=Path,
         help="inspect a selected ESP-IDF or Zephyr build directory inside the target; no build is run",
+    )
+    scan_parser.add_argument(
+        "--platformio-config",
+        type=Path,
+        help="inspect a PlatformIO INI file inside the target; no PlatformIO command is run",
+    )
+    scan_parser.add_argument(
+        "--platformio-env",
+        action="append",
+        default=[],
+        help="select a declared PlatformIO environment for the report matrix (repeatable; no build is run)",
+    )
+    scan_parser.add_argument(
+        "--compile-commands",
+        type=Path,
+        help="index a compile_commands.json inside the target; commands are never executed",
+    )
+    scan_parser.add_argument(
+        "--hardware-bom",
+        type=Path,
+        help="import an explicit hardware BOM CSV or TSV and emit a CycloneDX HBOM",
+    )
+    scan_parser.add_argument(
+        "--vex",
+        type=Path,
+        help="import reviewed CycloneDX VEX context for exact package and advisory matches",
+    )
+    scan_parser.add_argument(
+        "--product-purl",
+        help="product package URL required to bind an imported VEX document to this scan",
+    )
+    scan_parser.add_argument(
+        "--provenance",
+        type=Path,
+        help="compare an in-toto/SLSA statement subject digest with a --firmware image",
     )
     scan_parser.add_argument(
         "--zephyr-hardening-report",
@@ -275,6 +314,12 @@ def _scan_plan(
     target_label: str | None,
     build_dir: Path | None,
     zephyr_hardening_report: Path | None,
+    platformio_config: Path | None,
+    platformio_environments: tuple[str, ...],
+    compile_commands: Path | None,
+    hardware_bom: Path | None,
+    vex: Path | None,
+    provenance: Path | None,
     sbom: bool,
     vulnerabilities: bool,
     firmware: bool,
@@ -328,6 +373,15 @@ def _scan_plan(
         _, selected_hardening_report = resolve_hardening_report_path(
             target, build_dir, zephyr_hardening_report
         )
+    platformio_inventory = inspect_platformio(
+        target,
+        selected_environments=platformio_environments,
+        config_path=platformio_config,
+    )
+    compilation_database = inspect_compilation_database(
+        target,
+        database_path=compile_commands,
+    )
     kind = (
         "sbom" if sbom_input else "firmware-image" if firmware else "directory" if target.is_dir() else "file"
     )
@@ -407,6 +461,56 @@ def _scan_plan(
                     else "optional; export JSON with HARDENCONFIG_JSON and pass --zephyr-hardening-report"
                 ),
             })
+    stages.append({
+        "name": "platformio-environment-matrix",
+        "requested": True,
+        "status": "planned" if platformio_inventory.status != "not-detected" else "skipped",
+        "reason": (
+            f"indexes {len(platformio_inventory.environments)} declared environment(s) without invoking PlatformIO"
+            if platformio_inventory.status != "not-detected"
+            else "no platformio.ini was detected"
+        ),
+    })
+    stages.append({
+        "name": "compilation-database-index",
+        "requested": compile_commands is not None or compilation_database.status != "not-detected",
+        "status": "planned" if compilation_database.status != "not-detected" else "skipped",
+        "reason": (
+            "indexes translation-unit and compiler metadata; compiler commands are never executed"
+            if compilation_database.status != "not-detected"
+            else "no compile_commands.json was detected or selected"
+        ),
+    })
+    stages.append({
+        "name": "hardware-bom-import",
+        "requested": hardware_bom is not None,
+        "status": "planned" if hardware_bom is not None else "skipped",
+        "reason": (
+            "imports a selected CSV or TSV into a CycloneDX hardware bill of materials"
+            if hardware_bom is not None
+            else "optional; select a BOM with --hardware-bom"
+        ),
+    })
+    stages.append({
+        "name": "cyclonedx-vex-context",
+        "requested": vex is not None,
+        "status": "planned" if vex is not None else "skipped",
+        "reason": (
+            "imports exact product, package PURL, and advisory matches as review metadata"
+            if vex is not None
+            else "optional; pass --vex together with --product-purl"
+        ),
+    })
+    stages.append({
+        "name": "slsa-subject-digest-check",
+        "requested": provenance is not None,
+        "status": "planned" if provenance is not None else "skipped",
+        "reason": (
+            "compares a supplied statement subject digest with the selected firmware image; no signature trust is asserted"
+            if provenance is not None
+            else "optional; pass --provenance with --firmware"
+        ),
+    })
     if profile == "esp-idf":
         lockfile = target / "dependencies.lock" if target.is_dir() else None
         lock_exists = bool(lockfile and (lockfile.exists() or lockfile.is_symlink()))
@@ -520,6 +624,22 @@ def _scan_plan(
         "selected_zephyr_hardening_report": selected_hardening_report,
         "detected_frameworks": framework_hints,
         "framework_hints_are_advisory": True,
+        "build_context": {
+            "platformio": {
+                "status": platformio_inventory.status,
+                "path": platformio_inventory.path,
+                "default_environments": list(platformio_inventory.default_environments),
+                "selected_environments": list(platformio_inventory.selected_environments),
+                "environment_count": len(platformio_inventory.environments),
+            },
+            "compilation_database": {
+                "status": compilation_database.status,
+                "path": compilation_database.path,
+                "entry_count": compilation_database.entry_count,
+                "unique_translation_units": compilation_database.unique_translation_units,
+                "compiler_families": compilation_database.compiler_families,
+            },
+        },
         "discovery_preview": discovery_preview,
         "support": capability_for_plan(
             profile,
@@ -567,6 +687,17 @@ def _scan_plan(
                 else "none detected"
             )
         )
+        if platformio_inventory.status != "not-detected":
+            print(
+                f"PlatformIO environments: {len(platformio_inventory.environments)} found; "
+                f"selected: {', '.join(platformio_inventory.selected_environments) or 'none'}"
+            )
+            print("  PlatformIO commands will not run.")
+        if compilation_database.status != "not-detected":
+            print(
+                f"Compilation database: {compilation_database.unique_translation_units} unique "
+                f"translation unit(s); commands will not run."
+            )
         print(f"Selected profile controls analyzer routing: {profile}")
         if discovery_preview is not None:
             print(
@@ -787,6 +918,23 @@ def main(argv: list[str] | None = None) -> int:
         )
         if firmware and sbom_input:
             raise ValueError("The target is recognized as an SBOM, not a firmware image")
+        if args.vex and not args.product_purl:
+            raise ValueError("--vex requires --product-purl so FUSE can bind the review to the intended product")
+        if args.product_purl:
+            validate_package_purl(args.product_purl)
+        if args.vex and not vulnerabilities:
+            raise ValueError("--vex requires --vulnerabilities so review records can match advisory findings")
+        if args.provenance and not firmware:
+            raise ValueError("--provenance requires --firmware")
+        if args.hardware_bom and not analyzer_target.is_dir():
+            raise ValueError("--hardware-bom requires a project directory target")
+        if (
+            args.platformio_config is not None
+            or args.platformio_env
+            or args.compile_commands is not None
+            or args.hardware_bom is not None
+        ) and not analyzer_target.is_dir():
+            raise ValueError("PlatformIO, compilation database, and hardware BOM options require a project directory target")
         max_file_bytes = (
             args.max_file_bytes
             if args.max_file_bytes is not None
@@ -845,6 +993,8 @@ def main(argv: list[str] | None = None) -> int:
         optional_analysis = sbom or vulnerabilities or firmware or git_history
         if optional_analysis and args.output is not None:
             raise ValueError("Use --output-dir when enabling external analyzers")
+        if args.hardware_bom and args.output is not None:
+            raise ValueError("Use --output-dir when exporting a CycloneDX hardware BOM")
         if args.output is not None and output_dir is not None:
             raise ValueError("Use either --output or --output-dir, not both")
         exclude = _exclude_output_directory(args.target, output_dir, exclude)
@@ -856,6 +1006,12 @@ def main(argv: list[str] | None = None) -> int:
                 target_label=target_label,
                 build_dir=args.build_dir,
                 zephyr_hardening_report=args.zephyr_hardening_report,
+                platformio_config=args.platformio_config,
+                platformio_environments=tuple(args.platformio_env),
+                compile_commands=args.compile_commands,
+                hardware_bom=args.hardware_bom,
+                vex=args.vex,
+                provenance=args.provenance,
                 sbom=sbom,
                 vulnerabilities=vulnerabilities,
                 firmware=firmware,
@@ -894,6 +1050,10 @@ def main(argv: list[str] | None = None) -> int:
             sbom_input=sbom_input,
             build_dir=args.build_dir,
             zephyr_hardening_report=args.zephyr_hardening_report,
+            platformio_config=args.platformio_config,
+            platformio_environments=tuple(args.platformio_env),
+            compile_commands=args.compile_commands,
+            hardware_bom=args.hardware_bom,
         )
         network_policy = (
             "no-network"
@@ -918,6 +1078,46 @@ def main(argv: list[str] | None = None) -> int:
                 offline_vulnerabilities=offline_vulnerabilities,
                 no_network=args.no_network,
                 sbom_input=sbom_input,
+            )
+        if args.product_purl:
+            result = replace(result, product_purl=args.product_purl)
+        if args.vex:
+            vex_root = analyzer_target if analyzer_target.is_dir() else analyzer_target.parent
+            findings, vex_import = import_vex(
+                vex_root,
+                args.vex,
+                product_purl=args.product_purl,
+                findings=result.findings,
+            )
+            result = replace(result, findings=findings, vex_import=vex_import)
+        if args.provenance:
+            provenance = inspect_provenance(
+                analyzer_target.parent,
+                args.provenance,
+                firmware_path=analyzer_target,
+                max_firmware_bytes=max_firmware_bytes,
+            )
+            result = replace(result, provenance=provenance)
+        if result.hardware_bom.status in {"imported", "partial"}:
+            if output_dir is None:
+                raise ValueError("A CycloneDX hardware BOM needs a report output directory")
+            output_dir.mkdir(parents=True, exist_ok=True)
+            bom_path = output_dir / "hardware-bom.cdx.json"
+            if bom_path.is_symlink():
+                raise ValueError("Refusing to write the CycloneDX hardware BOM through a symbolic link")
+            bom_content = hardware_bom_document(result.hardware_bom, product_name=result.target)
+            bom_path.write_bytes(bom_content.encode("utf-8"))
+            bom_digest = hashlib.sha256(bom_path.read_bytes()).hexdigest()
+            result = replace(
+                result,
+                artifacts=(
+                    *result.artifacts,
+                    AnalysisArtifact(
+                        path=bom_path.relative_to(output_dir).as_posix(),
+                        media_type="application/vnd.cyclonedx+json",
+                        sha256=bom_digest,
+                    ),
+                ),
             )
         if output_dir is not None:
             _write_reports(result, output_dir)
@@ -986,6 +1186,16 @@ def main(argv: list[str] | None = None) -> int:
         analyzer.name == "zephyr-hardenconfig" and analyzer.status != "completed"
         for analyzer in result.analyzers
     ):
+        return 2
+    if result.platformio_inventory.status in {"partial", "invalid"}:
+        return 2
+    if result.compilation_database.status in {"partial", "invalid"}:
+        return 2
+    if result.hardware_bom.status in {"partial", "invalid"}:
+        return 2
+    if result.vex_import.status in {"partial", "invalid"}:
+        return 2
+    if result.provenance.status not in {"not-requested", "subject-match"}:
         return 2
 
     if not result.analysis_performed:

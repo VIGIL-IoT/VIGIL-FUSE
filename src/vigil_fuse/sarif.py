@@ -121,6 +121,25 @@ def to_sarif(result: ScanResult) -> str:
                     "remediation": finding.remediation,
                     "evidence": finding.evidence,
                     "references": list(finding.references),
+                    "component": (
+                        {
+                            "name": finding.component.name,
+                            "version": finding.component.version,
+                            "ecosystem": finding.component.ecosystem,
+                            "purl": finding.component.purl,
+                        }
+                        if finding.component
+                        else None
+                    ),
+                    "vexReview": (
+                        {
+                            "state": finding.vex_review.state,
+                            "justification": finding.vex_review.justification,
+                            "detail": finding.vex_review.detail,
+                        }
+                        if finding.vex_review
+                        else None
+                    ),
                 },
             }
         )

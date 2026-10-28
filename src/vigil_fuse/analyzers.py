@@ -13,6 +13,7 @@ from pathlib import Path, PurePosixPath
 from typing import Any
 
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
+from .product_context import dependency_component
 
 ANALYZER_TIMEOUT_SECONDS = 180
 TOOL_VERSION_TIMEOUT_SECONDS = 5
@@ -499,6 +500,12 @@ def osv_findings(document: dict[str, Any], target: Path, version: str | None) ->
                         severity_score=severity_score,
                         severity_vector=severity_vector,
                         severity_version=severity_version,
+                        component=dependency_component(
+                            name,
+                            package_version,
+                            ecosystem,
+                            package.get("purl") or package_result.get("purl"),
+                        ),
                     )
                 )
     return tuple(findings)

@@ -51,6 +51,22 @@
       "limitations": ["Does not invoke west or the build system", "Hardening results require an explicit report produced by Zephyr", "Does not prove that the selected build is shipped"]
     },
     {
+      "id": "build-context.platformio",
+      "input": "platformio.ini project configuration",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Inventories declared environments, boards, platforms, frameworks, and selected defaults without invoking PlatformIO.",
+      "limitations": ["Does not resolve variable substitutions or conditional configuration", "Does not build or test any environment", "Does not compare environment-specific compiled output"]
+    },
+    {
+      "id": "inventory.compilation-database",
+      "input": "compile_commands.json",
+      "profile": null,
+      "label": "detected",
+      "scope": "Indexes translation units and compiler families as bounded metadata.",
+      "limitations": ["Compiler commands and project code are never executed", "No compiler or semantic C/C++ analyzer is run"]
+    },
+    {
       "id": "inventory.esp-idf-lock",
       "input": "ESP-IDF dependencies.lock",
       "profile": "esp-idf",
@@ -104,7 +120,31 @@
       "profile": null,
       "label": "detected",
       "scope": "Filename-based presence inventory with category counts and paths.",
-      "limitations": ["Does not parse files or assess hardware security"]
+      "limitations": ["Presence-only filename detection does not assess hardware security", "Detailed BOM parsing requires the explicit hardware.hbom-import capability"]
+    },
+    {
+      "id": "hardware.hbom-import",
+      "input": "Explicit CSV or TSV hardware BOM",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Imports allow-listed component columns and exports a CycloneDX 1.6 hardware inventory.",
+      "limitations": ["Does not validate part specifications or assess circuit security", "Import is limited to UTF-8 CSV and TSV"]
+    },
+    {
+      "id": "product.vex-context",
+      "input": "CycloneDX VEX 1.5 or 1.6",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Attaches reviewed status to exact product, package PURL, and advisory matches while retaining findings.",
+      "limitations": ["VEX signatures are not authenticated", "Imported review does not change finding severity or fail thresholds", "Only exact PURL and advisory matches are applied"]
+    },
+    {
+      "id": "supply-chain.provenance-subject",
+      "input": "In-toto SLSA provenance statement and firmware image",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Compares a supplied subject SHA-256 with the selected firmware image and records claimed builder metadata.",
+      "limitations": ["Signature and builder trust are not verified", "Does not validate build policy or provenance completeness"]
     },
     {
       "id": "runtime.lab-validation",

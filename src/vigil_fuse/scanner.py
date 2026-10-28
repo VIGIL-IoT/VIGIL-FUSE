@@ -10,7 +10,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from . import __version__
+from .build_context import inspect_compilation_database, inspect_platformio
 from .hardware import classify_hardware_file
+from .hardware_bom import inspect_hardware_bom
 from .input_types import MAX_SBOM_DETECTION_BYTES
 from .limits import (
     DEFAULT_MAX_DISCOVERED_DIRECTORIES,
@@ -24,7 +26,14 @@ from .limits import (
     MAX_CONFIGURABLE_SCAN_SECONDS,
     MAX_CONFIGURABLE_SOURCE_BYTES,
 )
-from .model import AnalyzerStatus, HardwareArtifact, HardwareInventory, ScanResult, SourceFile
+from .model import (
+    AnalyzerStatus,
+    HardwareArtifact,
+    HardwareBOMInventory,
+    HardwareInventory,
+    ScanResult,
+    SourceFile,
+)
 from .platform_context import inspect_project_context
 from .profiles import ScanProfile, get_profile
 from .rule_execution import (
@@ -260,6 +269,10 @@ def scan(
     sbom_input: bool = False,
     build_dir: str | Path | None = None,
     zephyr_hardening_report: str | Path | None = None,
+    platformio_config: str | Path | None = None,
+    platformio_environments: tuple[str, ...] = (),
+    compile_commands: str | Path | None = None,
+    hardware_bom: str | Path | None = None,
     target_label: str | None = None,
     max_discovered_paths: int = MAX_DISCOVERED_PATHS,
     max_discovered_directories: int = MAX_DISCOVERED_DIRECTORIES,
@@ -280,6 +293,10 @@ def scan(
         raise ValueError("SBOM input must be a single file")
     if firmware_image and sbom_input:
         raise ValueError("A target cannot be both a firmware image and an SBOM")
+    if (platformio_config is not None or platformio_environments or compile_commands is not None or hardware_bom is not None) and not requested.is_dir():
+        raise ValueError("PlatformIO, compilation database, and hardware BOM inputs require a project directory target")
+    if hardware_bom is not None and (firmware_image or sbom_input):
+        raise ValueError("--hardware-bom can only be used with a source project directory")
     if build_dir is not None and profile not in {"esp-idf", "zephyr"}:
         raise ValueError("--build-dir requires the esp-idf or zephyr profile")
     if build_dir is not None and not requested.is_dir():
@@ -320,6 +337,20 @@ def scan(
         requested,
         profile,
         build_dir,
+    )
+    platformio_inventory = inspect_platformio(
+        requested,
+        selected_environments=platformio_environments,
+        config_path=platformio_config,
+    )
+    compilation_database = inspect_compilation_database(
+        requested,
+        database_path=compile_commands,
+    )
+    hardware_bom_inventory = (
+        inspect_hardware_bom(requested, hardware_bom)
+        if hardware_bom is not None
+        else HardwareBOMInventory()
     )
     hardening_artifact = None
     hardening_findings = ()
@@ -715,6 +746,9 @@ def scan(
             complete=discovery_complete,
         ),
         project_context=project_context,
+        platformio_inventory=platformio_inventory,
+        compilation_database=compilation_database,
+        hardware_bom=hardware_bom_inventory,
         source_bytes_read=files_scanned_bytes,
         discovery_complete=discovery_complete,
         limits_reached=tuple(sorted(limits_reached)),

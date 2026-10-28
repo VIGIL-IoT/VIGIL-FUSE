@@ -72,7 +72,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             result = scan(root)
             payload = json.loads(to_json(result))
 
-        self.assertEqual("1.7", payload["schema_version"])
+        self.assertEqual("1.8", payload["schema_version"])
         self.assertEqual(root.name, payload["target"])
         self.assertNotIn(str(root), to_json(result))
         self.assertEqual(1, payload["summary"]["files_discovered"])
@@ -612,7 +612,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
             output_dir_created = (root / "scan-results").exists()
         self.assertEqual(0, exit_code)
-        self.assertEqual("1.7", report["schema_version"])
+        self.assertEqual("1.8", report["schema_version"])
         self.assertFalse(output_dir_created)
 
     def test_firmware_target_is_hashed_without_claiming_native_content_scan(self) -> None:
