@@ -43,10 +43,15 @@ py -m vigil_fuse scan firmware-project --profile esp-idf --output-dir .fuse-resu
 py -m vigil_fuse scan firmware-project --target-label my-lab/firmware-project
 py -m vigil_fuse scan firmware-project --profile esp-idf --build-dir build
 py -m vigil_fuse scan zephyr-project --profile zephyr --build-dir build
+py -m vigil_fuse scan platformio-project --platformio-env release
+py -m vigil_fuse scan firmware-project --compile-commands build/compile_commands.json
+py -m vigil_fuse scan hardware-project --hardware-bom hardware/controller-bom.csv
 py -m vigil_fuse scan firmware-project --sbom --vulnerabilities --output-dir .fuse-results
 py -m vigil_fuse scan device-firmware.bin --firmware --output-dir .fuse-results
 py -m vigil_fuse scan device-firmware.bin --firmware --max-firmware-bytes 1073741824
 py -m vigil_fuse scan bom.cdx.json --vulnerabilities --output-dir .fuse-results
+py -m vigil_fuse scan firmware-project --vulnerabilities --vex product.vex.json --product-purl pkg:generic/device@1.0
+py -m vigil_fuse scan device-firmware.bin --firmware --provenance firmware.intoto.json --output-dir .fuse-results
 py -m vigil_fuse scan firmware-project --vulnerabilities --no-network
 py -m vigil_fuse scan . --git-history --output-dir .fuse-results
 py -m vigil_fuse scan . --fail-on high
@@ -63,13 +68,23 @@ The normal project flow is a one-time editable install followed by `vigil-fuse s
 └── findings.sarif
 ```
 
+Selecting `--hardware-bom` also writes `hardware-bom.cdx.json` into this directory.
+
 The scanner reads selected code and configuration extensions, including C/C++, Arduino, Berry scripts, Python, JavaScript/TypeScript, Go, Rust, YAML, JSON, TOML, INI, environment files, and PEM files. `--profile` expands discovery to common ESP-IDF, Zephyr, and embedded-Linux filenames. `FUSE006` and `FUSE007` are the first platform-specific checks; other platform rule families remain future work. The default per-file limit is 2 MiB. By default, the native source scan reads at most 512 MiB, visits 100,000 file paths or 20,000 directories, and runs for at most 10 minutes. Set `--max-source-bytes`, `--max-discovered-paths`, `--max-discovered-directories`, or `--max-scan-seconds`, or use the matching `[scan]` TOML values. Hard ceilings are 8 GiB, 1,000,000 paths, 200,000 directories, and 60 minutes. Optional external analyzers have their own timeouts. Native rules run in a killable subprocess with a 2-second per-rule, per-input timeout by default. Use `--rule-timeout` to set a value from 0.1 to 30 seconds. Conservative rule-owned prefilters avoid invoking a rule when selected inputs lack its required markers. Reports show an intentional `skipped` status when no selected input matches a rule's supported scope; this alone does not make the scan incomplete. A rule that times out or fails is disabled for the rest of that scan and reported with partial coverage. Other selected rules continue when possible. Unsupported and binary files are not analyzed by native rules.
 
 Firmware input uses a separate 512 MiB default cap. Set `--max-firmware-bytes` or `scan.max_firmware_bytes` to raise or lower it, up to 2 GiB. An image above the selected limit is reported as unsupported before its contents are hashed or passed to Binwalk.
 
 Every scan also inventories recognized hardware artifacts by filename, independently of the source profile: schematics, PCB layouts and design projects, Gerber and drill outputs, named BOMs, mechanical CAD, netlists, HDL files, and KiCad footprint libraries. The inventory records paths, categories, and counts in JSON and text reports. It does not open those files or create security findings, so presence is not a hardware security assessment. Directory scans skip common generated/dependency folders, symbolic links, and paths explicitly matched by `--exclude`. A single-file scan reports only that file's scope.
 
-`--output-dir` creates `findings.json`, `findings.txt`, and `findings.sarif` together. JSON schema 1.7 records the profile, input-manifest digest, timestamps, rules/analyzers, hardware inventory, selected project build context, ESP-IDF sdkconfig/defaults provenance, resolved component metadata, unsupported file types, artifacts, and skipped-file reasons so incomplete scans are not presented as clean scans. Per-rule analyzer entries make timeouts and failures visible. Use `scan --plan` to see framework hints, a bounded selected-file preview, expected stages, timeout settings, and missing tools before analysis. `doctor` reports the Python runtime and installed optional analyzers. Reports hide the absolute target path by default.
+`--output-dir` creates `findings.json`, `findings.txt`, and `findings.sarif` together. JSON schema 1.8 also records PlatformIO environment metadata, optional compilation-database inventory, explicitly imported hardware BOMs, product PURL and VEX review context, and firmware provenance digest comparison. Per-rule analyzer entries make timeouts and failures visible. Use `scan --plan` to see framework hints, the declared build matrix, compilation-database coverage, a bounded selected-file preview, expected stages, timeout settings, and missing tools before analysis. `doctor` reports the Python runtime and installed optional analyzers. Reports hide the absolute target path by default.
+
+PlatformIO support is metadata-only. FUSE reads `platformio.ini`, reports declared environments and selected defaults, and accepts repeatable `--platformio-env` selectors. It does not run PlatformIO, resolve project scripts, build targets, or claim that every environment passed tests. If `compile_commands.json` is present, FUSE indexes translation units and compiler families. It never executes commands from that database and does not yet provide compiler-semantic C/C++ analysis.
+
+Hardware filename inventory remains presence-only by default. To parse a BOM, pass `--hardware-bom hardware/controller-bom.csv` or a UTF-8 TSV. FUSE accepts common reference, value, footprint, manufacturer, part number, and quantity columns, records imported component metadata, and writes `.fuse-results/hardware-bom.cdx.json` as CycloneDX 1.6. This is an inventory export, not a part authenticity check, circuit review, or hardware vulnerability assessment. The import is opt-in because a BOM may reveal board composition.
+
+Product and build provenance are separate context from FUSE findings. `--vex product.vex.json --product-purl pkg:generic/device@1.0 --vulnerabilities` imports CycloneDX VEX 1.5 or 1.6 and annotates only exact product PURL, component PURL, and advisory ID matches. The original finding and severity-based exit behavior remain intact. A VEX `not_affected` state requires a recognized justification. FUSE does not authenticate the VEX signature.
+
+For firmware digest context, `--firmware --provenance firmware.intoto.json` parses an in-toto SLSA provenance statement and compares its subject SHA-256 with the selected image. A subject match confirms only that the supplied statement lists the same digest. FUSE does not verify the statement signature, trust the claimed builder, or validate the build policy. A mismatch is reported and returns a non-zero status.
 
 For ESP-IDF and Zephyr, `--build-dir` selects an existing build directory relative to the scan target. FUSE reads bounded configuration and metadata files only. It records ESP-IDF's selected `sdkconfig` and observed defaults order, while treating conventional defaults as candidates when the build does not identify them. It does not run CMake, `idf.py`, `west`, project scripts, or dependency resolution. ESP-IDF generated boot-validation findings are marked as candidates, not proof that the build is released.
 
@@ -119,12 +134,13 @@ See the [GitHub Actions SARIF workflow example](docs/github-actions.md). Vulnera
 Run the rule and CLI tests with:
 
 ```powershell
-py -m unittest discover -s tests -v
+py -m pip install -e ".[test]"
+py -m pytest -q
 ```
 
 ## Finding model
 
-Every finding keeps **severity** (potential impact), **confidence** (strength of the evidence), **applicability** (whether it applies to the shipped product), and **validation status** as separate fields. Static and advisory matches default to applicability `unknown` and validation `not-validated`; FUSE does not present them as lab-confirmed issues. Dependency findings preserve the upstream severity basis and CVSS vector, including CVSS v4 vectors. An unscored v4 vector remains attached to the finding while severity stays `unknown` unless the advisory supplies a qualitative label. The JSON report uses schema version `1.7` and includes a stable finding ID and fingerprint, rule/analyzer provenance, scan coverage, hardware inventory, selected build context and configuration origin, ESP-IDF component metadata, unsupported file-type counts, redacted evidence, explanation, potential impact, remediation, and references where useful. Dependency findings can omit source line numbers when an inventory only identifies a manifest or SBOM. See [the finding schema](docs/finding-schema.md) and the machine-readable [JSON Schema](src/vigil_fuse/schemas/fuse-report-1.7.schema.json).
+Every finding keeps **severity** (potential impact), **confidence** (strength of the evidence), **applicability** (whether it applies to the shipped product), and **validation status** as separate fields. Static and advisory matches default to applicability `unknown` and validation `not-validated`; FUSE does not present them as lab-confirmed issues. Dependency findings preserve the upstream severity basis and CVSS vector, including CVSS v4 vectors. An unscored v4 vector remains attached to the finding while severity stays `unknown` unless the advisory supplies a qualitative label. The JSON report uses schema version `1.8` and includes a stable finding ID and fingerprint, rule/analyzer provenance, scan coverage, hardware inventory, selected build context, product PURL and VEX context, optional hardware BOM, firmware provenance metadata, unsupported file-type counts, redacted evidence, explanation, potential impact, remediation, and references where useful. Dependency findings can omit source line numbers when an inventory only identifies a manifest or SBOM. See [the finding schema](docs/finding-schema.md) and the machine-readable [JSON Schema](src/vigil_fuse/schemas/fuse-report-1.8.schema.json).
 
 ## Architecture
 
@@ -148,7 +164,7 @@ FUSE identifies and explains candidate weaknesses. SPECTRA-32 can experimentally
 ## Development roadmap
 
 1. **Foundation:** CLI, common finding format, conservative rules, vulnerable/secure fixtures, and tests.
-2. **Contracts and source profiles:** JSON schema 1.7, profiles, provenance, path filters, default output directories, hardware artifact inventory, selected ESP-IDF and Zephyr build context, ESP-IDF sdkconfig/defaults provenance and lock metadata, unsupported-input counts, and SARIF export are implemented; parser-aware source checks remain future work.
+2. **Contracts and source profiles:** JSON schema 1.8, profiles, path filters, default output directories, hardware artifact inventory, selected ESP-IDF and Zephyr build context, PlatformIO environment inventory, compilation-database indexing, ESP-IDF sdkconfig/defaults provenance and lock metadata, unsupported-input counts, and SARIF export are implemented; compiler-semantic C/C++ checks remain future work.
 3. **Component inventory:** optional Syft CycloneDX generation, OSV-Scanner matching, and direct CycloneDX/SPDX SBOM inputs are implemented; validate behavior and precision on embedded corpora and improve package-level evidence.
 4. **Safe firmware intake:** optional Binwalk signature identification is implemented without extraction. Bounded, isolated extraction and extracted-file provenance remain future work.
 5. **Firmware-specific checks:** add tested OTA, crypto, debug/interface, and embedded-platform rules with explicit context requirements.

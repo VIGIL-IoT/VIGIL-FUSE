@@ -1,6 +1,6 @@
 # FUSE finding format
 
-FUSE JSON reports use `schema_version: "1.7"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.7.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, a hardware artifact inventory, selected project build context and configuration origin, resolved ESP-IDF component metadata when available, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan.
+FUSE JSON reports use `schema_version: "1.8"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.8.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan.
 
 The top-level `target` value is a shareable label. By default, it is the target basename. Pass `--target-label organization/repository` or set `scan.target_label` in TOML to give reports and baselines a stable identity when different repositories have the same folder name. Labels cannot be absolute paths or contain traversal segments. Local target paths are not included in reports.
 
@@ -30,6 +30,8 @@ The top-level `target` value is a shareable label. By default, it is the target 
 | `potential_impact` | Conditional consequence if the configuration is active and applicable |
 | `remediation` | Practical next step to remove or verify the risk |
 | `references` | Optional primary weakness references, such as CWE entries |
+| `component` | Optional dependency identity with ecosystem, name, version, and package URL; populated for normalized advisory findings |
+| `vex_review` | Optional CycloneDX VEX review state, justification, and detail; this context does not replace the underlying finding |
 
 Line numbers are `null` for findings such as dependency advisories when the inventory identifies a manifest or SBOM but cannot identify a source line. Dependency severity uses an upstream qualitative label or a CVSS v3.0/v3.1 base vector when present. `severity: "unknown"` means FUSE could not derive a supported advisory severity; it does not manufacture one from confidence.
 
@@ -45,6 +47,14 @@ The `coverage` object lists all available and enabled rules, analyzer status/ver
 
 The `hardware_inventory` object reports recognizable schematics, PCB design and fabrication artifacts, BOMs, CAD models, netlists, and HDL files. Detection uses filenames only and is independent of the source profile. `scope` is either the full directory target or a single file. `complete` is false if directory discovery stopped at a resource limit. Its entries are presence metadata, not vulnerability findings, and FUSE does not claim to validate hardware contents or security.
 
+The `build_context.platformio` object records selected metadata from `platformio.ini`, including declared environments, their allow-listed board and platform fields, default environment names, and a SHA-256 of the config file. It does not expand variable interpolation, run PlatformIO, or build each environment. `build_context.compilation_database` records bounded entry counts, source paths classified as in-target or external, compiler families, and a digest. FUSE treats compilation commands as data and never executes them. This inventory does not imply semantic C or C++ analysis.
+
+The `hardware_bom` object is present-only unless `--hardware-bom` explicitly selects a CSV or TSV. It records the source digest, imported row count, listed quantity, normalized part fields, and parse limitations. FUSE also writes `hardware-bom.cdx.json`, a CycloneDX hardware inventory, and lists its digest in `artifacts`. Imported part names and manufacturer metadata may reveal board composition. Neither the imported BOM nor the generated HBOM is a hardware security assessment.
+
+The `product_context` object can include a product PURL and the metadata for an explicitly imported CycloneDX VEX document. FUSE binds the VEX product PURL to `--product-purl`, then applies review metadata only when both the vulnerability ID and affected component PURL exactly match a FUSE dependency finding. Unmatched records remain visible in the import summary. The underlying finding, severity, and `--fail-on` result are preserved. VEX review is not signature-authenticated by FUSE.
+
+The `provenance` object records fields selected from an in-toto SLSA statement and whether a subject SHA-256 matches the selected firmware image. `subject-match` means only that the supplied statement contains the image digest. `signature_verified` remains false because FUSE does not verify the envelope signature, trusted builder identity, or build policy. A mismatch is an explicit nonzero scan status.
+
 The `project_context` object records ESP-IDF or Zephyr project markers and, only when `--build-dir` is supplied, a small set of files from that selected build directory. Those generated files are hashed and bounded to 4 MiB each. ESP-IDF context records the selected `sdkconfig` path and whether it came from `CMakeCache.txt` or the conventional project default. It records defaults candidates in processing order, target-specific variants, hashes, and missing or unreadable inputs. An explicit `SDKCONFIG_DEFAULTS` value is taken from the selected build's cache; without that evidence, conventional defaults are candidates only because project CMake or environment settings may override them. The order follows Espressif's documented rule: each target-specific variant is tried immediately after its base entry. FUSE does not interpret Kconfig dependencies or claim that a selected build was released. Boot-validation settings found in selected generated configuration can produce findings with `applicability: "candidate"` and `validation_method: "generated-config"`. ESP-IDF scans also inventory a root `dependencies.lock` when present, using the optional `vigil-fuse[esp-idf]` extra. The lock summary preserves the file hash, lock version, target, manifest hash, and resolved component names, versions, source types, compatibility targets, and dependency edges. It does not expose raw source URLs or local paths. The manifest hash is not recomputed, so `manifest_freshness` remains `unverified`. A resolved lock entry is not proof that a component was built into or shipped in a firmware image. Zephyr scans can import the selected build's JSON hardening report with `--zephyr-hardening-report`. The report is hashed, limited to 4 MiB, and must be inside the selected build directory. FUSE preserves the Zephyr profile and rationale, and maps each upstream `FAIL` to a finding with unknown severity, high confidence in the reported configuration deviation, candidate applicability, and external-tool validation provenance. Passing and non-applicable check counts appear in the analyzer coverage detail. FUSE does not run `west` or the build. Both platform adapters are experimental.
 
 The `artifacts` array records each generated SBOM or analyzer output by relative path, media type, and SHA-256. The report itself is not listed as an artifact because it contains the artifact manifest.
@@ -59,7 +69,7 @@ Severity, its source, confidence, applicability, and validation are separate dim
 
 ```json
 {
-  "schema_version": "1.7",
+  "schema_version": "1.8",
   "tool": {"name": "FUSE", "version": "0.2.0"},
   "target": "device-project",
   "scan": {
@@ -113,6 +123,69 @@ Severity, its source, confidence, applicability, and validation are separate dim
     "artifacts": [
       {"path": "hardware/controller.kicad_sch", "category": "schematic", "format": "KiCad schematic"}
     ]
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
   },
   "project_context": {
     "framework": null,
@@ -175,7 +248,9 @@ Severity, its source, confidence, applicability, and validation are separate dim
       "explanation": "A credential-related name is assigned a literal value. This is a static indicator.",
       "potential_impact": "If active and distributed, the value may permit access to a service or device.",
       "remediation": "Remove and rotate the value; provision it through a protected device process.",
-      "references": ["https://cwe.mitre.org/data/definitions/798.html"]
+      "references": ["https://cwe.mitre.org/data/definitions/798.html"],
+      "component": null,
+      "vex_review": null
     }
   ],
   "artifacts": []

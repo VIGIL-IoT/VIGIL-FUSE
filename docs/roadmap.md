@@ -13,7 +13,7 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 
 ## 1. Contracts and source-project profiles - implemented baseline
 
-- Version and publish JSON schema 1.7; retain the 1.1 through 1.6 schemas for existing reports.
+- Version and publish JSON schema 1.8; retain the 1.1 through 1.7 schemas for existing reports.
 - Add `--output-dir`, TOML configuration/path filters, explicit profiles such as generic source, ESP-IDF, Zephyr, and embedded Linux, and default output reports. Profiles extend file discovery; FUSE006 and FUSE007 are the first platform-specific rules, with broader platform rule families still future work.
 - Use parser-aware language rules where syntax or data flow matters; retain FUSE-native IoT configuration checks.
 - SARIF 2.1.0 export includes source-root URI bases; parser-aware source checks remain future work.
@@ -26,10 +26,16 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 - The adapters are experimental, bounded to 4 MiB per context file, and report missing or unreadable generated configuration as partial. Imported hardening output must be inside the selected build directory; FUSE does not invoke `west`, CMake, or project scripts.
 - ESP-IDF `dependencies.lock` inventory is implemented behind the optional `esp-idf` extra. It records resolved component metadata, preserves lock and manifest hashes, and leaves manifest freshness unverified.
 - `scan --plan` reports recognized ESP-IDF/Zephyr project hints and a bounded preview of selected paths, unsupported file types, and hardware filenames. JSON/text reports retain unsupported type counts and mark the inventory incomplete when discovery hits a budget.
+- PlatformIO context inventories declared environments, default selections, and allow-listed board metadata without running PlatformIO. A supplied or root `compile_commands.json` is indexed for translation units and compiler families. Commands remain data and are never invoked. Compiler-semantic analysis remains future work.
+- Explicit CSV/TSV hardware BOM import produces normalized component inventory and a CycloneDX 1.6 hardware BOM artifact. The default filename inventory remains content-blind.
+- CycloneDX VEX 1.5/1.6 can annotate dependency findings after exact product PURL, component PURL, and advisory matches. Imported review context never removes or downgrades a FUSE finding. VEX signature verification remains future work.
+- An explicit in-toto SLSA statement can be compared with a firmware image SHA-256. A digest match is reported separately from signature, builder trust, and build-policy verification, which FUSE does not perform.
 - Implemented: record the selected ESP-IDF `sdkconfig`, the observed `SDKCONFIG_DEFAULTS` order, target-specific default candidates, hashes, and missing or unreadable inputs in the report. Conventional defaults remain candidates when no selected build confirms them. Add pinned framework-version fixture coverage before any supported label. Zephyr hardening import remains experimental and requires the project's own JSON output.
 
 ## 0.3 research-backed foundations - in progress
 
+- Added repository CI on Python 3.11 through 3.14, report-schema validation, wheel and source-distribution builds, and an installed-CLI scan smoke check. The workflow uses read-only repository permissions and SHA-pinned actions.
+- The current report contract is schema 1.8. The report and plan include PlatformIO metadata, compilation-database indexing, optional hardware BOM import, product PURL and CycloneDX VEX context, and SLSA subject digest comparison.
 - Implemented: `doctor` reports the current OS and architecture alongside Python and optional tools; bounded path and framework previews in `scan --plan`; a shared support matrix; strict no-network OSV mode; shareable target labels; explicit symlink refusal; bounded SBOM detection and matching; a 50 MiB SBOM cap; configurable scan-wide path, directory, source-byte, and time budgets with hard ceilings; and a 512 MiB default firmware cap configurable up to 2 GiB. Also implemented are interruptible per-rule subprocess timeouts with per-rule coverage statuses; conservative rule-owned input prefilters; line-shift-stable SARIF `primaryLocationLineHash` values; bounded analyzer diagnostics; SARIF result truncation accounting; CVSS vector preservation; finding applicability/validation fields; honest incomplete exit statuses; and Binwalk version reporting. Intentional rule-level skips are distinct from partial coverage. A successful signature-only Binwalk run is complete for its documented scope; a truncated saved artifact is partial.
 - Implemented `baseline create`, `baseline diff`, `baseline suppress`, and `baseline unsuppress`. Baselines require complete scan reports; diffs retain suppressed counts, mark incomplete scans as exit 2, and do not infer resolved findings when coverage is incomplete. Suppressions are bound to the target label and profile and include a required reason, optional owner, creation time, and optional expiry. Native comparison identity ignores line-number shifts and uses rule, path, category, title, and redacted evidence. A second path-independent identity classifies a file move only when one unmatched old finding and one unmatched current finding agree; ambiguous duplicates remain new and resolved for review. Moves do not carry suppressions to a new path. OSV findings remain path-sensitive.
 - Implemented opt-in Git-history scanning with Gitleaks. It scans commits reachable from `HEAD` only when requested, keeps historical exposure separate from working-tree results, never stores raw match or secret fields, and reports shallow history as partial.
@@ -47,12 +53,14 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 - Accept project lockfiles/manifests and detect supplied CycloneDX/SPDX inputs; direct SBOM advisory matching is implemented.
 - ESP-IDF lock inventory reads a root `dependencies.lock` without running the component manager; a lock entry is not proof of inclusion in a released image.
 - Optional Syft and OSV-Scanner subprocess adapters emit CycloneDX, normalize advisory findings, and record tool status/version/artifacts.
+- Optional CycloneDX VEX import annotates exact component and advisory matches. The original finding and threshold behavior remain unchanged.
 - Distinguish declared dependencies from components actually present in a firmware filesystem.
 - Preserve package identifiers, versions, data source, and matching evidence.
 
 ## 3. Firmware intake - identification implemented; extraction deferred
 
 - Explicit firmware mode hashes the image and can run Binwalk signature identification without extraction.
+- Optional in-toto SLSA provenance intake compares the statement's subject digest to a selected firmware image. It does not authenticate the statement or claimed builder.
 - Add an isolated, bounded extractor only after a disposable worker/container boundary is available.
 - Any future extractor must run in a disposable, unprivileged worker with byte, file-count, recursion, time, and memory limits.
 - Index extracted files without executing them; track original image and extraction-path provenance.
@@ -69,6 +77,7 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 
 - Export findings as SARIF and component inventory as CycloneDX; both formats are implemented in the CLI baseline.
 - A pinned SHA and least-privilege GitHub Actions example uploads canonical reports, publishes SARIF in a separate job, and restores FUSE's exit status. Additional CI integrations, then HTML, editor, and dashboard adapters for the [VIGIL-IoT suite](https://github.com/VIGIL-IoT), remain future work.
+- The FUSE repository has a separate Python compatibility and package-build workflow in `.github/workflows/ci.yml`.
 - Keep report exporters independent from rule implementations.
 
 ## 6. [VIGIL-IoT suite](https://github.com/VIGIL-IoT) lab loop

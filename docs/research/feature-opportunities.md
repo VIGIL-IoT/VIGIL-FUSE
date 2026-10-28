@@ -5,17 +5,18 @@
 
 **Implementation update - 28 October 2026:** the local CLI now includes the default report bundle, `doctor`, `scan --plan`, bounded scan execution, conservative rule-owned prefilters, line-shift-stable SARIF fingerprints, hardware filename inventory, a pinned GitHub Actions example, baseline create/diff/suppress/unsuppress commands with conservative file-move classification, stable shareable target labels, an opt-in import path for Zephyr hardenconfig JSON, and opt-in redacted Gitleaks history scanning. Selected ESP-IDF generated-configuration findings carry candidate applicability and generated-config provenance. The pinned 14-repository snapshot was refreshed after rule refinements. Two separate four-repository validation cohorts are pinned; the first exposed a FUSE001 prompt-string false positive and the second was preserved as an independent pre-change set. Framework/build-target variation remains open.
 
+**Implementation update, continued:** FUSE now has repository CI for Python 3.11 through 3.14, schema validation, package builds, and an installed CLI smoke scan. Schema 1.8 records metadata-only PlatformIO environment and compilation-database inventories, opt-in CSV/TSV hardware BOM import with CycloneDX HBOM output, exact-match CycloneDX VEX review context, and in-toto SLSA subject digest comparison for firmware. These additions do not run platform build commands, authenticate VEX or provenance signatures, or perform compiler-semantic C/C++ analysis.
+
 ## Summary
 
 FUSE already has a useful local scanning foundation: a CLI, seven tested static rules, severity and confidence as separate fields, redacted evidence, text/JSON/SARIF reports, scan coverage metadata, optional Syft and OSV-Scanner adapters, Binwalk signature identification, and opt-in redacted Git-history scanning through Gitleaks. The highest-value next step is to make FUSE more context-aware and easier to use in a normal development workflow, not to add a large number of unvalidated pattern rules.
 
 Recommended order:
 
-1. Add build-configuration audits for one or two supported embedded frameworks, starting with ESP-IDF and Zephyr.
-2. Add a GitHub Actions example and verify stable SARIF identity across repeat scans.
-3. Add baselines, finding diffs, and reviewable suppressions.
+1. Expand build-context coverage across framework versions, targets, and declared environments while keeping selection evidence visible.
+2. Add parser-aware analyzer adapters only where syntax or data flow improves a specific embedded check.
+3. Improve package-presence evidence and VEX trust handling while preserving the original advisory and FUSE finding.
 4. Expand firmware analysis only after a bounded, isolated extraction boundary exists.
-5. Add device-context vulnerability status through VEX and optional parser-aware analyzers.
 
 “Universal” should mean that FUSE can route different artifact types to suitable analyzers and show exactly what it covered. It should not mean that one scan can prove every property of every device.
 
@@ -25,10 +26,10 @@ Recommended order:
 | --- | --- | --- |
 | Source and configuration | Seven conservative rules, generic and embedded discovery profiles, selected build context, and imported Zephyr hardening results | Effective build configuration checks with broader framework-version and board coverage |
 | Findings | Versioned JSON, text, SARIF, evidence, remediation, separate severity and confidence, move-aware baselines | Review move classifications across real project changes and integrate baseline policy into PRs |
-| Dependencies | Optional Syft inventory and OSV-Scanner advisory matching | Preserve whether a component came from a source manifest, installed image, or SBOM; add product-context VEX |
-| Firmware | Hashing and optional Binwalk signature identification without extraction | Isolated bounded extraction with file ancestry and partial-coverage reporting |
+| Dependencies | Optional Syft inventory, OSV-Scanner advisory matching, component PURLs, and exact-match CycloneDX VEX review context | Preserve whether a component came from a source manifest, installed image, or SBOM; authenticate VEX signatures |
+| Firmware | Hashing, optional Binwalk signature identification, and in-toto subject digest comparison without extraction | Isolated bounded extraction with file ancestry and partial-coverage reporting; authenticate statements and builder trust |
 | Secrets | Native checks on selected working-tree files and opt-in Gitleaks scan of commits reachable from `HEAD` | Run Gitleaks against full and shallow histories, then refine path and test-fixture behavior |
-| CI | SARIF export, severity exit threshold, pinned GitHub Actions example | PR annotations and policy integration for baseline diffs |
+| CI | Python compatibility workflow, package build smoke checks, SARIF export, severity exit threshold, pinned consuming-repository workflow example | PR annotations and policy integration for baseline diffs |
 | Reports | `.fuse-results` with text, JSON, SARIF, and optional analyzer artifacts | Optional HTML review page after finding identity and triage are stable |
 | Research workflow | FUSE and SPECTRA-32 are described as complementary | A later handoff record linking a static hypothesis to a controlled lab run and mitigation measurement |
 
@@ -46,7 +47,7 @@ GitHub accepts SARIF from third-party tools for code-scanning alerts. Its docume
 
 OSV-Scanner separates source manifests from installed artifacts because they answer different questions. FUSE should keep that distinction visible in dependency evidence, especially when it begins inspecting extracted firmware. [OSV-Scanner supported artifacts and manifests](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/)
 
-CycloneDX VEX represents exploitability information in the context of a product and its components. FUSE could import and export VEX records to capture reviewed product-specific status. A VEX statement should retain its justification and evidence, and should not silently erase the underlying advisory or FUSE finding. [CycloneDX VEX](https://cyclonedx.org/capabilities/vex/)
+CycloneDX VEX represents exploitability information in the context of a product and its components. FUSE now imports CycloneDX VEX as exact-match review metadata and retains the underlying advisory and finding. The next work is stronger component-presence evidence, authenticated VEX signatures, and carefully scoped support for additional status formats. [CycloneDX VEX](https://cyclonedx.org/capabilities/vex/)
 
 Semgrep's rule format supports language-aware patterns and rule testing. This is a possible optional adapter for source-code checks where syntax or code context matters. FUSE's own rules should remain focused on embedded configuration and IoT context that a general source analyzer does not express well. [Semgrep rule syntax](https://semgrep.dev/docs/writing-rules/rule-syntax), [Semgrep rule testing](https://semgrep.dev/docs/writing-rules/testing-rules)
 
@@ -86,9 +87,9 @@ Move from signature identification toward a staged pipeline: identify and hash t
 
 This can unlock filesystem configuration, installed package inventory, embedded certificates, and service configuration checks. It is a higher-effort change because untrusted firmware parsing expands FUSE's attack surface.
 
-### P1: Product-context vulnerability status
+### P1: Product-context evidence and VEX trust
 
-Add optional CycloneDX VEX input and output after FUSE has a clear component identity contract. A reviewed `not affected` status should include a reason and evidence, remain linked to the advisory and component, and never be inferred solely because FUSE found no vulnerable code path.
+CycloneDX VEX input and exact product, component, and advisory matching are implemented. A reviewed `not affected` status requires a recognized reason and remains attached to the original advisory. Improve component identity and image-presence evidence before authenticating signatures or adding another VEX vocabulary. Never infer `not affected` solely because FUSE found no vulnerable code path.
 
 ### P2: Optional parser-aware source analysis
 
@@ -102,7 +103,7 @@ An offline HTML report can make a result folder easier to review once finding id
 
 The current landing page already shows the CLI workflow, a sample finding, seven implemented rules, evidence boundaries, local report outputs, and the SPECTRA-32 relationship. Keep those as the present-tense product claims.
 
-The most useful additions would be a short supported-inputs and analyzer matrix, a capability map that distinguishes implemented checks from planned areas, and a preview of the actual `.fuse-results` folder. The CLI baseline workflow is implemented and mentioned on the landing page. HTML output, firmware extraction, VEX, and lab handoff remain planned. The Actions example is a documented template and still needs adaptation and permissions review in each consuming repository.
+The most useful additions would be a short supported-inputs and analyzer matrix, a capability map that distinguishes implemented checks from planned areas, and a preview of the actual `.fuse-results` folder. The CLI baseline workflow, repository CI, exact-match CycloneDX VEX context, and local report bundle are implemented. HTML output, isolated firmware extraction, authenticated provenance verification, richer component-presence evidence, and SPECTRA-32 lab handoff remain future work. The Actions example is a documented template and still needs adaptation and permissions review in each consuming repository.
 
 ## Suggested implementation sequence
 
@@ -112,7 +113,7 @@ The most useful additions would be a short supported-inputs and analyzer matrix,
 4. Choose a concrete ESP-IDF or Zephyr production profile and test it against paired secure and insecure build configurations.
 5. Add capability coverage metadata without making compliance claims.
 6. Design and threat-model the isolated firmware extraction worker before enabling extraction.
-7. Add VEX and parser-aware analyzer adapters after component identity and adapter contracts are stable.
+7. Improve component-presence evidence and authenticated VEX workflows after source identity and trust-policy contracts are stable. Add parser-aware analyzer adapters where syntax or data flow is required.
 
 ## Research method
 

@@ -13,6 +13,8 @@
 
 **Implementation update - 28 October 2026:** ESP-IDF build context now records a selected `sdkconfig`, observed `SDKCONFIG_DEFAULTS` cache values, target-specific default variants, file hashes, and missing or unreadable inputs. It reads only bounded files inside the chosen project. Conventional defaults are shown as candidates unless selected-build evidence confirms the source; FUSE does not execute CMake, evaluate project code, resolve Kconfig dependencies, or infer release deployment. JSON report schema 1.7 adds this provenance object.
 
+**Implementation follow-up - 28 October 2026:** the current report schema is 1.8. FUSE now has repository CI, metadata-only PlatformIO and compilation-database inventory, opt-in CSV/TSV hardware BOM import with CycloneDX HBOM output, exact-match CycloneDX VEX review context, and an SLSA subject digest comparison for selected firmware. These stages do not run PlatformIO, compile code, authenticate VEX or provenance signatures, or extract firmware.
+
 ## Executive recommendation
 
 FUSE should become a universal entry point and evidence layer for embedded security analysis. It should not try to replace every firmware unpacker, general source analyzer, SBOM generator, vulnerability database client, or board-specific hardening tool.
@@ -35,7 +37,7 @@ This direction preserves the current small Python core and its tested native rul
 
 This section records the repository state observed at the start of this research. The implementation status after the research is tracked in the [roadmap](../roadmap.md).
 
-The repository already contains an installable Python project named `vigil-fuse`, a `vigil-fuse` console command, Python 3.11 or newer support, and no mandatory runtime dependencies. The CLI scans project directories, selected source/configuration files, single SBOM files, and firmware images when firmware mode is selected. The package emits text, JSON schema 1.7, and SARIF reports. Optional Syft, OSV-Scanner, and Binwalk adapters run as external executables.
+The repository already contains an installable Python project named `vigil-fuse`, a `vigil-fuse` console command, Python 3.11 or newer support, and no mandatory runtime dependencies. The CLI scans project directories, selected source/configuration files, single SBOM files, and firmware images when firmware mode is selected. The current package emits text, JSON schema 1.8, and SARIF reports. Optional Syft, OSV-Scanner, and Binwalk adapters run as external executables.
 
 There are seven native rules. Each has a vulnerable and secure fixture. The existing design already separates severity from confidence, redacts secret-like evidence, records file coverage and skipped paths, hashes selected inputs, and distinguishes unavailable or failed optional tools from completed analysis. Profiles named `generic`, `esp-idf`, `zephyr`, and `embedded-linux` currently expand file discovery. They do not yet represent a complete framework analyzer or an effective production configuration.
 
