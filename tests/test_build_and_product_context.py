@@ -140,6 +140,7 @@ class CompilationDatabaseTests(unittest.TestCase):
             (root / "src").mkdir()
             (root / "build").mkdir()
             marker = root / "command-was-run.txt"
+            outside_source = root.parent / "outside-project" / "lib.c"
             database = [
                 {
                     "directory": str(root / "build"),
@@ -148,7 +149,7 @@ class CompilationDatabaseTests(unittest.TestCase):
                 },
                 {
                     "directory": str(root / "build"),
-                    "file": "C:/outside/lib.c",
+                    "file": str(outside_source),
                     "command": f'python -c "from pathlib import Path; Path(r\'{marker}\').write_text(\'ran\')"',
                 },
                 {"file": "missing-directory.c"},
