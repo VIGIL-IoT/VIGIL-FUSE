@@ -21,9 +21,16 @@
               },
               "properties": {
                 "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
                 "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
                 "category": "secrets",
-                "version": "1.1.0"
+                "version": "1.4.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
             },
@@ -40,9 +47,16 @@
               },
               "properties": {
                 "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
                 "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
                 "category": "transport-security",
-                "version": "1.1.0"
+                "version": "1.2.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
             },
@@ -59,9 +73,16 @@
               },
               "properties": {
                 "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
                 "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
                 "category": "transport-security",
-                "version": "1.1.0"
+                "version": "1.2.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/319.html"
             }
@@ -69,6 +90,11 @@
         }
       },
       "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
       "results": [
         {
           "ruleId": "FUSE001",
@@ -80,7 +106,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino"
+                  "uri": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 47,
@@ -90,6 +117,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "30d7be562107331944982ed59c0deba77ca81fc2d2e6fd35f35eb2427e8383d0:1",
             "vigilIoTFingerprint/v1": "349b152bb3bc6421cbe9489a4d24edcb3756e08e8b77f24e1aa5e1b0b14be15e"
           },
           "properties": {
@@ -116,7 +144,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h"
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 2640,
@@ -126,6 +155,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:1",
             "vigilIoTFingerprint/v1": "573a942d204938aea0be04271bf4cf0a872727ab2c45288a8c955e5541c47c73"
           },
           "properties": {
@@ -152,7 +182,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h"
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 2821,
@@ -162,6 +193,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:2",
             "vigilIoTFingerprint/v1": "30c7e8981f2d2ab0cfdbc6a252ad7a118e2edf9444b9df800835c91b81b275f4"
           },
           "properties": {
@@ -188,7 +220,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h"
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 6029,
@@ -198,6 +231,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:1",
             "vigilIoTFingerprint/v1": "7ad26f7af19800cb2bacbc86d3422002a88714f80e649fb6d1cf8a443d23bb2a"
           },
           "properties": {
@@ -224,7 +258,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h"
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 3373,
@@ -234,6 +269,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:1",
             "vigilIoTFingerprint/v1": "8363d6b686e4682dfc8f617c58f53401d0ea9b9f911c34068e98e09f1db1372f"
           },
           "properties": {
@@ -260,7 +296,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp"
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 242,
@@ -270,6 +307,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
             "vigilIoTFingerprint/v1": "1ed1002c7543f9f356de2133f0bf5a7926f65579de38367e9e0ca08b6704fde2"
           },
           "properties": {
@@ -296,7 +334,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp"
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 433,
@@ -306,6 +345,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:2",
             "vigilIoTFingerprint/v1": "b9781d981655ef31e7ff35787ea1a2d33015ffbde295972b6e2cdd53f86787f7"
           },
           "properties": {
@@ -332,7 +372,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "pio-tools/post_esp32.py"
+                  "uri": "pio-tools/post_esp32.py",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 230,
@@ -342,6 +383,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "306297a3179580167dd1ddeae3247fc65648d04609a83c1d814284d79ff084c8:1",
             "vigilIoTFingerprint/v1": "4ebb0767b6a72a593bd268bdbf702dd22f81fb3c8d4eddcf8d051181ab68e4f0"
           },
           "properties": {
@@ -368,7 +410,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/berry/drivers/ftp.be"
+                  "uri": "tasmota/berry/drivers/ftp.be",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 60,
@@ -378,6 +421,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "43859373b2d8f68566a8c46c7e9cbf2d21730da1c1b0920ec573523441f760cb:1",
             "vigilIoTFingerprint/v1": "600d59d7a1fec60e54e8c3091291fc3f08a45853b3448b8089f990c3a66af562"
           },
           "properties": {
@@ -404,7 +448,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/berry/drivers/ssh.be"
+                  "uri": "tasmota/berry/drivers/ssh.be",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 871,
@@ -414,6 +459,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "43859373b2d8f68566a8c46c7e9cbf2d21730da1c1b0920ec573523441f760cb:1",
             "vigilIoTFingerprint/v1": "6679bb855d5d8d48a2756e807f0d04d3a77ef6889d6ff309d8e7cd821dfef29b"
           },
           "properties": {
@@ -440,7 +486,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be"
+                  "uri": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 18,
@@ -450,6 +497,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "306297a3179580167dd1ddeae3247fc65648d04609a83c1d814284d79ff084c8:1",
             "vigilIoTFingerprint/v1": "18bfcdf1fbbff04ecce6d4fc90270df25d3aec63e1fca41ef07e453c63c43cd4"
           },
           "properties": {
@@ -476,7 +524,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/include/Powerwall.h"
+                  "uri": "tasmota/include/Powerwall.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 71,
@@ -486,6 +535,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
             "vigilIoTFingerprint/v1": "cbbce99d00d3cdfc5e144033949093334f4f8fe887c5538445c206dd1e3f3c66"
           },
           "properties": {
@@ -512,7 +562,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/include/Powerwall.h"
+                  "uri": "tasmota/include/Powerwall.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 136,
@@ -522,6 +573,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:2",
             "vigilIoTFingerprint/v1": "db3bae16fe0fbf3f92969a8ba423d3c0e679585349c2a15702b4fa5183c44a36"
           },
           "properties": {
@@ -548,7 +600,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/include/Powerwall.h"
+                  "uri": "tasmota/include/Powerwall.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 291,
@@ -558,6 +611,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:3",
             "vigilIoTFingerprint/v1": "04b64fa55cf6c4cad77b9f30dbecbeaaae2278719fba18dd9afdba6e3569e632"
           },
           "properties": {
@@ -584,7 +638,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino"
+                  "uri": "tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 14178,
@@ -594,6 +649,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
             "vigilIoTFingerprint/v1": "21f88efdb524406587542102169038b0c90c5dd33b54c40029fb613482df320f"
           },
           "properties": {
@@ -614,15 +670,57 @@
       "properties": {
         "target": "arendst/Tasmota",
         "profile": "generic",
+        "networkPolicy": "not-requested",
         "inputManifestSha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638",
         "analysisPerformed": true,
         "analyzers": [
           {
             "name": "fuse-native",
-            "status": "completed",
+            "status": "partial",
             "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "partial",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
           }
-        ]
+        ],
+        "sarifExport": {
+          "resultsAvailable": 15,
+          "resultsIncluded": 15,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
       }
     }
   ]

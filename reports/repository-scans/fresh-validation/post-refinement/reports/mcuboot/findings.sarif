@@ -1,0 +1,181 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE002",
+              "shortDescription": {
+                "text": "Private key PEM marker embedded in scanned file"
+              },
+              "fullDescription": {
+                "text": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.1.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/321.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/zephyr/bad-keys/bad-ec-p256.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "dcd0bbcf1ad95b9b71b5481c897c05a03986d6a7b19be03b34946c7baa40bf85:1",
+            "vigilIoTFingerprint/v1": "23185acf10b23c07795a4e914172c60430aa819b6fc9878cc45db0f8302ca841"
+          },
+          "properties": {
+            "fuseId": "FUSE002:samples/zephyr/bad-keys/bad-ec-p256.pem:1",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "samples/zephyr/bad-keys/bad-rsa-2048.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "dcd0bbcf1ad95b9b71b5481c897c05a03986d6a7b19be03b34946c7baa40bf85:1",
+            "vigilIoTFingerprint/v1": "27d452275797ca18037c678a51f85ca0d96a150c6291e8d709ce91082c072124"
+          },
+          "properties": {
+            "fuseId": "FUSE002:samples/zephyr/bad-keys/bad-rsa-2048.pem:1",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "mcu-tools/mcuboot, selected source and configuration",
+        "profile": "generic",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "03fdcb5e180d1d2a818e00405a356081b857e150b2b2f6dded64c6abc0d6879f",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "completed",
+            "version": "1.2.0"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 2,
+          "resultsIncluded": 2,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

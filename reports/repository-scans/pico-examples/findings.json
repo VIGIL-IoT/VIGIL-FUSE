@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.7",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,8 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "generic",
-    "started_at": "2026-10-26T17:33:48Z",
-    "completed_at": "2026-10-26T17:33:55Z",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:09:23Z",
+    "completed_at": "2026-10-27T21:09:24Z",
     "input_manifest_sha256": "ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42"
   },
   "summary": {
@@ -17,6 +18,7 @@
     "files_selected": 373,
     "files_filtered": 0,
     "files_scanned": 373,
+    "source_bytes_read": 3948253,
     "files_skipped": 0,
     "analysis_performed": true,
     "finding_count": 3,
@@ -31,6 +33,43 @@
   },
   "coverage": {
     "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 429,
+      "unsupported_file_types": {
+        ".adoc": 25,
+        ".bin": 4,
+        ".bmp": 1,
+        ".csv": 1,
+        ".fzz": 25,
+        ".gatt": 5,
+        ".gz": 1,
+        ".hex": 1,
+        ".html": 4,
+        ".md": 22,
+        ".pio": 26,
+        ".png": 30,
+        ".response": 2,
+        ".s": 2,
+        ".shtml": 8,
+        ".svg": 2,
+        ".txt": 265,
+        "<no-extension>": 5
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
     "rules_available": [
       "FUSE001",
       "FUSE002",
@@ -56,8 +95,231 @@
         "version": "0.2.0",
         "detail": "Native rules completed.",
         "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 32 selected input(s). The conservative prefilter excluded 341 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 6 selected input(s). The conservative prefilter excluded 367 inputs without the rule's required markers.",
+        "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 5 selected input(s). The conservative prefilter excluded 368 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 7 selected input(s). The conservative prefilter excluded 366 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 372 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 372 inputs without the rule's required markers.",
+        "findings": 0
       }
     ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": true,
+    "file_count": 25,
+    "category_counts": {
+      "hardware-project": 25
+    },
+    "artifacts": [
+      {
+        "path": "adc/microphone_adc/microphone_adc.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "bluetooth/ble_doorbell/doorbell.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "bluetooth/ble_pointer/ble_pointer.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "gpio/dht_sensor/pi-and-pico-uart-and-dht-sensor.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "gpio/hello_7segment/hello_7segment.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/bmp280_i2c/bmp280_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/ina228_i2c/ina228_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/ina260_i2c/ina260_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/lcd_1602_i2c/lcd_1602_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/lis3dh_i2c/lis3dh_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/mcp9808_i2c/mcp9808_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/mma8451_i2c/mma8451_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/mpl3115a2_i2c/mpl3115a2_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/mpu6050_i2c/mpu6050_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/pa1010d_i2c/pa1010d_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/pcf8523_i2c/pc8523_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "i2c/ssd1306_i2c/1306_i2c.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "pio/ir_nec/pio_ir_loopback.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "pio/onewire/pio_onewire.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "spi/bme280_spi/bme280_spi.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "spi/mpu9250_spi/mpu9250_spi.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "spi/spi_master_slave/spi_master_slave.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "spi/ssd1309_spi/wiring_diagram.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "spi/ssd1309_stdout_spi/wiring_diagram.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "uart/lcd_uart/lcd_uart.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      }
+    ]
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
   },
   "findings": [
     {
@@ -81,7 +343,14 @@
       "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
       "references": [
         "https://cwe.mitre.org/data/definitions/321.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE002:encrypted/hello_encrypted/private.pem:4",
@@ -104,7 +373,14 @@
       "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
       "references": [
         "https://cwe.mitre.org/data/definitions/321.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE002:pico_w/wifi/ota_update/private.pem:4",
@@ -127,7 +403,14 @@
       "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
       "references": [
         "https://cwe.mitre.org/data/definitions/321.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     }
   ],
   "artifacts": []

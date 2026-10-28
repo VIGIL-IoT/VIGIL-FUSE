@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE002",
+              "shortDescription": {
+                "text": "Private key PEM marker embedded in scanned file"
+              },
+              "fullDescription": {
+                "text": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.1.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/321.html"
+            },
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.4.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: \"[PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/lwm2m-ipso-objects/project-conf-dtls.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 131,
+                  "endLine": 131
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4f31a071c6c41db8c83bceea1d0f7303acf8c105b2db81f50b60c63601c2fc28:1",
+            "vigilIoTFingerprint/v1": "4456e3d83c04db449e4ffe461ba69b5ce7bb52079d5585bff339e59fe232c806"
+          },
+          "properties": {
+            "fuseId": "FUSE002:examples/lwm2m-ipso-objects/project-conf-dtls.h:131",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "\"[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: \"[PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/lwm2m-ipso-objects/project-conf-dtls.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 155,
+                  "endLine": 155
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4f31a071c6c41db8c83bceea1d0f7303acf8c105b2db81f50b60c63601c2fc28:2",
+            "vigilIoTFingerprint/v1": "ea58b4157880ea691173c10fc6cae2b29f172e0aaafbc6d7e3a0e6d1ee8060c6"
+          },
+          "properties": {
+            "fuseId": "FUSE002:examples/lwm2m-ipso-objects/project-conf-dtls.h:155",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "\"[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define MQTT_CLIENT_AUTH_TOKEN \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/mqtt-client/mqtt-client.c",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 93,
+                  "endLine": 93
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "6713dd76b1ed250f41405b1e33b23590d541af15c33039c3394187cf074801bd:1",
+            "vigilIoTFingerprint/v1": "c66098dc00e715931a8198a87126807b2cd2b0668e404e432f9929acf9970d2b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/mqtt-client/mqtt-client.c:93",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define MQTT_CLIENT_AUTH_TOKEN \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define MQTT_CLIENT_CONF_AUTH_TOKEN \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/mqtt-client/project-conf.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 73,
+                  "endLine": 73
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "38206abd071fe272b3d77c59caf7f1a299cdde333f2b2624d971b933fcc97f7a:1",
+            "vigilIoTFingerprint/v1": "fa817f2e8a2a4bcd95ac12d86c7c9747e0be74764ee95375cf42c520b26a2048"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/mqtt-client/project-conf.h:73",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define MQTT_CLIENT_CONF_AUTH_TOKEN \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "contiki-ng/contiki-ng, selected source and configuration",
+        "profile": "generic",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "2dc4e9819a6baf323b03d0bda3ca4ebe9285abababbeda2eadfda19c4f1b2781",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "partial",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "partial",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 4,
+          "resultsIncluded": 4,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

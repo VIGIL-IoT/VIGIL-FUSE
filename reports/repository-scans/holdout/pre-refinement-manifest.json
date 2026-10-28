@@ -1,0 +1,137 @@
+{
+  "cohort": "independent-holdout",
+  "scan_date": "2026-10-28",
+  "training_manifest": "../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Probe transfer of the current FUSE rules to embedded repositories that were not included in the rule-refinement corpus.",
+    "rule_tuning_during_holdout": false,
+    "interpretation": "A small purposive qualitative holdout, not a representative sample or accuracy benchmark. Findings require manual review and do not establish vulnerability or security."
+  },
+  "repositories": [
+    {
+      "id": "riot",
+      "name": "RIOT-OS/RIOT",
+      "url": "https://github.com/RIOT-OS/RIOT",
+      "commit": "f573bc4931723ba4ee0aacd88a1f6b05bfadc940",
+      "profile": "generic",
+      "checkout_scope": [
+        "boards",
+        "core",
+        "cpu",
+        "drivers",
+        "examples",
+        "sys",
+        "top-level build and configuration files"
+      ],
+      "scans": [
+        {
+          "id": "riot",
+          "scope": "Selected RIOT board, core, CPU, driver, example, system, and top-level build/configuration files",
+          "target_label": "RIOT-OS/RIOT, selected source and configuration",
+          "includes": [
+            "Makefile",
+            "Kconfig",
+            "boards/**",
+            "core/**",
+            "cpu/**",
+            "drivers/**",
+            "examples/**",
+            "sys/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "contiki-ng",
+      "name": "contiki-ng/contiki-ng",
+      "url": "https://github.com/contiki-ng/contiki-ng",
+      "commit": "c02eedae8b187123069891f81a7111b833701f9c",
+      "profile": "generic",
+      "checkout_scope": [
+        "arch",
+        "examples",
+        "os",
+        "tests",
+        "top-level build and configuration files"
+      ],
+      "scans": [
+        {
+          "id": "contiki-ng",
+          "scope": "Selected architecture, OS, example, test, and top-level build/configuration files",
+          "target_label": "contiki-ng/contiki-ng, selected source and configuration",
+          "includes": [
+            "arch/**",
+            "examples/**",
+            "os/**",
+            "tests/**",
+            "Makefile",
+            "Makefile.*"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crazyflie-firmware",
+      "name": "bitcraze/crazyflie-firmware",
+      "url": "https://github.com/bitcraze/crazyflie-firmware",
+      "commit": "b48aba18a675fe950a88d96586fd09e49d82a38b",
+      "profile": "generic",
+      "checkout_scope": [
+        "app_api",
+        "configs",
+        "examples",
+        "src",
+        "top-level build and configuration files"
+      ],
+      "scans": [
+        {
+          "id": "crazyflie-firmware",
+          "scope": "Selected Crazyflie application API, configuration, examples, implementation, and top-level build files",
+          "target_label": "bitcraze/crazyflie-firmware, selected source and configuration",
+          "includes": [
+            "app_api/**",
+            "configs/**",
+            "examples/**",
+            "src/**",
+            "Kconfig",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marlin",
+      "name": "MarlinFirmware/Marlin",
+      "url": "https://github.com/MarlinFirmware/Marlin",
+      "commit": "172b94822a49c9a500221b2601b5a8c778a920c6",
+      "profile": "generic",
+      "checkout_scope": [
+        "Marlin",
+        "config",
+        "platformio.ini",
+        "top-level build files"
+      ],
+      "scans": [
+        {
+          "id": "marlin",
+          "scope": "Marlin firmware sources, configuration examples, and PlatformIO build configuration",
+          "target_label": "MarlinFirmware/Marlin, selected source and configuration",
+          "includes": [
+            "Marlin/**",
+            "config/**",
+            "platformio.ini",
+            "Makefile"
+          ]
+        }
+      ]
+    }
+  ],
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "191534aa6a0768d4469e0d29861a797f2d8e26a9af6b37b8e3026faaa3e5b507",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "cohort": "regression-validation",
+  "scan_date": "2026-10-28",
+  "training_manifest": "../../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Post-change evaluation against the second four-project snapshot pinned before the FUSE001 refinement; this set did not guide the change.",
+    "rule_tuning_during_holdout": false,
+    "pinned_before_scan": true,
+    "builds_or_tests_run": false,
+    "interpretation": "A purposive qualitative validation set, not a representative sample or accuracy benchmark. Raw matches require manual review and do not establish vulnerability or security."
+  },
+  "repositories": [
+    {
+      "id": "mynewt-core",
+      "name": "apache/mynewt-core",
+      "url": "https://github.com/apache/mynewt-core",
+      "commit": "73c201517aae919ce521f73177d8a91099f6a539",
+      "profile": "generic",
+      "checkout_scope": [
+        "Mynewt kernel and system code",
+        "hardware and target definitions",
+        "networking and NimBLE components"
+      ],
+      "scans": [
+        {
+          "id": "mynewt-core",
+          "scope": "Mynewt kernel, system, hardware, targets, networking, and NimBLE source",
+          "target_label": "apache/mynewt-core, selected embedded source",
+          "includes": [
+            "apps/**",
+            "kernel/**",
+            "nimble/**",
+            "sys/**",
+            "hw/**",
+            "targets/**",
+            "Kconfig",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mbedtls",
+      "name": "Mbed-TLS/mbedtls",
+      "url": "https://github.com/Mbed-TLS/mbedtls",
+      "commit": "03e1438089654fb884ac48e0f3cd0049cfe2c102",
+      "profile": "generic",
+      "checkout_scope": [
+        "TLS and cryptographic library source",
+        "public headers and configuration",
+        "programs and examples"
+      ],
+      "scans": [
+        {
+          "id": "mbedtls",
+          "scope": "Mbed TLS library, public headers, configuration, programs, and examples",
+          "target_label": "Mbed-TLS/mbedtls, selected source and configuration",
+          "includes": [
+            "library/**",
+            "include/**",
+            "programs/**",
+            "configs/**",
+            "CMakeLists.txt",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "openthread",
+      "name": "openthread/openthread",
+      "url": "https://github.com/openthread/openthread",
+      "commit": "1f6c3ad43306f037dda60cd3e39998772016be10",
+      "profile": "generic",
+      "checkout_scope": [
+        "OpenThread protocol implementation",
+        "platform and example code",
+        "public headers and build configuration"
+      ],
+      "scans": [
+        {
+          "id": "openthread",
+          "scope": "OpenThread source, examples, public headers, and root build configuration",
+          "target_label": "openthread/openthread, selected embedded source",
+          "includes": [
+            "src/**",
+            "examples/**",
+            "include/**",
+            "CMakeLists.txt",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "esp-iot-solution",
+      "name": "espressif/esp-iot-solution",
+      "url": "https://github.com/espressif/esp-iot-solution",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "profile": "esp-idf",
+      "checkout_scope": [
+        "ESP-IDF components and examples",
+        "project configuration and component manifests",
+        "board and peripheral integration code"
+      ],
+      "scans": [
+        {
+          "id": "esp-iot-solution",
+          "scope": "ESP-IoT-Solution components, examples, sdkconfig defaults, and component manifests",
+          "target_label": "espressif/esp-iot-solution, selected ESP-IDF source",
+          "includes": [
+            "components/**",
+            "examples/**",
+            "CMakeLists.txt",
+            "idf_component.yml",
+            "sdkconfig.defaults*"
+          ]
+        }
+      ]
+    }
+  ],
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "671a4f26f3b070363be749e8958bc56c76f0221d28ef2f28aa2014bfe2ff69bf",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "baseline_manifest": "../manifest.json"
+}

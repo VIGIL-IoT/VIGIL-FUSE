@@ -1,0 +1,260 @@
+{
+  "schema_version": "1.6",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "RIOT-OS/RIOT, selected source and configuration",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T19:32:38Z",
+    "completed_at": "2026-10-27T19:35:40Z",
+    "input_manifest_sha256": "891970510cb0c2d72f5166e71a2dab3b2eebea2b8fc314761fbcc6fd6099cfa9"
+  },
+  "summary": {
+    "files_discovered": 7518,
+    "files_selected": 7515,
+    "files_filtered": 3,
+    "files_scanned": 7513,
+    "source_bytes_read": 94266277,
+    "files_skipped": 2,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {
+      "too_large": 2
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 3085,
+      "unsupported_file_types": {
+        ".base": 2,
+        ".bin": 8,
+        ".cff": 1,
+        ".ci": 72,
+        ".clk": 27,
+        ".coap": 1,
+        ".cocci": 1,
+        ".common": 2,
+        ".csv": 2,
+        ".custom": 1,
+        ".default": 18,
+        ".dep": 616,
+        ".esp32": 1,
+        ".esp32c3": 1,
+        ".esp32c6": 1,
+        ".esp32h2": 1,
+        ".esp32s2": 1,
+        ".esp32s3": 1,
+        ".esp32x": 1,
+        ".eth": 3,
+        ".f": 1,
+        ".fae": 2,
+        ".feather-m0-base": 1,
+        ".features": 390,
+        ".flash": 2,
+        ".gnrc": 1,
+        ".gpio": 1,
+        ".i2c": 1,
+        ".in": 13,
+        ".include": 589,
+        ".keys": 1,
+        ".ld": 43,
+        ".lines": 19,
+        ".lock": 4,
+        ".lorawan": 1,
+        ".lua": 2,
+        ".lwip": 1,
+        ".md": 541,
+        ".models": 19,
+        ".multi_se": 1,
+        ".net": 1,
+        ".nrf5x": 1,
+        ".nrfx": 1,
+        ".patch": 3,
+        ".pio": 3,
+        ".png": 1,
+        ".rtc": 1,
+        ".s": 15,
+        ".samd10": 1,
+        ".samd20": 1,
+        ".samd21": 1,
+        ".samd51": 1,
+        ".same54": 1,
+        ".saml10": 1,
+        ".saml11": 1,
+        ".saml21": 1,
+        ".samr21": 1,
+        ".samr30": 1,
+        ".samr34": 1,
+        ".se": 1,
+        ".sketch": 1,
+        ".slip": 2,
+        ".snip": 2,
+        ".spi": 6,
+        ".st7735": 1,
+        ".st7789": 1,
+        ".st7796": 1,
+        ".svg": 5,
+        ".timer": 2,
+        ".txt": 51,
+        ".vbat": 1,
+        ".wasm": 3,
+        ".wdt": 1,
+        ".xmegaa": 1,
+        ".xmegab": 1,
+        ".xmegac": 1,
+        ".xmegad": 1,
+        ".xmegae": 1,
+        "<no-extension>": 571
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "partial",
+        "version": "0.2.0",
+        "detail": "One or more selected files were skipped; review coverage details.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 160 selected input(s). The conservative prefilter excluded 7353 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.1.0",
+        "detail": "Evaluated 106 selected input(s). The conservative prefilter excluded 7407 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 1722 selected input(s). The conservative prefilter excluded 5791 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 12 selected input(s). The conservative prefilter excluded 7501 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 12 selected input(s). The conservative prefilter excluded 7501 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": true,
+    "file_count": 1,
+    "category_counts": {
+      "netlist": 1
+    },
+    "artifacts": [
+      {
+        "path": "drivers/Kconfig.net",
+        "category": "netlist",
+        "format": "Electronic netlist"
+      }
+    ]
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [],
+  "artifacts": []
+}

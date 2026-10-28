@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.7",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,8 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "zephyr",
-    "started_at": "2026-10-26T17:33:55Z",
-    "completed_at": "2026-10-26T17:33:55Z",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:09:24Z",
+    "completed_at": "2026-10-27T21:09:25Z",
     "input_manifest_sha256": "ce5784ac1cdb575cc7e1264554727902b0a96cb6dd72cc8e7194ad91c0aea93c"
   },
   "summary": {
@@ -17,6 +18,7 @@
     "files_selected": 30,
     "files_filtered": 12,
     "files_scanned": 30,
+    "source_bytes_read": 57272,
     "files_skipped": 0,
     "analysis_performed": true,
     "finding_count": 0,
@@ -31,6 +33,33 @@
   },
   "coverage": {
     "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 25,
+      "unsupported_file_types": {
+        ".constants": 1,
+        ".in": 1,
+        ".license": 1,
+        ".md": 3,
+        ".rst": 7,
+        ".zephyr": 1,
+        "<no-extension>": 11
+      }
+    },
+    "support": {
+      "capability_id": "source.zephyr",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Generic native rules over the expanded Zephyr file profile.",
+      "limitations": [
+        "Generated build metadata requires explicit --build-dir",
+        "Does not run Zephyr hardenconfig",
+        "Does not prove the selected build is released"
+      ]
+    },
     "rules_available": [
       "FUSE001",
       "FUSE002",
@@ -56,7 +85,108 @@
         "version": "0.2.0",
         "detail": "Native rules completed.",
         "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 29 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
+        "findings": 0
       }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": "zephyr",
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": "build-context.zephyr",
+    "adapter_support_label": "experimental",
+    "evidence": [
+      "west.yml manifest exists"
+    ],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": [
+      "Project markers identify a likely framework project but do not prove which build or image is deployed.",
+      "FUSE did not invoke the framework build system or resolve dependency manifests.",
+      "No selected Zephyr build output was supplied."
     ]
   },
   "findings": [],

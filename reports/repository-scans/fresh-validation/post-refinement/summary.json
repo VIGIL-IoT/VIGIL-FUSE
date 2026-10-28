@@ -1,0 +1,362 @@
+{
+  "generated_at": "2026-10-27T20:28:05Z",
+  "scan_date": "2026-10-28",
+  "cohort": "regression-validation",
+  "training_manifest": "../../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Regression scan of the original four-project validation set after the FUSE001 prompt-string refinement.",
+    "rule_tuning_during_holdout": false,
+    "pinned_before_scan": true,
+    "builds_or_tests_run": false,
+    "interpretation": "A purposive qualitative validation set, not a representative sample or accuracy benchmark. Raw matches require manual review and do not establish vulnerability or security."
+  },
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "671a4f26f3b070363be749e8958bc56c76f0221d28ef2f28aa2014bfe2ff69bf",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "interpretation": "Regression validation against patterns observed in the initial holdout snapshot. The corpus informed these refinements and is not an untouched blind holdout; findings remain static signals, not confirmed vulnerabilities.",
+  "totals": {
+    "files_discovered": 9712,
+    "files_selected": 5885,
+    "files_scanned": 5885,
+    "files_skipped": 0,
+    "repository_count": 4,
+    "scan_scope_count": 4,
+    "finding_count": 6,
+    "rule_counts": {
+      "FUSE001": 1,
+      "FUSE002": 2,
+      "FUSE003": 3,
+      "FUSE004": 0,
+      "FUSE005": 0,
+      "FUSE006": 0,
+      "FUSE007": 0
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 5,
+      "medium": 1,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {},
+    "hardware_file_count": 0,
+    "hardware_category_counts": {},
+    "hardware_inventory_complete": true
+  },
+  "repositories": [
+    {
+      "id": "micropython",
+      "name": "micropython/micropython",
+      "url": "https://github.com/micropython/micropython",
+      "commit": "e6aff005672cf5a7968a60a64f09ba26b1fc9833",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 5111,
+      "files_selected": 3088,
+      "files_scanned": 3088,
+      "files_skipped": 0,
+      "finding_count": 3,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 3,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 3,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "micropython",
+          "scope": "MicroPython core, native extensions, ports, shared code, and root build configuration",
+          "profile": "generic",
+          "files_discovered": 5111,
+          "files_selected": 3088,
+          "files_scanned": 3088,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 3,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 3,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 3,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/micropython/findings.json",
+            "text": "reports/micropython/findings.txt",
+            "sarif": "reports/micropython/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mcuboot",
+      "name": "mcu-tools/mcuboot",
+      "url": "https://github.com/mcu-tools/mcuboot",
+      "commit": "7f0bc83fe1a9309b08244439d42b04901b50af9a",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 708,
+      "files_selected": 489,
+      "files_scanned": 489,
+      "files_skipped": 0,
+      "finding_count": 2,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 2,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 2,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "mcuboot",
+          "scope": "MCUboot bootloader, configurations, headers, samples, simulator, and root build files",
+          "profile": "generic",
+          "files_discovered": 708,
+          "files_selected": 489,
+          "files_scanned": 489,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 2,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 2,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/mcuboot/findings.json",
+            "text": "reports/mcuboot/findings.txt",
+            "sarif": "reports/mcuboot/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "freertos-kernel",
+      "name": "FreeRTOS/FreeRTOS-Kernel",
+      "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel",
+      "commit": "640d0c43705e64cd53f46b31d882de6cd8433933",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 677,
+      "files_selected": 657,
+      "files_scanned": 657,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "freertos-kernel",
+          "scope": "FreeRTOS kernel, portable layers, and root build files",
+          "profile": "generic",
+          "files_discovered": 677,
+          "files_selected": 657,
+          "files_scanned": 657,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/freertos-kernel/findings.json",
+            "text": "reports/freertos-kernel/findings.txt",
+            "sarif": "reports/freertos-kernel/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nuttx-apps",
+      "name": "apache/nuttx-apps",
+      "url": "https://github.com/apache/nuttx-apps",
+      "commit": "9b1fc944fef1f711438367078f6d28ec740816b3",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 3216,
+      "files_selected": 1651,
+      "files_scanned": 1651,
+      "files_skipped": 0,
+      "finding_count": 1,
+      "rule_counts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "nuttx-apps",
+          "scope": "NuttX applications, networking utilities, system utilities, crypto applications, and root build files",
+          "profile": "generic",
+          "files_discovered": 3216,
+          "files_selected": 1651,
+          "files_scanned": 1651,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 1,
+          "rule_counts": {
+            "FUSE001": 1,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 1,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/nuttx-apps/findings.json",
+            "text": "reports/nuttx-apps/findings.txt",
+            "sarif": "reports/nuttx-apps/findings.sarif"
+          }
+        }
+      ]
+    }
+  ]
+}

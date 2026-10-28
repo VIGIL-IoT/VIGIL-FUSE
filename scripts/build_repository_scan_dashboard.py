@@ -13,8 +13,11 @@ ROOT = Path(__file__).resolve().parents[1]
 REPORT_ROOT = ROOT / "reports" / "repository-scans"
 MANIFEST_PATH = REPORT_ROOT / "scan-manifest.json"
 SITE_DATA_PATH = ROOT / "site" / "data" / "repository-scan-results.json"
+SUPPORT_MATRIX_SOURCE_PATH = ROOT / "src" / "vigil_fuse" / "support-matrix.json"
+SITE_SUPPORT_MATRIX_PATH = ROOT / "site" / "data" / "support-matrix.json"
 SEVERITIES = ("critical", "high", "medium", "low", "info", "unknown")
 RULE_IDS = tuple(f"FUSE{number:03d}" for number in range(1, 8))
+SUPPORTED_REPORT_SCHEMAS = frozenset({"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7"})
 GITHUB_REPORTS = "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans"
 
 
@@ -31,26 +34,16 @@ def normalize_report(scan: dict[str, str]) -> dict[str, Any]:
         raise FileNotFoundError(f"Missing FUSE JSON report for scan '{scan_id}': {json_path}")
 
     report = json.loads(json_path.read_text(encoding="utf-8"))
-    if report.get("schema_version") != "1.2":
-        raise ValueError(f"Unexpected FUSE report schema in {json_path}")
-    old_target = str(report.get("target", ""))
-    target_label = scan["target_label"]
-    report["target"] = target_label
-    write_json(json_path, report)
-
-    text_path = directory / "findings.txt"
-    if text_path.is_file():
-        lines = text_path.read_text(encoding="utf-8").splitlines()
-        if lines:
-            lines[0] = f"FUSE scan: {target_label}"
-        text_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-    sarif_path = directory / "findings.sarif"
-    if sarif_path.is_file() and old_target:
-        sarif_text = sarif_path.read_text(encoding="utf-8")
-        for candidate in {old_target, old_target.replace("\\", "/"), old_target.replace("\\", "\\\\")}:
-            sarif_text = sarif_text.replace(candidate, target_label)
-        sarif_path.write_text(sarif_text, encoding="utf-8")
+    schema_version = str(report.get("schema_version", ""))
+    if schema_version not in SUPPORTED_REPORT_SCHEMAS:
+        supported = ", ".join(sorted(SUPPORTED_REPORT_SCHEMAS))
+        raise ValueError(
+            f"Unsupported FUSE report schema {schema_version!r} in {json_path}; "
+            f"expected one of: {supported}"
+        )
+    # Normalize only the in-memory copy used for the public aggregate. Keep
+    # scanner-produced JSON, text, and SARIF files byte-for-byte auditable.
+    report["target"] = scan["target_label"]
 
     return report
 
@@ -100,6 +93,8 @@ def summarize_scan(scan: dict[str, str], report: dict[str, Any]) -> dict[str, An
     summary = report.get("summary", {})
     scan_meta = report.get("scan", {})
     coverage = report.get("coverage", {})
+    support = coverage.get("support", {})
+    hardware = report.get("hardware_inventory", {})
     return {
         "id": scan["id"],
         "profile": scan_meta.get("profile", "unknown"),
@@ -113,6 +108,18 @@ def summarize_scan(scan: dict[str, str], report: dict[str, Any]) -> dict[str, An
         "files_scanned": int(summary.get("files_scanned", 0)),
         "files_skipped": int(summary.get("files_skipped", 0)),
         "files_skipped_by_reason": coverage.get("files_skipped_by_reason", {}),
+        "scan_status": support.get("status", "unknown"),
+        "support_label": support.get("label", "unknown"),
+        "limits_reached": coverage.get("limits_reached", []),
+        "hardware_inventory": {
+            "present": bool(hardware.get("present", False)),
+            "file_count": int(hardware.get("file_count", 0)),
+            "category_counts": hardware.get("category_counts", {}),
+            "complete": bool(hardware.get("complete", False)),
+        },
+        "hardware_file_count": int(hardware.get("file_count", 0)),
+        "hardware_category_counts": hardware.get("category_counts", {}),
+        "hardware_inventory_complete": bool(hardware.get("complete", False)),
         "finding_count": int(summary.get("finding_count", 0)),
         "analysis_performed": bool(summary.get("analysis_performed", False)),
         "report_files": {
@@ -138,6 +145,7 @@ def build_summary() -> dict[str, Any]:
     total_rule_counts: Counter[str] = Counter()
     total_severity_counts: Counter[str] = Counter()
     total_skips: Counter[str] = Counter()
+    total_hardware_categories: Counter[str] = Counter()
 
     for repository in manifest["repositories"]:
         scans = []
@@ -149,6 +157,7 @@ def build_summary() -> dict[str, Any]:
             total_rule_counts.update(finding.get("rule_id", "unknown") for finding in report.get("findings", []))
             total_severity_counts.update(finding.get("severity", "unknown") for finding in report.get("findings", []))
             total_skips.update(report.get("coverage", {}).get("files_skipped_by_reason", {}))
+            total_hardware_categories.update(scan["hardware_category_counts"])
 
         rule_counts = Counter()
         severity_counts = Counter()
@@ -171,7 +180,10 @@ def build_summary() -> dict[str, Any]:
                         for key in (
                             "id", "profile", "scope", "files_discovered", "files_selected",
                             "files_scanned", "files_skipped", "files_skipped_by_reason",
-                            "finding_count", "analysis_performed", "input_manifest_sha256", "report_files",
+                            "finding_count", "analysis_performed", "scan_status", "support_label",
+                            "limits_reached", "hardware_file_count", "hardware_category_counts",
+                            "hardware_inventory", "hardware_inventory_complete",
+                            "input_manifest_sha256", "report_files",
                         )
                     }
                     for scan in scans
@@ -180,6 +192,11 @@ def build_summary() -> dict[str, Any]:
                 "files_selected": sum_field(scans, "files_selected"),
                 "files_scanned": sum_field(scans, "files_scanned"),
                 "files_skipped": sum_field(scans, "files_skipped"),
+                "hardware_file_count": sum_field(scans, "hardware_file_count"),
+                "hardware_category_counts": dict(sorted(
+                    sum((Counter(scan["hardware_category_counts"]) for scan in scans), Counter()).items()
+                )),
+                "hardware_inventory_complete": all(scan["hardware_inventory_complete"] for scan in scans),
                 "finding_count": sum_field(scans, "finding_count"),
                 "severity_counts": {key: severity_counts.get(key, 0) for key in SEVERITIES},
                 "rule_counts": {key: rule_counts.get(key, 0) for key in RULE_IDS},
@@ -194,6 +211,9 @@ def build_summary() -> dict[str, Any]:
         "files_selected": sum_field(all_scans, "files_selected"),
         "files_scanned": sum_field(all_scans, "files_scanned"),
         "files_skipped": sum_field(all_scans, "files_skipped"),
+        "hardware_file_count": sum_field(all_scans, "hardware_file_count"),
+        "hardware_category_counts": dict(sorted(total_hardware_categories.items())),
+        "hardware_inventory_complete": all(scan["hardware_inventory_complete"] for scan in all_scans),
         "finding_count": sum_field(all_scans, "finding_count"),
         "severity_counts": {key: total_severity_counts.get(key, 0) for key in SEVERITIES},
         "rule_counts": {key: total_rule_counts.get(key, 0) for key in RULE_IDS},
@@ -209,6 +229,13 @@ def build_summary() -> dict[str, Any]:
         "totals": totals,
         "repositories": repositories,
     }
+
+
+def build_support_matrix() -> dict[str, Any]:
+    matrix = json.loads(SUPPORT_MATRIX_SOURCE_PATH.read_text(encoding="utf-8"))
+    if matrix.get("schema_version") != "1.0" or not isinstance(matrix.get("capabilities"), list):
+        raise ValueError(f"Invalid FUSE support matrix: {SUPPORT_MATRIX_SOURCE_PATH}")
+    return matrix
 
 
 def svg_chart(title: str, rows: list[tuple[str, int]], output: Path) -> None:
@@ -274,8 +301,10 @@ def build_charts(summary: dict[str, Any]) -> None:
 
 def main() -> None:
     summary = build_summary()
+    support_matrix = build_support_matrix()
     write_json(REPORT_ROOT / "summary.json", summary)
     write_json(SITE_DATA_PATH, summary)
+    write_json(SITE_SUPPORT_MATRIX_PATH, support_matrix)
     build_charts(summary)
     print(
         "Built repository scan summary: "

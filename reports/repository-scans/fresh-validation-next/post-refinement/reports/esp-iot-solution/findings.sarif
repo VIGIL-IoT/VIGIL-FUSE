@@ -1,0 +1,867 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE006",
+              "shortDescription": {
+                "text": "ESP-IDF bootloader image validation is disabled"
+              },
+              "fullDescription": {
+                "text": "A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "boot-integrity",
+                "version": "1.2.0"
+              },
+              "helpUri": "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            },
+            {
+              "id": "FUSE002",
+              "shortDescription": {
+                "text": "Private key PEM marker embedded in scanned file"
+              },
+              "fullDescription": {
+                "text": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.1.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/321.html"
+            },
+            {
+              "id": "FUSE007",
+              "shortDescription": {
+                "text": "ESP-IDF skips app-image validation after deep sleep"
+              },
+              "fullDescription": {
+                "text": "A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP. Espressif documents that this skips normal image checks, including checksum, SHA-256, and signature validation, when resuming from deep sleep. If the active OTA partition is changed before that resume, the new image may skip its first validation. This finding does not prove that the file is active or that the device follows that OTA/deep-sleep path."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "boot-integrity",
+                "version": "1.2.0"
+              },
+              "helpUri": "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            },
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.4.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE006",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF bootloader image validation is disabled. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/ai/xiaozhi_chat/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6,
+                  "endLine": 6
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4e2652a14fdeaf9c44ca59e50613d93547f2a7bccb8d10b7f4e4a232d92b5ec2:1",
+            "vigilIoTFingerprint/v1": "269d24fb3f7f5b3338f956e40d69c2042b60afcecb83922b4deb3a39241dd545"
+          },
+          "properties": {
+            "fuseId": "FUSE006:examples/ai/xiaozhi_chat/sdkconfig.defaults:6",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this setting is active in a deployed build, a corrupted or modified app image may reach execution without the bootloader's normal image-validation step.",
+            "remediation": "Unset CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS unless a reviewed boot-time requirement justifies it. Verify the effective sdkconfig and resulting bootloader configuration for the release build.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE006",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF bootloader image validation is disabled. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/bluetooth/ble_adv/bthome/dimmer/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 2
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4e2652a14fdeaf9c44ca59e50613d93547f2a7bccb8d10b7f4e4a232d92b5ec2:1",
+            "vigilIoTFingerprint/v1": "4862f032bed3eb836ab9d36d57c57a33960276563dfcee731e8153ed4449537f"
+          },
+          "properties": {
+            "fuseId": "FUSE006:examples/bluetooth/ble_adv/bthome/dimmer/sdkconfig.defaults:2",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this setting is active in a deployed build, a corrupted or modified app image may reach execution without the bootloader's normal image-validation step.",
+            "remediation": "Unset CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS unless a reviewed boot-time requirement justifies it. Verify the effective sdkconfig and resulting bootloader configuration for the release build.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/bluetooth/ble_ota/rsa_key/private.pem",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 1,
+                  "endLine": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "dcd0bbcf1ad95b9b71b5481c897c05a03986d6a7b19be03b34946c7baa40bf85:1",
+            "vigilIoTFingerprint/v1": "75de157df97985d47d3819f815b144178958b9b507965570caf59f760635744e"
+          },
+          "properties": {
+            "fuseId": "FUSE002:examples/bluetooth/ble_ota/rsa_key/private.pem:1",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE007",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF skips app-image validation after deep sleep. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP. Espressif documents that this skips normal image checks, including checksum, SHA-256, and signature validation, when resuming from deep sleep. If the active OTA partition is changed before that resume, the new image may skip its first validation. This finding does not prove that the file is active or that the device follows that OTA/deep-sleep path. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/camera/basic/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a6edefc575f93fd536835911461e0b68415c945c17da5b9ba82530690d85a90d:1",
+            "vigilIoTFingerprint/v1": "f05ddcb979d756eaa64bfb9d2e9ca160d11401467369515cecebe4aa79989c63"
+          },
+          "properties": {
+            "fuseId": "FUSE007:examples/camera/basic/sdkconfig.defaults:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the setting and OTA/deep-sleep sequence are both active, a modified app image may avoid the normal validation step on its first boot after the partition change.",
+            "remediation": "Keep image validation enabled when deep-sleep workflows can follow OTA partition changes. Review Secure Boot settings and verify the effective sdkconfig used for release builds.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE006",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF bootloader image validation is disabled. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/camera/basic/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4e2652a14fdeaf9c44ca59e50613d93547f2a7bccb8d10b7f4e4a232d92b5ec2:1",
+            "vigilIoTFingerprint/v1": "2ae7d1a9517fd46daf913a82a352691116947e0fdae51406c4c2884a0e70772f"
+          },
+          "properties": {
+            "fuseId": "FUSE006:examples/camera/basic/sdkconfig.defaults:24",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this setting is active in a deployed build, a corrupted or modified app image may reach execution without the bootloader's normal image-validation step.",
+            "remediation": "Unset CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS unless a reviewed boot-time requirement justifies it. Verify the effective sdkconfig and resulting bootloader configuration for the release build.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE007",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF skips app-image validation after deep sleep. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP. Espressif documents that this skips normal image checks, including checksum, SHA-256, and signature validation, when resuming from deep sleep. If the active OTA partition is changed before that resume, the new image may skip its first validation. This finding does not prove that the file is active or that the device follows that OTA/deep-sleep path. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/camera/pic_server/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a6edefc575f93fd536835911461e0b68415c945c17da5b9ba82530690d85a90d:1",
+            "vigilIoTFingerprint/v1": "3d7be20d90a02be055e6be36c6e670ea51b51a30f82dde9bf09418fef23c4c2e"
+          },
+          "properties": {
+            "fuseId": "FUSE007:examples/camera/pic_server/sdkconfig.defaults:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the setting and OTA/deep-sleep sequence are both active, a modified app image may avoid the normal validation step on its first boot after the partition change.",
+            "remediation": "Keep image validation enabled when deep-sleep workflows can follow OTA partition changes. Review Secure Boot settings and verify the effective sdkconfig used for release builds.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE006",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF bootloader image validation is disabled. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/camera/pic_server/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4e2652a14fdeaf9c44ca59e50613d93547f2a7bccb8d10b7f4e4a232d92b5ec2:1",
+            "vigilIoTFingerprint/v1": "19280938d33e6c977c29ee666b22a347c7ce13675e0f3154956749952d3093dd"
+          },
+          "properties": {
+            "fuseId": "FUSE006:examples/camera/pic_server/sdkconfig.defaults:24",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this setting is active in a deployed build, a corrupted or modified app image may reach execution without the bootloader's normal image-validation step.",
+            "remediation": "Unset CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS unless a reviewed boot-time requirement justifies it. Verify the effective sdkconfig and resulting bootloader configuration for the release build.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE007",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF skips app-image validation after deep sleep. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP. Espressif documents that this skips normal image checks, including checksum, SHA-256, and signature validation, when resuming from deep sleep. If the active OTA partition is changed before that resume, the new image may skip its first validation. This finding does not prove that the file is active or that the device follows that OTA/deep-sleep path. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/camera/test_framerate/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a6edefc575f93fd536835911461e0b68415c945c17da5b9ba82530690d85a90d:1",
+            "vigilIoTFingerprint/v1": "abd79348f97154a91e19f4f09614f378cc8ac697e54376a1915f2b9b5a9ad3b5"
+          },
+          "properties": {
+            "fuseId": "FUSE007:examples/camera/test_framerate/sdkconfig.defaults:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the setting and OTA/deep-sleep sequence are both active, a modified app image may avoid the normal validation step on its first boot after the partition change.",
+            "remediation": "Keep image validation enabled when deep-sleep workflows can follow OTA partition changes. Review Secure Boot settings and verify the effective sdkconfig used for release builds.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE006",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF bootloader image validation is disabled. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/camera/test_framerate/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4e2652a14fdeaf9c44ca59e50613d93547f2a7bccb8d10b7f4e4a232d92b5ec2:1",
+            "vigilIoTFingerprint/v1": "e9fe0d200a144c0cb1654afc82ba2d8c97b4691e59b98406fc3d85978d6e3e41"
+          },
+          "properties": {
+            "fuseId": "FUSE006:examples/camera/test_framerate/sdkconfig.defaults:24",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this setting is active in a deployed build, a corrupted or modified app image may reach execution without the bootloader's normal image-validation step.",
+            "remediation": "Unset CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS unless a reviewed boot-time requirement justifies it. Verify the effective sdkconfig and resulting bootloader configuration for the release build.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_EXAMPLE_CTRL_SEC2_PASSWORD=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/esp_local_controller/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "0892ff432df5348da7c8a255b7dc7ec89bc1d58cc6554db623385b07539a7a99:1",
+            "vigilIoTFingerprint/v1": "35b20451b6eae008d9f988109afd97175150460318ebbcb79bd29f8ecb28de24"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/esp_local_controller/sdkconfig.defaults:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_EXAMPLE_CTRL_SEC2_PASSWORD=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/mcp/mcp_client/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 9,
+                  "endLine": 9
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "7d06a7a14667eb61ec58b61303089d2ac593cf32c3662e237f59fce6136bcf40:1",
+            "vigilIoTFingerprint/v1": "e510eb70bbd395135e22cc16c112ed21efd7942e5e8c8e0ccfe7331fdefcdc48"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/mcp/mcp_client/sdkconfig.defaults:9",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_MCP_HTTP_AUTH_BEARER_TOKEN=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/mcp/mcp_client/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 16,
+                  "endLine": 16
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "7b6b5add2bf01e8a53bf64bb307f12cfeb4abb372a5ae70a989e88ad0e657438:1",
+            "vigilIoTFingerprint/v1": "d77017ef976e6ca52a183ed05f71017a3168b8b62702391bbb2de1f36460a3ef"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/mcp/mcp_client/sdkconfig.defaults:16",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_MCP_HTTP_AUTH_BEARER_TOKEN=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/mcp/mcp_server/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "7d06a7a14667eb61ec58b61303089d2ac593cf32c3662e237f59fce6136bcf40:1",
+            "vigilIoTFingerprint/v1": "d3d7ff4df198bb267e568af903711dd9a09ea0bf6b9a84cc6776a55c4e6e07ef"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/mcp/mcp_server/sdkconfig.defaults:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_EXAMPLE_PROV_SEC2_PASSWORD=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/network_provisioner/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 9,
+                  "endLine": 9
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "33d458bd7b27c845ca1ab692c6c91bce2e47c62844e6badfa456bdeaf6a7dcc0:1",
+            "vigilIoTFingerprint/v1": "d6cd3cc14a01fa9c086886d2b087fa5b5ee1a46dd4f7d5939aa647ea58346173"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/network_provisioner/sdkconfig.defaults:9",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_EXAMPLE_PROV_SEC2_PASSWORD=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE007",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF skips app-image validation after deep sleep. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP. Espressif documents that this skips normal image checks, including checksum, SHA-256, and signature validation, when resuming from deep sleep. If the active OTA partition is changed before that resume, the new image may skip its first validation. This finding does not prove that the file is active or that the device follows that OTA/deep-sleep path. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a6edefc575f93fd536835911461e0b68415c945c17da5b9ba82530690d85a90d:1",
+            "vigilIoTFingerprint/v1": "079f6fdc818925e93d255d0823a098716c2a218f764d466193300b615350531e"
+          },
+          "properties": {
+            "fuseId": "FUSE007:examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults:18",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the setting and OTA/deep-sleep sequence are both active, a modified app image may avoid the normal validation step on its first boot after the partition change.",
+            "remediation": "Keep image validation enabled when deep-sleep workflows can follow OTA partition changes. Review Secure Boot settings and verify the effective sdkconfig used for release builds.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE006",
+          "level": "warning",
+          "message": {
+            "text": "ESP-IDF bootloader image validation is disabled. A scanned Kconfig-style input or selected generated configuration explicitly enables CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS. ESP-IDF documents that this prevents the bootloader from validating the app image before booting it. This finding does not establish that the file is the active build configuration or that a built image is deployed. Evidence: CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4e2652a14fdeaf9c44ca59e50613d93547f2a7bccb8d10b7f4e4a232d92b5ec2:1",
+            "vigilIoTFingerprint/v1": "16eb60af63f3118a9483b0c8b4ac59f3b0b3a0e7c1423d846b7a189d3e46eaaf"
+          },
+          "properties": {
+            "fuseId": "FUSE006:examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults:20",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "boot-integrity",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this setting is active in a deployed build, a corrupted or modified app image may reach execution without the bootloader's normal image-validation step.",
+            "remediation": "Unset CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS unless a reviewed boot-time requirement justifies it. Verify the effective sdkconfig and resulting bootloader configuration for the release build.",
+            "evidence": "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y",
+            "references": [
+              "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/weaver/imu_gesture/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 19,
+                  "endLine": 19
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "7d06a7a14667eb61ec58b61303089d2ac593cf32c3662e237f59fce6136bcf40:1",
+            "vigilIoTFingerprint/v1": "ba6397b462f00ca64580499585074a03efa6a6a8d581500ec45e71444a810840"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/weaver/imu_gesture/sdkconfig.defaults:19",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "examples/weaver/led_light/sdkconfig.defaults",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "7d06a7a14667eb61ec58b61303089d2ac593cf32c3662e237f59fce6136bcf40:1",
+            "vigilIoTFingerprint/v1": "42cb5225c2d76e6c91c1968848565eb7b5f72beb25b3ce99a3642244aee2ea47"
+          },
+          "properties": {
+            "fuseId": "FUSE001:examples/weaver/led_light/sdkconfig.defaults:14",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "CONFIG_EXAMPLE_WIFI_PASSWORD=\"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "espressif/esp-iot-solution, selected ESP-IDF source",
+        "profile": "esp-idf",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "2acd27a93757b15a8ae5a3fd0680448886d143aa5a47939dee5cbfb4591b4636",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "partial",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "partial",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "partial",
+            "version": "1.2.0"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 18,
+          "resultsIncluded": 18,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

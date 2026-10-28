@@ -1,43 +1,68 @@
-# FUSE 0.2.0 repository scan pilot
+# FUSE repository scan corpus
 
-FUSE 0.2.0 rescanned the same eight pinned public embedded and IoT repository snapshots on 2026-10-26. The manifest records exact source commits and scan scopes. Tasmota coverage expanded by 604 Berry `.be` scripts, increasing total files scanned from 8,856 to 9,460. All other scan scopes and their file counts match the 0.1.0 pilot.
+## Current snapshot
 
-The initial pilot reported 1,663 raw signals. After contextual noise reductions across all seven native rules, the refreshed pilot reports 20 raw signals, a 98.8% reduction in matches while covering more files. This is not a precision score: some findings remain unreviewed in build context, and tighter filters can miss indicators in excluded paths. Counts are raw per-file matches and include repeated OpenWrt source in IoTGoat and OpenWrt.
+On 2026-10-28, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
 
-No repository build, repository test suite, firmware image, physical board, device endpoint, Syft, OSV-Scanner, or Binwalk analysis was run. FUSE unit tests ran separately in the FUSE repository.
-
-## Aggregate coverage
+These are raw static indicators, not confirmed vulnerabilities. Severity represents potential impact and confidence is a separate field on each finding. No repository was built, no project test suite was run, no firmware image or physical board was analyzed, and no external dependency or binary-analysis tools were invoked.
 
 | Measure | Result |
 | --- | ---: |
-| Repositories | 8 |
-| Scan scopes | 9 |
-| Supported files discovered | 9,590 |
-| Files selected | 9,463 |
-| Files scanned | 9,460 |
-| Files skipped | 3 |
-| Raw FUSE signals | 20 |
-| Rule-assigned high severity | 13 |
-| Rule-assigned medium severity | 7 |
+| Repositories | 14 |
+| Scan scopes | 15 |
+| Supported files discovered | 18,999 |
+| Files selected by scope | 18,859 |
+| Files scanned | 18,855 |
+| Files skipped after selection | 4 |
+| Raw FUSE signals | 61 |
+| High severity signals | 19 |
+| Medium severity signals | 42 |
+| Hardware filename matches | 28 |
 
-The three skipped files were one non-UTF-8 file and two files above FUSE's 2 MiB default limit. Severity labels describe potential impact, not confirmed vulnerabilities. Confidence is reported separately in each finding.
+The four skipped files were two non-UTF-8 files and two files above FUSE's 2 MiB limit. IoTGoat, Tasmota, and Buildroot reports are marked partial. A scan with zero signals means no enabled rule matched within the selected scope. It does not establish that the repository is secure.
 
-| Repository | Profile | Files scanned | Raw signals | Scope |
+| Repository | Profile | Files scanned | Signals | Status |
 | --- | --- | ---: | ---: | --- |
-| [OWASP/IoTGoat](https://github.com/OWASP/IoTGoat) | `embedded-linux` | 1,651 | 1 | Selected OpenWrt 18.06.2 configuration, files, package, and target paths |
-| [arendst/Tasmota](https://github.com/arendst/Tasmota) | `generic` | 6,800 | 15 | Full shallow checkout, including Berry source scripts |
-| [espressif/esp-idf](https://github.com/espressif/esp-idf) | `esp-idf` | 73 | 0 | MQTT and OTA examples, reported as two scopes |
-| [esphome/devices.esphome.io](https://github.com/esphome/devices.esphome.io) | `generic` | 73 | 0 | Full shallow checkout, supported source and configuration files |
-| [arduino/arduino-examples](https://github.com/arduino/arduino-examples) | `generic` | 92 | 0 | Full shallow checkout, supported source and configuration files |
-| [raspberrypi/pico-examples](https://github.com/raspberrypi/pico-examples) | `generic` | 373 | 3 | Full shallow checkout, supported source and configuration files |
-| [zephyrproject-rtos/zephyr](https://github.com/zephyrproject-rtos/zephyr) | `zephyr` | 30 | 0 | MQTT publisher and secure MQTT sample directories |
-| [openwrt/openwrt](https://github.com/openwrt/openwrt) | `embedded-linux` | 368 | 1 | Selected base-files, network services and utilities, system, and generic target paths |
+| [OWASP/IoTGoat](https://github.com/OWASP/IoTGoat) | `embedded-linux` | 1,651 | 1 | Partial |
+| [arendst/Tasmota](https://github.com/arendst/Tasmota) | `generic` | 6,800 | 15 | Partial |
+| [espressif/esp-idf](https://github.com/espressif/esp-idf) | `esp-idf` | 73 | 0 | Complete, 2 scopes |
+| [esphome/devices.esphome.io](https://github.com/esphome/devices.esphome.io) | `generic` | 73 | 0 | Complete |
+| [arduino/arduino-examples](https://github.com/arduino/arduino-examples) | `generic` | 92 | 0 | Complete |
+| [raspberrypi/pico-examples](https://github.com/raspberrypi/pico-examples) | `generic` | 373 | 3 | Complete |
+| [zephyrproject-rtos/zephyr](https://github.com/zephyrproject-rtos/zephyr) | `zephyr` | 30 | 0 | Complete |
+| [openwrt/openwrt](https://github.com/openwrt/openwrt) | `embedded-linux` | 368 | 1 | Complete |
+| [raspberrypi/pico-sdk](https://github.com/raspberrypi/pico-sdk) | `generic` | 772 | 1 | Complete |
+| [espressif/arduino-esp32](https://github.com/espressif/arduino-esp32) | `generic` | 1,778 | 40 | Complete |
+| [buildroot/buildroot](https://github.com/buildroot/buildroot) | `embedded-linux` | 4,820 | 0 | Partial |
+| [openembedded/openembedded-core](https://github.com/openembedded/openembedded-core) | `embedded-linux` | 819 | 0 | Complete |
+| [openembedded/meta-openembedded](https://github.com/openembedded/meta-openembedded) | `embedded-linux` | 1,183 | 0 | Complete |
+| [yoctoproject/meta-yocto](https://github.com/yoctoproject/meta-yocto) | `embedded-linux` | 19 | 0 | Complete |
 
-The IoTGoat and OpenWrt snapshots share upstream OpenWrt files, so aggregate counts include duplicate source. Signals are not deduplicated across repositories.
+The Yocto layer scope is intentionally small and is not representative of the entire Yocto ecosystem. IoTGoat includes selected vendored OpenWrt paths, so its source overlaps with the separate OpenWrt snapshot. Aggregate counts are not deduplicated by source identity.
 
-## Rule comparison
+## Current rule counts
 
-| Rule | FUSE 0.1.0 | FUSE 0.2.0 | Main noise reduction or scope change |
+| Rule | Signals | Interpretation |
+| --- | ---: | --- |
+| `FUSE001` | 40 | Credential-like literal assignments after filtering tutorial hash inputs, computed values, BitBake metadata, and disabled XML accounts. |
+| `FUSE002` | 4 | Private-key PEM markers. Some matches may be intentional sample keys. |
+| `FUSE003` | 15 | TLS peer verification appears disabled. Matches include library and example code; no build reachability is established. |
+| `FUSE004` | 2 | Non-loopback HTTP endpoints retained in Tasmota build and OTA contexts. Reserved test hosts, QA paths, and explicit HTTPS redirect probes are filtered. |
+| `FUSE005` | 0 | No MQTT-related endpoint indicators matched in these scopes. |
+| `FUSE006` | 0 | No insecure Kconfig indicators matched in these scopes. |
+| `FUSE007` | 0 | No debug Kconfig indicators matched in these scopes. |
+
+Hardware inventory found 28 filename-matched artifacts: 27 hardware project files and one netlist. The inventory reports file presence and category only. It does not parse schematics or PCB design content and does not make a hardware security assessment.
+
+See [`triage.md`](triage.md) for path-level context, false-positive candidates, and remaining precision limits. The latest rule changes were limited to contexts supported by pinned-source evidence and fixture coverage.
+
+The four-repository validation corpus is stored separately in [`holdout/`](holdout/). Its first snapshot was held out from rule tuning; the later regression pass used those observations to refine rules. Neither pass is mixed into this training-corpus summary or the website dashboard, and the current corpus is not a blind accuracy benchmark.
+
+## Historical noise-reduction baseline
+
+The 2026-10-26 pilot covered the first eight repositories and nine scopes. Its 0.1.0 run reported 1,663 raw signals. FUSE 0.2.0 reduced that same initial corpus to 20 signals while adding 604 Tasmota Berry files. This is a useful rule-noise comparison, not a precision score. The expanded 14-repository corpus initially had 78 signals; fixture-backed refinements first reduced it to 62, and a later FUSE001 refinement brought the current snapshot to 61 without changing the pinned scope.
+
+| Rule | FUSE 0.1.0 initial corpus | FUSE 0.2.0 initial corpus | Main refinement |
 | --- | ---: | ---: | --- |
 | `FUSE001` | 218 | 5 | Excluded localization and test source, UI labels, path/characteristic constants, and computed token expressions |
 | `FUSE002` | 12 | 3 | Excluded comment markers and recognized test-only paths |
@@ -47,18 +72,30 @@ The IoTGoat and OpenWrt snapshots share upstream OpenWrt files, so aggregate cou
 | `FUSE006` | 0 | 0 | Scoped matches to Kconfig-style input filenames and ignored comments and test-only paths |
 | `FUSE007` | 0 | 0 | Scoped matches to Kconfig-style input filenames and ignored comments and test-only paths |
 
-The large drop in `FUSE004` reflects that the old rule matched arbitrary HTTP strings, including comments and download metadata. The two remaining matches are Tasmota safeboot image URLs: one build-time download and one Berry OTA-related default. The build-time download is a source artifact transport signal, not proof of device runtime traffic.
+## Rule-noise refinement follow-up
 
-`FUSE005`, `FUSE006`, and `FUSE007` had no matches in either pilot. These zero counts do not show that the projects are secure. The scopes do not resolve assembled MQTT settings or the effective release `sdkconfig`.
+The same 14 pinned repositories and 15 scopes were rescanned after targeted rule refinements. The latest rescan covers 18,855 files, with four skipped files and 28 hardware filename matches. Four target-suffixed ESP-IDF defaults files were added to selected coverage; the signal count remained 61. The first fixture-backed stage reduced signals from 78 to 62: FUSE001 decreased from 49 to 41 and FUSE004 from 10 to 2. A later FUSE001 string-context filter reduced that rule from 41 to 40 and the aggregate from 62 to 61, with 19 high and 42 medium signals. This before-and-after comparison measures only changed matches in this pinned snapshot, not precision or general detection accuracy.
 
-## Reports and charts
+- FUSE001 now ignores `Hello World` and its hex encoding only in MD5/SHA1 builder examples, shell/build expressions, BitBake metadata assignments, and accounts inside XML containers explicitly disabled with `enabled="no"` or an equivalent value. Positive fixtures retain ordinary hard-coded credentials and enabled XML accounts.
+- FUSE004 ignores standard reserved example domains, reserved/private IPs only when used in example paths, recognized OpenEmbedded QA/self-test paths, and requests whose local code explicitly checks for an HTTPS redirect. Private network endpoints outside example paths and real non-test endpoints remain eligible.
+- FUSE003 remains at 15 signals. Matches in library and example code need target/build reachability context before FUSE can decide whether they apply to a product. The rule does not claim those paths are enabled or invoked.
 
-Each scan folder contains JSON, text, and SARIF reports. Report target names are normalized to repository and scope labels, and secret or private-key material is redacted in evidence.
+## Artifacts and reproduction
 
-- [`scan-manifest.json`](scan-manifest.json) records the pinned inputs, profiles, and reproducible include globs.
-- [`summary.json`](summary.json) combines input metadata, coverage, rule counts, and per-repository findings.
-- [`triage.md`](triage.md) notes the remaining findings, context, and coverage limits.
-- [`plots/findings-by-repository.svg`](plots/findings-by-repository.svg) and [`plots/findings-by-rule.svg`](plots/findings-by-rule.svg) show raw counts with logarithmic bar lengths and exact labels.
-- The website reads the same generated snapshot from [`site/data/repository-scan-results.json`](../../site/data/repository-scan-results.json).
+- [`scan-manifest.json`](scan-manifest.json) records pinned commits, profiles, and reproducible include scopes.
+- [`summary.json`](summary.json) contains aggregate coverage, rule counts, hardware inventory, and per-repository findings.
+- Each scope directory contains JSON, text, and SARIF reports. Secret-like evidence is redacted in reports.
+- [`plots/findings-by-repository.svg`](plots/findings-by-repository.svg) and [`plots/findings-by-rule.svg`](plots/findings-by-rule.svg) show exact raw counts.
+- The website reads the generated snapshot from [`site/data/repository-scan-results.json`](../../site/data/repository-scan-results.json).
 
-Run the pinned scans with `py scripts\run_repository_scan_pilot.py`. Pass `--repository <id>` to rerun one repository, and repeat the option for more. The runner refuses checkouts whose commit does not match the manifest or whose working tree has local changes. Regenerate the summary, website data, and plots with `py scripts\build_repository_scan_dashboard.py`.
+Run all pinned scopes with:
+
+```powershell
+py scripts\run_repository_scan_pilot.py ..\fuse-scan-targets
+```
+
+Pass `--repository <id>` to scan one repository, and repeat the option for additional repositories. The runner checks that each checkout matches the manifest commit and has no local changes. Regenerate the aggregate summary, website data, and plots with:
+
+```powershell
+py scripts\build_repository_scan_dashboard.py
+```

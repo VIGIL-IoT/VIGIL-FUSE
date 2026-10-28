@@ -1,18 +1,118 @@
 FUSE scan: arendst/Tasmota
 Target kind: directory
 Profile: generic
+Support: basic / partial
+Network policy: not-requested
 Scanned manifest SHA-256: cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638
 Files discovered/selected: 6802/6802
 Files filtered by path policy: 0
 Files scanned: 6800
+Source bytes read: 104871164
 Files skipped: 2
+Discovery complete: yes
 Findings: 15
+Hardware artifacts: 2
+Files not selected by the source profile: 1138
+  .aac: 1
+  .adoc: 3
+  .anim: 83
+  .autoconf: 1
+  .bec: 6
+  .bin: 6
+  .bmp: 3
+  .bytecode: 1
+  .cin: 1
+  .css: 1
+  .csv: 8
+  .dat: 1
+  .defaults: 3
+  .diff: 1
+  .ebnf: 3
+  .esp8266: 3
+  .ex: 2
+  .examples: 1
+  .exe: 1
+  .fdl: 1
+  .flac: 1
+  .fnt: 31
+  .freetype: 1
+  .fzpz: 3
+  .fzz: 2
+  .gif: 1
+  .git: 1
+  .gpl: 1
+  .hex: 19
+  .hin: 1
+  .html: 2
+  .ico: 1
+  .inl: 2
+  .ipynb: 1
+  .jpg: 13
+  .jsonl: 9
+  .lesser: 1
+  .lgpl: 1
+  .libwebm: 1
+  .lo: 23
+  .lvfont: 25
+  .md: 259
+  .mid: 2
+  .mp3: 1
+  .o: 23
+  .opus: 1
+  .ota: 5
+  .pbxproj: 1
+  .pc: 3
+  .pde: 25
+  .pdf: 6
+  .pdn: 1
+  .pl: 1
+  .plist: 1
+  .png: 83
+  .prefs: 1
+  .rc: 1
+  .rst: 3
+  .s: 6
+  .s_future: 1
+  .sed: 1
+  .settings: 1
+  .sf2: 2
+  .skip: 3
+  .svg: 6
+  .tapp: 16
+  .template: 1
+  .ttf: 14
+  .txt: 144
+  .wav: 4
+  .woff: 1
+  .xcuserstate: 1
+  .xcworkspacedata: 1
+  .xiph: 1
+  .xlsx: 2
+  .xslt: 1
+  .y: 1
+  .yapf: 1
+  .zb: 10
+  <no-extension>: 233
+Hardware inventory:
+  hardware-project: 2
+  lib/lib_div/arduino-vid6608/doc/vid6608-example-sketch.fzz [Fritzing project]
+  lib/lib_div/rfid-1.4.7/doc/fritzing/Arduino-Uno-r3-with-RFID-RC522.fzz [Fritzing project]
 Analyzers:
-  fuse-native: completed (Native rules completed.)
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 410 selected input(s). The conservative prefilter excluded 6390 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: partial (Evaluated 11 selected input(s). The conservative prefilter excluded 6789 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE003: partial (Evaluated 309 selected input(s). The conservative prefilter excluded 6491 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 1671 selected input(s). The conservative prefilter excluded 5129 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: partial (Evaluated 10 selected input(s). The conservative prefilter excluded 6790 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
 Skip reasons: too_large=2
 
 [MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino:47
   Evidence: const char* kPassword = "[REDACTED]";
   Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
@@ -21,7 +121,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/798.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2640
   Evidence: verify = false
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -30,7 +133,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2821
   Evidence: verify = false
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -39,7 +145,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h:6029
   Evidence: verify = false
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -48,7 +157,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h:3373
   Evidence: verify = false
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -57,7 +169,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:242
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -66,7 +181,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:433
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -75,7 +193,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: pio-tools/post_esp32.py:230
   Evidence: http://ota.tasmota.com
   Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
@@ -84,7 +205,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/319.html
 
 [MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/berry/drivers/ftp.be:60
   Evidence: static password = "[REDACTED]"
   Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
@@ -93,7 +217,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/798.html
 
 [MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/berry/drivers/ssh.be:871
   Evidence: static password = "[REDACTED]"
   Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
@@ -102,7 +229,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/798.html
 
 [MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/berry/extensions/Partition_Wizard/partition_wizard.be:18
   Evidence: http://ota.tasmota.com
   Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
@@ -111,7 +241,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/319.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/include/Powerwall.h:71
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -120,7 +253,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/include/Powerwall.h:136
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -129,7 +265,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/include/Powerwall.h:291
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
@@ -138,7 +277,10 @@ Skip reasons: too_large=2
   References: https://cwe.mitre.org/data/definitions/295.html
 
 [HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
   Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
   Location: tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.

@@ -21,9 +21,16 @@
               },
               "properties": {
                 "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
                 "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
                 "category": "secrets",
-                "version": "1.1.0"
+                "version": "1.4.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
             }
@@ -31,6 +38,11 @@
         }
       },
       "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
       "results": [
         {
           "ruleId": "FUSE001",
@@ -42,7 +54,8 @@
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "package/network/services/ead/src/tinysrp/t_pwd.h"
+                  "uri": "package/network/services/ead/src/tinysrp/t_pwd.h",
+                  "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
                   "startLine": 96,
@@ -52,6 +65,7 @@
             }
           ],
           "partialFingerprints": {
+            "primaryLocationLineHash": "1e8279fc173ee26d0ccb05df0df1144b2f1776bbea15ee9f6588b7f76e5d8de0:1",
             "vigilIoTFingerprint/v1": "cd3a1ecbd67b86dd24a230c515bef1787d966410b6722688160b21164baa4ca3"
           },
           "properties": {
@@ -72,6 +86,7 @@
       "properties": {
         "target": "openwrt/openwrt, selected source and configuration",
         "profile": "embedded-linux",
+        "networkPolicy": "not-requested",
         "inputManifestSha256": "5f027ca78e90de016aaf8d26fcf5e6c47de03d75c8b0af2582b5cf375e5804df",
         "analysisPerformed": true,
         "analyzers": [
@@ -79,8 +94,49 @@
             "name": "fuse-native",
             "status": "completed",
             "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "completed",
+            "version": "1.2.0"
           }
-        ]
+        ],
+        "sarifExport": {
+          "resultsAvailable": 1,
+          "resultsIncluded": 1,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
       }
     }
   ]

@@ -1,0 +1,321 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE002",
+              "shortDescription": {
+                "text": "Private key PEM marker embedded in scanned file"
+              },
+              "fullDescription": {
+                "text": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.1.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/321.html"
+            },
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.4.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cli/cli_tcat.cpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 86,
+                  "endLine": 86
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "dcd0bbcf1ad95b9b71b5481c897c05a03986d6a7b19be03b34946c7baa40bf85:1",
+            "vigilIoTFingerprint/v1": "6c1253651ec6923f451a1508a205cbdc1be48f331b2b7996cdd997af84400044"
+          },
+          "properties": {
+            "fuseId": "FUSE002:src/cli/cli_tcat.cpp:86",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: [PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cli/cli_tcat.cpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 93,
+                  "endLine": 93
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "dcd0bbcf1ad95b9b71b5481c897c05a03986d6a7b19be03b34946c7baa40bf85:2",
+            "vigilIoTFingerprint/v1": "00560e724ad7c89f63ed4071796df91d7fd7b61f20f224e1fbdf038cc7260cb1"
+          },
+          "properties": {
+            "fuseId": "FUSE002:src/cli/cli_tcat.cpp:93",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: static constexpr const char *sSrvKey = \"[PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cli/cli_tcp.hpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 215,
+                  "endLine": 215
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "46bcb71653d5a1a47b70acfdfcf2e9033193bb520b8040f565597ca766de71af:1",
+            "vigilIoTFingerprint/v1": "c940957695358cafb51a43c2a2d4576e619d3fa0b4e8bf5f64e6c3fb9e11a53c"
+          },
+          "properties": {
+            "fuseId": "FUSE002:src/cli/cli_tcp.hpp:215",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "static constexpr const char *sSrvKey = \"[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static constexpr const char *sEcjpakePassword = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cli/cli_tcp.hpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 222,
+                  "endLine": 222
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "591e56fbd15e0873ec6af13e1cb1d00dc0dffdf9752eeb9e9d6f3fc127997370:1",
+            "vigilIoTFingerprint/v1": "ff2cedc4ddea266ca9103a1843a13466f86e425905d5311d46c14266fb63812a"
+          },
+          "properties": {
+            "fuseId": "FUSE001:src/cli/cli_tcp.hpp:222",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "static constexpr const char *sEcjpakePassword = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE002",
+          "level": "error",
+          "message": {
+            "text": "Private key PEM marker embedded in scanned file. A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed. Evidence: \"[PRIVATE KEY MATERIAL REDACTED]"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/cli/x509_cert_key.hpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 78,
+                  "endLine": 78
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4f31a071c6c41db8c83bceea1d0f7303acf8c105b2db81f50b60c63601c2fc28:1",
+            "vigilIoTFingerprint/v1": "6418a024e42289edb8616ef187e12b39e44265c6058d6aae9e8c7ccfc283c62f"
+          },
+          "properties": {
+            "fuseId": "FUSE002:src/cli/x509_cert_key.hpp:78",
+            "severity": "high",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+            "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+            "evidence": "\"[PRIVATE KEY MATERIAL REDACTED]",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/321.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "openthread/openthread, selected embedded source",
+        "profile": "generic",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "810bb730fcc5347365ce7f0cc6f03603705148e96040a33486d52677889480be",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 5,
+          "resultsIncluded": 5,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

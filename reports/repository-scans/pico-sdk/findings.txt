@@ -1,0 +1,54 @@
+FUSE scan: raspberrypi/pico-sdk
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: f396d01c6b95f71a3838c5a46b44f70eee226a1832a56e72a38ec75facf70f50
+Files discovered/selected: 774/772
+Files filtered by path policy: 2
+Files scanned: 772
+Source bytes read: 15606425
+Files skipped: 0
+Discovery complete: yes
+Findings: 1
+Hardware artifacts: 0
+Files not selected by the source profile: 451
+  .bazel: 138
+  .bin: 3
+  .build: 5
+  .bzl: 4
+  .in: 2
+  .incl: 69
+  .ld: 15
+  .ll: 1
+  .md: 7
+  .pio: 3
+  .rp: 1
+  .s: 55
+  .svd: 2
+  .template: 1
+  .txt: 134
+  .yy: 1
+  <no-extension>: 10
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 25 selected input(s). The conservative prefilter excluded 747 inputs without the rule's required markers.)
+  native-rule:FUSE002: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 771 inputs without the rule's required markers.)
+  native-rule:FUSE003: completed (Evaluated 7 selected input(s). The conservative prefilter excluded 765 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 9 selected input(s). The conservative prefilter excluded 763 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tools/example_keys/private.pem:4
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html

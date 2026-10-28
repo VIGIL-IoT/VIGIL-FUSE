@@ -1,0 +1,123 @@
+FUSE scan: MarlinFirmware/Marlin, selected source and configuration
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: 3143dbbe65de8b9b5d8d31b56f4d6f47f311900c85c5f28fc80f1bce7892aeee
+Files discovered/selected: 2613/2613
+Files filtered by path policy: 0
+Files scanned: 2611
+Source bytes read: 39778601
+Files skipped: 2
+Discovery complete: yes
+Findings: 7
+Hardware artifacts: 0
+Files not selected by the source profile: 117
+  .1: 1
+  .bmp: 39
+  .csv: 1
+  .inf: 2
+  .md: 31
+  .otf: 6
+  .pbm: 1
+  .pdf: 2
+  .png: 11
+  .svg: 4
+  .ttf: 2
+  .txt: 5
+  <no-extension>: 12
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 101 selected input(s). The conservative prefilter excluded 2510 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 41 selected input(s). The conservative prefilter excluded 2570 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 12 selected input(s). The conservative prefilter excluded 2599 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+Skip reasons: too_large=2
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/core/language.h:287
+  Evidence: #define STR_PASSWORD_TOO_LONG "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/core/language.h:288
+  Evidence: #define STR_PASSWORD_REMOVED "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/core/language.h:290
+  Evidence: #define STR_PASSWORD_SET "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/lcd/extui/mks_ui/tft_Language_en.h:254
+  Evidence: #define WIFI_SETTINGS_PASSWORD_EN "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/lcd/extui/mks_ui/tft_Language_s_cn.h:236
+  Evidence: #define WIFI_SETTINGS_PASSWORD_CN "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/lcd/extui/mks_ui/tft_Language_t_cn.h:236
+  Evidence: #define WIFI_SETTINGS_PASSWORD_T_CN "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: Marlin/src/lcd/menu/menu_bed_tramming.cpp:234
+  Evidence: verify=false
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html

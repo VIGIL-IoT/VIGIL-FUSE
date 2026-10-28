@@ -1,0 +1,70 @@
+FUSE scan: openembedded/openembedded-core
+Target kind: directory
+Profile: embedded-linux
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 61e47efcef471d9b091281de20ce95fe24460f69062d9f1867808d81449c4e5c
+Files discovered/selected: 819/819
+Files filtered by path policy: 0
+Files scanned: 819
+Source bytes read: 5685081
+Files skipped: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 1
+Files not selected by the source profile: 844
+  .0-only: 1
+  .99_sshd: 1
+  .awk: 1
+  .bashrc: 1
+  .bbclass: 47
+  .bz2: 1
+  .conf-qemuall: 1
+  .conf-sane: 1
+  .cross: 1
+  .default: 3
+  .extended: 1
+  .fail: 18
+  .glade: 1
+  .gpl: 1
+  .html: 2
+  .ignorelist: 1
+  .in: 7
+  .inc: 220
+  .inetutils: 5
+  .map: 1
+  .md: 6
+  .mit: 3
+  .net: 1
+  .pamd: 2
+  .pass: 18
+  .patch: 207
+  .png: 6
+  .preset: 1
+  .profile: 1
+  .pub: 4
+  .pybootchart: 1
+  .readme: 2
+  .sample: 3
+  .script: 2
+  .skip: 2
+  .svg: 1
+  .txt: 21
+  .vmx: 1
+  .vmxf: 1
+  .volatiles: 1
+  .wks: 1
+  <no-extension>: 244
+Hardware inventory:
+  netlist: 1
+  meta/recipes-core/base-files/base-files/issue.net [Electronic netlist]
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 70 selected input(s). The conservative prefilter excluded 749 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 49 selected input(s). The conservative prefilter excluded 770 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 73 selected input(s). The conservative prefilter excluded 746 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+No findings from the enabled rules.

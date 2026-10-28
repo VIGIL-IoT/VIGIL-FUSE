@@ -1,8 +1,12 @@
 {
-  "scan_date": "2026-10-26",
+  "scan_date": "2026-10-28",
   "fuse": {
     "version": "0.2.0",
-    "commit": "6a32e8782eb614612bc27bba525510c632e0bf83"
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "8bc132b4c4bc2595884cc9db269641b1a50ff5c15a539e6c0fa7e39a8afba069",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
   },
   "repositories": [
     {
@@ -56,13 +60,17 @@
           "id": "esp-idf-mqtt",
           "scope": "examples/protocols/mqtt",
           "target_label": "espressif/esp-idf/examples/protocols/mqtt",
-          "includes": ["examples/protocols/mqtt/**"]
+          "includes": [
+            "examples/protocols/mqtt/**"
+          ]
         },
         {
           "id": "esp-idf-ota",
           "scope": "examples/system/ota",
           "target_label": "espressif/esp-idf/examples/system/ota",
-          "includes": ["examples/system/ota/**"]
+          "includes": [
+            "examples/system/ota/**"
+          ]
         }
       ]
     },
@@ -148,6 +156,139 @@
             "package/network/utils/**",
             "package/system/**",
             "target/linux/generic/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pico-sdk",
+      "name": "raspberrypi/pico-sdk",
+      "url": "https://github.com/raspberrypi/pico-sdk",
+      "commit": "079c6f39023649b154152db30f1d781e884879bc",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "pico-sdk",
+          "scope": "SDK C/C++ sources, public headers, library code, CMake files, and tools",
+          "target_label": "raspberrypi/pico-sdk",
+          "rule_timeout_seconds": 10,
+          "includes": [
+            "CMakeLists.txt",
+            "cmake/**",
+            "include/**",
+            "lib/**",
+            "src/**",
+            "tools/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arduino-esp32",
+      "name": "espressif/arduino-esp32",
+      "url": "https://github.com/espressif/arduino-esp32",
+      "commit": "8e29d4de275cf58c767f453ff6ed26bea692dfec",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "arduino-esp32",
+          "scope": "Arduino-ESP32 core, libraries, variants, and ESP-IDF component examples",
+          "target_label": "espressif/arduino-esp32",
+          "includes": [
+            "cores/**",
+            "idf_component_examples/**",
+            "libraries/**",
+            "variants/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "buildroot",
+      "name": "buildroot/buildroot",
+      "url": "https://github.com/buildroot/buildroot",
+      "commit": "1cfdb4efd539ad5917bc43ac806a95687e7f4b6b",
+      "profile": "embedded-linux",
+      "scans": [
+        {
+          "id": "buildroot",
+          "scope": "Buildroot package recipes, board support, system configuration, and package tooling",
+          "target_label": "buildroot/buildroot",
+          "includes": [
+            "Makefile",
+            "board/**",
+            "configs/**",
+            "package/**",
+            "support/**",
+            "system/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "openembedded-core",
+      "name": "openembedded/openembedded-core",
+      "url": "https://github.com/openembedded/openembedded-core",
+      "commit": "fa83da7da277a641c3a997d3da26041fa46d48ab",
+      "profile": "embedded-linux",
+      "scans": [
+        {
+          "id": "openembedded-core",
+          "scope": "OpenEmbedded Core classes, configuration, recipes, and build scripts",
+          "target_label": "openembedded/openembedded-core",
+          "includes": [
+            "meta/classes/**",
+            "meta/conf/**",
+            "meta/lib/**",
+            "meta/recipes-connectivity/**",
+            "meta/recipes-core/**",
+            "meta/recipes-kernel/**",
+            "meta/recipes-security/**",
+            "scripts/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meta-openembedded",
+      "name": "openembedded/meta-openembedded",
+      "url": "https://github.com/openembedded/meta-openembedded",
+      "commit": "53276e6882048b990201b3c230e0b1fd0b8311b6",
+      "profile": "embedded-linux",
+      "scans": [
+        {
+          "id": "meta-openembedded",
+          "scope": "OpenEmbedded community recipes for core, networking, security, cryptography, and Python tools",
+          "target_label": "openembedded/meta-openembedded",
+          "includes": [
+            "meta-oe/recipes-core/**",
+            "meta-oe/recipes-crypto/**",
+            "meta-oe/recipes-security/**",
+            "meta-oe/recipes-support/**",
+            "meta-networking/recipes-connectivity/**",
+            "meta-networking/recipes-protocols/**",
+            "meta-python/recipes-devtools/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meta-yocto",
+      "name": "yoctoproject/meta-yocto",
+      "url": "https://github.com/yoctoproject/meta-yocto",
+      "commit": "82013b83db7ba41da07694e201a7c43f561a9e00",
+      "profile": "embedded-linux",
+      "scans": [
+        {
+          "id": "meta-yocto",
+          "scope": "Poky distribution configuration and Yocto board support recipes",
+          "target_label": "yoctoproject/meta-yocto",
+          "includes": [
+            "meta-poky/conf/**",
+            "meta-poky/recipes-core/**",
+            "meta-yocto-bsp/conf/**",
+            "meta-yocto-bsp/recipes-bsp/**",
+            "meta-yocto-bsp/recipes-kernel/**"
           ]
         }
       ]

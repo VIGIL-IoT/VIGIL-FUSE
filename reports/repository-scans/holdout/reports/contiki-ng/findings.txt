@@ -1,0 +1,179 @@
+FUSE scan: contiki-ng/contiki-ng, selected source and configuration
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: 2dc4e9819a6baf323b03d0bda3ca4ebe9285abababbeda2eadfda19c4f1b2781
+Files discovered/selected: 2192/2191
+Files filtered by path policy: 1
+Files scanned: 2189
+Source bytes read: 17466634
+Files skipped: 2
+Discovery complete: yes
+Findings: 4
+Hardware artifacts: 0
+Files not selected by the source profile: 477
+  .application: 1
+  .arm: 1
+  .bme280: 1
+  .brd4162a: 1
+  .brd4166a: 1
+  .cc1310: 2
+  .cc1312r1: 1
+  .cc1350: 4
+  .cc1350-4: 1
+  .cc1352p-2: 1
+  .cc1352p-4: 1
+  .cc1352p1: 1
+  .cc1352r1: 2
+  .cc13x0: 3
+  .cc13x0-cc26x0: 1
+  .cc13x2-cc26x2: 1
+  .cc13xx-cc26xx: 2
+  .cc2538: 1
+  .cc2538dk: 2
+  .cc2640r2: 1
+  .cc2650: 4
+  .cc26x0: 3
+  .cc26x0-cc13x0: 3
+  .cc26x0r2f: 1
+  .cc26x2r1: 1
+  .cm3: 1
+  .cm33: 1
+  .cm33+nodsp: 1
+  .cm4: 1
+  .coap: 1
+  .commander: 1
+  .common: 2
+  .compile-test: 1
+  .cooja: 1
+  .cortex-m: 1
+  .csc: 115
+  .dat: 2
+  .data: 1
+  .dir-variables: 1
+  .dk: 4
+  .dongle: 2
+  .dtd: 1
+  .ecc: 1
+  .edhoc: 1
+  .efr32mg12p332f1024gl125: 1
+  .embedded: 2
+  .firefly: 1
+  .firefly-reva: 1
+  .gecko: 2
+  .gecko_sdk: 1
+  .help: 1
+  .html: 2
+  .http-socket: 1
+  .icf: 2
+  .identify-target: 1
+  .in: 3
+  .include: 1
+  .inf: 1
+  .ip64: 1
+  .launchpad: 2
+  .ld: 7
+  .lds: 6
+  .libs: 1
+  .lock: 1
+  .md: 63
+  .msp-exp430fr5969: 1
+  .msp430: 1
+  .nat64: 1
+  .native: 3
+  .network: 1
+  .nrf: 2
+  .nrf-vpr: 2
+  .nrf52840: 4
+  .nrf5340: 1
+  .nrf5340_application: 1
+  .nrf5340_network: 1
+  .nrf54l15: 3
+  .openmote: 2
+  .openmote-b: 1
+  .openmote-cc2538: 1
+  .orchestra: 1
+  .orion: 1
+  .png: 5
+  .remote-reva: 1
+  .remote-revb: 1
+  .resc: 1
+  .robot: 1
+  .rpl-border-router: 1
+  .s: 1
+  .sensortag: 2
+  .simplelink: 1
+  .simulation-test: 1
+  .sky: 1
+  .srf06: 2
+  .standalone: 1
+  .target: 11
+  .tools: 1
+  .txt: 15
+  .usb: 2
+  .xiao: 1
+  .xslt: 1
+  .z1: 1
+  .z1sp: 2
+  .zoul: 2
+  <no-extension>: 114
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 75 selected input(s). The conservative prefilter excluded 2114 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: partial (Evaluated 1 selected input(s). The conservative prefilter excluded 2188 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE003: partial (Evaluated 67 selected input(s). The conservative prefilter excluded 2122 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 647 selected input(s). The conservative prefilter excluded 1542 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+Skip reasons: not_utf8=2
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: examples/lwm2m-ipso-objects/project-conf-dtls.h:131
+  Evidence: "[PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: examples/lwm2m-ipso-objects/project-conf-dtls.h:155
+  Evidence: "[PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: examples/mqtt-client/mqtt-client.c:93
+  Evidence: #define MQTT_CLIENT_AUTH_TOKEN "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: examples/mqtt-client/project-conf.h:73
+  Evidence: #define MQTT_CLIENT_CONF_AUTH_TOKEN "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html

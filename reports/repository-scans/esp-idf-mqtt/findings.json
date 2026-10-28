@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.7",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,15 +8,17 @@
   "scan": {
     "target_kind": "directory",
     "profile": "esp-idf",
-    "started_at": "2026-10-26T17:33:44Z",
-    "completed_at": "2026-10-26T17:33:44Z",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:09:18Z",
+    "completed_at": "2026-10-27T21:09:19Z",
     "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc"
   },
   "summary": {
-    "files_discovered": 94,
+    "files_discovered": 98,
     "files_selected": 8,
-    "files_filtered": 86,
+    "files_filtered": 90,
     "files_scanned": 8,
+    "source_bytes_read": 13592,
     "files_skipped": 0,
     "analysis_performed": true,
     "finding_count": 0,
@@ -31,6 +33,64 @@
   },
   "coverage": {
     "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 76,
+      "unsupported_file_types": {
+        ".anti_rollback": 1,
+        ".bin": 3,
+        ".bluedroid": 1,
+        ".crt": 1,
+        ".data_partition_verification": 1,
+        ".esp32": 4,
+        ".esp32c2": 3,
+        ".esp32c5": 1,
+        ".esp32c61": 4,
+        ".esp32p4": 1,
+        ".esp32s31": 1,
+        ".fish": 2,
+        ".flash_enc_wifi": 2,
+        ".flash_enc_wifi_2": 1,
+        ".md": 20,
+        ".nimble": 1,
+        ".on_update_no_sb_ecdsa": 1,
+        ".on_update_no_sb_ecdsa_esp32": 1,
+        ".on_update_no_sb_ecdsa_p256": 1,
+        ".on_update_no_sb_ecdsa_p384": 1,
+        ".on_update_no_sb_rsa": 2,
+        ".ota_resumption": 1,
+        ".ota_resumption_flash_enc": 1,
+        ".ota_resumption_partial_download": 1,
+        ".partial_download": 1,
+        ".png": 1,
+        ".recovery_bootloader": 1,
+        ".rename": 1,
+        ".spiram": 1,
+        ".tls1_2_dynamic": 1,
+        ".tls1_3": 1,
+        ".tls1_3_only_dynamic": 1,
+        ".txt": 1,
+        ".verify_revision_esp32c3": 1,
+        ".virt_sb_v2_and_fe": 1,
+        ".virt_sb_v2_and_fe_2": 1,
+        ".xip_psram": 1,
+        "<no-extension>": 7
+      }
+    },
+    "support": {
+      "capability_id": "source.esp-idf",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Generic native rules plus explicit boot-image validation setting checks.",
+      "limitations": [
+        "Source-only settings are conditional",
+        "Generated build inspection requires explicit --build-dir",
+        "Does not prove the selected build is released"
+      ]
+    },
     "rules_available": [
       "FUSE001",
       "FUSE002",
@@ -56,7 +116,111 @@
         "version": "0.2.0",
         "detail": "Native rules completed.",
         "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "skipped",
+        "version": "1.4.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 3 selected input(s). The conservative prefilter excluded 5 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 3 selected input(s). The conservative prefilter excluded 5 inputs without the rule's required markers.",
+        "findings": 0
       }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": "esp-idf",
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": "build-context.esp-idf",
+    "adapter_support_label": "experimental",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "candidates-only",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "conventional-candidate",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": [
+        "The conventional sdkconfig.defaults path is only a candidate; project CMake code or the build environment may select a different SDKCONFIG_DEFAULTS list.",
+        "No selected build directory was supplied, so active sdkconfig and target were not resolved."
+      ]
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": [
+      "Project markers identify a likely framework project but do not prove which build or image is deployed.",
+      "FUSE did not invoke the framework build system or resolve dependency manifests.",
+      "The conventional sdkconfig.defaults path is only a candidate; project CMake code or the build environment may select a different SDKCONFIG_DEFAULTS list.",
+      "No selected build directory was supplied, so active sdkconfig and target were not resolved.",
+      "No selected generated ESP-IDF build configuration was supplied."
     ]
   },
   "findings": [],

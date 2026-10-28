@@ -11,10 +11,16 @@
         }
       },
       "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
       "results": [],
       "properties": {
         "target": "espressif/esp-idf/examples/protocols/mqtt",
         "profile": "esp-idf",
+        "networkPolicy": "not-requested",
         "inputManifestSha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc",
         "analysisPerformed": true,
         "analyzers": [
@@ -22,8 +28,49 @@
             "name": "fuse-native",
             "status": "completed",
             "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "skipped",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "completed",
+            "version": "1.2.0"
           }
-        ]
+        ],
+        "sarifExport": {
+          "resultsAvailable": 0,
+          "resultsIncluded": 0,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
       }
     }
   ]

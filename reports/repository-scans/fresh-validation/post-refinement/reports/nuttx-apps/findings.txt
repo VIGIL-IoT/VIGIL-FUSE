@@ -1,0 +1,75 @@
+FUSE scan: apache/nuttx-apps, selected embedded source
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 1e96ffcc8dd9f7ff1d4169bbcbd24d7ad9033baa1a958fe8377d6e918ddde79f
+Files discovered/selected: 3216/1651
+Files filtered by path policy: 1565
+Files scanned: 1651
+Source bytes read: 11374432
+Files skipped: 0
+Discovery complete: yes
+Findings: 1
+Hardware artifacts: 0
+Files not selected by the source profile: 2850
+  .bas: 52
+  .binfs: 1
+  .commands: 1
+  .css: 4
+  .cxx: 235
+  .d: 1
+  .dat: 2
+  .debug: 1
+  .defs: 670
+  .graphics: 1
+  .gz: 1
+  .host: 5
+  .html: 7
+  .hxx: 142
+  .idl: 1
+  .in: 8
+  .inc: 1
+  .input: 1
+  .l: 1
+  .md: 12
+  .mif: 1
+  .network: 1
+  .nim: 1
+  .nimble: 1
+  .nims: 1
+  .nxflat: 1
+  .optimizations: 1
+  .patch: 144
+  .pdf: 1
+  .png: 78
+  .ppt: 1
+  .shtml: 4
+  .slint: 1
+  .sound: 1
+  .template: 2
+  .txt: 622
+  .zig: 2
+  <no-extension>: 840
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 60 selected input(s). The conservative prefilter excluded 1591 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 84 selected input(s). The conservative prefilter excluded 1567 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 1564 selected input(s). The conservative prefilter excluded 87 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: examples/pppd/pppd_main.c:83
+  Evidence: .pap_password = "[REDACTED]",
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html

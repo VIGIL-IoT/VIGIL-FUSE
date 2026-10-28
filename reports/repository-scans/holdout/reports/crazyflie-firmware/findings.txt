@@ -1,0 +1,60 @@
+FUSE scan: bitcraze/crazyflie-firmware, selected source and configuration
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: aa2b8e5501e1bf32c3bee99d75445aeca8c4e6afb119076e0087f2459085a4e7
+Files discovered/selected: 742/738
+Files filtered by path policy: 4
+Files scanned: 737
+Source bytes read: 12312742
+Files skipped: 1
+Discovery complete: yes
+Findings: 2
+Hardware artifacts: 0
+Files not selected by the source profile: 135
+  .doc: 1
+  .htm: 1
+  .html: 4
+  .lock: 3
+  .md: 15
+  .nix: 1
+  .s: 2
+  .txt: 6
+  .vtpl: 1
+  <no-extension>: 101
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 28 selected input(s). The conservative prefilter excluded 709 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 32 selected input(s). The conservative prefilter excluded 705 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 536 selected input(s). The conservative prefilter excluded 201 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: partial (Evaluated 1 selected input(s). The conservative prefilter excluded 736 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE007: partial (Evaluated 1 selected input(s). The conservative prefilter excluded 736 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+Skip reasons: not_utf8=1
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/deck/drivers/src/gtgps.c:208
+  Evidence: {.token = "[REDACTED]", .parser = gpgsaParser},
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/deck/drivers/src/gtgps.c:209
+  Evidence: {.token = "[REDACTED]", .parser = gpggaParser}
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html

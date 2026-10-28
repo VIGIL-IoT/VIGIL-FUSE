@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.2.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            },
+            {
+              "id": "FUSE003",
+              "shortDescription": {
+                "text": "TLS peer verification appears disabled"
+              },
+              "fullDescription": {
+                "text": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "transport-security",
+                "version": "1.1.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define STR_PASSWORD_TOO_LONG \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/core/language.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 287,
+                  "endLine": 287
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "4fa66796a51b13f69d7b0d07dc55b8403dc2823720fd69ed4782ad1d4d96952c:1",
+            "vigilIoTFingerprint/v1": "4a4c859a39028cf657cf4aff129969657b50b7bce85f471a3e9f62cc56aeabcb"
+          },
+          "properties": {
+            "fuseId": "FUSE001:Marlin/src/core/language.h:287",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define STR_PASSWORD_TOO_LONG \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define STR_PASSWORD_REMOVED \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/core/language.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 288,
+                  "endLine": 288
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "338870e557112d2047363cc8b67393d2233d84e2d687ccc21733799b242dce0c:1",
+            "vigilIoTFingerprint/v1": "dfb97859d159fa0ab38b35c3204e1934fca625f2c9e73ff902ab0255157fda25"
+          },
+          "properties": {
+            "fuseId": "FUSE001:Marlin/src/core/language.h:288",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define STR_PASSWORD_REMOVED \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define STR_PASSWORD_SET \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/core/language.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 290,
+                  "endLine": 290
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "0419e3811f748e1b90f8bab21e3f2d01634087a7f4feaa0aceedbf805b5cee7d:1",
+            "vigilIoTFingerprint/v1": "097bc2591ea7d91fcb9548791ec216edf7712a4d419fe78c03673ca5ddffa94b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:Marlin/src/core/language.h:290",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define STR_PASSWORD_SET \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define WIFI_SETTINGS_PASSWORD_EN \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/lcd/extui/mks_ui/tft_Language_en.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 254,
+                  "endLine": 254
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "1aa270baaefb98b700a6bf8ed66ddd6bac979efa95f05fd6d16f2a07d5742406:1",
+            "vigilIoTFingerprint/v1": "c4e2f61e5595b25f6fa2c242bd0be852897660a8c024b2dedacd5dc76c63c361"
+          },
+          "properties": {
+            "fuseId": "FUSE001:Marlin/src/lcd/extui/mks_ui/tft_Language_en.h:254",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define WIFI_SETTINGS_PASSWORD_EN \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define WIFI_SETTINGS_PASSWORD_CN \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/lcd/extui/mks_ui/tft_Language_s_cn.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 236,
+                  "endLine": 236
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "cdee78b2f499a0699c16bd45defea86faed72c626ad5fb611d20a5fdc86b3f38:1",
+            "vigilIoTFingerprint/v1": "a917c5325fc9de61cac87499b4752449273ee72b55f7698b6c226aa78f7e12f9"
+          },
+          "properties": {
+            "fuseId": "FUSE001:Marlin/src/lcd/extui/mks_ui/tft_Language_s_cn.h:236",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define WIFI_SETTINGS_PASSWORD_CN \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define WIFI_SETTINGS_PASSWORD_T_CN \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/lcd/extui/mks_ui/tft_Language_t_cn.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 236,
+                  "endLine": 236
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "20dbdee441898cbe0f0c955edb4abd33a54d5010221b861b879fbf861c87a518:1",
+            "vigilIoTFingerprint/v1": "22e130b32ac40cebc66d51e3171aad6f4d6bf37244d49a0ecd946c6a693661a3"
+          },
+          "properties": {
+            "fuseId": "FUSE001:Marlin/src/lcd/extui/mks_ui/tft_Language_t_cn.h:236",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define WIFI_SETTINGS_PASSWORD_T_CN \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ]
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: verify=false"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "Marlin/src/lcd/menu/menu_bed_tramming.cpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 234,
+                  "endLine": 234
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "5315f227098cca93bcd43e88a501a5d4a4ce9c525f17ce19daadd1bfc7d3bd25:1",
+            "vigilIoTFingerprint/v1": "ec7ffd54efb53d698a45f700352dbba6240bc2e1fe470b747c91eff5de480424"
+          },
+          "properties": {
+            "fuseId": "FUSE003:Marlin/src/lcd/menu/menu_bed_tramming.cpp:234",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": "verify=false",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ]
+          }
+        }
+      ],
+      "properties": {
+        "target": "MarlinFirmware/Marlin, selected source and configuration",
+        "profile": "generic",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "3143dbbe65de8b9b5d8d31b56f4d6f47f311900c85c5f28fc80f1bce7892aeee",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "partial",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 7,
+          "resultsIncluded": 7,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

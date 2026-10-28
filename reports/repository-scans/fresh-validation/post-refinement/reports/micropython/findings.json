@@ -1,0 +1,336 @@
+{
+  "schema_version": "1.6",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "micropython/micropython, selected embedded source",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T20:27:39Z",
+    "completed_at": "2026-10-27T20:27:49Z",
+    "input_manifest_sha256": "0eb04b3372f202c13e23532e3a9764dabeb3f9e083daf4159f655e3b35e66d2d"
+  },
+  "summary": {
+    "files_discovered": 5111,
+    "files_selected": 3088,
+    "files_filtered": 2023,
+    "files_scanned": 3088,
+    "source_bytes_read": 19444815,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 3,
+    "severity_counts": {
+      "critical": 0,
+      "high": 3,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 1712,
+      "unsupported_file_types": {
+        ".240mhz": 1,
+        ".base": 1,
+        ".bin": 8,
+        ".ble": 1,
+        ".board": 22,
+        ".c2": 1,
+        ".c3": 1,
+        ".c6": 1,
+        ".csi": 1,
+        ".css": 2,
+        ".csv": 281,
+        ".d2wd": 1,
+        ".der": 6,
+        ".diff": 1,
+        ".dxf": 2,
+        ".esp32": 1,
+        ".esp32c2": 1,
+        ".esp32c3": 1,
+        ".esp32c5": 1,
+        ".esp32c6": 1,
+        ".esp32h2": 1,
+        ".esp32p4": 1,
+        ".esp32s2": 1,
+        ".esp32s3": 1,
+        ".exp": 633,
+        ".flash_2mib": 1,
+        ".flash_qio_80m": 1,
+        ".flm": 1,
+        ".fmt": 1,
+        ".free_ram": 1,
+        ".h2": 1,
+        ".hex": 1,
+        ".html": 3,
+        ".icf": 6,
+        ".ico": 2,
+        ".in": 1,
+        ".inc": 1,
+        ".incl": 5,
+        ".inf_template": 1,
+        ".jpg": 14,
+        ".ld": 129,
+        ".lds": 2,
+        ".md": 146,
+        ".memory-export": 1,
+        ".mjs": 40,
+        ".mpy": 1,
+        ".o": 1,
+        ".ota": 1,
+        ".overlay": 16,
+        ".p4": 1,
+        ".p4_pre_rev3": 1,
+        ".p4_wifi_c5": 1,
+        ".p4_wifi_c6": 1,
+        ".p4_wifi_common": 1,
+        ".png": 14,
+        ".props": 7,
+        ".proto": 1,
+        ".qemu": 1,
+        ".rc": 1,
+        ".riscv": 2,
+        ".rst": 251,
+        ".s": 20,
+        ".sct": 3,
+        ".spiram_esp32": 1,
+        ".spiram_oct": 1,
+        ".spiram_quad": 1,
+        ".svg": 4,
+        ".targets": 1,
+        ".timestamp": 2,
+        ".txt": 15,
+        ".unicore": 1,
+        ".upylib": 1,
+        ".vcxproj": 2,
+        "<no-extension>": 29
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 62 selected input(s). The conservative prefilter excluded 3026 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 3087 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 57 selected input(s). The conservative prefilter excluded 3031 inputs without the rule's required markers.",
+        "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1608 selected input(s). The conservative prefilter excluded 1480 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE003:extmod/modtls_axtls.c:42",
+      "fingerprint": "34a4093831f0899104323e04ea9c0fe4f21e0e32c97d1184ced47f5fa885ce06",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "extmod/modtls_axtls.c",
+        "start_line": 42,
+        "end_line": 42
+      },
+      "evidence": "CERT_NONE",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
+    },
+    {
+      "id": "FUSE003:extmod/modtls_axtls.c:165",
+      "fingerprint": "7f352711442022e572571634c7c58f462967f559413923d0c327dedc0942e68c",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "extmod/modtls_axtls.c",
+        "start_line": 165,
+        "end_line": 165
+      },
+      "evidence": "CERT_NONE",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
+    },
+    {
+      "id": "FUSE003:extmod/modtls_axtls.c:460",
+      "fingerprint": "5c4c17cf6b72c5ef41ca7814532052b5266bd1133120042c1de4c2eeda099883",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "extmod/modtls_axtls.c",
+        "start_line": 460,
+        "end_line": 460
+      },
+      "evidence": "CERT_NONE",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
+    }
+  ],
+  "artifacts": []
+}

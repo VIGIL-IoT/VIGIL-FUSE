@@ -1,0 +1,252 @@
+{
+  "schema_version": "1.6",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "mcu-tools/mcuboot, selected source and configuration",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T20:27:50Z",
+    "completed_at": "2026-10-27T20:27:51Z",
+    "input_manifest_sha256": "03fdcb5e180d1d2a818e00405a356081b857e150b2b2f6dded64c6abc0d6879f"
+  },
+  "summary": {
+    "files_discovered": 708,
+    "files_selected": 489,
+    "files_filtered": 219,
+    "files_scanned": 489,
+    "source_bytes_read": 2230434,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 2,
+    "severity_counts": {
+      "critical": 0,
+      "high": 2,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 136,
+      "unsupported_file_types": {
+        ".b64": 2,
+        ".bin": 1,
+        ".bt": 1,
+        ".chromium": 1,
+        ".firmware_loader": 1,
+        ".launch": 2,
+        ".ld": 15,
+        ".lock": 3,
+        ".md": 36,
+        ".mod": 1,
+        ".nix": 1,
+        ".overlay": 21,
+        ".png": 1,
+        ".pub": 1,
+        ".rst": 2,
+        ".s": 2,
+        ".serial_recovery": 1,
+        ".txt": 18,
+        ".yml-disabled": 1,
+        "<no-extension>": 25
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 2
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 24 selected input(s). The conservative prefilter excluded 465 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 4 selected input(s). The conservative prefilter excluded 485 inputs without the rule's required markers.",
+        "findings": 2
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 33 selected input(s). The conservative prefilter excluded 456 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 159 selected input(s). The conservative prefilter excluded 330 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 10 selected input(s). The conservative prefilter excluded 479 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 10 selected input(s). The conservative prefilter excluded 479 inputs without the rule's required markers.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE002:samples/zephyr/bad-keys/bad-ec-p256.pem:1",
+      "fingerprint": "23185acf10b23c07795a4e914172c60430aa819b6fc9878cc45db0f8302ca841",
+      "rule_id": "FUSE002",
+      "rule_version": "1.1.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "samples/zephyr/bad-keys/bad-ec-p256.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
+    },
+    {
+      "id": "FUSE002:samples/zephyr/bad-keys/bad-rsa-2048.pem:1",
+      "fingerprint": "27d452275797ca18037c678a51f85ca0d96a150c6291e8d709ce91082c072124",
+      "rule_id": "FUSE002",
+      "rule_version": "1.1.0",
+      "analyzer": "fuse-native",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "samples/zephyr/bad-keys/bad-rsa-2048.pem",
+        "start_line": 1,
+        "end_line": 1
+      },
+      "evidence": "[PRIVATE KEY MATERIAL REDACTED]",
+      "explanation": "A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.",
+      "potential_impact": "If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.",
+      "remediation": "Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/321.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
+    }
+  ],
+  "artifacts": []
+}

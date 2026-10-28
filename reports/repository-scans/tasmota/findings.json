@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.7",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,8 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "generic",
-    "started_at": "2026-10-26T17:31:06Z",
-    "completed_at": "2026-10-26T17:33:43Z",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:08:53Z",
+    "completed_at": "2026-10-27T21:09:18Z",
     "input_manifest_sha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638"
   },
   "summary": {
@@ -17,6 +18,7 @@
     "files_selected": 6802,
     "files_filtered": 0,
     "files_scanned": 6800,
+    "source_bytes_read": 104871164,
     "files_skipped": 2,
     "analysis_performed": true,
     "finding_count": 15,
@@ -32,6 +34,105 @@
   "coverage": {
     "files_skipped_by_reason": {
       "too_large": 2
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 1138,
+      "unsupported_file_types": {
+        ".aac": 1,
+        ".adoc": 3,
+        ".anim": 83,
+        ".autoconf": 1,
+        ".bec": 6,
+        ".bin": 6,
+        ".bmp": 3,
+        ".bytecode": 1,
+        ".cin": 1,
+        ".css": 1,
+        ".csv": 8,
+        ".dat": 1,
+        ".defaults": 3,
+        ".diff": 1,
+        ".ebnf": 3,
+        ".esp8266": 3,
+        ".ex": 2,
+        ".examples": 1,
+        ".exe": 1,
+        ".fdl": 1,
+        ".flac": 1,
+        ".fnt": 31,
+        ".freetype": 1,
+        ".fzpz": 3,
+        ".fzz": 2,
+        ".gif": 1,
+        ".git": 1,
+        ".gpl": 1,
+        ".hex": 19,
+        ".hin": 1,
+        ".html": 2,
+        ".ico": 1,
+        ".inl": 2,
+        ".ipynb": 1,
+        ".jpg": 13,
+        ".jsonl": 9,
+        ".lesser": 1,
+        ".lgpl": 1,
+        ".libwebm": 1,
+        ".lo": 23,
+        ".lvfont": 25,
+        ".md": 259,
+        ".mid": 2,
+        ".mp3": 1,
+        ".o": 23,
+        ".opus": 1,
+        ".ota": 5,
+        ".pbxproj": 1,
+        ".pc": 3,
+        ".pde": 25,
+        ".pdf": 6,
+        ".pdn": 1,
+        ".pl": 1,
+        ".plist": 1,
+        ".png": 83,
+        ".prefs": 1,
+        ".rc": 1,
+        ".rst": 3,
+        ".s": 6,
+        ".s_future": 1,
+        ".sed": 1,
+        ".settings": 1,
+        ".sf2": 2,
+        ".skip": 3,
+        ".svg": 6,
+        ".tapp": 16,
+        ".template": 1,
+        ".ttf": 14,
+        ".txt": 144,
+        ".wav": 4,
+        ".woff": 1,
+        ".xcuserstate": 1,
+        ".xcworkspacedata": 1,
+        ".xiph": 1,
+        ".xlsx": 2,
+        ".xslt": 1,
+        ".y": 1,
+        ".yapf": 1,
+        ".zb": 10,
+        "<no-extension>": 233
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
     },
     "rules_available": [
       "FUSE001",
@@ -54,19 +155,127 @@
     "analyzers": [
       {
         "name": "fuse-native",
-        "status": "completed",
+        "status": "partial",
         "version": "0.2.0",
-        "detail": "Native rules completed.",
+        "detail": "One or more selected files were skipped; review coverage details.",
         "findings": 15
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.4.0",
+        "detail": "Evaluated 410 selected input(s). The conservative prefilter excluded 6390 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "partial",
+        "version": "1.1.0",
+        "detail": "Evaluated 11 selected input(s). The conservative prefilter excluded 6789 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 309 selected input(s). The conservative prefilter excluded 6491 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 10
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 1671 selected input(s). The conservative prefilter excluded 5129 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 2
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "partial",
+        "version": "1.1.0",
+        "detail": "Evaluated 10 selected input(s). The conservative prefilter excluded 6790 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
       }
     ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": true,
+    "file_count": 2,
+    "category_counts": {
+      "hardware-project": 2
+    },
+    "artifacts": [
+      {
+        "path": "lib/lib_div/arduino-vid6608/doc/vid6608-example-sketch.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "lib/lib_div/rfid-1.4.7/doc/fritzing/Arduino-Uno-r3-with-RFID-RC522.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      }
+    ]
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
   },
   "findings": [
     {
       "id": "FUSE001:lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino:47",
       "fingerprint": "349b152bb3bc6421cbe9489a4d24edcb3756e08e8b77f24e1aa5e1b0b14be15e",
       "rule_id": "FUSE001",
-      "rule_version": "1.1.0",
+      "rule_version": "1.4.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal assigned in source",
       "severity": "medium",
@@ -83,13 +292,20 @@
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
         "https://cwe.mitre.org/data/definitions/798.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2640",
       "fingerprint": "573a942d204938aea0be04271bf4cf0a872727ab2c45288a8c955e5541c47c73",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -106,13 +322,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2821",
       "fingerprint": "30c7e8981f2d2ab0cfdbc6a252ad7a118e2edf9444b9df800835c91b81b275f4",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -129,13 +352,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h:6029",
       "fingerprint": "7ad26f7af19800cb2bacbc86d3422002a88714f80e649fb6d1cf8a443d23bb2a",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -152,13 +382,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h:3373",
       "fingerprint": "8363d6b686e4682dfc8f617c58f53401d0ea9b9f911c34068e98e09f1db1372f",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -175,13 +412,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:242",
       "fingerprint": "1ed1002c7543f9f356de2133f0bf5a7926f65579de38367e9e0ca08b6704fde2",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -198,13 +442,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:433",
       "fingerprint": "b9781d981655ef31e7ff35787ea1a2d33015ffbde295972b6e2cdd53f86787f7",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -221,13 +472,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE004:pio-tools/post_esp32.py:230",
       "fingerprint": "4ebb0767b6a72a593bd268bdbf702dd22f81fb3c8d4eddcf8d051181ab68e4f0",
       "rule_id": "FUSE004",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "Non-loopback HTTP endpoint configured",
       "severity": "medium",
@@ -244,13 +502,20 @@
       "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
       "references": [
         "https://cwe.mitre.org/data/definitions/319.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE001:tasmota/berry/drivers/ftp.be:60",
       "fingerprint": "600d59d7a1fec60e54e8c3091291fc3f08a45853b3448b8089f990c3a66af562",
       "rule_id": "FUSE001",
-      "rule_version": "1.1.0",
+      "rule_version": "1.4.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal assigned in source",
       "severity": "medium",
@@ -267,13 +532,20 @@
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
         "https://cwe.mitre.org/data/definitions/798.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE001:tasmota/berry/drivers/ssh.be:871",
       "fingerprint": "6679bb855d5d8d48a2756e807f0d04d3a77ef6889d6ff309d8e7cd821dfef29b",
       "rule_id": "FUSE001",
-      "rule_version": "1.1.0",
+      "rule_version": "1.4.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal assigned in source",
       "severity": "medium",
@@ -290,13 +562,20 @@
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
         "https://cwe.mitre.org/data/definitions/798.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE004:tasmota/berry/extensions/Partition_Wizard/partition_wizard.be:18",
       "fingerprint": "18bfcdf1fbbff04ecce6d4fc90270df25d3aec63e1fca41ef07e453c63c43cd4",
       "rule_id": "FUSE004",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "Non-loopback HTTP endpoint configured",
       "severity": "medium",
@@ -313,13 +592,20 @@
       "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
       "references": [
         "https://cwe.mitre.org/data/definitions/319.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:tasmota/include/Powerwall.h:71",
       "fingerprint": "cbbce99d00d3cdfc5e144033949093334f4f8fe887c5538445c206dd1e3f3c66",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -336,13 +622,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:tasmota/include/Powerwall.h:136",
       "fingerprint": "db3bae16fe0fbf3f92969a8ba423d3c0e679585349c2a15702b4fa5183c44a36",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -359,13 +652,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:tasmota/include/Powerwall.h:291",
       "fingerprint": "04b64fa55cf6c4cad77b9f30dbecbeaaae2278719fba18dd9afdba6e3569e632",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -382,13 +682,20 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     },
     {
       "id": "FUSE003:tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178",
       "fingerprint": "21f88efdb524406587542102169038b0c90c5dd33b54c40029fb613482df320f",
       "rule_id": "FUSE003",
-      "rule_version": "1.1.0",
+      "rule_version": "1.2.0",
       "analyzer": "fuse-native",
       "title": "TLS peer verification appears disabled",
       "severity": "high",
@@ -405,7 +712,14 @@
       "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
       "references": [
         "https://cwe.mitre.org/data/definitions/295.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     }
   ],
   "artifacts": []

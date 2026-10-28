@@ -1,0 +1,40 @@
+FUSE scan: MarlinFirmware/Marlin, selected source and configuration
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: 3143dbbe65de8b9b5d8d31b56f4d6f47f311900c85c5f28fc80f1bce7892aeee
+Files discovered/selected: 2613/2613
+Files filtered by path policy: 0
+Files scanned: 2611
+Source bytes read: 39778601
+Files skipped: 2
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 117
+  .1: 1
+  .bmp: 39
+  .csv: 1
+  .inf: 2
+  .md: 31
+  .otf: 6
+  .pbm: 1
+  .pdf: 2
+  .png: 11
+  .svg: 4
+  .ttf: 2
+  .txt: 5
+  <no-extension>: 12
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 101 selected input(s). The conservative prefilter excluded 2510 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 41 selected input(s). The conservative prefilter excluded 2570 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 12 selected input(s). The conservative prefilter excluded 2599 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+Skip reasons: too_large=2
+No findings from the enabled rules.

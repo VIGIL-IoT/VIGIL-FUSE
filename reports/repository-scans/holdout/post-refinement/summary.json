@@ -1,0 +1,379 @@
+{
+  "generated_at": "2026-10-27T20:27:34Z",
+  "scan_date": "2026-10-28",
+  "cohort": "regression-validation",
+  "training_manifest": "../../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Recheck the initial holdout observations after fixture-backed semantic filters were added.",
+    "rule_tuning_during_holdout": true,
+    "interpretation": "This same repository corpus informed the refinements, so this pass is regression validation rather than an untouched blind holdout."
+  },
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "671a4f26f3b070363be749e8958bc56c76f0221d28ef2f28aa2014bfe2ff69bf",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "interpretation": "Regression validation against patterns observed in the initial holdout snapshot. The corpus informed these refinements and is not an untouched blind holdout; findings remain static signals, not confirmed vulnerabilities.",
+  "totals": {
+    "files_discovered": 13065,
+    "files_selected": 13057,
+    "files_scanned": 13050,
+    "files_skipped": 7,
+    "repository_count": 4,
+    "scan_scope_count": 4,
+    "finding_count": 4,
+    "rule_counts": {
+      "FUSE001": 2,
+      "FUSE002": 2,
+      "FUSE003": 0,
+      "FUSE004": 0,
+      "FUSE005": 0,
+      "FUSE006": 0,
+      "FUSE007": 0
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 2,
+      "medium": 2,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {
+      "not_utf8": 3,
+      "too_large": 4
+    },
+    "hardware_file_count": 0,
+    "hardware_category_counts": {},
+    "hardware_inventory_complete": true
+  },
+  "repositories": [
+    {
+      "id": "riot",
+      "name": "RIOT-OS/RIOT",
+      "url": "https://github.com/RIOT-OS/RIOT",
+      "commit": "f573bc4931723ba4ee0aacd88a1f6b05bfadc940",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 7518,
+      "files_selected": 7515,
+      "files_scanned": 7513,
+      "files_skipped": 2,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {
+        "too_large": 2
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "riot",
+          "scope": "Selected RIOT board, core, CPU, driver, example, system, and top-level build/configuration files",
+          "profile": "generic",
+          "files_discovered": 7518,
+          "files_selected": 7515,
+          "files_scanned": 7513,
+          "files_skipped": 2,
+          "files_skipped_by_reason": {
+            "too_large": 2
+          },
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/riot/findings.json",
+            "text": "reports/riot/findings.txt",
+            "sarif": "reports/riot/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "contiki-ng",
+      "name": "contiki-ng/contiki-ng",
+      "url": "https://github.com/contiki-ng/contiki-ng",
+      "commit": "c02eedae8b187123069891f81a7111b833701f9c",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 2192,
+      "files_selected": 2191,
+      "files_scanned": 2189,
+      "files_skipped": 2,
+      "finding_count": 4,
+      "rule_counts": {
+        "FUSE001": 2,
+        "FUSE002": 2,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 2,
+        "medium": 2,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {
+        "not_utf8": 2
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "contiki-ng",
+          "scope": "Selected architecture, OS, example, test, and top-level build/configuration files",
+          "profile": "generic",
+          "files_discovered": 2192,
+          "files_selected": 2191,
+          "files_scanned": 2189,
+          "files_skipped": 2,
+          "files_skipped_by_reason": {
+            "not_utf8": 2
+          },
+          "finding_count": 4,
+          "rule_counts": {
+            "FUSE001": 2,
+            "FUSE002": 2,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 2,
+            "medium": 2,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/contiki-ng/findings.json",
+            "text": "reports/contiki-ng/findings.txt",
+            "sarif": "reports/contiki-ng/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "crazyflie-firmware",
+      "name": "bitcraze/crazyflie-firmware",
+      "url": "https://github.com/bitcraze/crazyflie-firmware",
+      "commit": "b48aba18a675fe950a88d96586fd09e49d82a38b",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 742,
+      "files_selected": 738,
+      "files_scanned": 737,
+      "files_skipped": 1,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {
+        "not_utf8": 1
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "crazyflie-firmware",
+          "scope": "Selected Crazyflie application API, configuration, examples, implementation, and top-level build files",
+          "profile": "generic",
+          "files_discovered": 742,
+          "files_selected": 738,
+          "files_scanned": 737,
+          "files_skipped": 1,
+          "files_skipped_by_reason": {
+            "not_utf8": 1
+          },
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/crazyflie-firmware/findings.json",
+            "text": "reports/crazyflie-firmware/findings.txt",
+            "sarif": "reports/crazyflie-firmware/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "marlin",
+      "name": "MarlinFirmware/Marlin",
+      "url": "https://github.com/MarlinFirmware/Marlin",
+      "commit": "172b94822a49c9a500221b2601b5a8c778a920c6",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 2613,
+      "files_selected": 2613,
+      "files_scanned": 2611,
+      "files_skipped": 2,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "files_skipped_by_reason": {
+        "too_large": 2
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "marlin",
+          "scope": "Marlin firmware sources, configuration examples, and PlatformIO build configuration",
+          "profile": "generic",
+          "files_discovered": 2613,
+          "files_selected": 2613,
+          "files_scanned": 2611,
+          "files_skipped": 2,
+          "files_skipped_by_reason": {
+            "too_large": 2
+          },
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "report_files": {
+            "json": "reports/marlin/findings.json",
+            "text": "reports/marlin/findings.txt",
+            "sarif": "reports/marlin/findings.sarif"
+          }
+        }
+      ]
+    }
+  ]
+}

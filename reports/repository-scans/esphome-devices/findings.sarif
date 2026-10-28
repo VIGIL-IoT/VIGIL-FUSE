@@ -11,10 +11,16 @@
         }
       },
       "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
       "results": [],
       "properties": {
         "target": "esphome/devices.esphome.io",
         "profile": "generic",
+        "networkPolicy": "not-requested",
         "inputManifestSha256": "b5c022ed006e8f5a46538c06acdb1ca497bf98a11ed5cf02fa70feef8a08b7db",
         "analysisPerformed": true,
         "analyzers": [
@@ -22,8 +28,49 @@
             "name": "fuse-native",
             "status": "completed",
             "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
           }
-        ]
+        ],
+        "sarifExport": {
+          "resultsAvailable": 0,
+          "resultsIncluded": 0,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
       }
     }
   ]

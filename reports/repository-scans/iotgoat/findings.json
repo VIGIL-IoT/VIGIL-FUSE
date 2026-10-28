@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.7",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,8 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "embedded-linux",
-    "started_at": "2026-10-26T17:30:53Z",
-    "completed_at": "2026-10-26T17:31:06Z",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:08:49Z",
+    "completed_at": "2026-10-27T21:08:53Z",
     "input_manifest_sha256": "3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c"
   },
   "summary": {
@@ -17,6 +18,7 @@
     "files_selected": 1652,
     "files_filtered": 0,
     "files_scanned": 1651,
+    "source_bytes_read": 6857505,
     "files_skipped": 1,
     "analysis_performed": true,
     "finding_count": 1,
@@ -32,6 +34,63 @@
   "coverage": {
     "files_skipped_by_reason": {
       "not_utf8": 1
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 2578,
+      "unsupported_file_types": {
+        ".14": 38,
+        ".9": 28,
+        ".am": 1,
+        ".asnet": 1,
+        ".bak": 3,
+        ".bin": 5,
+        ".bootscript": 4,
+        ".common": 1,
+        ".css": 1,
+        ".date": 1,
+        ".db": 1,
+        ".default": 3,
+        ".defaults": 1,
+        ".failsafe": 1,
+        ".hotplug": 3,
+        ".htm": 6,
+        ".ico": 1,
+        ".images-bcm63xx": 1,
+        ".in": 28,
+        ".inc": 1,
+        ".lds": 11,
+        ".local": 2,
+        ".lua": 2,
+        ".m4": 2,
+        ".md": 3,
+        ".microsoft": 1,
+        ".og": 2,
+        ".openwrt": 1,
+        ".options": 1,
+        ".patch": 2106,
+        ".png": 3,
+        ".pptp": 1,
+        ".s": 15,
+        ".scr": 1,
+        ".squashfs": 1,
+        ".template": 1,
+        ".txt": 11,
+        ".upgrade": 2,
+        "<no-extension>": 283
+      }
+    },
+    "support": {
+      "capability_id": "source.embedded-linux",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Generic native rules over the expanded embedded Linux file profile.",
+      "limitations": [
+        "Does not resolve the selected image build or installed package set"
+      ]
     },
     "rules_available": [
       "FUSE001",
@@ -54,19 +113,114 @@
     "analyzers": [
       {
         "name": "fuse-native",
-        "status": "completed",
+        "status": "partial",
         "version": "0.2.0",
-        "detail": "Native rules completed.",
+        "detail": "One or more selected files were skipped; review coverage details.",
         "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.4.0",
+        "detail": "Evaluated 48 selected input(s). The conservative prefilter excluded 1603 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 23 selected input(s). The conservative prefilter excluded 1628 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 51 selected input(s). The conservative prefilter excluded 1600 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 1636 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 1636 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
       }
     ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
   },
   "findings": [
     {
       "id": "FUSE001:OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h:96",
       "fingerprint": "1ef25386d4cfad4da096c5cd899c65c23f3402d2177b1e16342025798c106c46",
       "rule_id": "FUSE001",
-      "rule_version": "1.1.0",
+      "rule_version": "1.4.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal assigned in source",
       "severity": "medium",
@@ -83,7 +237,14 @@
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
         "https://cwe.mitre.org/data/definitions/798.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     }
   ],
   "artifacts": []

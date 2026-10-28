@@ -1,0 +1,112 @@
+FUSE scan: buildroot/buildroot
+Target kind: directory
+Profile: embedded-linux
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: bc7dc42ba14a6e5a37ae4a77e1490698aedc389c9e022386354c8837b50102a9
+Files discovered/selected: 4822/4821
+Files filtered by path policy: 1
+Files scanned: 4820
+Source bytes read: 6655434
+Files skipped: 1
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 10160
+  .114: 1
+  .12: 1
+  .160: 1
+  .190: 1
+  .223: 1
+  .254-cip72: 1
+  .254-cip72-rt32: 1
+  .272: 1
+  .3: 1
+  .58: 1
+  .adoc: 1
+  .args: 1
+  .asl: 1
+  .bats: 3
+  .bin: 1
+  .br: 1
+  .buildroot: 2
+  .c_shipped: 2
+  .cache: 2
+  .console: 1
+  .crt: 1
+  .csv: 1
+  .d-sshd: 1
+  .default: 1
+  .desc: 16
+  .diff: 1
+  .ext: 1
+  .fc: 2
+  .fragment: 93
+  .fth: 1
+  .glade: 1
+  .gnu: 1
+  .guess: 1
+  .gz: 1
+  .hash: 3760
+  .header: 1
+  .host: 149
+  .html: 1
+  .if: 2
+  .in: 3260
+  .inc: 1
+  .its: 5
+  .l: 1
+  .legacy: 2
+  .list: 1
+  .log: 1
+  .logrotate: 1
+  .lst: 2
+  .lua: 2
+  .m4: 1
+  .md: 1
+  .mount: 3
+  .nu: 1
+  .options: 1
+  .pam: 5
+  .patch: 1787
+  .pc: 15
+  .pl: 2
+  .plot: 1
+  .policy: 1
+  .preset: 3
+  .ps: 1
+  .scm: 1
+  .script: 1
+  .smt2: 1
+  .sources: 1
+  .sub: 1
+  .supp: 1
+  .tcl: 2
+  .te: 2
+  .template: 4
+  .template_imx8: 1
+  .template_imx9: 1
+  .template_no_boot_part: 1
+  .template_no_boot_part_spl: 1
+  .template_spl: 1
+  .theme: 1
+  .tvheadend: 1
+  .txt: 270
+  .varlink: 1
+  .warning: 1
+  .warnings-header: 1
+  .xz: 1
+  .y: 1
+  <no-extension>: 706
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 81 selected input(s). The conservative prefilter excluded 4739 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 25 selected input(s). The conservative prefilter excluded 4795 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 428 selected input(s). The conservative prefilter excluded 4392 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: partial (Evaluated 122 selected input(s). The conservative prefilter excluded 4698 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE007: partial (Evaluated 122 selected input(s). The conservative prefilter excluded 4698 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+Skip reasons: not_utf8=1
+No findings from the enabled rules.

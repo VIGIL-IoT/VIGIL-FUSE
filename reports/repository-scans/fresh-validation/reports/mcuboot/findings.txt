@@ -1,0 +1,69 @@
+FUSE scan: mcu-tools/mcuboot, selected source and configuration
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 03fdcb5e180d1d2a818e00405a356081b857e150b2b2f6dded64c6abc0d6879f
+Files discovered/selected: 708/489
+Files filtered by path policy: 219
+Files scanned: 489
+Source bytes read: 2230434
+Files skipped: 0
+Discovery complete: yes
+Findings: 2
+Hardware artifacts: 0
+Files not selected by the source profile: 136
+  .b64: 2
+  .bin: 1
+  .bt: 1
+  .chromium: 1
+  .firmware_loader: 1
+  .launch: 2
+  .ld: 15
+  .lock: 3
+  .md: 36
+  .mod: 1
+  .nix: 1
+  .overlay: 21
+  .png: 1
+  .pub: 1
+  .rst: 2
+  .s: 2
+  .serial_recovery: 1
+  .txt: 18
+  .yml-disabled: 1
+  <no-extension>: 25
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 24 selected input(s). The conservative prefilter excluded 465 inputs without the rule's required markers.)
+  native-rule:FUSE002: completed (Evaluated 4 selected input(s). The conservative prefilter excluded 485 inputs without the rule's required markers.)
+  native-rule:FUSE003: completed (Evaluated 33 selected input(s). The conservative prefilter excluded 456 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 159 selected input(s). The conservative prefilter excluded 330 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: completed (Evaluated 10 selected input(s). The conservative prefilter excluded 479 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 10 selected input(s). The conservative prefilter excluded 479 inputs without the rule's required markers.)
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: samples/zephyr/bad-keys/bad-ec-p256.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: samples/zephyr/bad-keys/bad-rsa-2048.pem:1
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html

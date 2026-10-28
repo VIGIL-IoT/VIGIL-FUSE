@@ -1,0 +1,147 @@
+FUSE scan: micropython/micropython, selected embedded source
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 0eb04b3372f202c13e23532e3a9764dabeb3f9e083daf4159f655e3b35e66d2d
+Files discovered/selected: 5111/3088
+Files filtered by path policy: 2023
+Files scanned: 3088
+Source bytes read: 19444815
+Files skipped: 0
+Discovery complete: yes
+Findings: 4
+Hardware artifacts: 0
+Files not selected by the source profile: 1712
+  .240mhz: 1
+  .base: 1
+  .bin: 8
+  .ble: 1
+  .board: 22
+  .c2: 1
+  .c3: 1
+  .c6: 1
+  .csi: 1
+  .css: 2
+  .csv: 281
+  .d2wd: 1
+  .der: 6
+  .diff: 1
+  .dxf: 2
+  .esp32: 1
+  .esp32c2: 1
+  .esp32c3: 1
+  .esp32c5: 1
+  .esp32c6: 1
+  .esp32h2: 1
+  .esp32p4: 1
+  .esp32s2: 1
+  .esp32s3: 1
+  .exp: 633
+  .flash_2mib: 1
+  .flash_qio_80m: 1
+  .flm: 1
+  .fmt: 1
+  .free_ram: 1
+  .h2: 1
+  .hex: 1
+  .html: 3
+  .icf: 6
+  .ico: 2
+  .in: 1
+  .inc: 1
+  .incl: 5
+  .inf_template: 1
+  .jpg: 14
+  .ld: 129
+  .lds: 2
+  .md: 146
+  .memory-export: 1
+  .mjs: 40
+  .mpy: 1
+  .o: 1
+  .ota: 1
+  .overlay: 16
+  .p4: 1
+  .p4_pre_rev3: 1
+  .p4_wifi_c5: 1
+  .p4_wifi_c6: 1
+  .p4_wifi_common: 1
+  .png: 14
+  .props: 7
+  .proto: 1
+  .qemu: 1
+  .rc: 1
+  .riscv: 2
+  .rst: 251
+  .s: 20
+  .sct: 3
+  .spiram_esp32: 1
+  .spiram_oct: 1
+  .spiram_quad: 1
+  .svg: 4
+  .targets: 1
+  .timestamp: 2
+  .txt: 15
+  .unicore: 1
+  .upylib: 1
+  .vcxproj: 2
+  <no-extension>: 29
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 62 selected input(s). The conservative prefilter excluded 3026 inputs without the rule's required markers.)
+  native-rule:FUSE002: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 3087 inputs without the rule's required markers.)
+  native-rule:FUSE003: completed (Evaluated 57 selected input(s). The conservative prefilter excluded 3031 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 1608 selected input(s). The conservative prefilter excluded 1480 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: extmod/modtls_axtls.c:42
+  Evidence: CERT_NONE
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: extmod/modtls_axtls.c:165
+  Evidence: CERT_NONE
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: extmod/modtls_axtls.c:460
+  Evidence: CERT_NONE
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: ports/cc3200/tools/update-wipy.py:82
+  Evidence: if b"Password:"[REDACTED]"Password:", timeout=5):
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html

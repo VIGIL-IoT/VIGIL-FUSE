@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.7",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "openembedded/meta-openembedded",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "embedded-linux",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:09:49Z",
+    "completed_at": "2026-10-27T21:09:52Z",
+    "input_manifest_sha256": "164282ede4646a44f291ec117a6cc18c88917a738f00283c6de8d2877a52094c"
+  },
+  "summary": {
+    "files_discovered": 1183,
+    "files_selected": 1183,
+    "files_filtered": 0,
+    "files_scanned": 1183,
+    "source_bytes_read": 1495909,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 1004,
+      "unsupported_file_types": {
+        ".03_samba": 1,
+        ".03_syslog-ng": 1,
+        ".1": 1,
+        ".58_radiusd": 1,
+        ".6": 1,
+        ".99_atop": 1,
+        ".99_snort": 1,
+        ".db": 3,
+        ".default": 3,
+        ".desktop": 1,
+        ".diff": 3,
+        ".example": 1,
+        ".in": 3,
+        ".inc": 25,
+        ".initd": 3,
+        ".linux": 1,
+        ".md": 8,
+        ".mit": 4,
+        ".modes": 5,
+        ".oe": 1,
+        ".pam": 1,
+        ".patch": 799,
+        ".png": 1,
+        ".pptp": 1,
+        ".sysconfig": 1,
+        ".systemd": 1,
+        ".sysvinit": 1,
+        ".txt": 2,
+        ".utils": 1,
+        "<no-extension>": 128
+      }
+    },
+    "support": {
+      "capability_id": "source.embedded-linux",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Generic native rules over the expanded embedded Linux file profile.",
+      "limitations": [
+        "Does not resolve the selected image build or installed package set"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 46 selected input(s). The conservative prefilter excluded 1137 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 10 selected input(s). The conservative prefilter excluded 1173 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 170 selected input(s). The conservative prefilter excluded 1013 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [],
+  "artifacts": []
+}

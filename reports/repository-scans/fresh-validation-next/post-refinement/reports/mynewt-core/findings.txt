@@ -1,0 +1,46 @@
+FUSE scan: apache/mynewt-core, selected embedded source
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: e3a9bea71c8cef5a30d66d33415fb096148081a5e3754ca79046028d8b408968
+Files discovered/selected: 4344/3355
+Files filtered by path policy: 989
+Files scanned: 3353
+Source bytes read: 23149934
+Files skipped: 2
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 430
+  .donotcompile: 2
+  .errlog: 1
+  .ewd: 2
+  .ewp: 2
+  .eww: 2
+  .gdb: 11
+  .ld: 191
+  .log: 1
+  .md: 36
+  .png: 5
+  .prefs: 3
+  .rst: 93
+  .s: 46
+  .template: 2
+  .txt: 9
+  .uvoptx: 2
+  .uvprojx: 2
+  .xsl: 1
+  <no-extension>: 19
+Hardware inventory: no recognized hardware artifacts in target scope.
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 42 selected input(s). The conservative prefilter excluded 3311 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 70 selected input(s). The conservative prefilter excluded 3283 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 2948 selected input(s). The conservative prefilter excluded 405 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: partial (Evaluated 1 selected input(s). The conservative prefilter excluded 3352 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+Skip reasons: not_utf8=1, too_large=1
+No findings from the enabled rules.

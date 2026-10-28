@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.7",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,8 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "embedded-linux",
-    "started_at": "2026-10-26T17:33:56Z",
-    "completed_at": "2026-10-26T17:34:00Z",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-27T21:09:25Z",
+    "completed_at": "2026-10-27T21:09:27Z",
     "input_manifest_sha256": "5f027ca78e90de016aaf8d26fcf5e6c47de03d75c8b0af2582b5cf375e5804df"
   },
   "summary": {
@@ -17,6 +18,7 @@
     "files_selected": 368,
     "files_filtered": 0,
     "files_scanned": 368,
+    "source_bytes_read": 2463235,
     "files_skipped": 0,
     "analysis_performed": true,
     "finding_count": 1,
@@ -31,6 +33,51 @@
   },
   "coverage": {
     "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 1237,
+      "unsupported_file_types": {
+        ".18": 2,
+        ".am": 1,
+        ".asnet": 1,
+        ".chat": 2,
+        ".clients": 1,
+        ".common": 1,
+        ".default": 3,
+        ".defaults": 2,
+        ".failsafe": 2,
+        ".gcom": 12,
+        ".hotplug": 4,
+        ".in": 12,
+        ".lds": 1,
+        ".list": 1,
+        ".local": 1,
+        ".m4": 2,
+        ".md": 3,
+        ".microsoft": 1,
+        ".patch": 698,
+        ".pptp": 1,
+        ".s": 2,
+        ".txt": 2,
+        ".uc": 10,
+        ".usb": 2,
+        ".usbmisc": 1,
+        ".users": 1,
+        "<no-extension>": 468
+      }
+    },
+    "support": {
+      "capability_id": "source.embedded-linux",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Generic native rules over the expanded embedded Linux file profile.",
+      "limitations": [
+        "Does not resolve the selected image build or installed package set"
+      ]
+    },
     "rules_available": [
       "FUSE001",
       "FUSE002",
@@ -56,15 +103,110 @@
         "version": "0.2.0",
         "detail": "Native rules completed.",
         "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 60 selected input(s). The conservative prefilter excluded 308 inputs without the rule's required markers.",
+        "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 24 selected input(s). The conservative prefilter excluded 344 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 37 selected input(s). The conservative prefilter excluded 331 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 353 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 353 inputs without the rule's required markers.",
+        "findings": 0
       }
     ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
   },
   "findings": [
     {
       "id": "FUSE001:package/network/services/ead/src/tinysrp/t_pwd.h:96",
       "fingerprint": "cd3a1ecbd67b86dd24a230c515bef1787d966410b6722688160b21164baa4ca3",
       "rule_id": "FUSE001",
-      "rule_version": "1.1.0",
+      "rule_version": "1.4.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal assigned in source",
       "severity": "medium",
@@ -81,7 +223,14 @@
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
         "https://cwe.mitre.org/data/definitions/798.html"
-      ]
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null
     }
   ],
   "artifacts": []

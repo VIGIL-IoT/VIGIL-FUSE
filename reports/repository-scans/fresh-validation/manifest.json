@@ -1,0 +1,141 @@
+{
+  "cohort": "independent-holdout",
+  "scan_date": "2026-10-28",
+  "training_manifest": "../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Preserve a fresh validation snapshot of embedded repositories outside both the 14-repository refinement corpus and the earlier four-repository regression set.",
+    "rule_tuning_during_holdout": false,
+    "pinned_before_scan": true,
+    "builds_or_tests_run": false,
+    "interpretation": "A purposive qualitative validation set, not a representative sample or accuracy benchmark. Raw matches require manual review and do not establish vulnerability or security."
+  },
+  "repositories": [
+    {
+      "id": "micropython",
+      "name": "micropython/micropython",
+      "url": "https://github.com/micropython/micropython",
+      "commit": "e6aff005672cf5a7968a60a64f09ba26b1fc9833",
+      "profile": "generic",
+      "checkout_scope": [
+        "core Python implementation",
+        "native extensions",
+        "board and port implementations",
+        "shared embedded runtime code"
+      ],
+      "scans": [
+        {
+          "id": "micropython",
+          "scope": "MicroPython core, native extensions, ports, shared code, and root build configuration",
+          "target_label": "micropython/micropython, selected embedded source",
+          "includes": [
+            "py/**",
+            "extmod/**",
+            "ports/**",
+            "shared/**",
+            "mpconfigport.h",
+            "mpconfigport.mk",
+            "CMakeLists.txt",
+            "Makefile",
+            "pyproject.toml"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mcuboot",
+      "name": "mcu-tools/mcuboot",
+      "url": "https://github.com/mcu-tools/mcuboot",
+      "commit": "7f0bc83fe1a9309b08244439d42b04901b50af9a",
+      "profile": "generic",
+      "checkout_scope": [
+        "bootloader implementation",
+        "configuration and public headers",
+        "sample applications and simulator"
+      ],
+      "scans": [
+        {
+          "id": "mcuboot",
+          "scope": "MCUboot bootloader, configurations, headers, samples, simulator, and root build files",
+          "target_label": "mcu-tools/mcuboot, selected source and configuration",
+          "includes": [
+            "boot/**",
+            "configs/**",
+            "include/**",
+            "samples/**",
+            "sim/**",
+            "CMakeLists.txt",
+            "Kconfig",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "freertos-kernel",
+      "name": "FreeRTOS/FreeRTOS-Kernel",
+      "url": "https://github.com/FreeRTOS/FreeRTOS-Kernel",
+      "commit": "640d0c43705e64cd53f46b31d882de6cd8433933",
+      "profile": "generic",
+      "checkout_scope": [
+        "kernel source and public headers",
+        "portable architecture and compiler layers",
+        "root build configuration"
+      ],
+      "scans": [
+        {
+          "id": "freertos-kernel",
+          "scope": "FreeRTOS kernel, portable layers, and root build files",
+          "target_label": "FreeRTOS/FreeRTOS-Kernel, selected source",
+          "includes": [
+            "include/**",
+            "portable/**",
+            "tasks.c",
+            "queue.c",
+            "timers.c",
+            "event_groups.c",
+            "list.c",
+            "CMakeLists.txt",
+            "Makefile"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nuttx-apps",
+      "name": "apache/nuttx-apps",
+      "url": "https://github.com/apache/nuttx-apps",
+      "commit": "9b1fc944fef1f711438367078f6d28ec740816b3",
+      "profile": "generic",
+      "checkout_scope": [
+        "application examples",
+        "network utilities",
+        "system utilities and crypto applications",
+        "root build and Kconfig files"
+      ],
+      "scans": [
+        {
+          "id": "nuttx-apps",
+          "scope": "NuttX applications, networking utilities, system utilities, crypto applications, and root build files",
+          "target_label": "apache/nuttx-apps, selected embedded source",
+          "includes": [
+            "examples/**",
+            "netutils/**",
+            "system/**",
+            "crypto/**",
+            "Kconfig",
+            "Makefile",
+            "CMakeLists.txt"
+          ]
+        }
+      ]
+    }
+  ],
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "12b2ccde23b0aad57104aabae8fe01deeecfcbbc0789256611aaaf8636b26176",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  }
+}
