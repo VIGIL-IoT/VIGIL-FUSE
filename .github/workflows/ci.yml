@@ -1,0 +1,80 @@
+name: FUSE CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  tests:
+    name: Tests on Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test runner and FUSE
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[test]"
+      - name: Run test suite
+        run: python -m pytest -q
+
+  package-smoke:
+    name: Build and install package
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Build wheel and source distribution
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+      - name: Install wheel and exercise CLI
+        run: |
+          python -m pip install --no-deps dist/*.whl
+          vigil-fuse --version
+          python - <<'PY'
+          import json
+          import pathlib
+          import subprocess
+          import tempfile
+
+          with tempfile.TemporaryDirectory() as temporary:
+              target = pathlib.Path(temporary) / "embedded-project"
+              target.mkdir()
+              (target / "main.c").write_text(
+                  'const char *endpoint = "http://device.local";\n',
+                  encoding="utf-8",
+              )
+              report_path = pathlib.Path(temporary) / "findings.json"
+              subprocess.run(
+                  ["vigil-fuse", "scan", str(target), "--format", "json", "--output", str(report_path)],
+                  check=True,
+                  capture_output=True,
+                  text=True,
+              )
+              report = json.loads(report_path.read_text(encoding="utf-8"))
+              assert report["tool"]["name"] == "FUSE"
+              assert report["summary"]["analysis_performed"] is True
+              assert any(finding["rule_id"] == "FUSE004" for finding in report["findings"])
+          PY

@@ -1,5 +1,7 @@
 # GitHub Actions example
 
+The FUSE repository also runs `.github/workflows/ci.yml`, which tests the supported Python matrix, validates the packaged report schema, builds the wheel and source distribution, and exercises the installed CLI. The workflow below is a separate template for scanning a repository that uses FUSE.
+
 This workflow template keeps the scan job limited to repository read access, saves the canonical JSON, text, and SARIF reports as a workflow artifact, and uploads SARIF in a separate job with `security-events: write`. It restores the scan's nonzero status after report upload so findings and incomplete analysis still fail the workflow. External fork pull requests skip SARIF publication because they cannot write code-scanning results to the base repository.
 
 Copy it into `.github/workflows/fuse.yml` after selecting the repository's intended default branch and confirming that code scanning is available for the repository.

@@ -29,6 +29,7 @@ classifiers = [
 
 [project.optional-dependencies]
 esp-idf = ["PyYAML>=6,<7"]
+test = ["jsonschema>=4.23,<5", "pytest>=8,<9"]
 
 [project.urls]
 Repository = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
