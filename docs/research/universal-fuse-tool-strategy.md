@@ -31,9 +31,9 @@ This is an architecture synthesis, not a measured head-to-head benchmark. The up
 
 ## Implemented baseline in this repository
 
-The initial recommendation has been turned into a local Python package and CLI. It now scans selected source/configuration files with seven tested FUSE-native rules, including two explicit ESP-IDF bootloader image-validation setting checks. It recognizes supplied CycloneDX/SPDX inventories for direct advisory matching, can request Syft SBOM generation and OSV-Scanner matching, and can request Binwalk signature identification for one raw firmware image. Text, schema-versioned JSON, and SARIF reports are written together under `--output-dir`; generated analyzer artifacts are listed with hashes. Optional executable absence, failure, and partial coverage appear in the report.
+The initial recommendation has been turned into a local Python package and CLI. It scans selected source/configuration files with seven tested FUSE-native rules, including two explicit ESP-IDF bootloader image-validation setting checks. It recognizes supplied CycloneDX/SPDX inventories for direct advisory matching, can request Syft SBOM generation and OSV-Scanner matching, can request Binwalk signature identification for one raw firmware image, and can optionally scan Git history with Gitleaks while retaining only redacted finding metadata. The default `vigil-fuse scan .` workflow writes text, schema-versioned JSON, and SARIF reports to `.fuse-results`; generated analyzer artifacts are listed with hashes. `doctor`, a non-executing `scan --plan`, a support matrix, bounded input and subprocess handling, strict no-network mode, hardware filename inventory, and explicit incomplete statuses are implemented. The separate baseline commands compare complete reports, manage reasoned expiring suppressions, and conservatively classify unique native findings that move between files.
 
-Firmware extraction, emulation, runtime validation, parser-backed cross-file analysis, platform-specific rule families, and hosted integrations remain deferred. Binwalk is run without extraction flags, and its successful signature pass is deliberately marked partial. OSV advisory severity is sourced from upstream labels or supported CVSS v3 base vectors; unsupported/missing scores stay `unknown`. This baseline is a useful local package, not a claim of complete coverage across device classes.
+Firmware extraction, emulation, runtime validation, parser-backed cross-file analysis, broader platform-specific rule families, and hosted integrations remain deferred. Binwalk is run without extraction flags. A successful signature pass is complete for that documented stage, while a truncated saved signature report is partial. OSV advisory severity is sourced from upstream labels or supported CVSS vectors; unsupported or missing scores stay `unknown`. This baseline is a useful local package, not a claim of complete coverage across device classes.
 
 ## Recommended product boundary
 
@@ -110,7 +110,7 @@ This boundary is a prerequisite for firmware support, not polish to add afterwar
 
 ### Phase 0 - trusted CLI foundation (implemented)
 
-Keep the original five conservative rules, paired vulnerable/secure fixtures, redacted evidence, and JSON/text output. Harden usability around output directories, scan coverage, version reporting, and configuration. Do not expand the regex list as a substitute for architecture.
+Keep conservative rules, paired vulnerable/secure fixtures, redacted evidence, and JSON/text output. Default reports, hardware inventory, `doctor`, dry-run planning, resource limits, analyzer coverage, and baseline review are implemented. Do not expand the rule list as a substitute for architecture.
 
 ### Phase 1 - stable contracts and source-project profiles (baseline implemented)
 
@@ -138,7 +138,7 @@ The baseline includes two ESP-IDF boot-integrity rules for explicit settings tha
 
 ### Phase 5 - interoperability and workflows (core formats implemented)
 
-Versioned JSON, SARIF findings export, and CycloneDX inventory generation are implemented. Add GitHub Actions/CI templates and HTML. Add editor/dashboard integrations only after report identities, baselines, and diff behavior are stable.
+Versioned JSON, SARIF findings export, CycloneDX inventory generation, and a pinned GitHub Actions workflow example are implemented or documented. HTML, editor, and hosted-dashboard integrations remain future work until report identities, baselines, and diff behavior have seen use across projects.
 
 ### Phase 6 - [VIGIL-IoT suite](https://github.com/VIGIL-IoT) lab loop
 

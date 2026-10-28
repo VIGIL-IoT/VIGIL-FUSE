@@ -24,6 +24,6 @@ Then open http://localhost:4173. The website's command example installs the pack
 
 The interactive finding panel uses vulnerable fixtures for FUSE001, FUSE003, and FUSE006. They are labelled as test examples. The repository scan section reads its pinned snapshot from `site/data/repository-scan-results.json`; full JSON, text, and SARIF reports are in `reports/repository-scans/`. Its counts are raw static indicators, not confirmed vulnerabilities or hardware results. FUSE 0.2.0's rule-context changes and remaining limitations are documented in the report directory. The SPECTRA-32 research loop remains planned work.
 
-After regenerating repository scan reports, run `py scripts\build_repository_scan_dashboard.py` from the repository root to refresh the site data and SVG plots in `reports/repository-scans/plots/` and `site/assets/`.
+After regenerating repository scan reports, run `py scripts\build_repository_scan_dashboard.py` from the repository root to refresh the scan summary, supported-input matrix, and SVG plots in `reports/repository-scans/plots/` and `site/assets/`.
 
-The page uses no stock board imagery. The report-fragment row scrolls horizontally by design and includes arrow controls and a visible swipe hint.
+The page uses no stock board imagery. The report-fragment row scrolls horizontally by design and includes arrow controls and a visible swipe hint. Its supported-input matrix is generated from `src/vigil_fuse/support-matrix.json`, so labels and scope descriptions stay aligned with the CLI support contract.

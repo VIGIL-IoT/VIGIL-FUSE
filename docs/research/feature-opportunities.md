@@ -3,9 +3,11 @@
 **Research note - 26 October 2026**  
 **A [VIGIL](https://github.com/VIGIL-IoT) Project**
 
+**Implementation update - 28 October 2026:** the local CLI now includes the default report bundle, `doctor`, `scan --plan`, bounded scan execution, conservative rule-owned prefilters, line-shift-stable SARIF fingerprints, hardware filename inventory, a pinned GitHub Actions example, baseline create/diff/suppress/unsuppress commands with conservative file-move classification, stable shareable target labels, an opt-in import path for Zephyr hardenconfig JSON, and opt-in redacted Gitleaks history scanning. Selected ESP-IDF generated-configuration findings carry candidate applicability and generated-config provenance. The pinned 14-repository snapshot was refreshed after rule refinements. Two separate four-repository validation cohorts are pinned; the first exposed a FUSE001 prompt-string false positive and the second was preserved as an independent pre-change set. Framework/build-target variation remains open.
+
 ## Summary
 
-FUSE already has a useful local scanning foundation: a CLI, seven tested static rules, severity and confidence as separate fields, redacted evidence, text/JSON/SARIF reports, scan coverage metadata, optional Syft and OSV-Scanner adapters, and Binwalk signature identification. The highest-value next step is to make FUSE more context-aware and easier to use in a normal development workflow, not to add a large number of unvalidated pattern rules.
+FUSE already has a useful local scanning foundation: a CLI, seven tested static rules, severity and confidence as separate fields, redacted evidence, text/JSON/SARIF reports, scan coverage metadata, optional Syft and OSV-Scanner adapters, Binwalk signature identification, and opt-in redacted Git-history scanning through Gitleaks. The highest-value next step is to make FUSE more context-aware and easier to use in a normal development workflow, not to add a large number of unvalidated pattern rules.
 
 Recommended order:
 
@@ -21,15 +23,16 @@ Recommended order:
 
 | Area | Present in the repository | Useful next capability |
 | --- | --- | --- |
-| Source and configuration | Seven conservative rules, generic and embedded discovery profiles | Effective build configuration checks with board and release context |
-| Findings | Versioned JSON, text, SARIF, evidence, remediation, separate severity and confidence | Stable cross-run identity, baseline and diff state |
+| Source and configuration | Seven conservative rules, generic and embedded discovery profiles, selected build context, and imported Zephyr hardening results | Effective build configuration checks with broader framework-version and board coverage |
+| Findings | Versioned JSON, text, SARIF, evidence, remediation, separate severity and confidence, move-aware baselines | Review move classifications across real project changes and integrate baseline policy into PRs |
 | Dependencies | Optional Syft inventory and OSV-Scanner advisory matching | Preserve whether a component came from a source manifest, installed image, or SBOM; add product-context VEX |
 | Firmware | Hashing and optional Binwalk signature identification without extraction | Isolated bounded extraction with file ancestry and partial-coverage reporting |
-| CI | SARIF export and severity exit threshold | GitHub Actions workflow, PR annotations, new-findings policy |
+| Secrets | Native checks on selected working-tree files and opt-in Gitleaks scan of commits reachable from `HEAD` | Run Gitleaks against full and shallow histories, then refine path and test-fixture behavior |
+| CI | SARIF export, severity exit threshold, pinned GitHub Actions example | PR annotations and policy integration for baseline diffs |
 | Reports | `.fuse-results` with text, JSON, SARIF, and optional analyzer artifacts | Optional HTML review page after finding identity and triage are stable |
 | Research workflow | FUSE and SPECTRA-32 are described as complementary | A later handoff record linking a static hypothesis to a controlled lab run and mitigation measurement |
 
-The current ESP-IDF and Zephyr profiles mainly expand file discovery. A selected profile does not yet mean that FUSE understands the effective configuration or applies a full platform hardening baseline.
+The current ESP-IDF and Zephyr profiles expand file discovery and support selected build context. Zephyr can also import the upstream hardening tool's JSON report. A selected profile still does not mean that FUSE understands every part of the effective configuration or applies a complete platform hardening baseline.
 
 ## Evidence from primary documentation
 
@@ -65,9 +68,11 @@ Before depending on alert deduplication, ensure rule IDs remain stable and SARIF
 
 ### P0: Baseline, diff, and suppression lifecycle
 
-Add a baseline command or report option so teams can distinguish new, persistent, resolved, and suppressed findings. Suppressions should include a reason, owner if known, and optional expiration. The output should retain suppressed counts and scan coverage so suppressions cannot make an incomplete scan look clean.
+Implemented locally as `baseline create`, `baseline diff`, `baseline suppress`, and `baseline unsuppress`.
 
-This should follow stable finding identity work. The current location-based ID and line-sensitive fingerprint are not sufficient for reliable long-lived baselines when files move or lines are inserted.
+Teams can distinguish new, persistent, moved, resolved, and suppressed findings. Suppressions include a required reason, optional owner, and optional expiration. Identical repeated matches in one file receive separate suppression identities. The diff retains suppressed counts and scan coverage so suppressions cannot make an incomplete scan look clean. Baseline creation requires complete coverage; incomplete current scans do not infer resolved findings.
+
+The path-sensitive comparison identity survives harmless line insertion. A second identity can classify a native finding as moved only when exactly one unmatched baseline finding and one unmatched current finding agree on rule, analyzer, category, title, and redacted evidence. Ambiguous duplicates remain new and resolved for review. OSV inventory findings remain path-sensitive, and suppressions do not follow a finding to a new path. Baseline format 1.1 records the move identity while FUSE continues to read 1.0 baselines without move matching.
 
 ### P1: NIST-aligned capability coverage
 
@@ -97,13 +102,13 @@ An offline HTML report can make a result folder easier to review once finding id
 
 The current landing page already shows the CLI workflow, a sample finding, seven implemented rules, evidence boundaries, local report outputs, and the SPECTRA-32 relationship. Keep those as the present-tense product claims.
 
-The most useful additions would be a short supported-inputs and analyzer matrix, a capability map that distinguishes implemented checks from planned areas, and a preview of the actual `.fuse-results` folder. Mark CI uploads, baselines, HTML output, extraction, VEX, and lab handoff as planned until each exists in the CLI. This makes the landing page more informative without suggesting that the roadmap is already implemented.
+The most useful additions would be a short supported-inputs and analyzer matrix, a capability map that distinguishes implemented checks from planned areas, and a preview of the actual `.fuse-results` folder. The CLI baseline workflow is implemented and mentioned on the landing page. HTML output, firmware extraction, VEX, and lab handoff remain planned. The Actions example is a documented template and still needs adaptation and permissions review in each consuming repository.
 
 ## Suggested implementation sequence
 
-1. Stabilize SARIF rule IDs, paths, and fingerprints. Add repeat-scan tests.
-2. Ship one GitHub Actions example and document local fallback reports.
-3. Add a baseline/diff model with explicit suppression reasons and coverage accounting.
+1. Stabilize SARIF rule IDs, paths, and fingerprints. Implemented locally with repeated-scan and line-insertion checks; repository-specific GitHub upload behavior still needs maintainer configuration.
+2. Ship one GitHub Actions example and document local fallback reports. The pinned example is documented in `docs/github-actions.md`.
+3. Add a baseline/diff model with explicit suppression reasons and coverage accounting. Implemented locally; see the CLI examples in the README.
 4. Choose a concrete ESP-IDF or Zephyr production profile and test it against paired secure and insecure build configurations.
 5. Add capability coverage metadata without making compliance claims.
 6. Design and threat-model the isolated firmware extraction worker before enabling extraction.
