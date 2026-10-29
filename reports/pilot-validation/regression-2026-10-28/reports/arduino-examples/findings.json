@@ -1,0 +1,344 @@
+{
+  "schema_version": "1.9",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "arduino/arduino-examples",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T08:58:24Z",
+    "completed_at": "2026-10-28T08:58:27Z",
+    "input_manifest_sha256": "dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760"
+  },
+  "summary": {
+    "files_discovered": 92,
+    "files_selected": 92,
+    "files_filtered": 0,
+    "files_scanned": 92,
+    "source_bytes_read": 220265,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 1,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 1,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 151,
+      "unsupported_file_types": {
+        ".adoc": 1,
+        ".png": 85,
+        ".txt": 64,
+        "<no-extension>": 1
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 90 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 4 selected input(s). The conservative prefilter excluded 88 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.",
+        "findings": 1
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 4,
+    "files": [
+      {
+        "path": ".github/workflows/code-formatting-check.yml",
+        "sha256": "ba0dda029822899fd4d594acda4aaf549ba584a72af9c6ab1f9c873473412531",
+        "byte_size": 2087
+      },
+      {
+        "path": ".github/workflows/compile-examples.yml",
+        "sha256": "7eea6a8a0d2012410c59a34583a2853070739e57c75d88213d66fcba150ac481",
+        "byte_size": 9147
+      },
+      {
+        "path": ".github/workflows/spell-check.yml",
+        "sha256": "92c5b34b32ad2bab4b9c3548a17edcc6109760790edd9fc37410aca1d7c6c9cb",
+        "byte_size": 669
+      },
+      {
+        "path": ".github/workflows/sync-labels.yml",
+        "sha256": "98e59260baa540bc46ac66fe84d1f042390e2135f507035b2d1d26d56553dba1",
+        "byte_size": 4902
+      }
+    ],
+    "non_sha_action_reference_count": 13,
+    "floating_branch_reference_count": 1,
+    "finding_count": 1,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE-GHA-002:.github/workflows/spell-check.yml:20",
+      "fingerprint": "445eb11bbfe8d6a64826640f792070eb4b39bbdfae9291a5f32e28827be74c94",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/spell-check.yml",
+        "start_line": 20,
+        "end_line": 20
+      },
+      "evidence": "uses: codespell-project/actions-codespell@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}
