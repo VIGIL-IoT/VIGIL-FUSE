@@ -55,8 +55,32 @@
       "input": "platformio.ini project configuration",
       "profile": null,
       "label": "experimental",
-      "scope": "Inventories declared environments, boards, platforms, frameworks, and selected defaults without invoking PlatformIO.",
-      "limitations": ["Does not resolve variable substitutions or conditional configuration", "Does not build or test any environment", "Does not compare environment-specific compiled output"]
+      "scope": "Merges a bounded extra_configs graph and inventories declared environments, boards, platforms, frameworks, source directories, source-filter declarations, and selected defaults without invoking PlatformIO.",
+      "limitations": ["Does not evaluate variable substitutions, project scripts, or source filters into compiled files", "Missing or unsafe includes produce partial coverage", "Does not build or test any environment", "Does not compare environment-specific compiled output"]
+    },
+    {
+      "id": "inventory.firmware-candidates",
+      "input": "Project tree and common build-output directories",
+      "profile": null,
+      "label": "detected",
+      "scope": "Records candidate paths, extensions, and sizes without opening binary contents.",
+      "limitations": ["An extension does not prove a file is firmware", "No digest or format validation is performed", "The listed path set is bounded"]
+    },
+    {
+      "id": "ci.github-actions-static",
+      "input": "GitHub Actions workflow YAML",
+      "profile": null,
+      "label": "basic",
+      "scope": "Checks a workflow-level write-all permission scalar, counts recognized non-SHA action references, and reports only obvious floating branch refs as findings.",
+      "limitations": ["Does not check job-level permission blocks", "Version-tag refs are counted but are not findings", "Not a general YAML, expression, permission-inheritance, or event-taint analyzer", "Findings describe workflow supply-chain candidates, not device vulnerabilities"]
+    },
+    {
+      "id": "hardware.kicad-netlist-debug-candidates",
+      "input": "Selected or uniquely detected KiCad XML netlist",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Reports named debug/programming nets connected to connector-designator or connector-like components.",
+      "limitations": ["Does not validate PCB routing, physical access, population state, or debug-port configuration", "Does not export a netlist or invoke KiCad"]
     },
     {
       "id": "inventory.compilation-database",
@@ -120,7 +144,7 @@
       "profile": null,
       "label": "detected",
       "scope": "Filename-based presence inventory with category counts and paths.",
-      "limitations": ["Presence-only filename detection does not assess hardware security", "Detailed BOM parsing requires the explicit hardware.hbom-import capability"]
+      "limitations": ["Presence-only filename detection does not assess hardware security", "KiCad netlist parsing is a separate candidate analyzer", "Detailed BOM parsing requires the explicit hardware.hbom-import capability"]
     },
     {
       "id": "hardware.hbom-import",
