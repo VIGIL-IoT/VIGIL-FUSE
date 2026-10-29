@@ -1,0 +1,59 @@
+FUSE scan: ARC-4
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 6db0cb74abaa151def093e1506486751295c10401e656a497bef98fcc4ba3740
+Files discovered/selected: 1/1
+Files filtered by path policy: 0
+Files scanned: 1
+Source bytes read: 37115
+Files skipped: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 10
+Hardware BOM: imported; 102 line item(s), 120 listed part(s)
+Files not selected by the source profile: 52
+  .csv: 2
+  .kicad_mod: 1
+  .kicad_pcb: 1
+  .kicad_pro: 1
+  .kicad_sch: 2
+  .kicad_sym: 1
+  .md: 4
+  .net: 1
+  .pdf: 22
+  .png: 5
+  .sldprt: 3
+  .svg: 2
+  .txt: 3
+  <no-extension>: 4
+Hardware inventory:
+  bill-of-materials: 2
+  hardware-library: 3
+  hardware-project: 1
+  netlist: 1
+  pcb-layout: 1
+  schematic: 2
+  Hardware/KiCad/ARC-4-v2/ARC-4-v2-bom-kicad.csv [BOM CSV]
+  Hardware/KiCad/ARC-4-v2/ARC-4-v2-bom.csv [BOM CSV]
+  Hardware/KiCad/ARC-4-v2/ARC-4-v2.kicad_pcb [KiCad PCB layout]
+  Hardware/KiCad/ARC-4-v2/ARC-4-v2.kicad_pro [KiCad project]
+  Hardware/KiCad/ARC-4-v2/ARC-4-v2.kicad_sch [KiCad schematic]
+  Hardware/KiCad/ARC-4-v2/ARC-4-v2.net [Electronic netlist]
+  Hardware/KiCad/ARC-4-v2/ARC4.kicad_sym [KiCad symbol library]
+  Hardware/KiCad/ARC-4-v2/ARC4.pretty [KiCad footprint library]
+  Hardware/KiCad/ARC-4-v2/ARC4.pretty/SA56-11EWA.kicad_mod [KiCad footprint]
+  Schematics/ARC-4 Semi-Completed Circuit.kicad_sch [KiCad schematic]
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE004: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+Artifacts:
+  hardware-bom.cdx.json [application/vnd.cyclonedx+json]
+No findings from the enabled rules.
