@@ -1,0 +1,79 @@
+FUSE scan: eclipse-threadx/threadx
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: d4bbda72ae89d5ad3dd9c38a1a3b90c2c3f67658117bea3ef8e5b62850234691
+Files discovered/selected: 3846/3846
+Files filtered by path policy: 0
+Files scanned: 3844
+Source bytes read: 35113409
+Files skipped: 2
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 5154
+  .a64: 20
+  .args: 2
+  .arm: 169
+  .asm: 9
+  .ccxml: 2
+  .con: 12
+  .csv: 1
+  .ddf: 1
+  .dnx: 3
+  .ds: 92
+  .ewd: 35
+  .ewp: 61
+  .eww: 22
+  .expected: 27
+  .filters: 2
+  .gdb: 3
+  .ghsmc: 1
+  .gpc: 2
+  .gpj: 59
+  .hxx: 4
+  .icf: 39
+  .iex: 4
+  .launch: 101
+  .ld: 99
+  .lds: 13
+  .log: 3
+  .mac: 1
+  .mbs: 1
+  .md: 50
+  .mip: 34
+  .multi: 2
+  .png: 2
+  .prefs: 11
+  .rc: 10
+  .s: 3400
+  .scat: 59
+  .sct: 14
+  .sfr: 2
+  .sln: 1
+  .src: 24
+  .txt: 264
+  .uvmpw: 5
+  .uvproj: 9
+  .uvprojx: 25
+  .vcxproj: 2
+  .windows: 1
+  <no-extension>: 451
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 8 / completed; 0 non-SHA action reference(s), 0 floating-branch candidate(s)
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 87 selected input(s). The conservative prefilter excluded 3757 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 29 selected input(s). The conservative prefilter excluded 3815 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 72 selected input(s). The conservative prefilter excluded 3772 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.)
+Skip reasons: binary_or_nul=1, too_large=1
+No findings from the enabled rules.
