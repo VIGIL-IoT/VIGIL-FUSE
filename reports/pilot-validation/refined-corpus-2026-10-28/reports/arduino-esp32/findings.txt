@@ -1,0 +1,307 @@
+FUSE scan: espressif/arduino-esp32
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 1045c5f3cafe0b358a3bafc755e821bedb3f07ed0d1fc3ca1e6c5dffa71aba5b
+Files discovered/selected: 1784/1778
+Files filtered by path policy: 6
+Files scanned: 1778
+Source bytes read: 8009140
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 16
+Hardware artifacts: 0
+Files not selected by the source profile: 378
+  .bin: 73
+  .css: 1
+  .csv: 29
+  .defaults: 3
+  .gz: 2
+  .htm: 5
+  .html: 1
+  .ico: 1
+  .md: 210
+  .png: 2
+  .projbuild: 1
+  .txt: 37
+  <no-extension>: 13
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 73 / complete (extension and size only, contents not inspected)
+  .bin: 73
+  libraries/Update/examples/AWS_S3_OTA_Update/StartCounter.ino.bin [bin, 357276 bytes]
+  variants/XIAO_ESP32S3/bootloader-tinyuf2.bin [bin, 22800 bytes]
+  variants/XIAO_ESP32S3/tinyuf2.bin [bin, 181008 bytes]
+  variants/XIAO_ESP32S3_Plus/bootloader-tinyuf2.bin [bin, 22800 bytes]
+  variants/XIAO_ESP32S3_Plus/tinyuf2.bin [bin, 181008 bytes]
+  variants/adafruit_camera_esp32s3/bootloader-tinyuf2.bin [bin, 23328 bytes]
+  variants/adafruit_camera_esp32s3/tinyuf2.bin [bin, 223040 bytes]
+  variants/adafruit_feather_esp32s2/bootloader-tinyuf2.bin [bin, 24144 bytes]
+  variants/adafruit_feather_esp32s2/tinyuf2.bin [bin, 173472 bytes]
+  variants/adafruit_feather_esp32s2_reversetft/bootloader-tinyuf2.bin [bin, 24144 bytes]
+  variants/adafruit_feather_esp32s2_reversetft/tinyuf2.bin [bin, 195296 bytes]
+  variants/adafruit_feather_esp32s2_tft/bootloader-tinyuf2.bin [bin, 24176 bytes]
+  variants/adafruit_feather_esp32s2_tft/tinyuf2.bin [bin, 195296 bytes]
+  variants/adafruit_feather_esp32s3/bootloader-tinyuf2.bin [bin, 23488 bytes]
+  variants/adafruit_feather_esp32s3/tinyuf2.bin [bin, 206256 bytes]
+  variants/adafruit_feather_esp32s3_nopsram/bootloader-tinyuf2.bin [bin, 23488 bytes]
+  variants/adafruit_feather_esp32s3_nopsram/tinyuf2.bin [bin, 206272 bytes]
+  variants/adafruit_feather_esp32s3_reversetft/bootloader-tinyuf2.bin [bin, 23488 bytes]
+  variants/adafruit_feather_esp32s3_reversetft/tinyuf2.bin [bin, 228352 bytes]
+  variants/adafruit_feather_esp32s3_tft/bootloader-tinyuf2.bin [bin, 23520 bytes]
+  variants/adafruit_feather_esp32s3_tft/tinyuf2.bin [bin, 228352 bytes]
+  variants/adafruit_funhouse_esp32s2/bootloader-tinyuf2.bin [bin, 24160 bytes]
+  variants/adafruit_funhouse_esp32s2/tinyuf2.bin [bin, 181424 bytes]
+  variants/adafruit_magtag29_esp32s2/bootloader-tinyuf2.bin [bin, 24144 bytes]
+  variants/adafruit_magtag29_esp32s2/tinyuf2.bin [bin, 173504 bytes]
+  variants/adafruit_matrixportal_esp32s3/bootloader-tinyuf2.bin [bin, 23344 bytes]
+  variants/adafruit_matrixportal_esp32s3/tinyuf2.bin [bin, 206224 bytes]
+  variants/adafruit_metro_esp32s2/bootloader-tinyuf2.bin [bin, 24112 bytes]
+  variants/adafruit_metro_esp32s2/tinyuf2.bin [bin, 173456 bytes]
+  variants/adafruit_metro_esp32s3/bootloader-tinyuf2.bin [bin, 23424 bytes]
+  variants/adafruit_metro_esp32s3/tinyuf2.bin [bin, 206240 bytes]
+  variants/adafruit_qtpy_esp32s2/bootloader-tinyuf2.bin [bin, 24064 bytes]
+  variants/adafruit_qtpy_esp32s2/tinyuf2.bin [bin, 168160 bytes]
+  variants/adafruit_qtpy_esp32s3_n4r2/bootloader-tinyuf2.bin [bin, 23408 bytes]
+  variants/adafruit_qtpy_esp32s3_n4r2/tinyuf2.bin [bin, 201040 bytes]
+  variants/adafruit_qtpy_esp32s3_nopsram/bootloader-tinyuf2.bin [bin, 23408 bytes]
+  variants/adafruit_qtpy_esp32s3_nopsram/tinyuf2.bin [bin, 201024 bytes]
+  variants/adafruit_qualia_s3_rgb666/bootloader-tinyuf2.bin [bin, 22912 bytes]
+  variants/adafruit_qualia_s3_rgb666/tinyuf2.bin [bin, 181840 bytes]
+  variants/arduino_nano_nora/extra/nora_recovery/nora_recovery.ino.bin [bin, 302800 bytes]
+  variants/atmegazero_esp32s2/bootloader-tinyuf2.bin [bin, 21808 bytes]
+  variants/atmegazero_esp32s2/tinyuf2.bin [bin, 139088 bytes]
+  variants/circuitart_zero_s3/bootloader_tinyuf2.bin [bin, 22224 bytes]
+  variants/circuitart_zero_s3/tinyuf2.bin [bin, 190464 bytes]
+  variants/cytron_maker_feather_aiot_s3/bootloader-tinyuf2.bin [bin, 21840 bytes]
+  variants/cytron_maker_feather_aiot_s3/tinyuf2.bin [bin, 157008 bytes]
+  variants/department_of_alchemy_minimain_esp32s2/bootloader-tinyuf2.bin [bin, 22016 bytes]
+  variants/department_of_alchemy_minimain_esp32s2/tinyuf2.bin [bin, 147376 bytes]
+  variants/fobe_quill_esp32s3_mesh/bootloader-tinyuf2.bin [bin, 23040 bytes]
+  variants/fobe_quill_esp32s3_mesh/tinyuf2.bin [bin, 181008 bytes]
+  variants/lilygo_t_display_s3/bootloader-tinyuf2.bin [bin, 22720 bytes]
+  variants/lilygo_t_display_s3/tinyuf2.bin [bin, 174048 bytes]
+  variants/redpill_esp32s3/tinyuf2.bin [bin, 151648 bytes]
+  variants/sensebox_eye/APOTA.bin [bin, 1076000 bytes]
+  variants/sensebox_eye/bootloader-tinyuf2.bin [bin, 23120 bytes]
+  variants/sensebox_eye/tinyuf2.bin [bin, 197936 bytes]
+  variants/sensebox_mcu_esp32s2/APOTA.bin [bin, 1014816 bytes]
+  variants/sensebox_mcu_esp32s2/bootloader-tinyuf2.bin [bin, 22848 bytes]
+  variants/sensebox_mcu_esp32s2/tinyuf2.bin [bin, 154912 bytes]
+  variants/um_bling/bootloader_tinyuf2.bin [bin, 22576 bytes]
+  variants/um_bling/tinyuf2.bin [bin, 183168 bytes]
+  variants/um_feathers3/bootloader_tinyuf2.bin [bin, 22736 bytes]
+  variants/um_feathers3/tinyuf2.bin [bin, 157296 bytes]
+  variants/um_nanos3/bootloader_tinyuf2.bin [bin, 22576 bytes]
+  variants/um_nanos3/tinyuf2.bin [bin, 152608 bytes]
+  variants/um_omgs3/bootloader_tinyuf2.bin [bin, 22688 bytes]
+  variants/um_omgs3/tinyuf2.bin [bin, 183808 bytes]
+  variants/um_pros3/bootloader_tinyuf2.bin [bin, 22576 bytes]
+  variants/um_pros3/tinyuf2.bin [bin, 152608 bytes]
+  variants/um_tinys3/bootloader_tinyuf2.bin [bin, 22576 bytes]
+  variants/um_tinys3/tinyuf2.bin [bin, 152608 bytes]
+  variants/wt32-sc01-plus/bootloader_tinyuf2.bin [bin, 22576 bytes]
+  variants/wt32-sc01-plus/tinyuf2.bin [bin, 152608 bytes]
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 182 selected input(s). The conservative prefilter excluded 1596 inputs without the rule's required markers.)
+  native-rule:FUSE002: completed (Evaluated 7 selected input(s). The conservative prefilter excluded 1771 inputs without the rule's required markers.)
+  native-rule:FUSE003: completed (Evaluated 49 selected input(s). The conservative prefilter excluded 1729 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 513 selected input(s). The conservative prefilter excluded 1265 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 73 filename and size candidate(s); no image contents were read or verified.)
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/HTTPClient/src/HTTPClient.cpp:90
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino:40
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino:22
+  Evidence: const char *password = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino:86
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino:23
+  Evidence: #define WIFI_PASSWD "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:167
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:219
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:19
+  Evidence: const char *www_password = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:13
+  Evidence: const char *www_password = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:20
+  Evidence: const char *www_password = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:26
+  Evidence: const char *www_password_hex = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:31
+  Evidence: const char *www_password_base64 = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:22
+  Evidence: String secret_token_hex = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:40
+  Evidence: const char *www_password_hex = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WiFi/examples/WiFiClient/WiFiClient.ino:26
+  Evidence: const String writeApiKey = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: libraries/WiFi/examples/WiFiClient/WiFiClient.ino:27
+  Evidence: const String readApiKey = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
