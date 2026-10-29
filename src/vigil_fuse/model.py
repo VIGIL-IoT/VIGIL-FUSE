@@ -22,6 +22,7 @@ class SourceFile:
     sha256: str = ""
     byte_size: int = 0
     generated_config: bool = False
+    encoding: str = "utf-8"
 
 
 @dataclass(frozen=True)
@@ -79,6 +80,33 @@ class PlatformIOEnvironment:
     upload_protocol: str | None = None
     debug_tool: str | None = None
     extends: str | None = None
+    source_dir: str | None = None
+    source_filter: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class PlatformIOConfigArtifact:
+    path: str
+    sha256: str
+    byte_size: int
+
+
+@dataclass(frozen=True)
+class GitHubWorkflowFile:
+    path: str
+    sha256: str
+    byte_size: int
+
+
+@dataclass(frozen=True)
+class GitHubActionsInventory:
+    status: Literal["not-detected", "completed", "partial"] = "not-detected"
+    workflow_count: int = 0
+    files: tuple[GitHubWorkflowFile, ...] = ()
+    non_sha_action_reference_count: int = 0
+    floating_branch_reference_count: int = 0
+    finding_count: int = 0
+    limitations: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -90,6 +118,39 @@ class PlatformIOInventory:
     default_environments: tuple[str, ...] = ()
     selected_environments: tuple[str, ...] = ()
     environments: tuple[PlatformIOEnvironment, ...] = ()
+    configurations: tuple[PlatformIOConfigArtifact, ...] = ()
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class FirmwareCandidate:
+    """A filename and size candidate only, not a verified firmware image."""
+
+    path: str
+    format: str
+    byte_size: int
+
+
+@dataclass(frozen=True)
+class FirmwareCandidateInventory:
+    status: Literal["not-inspected", "complete", "partial"] = "not-inspected"
+    scope: str = ""
+    candidate_count: int = 0
+    extension_counts: dict[str, int] = field(default_factory=dict)
+    candidates: tuple[FirmwareCandidate, ...] = ()
+    omitted_count: int = 0
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class NetlistInventory:
+    status: Literal["not-detected", "parsed", "partial", "invalid"] = "not-detected"
+    path: str | None = None
+    sha256: str | None = None
+    byte_size: int = 0
+    component_count: int = 0
+    net_count: int = 0
+    debug_net_candidates: tuple[str, ...] = ()
     limitations: tuple[str, ...] = ()
 
 
@@ -375,6 +436,9 @@ class ScanResult:
     hardware_inventory: HardwareInventory = HardwareInventory(scope="single-file")
     project_context: ProjectContext = ProjectContext()
     platformio_inventory: PlatformIOInventory = PlatformIOInventory()
+    firmware_candidates: FirmwareCandidateInventory = FirmwareCandidateInventory()
+    netlist_inventory: NetlistInventory = NetlistInventory()
+    github_actions: GitHubActionsInventory = GitHubActionsInventory()
     compilation_database: CompilationDatabaseInventory = CompilationDatabaseInventory()
     hardware_bom: HardwareBOMInventory = HardwareBOMInventory()
     product_purl: str | None = None
@@ -385,6 +449,8 @@ class ScanResult:
     discovery_complete: bool = True
     limits_reached: tuple[str, ...] = ()
     artifacts: tuple[AnalysisArtifact, ...] = ()
+    encoding_fallback_count: int = 0
+    encoding_fallback_files: tuple[str, ...] = ()
 
     @property
     def files_skipped(self) -> int:
@@ -393,6 +459,7 @@ class ScanResult:
     @property
     def analysis_performed(self) -> bool:
         return (self.files_scanned > 0 and bool(self.rules_enabled)) or any(
-            analyzer.status in {"completed", "partial"} and analyzer.name != "fuse-native"
+            analyzer.status in {"completed", "partial"}
+            and analyzer.name not in {"fuse-native", "firmware-candidate-inventory"}
             for analyzer in self.analyzers
         )
