@@ -1,0 +1,383 @@
+{
+  "schema_version": "1.10",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "eclipse-threadx/threadx",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T16:58:56Z",
+    "completed_at": "2026-10-28T17:00:20Z",
+    "input_manifest_sha256": "d4bbda72ae89d5ad3dd9c38a1a3b90c2c3f67658117bea3ef8e5b62850234691"
+  },
+  "summary": {
+    "files_discovered": 3846,
+    "files_selected": 3846,
+    "files_filtered": 0,
+    "files_scanned": 3844,
+    "source_bytes_read": 35113409,
+    "files_skipped": 2,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {
+      "binary_or_nul": 1,
+      "too_large": 1
+    },
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 5154,
+      "unsupported_file_types": {
+        ".a64": 20,
+        ".args": 2,
+        ".arm": 169,
+        ".asm": 9,
+        ".ccxml": 2,
+        ".con": 12,
+        ".csv": 1,
+        ".ddf": 1,
+        ".dnx": 3,
+        ".ds": 92,
+        ".ewd": 35,
+        ".ewp": 61,
+        ".eww": 22,
+        ".expected": 27,
+        ".filters": 2,
+        ".gdb": 3,
+        ".ghsmc": 1,
+        ".gpc": 2,
+        ".gpj": 59,
+        ".hxx": 4,
+        ".icf": 39,
+        ".iex": 4,
+        ".launch": 101,
+        ".ld": 99,
+        ".lds": 13,
+        ".log": 3,
+        ".mac": 1,
+        ".mbs": 1,
+        ".md": 50,
+        ".mip": 34,
+        ".multi": 2,
+        ".png": 2,
+        ".prefs": 11,
+        ".rc": 10,
+        ".s": 3400,
+        ".scat": 59,
+        ".sct": 14,
+        ".sfr": 2,
+        ".sln": 1,
+        ".src": 24,
+        ".txt": 264,
+        ".uvmpw": 5,
+        ".uvproj": 9,
+        ".uvprojx": 25,
+        ".vcxproj": 2,
+        ".windows": 1,
+        "<no-extension>": 451
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "partial",
+        "version": "0.2.0",
+        "detail": "One or more selected files were skipped; review coverage details.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.5.0",
+        "detail": "Evaluated 87 selected input(s). The conservative prefilter excluded 3757 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 29 selected input(s). The conservative prefilter excluded 3815 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 72 selected input(s). The conservative prefilter excluded 3772 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 8,
+    "files": [
+      {
+        "path": ".github/workflows/ci_cortex_m.yml",
+        "sha256": "0cea26cc2b9c0379d439abfabee9841e56f0cddfe032d8e75ebe422d5825abc4",
+        "byte_size": 4373
+      },
+      {
+        "path": ".github/workflows/clang_check.yml",
+        "sha256": "2be29c8661ddf6e2bf865d725c28e1c9d8a73c9d99d32901e3b3f9a0d7298140",
+        "byte_size": 3156
+      },
+      {
+        "path": ".github/workflows/gcc_check.yml",
+        "sha256": "292d645c62923735c25362c8809273dc4df04ef7b7bf61e2999d158b3028e559",
+        "byte_size": 9561
+      },
+      {
+        "path": ".github/workflows/ports_arch_check.yml",
+        "sha256": "e93508b2895a3e2c56b756c6ac4d1a49dc2ce6b1ed32a4add182e4ea264983b4",
+        "byte_size": 3793
+      },
+      {
+        "path": ".github/workflows/r52_fvp.yml",
+        "sha256": "a4dd4227a90bc96411858facf9b57d2d2a26f8c17fa54cd855827119ad400d25",
+        "byte_size": 15181
+      },
+      {
+        "path": ".github/workflows/regression_template.yml",
+        "sha256": "f4194f71dd90cabfe11966c8d4a2e1d2ee0361dd2adfdd6d3b3ed8922695d58d",
+        "byte_size": 16435
+      },
+      {
+        "path": ".github/workflows/regression_test.yml",
+        "sha256": "1b1ec47666d31ce14629f4d3aa9f246e173fc5bc55c50f289aae22b514ed61aa",
+        "byte_size": 7127
+      },
+      {
+        "path": ".github/workflows/repo_checks.yml",
+        "sha256": "07f2bfa7e80217cb8c6d6764b00631a36c4f5f5f056aa3b4db74f202e73d2c63",
+        "byte_size": 2503
+      }
+    ],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [],
+  "artifacts": []
+}
