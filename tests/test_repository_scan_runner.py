@@ -39,6 +39,7 @@ class RepositoryScanRunnerTests(unittest.TestCase):
                     "target_label": "org/repository, mqtt examples",
                     "includes": ["examples/**", "src/**"],
                     "rule_timeout_seconds": 10,
+                    "max_file_bytes": 5 * 1024 * 1024,
                 },
                 output,
             )
@@ -49,6 +50,8 @@ class RepositoryScanRunnerTests(unittest.TestCase):
         self.assertEqual("org/repository, mqtt examples", command[label_index + 1])
         self.assertIn("--rule-timeout", command)
         self.assertEqual("10", command[command.index("--rule-timeout") + 1])
+        self.assertIn("--max-file-bytes", command)
+        self.assertEqual(5 * 1024 * 1024, int(command[command.index("--max-file-bytes") + 1]))
         self.assertEqual(2, command.count("--include"))
         self.assertEqual(str(output), command[-1])
 
@@ -61,6 +64,14 @@ class RepositoryScanRunnerTests(unittest.TestCase):
             build_scan_command(
                 Path("repo"), "generic", {"rule_timeout_seconds": 31}, Path("reports")
             )
+
+    def test_runner_rejects_invalid_max_file_bytes(self) -> None:
+        for max_file_bytes in (True, 0, 100 * 1024 * 1024 + 1, "large"):
+            with self.subTest(max_file_bytes=max_file_bytes):
+                with self.assertRaisesRegex(ValueError, "max_file_bytes"):
+                    build_scan_command(
+                        Path("repo"), "generic", {"max_file_bytes": max_file_bytes}, Path("reports")
+                    )
 
     def test_runner_rejects_invalid_manifest_target_label(self) -> None:
         for target_label in ("", 42):
@@ -87,6 +98,17 @@ class RepositoryScanRunnerTests(unittest.TestCase):
         report = {
             "summary": {"analysis_performed": True},
             "coverage": {"analyzers": [{"name": "osv-scanner", "status": "skipped"}]},
+        }
+        self.assertTrue(report_has_incomplete_coverage(report))
+
+    def test_runner_counts_partial_platformio_context_as_incomplete(self) -> None:
+        report = {
+            "summary": {"analysis_performed": True},
+            "coverage": {"analyzers": []},
+            "build_context": {
+                "platformio": {"status": "partial"},
+                "compilation_database": {"status": "not-detected"},
+            },
         }
         self.assertTrue(report_has_incomplete_coverage(report))
 
