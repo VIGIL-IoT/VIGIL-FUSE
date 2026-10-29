@@ -1,0 +1,722 @@
+{
+  "meta": {
+    "title": "FUSE repository validation",
+    "scanDate": "2026-10-28",
+    "cohort": "independent-holdout",
+    "generatedAt": "2026-10-28T17:07:50Z",
+    "interpretation": "Qualitative static signals from the selected pinned repository scopes. This small purposive holdout is not a representative accuracy benchmark; findings are not confirmed vulnerabilities.",
+    "selectionProtocol": {
+      "purpose": "Qualitative scan of four independently selected, previously unscanned embedded and IoT repositories using the current FUSE build. Repositories were selected for architecture diversity before examining FUSE output. This is not a representative accuracy benchmark.",
+      "training_corpus_informed_rule_refinements": false,
+      "independent_or_blind_holdout": true,
+      "interpretation": "Pinned shallow public repository snapshots scanned with the generic profile and default supported-file selection. Static signals require human review; no builds, device tests, or dependency advisory database checks were run."
+    },
+    "fuse": {
+      "version": "0.2.0",
+      "commit": "cc5fb46fe5cb64a3a26a67476bd6d2ed5e066b50",
+      "source_tree_sha256": "54dcd7631772a0d0350ac7762e5386677a4b3aedf1a02870474f04ba585dea5e",
+      "source_tree_dirty": true,
+      "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+      "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+    }
+  },
+  "totals": {
+    "files_discovered": 17610,
+    "files_selected": 17610,
+    "files_scanned": 17549,
+    "files_skipped": 61,
+    "repository_count": 4,
+    "scan_scope_count": 4,
+    "finding_count": 16,
+    "rule_counts": {
+      "FUSE001": 1,
+      "FUSE002": 0,
+      "FUSE003": 0,
+      "FUSE004": 0,
+      "FUSE005": 0,
+      "FUSE006": 0,
+      "FUSE007": 0,
+      "FUSE-GHA-002": 15
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 0,
+      "info": 15,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {
+      "binary_or_nul": 1,
+      "too_large": 60
+    },
+    "hardware_file_count": 0,
+    "hardware_category_counts": {},
+    "hardware_inventory_complete": true,
+    "module_coverage": {
+      "source_decoding": {
+        "fallback_encoding": "iso-8859-1",
+        "fallback_file_count": 18,
+        "fallback_files": [
+          "system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h",
+          "system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h",
+          "system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h",
+          "system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h",
+          "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c",
+          "system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c"
+        ],
+        "omitted_count": 0
+      },
+      "platformio": {
+        "environment_count": 0,
+        "configuration_count": 0,
+        "partial_scope_count": 0
+      },
+      "firmware_candidates": {
+        "candidate_count": 0,
+        "extension_counts": {}
+      },
+      "github_actions": {
+        "workflow_count": 24,
+        "non_sha_action_reference_count": 61,
+        "floating_branch_reference_count": 15,
+        "finding_count": 15
+      },
+      "hardware_netlist": {
+        "scope_count": 0,
+        "component_count": 0,
+        "net_count": 0,
+        "debug_net_candidate_count": 0
+      }
+    }
+  },
+  "ruleCounts": {
+    "FUSE001": 1,
+    "FUSE002": 0,
+    "FUSE003": 0,
+    "FUSE004": 0,
+    "FUSE005": 0,
+    "FUSE006": 0,
+    "FUSE007": 0,
+    "FUSE-GHA-002": 15
+  },
+  "severityCounts": {
+    "critical": 0,
+    "high": 0,
+    "medium": 1,
+    "low": 0,
+    "info": 15,
+    "unknown": 0
+  },
+  "confidenceCounts": {
+    "high": 16
+  },
+  "triageSummary": {
+    "signalCount": 16,
+    "dispositions": {
+      "conditional-default-review": 1,
+      "valid-workflow-policy-signal": 15
+    }
+  },
+  "noiseReduction": {
+    "baselineSignalCount": 0,
+    "filteredPlaceholderCount": 0
+  },
+  "repositories": [
+    {
+      "id": "threadx",
+      "name": "Eclipse ThreadX",
+      "url": "https://github.com/eclipse-threadx/threadx",
+      "commit": "56c8695b1288fd4fac5406443c28878fade23872",
+      "profile": "generic",
+      "scanStatus": "partial",
+      "scanCount": 1,
+      "filesDiscovered": 3846,
+      "filesSelected": 3846,
+      "filesScanned": 3844,
+      "filesSkipped": 2,
+      "filesSkippedByReason": {
+        "binary_or_nul": 1,
+        "too_large": 1
+      },
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 8,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "threadx",
+          "profile": "generic",
+          "status": "partial",
+          "support": "basic",
+          "filesDiscovered": 3846,
+          "filesSelected": 3846,
+          "filesScanned": 3844,
+          "filesSkipped": 2,
+          "filesSkippedByReason": {
+            "binary_or_nul": 1,
+            "too_large": 1
+          },
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/threadx/findings.json",
+            "text": "reports/threadx/findings.txt",
+            "sarif": "reports/threadx/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "netxduo",
+      "name": "Eclipse NetX Duo",
+      "url": "https://github.com/eclipse-threadx/netxduo",
+      "commit": "ff27569d194f24d296452e1a884d3424f5bb39c9",
+      "profile": "generic",
+      "scanStatus": "partial",
+      "scanCount": 1,
+      "filesDiscovered": 3540,
+      "filesSelected": 3540,
+      "filesScanned": 3529,
+      "filesSkipped": 11,
+      "filesSkippedByReason": {
+        "too_large": 11
+      },
+      "findingCount": 12,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 11,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 11
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 4,
+          "non_sha_action_reference_count": 11,
+          "floating_branch_reference_count": 11,
+          "finding_count": 11
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "netxduo",
+          "profile": "generic",
+          "status": "partial",
+          "support": "basic",
+          "filesDiscovered": 3540,
+          "filesSelected": 3540,
+          "filesScanned": 3529,
+          "filesSkipped": 11,
+          "filesSkippedByReason": {
+            "too_large": 11
+          },
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/netxduo/findings.json",
+            "text": "reports/netxduo/findings.txt",
+            "sarif": "reports/netxduo/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stm32duino-core",
+      "name": "STM32 Arduino Core",
+      "url": "https://github.com/stm32duino/Arduino_Core_STM32",
+      "commit": "8bc8cc90b23975fb6722ef095780af16e6837f02",
+      "profile": "generic",
+      "scanStatus": "partial",
+      "scanCount": 1,
+      "filesDiscovered": 10161,
+      "filesSelected": 10161,
+      "filesScanned": 10113,
+      "filesSkipped": 48,
+      "filesSkippedByReason": {
+        "too_large": 48
+      },
+      "findingCount": 4,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 4,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 4
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 18,
+          "fallback_files": [
+            "system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h",
+            "system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h",
+            "system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h",
+            "system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h",
+            "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c",
+            "system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c"
+          ],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 8,
+          "non_sha_action_reference_count": 16,
+          "floating_branch_reference_count": 4,
+          "finding_count": 4
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "stm32duino-core",
+          "profile": "generic",
+          "status": "partial",
+          "support": "basic",
+          "filesDiscovered": 10161,
+          "filesSelected": 10161,
+          "filesScanned": 10113,
+          "filesSkipped": 48,
+          "filesSkippedByReason": {
+            "too_large": 48
+          },
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/stm32duino-core/findings.json",
+            "text": "reports/stm32duino-core/findings.txt",
+            "sarif": "reports/stm32duino-core/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "littlefs",
+      "name": "littlefs",
+      "url": "https://github.com/littlefs-project/littlefs",
+      "commit": "6cb4e86540eca0d9ba62500a298385c9d863c8be",
+      "profile": "generic",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 63,
+      "filesSelected": 63,
+      "filesScanned": 63,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 4,
+          "non_sha_action_reference_count": 34,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "littlefs",
+          "profile": "generic",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 63,
+          "filesSelected": 63,
+          "filesScanned": 63,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/littlefs/findings.json",
+            "text": "reports/littlefs/findings.txt",
+            "sarif": "reports/littlefs/findings.sarif"
+          }
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:24",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 24,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L24"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:44",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 44,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L44"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:60",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 60,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L60"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:76",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 76,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L76"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:92",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 92,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L92"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:108",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 108,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L108"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:124",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 124,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L124"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:140",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 140,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L140"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:156",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 156,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L156"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:173",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 173,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L173"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/regression_test.yml:198",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": ".github/workflows/regression_test.yml",
+      "line": 198,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/.github/workflows/regression_test.yml#L198"
+    },
+    {
+      "id": "FUSE001:samples/demo_netxduo_smtp_client.c:27",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "netxduo",
+      "repository": "Eclipse NetX Duo",
+      "scopeId": "netxduo",
+      "file": "samples/demo_netxduo_smtp_client.c",
+      "line": 27,
+      "sourceUrl": "https://github.com/eclipse-threadx/netxduo/blob/ff27569d194f24d296452e1a884d3424f5bb39c9/samples/demo_netxduo_smtp_client.c#L27"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/Arduino-build.yml:44",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "stm32duino-core",
+      "repository": "STM32 Arduino Core",
+      "scopeId": "stm32duino-core",
+      "file": ".github/workflows/Arduino-build.yml",
+      "line": 44,
+      "sourceUrl": "https://github.com/stm32duino/Arduino_Core_STM32/blob/8bc8cc90b23975fb6722ef095780af16e6837f02/.github/workflows/Arduino-build.yml#L44"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/Cmake.yml:67",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "stm32duino-core",
+      "repository": "STM32 Arduino Core",
+      "scopeId": "stm32duino-core",
+      "file": ".github/workflows/Cmake.yml",
+      "line": 67,
+      "sourceUrl": "https://github.com/stm32duino/Arduino_Core_STM32/blob/8bc8cc90b23975fb6722ef095780af16e6837f02/.github/workflows/Cmake.yml#L67"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/Cmake.yml:72",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "stm32duino-core",
+      "repository": "STM32 Arduino Core",
+      "scopeId": "stm32duino-core",
+      "file": ".github/workflows/Cmake.yml",
+      "line": 72,
+      "sourceUrl": "https://github.com/stm32duino/Arduino_Core_STM32/blob/8bc8cc90b23975fb6722ef095780af16e6837f02/.github/workflows/Cmake.yml#L72"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/PIO-build.yml:46",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "stm32duino-core",
+      "repository": "STM32 Arduino Core",
+      "scopeId": "stm32duino-core",
+      "file": ".github/workflows/PIO-build.yml",
+      "line": 46,
+      "sourceUrl": "https://github.com/stm32duino/Arduino_Core_STM32/blob/8bc8cc90b23975fb6722ef095780af16e6837f02/.github/workflows/PIO-build.yml#L46"
+    }
+  ]
+}
