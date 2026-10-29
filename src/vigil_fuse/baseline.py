@@ -251,7 +251,7 @@ def _completion(report: dict[str, Any]) -> tuple[bool, list[str]]:
 
 
 def _validate_report(report: dict[str, Any]) -> None:
-    if report.get("schema_version") not in {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8"}:
+    if report.get("schema_version") not in {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10"}:
         raise ValueError("Unsupported FUSE report schema version")
     _project(report)
     _findings(report)
