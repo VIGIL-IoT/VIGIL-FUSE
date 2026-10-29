@@ -1,0 +1,186 @@
+FUSE scan: eclipse-threadx/netxduo
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: aedaa31a90cc8a4b286d553a21213801dbdbdfb6f2bf0530bd7428c07335e1df
+Files discovered/selected: 3540/3540
+Files filtered by path policy: 0
+Files scanned: 3529
+Source bytes read: 65037502
+Files skipped: 11
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 12
+Hardware artifacts: 0
+Files not selected by the source profile: 159
+  .a: 2
+  .cnf: 1
+  .crl: 2
+  .crt: 23
+  .key: 23
+  .md: 16
+  .pcap: 1
+  .png: 9
+  .so: 2
+  .txt: 61
+  <no-extension>: 19
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 4 / completed; 11 non-SHA action reference(s), 11 floating-branch candidate(s)
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 364 selected input(s). The conservative prefilter excluded 3165 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: partial (Evaluated 2 selected input(s). The conservative prefilter excluded 3527 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE003: partial (Evaluated 450 selected input(s). The conservative prefilter excluded 3079 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 21 selected input(s). The conservative prefilter excluded 3508 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: partial (Evaluated 2 selected input(s). The conservative prefilter excluded 3527 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.)
+Skip reasons: too_large=11
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:24
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:44
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:60
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:76
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:92
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:108
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:124
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:140
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:156
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:173
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/regression_test.yml:198
+  Evidence: uses: eclipse-threadx/threadx/.github/workflows/regression_template.yml@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: samples/demo_netxduo_smtp_client.c:27
+  Evidence: #define PASSWORD "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
