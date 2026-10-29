@@ -1,0 +1,1845 @@
+{
+  "meta": {
+    "title": "FUSE repository validation",
+    "scanDate": "2026-10-28",
+    "cohort": "regression-validation",
+    "generatedAt": "2026-10-28T16:58:28Z",
+    "interpretation": "Regression validation against patterns observed in the initial holdout snapshot. The corpus informed these refinements and is not an untouched blind holdout; findings remain static signals, not confirmed vulnerabilities.",
+    "selectionProtocol": {
+      "purpose": "Regression re-scan of the same 14 pinned repositories after placeholder filtering and explicit legacy-text fallback. The original corpus informed rule refinement; this is not a blind holdout or accuracy benchmark.",
+      "training_corpus_informed_rule_refinements": true,
+      "independent_or_blind_holdout": false,
+      "interpretation": "Same 14 repositories and 15 pinned scopes as the prior regression run. Static signals require human review."
+    },
+    "fuse": {
+      "version": "0.2.0",
+      "commit": "cc5fb46fe5cb64a3a26a67476bd6d2ed5e066b50",
+      "source_tree_sha256": "54dcd7631772a0d0350ac7762e5386677a4b3aedf1a02870474f04ba585dea5e",
+      "source_tree_dirty": true,
+      "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+      "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+    }
+  },
+  "totals": {
+    "files_discovered": 18999,
+    "files_selected": 18859,
+    "files_scanned": 18859,
+    "files_skipped": 0,
+    "repository_count": 14,
+    "scan_scope_count": 15,
+    "finding_count": 38,
+    "rule_counts": {
+      "FUSE001": 15,
+      "FUSE002": 4,
+      "FUSE003": 15,
+      "FUSE004": 2,
+      "FUSE005": 0,
+      "FUSE006": 0,
+      "FUSE007": 0,
+      "FUSE-GHA-002": 2
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 19,
+      "medium": 17,
+      "low": 0,
+      "info": 2,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {},
+    "hardware_file_count": 28,
+    "hardware_category_counts": {
+      "hardware-project": 27,
+      "netlist": 1
+    },
+    "hardware_inventory_complete": true,
+    "module_coverage": {
+      "source_decoding": {
+        "fallback_encoding": "iso-8859-1",
+        "fallback_file_count": 2,
+        "fallback_files": [
+          "OpenWrt/openwrt-18.06.2/target/linux/at91/image/dfboot/src/init.c",
+          "package/x11r7/mcookie/mcookie.c"
+        ],
+        "omitted_count": 0
+      },
+      "platformio": {
+        "environment_count": 106,
+        "configuration_count": 4,
+        "partial_scope_count": 1
+      },
+      "firmware_candidates": {
+        "candidate_count": 125,
+        "extension_counts": {
+          ".bin": 99,
+          ".hex": 20,
+          ".ota": 5,
+          ".uf2": 1
+        }
+      },
+      "github_actions": {
+        "workflow_count": 23,
+        "non_sha_action_reference_count": 88,
+        "floating_branch_reference_count": 2,
+        "finding_count": 2
+      },
+      "hardware_netlist": {
+        "scope_count": 0,
+        "component_count": 0,
+        "net_count": 0,
+        "debug_net_candidate_count": 0
+      }
+    }
+  },
+  "ruleCounts": {
+    "FUSE001": 15,
+    "FUSE002": 4,
+    "FUSE003": 15,
+    "FUSE004": 2,
+    "FUSE005": 0,
+    "FUSE006": 0,
+    "FUSE007": 0,
+    "FUSE-GHA-002": 2
+  },
+  "severityCounts": {
+    "critical": 0,
+    "high": 19,
+    "medium": 17,
+    "low": 0,
+    "info": 2,
+    "unknown": 0
+  },
+  "confidenceCounts": {
+    "high": 38
+  },
+  "triageSummary": {
+    "signalCount": 38,
+    "dispositions": {
+      "build-transport-review": 1,
+      "conditional-default-review": 4,
+      "conditional-example-review": 11,
+      "conditional-insecure-example": 4,
+      "conditional-integration-review": 4,
+      "conditional-ota-transport-review": 1,
+      "conditional-vendored-tls-review": 6,
+      "direct-library-fallback": 1,
+      "sample-key-review": 4,
+      "valid-workflow-policy-signal": 2
+    }
+  },
+  "noiseReduction": {
+    "baselineSignalCount": 63,
+    "filteredPlaceholderCount": 25
+  },
+  "repositories": [
+    {
+      "id": "iotgoat",
+      "name": "OWASP/IoTGoat",
+      "url": "https://github.com/OWASP/IoTGoat",
+      "commit": "f67b7f961301d7a56b435fd7cffac73600f0c97b",
+      "profile": "embedded-linux",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 1652,
+      "filesSelected": 1652,
+      "filesScanned": 1652,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 1,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 1,
+          "fallback_files": [
+            "OpenWrt/openwrt-18.06.2/target/linux/at91/image/dfboot/src/init.c"
+          ],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 5,
+          "extension_counts": {
+            ".bin": 5
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "iotgoat",
+          "profile": "embedded-linux",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 1652,
+          "filesSelected": 1652,
+          "filesScanned": 1652,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/iotgoat/findings.json",
+            "text": "reports/iotgoat/findings.txt",
+            "sarif": "reports/iotgoat/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tasmota",
+      "name": "arendst/Tasmota",
+      "url": "https://github.com/arendst/Tasmota",
+      "commit": "63c38614ed0f19c550148d2d17f6e8cbaf8faea0",
+      "profile": "generic",
+      "scanStatus": "partial",
+      "scanCount": 1,
+      "filesDiscovered": 6802,
+      "filesSelected": 6802,
+      "filesScanned": 6802,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 15,
+      "severityCounts": {
+        "critical": 0,
+        "high": 10,
+        "medium": 4,
+        "low": 0,
+        "info": 1,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 2,
+        "FUSE002": 0,
+        "FUSE003": 10,
+        "FUSE004": 2,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 1
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 106,
+          "configuration_count": 4,
+          "partial_scope_count": 1
+        },
+        "firmware_candidates": {
+          "candidate_count": 30,
+          "extension_counts": {
+            ".bin": 6,
+            ".hex": 19,
+            ".ota": 5
+          }
+        },
+        "github_actions": {
+          "workflow_count": 5,
+          "non_sha_action_reference_count": 66,
+          "floating_branch_reference_count": 1,
+          "finding_count": 1
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "tasmota",
+          "profile": "generic",
+          "status": "partial",
+          "support": "basic",
+          "filesDiscovered": 6802,
+          "filesSelected": 6802,
+          "filesScanned": 6802,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/tasmota/findings.json",
+            "text": "reports/tasmota/findings.txt",
+            "sarif": "reports/tasmota/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "esp-idf",
+      "name": "espressif/esp-idf",
+      "url": "https://github.com/espressif/esp-idf",
+      "commit": "d35ea023029363d97c42565f85e0db23486f26b2",
+      "profile": "esp-idf",
+      "scanStatus": "completed",
+      "scanCount": 2,
+      "filesDiscovered": 196,
+      "filesSelected": 77,
+      "filesScanned": 77,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 6,
+          "extension_counts": {
+            ".bin": 6
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "esp-idf-mqtt",
+          "profile": "esp-idf",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 98,
+          "filesSelected": 8,
+          "filesScanned": 8,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/esp-idf-mqtt/findings.json",
+            "text": "reports/esp-idf-mqtt/findings.txt",
+            "sarif": "reports/esp-idf-mqtt/findings.sarif"
+          }
+        },
+        {
+          "id": "esp-idf-ota",
+          "profile": "esp-idf",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 98,
+          "filesSelected": 69,
+          "filesScanned": 69,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/esp-idf-ota/findings.json",
+            "text": "reports/esp-idf-ota/findings.txt",
+            "sarif": "reports/esp-idf-ota/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "esphome-devices",
+      "name": "esphome/devices.esphome.io",
+      "url": "https://github.com/esphome/devices.esphome.io",
+      "commit": "232bac526f06237daabba9111cee7910ac282f9c",
+      "profile": "generic",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 73,
+      "filesSelected": 73,
+      "filesScanned": 73,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 2,
+          "extension_counts": {
+            ".bin": 1,
+            ".uf2": 1
+          }
+        },
+        "github_actions": {
+          "workflow_count": 9,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "esphome-devices",
+          "profile": "generic",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 73,
+          "filesSelected": 73,
+          "filesScanned": 73,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/esphome-devices/findings.json",
+            "text": "reports/esphome-devices/findings.txt",
+            "sarif": "reports/esphome-devices/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "arduino-examples",
+      "name": "arduino/arduino-examples",
+      "url": "https://github.com/arduino/arduino-examples",
+      "commit": "50b66a3ce1e4e5e69cd96d3af5ca41a3383b311a",
+      "profile": "generic",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 92,
+      "filesSelected": 92,
+      "filesScanned": 92,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 1,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 1,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 1
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 4,
+          "non_sha_action_reference_count": 13,
+          "floating_branch_reference_count": 1,
+          "finding_count": 1
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "arduino-examples",
+          "profile": "generic",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 92,
+          "filesSelected": 92,
+          "filesScanned": 92,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/arduino-examples/findings.json",
+            "text": "reports/arduino-examples/findings.txt",
+            "sarif": "reports/arduino-examples/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pico-examples",
+      "name": "raspberrypi/pico-examples",
+      "url": "https://github.com/raspberrypi/pico-examples",
+      "commit": "0d62f75bafc2c8120d3276c3343d1a9195e909e9",
+      "profile": "generic",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 373,
+      "filesSelected": 373,
+      "filesScanned": 373,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 3,
+      "severityCounts": {
+        "critical": 0,
+        "high": 3,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 3,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 5,
+          "extension_counts": {
+            ".bin": 4,
+            ".hex": 1
+          }
+        },
+        "github_actions": {
+          "workflow_count": 5,
+          "non_sha_action_reference_count": 9,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "pico-examples",
+          "profile": "generic",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 373,
+          "filesSelected": 373,
+          "filesScanned": 373,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/pico-examples/findings.json",
+            "text": "reports/pico-examples/findings.txt",
+            "sarif": "reports/pico-examples/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "zephyr",
+      "name": "zephyrproject-rtos/zephyr",
+      "url": "https://github.com/zephyrproject-rtos/zephyr",
+      "commit": "c4aa9324508f6226bc6c491f114dbecaf9dffb36",
+      "profile": "zephyr",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 42,
+      "filesSelected": 30,
+      "filesScanned": 30,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "zephyr-net-samples",
+          "profile": "zephyr",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 42,
+          "filesSelected": 30,
+          "filesScanned": 30,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/zephyr-net-samples/findings.json",
+            "text": "reports/zephyr-net-samples/findings.txt",
+            "sarif": "reports/zephyr-net-samples/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "openwrt",
+      "name": "openwrt/openwrt",
+      "url": "https://github.com/openwrt/openwrt",
+      "commit": "b5ff052caf4b7e90eb4b84941dec77bb5e4b5e08",
+      "profile": "embedded-linux",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 368,
+      "filesSelected": 368,
+      "filesScanned": 368,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 1,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "openwrt",
+          "profile": "embedded-linux",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 368,
+          "filesSelected": 368,
+          "filesScanned": 368,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/openwrt/findings.json",
+            "text": "reports/openwrt/findings.txt",
+            "sarif": "reports/openwrt/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pico-sdk",
+      "name": "raspberrypi/pico-sdk",
+      "url": "https://github.com/raspberrypi/pico-sdk",
+      "commit": "079c6f39023649b154152db30f1d781e884879bc",
+      "profile": "generic",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 774,
+      "filesSelected": 772,
+      "filesScanned": 772,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 1,
+      "severityCounts": {
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 1,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 3,
+          "extension_counts": {
+            ".bin": 3
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "pico-sdk",
+          "profile": "generic",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 774,
+          "filesSelected": 772,
+          "filesScanned": 772,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/pico-sdk/findings.json",
+            "text": "reports/pico-sdk/findings.txt",
+            "sarif": "reports/pico-sdk/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "arduino-esp32",
+      "name": "espressif/arduino-esp32",
+      "url": "https://github.com/espressif/arduino-esp32",
+      "commit": "8e29d4de275cf58c767f453ff6ed26bea692dfec",
+      "profile": "generic",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 1784,
+      "filesSelected": 1778,
+      "filesScanned": 1778,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 16,
+      "severityCounts": {
+        "critical": 0,
+        "high": 5,
+        "medium": 11,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 11,
+        "FUSE002": 0,
+        "FUSE003": 5,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 73,
+          "extension_counts": {
+            ".bin": 73
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "arduino-esp32",
+          "profile": "generic",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 1784,
+          "filesSelected": 1778,
+          "filesScanned": 1778,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/arduino-esp32/findings.json",
+            "text": "reports/arduino-esp32/findings.txt",
+            "sarif": "reports/arduino-esp32/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "buildroot",
+      "name": "buildroot/buildroot",
+      "url": "https://github.com/buildroot/buildroot",
+      "commit": "1cfdb4efd539ad5917bc43ac806a95687e7f4b6b",
+      "profile": "embedded-linux",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 4822,
+      "filesSelected": 4821,
+      "filesScanned": 4821,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 1,
+          "fallback_files": [
+            "package/x11r7/mcookie/mcookie.c"
+          ],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 1,
+          "extension_counts": {
+            ".bin": 1
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "buildroot",
+          "profile": "embedded-linux",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 4822,
+          "filesSelected": 4821,
+          "filesScanned": 4821,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/buildroot/findings.json",
+            "text": "reports/buildroot/findings.txt",
+            "sarif": "reports/buildroot/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "openembedded-core",
+      "name": "openembedded/openembedded-core",
+      "url": "https://github.com/openembedded/openembedded-core",
+      "commit": "fa83da7da277a641c3a997d3da26041fa46d48ab",
+      "profile": "embedded-linux",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 819,
+      "filesSelected": 819,
+      "filesScanned": 819,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "openembedded-core",
+          "profile": "embedded-linux",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 819,
+          "filesSelected": 819,
+          "filesScanned": 819,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/openembedded-core/findings.json",
+            "text": "reports/openembedded-core/findings.txt",
+            "sarif": "reports/openembedded-core/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-openembedded",
+      "name": "openembedded/meta-openembedded",
+      "url": "https://github.com/openembedded/meta-openembedded",
+      "commit": "53276e6882048b990201b3c230e0b1fd0b8311b6",
+      "profile": "embedded-linux",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 1183,
+      "filesSelected": 1183,
+      "filesScanned": 1183,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "meta-openembedded",
+          "profile": "embedded-linux",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 1183,
+          "filesSelected": 1183,
+          "filesScanned": 1183,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/meta-openembedded/findings.json",
+            "text": "reports/meta-openembedded/findings.txt",
+            "sarif": "reports/meta-openembedded/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-yocto",
+      "name": "yoctoproject/meta-yocto",
+      "url": "https://github.com/yoctoproject/meta-yocto",
+      "commit": "82013b83db7ba41da07694e201a7c43f561a9e00",
+      "profile": "embedded-linux",
+      "scanStatus": "completed",
+      "scanCount": 1,
+      "filesDiscovered": 19,
+      "filesSelected": 19,
+      "filesScanned": 19,
+      "filesSkipped": 0,
+      "filesSkippedByReason": {},
+      "findingCount": 0,
+      "severityCounts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "ruleCounts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "moduleCoverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "scopes": [
+        {
+          "id": "meta-yocto",
+          "profile": "embedded-linux",
+          "status": "completed",
+          "support": "basic",
+          "filesDiscovered": 19,
+          "filesSelected": 19,
+          "filesScanned": 19,
+          "filesSkipped": 0,
+          "filesSkippedByReason": {},
+          "limitsReached": [],
+          "reportFiles": {
+            "json": "reports/meta-yocto/findings.json",
+            "text": "reports/meta-yocto/findings.txt",
+            "sarif": "reports/meta-yocto/findings.sarif"
+          }
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "FUSE001:OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h:96",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "iotgoat",
+      "repository": "OWASP/IoTGoat",
+      "scopeId": "iotgoat",
+      "file": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h",
+      "line": 96,
+      "sourceUrl": "https://github.com/OWASP/IoTGoat/blob/f67b7f961301d7a56b435fd7cffac73600f0c97b/OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h#L96"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/copy_change.yml:25",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": ".github/workflows/copy_change.yml",
+      "line": 25,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/.github/workflows/copy_change.yml#L25"
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2640",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+      "line": 2640,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h#L2640"
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2821",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+      "line": 2821,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h#L2821"
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h:6029",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h",
+      "line": 6029,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h#L6029"
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h:3373",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h",
+      "line": 3373,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h#L3373"
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:242",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+      "line": 242,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp#L242"
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:433",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+      "line": 433,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp#L433"
+    },
+    {
+      "id": "FUSE004:pio-tools/post_esp32.py:230",
+      "ruleId": "FUSE004",
+      "title": "Non-loopback HTTP endpoint configured",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "pio-tools/post_esp32.py",
+      "line": 230,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/pio-tools/post_esp32.py#L230"
+    },
+    {
+      "id": "FUSE001:tasmota/berry/drivers/ftp.be:60",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/berry/drivers/ftp.be",
+      "line": 60,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/berry/drivers/ftp.be#L60"
+    },
+    {
+      "id": "FUSE001:tasmota/berry/drivers/ssh.be:871",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/berry/drivers/ssh.be",
+      "line": 871,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/berry/drivers/ssh.be#L871"
+    },
+    {
+      "id": "FUSE004:tasmota/berry/extensions/Partition_Wizard/partition_wizard.be:18",
+      "ruleId": "FUSE004",
+      "title": "Non-loopback HTTP endpoint configured",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be",
+      "line": 18,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/berry/extensions/Partition_Wizard/partition_wizard.be#L18"
+    },
+    {
+      "id": "FUSE003:tasmota/include/Powerwall.h:71",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/include/Powerwall.h",
+      "line": 71,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/include/Powerwall.h#L71"
+    },
+    {
+      "id": "FUSE003:tasmota/include/Powerwall.h:136",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/include/Powerwall.h",
+      "line": 136,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/include/Powerwall.h#L136"
+    },
+    {
+      "id": "FUSE003:tasmota/include/Powerwall.h:291",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/include/Powerwall.h",
+      "line": 291,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/include/Powerwall.h#L291"
+    },
+    {
+      "id": "FUSE003:tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "tasmota",
+      "repository": "arendst/Tasmota",
+      "scopeId": "tasmota",
+      "file": "tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino",
+      "line": 14178,
+      "sourceUrl": "https://github.com/arendst/Tasmota/blob/63c38614ed0f19c550148d2d17f6e8cbaf8faea0/tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino#L14178"
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/spell-check.yml:20",
+      "ruleId": "FUSE-GHA-002",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "repositoryId": "arduino-examples",
+      "repository": "arduino/arduino-examples",
+      "scopeId": "arduino-examples",
+      "file": ".github/workflows/spell-check.yml",
+      "line": 20,
+      "sourceUrl": "https://github.com/arduino/arduino-examples/blob/50b66a3ce1e4e5e69cd96d3af5ca41a3383b311a/.github/workflows/spell-check.yml#L20"
+    },
+    {
+      "id": "FUSE002:bootloaders/encrypted/private.pem:4",
+      "ruleId": "FUSE002",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "pico-examples",
+      "repository": "raspberrypi/pico-examples",
+      "scopeId": "pico-examples",
+      "file": "bootloaders/encrypted/private.pem",
+      "line": 4,
+      "sourceUrl": "https://github.com/raspberrypi/pico-examples/blob/0d62f75bafc2c8120d3276c3343d1a9195e909e9/bootloaders/encrypted/private.pem#L4"
+    },
+    {
+      "id": "FUSE002:encrypted/hello_encrypted/private.pem:4",
+      "ruleId": "FUSE002",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "pico-examples",
+      "repository": "raspberrypi/pico-examples",
+      "scopeId": "pico-examples",
+      "file": "encrypted/hello_encrypted/private.pem",
+      "line": 4,
+      "sourceUrl": "https://github.com/raspberrypi/pico-examples/blob/0d62f75bafc2c8120d3276c3343d1a9195e909e9/encrypted/hello_encrypted/private.pem#L4"
+    },
+    {
+      "id": "FUSE002:pico_w/wifi/ota_update/private.pem:4",
+      "ruleId": "FUSE002",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "pico-examples",
+      "repository": "raspberrypi/pico-examples",
+      "scopeId": "pico-examples",
+      "file": "pico_w/wifi/ota_update/private.pem",
+      "line": 4,
+      "sourceUrl": "https://github.com/raspberrypi/pico-examples/blob/0d62f75bafc2c8120d3276c3343d1a9195e909e9/pico_w/wifi/ota_update/private.pem#L4"
+    },
+    {
+      "id": "FUSE001:package/network/services/ead/src/tinysrp/t_pwd.h:96",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "openwrt",
+      "repository": "openwrt/openwrt",
+      "scopeId": "openwrt",
+      "file": "package/network/services/ead/src/tinysrp/t_pwd.h",
+      "line": 96,
+      "sourceUrl": "https://github.com/openwrt/openwrt/blob/b5ff052caf4b7e90eb4b84941dec77bb5e4b5e08/package/network/services/ead/src/tinysrp/t_pwd.h#L96"
+    },
+    {
+      "id": "FUSE002:tools/example_keys/private.pem:4",
+      "ruleId": "FUSE002",
+      "title": "Private key PEM marker embedded in scanned file",
+      "severity": "high",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "pico-sdk",
+      "repository": "raspberrypi/pico-sdk",
+      "scopeId": "pico-sdk",
+      "file": "tools/example_keys/private.pem",
+      "line": 4,
+      "sourceUrl": "https://github.com/raspberrypi/pico-sdk/blob/079c6f39023649b154152db30f1d781e884879bc/tools/example_keys/private.pem#L4"
+    },
+    {
+      "id": "FUSE003:libraries/HTTPClient/src/HTTPClient.cpp:90",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/HTTPClient/src/HTTPClient.cpp",
+      "line": 90,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/HTTPClient/src/HTTPClient.cpp#L90"
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino:40",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino",
+      "line": 40,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino#L40"
+    },
+    {
+      "id": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino:22",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino",
+      "line": 22,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino#L22"
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino:86",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino",
+      "line": 86,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino#L86"
+    },
+    {
+      "id": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino:23",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino",
+      "line": 23,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino#L23"
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:167",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino",
+      "line": 167,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino#L167"
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:219",
+      "ruleId": "FUSE003",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino",
+      "line": 219,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino#L219"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:19",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino",
+      "line": 19,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino#L19"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:13",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino",
+      "line": 13,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino#L13"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:20",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+      "line": 20,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino#L20"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:26",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+      "line": 26,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino#L26"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:31",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+      "line": 31,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino#L31"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:22",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+      "line": 22,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino#L22"
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:40",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+      "line": 40,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino#L40"
+    },
+    {
+      "id": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:26",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WiFi/examples/WiFiClient/WiFiClient.ino",
+      "line": 26,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WiFi/examples/WiFiClient/WiFiClient.ino#L26"
+    },
+    {
+      "id": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:27",
+      "ruleId": "FUSE001",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "repositoryId": "arduino-esp32",
+      "repository": "espressif/arduino-esp32",
+      "scopeId": "arduino-esp32",
+      "file": "libraries/WiFi/examples/WiFiClient/WiFiClient.ino",
+      "line": 27,
+      "sourceUrl": "https://github.com/espressif/arduino-esp32/blob/8e29d4de275cf58c767f453ff6ed26bea692dfec/libraries/WiFi/examples/WiFiClient/WiFiClient.ino#L27"
+    }
+  ]
+}
