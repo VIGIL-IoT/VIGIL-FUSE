@@ -30,6 +30,10 @@ _PLACEHOLDER = re.compile(
     r"fake|mock|fixture|redacted|test|none|null|undefined|sample|x{3,}|\*+|<[^>]+>|"
     r"\$\{[^}]+\}|%\w+%)"
 )
+_COMMON_EXAMPLE_PLACEHOLDER = re.compile(
+    r"(?i)^(?:\.{4,}|your(?:pass(?:word|wd)?|psk(?:here)?|ssid)|"
+    r"wifi[_ -]?password|write[_ -]?api[_ -]?key|read[_ -]?api[_ -]?key)$"
+)
 _COMPUTED_VALUE = re.compile(r"(?s)(?:\$\([^)]*\)|\$\{[^}]*\}|`[^`]*`|%[A-Z_][A-Z0-9_]*%)")
 _BITBAKE_METADATA_ASSIGNMENT = re.compile(
     r"(?i)^\s*(?:SUMMARY|DESCRIPTION|HOMEPAGE|LICENSE|SECTION|AUTHOR|MAINTAINER|BUGTRACKER|SRC_URI)"
@@ -68,7 +72,11 @@ def _may_contain_secret_assignment(source: SourceFile) -> bool:
 
 def _is_placeholder_or_label(value: str) -> bool:
     normalized = value.strip()
-    return bool(_PLACEHOLDER.match(normalized) or _NON_SECRET_LABEL.fullmatch(normalized))
+    return bool(
+        _PLACEHOLDER.match(normalized)
+        or _COMMON_EXAMPLE_PLACEHOLDER.fullmatch(normalized)
+        or _NON_SECRET_LABEL.fullmatch(normalized)
+    )
 
 
 def _is_hash_tutorial_value(match: re.Match[str], source: SourceFile) -> bool:
@@ -173,7 +181,7 @@ RULE = RuleDefinition(
         "through a deployment-specific secret store or protected device provisioning flow."
     ),
     scanner=_scan,
-    version="1.4.0",
+    version="1.5.0",
     references=("https://cwe.mitre.org/data/definitions/798.html",),
     prefilter=_may_contain_secret_assignment,
 )
