@@ -1,0 +1,713 @@
+{
+  "generated_at": "2026-10-28T17:07:50Z",
+  "scan_date": "2026-10-28",
+  "cohort": "independent-holdout",
+  "training_manifest": null,
+  "selection_protocol": {
+    "purpose": "Qualitative scan of four independently selected, previously unscanned embedded and IoT repositories using the current FUSE build. Repositories were selected for architecture diversity before examining FUSE output. This is not a representative accuracy benchmark.",
+    "training_corpus_informed_rule_refinements": false,
+    "independent_or_blind_holdout": true,
+    "interpretation": "Pinned shallow public repository snapshots scanned with the generic profile and default supported-file selection. Static signals require human review; no builds, device tests, or dependency advisory database checks were run."
+  },
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "cc5fb46fe5cb64a3a26a67476bd6d2ed5e066b50",
+    "source_tree_sha256": "54dcd7631772a0d0350ac7762e5386677a4b3aedf1a02870474f04ba585dea5e",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "interpretation": "Qualitative static signals from the selected pinned repository scopes. This small purposive holdout is not a representative accuracy benchmark; findings are not confirmed vulnerabilities.",
+  "totals": {
+    "files_discovered": 17610,
+    "files_selected": 17610,
+    "files_scanned": 17549,
+    "files_skipped": 61,
+    "repository_count": 4,
+    "scan_scope_count": 4,
+    "finding_count": 16,
+    "rule_counts": {
+      "FUSE001": 1,
+      "FUSE002": 0,
+      "FUSE003": 0,
+      "FUSE004": 0,
+      "FUSE005": 0,
+      "FUSE006": 0,
+      "FUSE007": 0,
+      "FUSE-GHA-002": 15
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 0,
+      "info": 15,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {
+      "binary_or_nul": 1,
+      "too_large": 60
+    },
+    "hardware_file_count": 0,
+    "hardware_category_counts": {},
+    "hardware_inventory_complete": true,
+    "module_coverage": {
+      "source_decoding": {
+        "fallback_encoding": "iso-8859-1",
+        "fallback_file_count": 18,
+        "fallback_files": [
+          "system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h",
+          "system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h",
+          "system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h",
+          "system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h",
+          "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+          "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c",
+          "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c",
+          "system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c"
+        ],
+        "omitted_count": 0
+      },
+      "platformio": {
+        "environment_count": 0,
+        "configuration_count": 0,
+        "partial_scope_count": 0
+      },
+      "firmware_candidates": {
+        "candidate_count": 0,
+        "extension_counts": {}
+      },
+      "github_actions": {
+        "workflow_count": 24,
+        "non_sha_action_reference_count": 61,
+        "floating_branch_reference_count": 15,
+        "finding_count": 15
+      },
+      "hardware_netlist": {
+        "scope_count": 0,
+        "component_count": 0,
+        "net_count": 0,
+        "debug_net_candidate_count": 0
+      }
+    }
+  },
+  "repositories": [
+    {
+      "id": "threadx",
+      "name": "Eclipse ThreadX",
+      "url": "https://github.com/eclipse-threadx/threadx",
+      "commit": "56c8695b1288fd4fac5406443c28878fade23872",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 3846,
+      "files_selected": 3846,
+      "files_scanned": 3844,
+      "files_skipped": 2,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 8,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "binary_or_nul": 1,
+        "too_large": 1
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "threadx",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 3846,
+          "files_selected": 3846,
+          "files_scanned": 3844,
+          "files_skipped": 2,
+          "files_skipped_by_reason": {
+            "binary_or_nul": 1,
+            "too_large": 1
+          },
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 0,
+              "fallback_files": [],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 8,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/threadx/findings.json",
+            "text": "reports/threadx/findings.txt",
+            "sarif": "reports/threadx/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "netxduo",
+      "name": "Eclipse NetX Duo",
+      "url": "https://github.com/eclipse-threadx/netxduo",
+      "commit": "ff27569d194f24d296452e1a884d3424f5bb39c9",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 3540,
+      "files_selected": 3540,
+      "files_scanned": 3529,
+      "files_skipped": 11,
+      "finding_count": 12,
+      "rule_counts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 11
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 11,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 4,
+          "non_sha_action_reference_count": 11,
+          "floating_branch_reference_count": 11,
+          "finding_count": 11
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "too_large": 11
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "netxduo",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 3540,
+          "files_selected": 3540,
+          "files_scanned": 3529,
+          "files_skipped": 11,
+          "files_skipped_by_reason": {
+            "too_large": 11
+          },
+          "finding_count": 12,
+          "rule_counts": {
+            "FUSE001": 1,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 11
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 1,
+            "low": 0,
+            "info": 11,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 0,
+              "fallback_files": [],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 4,
+              "non_sha_action_reference_count": 11,
+              "floating_branch_reference_count": 11,
+              "finding_count": 11
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/netxduo/findings.json",
+            "text": "reports/netxduo/findings.txt",
+            "sarif": "reports/netxduo/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "stm32duino-core",
+      "name": "STM32 Arduino Core",
+      "url": "https://github.com/stm32duino/Arduino_Core_STM32",
+      "commit": "8bc8cc90b23975fb6722ef095780af16e6837f02",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 10161,
+      "files_selected": 10161,
+      "files_scanned": 10113,
+      "files_skipped": 48,
+      "finding_count": 4,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 4
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 4,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 18,
+          "fallback_files": [
+            "system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h",
+            "system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h",
+            "system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h",
+            "system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h",
+            "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+            "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c",
+            "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c",
+            "system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c"
+          ],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 8,
+          "non_sha_action_reference_count": 16,
+          "floating_branch_reference_count": 4,
+          "finding_count": 4
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "too_large": 48
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "stm32duino-core",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 10161,
+          "files_selected": 10161,
+          "files_scanned": 10113,
+          "files_skipped": 48,
+          "files_skipped_by_reason": {
+            "too_large": 48
+          },
+          "finding_count": 4,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 4
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 4,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 18,
+              "fallback_files": [
+                "system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h",
+                "system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h",
+                "system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h",
+                "system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h",
+                "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c",
+                "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c",
+                "system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c",
+                "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c",
+                "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c",
+                "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c",
+                "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c",
+                "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+                "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+                "system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h",
+                "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c",
+                "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c",
+                "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c",
+                "system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c"
+              ],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 8,
+              "non_sha_action_reference_count": 16,
+              "floating_branch_reference_count": 4,
+              "finding_count": 4
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/stm32duino-core/findings.json",
+            "text": "reports/stm32duino-core/findings.txt",
+            "sarif": "reports/stm32duino-core/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "littlefs",
+      "name": "littlefs",
+      "url": "https://github.com/littlefs-project/littlefs",
+      "commit": "6cb4e86540eca0d9ba62500a298385c9d863c8be",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 63,
+      "files_selected": 63,
+      "files_scanned": 63,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 4,
+          "non_sha_action_reference_count": 34,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "littlefs",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 63,
+          "files_selected": 63,
+          "files_scanned": 63,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 0,
+              "fallback_files": [],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 4,
+              "non_sha_action_reference_count": 34,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/littlefs/findings.json",
+            "text": "reports/littlefs/findings.txt",
+            "sarif": "reports/littlefs/findings.sarif"
+          }
+        }
+      ]
+    }
+  ]
+}
