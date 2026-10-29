@@ -1,0 +1,833 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE-GHA-002",
+              "shortDescription": {
+                "text": "GitHub Action reference points to a floating branch"
+              },
+              "fullDescription": {
+                "text": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "ci-workflow-security",
+                "version": "1.0.0"
+              },
+              "helpUri": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            },
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.4.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            },
+            {
+              "id": "FUSE003",
+              "shortDescription": {
+                "text": "TLS peer verification appears disabled"
+              },
+              "fullDescription": {
+                "text": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "transport-security",
+                "version": "1.2.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
+            },
+            {
+              "id": "FUSE004",
+              "shortDescription": {
+                "text": "Non-loopback HTTP endpoint configured"
+              },
+              "fullDescription": {
+                "text": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "transport-security",
+                "version": "1.2.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/319.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: Jason2866/copy_file_to_another_repo_action@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/copy_change.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 25,
+                  "endLine": 25
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "01c34661f9f1bdc7dd12614ea8062adc6d53fe1f8cf996c3a60e9f68a8a521e7:1",
+            "vigilIoTFingerprint/v1": "843a9d697c3a1b692db6e82f90e69509ee89f91baffed482562c449ee5743cd6"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/copy_change.yml:25",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: Jason2866/copy_file_to_another_repo_action@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char* kPassword = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 47,
+                  "endLine": 47
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "30d7be562107331944982ed59c0deba77ca81fc2d2e6fd35f35eb2427e8383d0:1",
+            "vigilIoTFingerprint/v1": "349b152bb3bc6421cbe9489a4d24edcb3756e08e8b77f24e1aa5e1b0b14be15e"
+          },
+          "properties": {
+            "fuseId": "FUSE001:lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino:47",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char* kPassword = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: verify = false"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2640,
+                  "endLine": 2640
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:1",
+            "vigilIoTFingerprint/v1": "573a942d204938aea0be04271bf4cf0a872727ab2c45288a8c955e5541c47c73"
+          },
+          "properties": {
+            "fuseId": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2640",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": "verify = false",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: verify = false"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2821,
+                  "endLine": 2821
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:2",
+            "vigilIoTFingerprint/v1": "30c7e8981f2d2ab0cfdbc6a252ad7a118e2edf9444b9df800835c91b81b275f4"
+          },
+          "properties": {
+            "fuseId": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2821",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": "verify = false",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: verify = false"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6029,
+                  "endLine": 6029
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:1",
+            "vigilIoTFingerprint/v1": "7ad26f7af19800cb2bacbc86d3422002a88714f80e649fb6d1cf8a443d23bb2a"
+          },
+          "properties": {
+            "fuseId": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h:6029",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": "verify = false",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: verify = false"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 3373,
+                  "endLine": 3373
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "69feddbc7c2985f3dffa880c50f53e93117ed29161809214f711eeec0a3ac376:1",
+            "vigilIoTFingerprint/v1": "8363d6b686e4682dfc8f617c58f53401d0ea9b9f911c34068e98e09f1db1372f"
+          },
+          "properties": {
+            "fuseId": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h:3373",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": "verify = false",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 242,
+                  "endLine": 242
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "1ed1002c7543f9f356de2133f0bf5a7926f65579de38367e9e0ca08b6704fde2"
+          },
+          "properties": {
+            "fuseId": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:242",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 433,
+                  "endLine": 433
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:2",
+            "vigilIoTFingerprint/v1": "b9781d981655ef31e7ff35787ea1a2d33015ffbde295972b6e2cdd53f86787f7"
+          },
+          "properties": {
+            "fuseId": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:433",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://ota.tasmota.com"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "pio-tools/post_esp32.py",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 230,
+                  "endLine": 230
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "306297a3179580167dd1ddeae3247fc65648d04609a83c1d814284d79ff084c8:1",
+            "vigilIoTFingerprint/v1": "4ebb0767b6a72a593bd268bdbf702dd22f81fb3c8d4eddcf8d051181ab68e4f0"
+          },
+          "properties": {
+            "fuseId": "FUSE004:pio-tools/post_esp32.py:230",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://ota.tasmota.com",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static password = \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/berry/drivers/ftp.be",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 60,
+                  "endLine": 60
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "43859373b2d8f68566a8c46c7e9cbf2d21730da1c1b0920ec573523441f760cb:1",
+            "vigilIoTFingerprint/v1": "600d59d7a1fec60e54e8c3091291fc3f08a45853b3448b8089f990c3a66af562"
+          },
+          "properties": {
+            "fuseId": "FUSE001:tasmota/berry/drivers/ftp.be:60",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "static password = \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static password = \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/berry/drivers/ssh.be",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 871,
+                  "endLine": 871
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "43859373b2d8f68566a8c46c7e9cbf2d21730da1c1b0920ec573523441f760cb:1",
+            "vigilIoTFingerprint/v1": "6679bb855d5d8d48a2756e807f0d04d3a77ef6889d6ff309d8e7cd821dfef29b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:tasmota/berry/drivers/ssh.be:871",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "static password = \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE004",
+          "level": "warning",
+          "message": {
+            "text": "Non-loopback HTTP endpoint configured. A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used. Evidence: http://ota.tasmota.com"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 18,
+                  "endLine": 18
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "306297a3179580167dd1ddeae3247fc65648d04609a83c1d814284d79ff084c8:1",
+            "vigilIoTFingerprint/v1": "18bfcdf1fbbff04ecce6d4fc90270df25d3aec63e1fca41ef07e453c63c43cd4"
+          },
+          "properties": {
+            "fuseId": "FUSE004:tasmota/berry/extensions/Partition_Wizard/partition_wizard.be:18",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+            "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+            "evidence": "http://ota.tasmota.com",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/319.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/include/Powerwall.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 71,
+                  "endLine": 71
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "cbbce99d00d3cdfc5e144033949093334f4f8fe887c5538445c206dd1e3f3c66"
+          },
+          "properties": {
+            "fuseId": "FUSE003:tasmota/include/Powerwall.h:71",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/include/Powerwall.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 136,
+                  "endLine": 136
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:2",
+            "vigilIoTFingerprint/v1": "db3bae16fe0fbf3f92969a8ba423d3c0e679585349c2a15702b4fa5183c44a36"
+          },
+          "properties": {
+            "fuseId": "FUSE003:tasmota/include/Powerwall.h:136",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/include/Powerwall.h",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 291,
+                  "endLine": 291
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:3",
+            "vigilIoTFingerprint/v1": "04b64fa55cf6c4cad77b9f30dbecbeaaae2278719fba18dd9afdba6e3569e632"
+          },
+          "properties": {
+            "fuseId": "FUSE003:tasmota/include/Powerwall.h:291",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14178,
+                  "endLine": 14178
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "21f88efdb524406587542102169038b0c90c5dd33b54c40029fb613482df320f"
+          },
+          "properties": {
+            "fuseId": "FUSE003:tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        }
+      ],
+      "properties": {
+        "target": "tasmota",
+        "profile": "generic",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "partial",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "partial",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "partial",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "partial",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          },
+          {
+            "name": "github-actions-static",
+            "status": "completed",
+            "version": null
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 16,
+          "resultsIncluded": 16,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}
