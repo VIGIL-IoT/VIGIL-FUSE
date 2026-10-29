@@ -1,0 +1,77 @@
+{
+  "scan_date": "2026-10-28",
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "cc5fb46fe5cb64a3a26a67476bd6d2ed5e066b50",
+    "source_tree_sha256": "54dcd7631772a0d0350ac7762e5386677a4b3aedf1a02870474f04ba585dea5e",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "cohort": "independent-holdout",
+  "training_manifest": null,
+  "selection_protocol": {
+    "purpose": "Qualitative scan of four independently selected, previously unscanned embedded and IoT repositories using the current FUSE build. Repositories were selected for architecture diversity before examining FUSE output. This is not a representative accuracy benchmark.",
+    "training_corpus_informed_rule_refinements": false,
+    "independent_or_blind_holdout": true,
+    "interpretation": "Pinned shallow public repository snapshots scanned with the generic profile and default supported-file selection. Static signals require human review; no builds, device tests, or dependency advisory database checks were run."
+  },
+  "repositories": [
+    {
+      "id": "threadx",
+      "name": "Eclipse ThreadX",
+      "url": "https://github.com/eclipse-threadx/threadx",
+      "commit": "56c8695b1288fd4fac5406443c28878fade23872",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "threadx",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "target_label": "eclipse-threadx/threadx"
+        }
+      ]
+    },
+    {
+      "id": "netxduo",
+      "name": "Eclipse NetX Duo",
+      "url": "https://github.com/eclipse-threadx/netxduo",
+      "commit": "ff27569d194f24d296452e1a884d3424f5bb39c9",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "netxduo",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "target_label": "eclipse-threadx/netxduo"
+        }
+      ]
+    },
+    {
+      "id": "stm32duino-core",
+      "name": "STM32 Arduino Core",
+      "url": "https://github.com/stm32duino/Arduino_Core_STM32",
+      "commit": "8bc8cc90b23975fb6722ef095780af16e6837f02",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "stm32duino-core",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "target_label": "stm32duino/Arduino_Core_STM32"
+        }
+      ]
+    },
+    {
+      "id": "littlefs",
+      "name": "littlefs",
+      "url": "https://github.com/littlefs-project/littlefs",
+      "commit": "6cb4e86540eca0d9ba62500a298385c9d863c8be",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "littlefs",
+          "scope": "Entire shallow checkout, scanner-supported source and configuration files",
+          "target_label": "littlefs-project/littlefs"
+        }
+      ]
+    }
+  ]
+}
