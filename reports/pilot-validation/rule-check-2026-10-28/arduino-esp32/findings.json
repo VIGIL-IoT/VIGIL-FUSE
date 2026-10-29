@@ -1,0 +1,1173 @@
+{
+  "schema_version": "1.9",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "espressif/arduino-esp32",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T16:09:06Z",
+    "completed_at": "2026-10-28T16:09:34Z",
+    "input_manifest_sha256": "74e35c262ff460fa79cdc1852e0a086738c891af0446f34d3e2ce6772cc70a8c"
+  },
+  "summary": {
+    "files_discovered": 1784,
+    "files_selected": 1784,
+    "files_filtered": 0,
+    "files_scanned": 1784,
+    "source_bytes_read": 8023211,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 16,
+    "severity_counts": {
+      "critical": 0,
+      "high": 5,
+      "medium": 11,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 378,
+      "unsupported_file_types": {
+        ".bin": 73,
+        ".css": 1,
+        ".csv": 29,
+        ".defaults": 3,
+        ".gz": 2,
+        ".htm": 5,
+        ".html": 1,
+        ".ico": 1,
+        ".md": 210,
+        ".png": 2,
+        ".projbuild": 1,
+        ".txt": 37,
+        "<no-extension>": 13
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 16
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.5.0",
+        "detail": "Evaluated 183 selected input(s). The conservative prefilter excluded 1601 inputs without the rule's required markers.",
+        "findings": 11
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 7 selected input(s). The conservative prefilter excluded 1777 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 49 selected input(s). The conservative prefilter excluded 1735 inputs without the rule's required markers.",
+        "findings": 5
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 513 selected input(s). The conservative prefilter excluded 1271 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 73 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 73,
+    "extension_counts": {
+      ".bin": 73
+    },
+    "candidates": [
+      {
+        "path": "libraries/Update/examples/AWS_S3_OTA_Update/StartCounter.ino.bin",
+        "format": "bin",
+        "byte_size": 357276
+      },
+      {
+        "path": "variants/XIAO_ESP32S3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22800
+      },
+      {
+        "path": "variants/XIAO_ESP32S3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 181008
+      },
+      {
+        "path": "variants/XIAO_ESP32S3_Plus/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22800
+      },
+      {
+        "path": "variants/XIAO_ESP32S3_Plus/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 181008
+      },
+      {
+        "path": "variants/adafruit_camera_esp32s3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23328
+      },
+      {
+        "path": "variants/adafruit_camera_esp32s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 223040
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24144
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 173472
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s2_reversetft/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24144
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s2_reversetft/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 195296
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s2_tft/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24176
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s2_tft/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 195296
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23488
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 206256
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3_nopsram/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23488
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3_nopsram/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 206272
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3_reversetft/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23488
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3_reversetft/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 228352
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3_tft/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23520
+      },
+      {
+        "path": "variants/adafruit_feather_esp32s3_tft/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 228352
+      },
+      {
+        "path": "variants/adafruit_funhouse_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24160
+      },
+      {
+        "path": "variants/adafruit_funhouse_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 181424
+      },
+      {
+        "path": "variants/adafruit_magtag29_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24144
+      },
+      {
+        "path": "variants/adafruit_magtag29_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 173504
+      },
+      {
+        "path": "variants/adafruit_matrixportal_esp32s3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23344
+      },
+      {
+        "path": "variants/adafruit_matrixportal_esp32s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 206224
+      },
+      {
+        "path": "variants/adafruit_metro_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24112
+      },
+      {
+        "path": "variants/adafruit_metro_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 173456
+      },
+      {
+        "path": "variants/adafruit_metro_esp32s3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23424
+      },
+      {
+        "path": "variants/adafruit_metro_esp32s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 206240
+      },
+      {
+        "path": "variants/adafruit_qtpy_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 24064
+      },
+      {
+        "path": "variants/adafruit_qtpy_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 168160
+      },
+      {
+        "path": "variants/adafruit_qtpy_esp32s3_n4r2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23408
+      },
+      {
+        "path": "variants/adafruit_qtpy_esp32s3_n4r2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 201040
+      },
+      {
+        "path": "variants/adafruit_qtpy_esp32s3_nopsram/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23408
+      },
+      {
+        "path": "variants/adafruit_qtpy_esp32s3_nopsram/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 201024
+      },
+      {
+        "path": "variants/adafruit_qualia_s3_rgb666/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22912
+      },
+      {
+        "path": "variants/adafruit_qualia_s3_rgb666/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 181840
+      },
+      {
+        "path": "variants/arduino_nano_nora/extra/nora_recovery/nora_recovery.ino.bin",
+        "format": "bin",
+        "byte_size": 302800
+      },
+      {
+        "path": "variants/atmegazero_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 21808
+      },
+      {
+        "path": "variants/atmegazero_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 139088
+      },
+      {
+        "path": "variants/circuitart_zero_s3/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22224
+      },
+      {
+        "path": "variants/circuitart_zero_s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 190464
+      },
+      {
+        "path": "variants/cytron_maker_feather_aiot_s3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 21840
+      },
+      {
+        "path": "variants/cytron_maker_feather_aiot_s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 157008
+      },
+      {
+        "path": "variants/department_of_alchemy_minimain_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22016
+      },
+      {
+        "path": "variants/department_of_alchemy_minimain_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 147376
+      },
+      {
+        "path": "variants/fobe_quill_esp32s3_mesh/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23040
+      },
+      {
+        "path": "variants/fobe_quill_esp32s3_mesh/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 181008
+      },
+      {
+        "path": "variants/lilygo_t_display_s3/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22720
+      },
+      {
+        "path": "variants/lilygo_t_display_s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 174048
+      },
+      {
+        "path": "variants/redpill_esp32s3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 151648
+      },
+      {
+        "path": "variants/sensebox_eye/APOTA.bin",
+        "format": "bin",
+        "byte_size": 1076000
+      },
+      {
+        "path": "variants/sensebox_eye/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 23120
+      },
+      {
+        "path": "variants/sensebox_eye/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 197936
+      },
+      {
+        "path": "variants/sensebox_mcu_esp32s2/APOTA.bin",
+        "format": "bin",
+        "byte_size": 1014816
+      },
+      {
+        "path": "variants/sensebox_mcu_esp32s2/bootloader-tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22848
+      },
+      {
+        "path": "variants/sensebox_mcu_esp32s2/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 154912
+      },
+      {
+        "path": "variants/um_bling/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22576
+      },
+      {
+        "path": "variants/um_bling/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 183168
+      },
+      {
+        "path": "variants/um_feathers3/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22736
+      },
+      {
+        "path": "variants/um_feathers3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 157296
+      },
+      {
+        "path": "variants/um_nanos3/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22576
+      },
+      {
+        "path": "variants/um_nanos3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 152608
+      },
+      {
+        "path": "variants/um_omgs3/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22688
+      },
+      {
+        "path": "variants/um_omgs3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 183808
+      },
+      {
+        "path": "variants/um_pros3/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22576
+      },
+      {
+        "path": "variants/um_pros3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 152608
+      },
+      {
+        "path": "variants/um_tinys3/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22576
+      },
+      {
+        "path": "variants/um_tinys3/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 152608
+      },
+      {
+        "path": "variants/wt32-sc01-plus/bootloader_tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 22576
+      },
+      {
+        "path": "variants/wt32-sc01-plus/tinyuf2.bin",
+        "format": "bin",
+        "byte_size": 152608
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE003:libraries/HTTPClient/src/HTTPClient.cpp:90",
+      "fingerprint": "3346549b4308e4bc0ff790c963ebe987d620b0357b4586014fbac97e324658a6",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "libraries/HTTPClient/src/HTTPClient.cpp",
+        "start_line": 90,
+        "end_line": 90
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino:40",
+      "fingerprint": "4ca96c950a7e386c4e1f034e10092f26aac2bcc386cdf23cd97779a63771d86d",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino",
+        "start_line": 40,
+        "end_line": 40
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino:22",
+      "fingerprint": "e684dfd4b553920fbd7b8295aa950b8bab17206e4fe4767164a63c14dca43ef1",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino",
+        "start_line": 22,
+        "end_line": 22
+      },
+      "evidence": "const char *password = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino:86",
+      "fingerprint": "c6b1ac01cf348d48ce21dbb0f8d711b99dc5ae870432dfb02b211efab1addec2",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino",
+        "start_line": 86,
+        "end_line": 86
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino:23",
+      "fingerprint": "3de306894d3c91033fd906dd567b5bb1db90ac28b70af8238bb3c4d7a69b10b0",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino",
+        "start_line": 23,
+        "end_line": 23
+      },
+      "evidence": "#define WIFI_PASSWD \"[REDACTED]\"",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:167",
+      "fingerprint": "c5b089ef4b4e6d55f2a9f250cd48edc4e2a993f3633e0a78d7116d02b82ea6bb",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino",
+        "start_line": 167,
+        "end_line": 167
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:219",
+      "fingerprint": "0e100b8eca8263e8a79597586974f7df0e44d26ace2a976d1f1dcf7f25c7bdfc",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino",
+        "start_line": 219,
+        "end_line": 219
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:19",
+      "fingerprint": "f6deee41cb53da809af05151622e4abd6e7498a6db3df526820a26c389826ad3",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino",
+        "start_line": 19,
+        "end_line": 19
+      },
+      "evidence": "const char *www_password = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:13",
+      "fingerprint": "0229badfdf8bbc2af47ada108cb7139c690801d3ed129bed8bcf1f840c69715c",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino",
+        "start_line": 13,
+        "end_line": 13
+      },
+      "evidence": "const char *www_password = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:20",
+      "fingerprint": "82f189e5c4f9bd23a7b4997b319d0b4357f8620b31b9faaee868f3da0e7fe87b",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+        "start_line": 20,
+        "end_line": 20
+      },
+      "evidence": "const char *www_password = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:26",
+      "fingerprint": "6be6401495e3794b72c83134d92900f44fd11143e9bf4eb6b895bda6fda55fcd",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+        "start_line": 26,
+        "end_line": 26
+      },
+      "evidence": "const char *www_password_hex = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:31",
+      "fingerprint": "156f4e40b0b6c260af8fb65b6ad564abd2ac251fc6debf0492323d3c105a10c0",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+        "start_line": 31,
+        "end_line": 31
+      },
+      "evidence": "const char *www_password_base64 = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:22",
+      "fingerprint": "53103489650bd9c5f4bd4747eab1dc7b0927793f6f063ea336abe5430a6faa1f",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+        "start_line": 22,
+        "end_line": 22
+      },
+      "evidence": "String secret_token_hex = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:40",
+      "fingerprint": "c93fa274c408f11b98667b18918f1e726c9c4cc4bd1f8aac6871ba38eb262c44",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+        "start_line": 40,
+        "end_line": 40
+      },
+      "evidence": "const char *www_password_hex = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:26",
+      "fingerprint": "be925fc47b7b4d73b816f24bf1e0518d15c428287449dd46e6560b2dae4b8484",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WiFi/examples/WiFiClient/WiFiClient.ino",
+        "start_line": 26,
+        "end_line": 26
+      },
+      "evidence": "const String writeApiKey = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:27",
+      "fingerprint": "f0a0346749cbd406c160ebab59bca3dbbbca56febd7be437783d98f6cce2d5d5",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "libraries/WiFi/examples/WiFiClient/WiFiClient.ino",
+        "start_line": 27,
+        "end_line": 27
+      },
+      "evidence": "const String readApiKey = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}
