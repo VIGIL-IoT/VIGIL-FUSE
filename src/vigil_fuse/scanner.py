@@ -11,8 +11,11 @@ from pathlib import Path
 
 from . import __version__
 from .build_context import inspect_compilation_database, inspect_platformio
+from .firmware_inventory import inspect_firmware_candidates
+from .github_actions import inspect_github_actions
 from .hardware import classify_hardware_file
 from .hardware_bom import inspect_hardware_bom
+from .hardware_netlist import inspect_kicad_netlist
 from .input_types import MAX_SBOM_DETECTION_BYTES
 from .limits import (
     DEFAULT_MAX_DISCOVERED_DIRECTORIES,
@@ -31,6 +34,7 @@ from .model import (
     HardwareArtifact,
     HardwareBOMInventory,
     HardwareInventory,
+    NetlistInventory,
     ScanResult,
     SourceFile,
 )
@@ -223,17 +227,22 @@ def _load_source(
         return None, "read_error", 0
     if len(data) > max_file_bytes:
         return None, "too_large", len(data)
+    if b"\x00" in data:
+        return None, "binary_or_nul", len(data)
+    encoding = "utf-8"
     try:
         text = data.decode("utf-8-sig")
     except UnicodeDecodeError:
-        return None, "not_utf8", len(data)
-    if "\x00" in text:
-        return None, "binary_or_nul", len(data)
+        # Keep ASCII security indicators scanable in legacy source files while
+        # recording the fallback so the report never implies UTF-8 decoding.
+        text = data.decode("iso-8859-1")
+        encoding = "iso-8859-1"
     return SourceFile(
         path=_display_path(path, base),
         text=text,
         sha256=hashlib.sha256(data).hexdigest(),
         byte_size=len(data),
+        encoding=encoding,
     ), None, len(data)
 
 
@@ -273,6 +282,7 @@ def scan(
     platformio_environments: tuple[str, ...] = (),
     compile_commands: str | Path | None = None,
     hardware_bom: str | Path | None = None,
+    hardware_netlist: str | Path | None = None,
     target_label: str | None = None,
     max_discovered_paths: int = MAX_DISCOVERED_PATHS,
     max_discovered_directories: int = MAX_DISCOVERED_DIRECTORIES,
@@ -293,10 +303,12 @@ def scan(
         raise ValueError("SBOM input must be a single file")
     if firmware_image and sbom_input:
         raise ValueError("A target cannot be both a firmware image and an SBOM")
-    if (platformio_config is not None or platformio_environments or compile_commands is not None or hardware_bom is not None) and not requested.is_dir():
+    if (platformio_config is not None or platformio_environments or compile_commands is not None or hardware_bom is not None or hardware_netlist is not None) and not requested.is_dir():
         raise ValueError("PlatformIO, compilation database, and hardware BOM inputs require a project directory target")
     if hardware_bom is not None and (firmware_image or sbom_input):
         raise ValueError("--hardware-bom can only be used with a source project directory")
+    if hardware_netlist is not None and (firmware_image or sbom_input):
+        raise ValueError("--hardware-netlist can only be used with a source project directory")
     if build_dir is not None and profile not in {"esp-idf", "zephyr"}:
         raise ValueError("--build-dir requires the esp-idf or zephyr profile")
     if build_dir is not None and not requested.is_dir():
@@ -413,12 +425,44 @@ def scan(
         )
     if sbom_input:
         discovery_complete = True
+    firmware_candidates = inspect_firmware_candidates(
+        requested,
+        exclude=exclude,
+        deadline=scan_deadline,
+        max_paths=max_discovered_paths,
+        max_directories=max_discovered_directories,
+    )
+    github_actions, workflow_findings = inspect_github_actions(requested, exclude=exclude)
+    netlist_inventory = NetlistInventory()
+    netlist_findings = ()
+    selected_netlist: str | Path | None = hardware_netlist
+    auto_selected_netlist = False
+    if selected_netlist is None and requested.is_dir():
+        netlist_paths = [
+            item.path for item in hardware_items if item.category == "netlist"
+        ]
+        if len(netlist_paths) == 1:
+            selected_netlist = netlist_paths[0]
+            auto_selected_netlist = True
+        elif len(netlist_paths) > 1:
+            netlist_inventory = NetlistInventory(
+                status="not-detected",
+                limitations=(
+                    "Multiple electronic netlists were detected; select one with --hardware-netlist to avoid mixing design variants.",
+                ),
+            )
+    if selected_netlist is not None:
+        netlist_inventory, netlist_findings = inspect_kicad_netlist(
+            requested, selected_netlist, strict_format=not auto_selected_netlist
+        )
     findings = []
     skipped = Counter()
     if sbom_too_large:
         skipped["sbom_too_large"] += 1
     files_scanned = 0
     files_scanned_bytes = 0
+    encoding_fallback_count = 0
+    encoding_fallback_files: list[str] = []
     limits_reached: set[str] = set()
     firmware_input_rejected = False
     rule_timeouts: dict[str, str] = {}
@@ -498,6 +542,10 @@ def scan(
                 skipped[reason or "read_error"] += 1
                 manifest.update(f"{display_path}\0skip:{reason}\n".encode("utf-8"))
                 continue
+            if source.encoding != "utf-8":
+                encoding_fallback_count += 1
+                if len(encoding_fallback_files) < 100:
+                    encoding_fallback_files.append(source.path)
             files_scanned += 1
             manifest.update(f"{source.path}\0{source.sha256}\n".encode("utf-8"))
             generated_esp_config_selected = profile == "esp-idf" and bool(generated_config_sources)
@@ -597,13 +645,21 @@ def scan(
 
     native_findings_count = len(findings)
     findings.extend(hardening_findings)
+    findings.extend(workflow_findings)
+    findings.extend(netlist_findings)
     for artifact in project_context.configuration_files:
         if artifact.sha256:
             manifest.update(
                 f"project-context-artifact:{artifact.path}\0{artifact.sha256}\n".encode("utf-8")
             )
 
-    findings.sort(key=lambda item: (item.file.casefold(), item.start_line, item.rule_id))
+    findings.sort(
+        key=lambda item: (
+            item.file.casefold(),
+            item.start_line if item.start_line is not None else 0,
+            item.rule_id,
+        )
+    )
     native_partial = not firmware_image and bool(
         limits_reached or skipped or rule_timeouts or rule_incomplete or rule_errors
     )
@@ -690,6 +746,41 @@ def scan(
         analyzer_status = (*analyzer_status, dependency_status)
     if hardening_status is not None:
         analyzer_status = (*analyzer_status, hardening_status)
+    analyzer_status = (*analyzer_status, AnalyzerStatus(
+        name="firmware-candidate-inventory",
+        status="partial" if firmware_candidates.status == "partial" else "completed",
+        detail=(
+            f"Recorded {firmware_candidates.candidate_count} filename and size candidate(s); no image contents were read or verified."
+            if firmware_candidates.status != "partial"
+            else "; ".join(firmware_candidates.limitations)
+        ),
+    ))
+    if github_actions.status != "not-detected":
+        analyzer_status = (*analyzer_status, AnalyzerStatus(
+            name="github-actions-static",
+            status="partial" if github_actions.status == "partial" else "completed",
+            detail=(
+                "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed."
+                if github_actions.status == "completed"
+                else "; ".join(github_actions.limitations)
+            ),
+            findings=github_actions.finding_count,
+        ))
+    if netlist_inventory.status != "not-detected":
+        analyzer_status = (*analyzer_status, AnalyzerStatus(
+            name="kicad-netlist-static",
+            status=(
+                "completed" if netlist_inventory.status == "parsed"
+                else "partial" if netlist_inventory.status == "partial"
+                else "failed"
+            ),
+            detail=(
+                f"Inspected {netlist_inventory.net_count} KiCad net(s) and recorded {len(netlist_inventory.debug_net_candidates)} debug-net candidate(s)."
+                if netlist_inventory.status == "parsed"
+                else "; ".join(netlist_inventory.limitations)
+            ),
+            findings=len(netlist_findings),
+        ))
     if build_dir is not None:
         platform_rule_ids = {"FUSE006", "FUSE007"} if profile == "esp-idf" else set()
         platform_rules_incomplete = any(
@@ -747,9 +838,14 @@ def scan(
         ),
         project_context=project_context,
         platformio_inventory=platformio_inventory,
+        firmware_candidates=firmware_candidates,
+        netlist_inventory=netlist_inventory,
+        github_actions=github_actions,
         compilation_database=compilation_database,
         hardware_bom=hardware_bom_inventory,
         source_bytes_read=files_scanned_bytes,
         discovery_complete=discovery_complete,
         limits_reached=tuple(sorted(limits_reached)),
+        encoding_fallback_count=encoding_fallback_count,
+        encoding_fallback_files=tuple(encoding_fallback_files),
     )
