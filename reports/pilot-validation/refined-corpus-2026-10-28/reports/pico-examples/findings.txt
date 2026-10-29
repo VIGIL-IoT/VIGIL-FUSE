@@ -1,0 +1,117 @@
+FUSE scan: raspberrypi/pico-examples
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42
+Files discovered/selected: 373/373
+Files filtered by path policy: 0
+Files scanned: 373
+Source bytes read: 3948253
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 3
+Hardware artifacts: 25
+Files not selected by the source profile: 429
+  .adoc: 25
+  .bin: 4
+  .bmp: 1
+  .csv: 1
+  .fzz: 25
+  .gatt: 5
+  .gz: 1
+  .hex: 1
+  .html: 4
+  .md: 22
+  .pio: 26
+  .png: 30
+  .response: 2
+  .s: 2
+  .shtml: 8
+  .svg: 2
+  .txt: 265
+  <no-extension>: 5
+Hardware inventory:
+  hardware-project: 25
+  adc/microphone_adc/microphone_adc.fzz [Fritzing project]
+  bluetooth/ble_doorbell/doorbell.fzz [Fritzing project]
+  bluetooth/ble_pointer/ble_pointer.fzz [Fritzing project]
+  gpio/dht_sensor/pi-and-pico-uart-and-dht-sensor.fzz [Fritzing project]
+  gpio/hello_7segment/hello_7segment.fzz [Fritzing project]
+  i2c/bmp280_i2c/bmp280_i2c.fzz [Fritzing project]
+  i2c/ina228_i2c/ina228_i2c.fzz [Fritzing project]
+  i2c/ina260_i2c/ina260_i2c.fzz [Fritzing project]
+  i2c/lcd_1602_i2c/lcd_1602_i2c.fzz [Fritzing project]
+  i2c/lis3dh_i2c/lis3dh_i2c.fzz [Fritzing project]
+  i2c/mcp9808_i2c/mcp9808_i2c.fzz [Fritzing project]
+  i2c/mma8451_i2c/mma8451_i2c.fzz [Fritzing project]
+  i2c/mpl3115a2_i2c/mpl3115a2_i2c.fzz [Fritzing project]
+  i2c/mpu6050_i2c/mpu6050_i2c.fzz [Fritzing project]
+  i2c/pa1010d_i2c/pa1010d_i2c.fzz [Fritzing project]
+  i2c/pcf8523_i2c/pc8523_i2c.fzz [Fritzing project]
+  i2c/ssd1306_i2c/1306_i2c.fzz [Fritzing project]
+  pio/ir_nec/pio_ir_loopback.fzz [Fritzing project]
+  pio/onewire/pio_onewire.fzz [Fritzing project]
+  spi/bme280_spi/bme280_spi.fzz [Fritzing project]
+  spi/mpu9250_spi/mpu9250_spi.fzz [Fritzing project]
+  spi/spi_master_slave/spi_master_slave.fzz [Fritzing project]
+  spi/ssd1309_spi/wiring_diagram.fzz [Fritzing project]
+  spi/ssd1309_stdout_spi/wiring_diagram.fzz [Fritzing project]
+  uart/lcd_uart/lcd_uart.fzz [Fritzing project]
+Firmware-like file candidates: 5 / complete (extension and size only, contents not inspected)
+  .bin: 4
+  .hex: 1
+  bootloaders/encrypted/ivsalt.bin [bin, 16 bytes]
+  bootloaders/encrypted/privateaes.bin [bin, 32 bytes]
+  encrypted/hello_encrypted/ivsalt.bin [bin, 16 bytes]
+  encrypted/hello_encrypted/privateaes.bin [bin, 32 bytes]
+  pio/squarewave/generated/squarewave.hex [hex, 24 bytes]
+GitHub Actions workflows: 5 / completed; 9 non-SHA action reference(s), 0 floating-branch candidate(s)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 32 selected input(s). The conservative prefilter excluded 341 inputs without the rule's required markers.)
+  native-rule:FUSE002: completed (Evaluated 6 selected input(s). The conservative prefilter excluded 367 inputs without the rule's required markers.)
+  native-rule:FUSE003: completed (Evaluated 5 selected input(s). The conservative prefilter excluded 368 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 7 selected input(s). The conservative prefilter excluded 366 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 372 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 372 inputs without the rule's required markers.)
+  firmware-candidate-inventory: completed (Recorded 5 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.)
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: bootloaders/encrypted/private.pem:4
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: encrypted/hello_encrypted/private.pem:4
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
+
+[HIGH] FUSE002 - Private key PEM marker embedded in scanned file
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: pico_w/wifi/ota_update/private.pem:4
+  Evidence: [PRIVATE KEY MATERIAL REDACTED]
+  Explanation: A PEM private-key boundary marker is present. FUSE detects the marker but does not validate the key or determine whether the file is deployed.
+  Potential impact: If this is a usable private key shipped with a product, compromise of one copy may allow impersonation or decryption wherever that key is trusted.
+  Remediation: Remove the key from source and firmware, rotate or revoke it, and generate or provision unique keys through a protected process.
+  References: https://cwe.mitre.org/data/definitions/321.html
