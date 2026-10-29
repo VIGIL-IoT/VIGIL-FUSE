@@ -1,0 +1,2691 @@
+{
+  "schema_version": "1.9",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "tasmota",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T08:43:58Z",
+    "completed_at": "2026-10-28T08:44:23Z",
+    "input_manifest_sha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638"
+  },
+  "summary": {
+    "files_discovered": 6802,
+    "files_selected": 6802,
+    "files_filtered": 0,
+    "files_scanned": 6800,
+    "source_bytes_read": 104871164,
+    "files_skipped": 2,
+    "analysis_performed": true,
+    "finding_count": 16,
+    "severity_counts": {
+      "critical": 0,
+      "high": 10,
+      "medium": 5,
+      "low": 0,
+      "info": 1,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {
+      "too_large": 2
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 1138,
+      "unsupported_file_types": {
+        ".aac": 1,
+        ".adoc": 3,
+        ".anim": 83,
+        ".autoconf": 1,
+        ".bec": 6,
+        ".bin": 6,
+        ".bmp": 3,
+        ".bytecode": 1,
+        ".cin": 1,
+        ".css": 1,
+        ".csv": 8,
+        ".dat": 1,
+        ".defaults": 3,
+        ".diff": 1,
+        ".ebnf": 3,
+        ".esp8266": 3,
+        ".ex": 2,
+        ".examples": 1,
+        ".exe": 1,
+        ".fdl": 1,
+        ".flac": 1,
+        ".fnt": 31,
+        ".freetype": 1,
+        ".fzpz": 3,
+        ".fzz": 2,
+        ".gif": 1,
+        ".git": 1,
+        ".gpl": 1,
+        ".hex": 19,
+        ".hin": 1,
+        ".html": 2,
+        ".ico": 1,
+        ".inl": 2,
+        ".ipynb": 1,
+        ".jpg": 13,
+        ".jsonl": 9,
+        ".lesser": 1,
+        ".lgpl": 1,
+        ".libwebm": 1,
+        ".lo": 23,
+        ".lvfont": 25,
+        ".md": 259,
+        ".mid": 2,
+        ".mp3": 1,
+        ".o": 23,
+        ".opus": 1,
+        ".ota": 5,
+        ".pbxproj": 1,
+        ".pc": 3,
+        ".pde": 25,
+        ".pdf": 6,
+        ".pdn": 1,
+        ".pl": 1,
+        ".plist": 1,
+        ".png": 83,
+        ".prefs": 1,
+        ".rc": 1,
+        ".rst": 3,
+        ".s": 6,
+        ".s_future": 1,
+        ".sed": 1,
+        ".settings": 1,
+        ".sf2": 2,
+        ".skip": 3,
+        ".svg": 6,
+        ".tapp": 16,
+        ".template": 1,
+        ".ttf": 14,
+        ".txt": 144,
+        ".wav": 4,
+        ".woff": 1,
+        ".xcuserstate": 1,
+        ".xcworkspacedata": 1,
+        ".xiph": 1,
+        ".xlsx": 2,
+        ".xslt": 1,
+        ".y": 1,
+        ".yapf": 1,
+        ".zb": 10,
+        "<no-extension>": 233
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "partial",
+        "version": "0.2.0",
+        "detail": "One or more selected files were skipped; review coverage details.",
+        "findings": 15
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.4.0",
+        "detail": "Evaluated 410 selected input(s). The conservative prefilter excluded 6390 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "partial",
+        "version": "1.1.0",
+        "detail": "Evaluated 11 selected input(s). The conservative prefilter excluded 6789 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 309 selected input(s). The conservative prefilter excluded 6491 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 10
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 1671 selected input(s). The conservative prefilter excluded 5129 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 2
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "partial",
+        "version": "1.1.0",
+        "detail": "Evaluated 10 selected input(s). The conservative prefilter excluded 6790 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 30 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.",
+        "findings": 1
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": true,
+    "file_count": 2,
+    "category_counts": {
+      "hardware-project": 2
+    },
+    "artifacts": [
+      {
+        "path": "lib/lib_div/arduino-vid6608/doc/vid6608-example-sketch.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      },
+      {
+        "path": "lib/lib_div/rfid-1.4.7/doc/fritzing/Arduino-Uno-r3-with-RFID-RC522.fzz",
+        "category": "hardware-project",
+        "format": "Fritzing project"
+      }
+    ]
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 30,
+    "extension_counts": {
+      ".bin": 6,
+      ".hex": 19,
+      ".ota": 5
+    },
+    "candidates": [
+      {
+        "path": "tools/fw_HM10_cc2541/CC2541hm10v709.bin",
+        "format": "bin",
+        "byte_size": 262144
+      },
+      {
+        "path": "tools/fw_ShellyDimmer_stm32/shelly-dimmer-stm32_v51.5.bin",
+        "format": "bin",
+        "byte_size": 13944
+      },
+      {
+        "path": "tools/fw_ShellyDimmer_stm32/shelly-dimmer-stm32_v51.6.bin",
+        "format": "bin",
+        "byte_size": 14484
+      },
+      {
+        "path": "tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20181023.hex",
+        "format": "hex",
+        "byte_size": 22060
+      },
+      {
+        "path": "tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20181102.hex",
+        "format": "hex",
+        "byte_size": 20268
+      },
+      {
+        "path": "tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20181127.hex",
+        "format": "hex",
+        "byte_size": 22704
+      },
+      {
+        "path": "tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20190220.hex",
+        "format": "hex",
+        "byte_size": 21710
+      },
+      {
+        "path": "tools/fw_SonoffRfBridge_efm8bb1/RF_Bridge_iTead_Original.hex",
+        "format": "hex",
+        "byte_size": 9241
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridgePro_cc2652/SonoffZBPro_coord_20220219.hex",
+        "format": "hex",
+        "byte_size": 403182
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridgePro_cc2652/SonoffZBPro_coord_20230507.hex",
+        "format": "hex",
+        "byte_size": 508053
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridgePro_cc2652/SonoffZBPro_coord_20240710.hex",
+        "format": "hex",
+        "byte_size": 506662
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridgePro_router_only_cc2652/SonoffZBPro_router_20220125.hex",
+        "format": "hex",
+        "byte_size": 440246
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridge_ezsp/ncp-uart-nsw_6.7.9_115200.ota",
+        "format": "ota",
+        "byte_size": 192240
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridge_ezsp/ncp-uart-sw_6.7.8_115200.ota",
+        "format": "ota",
+        "byte_size": 190756
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridge_ezsp/archive/ncp-uart-sw_6.5.5_115200.ota",
+        "format": "ota",
+        "byte_size": 181500
+      },
+      {
+        "path": "tools/fw_SonoffZigbeeBridge_ezsp/archive/ncp-uart-sw_6.7.6_115200.ota",
+        "format": "ota",
+        "byte_size": 190272
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/AnalogJSON.ino.hex",
+        "format": "hex",
+        "byte_size": 11411
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/Blink.ino.hex",
+        "format": "hex",
+        "byte_size": 6993
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/BlinkSendCommand.ino.hex",
+        "format": "hex",
+        "byte_size": 7966
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/ClientRespondTele.ino.hex",
+        "format": "hex",
+        "byte_size": 8261
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/ClientSendCommand.ino.hex",
+        "format": "hex",
+        "byte_size": 12507
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/AnalogJSON.ino.hex",
+        "format": "hex",
+        "byte_size": 11444
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/Blink.ino.hex",
+        "format": "hex",
+        "byte_size": 7026
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/BlinkSendCommand.ino.hex",
+        "format": "hex",
+        "byte_size": 7999
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/ClientRespondTele.ino.hex",
+        "format": "hex",
+        "byte_size": 8294
+      },
+      {
+        "path": "tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/ClientSendCommand.ino.hex",
+        "format": "hex",
+        "byte_size": 12540
+      },
+      {
+        "path": "tools/fw_TubeZigbee_efr32/MGM210PA32JIA_ncp-uart-sw_6.7.9.ota",
+        "format": "ota",
+        "byte_size": 206672
+      },
+      {
+        "path": "tools/fw_Zigbee_cc2530/CC2530_CC2591_ZNP-Prod_20190608.bin",
+        "format": "bin",
+        "byte_size": 262144
+      },
+      {
+        "path": "tools/fw_Zigbee_cc2530/CC2530_CC2592_ZNP-Prod_20190608.bin",
+        "format": "bin",
+        "byte_size": 262144
+      },
+      {
+        "path": "tools/fw_Zigbee_cc2530/CC2530_ZNP-Prod_20190608.bin",
+        "format": "bin",
+        "byte_size": 262144
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 5,
+    "files": [
+      {
+        "path": ".github/workflows/build_all_the_things.yml",
+        "sha256": "9b1f06c83bc776be2475a6b1ce8568cbd5f96a13a88ae76a3a210a9547483cdb",
+        "byte_size": 5194
+      },
+      {
+        "path": ".github/workflows/copy_change.yml",
+        "sha256": "19da3188861a11641ea6d15c0cea82c2bb455a2a4a856787d4bdbaed4004a07c",
+        "byte_size": 1027
+      },
+      {
+        "path": ".github/workflows/stale-actions.yml",
+        "sha256": "7d4455d3136acbec56792e08f6e5d12a2d8254275a20b075b32b7f39ea3682d3",
+        "byte_size": 1163
+      },
+      {
+        "path": ".github/workflows/Tasmota_build_devel.yml",
+        "sha256": "4dd29480359a173311c7158c29376273c66c8fcf7c1a64a505e16dda5a631fbd",
+        "byte_size": 9641
+      },
+      {
+        "path": ".github/workflows/Tasmota_build_master.yml",
+        "sha256": "cdacd8f58d4a901ceb2fdfc71ed11fc877541d6d614544fd4ce186cb0dc908e6",
+        "byte_size": 9925
+      }
+    ],
+    "non_sha_action_reference_count": 66,
+    "floating_branch_reference_count": 1,
+    "finding_count": 1,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "partial",
+      "path": "platformio.ini",
+      "sha256": "b9babf979ebbc25258e36e59ff73bf563fe7f0408d1f44ab0f8a8438bd8741dc",
+      "byte_size": 7678,
+      "default_environments": [],
+      "selected_environments": [
+        "tasmota",
+        "tasmota-4M",
+        "tasmota-AD",
+        "tasmota-AF",
+        "tasmota-BG",
+        "tasmota-BR",
+        "tasmota-CN",
+        "tasmota-CZ",
+        "tasmota-DE",
+        "tasmota-display",
+        "tasmota-ES",
+        "tasmota-FR",
+        "tasmota-FY",
+        "tasmota-GR",
+        "tasmota-HE",
+        "tasmota-HU",
+        "tasmota-ir",
+        "tasmota-IT",
+        "tasmota-knx",
+        "tasmota-KO",
+        "tasmota-lite",
+        "tasmota-LT",
+        "tasmota-minimal",
+        "tasmota-NL",
+        "tasmota-PL",
+        "tasmota-PT",
+        "tasmota-RO",
+        "tasmota-RU",
+        "tasmota-SE",
+        "tasmota-sensors",
+        "tasmota-SK",
+        "tasmota-TR",
+        "tasmota-TW",
+        "tasmota-UK",
+        "tasmota-VN",
+        "tasmota-zbbridge",
+        "tasmota-zigbee",
+        "tasmota32",
+        "tasmota32-AD",
+        "tasmota32-AF",
+        "tasmota32-BG",
+        "tasmota32-bluetooth",
+        "tasmota32-BR",
+        "tasmota32-CN",
+        "tasmota32-CZ",
+        "tasmota32-DE",
+        "tasmota32-display",
+        "tasmota32-ES",
+        "tasmota32-FR",
+        "tasmota32-FY",
+        "tasmota32-GR",
+        "tasmota32-HE",
+        "tasmota32-HU",
+        "tasmota32-ir",
+        "tasmota32-IT",
+        "tasmota32-KO",
+        "tasmota32-LT",
+        "tasmota32-lvgl",
+        "tasmota32-NL",
+        "tasmota32-nspanel",
+        "tasmota32-PL",
+        "tasmota32-PT",
+        "tasmota32-RO",
+        "tasmota32-RU",
+        "tasmota32-safeboot",
+        "tasmota32-SE",
+        "tasmota32-SK",
+        "tasmota32-TR",
+        "tasmota32-TW",
+        "tasmota32-UK",
+        "tasmota32-VN",
+        "tasmota32-webcam",
+        "tasmota32-zbbrdgpro",
+        "tasmota32_base",
+        "tasmota32c2",
+        "tasmota32c2-safeboot",
+        "tasmota32c3",
+        "tasmota32c3-safeboot",
+        "tasmota32c3ser-safeboot",
+        "tasmota32c5",
+        "tasmota32c5-safeboot",
+        "tasmota32c5ser-safeboot",
+        "tasmota32c6",
+        "tasmota32c6-safeboot",
+        "tasmota32c61",
+        "tasmota32c61-safeboot",
+        "tasmota32c61ser-safeboot",
+        "tasmota32c6ser-safeboot",
+        "tasmota32p4",
+        "tasmota32p4-safeboot",
+        "tasmota32p4r3",
+        "tasmota32p4r3-safeboot",
+        "tasmota32p4r3ser-safeboot",
+        "tasmota32p4ser-safeboot",
+        "tasmota32s2",
+        "tasmota32s2-safeboot",
+        "tasmota32s2cdc",
+        "tasmota32s2cdc-safeboot",
+        "tasmota32s3",
+        "tasmota32s3-safeboot",
+        "tasmota32s31",
+        "tasmota32s31-safeboot",
+        "tasmota32s31ser-safeboot",
+        "tasmota32s3ser-safeboot",
+        "tasmota32solo1",
+        "tasmota32solo1-safeboot"
+      ],
+      "environments": [
+        {
+          "name": "tasmota",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-4M",
+          "platform": "${common.platform}",
+          "board": "esp8266_4M2M",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-AD",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-AF",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-BG",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-BR",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-CN",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-CZ",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-DE",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-display",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-ES",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-FR",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-FY",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-GR",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-HE",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-HU",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-ir",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-IT",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-knx",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-KO",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-lite",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-LT",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-minimal",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-NL",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-PL",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-PT",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-RO",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-RU",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-SE",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-sensors",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-SK",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-TR",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-TW",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-UK",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-VN",
+          "platform": "${common.platform}",
+          "board": "${common.board}",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-zbbridge",
+          "platform": "${common.platform}",
+          "board": "esp8266_zbbridge",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota-zigbee",
+          "platform": "${common.platform}",
+          "board": "esp8266_4M2M",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-AD",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-AF",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-BG",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-bluetooth",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-BR",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-CN",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-CZ",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-DE",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-display",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-ES",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-FR",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-FY",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-GR",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-HE",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-HU",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-ir",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-IT",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-KO",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-LT",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-lvgl",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-NL",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-nspanel",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-PL",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-PT",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-RO",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-RU",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32-solo1",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-SE",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-SK",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-TR",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-TW",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-UK",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-VN",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-webcam",
+          "platform": "${core32.platform}",
+          "board": "esp32-fix",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32-zbbrdgpro",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32_base",
+          "platform": "${core32.platform}",
+          "board": "esp32",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": null,
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c2",
+          "platform": "${core32.platform}",
+          "board": "esp32c2",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c2-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c2",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c3",
+          "platform": "${core32.platform}",
+          "board": "esp32c3",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c3-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c3",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c3ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c3ser",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c5",
+          "platform": "${core32.platform}",
+          "board": "esp32c5",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c5-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c5",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c5ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c5ser",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c6",
+          "platform": "${core32.platform}",
+          "board": "esp32c6",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c6-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c6",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c61",
+          "platform": "${core32.platform}",
+          "board": "esp32c61",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c61-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c61",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c61ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c61ser",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32c6ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32c6ser",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32p4",
+          "platform": "${core32.platform}",
+          "board": "esp32p4",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32p4-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32p4",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32p4r3",
+          "platform": "${core32.platform}",
+          "board": "esp32p4r3",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32p4r3-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32p4r3",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32p4r3ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32p4r3ser",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32p4ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32p4ser",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s2",
+          "platform": "${core32.platform}",
+          "board": "esp32s2",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s2-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32s2",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s2cdc",
+          "platform": "${core32.platform}",
+          "board": "esp32s2cdc",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s2cdc-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32s2cdc",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s3",
+          "platform": "${core32.platform}",
+          "board": "esp32s3-qio_qspi",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s3-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32s3-qio_qspi",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s31",
+          "platform": "https://github.com/Jason2866/platform-espressif32.git#IDF61",
+          "board": "esp32s31-qio_opi",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s31-safeboot",
+          "platform": "https://github.com/Jason2866/platform-espressif32.git#IDF61",
+          "board": "esp32s31-qio_opi",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s31ser-safeboot",
+          "platform": "https://github.com/Jason2866/platform-espressif32.git#IDF61",
+          "board": "esp32s31ser-qio_opi",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32s3ser-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32s3ser-qio_qspi",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32solo1",
+          "platform": "${core32.platform}",
+          "board": "esp32-solo1",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        },
+        {
+          "name": "tasmota32solo1-safeboot",
+          "platform": "${core32.platform}",
+          "board": "esp32-solo1",
+          "frameworks": [
+            "${common.framework}"
+          ],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:tasmota32_base",
+          "source_dir": "tasmota",
+          "source_filter": []
+        }
+      ],
+      "configurations": [
+        {
+          "path": "platformio.ini",
+          "sha256": "b9babf979ebbc25258e36e59ff73bf563fe7f0408d1f44ab0f8a8438bd8741dc",
+          "byte_size": 7678
+        },
+        {
+          "path": "platformio_tasmota32.ini",
+          "sha256": "aab01296b02d8e89ca9327fe44e76388f9acbfb5ce55719950ce4bbe5695d664",
+          "byte_size": 5585
+        },
+        {
+          "path": "platformio_tasmota_env.ini",
+          "sha256": "f429cc7e76826ea37b7f4c66733088b2f87cb292162651bd52fae4597a203551",
+          "byte_size": 7612
+        },
+        {
+          "path": "platformio_tasmota_env32.ini",
+          "sha256": "b9ad673dedc224603dd086d554c3c4e1a5c999dfcb3c48d0dea2b2aab8b87537",
+          "byte_size": 36636
+        }
+      ],
+      "limitations": [
+        "platformio.ini extra_configs pattern 'platformio_override.ini' matched no files.",
+        "platformio.ini extra_configs pattern 'platformio_tasmota_cenv.ini' matched no files."
+      ]
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE-GHA-002:.github/workflows/copy_change.yml:25",
+      "fingerprint": "843a9d697c3a1b692db6e82f90e69509ee89f91baffed482562c449ee5743cd6",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/copy_change.yml",
+        "start_line": 25,
+        "end_line": 25
+      },
+      "evidence": "uses: Jason2866/copy_file_to_another_repo_action@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino:47",
+      "fingerprint": "349b152bb3bc6421cbe9489a4d24edcb3756e08e8b77f24e1aa5e1b0b14be15e",
+      "rule_id": "FUSE001",
+      "rule_version": "1.4.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
+        "start_line": 47,
+        "end_line": 47
+      },
+      "evidence": "const char* kPassword = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2640",
+      "fingerprint": "573a942d204938aea0be04271bf4cf0a872727ab2c45288a8c955e5541c47c73",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+        "start_line": 2640,
+        "end_line": 2640
+      },
+      "evidence": "verify = false",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2821",
+      "fingerprint": "30c7e8981f2d2ab0cfdbc6a252ad7a118e2edf9444b9df800835c91b81b275f4",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h",
+        "start_line": 2821,
+        "end_line": 2821
+      },
+      "evidence": "verify = false",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h:6029",
+      "fingerprint": "7ad26f7af19800cb2bacbc86d3422002a88714f80e649fb6d1cf8a443d23bb2a",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h",
+        "start_line": 6029,
+        "end_line": 6029
+      },
+      "evidence": "verify = false",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h:3373",
+      "fingerprint": "8363d6b686e4682dfc8f617c58f53401d0ea9b9f911c34068e98e09f1db1372f",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h",
+        "start_line": 3373,
+        "end_line": 3373
+      },
+      "evidence": "verify = false",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:242",
+      "fingerprint": "1ed1002c7543f9f356de2133f0bf5a7926f65579de38367e9e0ca08b6704fde2",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+        "start_line": 242,
+        "end_line": 242
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:433",
+      "fingerprint": "b9781d981655ef31e7ff35787ea1a2d33015ffbde295972b6e2cdd53f86787f7",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp",
+        "start_line": 433,
+        "end_line": 433
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE004:pio-tools/post_esp32.py:230",
+      "fingerprint": "4ebb0767b6a72a593bd268bdbf702dd22f81fb3c8d4eddcf8d051181ab68e4f0",
+      "rule_id": "FUSE004",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "Non-loopback HTTP endpoint configured",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "pio-tools/post_esp32.py",
+        "start_line": 230,
+        "end_line": 230
+      },
+      "evidence": "http://ota.tasmota.com",
+      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
+      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/319.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:tasmota/berry/drivers/ftp.be:60",
+      "fingerprint": "600d59d7a1fec60e54e8c3091291fc3f08a45853b3448b8089f990c3a66af562",
+      "rule_id": "FUSE001",
+      "rule_version": "1.4.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "tasmota/berry/drivers/ftp.be",
+        "start_line": 60,
+        "end_line": 60
+      },
+      "evidence": "static password = \"[REDACTED]\"",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:tasmota/berry/drivers/ssh.be:871",
+      "fingerprint": "6679bb855d5d8d48a2756e807f0d04d3a77ef6889d6ff309d8e7cd821dfef29b",
+      "rule_id": "FUSE001",
+      "rule_version": "1.4.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "tasmota/berry/drivers/ssh.be",
+        "start_line": 871,
+        "end_line": 871
+      },
+      "evidence": "static password = \"[REDACTED]\"",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE004:tasmota/berry/extensions/Partition_Wizard/partition_wizard.be:18",
+      "fingerprint": "18bfcdf1fbbff04ecce6d4fc90270df25d3aec63e1fca41ef07e453c63c43cd4",
+      "rule_id": "FUSE004",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "Non-loopback HTTP endpoint configured",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be",
+        "start_line": 18,
+        "end_line": 18
+      },
+      "evidence": "http://ota.tasmota.com",
+      "explanation": "A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.",
+      "potential_impact": "If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.",
+      "remediation": "Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/319.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:tasmota/include/Powerwall.h:71",
+      "fingerprint": "cbbce99d00d3cdfc5e144033949093334f4f8fe887c5538445c206dd1e3f3c66",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "tasmota/include/Powerwall.h",
+        "start_line": 71,
+        "end_line": 71
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:tasmota/include/Powerwall.h:136",
+      "fingerprint": "db3bae16fe0fbf3f92969a8ba423d3c0e679585349c2a15702b4fa5183c44a36",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "tasmota/include/Powerwall.h",
+        "start_line": 136,
+        "end_line": 136
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:tasmota/include/Powerwall.h:291",
+      "fingerprint": "04b64fa55cf6c4cad77b9f30dbecbeaaae2278719fba18dd9afdba6e3569e632",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "tasmota/include/Powerwall.h",
+        "start_line": 291,
+        "end_line": 291
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178",
+      "fingerprint": "21f88efdb524406587542102169038b0c90c5dd33b54c40029fb613482df320f",
+      "rule_id": "FUSE003",
+      "rule_version": "1.2.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino",
+        "start_line": 14178,
+        "end_line": 14178
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}
