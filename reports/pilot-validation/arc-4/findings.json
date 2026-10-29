@@ -1,0 +1,1240 @@
+{
+  "schema_version": "1.8",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "ARC-4",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T06:24:15Z",
+    "completed_at": "2026-10-28T06:24:15Z",
+    "input_manifest_sha256": "6db0cb74abaa151def093e1506486751295c10401e656a497bef98fcc4ba3740"
+  },
+  "summary": {
+    "files_discovered": 1,
+    "files_selected": 1,
+    "files_filtered": 0,
+    "files_scanned": 1,
+    "source_bytes_read": 37115,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 52,
+      "unsupported_file_types": {
+        ".csv": 2,
+        ".kicad_mod": 1,
+        ".kicad_pcb": 1,
+        ".kicad_pro": 1,
+        ".kicad_sch": 2,
+        ".kicad_sym": 1,
+        ".md": 4,
+        ".net": 1,
+        ".pdf": 22,
+        ".png": 5,
+        ".sldprt": 3,
+        ".svg": 2,
+        ".txt": 3,
+        "<no-extension>": 4
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "skipped",
+        "version": "1.4.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": true,
+    "file_count": 10,
+    "category_counts": {
+      "bill-of-materials": 2,
+      "hardware-library": 3,
+      "hardware-project": 1,
+      "netlist": 1,
+      "pcb-layout": 1,
+      "schematic": 2
+    },
+    "artifacts": [
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2-bom-kicad.csv",
+        "category": "bill-of-materials",
+        "format": "BOM CSV"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2-bom.csv",
+        "category": "bill-of-materials",
+        "format": "BOM CSV"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2.kicad_pcb",
+        "category": "pcb-layout",
+        "format": "KiCad PCB layout"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2.kicad_pro",
+        "category": "hardware-project",
+        "format": "KiCad project"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2.kicad_sch",
+        "category": "schematic",
+        "format": "KiCad schematic"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2.net",
+        "category": "netlist",
+        "format": "Electronic netlist"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC4.kicad_sym",
+        "category": "hardware-library",
+        "format": "KiCad symbol library"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC4.pretty",
+        "category": "hardware-library",
+        "format": "KiCad footprint library"
+      },
+      {
+        "path": "Hardware/KiCad/ARC-4-v2/ARC4.pretty/SA56-11EWA.kicad_mod",
+        "category": "hardware-library",
+        "format": "KiCad footprint"
+      },
+      {
+        "path": "Schematics/ARC-4 Semi-Completed Circuit.kicad_sch",
+        "category": "schematic",
+        "format": "KiCad schematic"
+      }
+    ]
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "imported",
+    "source_path": "Hardware/KiCad/ARC-4-v2/ARC-4-v2-bom.csv",
+    "sha256": "217668fcbed9b3a8b1442da525d683d1237293b01983981e202c175a6cad4917",
+    "byte_size": 7823,
+    "format": "csv",
+    "component_count": 102,
+    "quantity_total": 120,
+    "components": [
+      {
+        "reference": "R30",
+        "name": "1k | display segment A limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R31",
+        "name": "1k | display segment B limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R32",
+        "name": "1k | display segment C limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R33",
+        "name": "1k | display segment D limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R34",
+        "name": "1k | display segment E limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R35",
+        "name": "1k | display segment F limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R36",
+        "name": "1k | display segment G limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R10-R13",
+        "name": "1.5k | binary LED limiter",
+        "quantity": 4,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R14",
+        "name": "1.5k | HALT LED limiter",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "J1",
+        "name": "5V regulated input",
+        "quantity": 1,
+        "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R1",
+        "name": "10k | RESET pull-up",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R3",
+        "name": "10k | RUN_MODE pull-down",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R2",
+        "name": "10k | STEP pull-up",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R20-R23",
+        "name": "47k | unused SRAM data pull-down",
+        "quantity": 4,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C5",
+        "name": "47uF | board bulk",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C1",
+        "name": "100nF | power-on reset",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C2",
+        "name": "100nF | STEP filter",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C101",
+        "name": "100nF | U1 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C102",
+        "name": "100nF | U2 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C103",
+        "name": "100nF | U3 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C104",
+        "name": "100nF | U4 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C105",
+        "name": "100nF | U5 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C106",
+        "name": "100nF | U6 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C107",
+        "name": "100nF | U7 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C108",
+        "name": "100nF | U8 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C109",
+        "name": "100nF | U9 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C110",
+        "name": "100nF | U10 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C111",
+        "name": "100nF | U11 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C112",
+        "name": "100nF | U12 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C113",
+        "name": "100nF | U13 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C114",
+        "name": "100nF | U14 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C115",
+        "name": "100nF | U15 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C116",
+        "name": "100nF | U16 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C117",
+        "name": "100nF | U17 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C118",
+        "name": "100nF | U18 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C119",
+        "name": "100nF | U19 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C120",
+        "name": "100nF | U20 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C121",
+        "name": "100nF | U21 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C122",
+        "name": "100nF | U22 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C123",
+        "name": "100nF | U23 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C124",
+        "name": "100nF | U25 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C125",
+        "name": "100nF | U26 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C126",
+        "name": "100nF | U27 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C127",
+        "name": "100nF | U28 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C128",
+        "name": "100nF | U29 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C129",
+        "name": "100nF | U30 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C130",
+        "name": "100nF | U31 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C131",
+        "name": "100nF | U32 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C132",
+        "name": "100nF | U33 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C133",
+        "name": "100nF | U34 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C134",
+        "name": "100nF | U35 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C135",
+        "name": "100nF | U36 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C136",
+        "name": "100nF | U37 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C137",
+        "name": "100nF | U38 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C138",
+        "name": "100nF | U39 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C139",
+        "name": "100nF | U40 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C140",
+        "name": "100nF | U41 bypass",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C4",
+        "name": "10nF | 555 control",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "C3",
+        "name": "10uF | 555 timing",
+        "quantity": 1,
+        "footprint": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R4",
+        "name": "68k | 555 RA",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "R5",
+        "name": "68k | 555 RB",
+        "quantity": 1,
+        "footprint": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U10",
+        "name": "AS6C62256-55PCN",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-28_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U9",
+        "name": "AT28C64B-15PU",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-28_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "J6",
+        "name": "Control test",
+        "quantity": 1,
+        "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "J3",
+        "name": "CPU data bus test",
+        "quantity": 1,
+        "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "D5",
+        "name": "HALT indicator",
+        "quantity": 1,
+        "footprint": "LED_THT:LED_D3.0mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "DS1",
+        "name": "Kingbright SA56-11EWA | common anode",
+        "quantity": 1,
+        "footprint": "ARC4:SA56-11EWA",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "J5",
+        "name": "MAR test",
+        "quantity": 1,
+        "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U21",
+        "name": "NE555P | Run clock",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-8_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "D1",
+        "name": "OUT0 indicator",
+        "quantity": 1,
+        "footprint": "LED_THT:LED_D3.0mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "D2",
+        "name": "OUT1 indicator",
+        "quantity": 1,
+        "footprint": "LED_THT:LED_D3.0mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "D3",
+        "name": "OUT2 indicator",
+        "quantity": 1,
+        "footprint": "LED_THT:LED_D3.0mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "D4",
+        "name": "OUT3 indicator",
+        "quantity": 1,
+        "footprint": "LED_THT:LED_D3.0mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "J4",
+        "name": "PC test",
+        "quantity": 1,
+        "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "SW1",
+        "name": "RESET",
+        "quantity": 1,
+        "footprint": "Button_Switch_THT:SW_PUSH_6mm_H9.5mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "J2",
+        "name": "RUN/STEP mode jumper",
+        "quantity": 1,
+        "footprint": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U40",
+        "name": "SN74LS02N",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U35-U39",
+        "name": "SN74LS04N",
+        "quantity": 5,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U41",
+        "name": "SN74LS04N | binary/HALT LED sinks",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U25-U29",
+        "name": "SN74LS08N",
+        "quantity": 5,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U22",
+        "name": "SN74LS14N | Step conditioner",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U30-U34",
+        "name": "SN74LS32N",
+        "quantity": 5,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U23",
+        "name": "SN74LS47N | Common-anode display driver",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U18",
+        "name": "SN74LS74AN | Carry and HALT flags",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U12",
+        "name": "SN74LS86AN | Conditional B inversion",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-14_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U17",
+        "name": "SN74LS139AN | Phase decode",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U20",
+        "name": "SN74LS157N | Carry update hold mux",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U19",
+        "name": "SN74LS157N | Run/step clock select",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U1",
+        "name": "SN74LS161AN | Program Counter",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U2",
+        "name": "SN74LS161AN | Sequencer",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U5",
+        "name": "SN74LS173AN | Accumulator A",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U4",
+        "name": "SN74LS173AN | IR Opcode",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U3",
+        "name": "SN74LS173AN | IR Operand",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U7",
+        "name": "SN74LS173AN | Memory Address MAR",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U6",
+        "name": "SN74LS173AN | Operand B",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U8",
+        "name": "SN74LS173AN | Output Register",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U14",
+        "name": "SN74LS244N | ALU bus driver",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-20_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U13",
+        "name": "SN74LS244N | IR/A bus drivers",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-20_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U15",
+        "name": "SN74LS138N | Opcode 0-7",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U16",
+        "name": "SN74LS138N | Opcode 8-15",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "U11",
+        "name": "SN74LS283N | 4-bit ALU",
+        "quantity": 1,
+        "footprint": "Package_DIP:DIP-16_W7.62mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      },
+      {
+        "reference": "SW2",
+        "name": "STEP",
+        "quantity": 1,
+        "footprint": "Button_Switch_THT:SW_PUSH_6mm_H9.5mm",
+        "manufacturer": null,
+        "part_number": null,
+        "description": null
+      }
+    ],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [],
+  "artifacts": [
+    {
+      "path": "hardware-bom.cdx.json",
+      "media_type": "application/vnd.cyclonedx+json",
+      "sha256": "284844c095bc5f7170d96af0c304c90ae1c05cfaadb24fc31251b68fecd69549"
+    }
+  ]
+}
