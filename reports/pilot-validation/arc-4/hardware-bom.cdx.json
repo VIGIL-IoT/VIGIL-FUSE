@@ -1,0 +1,1964 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "serialNumber": "urn:uuid:653eedb7-ffc4-423d-b426-00f9abcebf1c",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-10-28T06:24:15.410992Z",
+    "component": {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:product",
+      "name": "ARC-4"
+    },
+    "properties": [
+      {
+        "name": "fuse:source-path",
+        "value": "Hardware/KiCad/ARC-4-v2/ARC-4-v2-bom.csv"
+      },
+      {
+        "name": "fuse:source-sha256",
+        "value": "217668fcbed9b3a8b1442da525d683d1237293b01983981e202c175a6cad4917"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:2a058e14bb6e1c1a71e32bb8d0b9fb363c4743062ab690b8c7e7a9a8c8926eaa",
+      "name": "1k | display segment A limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R30"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:ef8cca8c40eea2c5e7bb75f1a5a5abaceaaaccaccfe18e4340a334cecdf2068e",
+      "name": "1k | display segment B limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R31"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:0482eb1e5d0f9df1fd97b3f57447cb1fcd0c1c5ececf5d802ba2aaed43ce8dd9",
+      "name": "1k | display segment C limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R32"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:67dabffe56b35eb3c84e983cc081c5c28cfdedac8559418f4e32f2e4602a812f",
+      "name": "1k | display segment D limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R33"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:f74bc5a345f93f020d089cc42be9e643a69f5f9b3663dde18bac15a438d205c1",
+      "name": "1k | display segment E limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R34"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:e9f2eb13e406adc6e749399399f99761333e4608bc9d7fe2cd1e2e924f0e02dd",
+      "name": "1k | display segment F limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R35"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:570677778e7fa94e80d9964c505a3b17c0cfd140b823b83d75309fa0bc0f86ef",
+      "name": "1k | display segment G limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R36"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:891faf9e352041deda84cd7db652eef091164a91a6a8fc2eb40896ccc98c26d1",
+      "name": "1.5k | binary LED limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R10-R13"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "4"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:51d3dfa9a733d2177a22241ae4b29c6edea570d531a71529ddd7927095841938",
+      "name": "1.5k | HALT LED limiter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R14"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:d5e1315b09d3ac9bbf547bdd6d0fe093f5bfadc20e43a0ab09afaca6943b683c",
+      "name": "5V regulated input",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "J1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:22cb707f41d150d486cbc6f5903417d20d7aafd1a78c9099fabe08762b9019d8",
+      "name": "10k | RESET pull-up",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:7c2a8cdede463f7bc53e8736a3fca4f7a33f5cd8c801ec234881bc9a3ce47977",
+      "name": "10k | RUN_MODE pull-down",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R3"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:1208488a4e2346c013fdb23457473b6bad380be63d69a5d27b24e6a444f5a254",
+      "name": "10k | STEP pull-up",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R2"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:85b0c85e0a0e39851cd787831bc787f7205781b40cdd41a4b0b4cd40f950b14f",
+      "name": "47k | unused SRAM data pull-down",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R20-R23"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "4"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:a636b274ceeef5d864dab11849ea8b98fe04eed4a196196b1ddc5d3effc494d2",
+      "name": "47uF | board bulk",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C5"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:86dcb700285189d912d89db024135d48b33fc2d4fae91f94b8db39e85647be27",
+      "name": "100nF | power-on reset",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:5478527d5dc2183dd67f0c12c7cab045ea62b491f9e752035e8d3ca824de5d1b",
+      "name": "100nF | STEP filter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C2"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:640735276a2d138c6912000c60e739a88b5902a76b37dc482f1c2b546fb0ea5f",
+      "name": "100nF | U1 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C101"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:89418842cab311918401928dd96d2f23b1106b17534ce3025e3a88c061b233d6",
+      "name": "100nF | U2 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C102"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:e39ca7d41de5c86631eaa98abd31ab62e386ce8970a760638f9f2444bd180d6e",
+      "name": "100nF | U3 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C103"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:72bb88bfa1e9a6af8273dc4e21a8b72bf43f14f608ae59a6dd2dd4e2dcd682ee",
+      "name": "100nF | U4 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C104"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:d1f71fe9cbca0665768a2b5ae1268ed316d619564ede3405e3dc62f5431bff91",
+      "name": "100nF | U5 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C105"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:fa569b846ae60a62461af58773b11bb8c63c3f61485ba2737d97bf2250fd07a3",
+      "name": "100nF | U6 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C106"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:fae3be292b550b436595b432c9dc36d9033e1d5484b9ca2ae14d8c73d5adc759",
+      "name": "100nF | U7 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C107"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:c94769ad53d2361d4cc6a24bb9dd00b2454affcdebcd031beb83088529048e1e",
+      "name": "100nF | U8 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C108"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:adfe81d4b71c55e41b7ac16c99937a2f23dd850f4b3236494f7f5afd6bf76b3e",
+      "name": "100nF | U9 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C109"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:adb71dc09b18d7da45e56a52010266199f65f4902bce17459e29eeeaa10c370a",
+      "name": "100nF | U10 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C110"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:54524052f30eaf9d73e802fa5df9d0d69d21b41ba5c0cb0e448068450bd9ac3d",
+      "name": "100nF | U11 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C111"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:a637f679fd36bc8b4003f5401e8566a4337d077245b5aea99e4b16b1bc730921",
+      "name": "100nF | U12 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C112"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:5970bf21c3219dd2f31ce6ad1c525bcc6ed19f69745a20b3ecea447a7da7ce22",
+      "name": "100nF | U13 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C113"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:753fe6b68cdf2b7b132985756d660aaf66d637644c8d37c87c1cc2dfe3dcd461",
+      "name": "100nF | U14 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C114"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:29548181390a33993265d70967e2817115e1d386af47007b3b11e5a631e3ee05",
+      "name": "100nF | U15 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C115"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:667a7e1e6fb90ab326b7d841c08f50edc5c46e2da5e763bc3b42b8b31cdfcf57",
+      "name": "100nF | U16 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C116"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:a5ac55401c83d6713dfdf7e51e4c88e0eced9f39e80cc997870673b111287335",
+      "name": "100nF | U17 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C117"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:f544d9ff8d437f1b5722ae72401c624266b9fb1f9a626b3135b47df140e96b46",
+      "name": "100nF | U18 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C118"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:6fb5d539b70d291941a553f19efd1bf028dc739d8538e216abd7186c82ab4690",
+      "name": "100nF | U19 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C119"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:efb63ce78802780bb0164ad3409e6ce80581a23e44835a6acf8a6c5a23b86b98",
+      "name": "100nF | U20 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C120"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:28546bddbb4e8cd482e29cc10662ea08d982fd1b48e7ddd29d9793651e1d7c27",
+      "name": "100nF | U21 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C121"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:dc48e08c2ea664becb2a621e3fd0f22e1b8970c0dc33046ff418fd249504e805",
+      "name": "100nF | U22 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C122"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:8428def7148d481cc3124450e9cd563d211fe9cc47d4135798ffbbb0b2ce5a1c",
+      "name": "100nF | U23 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C123"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:14534744695288c4b71544f170f2d2bf9f666bef8b7708c0ca828772091aedd3",
+      "name": "100nF | U25 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C124"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:5d032bef3b5543f58144fedf1938c10cf45fee6097ab084b2f0756ea4a8a37d2",
+      "name": "100nF | U26 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C125"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:b5511567aa3f96a4e78e2dbe0c25450286a694dc6f645ac62e9689412612a565",
+      "name": "100nF | U27 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C126"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:cb2ec9e0228124bd61c78fa707e4f32a0a1f38e69288340b6562f9dd9474fd9d",
+      "name": "100nF | U28 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C127"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:e0a455927a6e2ff0e426f7bd9e21299785f5eb03c95ec442ef24a7417a7759d2",
+      "name": "100nF | U29 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C128"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:6ddf28f3d460b59f0c6568a77d3b4e94295eaf3259baec95f1730f84f8e4c24b",
+      "name": "100nF | U30 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C129"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:3d35c86f4864069120a04bd3ac9f861eb065ce07a81032ef281eba705f414d22",
+      "name": "100nF | U31 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C130"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:5154b7ef34ed20ed0010582ea09a0f91dac44d40b7acfe0803f9860cd68a0652",
+      "name": "100nF | U32 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C131"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:3fbc99f7af5737df474879f30c12786d44d569808e1b0fd1d3411722e850648d",
+      "name": "100nF | U33 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C132"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:97873e6d746bae6caf46a7174c25743113bdbc3368ccdcd08a54fb22c51d650e",
+      "name": "100nF | U34 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C133"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:1542ec0d5f9c47280bf0eba3685a41f596c0393e54d07b1708cfa7e12ada6c16",
+      "name": "100nF | U35 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C134"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:dd24befb5930660acee7ae9dd46fa6a7773c9c3054a9b112226d6a0d1dfc2e20",
+      "name": "100nF | U36 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C135"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:cb7837a2053bc129b7fdead90d320a11dc7da487087f4866ec887a67744c481a",
+      "name": "100nF | U37 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C136"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:fc30a2b91bbc582500bf08f11315a2ad2b9f822abe573916d4734a1afe6993d3",
+      "name": "100nF | U38 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C137"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:d0efc9bb9661ebf61863ddbd274b7c0bbeaf304ac4d4c912d20624a1960c3985",
+      "name": "100nF | U39 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C138"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:022fcf9dcc07259b30a09badf6d5c4636434e2f7f5a492a074230b309cf32e09",
+      "name": "100nF | U40 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C139"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:07041a811d66d250f824c0f51da68c585ae359769cacae13de82d637de55abeb",
+      "name": "100nF | U41 bypass",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C140"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:87d5d4c154d50cc32aa51e72ea29e827995ec36f88a7eb3ee1e25a84e33efed3",
+      "name": "10nF | 555 control",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C4"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:17ba3056a9aaa731406791019db3b6b2b3ff9cc908d79debabd318f292afc27f",
+      "name": "10uF | 555 timing",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "C3"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:b7e72d50c1751527c7ebe979964e5d6f3fb7203ee12552cbd9bce9b269fc879a",
+      "name": "68k | 555 RA",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R4"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:9c899fbc0b49ed00065291e9a02def6354cb3dfbf32d82888fbd9125b0f647c6",
+      "name": "68k | 555 RB",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "R5"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:7d28dfda86cc84beed275afe7f66bd5be16f04ece370297201689b969627941a",
+      "name": "AS6C62256-55PCN",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U10"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-28_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:00474cabb6ec0f6e044d240ac2cf12317ef7fc8a17c0aad9e9cd23335dbd01f7",
+      "name": "AT28C64B-15PU",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U9"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-28_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:7e4c0c7edb486fa9bfe23a5ceff54a7e7f56898a4b183492954984531f929220",
+      "name": "Control test",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "J6"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:26a47cc36ed29e58360cba0ab6995c54dc9093eeace5feab0cd27e01e2e452db",
+      "name": "CPU data bus test",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "J3"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:21b3af7caff1404520f51b1421c405184a4cffd1d592f78072de8fa0db43c308",
+      "name": "HALT indicator",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "D5"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "LED_THT:LED_D3.0mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:6dc06bb5c419ab331cd4c9706f65582e4e9099208683dbb8fd599bf72f37398e",
+      "name": "Kingbright SA56-11EWA | common anode",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "DS1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "ARC4:SA56-11EWA"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:1fa6b5b370eaa6de0f3444f226a62e61f67c41a9dbdf7768d606ee1b01582aab",
+      "name": "MAR test",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "J5"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:12b8d14599716d4f42f1eb1f355c340e20c701e4d1039e3d6426e1bc2340956b",
+      "name": "NE555P | Run clock",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U21"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-8_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:f6d7a81fe3683dd2c17731912f4d998331b99cf7d4af11165db53617afe27879",
+      "name": "OUT0 indicator",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "D1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "LED_THT:LED_D3.0mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:81c7fc7940ecb786f367b9ca64372d6e40c7700874671765111ffc923904acc6",
+      "name": "OUT1 indicator",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "D2"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "LED_THT:LED_D3.0mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:31f5c036be3429ff1cd150bd085cfe46f101afab9de9da4e1af22a576ef7f63b",
+      "name": "OUT2 indicator",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "D3"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "LED_THT:LED_D3.0mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:d3799768c79f14380e6931af39357b34bfd16dba591cde96e05da0eadc1a08af",
+      "name": "OUT3 indicator",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "D4"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "LED_THT:LED_D3.0mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:e95355316cac97272e0666690d59b28cffbdd7e08dd98418071af9263f6bb67d",
+      "name": "PC test",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "J4"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x05_P2.54mm_Vertical"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:cffb89ab060f41d9861b403dd958f7bc28a0378fec03548d67e4dc55121c695e",
+      "name": "RESET",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "SW1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Button_Switch_THT:SW_PUSH_6mm_H9.5mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:3384ebeb70df5b23abae66917c4800a0fc0e1accf2add9560b06509bf421cf29",
+      "name": "RUN/STEP mode jumper",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "J2"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:7bb34bcaf3953789419d6935026ab95204c69188a88c1a65fc864ebc4d650a6a",
+      "name": "SN74LS02N",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U40"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:c860fc516ba3f45c626289d31f4255ac8ff1fa70ed4b5907024434d74ec649f4",
+      "name": "SN74LS04N",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U35-U39"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "5"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:fb4cb9994ea160ab7e77e03700dc5c55a35d703e87d5ac67d55401bec3e6a36f",
+      "name": "SN74LS04N | binary/HALT LED sinks",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U41"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:57d6a7b1375477d482278cba8e342eae22f2a98debca05e4024d59c2baee0394",
+      "name": "SN74LS08N",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U25-U29"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "5"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:749adcb223c0ca88d42d65c3436ccf8def3135d2e063425ef5594c82344b4a4c",
+      "name": "SN74LS14N | Step conditioner",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U22"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:82c723795469e1a569df39ceebde54ef2a6df1da267ef755ae69b9e663001673",
+      "name": "SN74LS32N",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U30-U34"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "5"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:968f42192c2ba7aebbbfe252c9f8f4cbd806b76a8633aeb7873806691f0c0daf",
+      "name": "SN74LS47N | Common-anode display driver",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U23"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:d676a2bffac081719e0be24104bbf928ae3d40af602763acc3898131c5fb7589",
+      "name": "SN74LS74AN | Carry and HALT flags",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U18"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:7ceb6b070636de2767f38da996eb413117e72a35bbccf3e37b9fda6cdd5c23ee",
+      "name": "SN74LS86AN | Conditional B inversion",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U12"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-14_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:225ab22a9907837f53c4d36e48812693dea3c352fe02a13208e9eae0afc025b7",
+      "name": "SN74LS139AN | Phase decode",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U17"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:1057ca440f9cc882048094b6212bc9c72aa583cd691ca0f872791039e80c7839",
+      "name": "SN74LS157N | Carry update hold mux",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U20"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:18e21def0850500ed4bdce45a8c990c13f8b8bd88c63f3d16ce45ef2930e5a57",
+      "name": "SN74LS157N | Run/step clock select",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U19"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:627b035779ea09e7b8f84500368179abc249bc275e6333dcb7bfe3af63b2340b",
+      "name": "SN74LS161AN | Program Counter",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U1"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:4a5eff659e15cb832161e4932ced56a02d5c15822ef641b343933fc5832f0eb4",
+      "name": "SN74LS161AN | Sequencer",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U2"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:93d0a7b9bf60bac80560f29c81413b6c1541ed8bc4e55e6748167b34b5f8f3e3",
+      "name": "SN74LS173AN | Accumulator A",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U5"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:0430447da0952bc4f4aa121903df9725d121cc589dbb1cb99d5de23c612529cf",
+      "name": "SN74LS173AN | IR Opcode",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U4"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:63f0eabf40f032c98fa8abf71de6afbd8ef17c502256596412a871fb5da36c8e",
+      "name": "SN74LS173AN | IR Operand",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U3"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:7aa55b9f652b1587e4f5cbe80195141d5ba773e301f4ae03c67efbf26caf11b3",
+      "name": "SN74LS173AN | Memory Address MAR",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U7"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:dc8f52bf0b0cc8bc3d1b1f1f3bbbe7ef1e4c1085a7848ce3c1e0d0b3755bef58",
+      "name": "SN74LS173AN | Operand B",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U6"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:31b6e502079680e00290ca18d03127ce586e7db2b75af1c242c5cfafb73522d5",
+      "name": "SN74LS173AN | Output Register",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U8"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:0386a650ac2c370e56718de2e1f8382dd6a17cc922c5e9d6455378b2da940851",
+      "name": "SN74LS244N | ALU bus driver",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U14"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-20_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:cde3c73ab87027f926789390acf7fba9987f2a0e4cfcd08507186d7cb936980e",
+      "name": "SN74LS244N | IR/A bus drivers",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U13"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-20_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:a93dad3f8641c25e31568a70fb7f841fa1a893b99f84b6c28c574f77b73f746d",
+      "name": "SN74LS138N | Opcode 0-7",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U15"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:f5978e45362b2484af850e5db6b8c90c696f5270fe2b75348948bcc8d1ca461c",
+      "name": "SN74LS138N | Opcode 8-15",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U16"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:62a8492593209d4473d4a9cfabbebbf1f541a10fb364d35357472201b444d371",
+      "name": "SN74LS283N | 4-bit ALU",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "U11"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Package_DIP:DIP-16_W7.62mm"
+        }
+      ]
+    },
+    {
+      "type": "device",
+      "bom-ref": "urn:fuse:hardware:581cb875e9bba0a56e32fad7535d6c8dbc810d1f15cf516051005e70ac1f7e86",
+      "name": "STEP",
+      "properties": [
+        {
+          "name": "fuse:reference",
+          "value": "SW2"
+        },
+        {
+          "name": "fuse:quantity",
+          "value": "1"
+        },
+        {
+          "name": "fuse:footprint",
+          "value": "Button_Switch_THT:SW_PUSH_6mm_H9.5mm"
+        }
+      ]
+    }
+  ]
+}
