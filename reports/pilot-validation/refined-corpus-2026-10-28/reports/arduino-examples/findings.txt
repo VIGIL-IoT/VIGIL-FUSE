@@ -1,0 +1,46 @@
+FUSE scan: arduino/arduino-examples
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760
+Files discovered/selected: 92/92
+Files filtered by path policy: 0
+Files scanned: 92
+Source bytes read: 220265
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 1
+Hardware artifacts: 0
+Files not selected by the source profile: 151
+  .adoc: 1
+  .png: 85
+  .txt: 64
+  <no-extension>: 1
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 4 / completed; 13 non-SHA action reference(s), 1 floating-branch candidate(s)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 2 selected input(s). The conservative prefilter excluded 90 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE004: completed (Evaluated 4 selected input(s). The conservative prefilter excluded 88 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.)
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/spell-check.yml:20
+  Evidence: uses: codespell-project/actions-codespell@master
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
