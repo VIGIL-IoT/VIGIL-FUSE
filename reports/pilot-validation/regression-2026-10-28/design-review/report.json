@@ -1,0 +1,2096 @@
+{
+ "url": "site\\regression\\index.html",
+ "at": "2026-10-28T09:26:04.579Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    0.37,
+    0.61,
+    0.45,
+    0.59
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 3441,
+     "screens": 3.8,
+     "words": 1178,
+     "img": 1,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 9,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Embedded source review",
+     "words": 3,
+     "chars": 22,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Schibsted Grotesk",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 80,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Embedded source review",
+     "words": 3,
+     "lines": 1,
+     "size": 24,
+     "font": "Schibsted Grotesk"
+    },
+    "headings": [
+     {
+      "text": "63",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.18,
+      "top": 253,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "14",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 253,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "18,855",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.17,
+      "top": 253,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "3",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.17,
+      "top": 253,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Schibsted Grotesk",
+       "share": 0.94,
+       "mono": false
+      },
+      {
+       "family": "monospace",
+       "share": 0.06,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      20,
+      24,
+      28
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Schibsted Grotesk",
+      "size": 13,
+      "leading": 1.48,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 18.4
+     },
+     "measureChars": 73,
+     "max": {
+      "size": 28,
+      "vw": 1.9,
+      "font": "Schibsted Grotesk",
+      "text": "63"
+     },
+     "monoShare": 0.06,
+     "monoProseShare": 0.06,
+     "monoFamilies": [
+      "monospace"
+     ],
+     "monoSamples": [
+      "40",
+      "16",
+      "3",
+      "1",
+      "1",
+      "1"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.05,
+     "centerShare": 0,
+     "smallText": 114
+    },
+    "eyebrows": [
+     {
+      "text": "raw signals",
+      "above": "63",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 232
+     },
+     {
+      "text": "repositories",
+      "above": "14",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 232
+     },
+     {
+      "text": "files scanned",
+      "above": "18,855",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 232
+     },
+     {
+      "text": "partial repositories",
+      "above": "3",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 232
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f7f5f4",
+     "bodyBgHsl": {
+      "h": 20,
+      "s": 0.16,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 868,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#141414",
+       "share": 0.54
+      },
+      {
+       "color": "#5a5a5a",
+       "share": 0.44
+      },
+      {
+       "color": "#713f12",
+       "share": 0.01
+      },
+      {
+       "color": "#b91e16",
+       "share": 0.01
+      },
+      {
+       "color": "#ffffff",
+       "share": 0
+      }
+     ],
+     "button": {
+      "bg": "#0a0a0a",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 0.04
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 4,
+     "inHero": 4,
+     "radius": 5,
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Export finding index",
+      "Dark mode"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 23,
+     "hairlineSamples": [
+      "header.report-toolbar 1440px",
+      "div#report-metrics.report-metrics 1088px",
+      "p#report-severity.report-severity 440px",
+      "section.report-findings 1088px",
+      "summary 1088px"
+     ],
+     "outlinedBoxes": 2,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": [
+      {
+       "count": 5,
+       "iconTopped": false,
+       "rounded": false,
+       "top": 716
+      }
+     ]
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 2,
+     "fixed": false,
+     "height": 48,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "schibsted grotesk"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 3441,
+    "margins": {
+     "left": 176,
+     "right": 176
+    },
+    "sections": [
+     {
+      "sel": "section.report-overview",
+      "tag": "section",
+      "top": 217,
+      "height": 123,
+      "words": 16,
+      "media": 0,
+      "middle": 205,
+      "heading": {
+       "text": "63",
+       "size": 28,
+       "tag": "strong"
+      },
+      "left": 176,
+      "right": 326,
+      "textLeft": 176,
+      "textRight": 326,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-distribution",
+      "tag": "section",
+      "top": 359,
+      "height": 315,
+      "words": 56,
+      "media": 0,
+      "middle": 388,
+      "heading": null,
+      "left": 197,
+      "right": 197,
+      "textLeft": 197,
+      "textRight": 197,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-findings",
+      "tag": "section",
+      "top": 716,
+      "height": 832,
+      "words": 167,
+      "media": 0,
+      "middle": 10,
+      "heading": {
+       "text": "Finding signals",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 176,
+      "right": 176,
+      "textLeft": 176,
+      "textRight": 189,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-coverage",
+      "tag": "section",
+      "top": 1590,
+      "height": 244,
+      "words": 83,
+      "media": 0,
+      "middle": 29,
+      "heading": {
+       "text": "What the run recognized",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 176,
+      "right": 190,
+      "textLeft": 176,
+      "textRight": 190,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-triage",
+      "tag": "section",
+      "top": 1876,
+      "height": 401,
+      "words": 163,
+      "media": 0,
+      "middle": 62,
+      "heading": {
+       "text": "What the signals need next",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 176,
+      "right": 201,
+      "textLeft": 176,
+      "textRight": 201,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-snapshots",
+      "tag": "section",
+      "top": 2319,
+      "height": 747,
+      "words": 83,
+      "media": 0,
+      "middle": 245,
+      "heading": {
+       "text": "Repository snapshots",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 176,
+      "right": 176,
+      "textLeft": 176,
+      "textRight": 176,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-limits",
+      "tag": "section",
+      "top": 3109,
+      "height": 217,
+      "words": 116,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Scope and limits",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 176,
+      "right": 456,
+      "textLeft": 176,
+      "textRight": 456,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Embedded source review",
+      "size": 24,
+      "top": 80,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 176,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 6,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.12,
+    "voidBox": {
+     "x": 480,
+     "y": 300,
+     "w": 360,
+     "h": 420
+    }
+   },
+   "app": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "dark": false,
+    "ground": "#f7f5f4",
+    "sidebar": null,
+    "topbar": {
+     "h": 48
+    },
+    "canvas": {
+     "left": 176,
+     "right": 176
+    },
+    "hero": {
+     "text": "Embedded source review",
+     "words": 3,
+     "chars": 22,
+     "lines": 1,
+     "size": 24,
+     "vw": 1.7,
+     "font": "Schibsted Grotesk",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 80,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 2,
+    "layout": {
+     "panels": 8,
+     "firstScreen": 4,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 12,
+     "radii": [
+      [
+       0,
+       12
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 28,
+     "leftAligned": 0,
+     "figures": 25,
+     "tabularShare": 1,
+     "kpiMax": 28
+    },
+    "rows": {
+     "count": 77,
+     "median": 55
+    },
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.39,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      20,
+      24,
+      28
+     ]
+    },
+    "title": {
+     "text": "Embedded source review",
+     "size": 24,
+     "top": 80
+    },
+    "colourShare": 0.007
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 4,
+   "filled": [
+    0.67,
+    0.9,
+    0.68,
+    0.78
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 3991,
+     "screens": 3.9,
+     "words": 1178,
+     "img": 1,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 9,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Embedded source review",
+     "words": 3,
+     "chars": 22,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Schibsted Grotesk",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 80,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Embedded source review",
+     "words": 3,
+     "lines": 1,
+     "size": 24,
+     "font": "Schibsted Grotesk"
+    },
+    "headings": [
+     {
+      "text": "63",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.22,
+      "top": 268,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "14",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.19,
+      "top": 268,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "18,855",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.19,
+      "top": 268,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "3",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.19,
+      "top": 268,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 4,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Schibsted Grotesk",
+       "share": 0.94,
+       "mono": false
+      },
+      {
+       "family": "monospace",
+       "share": 0.06,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      20,
+      24,
+      28
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Schibsted Grotesk",
+      "size": 13,
+      "leading": 1.48,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 18.4
+     },
+     "measureChars": 73,
+     "max": {
+      "size": 28,
+      "vw": 3.6,
+      "font": "Schibsted Grotesk",
+      "text": "63"
+     },
+     "monoShare": 0.06,
+     "monoProseShare": 0.06,
+     "monoFamilies": [
+      "monospace"
+     ],
+     "monoSamples": [
+      "40",
+      "16",
+      "3",
+      "1",
+      "1",
+      "1"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.05,
+     "centerShare": 0,
+     "smallText": 114
+    },
+    "eyebrows": [
+     {
+      "text": "raw signals",
+      "above": "63",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 246
+     },
+     {
+      "text": "repositories",
+      "above": "14",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 246
+     },
+     {
+      "text": "files scanned",
+      "above": "18,855",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 246
+     },
+     {
+      "text": "partial repositories",
+      "above": "3",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 246
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f7f5f4",
+     "bodyBgHsl": {
+      "h": 20,
+      "s": 0.16,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 1179,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#141414",
+       "share": 0.53
+      },
+      {
+       "color": "#5a5a5a",
+       "share": 0.44
+      },
+      {
+       "color": "#713f12",
+       "share": 0.01
+      },
+      {
+       "color": "#b91e16",
+       "share": 0.01
+      },
+      {
+       "color": "#ffffff",
+       "share": 0
+      }
+     ],
+     "button": {
+      "bg": "#0a0a0a",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 0.04
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 4,
+     "inHero": 3,
+     "radius": 5,
+     "height": 32,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Export finding index",
+      "Dark mode"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 23,
+     "hairlineSamples": [
+      "header.report-toolbar 768px",
+      "div#report-metrics.report-metrics 728px",
+      "p#report-severity.report-severity 440px",
+      "section.report-findings 728px",
+      "summary 728px"
+     ],
+     "outlinedBoxes": 2,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 2,
+     "fixed": false,
+     "height": 48,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "schibsted grotesk"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 3991,
+    "margins": {
+     "left": 20,
+     "right": 20
+    },
+    "sections": [
+     {
+      "sel": "section.report-overview",
+      "tag": "section",
+      "top": 231,
+      "height": 123,
+      "words": 16,
+      "media": 0,
+      "middle": 89,
+      "heading": {
+       "text": "63",
+       "size": 28,
+       "tag": "strong"
+      },
+      "left": 20,
+      "right": 80,
+      "textLeft": 20,
+      "textRight": 80,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-distribution",
+      "tag": "section",
+      "top": 374,
+      "height": 610,
+      "words": 56,
+      "media": 0,
+      "middle": 334,
+      "heading": null,
+      "left": 41,
+      "right": 41,
+      "textLeft": 41,
+      "textRight": 41,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-findings",
+      "tag": "section",
+      "top": 1027,
+      "height": 832,
+      "words": 167,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Finding signals",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 31,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-coverage",
+      "tag": "section",
+      "top": 1901,
+      "height": 333,
+      "words": 83,
+      "media": 0,
+      "middle": 29,
+      "heading": {
+       "text": "What the run recognized",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 34,
+      "textLeft": 20,
+      "textRight": 34,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-triage",
+      "tag": "section",
+      "top": 2275,
+      "height": 456,
+      "words": 163,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "What the signals need next",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 22,
+      "textLeft": 20,
+      "textRight": 22,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-snapshots",
+      "tag": "section",
+      "top": 2773,
+      "height": 767,
+      "words": 83,
+      "media": 0,
+      "middle": 90,
+      "heading": {
+       "text": "Repository snapshots",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 20,
+      "textLeft": 20,
+      "textRight": 20,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-limits",
+      "tag": "section",
+      "top": 3582,
+      "height": 294,
+      "words": 116,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Scope and limits",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 20,
+      "right": 25,
+      "textLeft": 20,
+      "textRight": 25,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Embedded source review",
+      "size": 24,
+      "top": 80,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 20,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 6,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "dark": false,
+    "ground": "#f7f5f4",
+    "sidebar": null,
+    "topbar": {
+     "h": 48
+    },
+    "canvas": {
+     "left": 20,
+     "right": 22
+    },
+    "hero": {
+     "text": "Embedded source review",
+     "words": 3,
+     "chars": 22,
+     "lines": 1,
+     "size": 24,
+     "vw": 3.1,
+     "font": "Schibsted Grotesk",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 80,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 2,
+    "layout": {
+     "panels": 8,
+     "firstScreen": 3,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 12,
+     "radii": [
+      [
+       0,
+       12
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 28,
+     "leftAligned": 0,
+     "figures": 25,
+     "tabularShare": 1,
+     "kpiMax": 28
+    },
+    "rows": {
+     "count": 77,
+     "median": 55
+    },
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.39,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      20,
+      24,
+      28
+     ]
+    },
+    "title": {
+     "text": "Embedded source review",
+     "size": 24,
+     "top": 80
+    },
+    "colourShare": 0.014
+   },
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 12,
+   "filled": [
+    0.43,
+    0.92,
+    0.92,
+    0.92,
+    0.92,
+    0.93,
+    0.92,
+    0.92,
+    0.93,
+    0.92,
+    0.79,
+    0.47
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 12590,
+     "screens": 14.9,
+     "words": 1204,
+     "img": 1,
+     "video": 0,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 9,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Embedded source review",
+     "words": 3,
+     "chars": 22,
+     "lines": 1,
+     "size": 22,
+     "vw": 5.6,
+     "font": "Schibsted Grotesk",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 65,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "h1": {
+     "text": "Embedded source review",
+     "words": 3,
+     "lines": 1,
+     "size": 22,
+     "font": "Schibsted Grotesk"
+    },
+    "headings": [
+     {
+      "text": "Embedded source review",
+      "words": 3,
+      "chars": 22,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Schibsted Grotesk",
+      "weight": 600,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.92,
+      "top": 65,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "63",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 286,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "14",
+      "words": 1,
+      "chars": 2,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.41,
+      "top": 286,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "18,855",
+      "words": 1,
+      "chars": 6,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.44,
+      "top": 352,
+      "tag": "strong",
+      "kind": "heading"
+     },
+     {
+      "text": "3",
+      "words": 1,
+      "chars": 1,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Schibsted Grotesk",
+      "weight": 500,
+      "tracking": 0,
+      "leading": 1.15,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.41,
+      "top": 352,
+      "tag": "strong",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 5,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 1,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Schibsted Grotesk",
+       "share": 0.94,
+       "mono": false
+      },
+      {
+       "family": "monospace",
+       "share": 0.06,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      20,
+      22,
+      24
+     ],
+     "sizeCount": 8,
+     "notLoaded": [],
+     "body": {
+      "font": "Schibsted Grotesk",
+      "size": 13,
+      "leading": 1.48,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 18.4
+     },
+     "measureChars": 55,
+     "max": {
+      "size": 24,
+      "vw": 6.2,
+      "font": "Schibsted Grotesk",
+      "text": "63"
+     },
+     "monoShare": 0.06,
+     "monoProseShare": 0.06,
+     "monoFamilies": [
+      "monospace"
+     ],
+     "monoSamples": [
+      "40",
+      "16",
+      "3",
+      "1",
+      "1",
+      "1"
+     ],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0.05,
+     "centerShare": 0,
+     "smallText": 116
+    },
+    "eyebrows": [
+     {
+      "text": "raw signals",
+      "above": "63",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 264
+     },
+     {
+      "text": "repositories",
+      "above": "14",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 264
+     },
+     {
+      "text": "files scanned",
+      "above": "18,855",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 330
+     },
+     {
+      "text": "partial repositories",
+      "above": "3",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 12,
+      "top": 330
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#f7f5f4",
+     "bodyBgHsl": {
+      "h": 20,
+      "s": 0.16,
+      "l": 0.96
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#ffffff",
+       "top": 8542,
+       "hsl": {
+        "h": 0,
+        "s": 0,
+        "l": 1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#141414",
+       "share": 0.53
+      },
+      {
+       "color": "#5a5a5a",
+       "share": 0.45
+      },
+      {
+       "color": "#713f12",
+       "share": 0.01
+      },
+      {
+       "color": "#b91e16",
+       "share": 0.01
+      },
+      {
+       "color": "#ffffff",
+       "share": 0
+      }
+     ],
+     "button": {
+      "bg": "#0a0a0a",
+      "hsl": {
+       "h": 0,
+       "s": 0,
+       "l": 0.04
+      },
+      "fg": "#ffffff"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 4,
+     "inHero": 3,
+     "radius": 5,
+     "height": 36,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "Skip to content",
+      "Export finding index",
+      "Dark mode"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 24,
+     "hairlineSamples": [
+      "header.report-toolbar 390px",
+      "div#report-metrics.report-metrics 358px",
+      "p#report-severity.report-severity 358px",
+      "section#signal-lead.report-lead 358px",
+      "section.report-findings 358px"
+     ],
+     "outlinedBoxes": 3,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 2,
+     "fixed": false,
+     "height": 49,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "schibsted grotesk"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 12590,
+    "margins": {
+     "left": 16,
+     "right": 16
+    },
+    "sections": [
+     {
+      "sel": "section.report-overview",
+      "tag": "section",
+      "top": 255,
+      "height": 168,
+      "words": 16,
+      "media": 0,
+      "middle": 20,
+      "heading": {
+       "text": "63",
+       "size": 24,
+       "tag": "strong"
+      },
+      "left": 16,
+      "right": 80,
+      "textLeft": 16,
+      "textRight": 80,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section#signal-lead.report-lead",
+      "tag": "section",
+      "top": 438,
+      "height": 135,
+      "words": 31,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 28,
+      "right": 97,
+      "textLeft": 28,
+      "textRight": 97,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-distribution",
+      "tag": "section",
+      "top": 8542,
+      "height": 604,
+      "words": 56,
+      "media": 0,
+      "middle": 29,
+      "heading": null,
+      "left": 29,
+      "right": 29,
+      "textLeft": 29,
+      "textRight": 29,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-findings",
+      "tag": "section",
+      "top": 594,
+      "height": 7931,
+      "words": 786,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Finding signals",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 16,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-coverage",
+      "tag": "section",
+      "top": 9188,
+      "height": 512,
+      "words": 83,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "What the run recognized",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 16,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-triage",
+      "tag": "section",
+      "top": 9741,
+      "height": 619,
+      "words": 163,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "What the signals need next",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 23,
+      "textLeft": 16,
+      "textRight": 23,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-snapshots",
+      "tag": "section",
+      "top": 10402,
+      "height": 1578,
+      "words": 77,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Repository snapshots",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 16,
+      "textLeft": 16,
+      "textRight": 16,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section.report-limits",
+      "tag": "section",
+      "top": 12022,
+      "height": 410,
+      "words": 116,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Scope and limits",
+       "size": 20,
+       "tag": "h2"
+      },
+      "left": 16,
+      "right": 21,
+      "textLeft": 16,
+      "textRight": 21,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Embedded source review",
+      "size": 22,
+      "top": 65,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 16,
+      "n": 6
+     }
+    ],
+    "leftBlocks": 6,
+    "bodySize": 13,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "dark": false,
+    "ground": "#f7f5f4",
+    "sidebar": null,
+    "topbar": {
+     "h": 49
+    },
+    "canvas": {
+     "left": 16,
+     "right": -150
+    },
+    "hero": {
+     "text": "Embedded source review",
+     "words": 3,
+     "chars": 22,
+     "lines": 1,
+     "size": 22,
+     "vw": 5.6,
+     "font": "Schibsted Grotesk",
+     "weight": 600,
+     "tracking": -0.02,
+     "leading": 1.2,
+     "top": 65,
+     "tag": "h1",
+     "kind": "heading",
+     "align": "left",
+     "position": "left"
+    },
+    "charts": 2,
+    "layout": {
+     "panels": 10,
+     "firstScreen": 3,
+     "ragged": [],
+     "voids": []
+    },
+    "tiles": 0,
+    "panels": {
+     "count": 14,
+     "radii": [
+      [
+       0,
+       14
+      ]
+     ],
+     "heavyBorders": 0,
+     "borderSamples": [],
+     "heavyShadows": 0,
+     "softShadows": 0,
+     "shadowSamples": [],
+     "glass": 0
+    },
+    "chips": {
+     "count": 0,
+     "hues": 0,
+     "samples": []
+    },
+    "numbers": {
+     "cells": 28,
+     "leftAligned": 0,
+     "figures": 25,
+     "tabularShare": 1,
+     "kpiMax": 24
+    },
+    "rows": {
+     "count": 77,
+     "median": 123
+    },
+    "chartHues": 0,
+    "placeholders": [],
+    "type": {
+     "under13": 0.4,
+     "tiny": 0,
+     "tinySamples": [],
+     "sizes": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      20,
+      22,
+      24
+     ]
+    },
+    "title": {
+     "text": "Embedded source review",
+     "size": 22,
+     "top": 65
+    },
+    "colourShare": 0.004
+   },
+   "consoleErrors": []
+  }
+ ],
+ "findings": [],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "reports/pilot-validation/regression-2026-10-28/design-review/desktop-fold.jpg",
+   "pages": [
+    "reports/pilot-validation/regression-2026-10-28/design-review/desktop-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "reports/pilot-validation/regression-2026-10-28/design-review/tablet-fold.jpg",
+   "pages": [
+    "reports/pilot-validation/regression-2026-10-28/design-review/tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "reports/pilot-validation/regression-2026-10-28/design-review/mobile-fold.jpg",
+   "pages": [
+    "reports/pilot-validation/regression-2026-10-28/design-review/mobile-page-01.jpg",
+    "reports/pilot-validation/regression-2026-10-28/design-review/mobile-page-02.jpg"
+   ],
+   "film": []
+  }
+ ]
+}
