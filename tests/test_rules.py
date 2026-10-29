@@ -93,6 +93,24 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual(1, len(findings))
         self.assertIn("[REDACTED]", findings[0].evidence)
 
+    def test_credentials_ignore_common_embedded_tutorial_placeholders(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        placeholders = (
+            "........",
+            "yourpass",
+            "yourpasswd",
+            "yourPassword",
+            "YourPSKHere",
+            "wifi-password",
+            "WiFi_Password",
+            "write-api-key",
+            "read_api_key",
+        )
+        for value in placeholders:
+            with self.subTest(value=value):
+                source = SourceFile("examples/wifi_config.cpp", f'const char *password = "{value}";\n')
+                self.assertEqual([], list(rule.scan(source)))
+
     def test_credentials_ignore_password_prompt_literals_inside_code_strings(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         source = SourceFile(
