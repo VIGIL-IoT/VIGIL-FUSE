@@ -1,0 +1,746 @@
+{
+  "retrieved_at_utc": "2026-10-28T06:42:54.793048+00:00",
+  "crawler": "Crawl4AI",
+  "version": "0.9.5",
+  "requested": 50,
+  "successes": 47,
+  "results": [
+    {
+      "label": "PlatformIO project configuration",
+      "url": "https://docs.platformio.org/en/latest/projectconf/index.html",
+      "success": true,
+      "status_code": 200,
+      "title": "“platformio.ini” (Project Configuration File)  -  PlatformIO latest documentation",
+      "word_count": 524,
+      "snippets": [
+        "Integration * [Cloud & Desktop IDEs](https://docs.platformio.org/en/latest/integration/ide/index.html) * [Continuous Integration](https://docs.platformio.org/en/latest/integration/ci/index.html) * [Compilation database `compile_commands.json`](https://docs.platformio.org/en/latest/integration/compile_commands.html)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO extra configs",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/advanced/extra_configs.html",
+      "success": false,
+      "status_code": 404,
+      "title": "Page not found  -  PlatformIO latest documentation",
+      "word_count": 207,
+      "snippets": [
+        "Integration * [Cloud & Desktop IDEs](https://docs.platformio.org/en/latest/integration/ide/index.html) * [Continuous Integration](https://docs.platformio.org/en/latest/integration/ci/index.html) * [Compilation database `compile_commands.json`](https://docs.platformio.org/en/latest/integration/compile_commands.html)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO environment inheritance",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/env/options/advanced/extends.html",
+      "success": true,
+      "status_code": 200,
+      "title": "extends  -  PlatformIO latest documentation",
+      "word_count": 488,
+      "snippets": [
+        "Integration * [Cloud & Desktop IDEs](https://docs.platformio.org/en/latest/integration/ide/index.html) * [Continuous Integration](https://docs.platformio.org/en/latest/integration/ci/index.html) * [Compilation database `compile_commands.json`](https://docs.platformio.org/en/latest/integration/compile_commands.html)",
+        "* * * # `extends`[](https://docs.platformio.org/en/latest/projectconf/sections/env/options/advanced/extends.html#extends \"Link to this heading\") Type: `String` | Multiple: `Yes` This option allows one to inherit configuration from other sections or build environments in [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html#projectconf). Multiple items are allowed, split them with `,` or with a new line. If you need to extend only a few options from some section, please take a look at [Interpolation of Values](https://docs.platformio.org/en/latest/projectconf/interpolation.html#projectcon"
+      ],
+      "error": ""
+    },
+    {
+      "label": "CMake compile commands",
+      "url": "https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html",
+      "success": true,
+      "status_code": 200,
+      "title": "CMAKE_EXPORT_COMPILE_COMMANDS  -  CMake 4.5.0-rc1 Documentation",
+      "word_count": 307,
+      "snippets": [
+        "### Navigation * [index](https://cmake.org/cmake/help/latest/genindex.html \"General Index\") * [next](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_NO_PACKAGE_REGISTRY.html \"CMAKE_EXPORT_NO_PACKAGE_REGISTRY\") | * [previous](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_BUILD_DATABASE.html \"CMAKE_EXPORT_BUILD_DATABASE\") | * ![](https://cmake.org/cmake/help/latest/_static/cmake-logo-16.png) [CMake](https://cmake.org/) git-stage git-master latest release (4.5.0-rc1) 4.5 4.4 4.3 4.2 4.1 4.0 3.31 3.30 3.29 3.28 3.27 3.26 3.25 3.24 3.23 3.22 3.21 3.20 3.19 3.18 3.17 3.16 3.15 3.14 3.13 3.12 3.11 3.10 3.9 3.8 3.7 3.6 3.5 3.4 3",
+        "# CMAKE_EXPORT_COMPILE_COMMANDS[¶](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_COMPILE_COMMANDS.html#cmake-export-compile-commands \"Link to this heading\") Added in version 3.5. Enable/Disable output of compile commands during generation. If enabled, generates a `compile_commands.json` file containing the exact compiler calls for all translation units of the project in machine-readable form. The format of the JSON file looks like:",
+        "``` Copy to clipboard This is initialized by the [`CMAKE_EXPORT_COMPILE_COMMANDS`](https://cmake.org/cmake/help/latest/envvar/CMAKE_EXPORT_COMPILE_COMMANDS.html#envvar:CMAKE_EXPORT_COMPILE_COMMANDS \"CMAKE_EXPORT_COMPILE_COMMANDS\") environment variable, and initializes the [`EXPORT_COMPILE_COMMANDS`](https://cmake.org/cmake/help/latest/prop_tgt/EXPORT_COMPILE_COMMANDS.html#prop_tgt:EXPORT_COMPILE_COMMANDS \"EXPORT_COMPILE_COMMANDS\") target property for all targets. Note This option is implemented only by [Makefile Generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html#makefile-generators) and [Ninja Generators](https://c",
+        "### Quick search ### Navigation * [index](https://cmake.org/cmake/help/latest/genindex.html \"General Index\") * [next](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_NO_PACKAGE_REGISTRY.html \"CMAKE_EXPORT_NO_PACKAGE_REGISTRY\") | * [previous](https://cmake.org/cmake/help/latest/variable/CMAKE_EXPORT_BUILD_DATABASE.html \"CMAKE_EXPORT_BUILD_DATABASE\") | * ![](https://cmake.org/cmake/help/latest/_static/cmake-logo-16.png) [CMake](https://cmake.org/) git-stage git-master latest release (4.5.0-rc1) 4.5 4.4 4.3 4.2 4.1 4.0 3.31 3.30 3.29 3.28 3.27 3.26 3.25 3.24 3.23 3.22 3.21 3.20 3.19 3.18 3.17 3.16 3.15 3.14 3.13 3.12 3.11 3.10 3.9 3.8 "
+      ],
+      "error": ""
+    },
+    {
+      "label": "Clang compilation database",
+      "url": "https://clang.llvm.org/docs/JSONCompilationDatabase.html",
+      "success": true,
+      "status_code": 200,
+      "title": "JSON Compilation Database Format Specification - Clang",
+      "word_count": 1517,
+      "snippets": [
+        "Contents Menu Expand Light mode Dark mode Auto light/dark mode Hide navigation sidebar Hide table of contents sidebar Toggle site navigation sidebar [Clang](https://clang.llvm.org/docs/index.html) Toggle Light / Dark / Auto color theme Toggle table of contents sidebar [ ![Logo](https://clang.llvm.org/docs/_static/LLVMWyvernSmall.png) Clang ](https://clang.llvm.org/docs/index.html) * [Clang (In-Progress) Release Notes](https://clang.llvm.org/docs/ReleaseNotes.html) * [Clang Compiler User’s Manual](https://clang.llvm.org/docs/UsersManual.html) * [Assembling a Complete Toolchain](https://clang.llvm.org/docs/Toolchain.html) * [Clang Language Exte",
+        "## Supported Systems[#](https://clang.llvm.org/docs/JSONCompilationDatabase.html#supported-systems \"Link to this heading\") Clang has the ability to generate compilation database fragments via `-MJ argument <clang -MJ\\<arg>>`. You can concatenate those fragments together between `[` and `]` to create a compilation database. Currently [CMake](https://cmake.org) (since 2.8.5) supports generation of compilation databases for Unix Makefile builds (Ninja builds in the works) with the option `CMAKE_EXPORT_COMPILE_COMMANDS`. For projects on Linux, there is an alternative to intercept compiler calls with a tool called [Bear](https://github.com/rizsott",
+        "The contracts for each field in the command object are: * **directory:** The working directory of the compilation. All paths specified in the **command** or **file** fields must be either absolute or relative to this directory.",
+        "## Build System Integration[#](https://clang.llvm.org/docs/JSONCompilationDatabase.html#build-system-integration \"Link to this heading\") The convention is to name the file compile_commands.json and put it at the top of the build directory. Clang tools are pointed to the top of the build directory to detect the file and use the compilation database to parse C++ code in the source tree. ## Alternatives[#](https://clang.llvm.org/docs/JSONCompilationDatabase.html#alternatives \"Link to this heading\") For simple projects, Clang tools also recognize a `compile_flags.txt` file. This should contain one argument per line. The same flags will be used to"
+      ],
+      "error": ""
+    },
+    {
+      "label": "Clang static analyzer",
+      "url": "https://clang.llvm.org/docs/ClangStaticAnalyzer.html",
+      "success": true,
+      "status_code": 200,
+      "title": "Clang Static Analyzer - Clang",
+      "word_count": 959,
+      "snippets": [
+        "Contents Menu Expand Light mode Dark mode Auto light/dark mode Hide navigation sidebar Hide table of contents sidebar Toggle site navigation sidebar [Clang](https://clang.llvm.org/docs/index.html) Toggle Light / Dark / Auto color theme Toggle table of contents sidebar [ ![Logo](https://clang.llvm.org/docs/_static/LLVMWyvernSmall.png) Clang ](https://clang.llvm.org/docs/index.html) * [Clang (In-Progress) Release Notes](https://clang.llvm.org/docs/ReleaseNotes.html) * [Clang Compiler User’s Manual](https://clang.llvm.org/docs/UsersManual.html) * [Assembling a Complete Toolchain](https://clang.llvm.org/docs/Toolchain.html) * [Clang Language Exte",
+        "[ Back to top ](https://clang.llvm.org/docs/ClangStaticAnalyzer.html#) [ Edit this page ](https://github.com/llvm/llvm-project/edit/main/clang/docs/ClangStaticAnalyzer.md \"Edit this page\") Toggle Light / Dark / Auto color theme Toggle table of contents sidebar # Clang Static Analyzer[#](https://clang.llvm.org/docs/ClangStaticAnalyzer.html#clang-static-analyzer \"Link to this heading\") The Clang Static Analyzer is a source code analysis tool that finds bugs in C, C++, and Objective-C programs. It implements _path-sensitive_ , _inter-procedural analysis_ based on _symbolic execution_ technique. The Static Analyzer is a part of Clang; for downloa"
+      ],
+      "error": ""
+    },
+    {
+      "label": "SLSA artifact verification",
+      "url": "https://slsa.dev/spec/v1.2/verifying-artifacts",
+      "success": true,
+      "status_code": 200,
+      "title": "SLSA • Build: Verifying artifacts",
+      "word_count": 2248,
+      "snippets": [
+        "SLSA uses provenance to indicate whether an artifact is authentic or not, but provenance doesn’t do anything unless somebody inspects it. SLSA calls that inspection **verification** , and this page describes recommendations for how to verify artifacts and their SLSA provenance. This page is divided into several sections. The first describes the process for verifying an artifact and its provenance against a set of expectations. The second describes how to form the expectations used to verify provenance. The third discusses architecture choices for where provenance verification can happen. ## How to verify Verification SHOULD include the follow",
+        "It is important to note that expectations are tied to a _package name_ , whereas provenance is tied to an _artifact_. Different versions of the same package name will likely have different artifacts and therefore different provenance. Similarly, an artifact might have different names in different package ecosystems but use the same provenance file. ## Architecture options There are several options (non-mutually exclusive) for where provenance verification can happen: the package ecosystem at upload time, the consumers at download time, or via a continuous monitoring system. Each option comes with its own set of considerations, but all are val",
+        "![Threats covered by each step](https://slsa.dev/spec/v1.2/images/supply-chain-threats-build-verification.svg) See [Terminology](https://slsa.dev/spec/v1.2/terminology) for an explanation of the supply chain model and [Threats & mitigations](https://slsa.dev/spec/v1.2/threats) for a detailed explanation of each threat. **Note:** This section assumes that the provenance is in the recommended [provenance format](https://slsa.dev/provenance/v1). If it is not, then the verifier SHOULD perform equivalent checks on provenance fields that correspond to the ones referenced here. ### Step 1: Check SLSA Build level First, check the SLSA Build level by ",
+        "Given an artifact and its provenance: 1. [Verify](https://github.com/in-toto/attestation/blob/main/docs/validation.md#validation-model) the envelope’s signature using the roots of trust, resulting in a list of recognized public keys (or equivalent).",
+        "* [Threat “F”](https://slsa.dev/spec/v1.2/threats#f-artifact-publication): SLSA Build L2 covers tampering of the artifact or provenance after the build. This is accomplished by verifying the `subject` and signature in the steps above."
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub artifact attestations",
+      "url": "https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations",
+      "success": true,
+      "status_code": 301,
+      "title": "Using artifact attestations - GitHub Docs",
+      "word_count": 1196,
+      "snippets": [
+        "# Using artifact attestations Use artifact attestations to establish build provenance for the software you produce and to verify the software you consume. ## [Using artifact attestations to establish provenance for builds](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations) Artifact attestations enable you to increase the supply chain security of your builds by establishing where and how your software was built. ## [Using artifact attestations and reusable workflows to achieve SLSA v1 Build Level 3](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestation",
+        "## [GitHub Actions](https://docs.github.com/en/actions) * * [](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations#) * Get started * [Quickstart](https://docs.github.com/en/actions/get-started/quickstart) * [Understand GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions) * [Continuous integration](https://docs.github.com/en/actions/get-started/continuous-integration) * [Continuous deployment](https://docs.github.com/en/actions/get-started/continuous-deployment) * [Actions vs Apps](https://docs.github.com/en/actions/get-started/actions-vs-apps) * Concepts * Workflows and ac"
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub attestation verification",
+      "url": "https://docs.github.com/en/actions/security-for-github-actions/using-artifact-attestations/using-the-cli-to-verify-attestations",
+      "success": false,
+      "status_code": 404,
+      "title": "404 - GitHub Docs",
+      "word_count": 16,
+      "snippets": [
+        "GitHub Docs Page not found. [Return to home.](https://docs.github.com/) © 2026 GitHub, Inc. • [Terms](https://docs.github.com/site-policy/github-terms/github-terms-of-service) • [Privacy](https://docs.github.com/site-policy/privacy-policies/github-privacy-statement)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub Actions security hardening",
+      "url": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions",
+      "success": true,
+      "status_code": 301,
+      "title": "Secure use reference - GitHub Docs",
+      "word_count": 5841,
+      "snippets": [
+        "With this approach, the value of the `${{ github.event.pull_request.title }}` expression is stored in memory and used as a variable, and doesn't interact with the script generation process. In addition, consider using double quote shell variables to avoid [word splitting](https://github.com/koalaman/shellcheck/wiki/SC2086), but this is [one of many](https://mywiki.wooledge.org/BashPitfalls) general recommendations for writing shell scripts, and is not specific to GitHub Actions. #### [Using workflow templates for code scanning](https://docs.github.com/en/actions/reference/security/secure-use#using-workflow-templates-for-code-scanning) Code sc",
+        "## [GitHub Actions](https://docs.github.com/en/actions) * * [](https://docs.github.com/en/actions/reference/security/secure-use#) * Get started * [Quickstart](https://docs.github.com/en/actions/get-started/quickstart) * [Understand GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions) * [Continuous integration](https://docs.github.com/en/actions/get-started/continuous-integration) * [Continuous deployment](https://docs.github.com/en/actions/get-started/continuous-deployment) * [Actions vs Apps](https://docs.github.com/en/actions/get-started/actions-vs-apps) * Concepts * Workflows and actions * [Workflows](h",
+        "Regardless of your measures, always **audit the source code of the action**. Ensure that the action is handling the content of your repository and secrets as expected. For example, check that secrets are not sent to unintended hosts, or are not inadvertently logged. ### [Reusing third-party workflows](https://docs.github.com/en/actions/reference/security/secure-use#reusing-third-party-workflows) The same principles described above for using third-party actions also apply to using third-party workflows. You can help mitigate the risks associated with reusing workflows by following the same good practices outlined above. For more information, s",
+        "* Actions can use the `GITHUB_TOKEN` by accessing it from the `github.token` context. For more information, see [Contexts reference](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#github-context). You should therefore make sure that the `GITHUB_TOKEN` is granted the minimum required permissions. It's good security practice to set the default permission for the `GITHUB_TOKEN` to read access only for repository contents. The permissions can then be increased, as required, for individual jobs within the workflow file. For more information, see [Use GITHUB_TOKEN for authentication in workflows](https://docs.github.com",
+        "### [Good practices for mitigating script injection attacks](https://docs.github.com/en/actions/reference/security/secure-use#good-practices-for-mitigating-script-injection-attacks) Recommended approaches for mitigating the risk of script injection in your workflows: #### [Use an action instead of an inline script](https://docs.github.com/en/actions/reference/security/secure-use#use-an-action-instead-of-an-inline-script) The recommended approach is to create a JavaScript action that processes the context value as an argument. This approach is not vulnerable to the injection attack, since the context value is not used to generate a shell scrip"
+      ],
+      "error": ""
+    },
+    {
+      "label": "Sigstore Cosign verify",
+      "url": "https://docs.sigstore.dev/cosign/verifying/verify/",
+      "success": true,
+      "status_code": 200,
+      "title": "Verifying Signatures - Sigstore",
+      "word_count": 2341,
+      "snippets": [
+        "* * * * About * [Overview](https://docs.sigstore.dev/about/overview/) * [Tooling](https://docs.sigstore.dev/about/tooling/) * [Security Model](https://docs.sigstore.dev/about/security/) * [Threat Model](https://docs.sigstore.dev/about/threat-model/) * [Sigstore Bundle Format](https://docs.sigstore.dev/about/bundle/) * [API Stability and Deprecation Policy](https://docs.sigstore.dev/about/api-stability/) * [The Importance of Verification](https://docs.sigstore.dev/about/the-importance-of-verification/) * [Contributing](https://docs.sigstore.dev/about/contributing/) * [Get Help](https://docs.sigstore.dev/about/support/) * [Documentation Locatio",
+        "* About * [Overview](https://docs.sigstore.dev/about/overview/) * [Tooling](https://docs.sigstore.dev/about/tooling/) * [Security Model](https://docs.sigstore.dev/about/security/) * [Threat Model](https://docs.sigstore.dev/about/threat-model/) * [Sigstore Bundle Format](https://docs.sigstore.dev/about/bundle/) * [API Stability and Deprecation Policy](https://docs.sigstore.dev/about/api-stability/) * [The Importance of Verification](https://docs.sigstore.dev/about/the-importance-of-verification/) * [Contributing](https://docs.sigstore.dev/about/contributing/) * [Get Help](https://docs.sigstore.dev/about/support/) * [Documentation Locations](ht",
+        "On this page ExpandCollapse * [Keyless verification using OpenID Connect](https://docs.sigstore.dev/cosign/verifying/verify/#keyless-verification-using-openid-connect) * [Verify multiple images](https://docs.sigstore.dev/cosign/verifying/verify/#verify-multiple-images) * [Local verifications](https://docs.sigstore.dev/cosign/verifying/verify/#local-verifications) * [Verify image with user-provided trusted chain](https://docs.sigstore.dev/cosign/verifying/verify/#verify-image-with-user-provided-trusted-chain) * [Verify an image on the transparency log](https://docs.sigstore.dev/cosign/verifying/verify/#verify-an-image-on-the-transparency-log) ",
+        "### On this page * [Keyless verification using OpenID Connect](https://docs.sigstore.dev/cosign/verifying/verify/#keyless-verification-using-openid-connect) * [Verify multiple images](https://docs.sigstore.dev/cosign/verifying/verify/#verify-multiple-images) * [Local verifications](https://docs.sigstore.dev/cosign/verifying/verify/#local-verifications) * [Verify image with user-provided trusted chain](https://docs.sigstore.dev/cosign/verifying/verify/#verify-image-with-user-provided-trusted-chain) * [Verify an image on the transparency log](https://docs.sigstore.dev/cosign/verifying/verify/#verify-an-image-on-the-transparency-log) * [Verify a",
+        "# Verifying Signatures On this page ExpandCollapse * [Keyless verification using OpenID Connect](https://docs.sigstore.dev/cosign/verifying/verify/#keyless-verification-using-openid-connect) * [Verify multiple images](https://docs.sigstore.dev/cosign/verifying/verify/#verify-multiple-images) * [Local verifications](https://docs.sigstore.dev/cosign/verifying/verify/#local-verifications) * [Verify image with user-provided trusted chain](https://docs.sigstore.dev/cosign/verifying/verify/#verify-image-with-user-provided-trusted-chain) * [Verify an image on the transparency log](https://docs.sigstore.dev/cosign/verifying/verify/#verify-an-image-on"
+      ],
+      "error": ""
+    },
+    {
+      "label": "TUF specification",
+      "url": "https://theupdateframework.github.io/specification/latest/",
+      "success": true,
+      "status_code": 200,
+      "title": "The Update Framework Specification",
+      "word_count": 10783,
+      "snippets": [
+        "Note: We strive to make the specification easy to implement, so if you come across any inconsistencies or experience any difficulty, do let us know by messaging us on the [CNCF slack](https://communityinviter.com/apps/cloud-native/cncf) channel #tuf, or by reporting an issue in the [specification repo](https://github.com/theupdateframework/specification/issues). ## 1. Introduction[](https://theupdateframework.github.io/specification/latest/#introduction) ### 1.1. Scope[](https://theupdateframework.github.io/specification/latest/#scope) This document describes a framework for securing software update systems. The keywords \"MUST,\" \"MUST NOT,\" \"",
+        "All roles can use one or more keys and require a threshold of signatures of the role’s keys in order to trust a given metadata file. #### 2.1.1. Root role[](https://theupdateframework.github.io/specification/latest/#root) The root role delegates trust to specific keys trusted for all other top-level roles used in the system. The client-side of the framework MUST ship with trusted root keys for each configured repository. The root role’s private keys MUST be kept very secure and thus should be kept offline. If less than a threshold of Root keys are compromised, the repository should revoke trust on the compromised keys. This can be accomplishe",
+        "## 6. Repository operations[](https://theupdateframework.github.io/specification/latest/#repository-operations) See <https://theupdateframework.io/> for discussion of recommended usage in various situations. ### 6.1. Key management and migration[](https://theupdateframework.github.io/specification/latest/#key-management-and-migration) All keys, except those for the timestamp and mirrors roles, should be stored securely offline (e.g. encrypted and on a separate machine, in special-purpose hardware, etc.). This document does not prescribe how keys should be encrypted and stored, and so it is left to implementers of this document to decide how b",
+        "Delegated target roles are authorized by the keys listed in the directly delegating target role. ## 4. Document formats[](https://theupdateframework.github.io/specification/latest/#document-formats) All of the formats described below include the ability to add more attribute-value fields to objects for backwards-compatible format changes. Implementers who encounter undefined attribute-value pairs in the format must include the data when calculating hashes or verifying signatures and must preserve the data when re-serializing. If a backwards incompatible format change is needed, a new filename can be used. ### 4.1. Metaformat[](https://theupda",
+        "3. Otherwise, download the target (up to the number of bytes specified in the targets metadata), and verify that its hashes match the targets metadata. (We download up to this number of bytes, because in some cases, the exact number is unknown. This may happen, for example, if an external program is used to compute the root hash of a tree of targets files, and this program does not provide the total size of all of these files.) If consistent snapshots are not used (see [§ 6.2 Consistent snapshots](https://theupdateframework.github.io/specification/latest/#consistent-snapshots)), then the filename used to download the target file is of the fix"
+      ],
+      "error": ""
+    },
+    {
+      "label": "SUIT architecture RFC 9019",
+      "url": "https://datatracker.ietf.org/doc/html/rfc9019",
+      "success": true,
+      "status_code": 200,
+      "title": "RFC 9019 - A Firmware Update Architecture for Internet of Things",
+      "word_count": 8909,
+      "snippets": [
+        "Sometimes the final decision may require confirmation of the user of the device for safety reasons.[¶](https://datatracker.ietf.org/doc/html/rfc9019#section-3-20) Installation is the act of processing the payload into a format that the IoT device can recognize, and the bootloader is responsible for then booting from the newly installed firmware image. This process is different when a bootloader is not involved. For example, when an application is updated in a full-featured OS, the updater may halt and restart the application in isolation. Devices must not fail when a disruption, such as a power failure or network interruption, occurs during t",
+        "Therefore, the firmware consumer must know where to store the new firmware. In some cases, this may be implicit (for example, replacing the least recently used firmware image). In other cases, the storage location of the new firmware must be explicit, for example, when a device has one or more application firmware images and a recovery image with limited functionality, sufficient only to perform an update.[¶](https://datatracker.ietf.org/doc/html/rfc9019#section-4.1-4) Since many low-end IoT devices do not use position-independent code, either the bootloader needs to copy the newly downloaded application firmware image into the location of th",
+        "(1): A device presented with an old but valid manifest and firmware must not be tricked into installing such firmware since a vulnerability in the old firmware image may allow an attacker to gain control of the device.[¶](https://datatracker.ietf.org/doc/html/rfc9019#section-6-3.2) Keeping the code size and complexity of a manifest parser small is important for constrained IoT devices. Since the manifest parsing code may also be used by the bootloader, it can be part of the trusted computing base.[¶](https://datatracker.ietf.org/doc/html/rfc9019#section-6-4) A manifest may be used to protect not only firmware images but also configuration dat",
+        "B. Moran Arm Limited H. Tschofenig Arm Limited D. Brown Linaro M. Meriac Consultant # RFC 9019 # A Firmware Update Architecture for Internet of Things ## [Abstract](https://datatracker.ietf.org/doc/html/rfc9019#abstract) Vulnerabilities in Internet of Things (IoT) devices have raised the need for a reliable and secure firmware update mechanism suitable for devices with resource constraints. Incorporating such an update mechanism is a fundamental requirement for fixing vulnerabilities, but it also enables other important capabilities such as updating configuration settings and adding new functionality.[¶](https://datatracker.ietf.org/doc/html/",
+        "Bootloader: A bootloader is a piece of software that is executed once a microcontroller has been reset. It is responsible for deciding what code to execute.[¶](https://datatracker.ietf.org/doc/html/rfc9019#section-2.3-1.10) ## [3. ](https://datatracker.ietf.org/doc/html/rfc9019#section-3)[Architecture](https://datatracker.ietf.org/doc/html/rfc9019#name-architecture) More devices than ever before are connected to the Internet, which drives the need for firmware updates to be provided over the Internet rather than through traditional interfaces, such as USB or RS-232. Sending updates over the Internet requires the device to fetch the new firmwa"
+      ],
+      "error": ""
+    },
+    {
+      "label": "SUIT manifest information model RFC 9124",
+      "url": "https://datatracker.ietf.org/doc/html/rfc9124",
+      "success": true,
+      "status_code": 200,
+      "title": "RFC 9124 - A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices",
+      "word_count": 12464,
+      "snippets": [
+        "B. Moran Arm Limited H. Tschofenig Arm Limited H. Birkholz Fraunhofer SIT # RFC 9124 # A Manifest Information Model for Firmware Updates in Internet of Things (IoT) Devices ## [Abstract](https://datatracker.ietf.org/doc/html/rfc9124#abstract) Vulnerabilities with Internet of Things (IoT) devices have raised the need for a reliable and secure firmware update mechanism that is also suitable for constrained devices. Ensuring that devices function and remain secure over their service lifetime requires such an update mechanism to fix vulnerabilities, update configuration settings, and add new functionality.[¶](https://datatracker.ietf.org/doc/html",
+        "## [1. ](https://datatracker.ietf.org/doc/html/rfc9124#section-1)[Introduction](https://datatracker.ietf.org/doc/html/rfc9124#name-introduction) Vulnerabilities with Internet of Things (IoT) devices have raised the need for a reliable and secure firmware update mechanism that is also suitable for constrained devices. Ensuring that devices function and remain secure over their service lifetime requires such an update mechanism to fix vulnerabilities, update configuration settings, and add new functionality.[¶](https://datatracker.ietf.org/doc/html/rfc9124#section-1-1) One component of such a firmware update is a concise and machine-processable",
+        "| | | Compare versions | | RFC 9124 draft-ietf-suit-information-model-13 draft-ietf-suit-information-model-12 draft-ietf-suit-information-model-11 draft-ietf-suit-information-model-10 draft-ietf-suit-information-model-09 draft-ietf-suit-information-model-08 draft-ietf-suit-information-model-07 draft-ietf-suit-information-model-06 draft-ietf-suit-information-model-05 draft-ietf-suit-information-model-04 draft-ietf-suit-information-model-03 draft-ietf-suit-information-model-02 draft-ietf-suit-information-model-01 draft-ietf-suit-information-model-00 × draft-ietf-suit-information-model-13 RFC 9124 draft-ietf-suit-information-model-13 draft-ietf-",
+        "Implements: [REQ.SEC.AUTH.EXEC](https://datatracker.ietf.org/doc/html/rfc9124#req-sec-authentic-execution) ([Section 4.3.8](https://datatracker.ietf.org/doc/html/rfc9124#req-sec-authentic-execution))[¶](https://datatracker.ietf.org/doc/html/rfc9124#section-3.14-3.2) ### [3.15. ](https://datatracker.ietf.org/doc/html/rfc9124#section-3.15)[Manifest Envelope Element: Signature](https://datatracker.ietf.org/doc/html/rfc9124#name-manifest-envelope-element-s) The signature element contains all the information necessary to protect the contents of the manifest against modification and to offer authentication of the signer. Because the signature eleme",
+        "Implements: [REQ.USE.DELEGATION](https://datatracker.ietf.org/doc/html/rfc9124#req-use-delegation) ([Section 4.5.14](https://datatracker.ietf.org/doc/html/rfc9124#req-use-delegation)), [REQ.SEC.KEY.ROTATION](https://datatracker.ietf.org/doc/html/rfc9124#req-sec-key-rotation) ([Section 4.3.18](https://datatracker.ietf.org/doc/html/rfc9124#req-sec-key-rotation))[¶](https://datatracker.ietf.org/doc/html/rfc9124#section-3.25-4.2) ## [4. ](https://datatracker.ietf.org/doc/html/rfc9124#section-4)[Security Considerations](https://datatracker.ietf.org/doc/html/rfc9124#name-security-considerations) The following subsections describe the threat model, "
+      ],
+      "error": ""
+    },
+    {
+      "label": "NIST IoT technical capability catalog",
+      "url": "https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/technical/",
+      "success": true,
+      "status_code": 200,
+      "title": null,
+      "word_count": 411,
+      "snippets": [
+        "[NIST Cybersecurity for IoT Program](https://www.nist.gov/programs-projects/nist-cybersecurity-iot-program) [About NIST](http://www.nist.gov/public_affairs/nandyou.cfm) [usnistgov on GitHub](https://github.com/usnistgov) [IoT Catalogs on GitHub](https://github.com/usnistgov/IoT-Device-Cybersecurity-Requirement-Catalogs) * [Introduction](https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/) * [Technical Capabilities](https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/technical/) * [Device Identification](https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/technical/identity/) * [Device Config",
+        "# Technical Device Cybersecurity Capabilities Catalog This catalog section presents IoT device technical cybersecurity capabilities that expand on the capabilities defined in [NISTIR 8259A, ](https://nvlpubs.nist.gov/nistpubs/ir/2020/NIST.IR.8259A.pdf)[_IoT Device Cybersecurity Capability Core Baseline_](https://nvlpubs.nist.gov/nistpubs/ir/2020/NIST.IR.8259A.pdf). The core baseline describes device capabilities needed to support common cybersecurity controls that protect an organization’s devices as well as device data, systems, and ecosystems. The core baseline provides a starting point to use in identifying IoT device cybersecurity capabil",
+        "* [**Device Configuration:**](https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/technical/configuration/) The configuration of the IoT device’s software can be changed, and such changes can be performed by authorized entities only.",
+        "* [**Data Protection:**](https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/technical/protection/) The IoT device can protect the data it stores and transmits from unauthorized access and modification.",
+        "* [**Logical Access to Interfaces:**](https://pages.nist.gov/IoT-Device-Cybersecurity-Requirement-Catalogs/technical/logical/) The IoT device can restrict logical access to its local and network interfaces, and the protocols and services used by those interfaces, to authorized entities only."
+      ],
+      "error": ""
+    },
+    {
+      "label": "NISTIR 8259A",
+      "url": "https://csrc.nist.gov/pubs/ir/8259/a/final",
+      "success": true,
+      "status_code": 200,
+      "title": "IR 8259A, IoT Device Cybersecurity Capability Core Baseline | CSRC",
+      "word_count": 874,
+      "snippets": [
+        "**Supplemental Material:** [ Federal Profile of NISTIR 8259A ](https://pages.nist.gov/FederalProfile-8259A) [ NIST Cybersecurity for IoT Program ](https://www.nist.gov/programs-projects/nist-cybersecurity-iot-program) [ Blog post ](https://www.nist.gov/blogs/cybersecurity-insights/more-just-milestone-botnet-roadmap-towards-more-securable-iot-devices) [ Video overview of NIST recommendations ](https://www.nist.gov/video/nist-recommendations-foundational-cybersecurity-guidance-iot-device-manufacturers-presented) [ Portuguese translation (pdf)](https://doi.org/10.6028/NIST.IR.8259Apt) [ Spanish translation (pdf)](https://doi.org/10.6028/NIST.IR.",
+        "**You are viewing this page in an unauthorized frame window.** This is a potential security issue, you are being redirected to <https://csrc.nist.gov>. ![](https://csrc.nist.gov/dist/uswds/img/us_flag_small.png) An official website of the United States government Here’s how you know Here’s how you know ![](https://csrc.nist.gov/dist/uswds/img/icon-dot-gov.svg) **Official websites use .gov** A **.gov** website belongs to an official government organization in the United States.",
+        "[ ![National Institute of Standards and Technology](https://csrc.nist.gov/CSRC/media/images/svg/nist-logo.svg) ](https://www.nist.gov) Search Search [ CSRC MENU ](https://csrc.nist.gov/pubs/ir/8259/a/final#) Search Search * [Projects](https://csrc.nist.gov/projects) * [ Publications Expand or Collapse ](https://csrc.nist.gov/publications) [Drafts for Public Comment](https://csrc.nist.gov/publications/drafts-open-for-comment) [All Public Drafts](https://csrc.nist.gov/publications/draft-pubs) [Final Pubs](https://csrc.nist.gov/publications/final-pubs) [FIPS (standards)](https://csrc.nist.gov/publications/fips) [Special Publications (SPs)](https",
+        "* [Cryptographic Technology](https://csrc.nist.gov/Groups/Computer-Security-Division/Cryptographic-Technology) * [Software Security Group](https://csrc.nist.gov/Groups/Computer-Security-Division/software-security-group) * [Hardware Security Group](https://csrc.nist.gov/Groups/Computer-Security-Division/hardware-security-group) * [Security Engineering and Risk Management](https://csrc.nist.gov/Groups/Computer-Security-Division/Security-Engineering-and-Risk-Management) **[Applied Cybersecurity Division](https://csrc.nist.gov/Groups/Applied-Cybersecurity-Division)**",
+        "* [Cybersecurity and Privacy Applications](https://csrc.nist.gov/Groups/Applied-Cybersecurity-Division/Cybersecurity-and-Privacy-Applications) * [National Cybersecurity Center of Excellence (NCCoE)](https://csrc.nist.gov/Groups/Applied-Cybersecurity-Division/National-Cybersecurity-Center-of-Excellence) * [National Initiative for Cybersecurity Education (NICE)](https://www.nist.gov/nice/) [ Contact Us ](https://csrc.nist.gov/contact)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PyPI Trusted Publishers",
+      "url": "https://docs.pypi.org/trusted-publishers/",
+      "success": true,
+      "status_code": 200,
+      "title": "Getting Started - PyPI User Documentation",
+      "word_count": 887,
+      "snippets": [
+        "[ ![logo](https://docs.pypi.org/assets/logo.png) ](https://pypi.org \"PyPI User Documentation\") PyPI User Documentation Getting Started Initializing search [ GitHub ](https://github.com/pypi/warehouse \"Go to repository\") [ ![logo](https://docs.pypi.org/assets/logo.png) ](https://pypi.org \"PyPI User Documentation\") PyPI User Documentation [ GitHub ](https://github.com/pypi/warehouse \"Go to repository\") * [ Home ](https://docs.pypi.org/) * Using PyPI Using PyPI * [ PyPI Basics ](https://docs.pypi.org/using-pypi/pypi-basics/) * [ Finding and Installing Packages ](https://docs.pypi.org/using-pypi/finding-and-installing/) * Package Security Package",
+        "](https://docs.pypi.org/about/who-maintains-pypi/) * [ Contributing and Reporting Bugs ](https://docs.pypi.org/about/contributing/) * [ Service Availability ](https://docs.pypi.org/about/service-availability/) * [ PyPI Statistics ](https://docs.pypi.org/about/pypi-statistics/) * [ Security and Internals ](https://docs.pypi.org/about/security-and-internals/) * [ Getting Help ](https://docs.pypi.org/about/getting-help/)",
+        "[ ](https://github.com/pypi/warehouse/blob/main/docs/user/trusted-publishers/index.md \"Edit this page\") # Publishing to PyPI with a Trusted Publisher[¶](https://docs.pypi.org/trusted-publishers/#publishing-to-pypi-with-a-trusted-publisher \"Permanent link\") \"Trusted Publishing\" is our term for using the [OpenID Connect (OIDC)](https://openid.net/connect/) standard to exchange short-lived identity tokens between a trusted third-party service and PyPI. This method can be used in automated environments and eliminates the need to use manually generated API tokens to authenticate with PyPI when publishing. For a quickstart, see: * [Adding a trusted",
+        "## Quick background: Publishing with OpenID Connect[¶](https://docs.pypi.org/trusted-publishers/#quick-background-publishing-with-openid-connect \"Permanent link\") OpenID Connect (OIDC) publishing is a mechanism for uploading packages to PyPI, _complementing_ API tokens. You don't need to understand OIDC to use OIDC publishing with PyPI, but here's the TL;DR: 1. Certain CI services (like GitHub Actions) are OIDC _identity providers_ , meaning that they can issue short-lived credentials (\"OIDC tokens\") that a third party can **strongly** verify came from the CI service (as well as which user, repository, etc. actually executed); 2. Projects on ",
+        "This confers significant usability and security advantages when compared to PyPI's traditional authentication methods: * Usability: with Trusted Publishing, users no longer need to manually create API tokens on PyPI and copy-paste them into their CI provider. The only manual step is configuring the publisher on PyPI."
+      ],
+      "error": ""
+    },
+    {
+      "label": "PyPA packaging pyproject entry points",
+      "url": "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+      "success": true,
+      "status_code": 200,
+      "title": "Writing your pyproject.toml - Python Packaging User Guide",
+      "word_count": 3042,
+      "snippets": [
+        "Contents Menu Expand Light mode Dark mode Auto light/dark, in light mode Auto light/dark, in dark mode [Skip to content](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#furo-main-content) [Python Packaging User Guide](https://packaging.python.org/en/latest/) [ Python Packaging User Guide ](https://packaging.python.org/en/latest/) * [Overview of Python Packaging](https://packaging.python.org/en/latest/overview/) * [The Packaging Flow](https://packaging.python.org/en/latest/flow/) * [Tutorials](https://packaging.python.org/en/latest/tutorials/) * [Installing Packages](https://packaging.python.org/en/latest/tutorials/instal",
+        "* The `[build-system]` table is **strongly recommended**. It allows you to declare which [build backend](https://packaging.python.org/en/latest/glossary/#term-Build-Backend) you use and which other dependencies are needed to build your project.",
+        "Note The `[build-system]` table should always be present, regardless of which build backend you use (`[build-system]` _defines_ the build tool you use). On the other hand, the `[project]` table is understood by _most_ build backends, but some build backends use a different format. A notable exception is [Poetry](https://python-poetry.org), which before version 2.0 (released January 5, 2025) did not use the `[project]` table, it used the `[tool.poetry]` table instead. With version 2.0, it supports both. Also, the [setuptools](https://setuptools.pypa.io) build backend supports both the `[project]` table, and the older format in `setup.cfg` or `",
+        "``` Copy to clipboard The project name must consist of ASCII letters, digits, underscores “`_`”, hyphens “`-`” and periods “`.`”. It must not start or end with an underscore, hyphen or period. Comparison of project names is case insensitive and treats arbitrarily long runs of underscores, hyphens, and/or periods as equal. For example, if you register a project named `cool-stuff`, users will be able to download it or declare a dependency on it using any of the following spellings: `Cool-Stuff`, `cool.stuff`, `COOL_STUFF`, `CoOl__-.-__sTuFF`. ### `version`[¶](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#version \"Link to",
+        "``` Copy to clipboard Note If you get a build error that `license` should be a dict/table, your build backend doesn’t yet support the new format. See the [above section](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license-and-license-files) for more context. The now deprecated format is [described in PEP 621](https://peps.python.org/pep-0621/#license). As a general rule, it is a good idea to use a standard, well-known license, both to avoid confusion and because some organizations avoid software whose license is unapproved. If your [Distribution Archive](https://packaging.python.org/en/latest/glossary/#term-Distribut"
+      ],
+      "error": ""
+    },
+    {
+      "label": "CycloneDX hardware BOM",
+      "url": "https://cyclonedx.org/capabilities/hbom/",
+      "success": true,
+      "status_code": 200,
+      "title": "Hardware Bill of Materials (HBOM) | CycloneDX",
+      "word_count": 438,
+      "snippets": [
+        "[Home ](https://cyclonedx.org/) [Getting Started ](https://cyclonedx.org/getting-started) [Capabilities ](https://cyclonedx.org/capabilities) Hardware Bill of Materials (HBOM) # Hardware Bill of Materials (HBOM) ## Inventory hardware components for IoT, ICS, and other types of embedded and connected devices. [Explore Tools](https://cyclonedx.org/tool-center) [Read Guides](https://cyclonedx.org/guides) Capabilities [Software (SBOM) ](https://cyclonedx.org/capabilities/sbom)[Software as a Service (SaaSBOM) ](https://cyclonedx.org/capabilities/saasbom)[Cryptography (CBOM) ](https://cyclonedx.org/capabilities/cbom)[Hardware (HBOM) ](https://cyclo",
+        "## [](https://cyclonedx.org/capabilities/hbom/#expected-outcomes)Expected Outcomes * Improved security and lifecycle management for hardware assets.",
+        "[![CycloneDX](https://cyclonedx.org/images/logo-all-white.svg)](https://cyclonedx.org/) Open main menu * [Getting Started](https://cyclonedx.org/capabilities/hbom/#) * [Capabilities](https://cyclonedx.org/capabilities) * [Use Cases and Examples](https://cyclonedx.org/use-cases) * [Tool Center](https://cyclonedx.org/tool-center) * [Guides](https://cyclonedx.org/guides) * [Specification](https://cyclonedx.org/capabilities/hbom/#) * [Overview](https://cyclonedx.org/specification/overview) * [Documentation](https://cyclonedx.org/docs/latest) * [Cryptography Registry](https://cyclonedx.org/registry/cryptography) * [ECMA-424 ](https://ecma-internat"
+      ],
+      "error": ""
+    },
+    {
+      "label": "CycloneDX VEX",
+      "url": "https://cyclonedx.org/capabilities/vex/",
+      "success": true,
+      "status_code": 200,
+      "title": "Vulnerability Exploitability eXchange (VEX) | CycloneDX",
+      "word_count": 449,
+      "snippets": [
+        "[Home ](https://cyclonedx.org/) [Getting Started ](https://cyclonedx.org/getting-started) [Capabilities ](https://cyclonedx.org/capabilities) Vulnerability Exploitability eXchange (VEX) # Vulnerability Exploitability eXchange (VEX) ## Convey the exploitability of vulnerable components in the context of the product in which they're used. [Explore Tools](https://cyclonedx.org/tool-center) [Read Guides](https://cyclonedx.org/guides) Capabilities [Software (SBOM) ](https://cyclonedx.org/capabilities/sbom)[Software as a Service (SaaSBOM) ](https://cyclonedx.org/capabilities/saasbom)[Cryptography (CBOM) ](https://cyclonedx.org/capabilities/cbom)[Ha"
+      ],
+      "error": ""
+    },
+    {
+      "label": "KiCad BOM export",
+      "url": "https://docs.kicad.org/9.0/en/eeschema/eeschema.html#bom-export",
+      "success": true,
+      "status_code": 200,
+      "title": "Schematic Editor | 9.0 | English | Documentation | KiCad",
+      "word_count": 67692,
+      "snippets": [
+        "#### Table of Contents * [Introduction to the KiCad Schematic Editor](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#introduction_to_the_kicad_schematic_editor) * [Initial Configuration](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#initial-configuration) * [The Schematic Editor User Interface](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#the_schematic_editor_user_interface) * [Navigating the editing canvas](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#navigating_the_editing_canvas) * [Hotkeys](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#hotkeys) * [Selection and the selection filter](https://docs.kicad.o",
+        "| | --- | --- | ### Reference Designators and Symbol Annotation[](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#reference-designators-and-symbol-annotation) Reference designators are unique identifiers for components in a design. They are often printed on a PCB and in assembly diagrams, and allow you to match symbols in a schematic to the corresponding components on a board. In KiCad, reference designators consist of a letter indicating the type of component (`R` for resistor, `C` for capacitor, `U` for IC, etc.) followed by a number. If the symbol has multiple units then the reference designator will also have a trailing letter indica",
+        "| | --- | --- | Like symbol fields, label fields can be edited individually by opening the properties of a specific label field from the schematic (double click the label field, or use `E`). After accepting the label properties, the label is attached to the cursor for placement. The connection point for a label is the small square in the corner of the label. The square disappears when the label is connected to a wire or the end of a pin. If multiple labels were specified in the dialog, each label is attached to the cursor for placement after the previous label is placed. ![Unconnected label](https://docs.kicad.org/9.0/en/eeschema/images/uncon",
+        "| #### Re-linking symbols and footprints[](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#re-linking) Symbols and footprints are linked together using unique identifiers (also called UUIDs). These are handled automatically within KiCad and are not usually visible to users. They allow a symbol and its partner footprint to keep their connection between schematic and PCB, even if the reference designator is changed. New objects get assigned their identifiers upon creation. ##### Re-linking by unique identifier (default)[](https://docs.kicad.org/9.0/en/eeschema/eeschema.html#re_linking_by_unique_identifier_default) In normal use, the **Re-l",
+        "| Operating System | Location | | --- | --- | | Windows | `C:\\Program Files\\KiCad\\9.0\\bin\\scripting\\plugins\\` | | Linux | `/usr/share/kicad/plugins/` | | macOS | `/Applications/KiCad/KiCad.app/Contents/SharedSupport/plugins/` | Additional scripts can be added to the list of BOM generator scripts by clicking the ![Plus icon](https://docs.kicad.org/9.0/en/eeschema/images/icons/small_plus_16.png) button. Scripts can be removed by clicking the ![Delete icon](https://docs.kicad.org/9.0/en/eeschema/images/icons/small_trash_16.png) button. The ![Edit icon](https://docs.kicad.org/9.0/en/eeschema/images/icons/small_edit_16.png) button opens the select"
+      ],
+      "error": ""
+    },
+    {
+      "label": "OSV schema",
+      "url": "https://ossf.github.io/osv-schema/",
+      "success": true,
+      "status_code": 200,
+      "title": "Open Source Vulnerability format - Open Source Vulnerability schema",
+      "word_count": 10470,
+      "snippets": [
+        "The `affected` field is a JSON array containing objects that describes the affected package versions, meaning those that contain the vulnerability. Within each object in the `affected` array, the `package` field identifies the package containing the vulnerability. In most cases, there should be exactly one entry in the `affected` array per affected `package` to describe all affected versions. In rare cases, for example if the `ecosystem_specific` encodes platform information that doesn’t apply equally to all listed versions and ranges, a separate entry with the same `package` in the `affected` array may be needed. The `versions` field can enu",
+        "Only alphanumeric characters (`a-z`, `A-Z`, `0-9`) and `:`, `-`, `_`, and `.` are permitted. Characters outside this set (such as spaces, slashes `/`, backslashes `\\`, parentheses, or exclamation marks) are not allowed. ### Semantically neutral ids Identifiers should function solely as unique, permanent pointers to a vulnerability record rather than human-readable summaries. When establishing new identifier schemes, new IDs **should be semantically neutral** : * **Do not encode mutable vulnerability metadata:** IDs must not describe the vulnerability type or weakness (e.g. `SQLI`, `RCE`), package or component name (e.g. `LOG4J`), or severity ",
+        "| | `CLSA` | [TuxCare Security Advisory](https://security.tuxcare.com/errata/) | * How to contribute: Contact us via security-advisories@tuxcare.com * Source URL: `https://security.tuxcare.com/errata/<component>/<os>/<ID>.html` * OSV Formatted URL: `N/A`",
+        "The `aliases` field gives a list of IDs of the same vulnerability in other databases, in the form of the `id` field. This allows one database to claim that its own entry describes the same vulnerability as one or more entries in other databases. Two vulnerabilities can be described as aliases if they affect any given software component the same way: either both vulnerabilities affect the software component or neither do. A subsequent patch addresses both of the vulnerabilities (and no others), and vice versa. Aliases should be considered symmetric (if A is an alias of B, then B is an alias of A) and transitive (If A aliases B and B aliases C,",
+        "| | `Ubuntu` | A lowercased string representing the [Ubuntu priority](https://ubuntu.com/security/cves/about#priority). This is based on many factors including severity, importance, risk, estimated number of affected users, software configuration, active exploitation, and other factors."
+      ],
+      "error": ""
+    },
+    {
+      "label": "OSV scanner supported inputs",
+      "url": "https://google.github.io/osv-scanner/supported-languages-and-lockfiles/",
+      "success": true,
+      "status_code": 200,
+      "title": "Supported Artifacts and Manifests | OSV-Scanner",
+      "word_count": 1189,
+      "snippets": [
+        "Artifact and manifest extraction logic is implemented in [OSV-Scalibr](https://github.com/google/osv-scalibr) as a standalone library. OSV-Scanner tightly integrates with OSV-Scalibr to provide an end to end vulnerability scanner for developers. ## [](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#core-concept) Core Concept We split the files we can scan into two broad categories, **artifacts** and **manifests**. We found that when performing different forms of scanning, you are generally interested in different types of files. For example, when scanning your source project, you are much more interested in what your l",
+        "[Skip to main content](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#main-content) Link Menu Expand (external link) Document Search Copy Copied [ ](https://google.github.io/osv-scanner/) * [OSV-Scanner](https://google.github.io/osv-scanner/) * Supported Artifacts and Manifests * [Installation](https://google.github.io/osv-scanner/installation/) * [Usage](https://google.github.io/osv-scanner/usage/) * [Container Image Scanning](https://google.github.io/osv-scanner/usage/scan-image) * [Project Source Scanning](https://google.github.io/osv-scanner/usage/scan-source) * [License Scanning](https://google.github.io/osv-scan",
+        "# [](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#supported-artifacts-and-manifests) Supported Artifacts and Manifests Table of contents * [Supported Artifacts and Manifests](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#supported-artifacts-and-manifests) * [Core Concept](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#core-concept) * [Supported Artifacts](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#supported-artifacts) * [Supported lockfiles/manifests](https://google.github.io/osv-scanner/supported-languages-and-lockfiles/#supported-lockf"
+      ],
+      "error": ""
+    },
+    {
+      "label": "CISA KEV catalog",
+      "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+      "success": true,
+      "status_code": 200,
+      "title": "Known Exploited Vulnerabilities Catalog | CISA",
+      "word_count": 5895,
+      "snippets": [
+        "[Staying Secure at Events](https://www.cisa.gov/staying-secure-large-scale-events)[no-cost Cyber Services](https://www.cisa.gov/resources-tools/resources/free-cybersecurity-services-and-tools \"Free Cyber Services\")[Cybersecurity Awareness Month](https://www.cisa.gov/cybersecurity-awareness-month)[KEV Catalog](https://www.cisa.gov/kev)[Report A Cyber Issue](https://www.cisa.gov/report) Breadcrumb 1. [Home](https://www.cisa.gov/) 2. Known Exploited Vulnerabilities Catalog",
+        "Share: [ Opens in a new window ](https://www.facebook.com/sharer/sharer.php?u=https://www.cisa.gov/known-exploited-vulnerabilities-catalog&title=Known%20Exploited%20Vulnerabilities%20Catalog \"Share to Facebook\") [ Opens in a new window ](https://twitter.com/intent/tweet?text=Known%20Exploited%20Vulnerabilities%20Catalog+https://www.cisa.gov/known-exploited-vulnerabilities-catalog \"Share to X\") [ Opens in a new window ](https://www.linkedin.com/sharing/share-offsite/?url=https://www.cisa.gov/known-exploited-vulnerabilities-catalog \"Share to LinkedIn\") ### Search all Known Exploited Vulnerabilities Catalog Search by keyword, term, or phrase (op",
+        "[Show more](https://www.cisa.gov/known-exploited-vulnerabilities-catalog#) No result [Reset](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) # Known Exploited Vulnerabilities Catalog For the benefit of the cybersecurity community and network defenders - and to help every organization better manage vulnerabilities and keep pace with threat activity - CISA maintains the authoritative source of vulnerabilities that have been exploited in the wild. Organizations should use the KEV catalog as an input to their vulnerability management prioritization framework. Learn more about [how to use the KEV catalog](https://www.cisa.gov/known-explo",
+        "Additional Notes This vulnerability affects an open-source component, third-party library, protocol, or proprietary implementation that could be used by different products. For more information, please see: <https://github.com/google/brotli/releases/tag/v1.2.1>[(link is external)](https://github.com/google/brotli/releases/tag/v1.2.1) ; ; BOD 26-04: <https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk> ; Forensics Triage Requirements: <https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk> ; <https://nvd.nist.gov/vuln/detail/CVE-2026-111",
+        "Additional Notes <https://help.nextcloud.com/t/to-collabora-built-in-user-update-asap/250516>[(link is external)](https://help.nextcloud.com/t/to-collabora-built-in-user-update-asap/250516) ; <https://github.com/CollaboraOnline/online/security/advisories/GHSA-g3vx-3m76-fghh>[(link is external)](https://github.com/CollaboraOnline/online/security/advisories/GHSA-g3vx-3m76-fghh) ; BOD 26-04: <https://www.cisa.gov/news-events/directives/bod-26-04-prioritizing-security-updates-based-risk> ; Forensics Triage Requirements: <https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk> ; <http"
+      ],
+      "error": ""
+    },
+    {
+      "label": "FIRST EPSS",
+      "url": "https://www.first.org/epss/",
+      "success": true,
+      "status_code": 200,
+      "title": "Exploit Prediction Scoring System (EPSS)",
+      "word_count": 1492,
+      "snippets": [
+        "The Exploit Prediction Scoring System (EPSS) is a data-driven machine-learning model that estimates the probability that a published CVE will be exploited in the wild in the next 30 days. It offsets subjective judgments with empirical signals from observed exploitation and ongoing activity, helping you focus limited remediation effort where attacks are most likely. EPSS publishes a 0-1 probability (with ranking percentiles) every day for every CVE and makes the data freely and openly accessible via [CSV](https://www.first.org/epss/data) and [API](https://api.first.org/epss/) as well as a [github repo](https://github.com/empiricalsec/epss_scor",
+        "[![FIRST.Org](https://www.first.org/_/img/first-org-green.svg)](https://www.first.org/) * [About FIRST](https://www.first.org/about) * [Mission Statement](https://www.first.org/about/mission) * [Strategy Framework](https://www.first.org/about/strategy/) * [History](https://www.first.org/about/history) * [Sustainable Development Goals](https://www.first.org/about/sdg) * [Organization](https://www.first.org/about/organization) * [Board of Directors](https://www.first.org/about/organization/directors) * Operations Team * [Community & Capacity Building](https://www.first.org/about/organization/ccb) * [Event Office](https://www.first.org/about/org",
+        "[](https://www.first.org/about/sdg \"FIRST Supported Sustainable Development Goals \\(SDG\\)\")[](https://bsky.app/profile/first.org \"BlueSky @first.org\")[](https://infosec.exchange/@firstdotorg \"@FIRSTdotOrg@infosec.exchange\")[](https://twitter.com/FIRSTdotOrg \"Twitter @FIRSTdotOrg\")[](https://www.linkedin.com/company/firstdotorg \"FIRST.Org at LinkedIn\")[](https://www.facebook.com/FIRSTdotorg \"FIRST.Org at Facebook\")[](https://github.com/FIRSTdotorg \"FIRST.Org at Github\")[](https://www.youtube.com/c/FIRSTdotorg \"FIRST.Org at Youtube\")[](https://www.first.org/podcasts \"FIRST.Org Podcasts\") [Copyright](https://www.first.org/copyright) © 2015 - 2026 "
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub SARIF support",
+      "url": "https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support",
+      "success": true,
+      "status_code": 200,
+      "title": "SARIF support for code scanning - GitHub Docs",
+      "word_count": 6651,
+      "snippets": [
+        "## [Security and code quality](https://docs.github.com/en/code-security) * * [](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support#) * Getting started * [GitHub security features](https://docs.github.com/en/code-security/getting-started/github-security-features) * [Secure repository quickstart](https://docs.github.com/en/code-security/getting-started/quickstart-for-securing-your-repository) * Concepts * Secret security * [Secret leakage risks](https://docs.github.com/en/code-security/concepts/secret-security/secret-leakage-risks) * [Secret scanning](https://docs.github.com/en/code-security/concepts/secr",
+        "When you compare SARIF files generated by analyzing different codebases with the same tool and rules, you should see differences in the results of the analyses but not in the rules. ## [Source file locations](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support#source-file-locations) Specifying source file locations and lines of code ensures code scanning alerts are displayed accurately within the file containing the identified problem, allowing for targeted issue resolution. This precision enhances the efficiency of code review and resolution processes, streamlining development workflows by enabling deve",
+        "GitHub can parse SARIF files produced by third-party tools to display code scanning alerts in repositories. For more information, see [About SARIF files for code scanning](https://docs.github.com/en/code-security/concepts/code-scanning/sarif-files). This article highlights key properties of SARIF files to help you upload SARIF files that meet GitHub's requirements and can be converted into useful alerts. If you're using GitHub Actions with the CodeQL analysis workflow or using the CodeQL CLI, then the code scanning results will automatically use the supported subset of SARIF 2.1.0. ## [Data for preventing duplicated alerts](https://docs.githu",
+        "| | Alert Limit | 1,000,000 | None | For information about other errors, see [Troubleshooting SARIF uploads](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/troubleshoot-sarif-uploads). ## [Supported properties](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support#supported-properties) If you use a code analysis engine other than CodeQL, you can review the supported SARIF properties to optimize how your analysis results will appear on GitHub. Note You must supply an explicit value for any property marked as \"required\". The empty string is not supported for required properties.",
+        "| ### [`run` object](https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support#run-object) Code scanning uses the `run` object to filter results by tool and provide information about the source of a result. The `run` object contains the `tool.driver` tool component object, which contains information about the tool that generated the results. Each `run` can only have results for one analysis tool."
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub upload SARIF",
+      "url": "https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file",
+      "success": true,
+      "status_code": 200,
+      "title": "Uploading a SARIF file to GitHub - GitHub Docs",
+      "word_count": 3873,
+      "snippets": [
+        "## [Security and code quality](https://docs.github.com/en/code-security) * * [](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file#) * Getting started * [GitHub security features](https://docs.github.com/en/code-security/getting-started/github-security-features) * [Secure repository quickstart](https://docs.github.com/en/code-security/getting-started/quickstart-for-securing-your-repository) * Concepts * Secret security * [Secret leakage risks](https://docs.github.com/en/code-security/concepts/secret-security/secret-leakage-risks) * [Secret scanning](https://docs.g",
+        "By default, code scanning expects one SARIF results file per analysis for a repository. If you want to upload more than one set of results for a commit in a repository, you must identify each set of results as a unique set. Note For private and internal repositories, code scanning is available when GitHub Code Security features are enabled for the repository. If you see the error `GitHub Code Security or GitHub Advanced Security must be enabled for this repository to use code scanning`, check that GitHub Code Security is enabled. For more information, see [Managing security and analysis settings for your repository](https://docs.github.com/en",
+        "For more information, see the [`upload-sarif` action](https://github.com/github/codeql-action/tree/v4/upload-sarif). The `upload-sarif` action can be configured to run when the `push` and `scheduled` event occur. For more information about GitHub Actions events, see [Events that trigger workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows). If your SARIF file doesn't include `partialFingerprints`, the `upload-sarif` action will calculate the `partialFingerprints` field for you and attempt to prevent duplicate alerts. GitHub can only create `partialFingerprints` when the repository contain",
+        "jobs: build: runs-on: ubuntu-latest permissions: # required for all workflows security-events: write # only required for workflows in private repositories actions: read contents: read steps: # This step checks out a copy of your repository.",
+        "* Using GitHub Actions to upload results from other static analysis tools, then you must specify a `category` input if you upload more than one file of results for the same tool in one workflow. For more information, see [Uploading a SARIF file to GitHub](https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/integrate-with-existing-tools/upload-sarif-file#uploading-a-code-scanning-analysis-with-github-actions)."
+      ],
+      "error": ""
+    },
+    {
+      "label": "Zephyr hardening tool",
+      "url": "https://docs.zephyrproject.org/latest/security/hardening-tool.html",
+      "success": true,
+      "status_code": 200,
+      "title": "Hardening Tool  -  Zephyr Project Documentation",
+      "word_count": 1716,
+      "snippets": [
+        "Do not add an `n` rule for an option that can only be enabled while another `n` rule covering at least the same profiles is already violated; for example, a rule for a shell command module is redundant once [`CONFIG_SHELL`](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_SHELL \"CONFIG_SHELL\") itself is flagged, and CI rejects it. A rule for an option that merely `select`s a flagged one is not redundant: it names what the user must actually change. Rules do not carry applicability conditions: whether a recommendation applies to a given target is already encoded in Kconfig itself (dependencies, hardware support), and the tool reports ",
+        "To simplify this process, Zephyr offers a **hardening tool** designed to analyze an application’s configuration against the **hardening database** , a set of recommendations curated by the Zephyr **Security Working Group**. The tool looks at the Kconfig options in the build target and provides tailored suggestions and recommendations to adjust security-related options, along with the rationale behind each recommendation. ## Usage[](https://docs.zephyrproject.org/latest/security/hardening-tool.html#usage \"Link to this heading\") Using west:",
+        "``` Copy to clipboard The output should be similar to the table below. For each configuration option set to a value that could lead to a security vulnerability, the table will propose a recommended value that should be used instead, together with the reason the option matters.",
+        "``` Copy to clipboard Options that are not applicable to the current target (for example, MPU-based protections on hardware without an MPU, or options with no visible prompt in the current configuration) are not reported. In addition to the database-driven checks, the tool flags any enabled option that is marked in Kconfig itself as experimental, deprecated or not secure (i.e. options selecting [`CONFIG_EXPERIMENTAL`](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_EXPERIMENTAL \"CONFIG_EXPERIMENTAL\"), [`CONFIG_DEPRECATED`](https://docs.zephyrproject.org/latest/kconfig.html#CONFIG_DEPRECATED \"CONFIG_DEPRECATED\") or [`CONFIG_NOT_SECUR",
+        "zephyrproject.org Links [Project Home](https://www.zephyrproject.org/) [SDK](https://github.com/zephyrproject-rtos/sdk-ng/releases) [Releases](https://github.com/zephyrproject-rtos/zephyr/releases) * [Introduction](https://docs.zephyrproject.org/latest/introduction/index.html) * [Developing with Zephyr](https://docs.zephyrproject.org/latest/develop/index.html) * [Kernel](https://docs.zephyrproject.org/latest/kernel/index.html) * [Services](https://docs.zephyrproject.org/latest/services/index.html) * [Build and Configuration Systems](https://docs.zephyrproject.org/latest/build/index.html) * [Hardware Support](https://docs.zephyrproject.org/lat"
+      ],
+      "error": ""
+    },
+    {
+      "label": "ESP-IDF security overview",
+      "url": "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html",
+      "success": true,
+      "status_code": 200,
+      "title": "Security Overview - ESP32 -   -  ESP-IDF Programming Guide v6.1 documentation",
+      "word_count": 1988,
+      "snippets": [
+        "#### Anti-Rollback Protection[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html#anti-rollback-protection \"Permalink to this heading\") Anti-rollback protection feature ensures that device only executes the application that meets the security version criteria as stored in its eFuse. So even though the application is trusted and signed by legitimate key, it may contain some revoked security feature or credential. Hence, device must reject any such application. ESP-IDF allows this feature for the application only and it is managed through 2nd stage bootloader. The security version is stored in the device eFuse ",
+        "## Platform Security[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html#platform-security \"Permalink to this heading\") ### Secure Boot[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html#secure-boot \"Permalink to this heading\") The Secure Boot feature ensures that only authenticated software can execute on the device. The Secure Boot process forms a chain of trust by verifying all **mutable** software entities involved in the [Application Startup Flow](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-guides/startup.html). Signature verification happens during ",
+        "#### UART Download Mode[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html#uart-download-mode \"Permalink to this heading\") For ESP32 ECO3 case, UART Download mode stays disabled if any of the security features are enabled in their release configuration. Alternatively, it can also be disabled by calling [`esp_efuse_disable_rom_download_mode()`](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/efuse.html#_CPPv435esp_efuse_disable_rom_download_modev) at runtime. Important If UART Download mode is disabled then `esptool` can not work on the device. ## Network Security[](https://d",
+        "[ ESP-IDF Programming Guide ![Logo](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/_static/espressif-logo.svg) ](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/index.html) Choose target... ESP32 ESP32-S2 ESP32-S3 ESP32-S31 ESP32-C2 ESP32-C3 ESP32-C5 ESP32-C6 ESP32-C61 ESP32-H2 ESP32-P4 Choose version... stable (v6.1) v6.0.3 v5.5.6 v5.4.4 v5.3.6 Pre-Release Versions master (latest) release/v6.1 release/v6.0 release/v5.5 release/v5.4 release/v5.3 * [Get Started](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html) * [API Reference](https://docs.espressif.com/projects/esp-idf/en/stable/esp",
+        "## Product Security[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html#product-security \"Permalink to this heading\") ### Secure Provisioning[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/security.html#secure-provisioning \"Permalink to this heading\") Secure Provisioning refers to a process of secure on-boarding of the ESP device on to the Wi-Fi network. This mechanism also allows provision of additional custom configuration data during the initial provisioning phase from the provisioning entity, e.g., Smartphone. ESP-IDF provides various security schemes to establish a secure session"
+      ],
+      "error": ""
+    },
+    {
+      "label": "ESP-IDF OTA",
+      "url": "https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/ota.html",
+      "success": true,
+      "status_code": 200,
+      "title": "Over The Air Updates (OTA) - ESP32 -   -  ESP-IDF Programming Guide v6.1 documentation",
+      "word_count": 6553,
+      "snippets": [
+        "## Secure OTA Updates Without Secure Boot[](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/ota.html#secure-ota-updates-without-secure-boot \"Permalink to this heading\") The verification of signed OTA updates can be performed even without enabling hardware secure boot. This can be achieved by setting [CONFIG_SECURE_SIGNED_APPS_NO_SECURE_BOOT](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html#config-secure-signed-apps-no-secure-boot) and [CONFIG_SECURE_SIGNED_ON_UPDATE_NO_SECURE_BOOT](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig",
+        "``` Copy to clipboard The signing key must match the one used for application signing, with its public key digest programmed into eFuse. The signed image format is: data content (padded to 4 KB) + 4 KB signature block (see [Signature Block Format](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/secure-boot-v2.html#signature-block-format) in [Secure Boot v2](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/security/secure-boot-v2.html)). For a complete example, see [system/ota/partitions_ota](https://github.com/espressif/esp-idf/tree/v6.1/examples/system/ota/partitions_ota). ## Tuning OTA Performance[](https://",
+        "* ESP_ERR_OTA_VALIDATE_FAILED: OTA image is invalid (either not a valid app image, or - if secure boot is enabled - signature failed to verify.) * ESP_ERR_INVALID_STATE: If flash encryption is enabled, this result indicates an internal error writing the final encrypted bytes to flash.",
+        "[ ESP-IDF Programming Guide ![Logo](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/_static/espressif-logo.svg) ](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/index.html) Choose target... ESP32 ESP32-S2 ESP32-S3 ESP32-S31 ESP32-C2 ESP32-C3 ESP32-C5 ESP32-C6 ESP32-C61 ESP32-H2 ESP32-P4 Choose version... stable (v6.1) v6.0.3 v5.5.6 v5.4.4 v5.3.6 Pre-Release Versions master (latest) release/v6.1 release/v6.0 release/v5.5 release/v5.4 release/v5.3 * [Get Started](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html) * [API Reference](https://docs.espressif.com/projects/esp-idf/en/stable/esp",
+        "| If [CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/kconfig-reference.html#config-bootloader-app-rollback-enable) option is not enabled (by default), then the use of the following functions [`esp_ota_mark_app_valid_cancel_rollback()`](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/ota.html#_CPPv438esp_ota_mark_app_valid_cancel_rollbackv) and [`esp_ota_mark_app_invalid_rollback_and_reboot()`](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/api-reference/system/ota.html#_CPPv444esp_ota_mark_app_invalid_rollback_and_rebootv) are optio"
+      ],
+      "error": ""
+    },
+    {
+      "label": "OWASP IoT firmware testing",
+      "url": "https://owasp.org/www-project-internet-of-things/",
+      "success": true,
+      "status_code": 308,
+      "title": "OWASP Internet of Things | OWASP Foundation",
+      "word_count": 297,
+      "snippets": [
+        "[OWASP Foundation](https://owasp.org/) [Home](https://owasp.org/)[Projects](https://owasp.org/projects)[Chapters](https://owasp.org/chapters)[Events](https://owasp.org/events)[Meetings](https://owasp.org/meetings)[News](https://owasp.org/news)[About](https://owasp.org/about) [Sign in](https://owasp.org/auth/sign-in)[Donate](https://owasp.org/donate) ![Search](https://owasp.org/images/icons/search.svg?dpl=dpl_9xNkuo1rQf9Y94c4vZgR7SLYRrrn) # OWASP Internet of Things OWASP Internet of Things - An OWASP lab project [View on GitHub](https://github.com/OWASP/IoTGoat) [![](https://owasp.org/images/icons/book-open.svg?dpl=dpl_9xNkuo1rQf9Y94c4vZgR7SLY",
+        "### Project Leaders #### ized remote control #### ization #### lacking or weak encryption #### a lack of input #### output filtering ### Project Information 🧪Lab Project Classification 🏷️Other Language C License MIT License Contributors 8 GitHub Stars 959 Downloads 58866 Corporate Supporters [Become a Corporate Supporter](https://owasp.org/supporters)[Meet our Corporate Supporters](https://owasp.org/supporters/bios)[Supporter Job Postings](https://owasp.org/supporters/jobs) ![OWASP Logo](https://owasp.org/images/logos/owasp-logo-footer.svg?dpl=dpl_9xNkuo1rQf9Y94c4vZgR7SLYRrrn) OWASP is a nonprofit foundation improving software security throug"
+      ],
+      "error": ""
+    },
+    {
+      "label": "Crawl4AI SDK reference",
+      "url": "https://docs.crawl4ai.com/complete-sdk-reference/",
+      "success": true,
+      "status_code": 200,
+      "title": "Crawl4AI Complete SDK Documentation - Crawl4AI Documentation (v0.9.x)",
+      "word_count": 26465,
+      "snippets": [
+        "* * * **End of Crawl4AI SDK Documentation** #### On this page * [Navigation](https://docs.crawl4ai.com/complete-sdk-reference/#navigation) * [1. Basic Installation](https://docs.crawl4ai.com/complete-sdk-reference/#1-basic-installation) * [2. Initial Setup & Diagnostics](https://docs.crawl4ai.com/complete-sdk-reference/#2-initial-setup-diagnostics) * [2.1 Run the Setup Command](https://docs.crawl4ai.com/complete-sdk-reference/#21-run-the-setup-command) * [2.2 Diagnostics](https://docs.crawl4ai.com/complete-sdk-reference/#22-diagnostics) * [3. Verifying Installation: A Simple Crawl (Skip this step if you already run crawl4ai-doctor)](https://d",
+        "Paste it once. Your agent gets the whole web.[cloud docs →](https://crawl4ai.com/docs?ref=docs-banner&aid=b50a369a52a32277) × don't show this again ★ **Crawl4AI Cloud is live**  -  the same crawler, hosted. 1,000 free credits every month; paste one line into your agent. [Get a key →](https://crawl4ai.com/?ref=docs-banner&aid=b50a369a52a32277) show × * [Home](https://docs.crawl4ai.com/) * [Growth](https://docs.crawl4ai.com/stats/) * [Ask AI](https://docs.crawl4ai.com/core/ask-ai/) * [Quick Start](https://docs.crawl4ai.com/core/quickstart/) * [Code Examples](https://docs.crawl4ai.com/core/examples/) * Apps * [Demo Apps](https://docs.crawl4ai.com/",
+        "* * * * [Crawl4AI Complete SDK Documentation](https://docs.crawl4ai.com/complete-sdk-reference/#crawl4ai-complete-sdk-documentation) * [Navigation](https://docs.crawl4ai.com/complete-sdk-reference/#navigation) * [Installation & Setup](https://docs.crawl4ai.com/complete-sdk-reference/#installation-setup) * [Installation & Setup (2023 Edition)](https://docs.crawl4ai.com/complete-sdk-reference/#installation-setup-2023-edition) * [1. Basic Installation](https://docs.crawl4ai.com/complete-sdk-reference/#1-basic-installation) * [2. Initial Setup & Diagnostics](https://docs.crawl4ai.com/complete-sdk-reference/#2-initial-setup-diagnostics) * [3. Veri",
+        "You can also create your own custom scraping strategy by inheriting from `ContentScrapingStrategy`. The strategy must return a `ScrapingResult` object with the following structure:",
+        "- Check Python version compatibility - Verify Playwright installation - Inspect environment variables or library conflicts If any issues arise, follow its suggestions (e.g., installing additional system packages) and re-run `crawl4ai-setup`."
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO platform section",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html",
+      "title": "Section [platformio]  -  PlatformIO latest documentation",
+      "word_count": 304,
+      "snippets": [
+        "* * * # Section `[platformio]`[](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html#section-platformio \"Link to this heading\") The `platformio` section in the platformio.ini file is used for overriding the default configuration options for [PlatformIO Core (CLI)](https://docs.platformio.org/en/latest/core/index.html#piocore). * [Generic options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/index.html) * [`name`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/name.html) * [`description`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/description",
+        "Configuration * [platformio.ini](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html#) * [Generic options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/index.html) * [Directory options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/index.html) * [Section `[env]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html) * [Interpolation of Values](https://docs.platformio.org/en/latest/projectconf/interpolation.html) * [Examples](https://docs.platformio.org/en/latest/projectconf",
+        "[PlatformIO](https://docs.platformio.org/en/latest/index.html) * [](https://docs.platformio.org/en/latest/index.html) * [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html) * Section `[platformio]` * [ Edit on GitHub](https://github.com/platformio/platformio-docs/blob/develop/projectconf/sections/platformio/index.rst)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO extra_configs option",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/extra_configs.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/extra_configs.html",
+      "title": "extra_configs  -  PlatformIO latest documentation",
+      "word_count": 558,
+      "snippets": [
+        "* * * # `extra_configs`[](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/extra_configs.html#extra-configs \"Link to this heading\") Type: `String (Pattern)` | Multiple: `Yes` This option allows extending a base [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html#projectconf) with extra configuration files. The format and rules are the same as for the [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html#projectconf). A name of the configuration file can be any. `extra_configs` can be a single path to an extra configuration file or a list of the",
+        "Configuration * [platformio.ini](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html) * [Generic options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/index.html) * [`name`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/name.html) * [`description`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/description.html) * [`default_envs`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/default_envs.html) * [`extra_configs`](http",
+        "[PlatformIO](https://docs.platformio.org/en/latest/index.html) * [](https://docs.platformio.org/en/latest/index.html) * [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html) * [Generic options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/index.html) * `extra_configs` * [ Edit on GitHub](https://github.com/platformio/platformio-docs/blob/develop/projectconf/sections/platformio/options/generic/extra_configs.rst)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO config interpolation",
+      "url": "https://docs.platformio.org/en/latest/projectconf/interpolation.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/projectconf/interpolation.html",
+      "title": "Interpolation of Values  -  PlatformIO latest documentation",
+      "word_count": 757,
+      "snippets": [
+        "Configuration * [platformio.ini](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html) * [Section `[env]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html) * [Interpolation of Values](https://docs.platformio.org/en/latest/projectconf/interpolation.html#) * [Examples](https://docs.platformio.org/en/latest/projectconf/examples.html) * [Build Configurations](https://docs.platformio.org/en/latest/projectconf/build_configurations.html) * [Environment Variables](https://docs.platformio.org/en/latest/envvars.html)",
+        "| `/tmp/pio-workspaces/${PROJECT_HASH}` refers to the new directory `/tmp/pio-workspaces/project_name-8f66e9463d/` | | `${sysenv.<name>}` | Embed operating system environment variable by a name | `${sysenv.HOME}` refers to the user home directory on Unix machine | | `${platformio.<option>}` | Embed value from [Section [platformio]](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html#projectconf-section-platformio) | `${platformio.packages_dir}` refers to the path of [packages_dir](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/packages_dir.html#projectconf-pio-packages-dir) | | `${env.<option>}` | Embed default value from ",
+        "[PlatformIO](https://docs.platformio.org/en/latest/index.html) * [](https://docs.platformio.org/en/latest/index.html) * [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html) * Interpolation of Values * [ Edit on GitHub](https://github.com/platformio/platformio-docs/blob/develop/projectconf/interpolation.rst)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO compilation database generation",
+      "url": "https://docs.platformio.org/en/latest/integration/compile_commands.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/integration/compile_commands.html",
+      "title": "Compilation database compile_commands.json  -  PlatformIO latest documentation",
+      "word_count": 398,
+      "snippets": [
+        "* * * # Compilation database `compile_commands.json`[](https://docs.platformio.org/en/latest/integration/compile_commands.html#compilation-database-compile-commands-json \"Link to this heading\") A [compilation database](https://clang.llvm.org/docs/JSONCompilationDatabase.html) is a [JSON-formatted](https://www.json.org/) file named `compile_commands.json` that contains structured data about every compilation unit in your project. You can generate a project `compile_commands.json` using the [`pio run --target`](https://docs.platformio.org/en/latest/core/userguide/cmd_run.html#cmdoption-pio-run-t) command and `compiledb` target. A default location for `compile_commands.json` is a project direc",
+        "Integration * [Cloud & Desktop IDEs](https://docs.platformio.org/en/latest/integration/ide/index.html) * [Continuous Integration](https://docs.platformio.org/en/latest/integration/ci/index.html) * [Compilation database `compile_commands.json`](https://docs.platformio.org/en/latest/integration/compile_commands.html#)",
+        "[PlatformIO](https://docs.platformio.org/en/latest/index.html) * [](https://docs.platformio.org/en/latest/index.html) * Compilation database `compile_commands.json` * [ Edit on GitHub](https://github.com/platformio/platformio-docs/blob/develop/integration/compile_commands.rst)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub attestation verification offline",
+      "url": "https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/verify-attestations-offline",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/verify-attestations-offline",
+      "title": "Verifying attestations offline - GitHub Docs",
+      "word_count": 1764,
+      "snippets": [
+        "### [Confirming the repository in an offline environment](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/verify-attestations-offline#confirming-the-repository-in-an-offline-environment) When you verify offline, `gh attestation verify` compares the `-R` value only with the repository and owner names recorded in the attestation's signing certificate. These are the names that the repository and owner had when the attestation was created. The command can't detect whether the repository or owner has since been renamed, or whether a different repository or owner now uses that name. To make sure an attestation comes from the repository that currently has the n",
+        "2. In your offline environment, add the `--format json` and `--jq` flags to the verification command to print the repository ID from each verified attestation. For `-R`, replace `ORGANIZATION_NAME/REPOSITORY_NAME` with the owner and repository names recorded in the signing certificate. If the repository or owner has been renamed, these differ from the current names used for the API lookup. Bash ``` gh attestation verify PATH/TO/YOUR/BUILD/ARTIFACT-BINARY \\ -R ORGANIZATION_NAME/REPOSITORY_NAME \\ --bundle PATH/TO/YOUR/BUNDLE.jsonl \\ --custom-trusted-root trusted_root.jsonl \\ --format json \\ --jq '.[].verificationResult.signature.certificate.sourceRepositoryIdentifier'",
+        "``` gh attestation verify PATH/TO/YOUR/BUILD/ARTIFACT-BINARY \\ -R ORGANIZATION_NAME/REPOSITORY_NAME \\ --bundle PATH/TO/YOUR/BUNDLE.jsonl \\ --custom-trusted-root trusted_root.jsonl \\ --format json \\ --jq '.[].verificationResult.signature.certificate.sourceRepositoryIdentifier'"
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub artifact attestation creation",
+      "url": "https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations",
+      "title": "Using artifact attestations to establish provenance for builds - GitHub Docs",
+      "word_count": 2393,
+      "snippets": [
+        "## [Generating an attestation for a software bill of materials (SBOM)](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations#generating-an-attestation-for-a-software-bill-of-materials-sbom) You can generate signed SBOM attestations for workflow artifacts. To generate an attestation for an SBOM, you must: * Ensure you have the appropriate permissions configured in your workflow. * Create an SBOM for your artifact. For more information, see [`anchore-sbom-action`](https://github.com/marketplace/actions/anchore-sbom-action) in the GitHub Marketplace. * Include a step in your workflow that uses the [`attest` action](https://github.com/act",
+        "When you run your updated workflows, they will build your artifacts and generate an SBOM attestation. You can view attestations in your repository's **Actions** tab. For more information, see the [`attest`](https://github.com/actions/attest) repository. ### [Generating an SBOM attestation for binaries](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations#generating-an-sbom-attestation-for-binaries) 1. In the workflow that builds the binary you would like to attest, add the following permissions.",
+        "### [Generating an SBOM attestation for container images](https://docs.github.com/en/actions/how-tos/secure-your-work/use-artifact-attestations/use-artifact-attestations#generating-an-sbom-attestation-for-container-images) 1. In the workflow that builds the container image you would like to attest, add the following permissions."
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub Actions secure use reference",
+      "url": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.github.com/en/actions/reference/security/secure-use",
+      "title": "Secure use reference - GitHub Docs",
+      "word_count": 5841,
+      "snippets": [
+        "## [Using third-party actions](https://docs.github.com/en/actions/reference/security/secure-use#using-third-party-actions) The individual jobs in a workflow can interact with (and compromise) other jobs. For example, a job querying the environment variables used by a later job, writing files to a shared directory that a later job processes, or even more directly by interacting with the Docker socket and inspecting other running containers and executing commands in them. This means that a compromise of a single action within a workflow can be very significant, as that compromised action would have access to all secrets configured on your repository, and may be able to use the `GITHUB_TOKEN` t",
+        "## [GitHub Actions](https://docs.github.com/en/actions) * * [](https://docs.github.com/en/actions/reference/security/secure-use#) * Get started * [Quickstart](https://docs.github.com/en/actions/get-started/quickstart) * [Understand GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions) * [Continuous integration](https://docs.github.com/en/actions/get-started/continuous-integration) * [Continuous deployment](https://docs.github.com/en/actions/get-started/continuous-deployment) * [Actions vs Apps](https://docs.github.com/en/actions/get-started/actions-vs-apps) * Concepts * Workflows and actions * [Workflows](https://docs.github.com/en/actions/concepts/workflo",
+        "In this article # Secure use reference Security practices for writing workflows and using GitHub Actions features. Copy markdown ## In this article * [Writing workflows](https://docs.github.com/en/actions/reference/security/secure-use#writing-workflows) * [Mitigating the risks of untrusted code checkout](https://docs.github.com/en/actions/reference/security/secure-use#mitigating-the-risks-of-untrusted-code-checkout) * [Using third-party actions](https://docs.github.com/en/actions/reference/security/secure-use#using-third-party-actions) * [GitHub's security features](https://docs.github.com/en/actions/reference/security/secure-use#githubs-security-features)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO environment section",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/env/index.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/env/index.html",
+      "title": "Section [env]  -  PlatformIO latest documentation",
+      "word_count": 830,
+      "snippets": [
+        "``` Copy to clipboard ## [Working `[env:NAME]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#id2)[](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#working-env-name \"Link to this heading\") A working environment in PlatformIO is defined using the `[env:NAME]` syntax. This environment is used by various PlatformIO commands such as [pio run](https://docs.platformio.org/en/latest/core/userguide/cmd_run.html#cmd-run), [pio test](https://docs.platformio.org/en/latest/core/userguide/cmd_test.html#cmd-test), [pio check](https://docs.platformio.org/en/latest/core/userguide/cmd_check.html#cmd-check), [pio debug](https://docs.platformio.org/en/latest/core/userguide/cmd_debug.html#cmd-debug), and ",
+        "Configuration * [platformio.ini](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html) * [Section `[env]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#) * [Common `[env]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#common-env) * [Working `[env:NAME]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#working-env-name) * [Options](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#options) * [Platform options](https://docs.platformio.org/en/latest/projectconf/sections/env/options/platform/index.html) * [Build options](ht",
+        "Each project may have multiple _configuration environments_ defining the available project tasks for building, programming, debugging, unit testing, device monitoring, library dependencies, etc. The configuration environments are declared using `[env]` sections in [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html#projectconf). The allowed options are listed under [Options](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#options). ## [Common `[env]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#id1)[](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html#common-env \"Link to this heading\") An optional configur"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO source filter option",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/env/options/build/build_src_filter.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/env/options/build/build_src_filter.html",
+      "title": "build_src_filter  -  PlatformIO latest documentation",
+      "word_count": 391,
+      "snippets": [
+        "* * * # `build_src_filter`[](https://docs.platformio.org/en/latest/projectconf/sections/env/options/build/build_src_filter.html#build-src-filter \"Link to this heading\") Type: `String (Templates)` | Multiple: `Yes` This option allows one to specify which source files should be included or excluded from [src_dir](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/src_dir.html#projectconf-pio-src-dir) for a build process. Filter supports two templates: * `+<PATH>` include template * `-<PATH>` exclude template",
+        "`PATH` is relative to [src_dir](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/src_dir.html#projectconf-pio-src-dir). All patterns will be applied in their order of definition. [GLOB Patterns](http://en.wikipedia.org/wiki/Glob_\\(programming\\)) are allowed. By default, `build_src_filter` is predefined to `+<*> -<.git/> -<.svn/>`, meaning “include ALL files, then exclude the `.git` and `.svn` repository folders. This option can also be set by the global environment variable [`PLATFORMIO_BUILD_SRC_FILTER`](https://docs.platformio.org/en/latest/envvars.html#envvar-PLATFORMIO_BUILD_SRC_FILTER). **Example** Include all `.c` and `.cpp` files recursively (`**` means ANY path) to the build process but exclude",
+        "[PlatformIO](https://docs.platformio.org/en/latest/index.html) * [](https://docs.platformio.org/en/latest/index.html) * [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[env]`](https://docs.platformio.org/en/latest/projectconf/sections/env/index.html) * [Build options](https://docs.platformio.org/en/latest/projectconf/sections/env/options/build/index.html) * `build_src_filter` * [ Edit on GitHub](https://github.com/platformio/platformio-docs/blob/develop/projectconf/sections/env/options/build/build_src_filter.rst)"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO build directory option",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/env/options/build/build_dir.html",
+      "success": false,
+      "status_code": 404,
+      "final_url": "https://docs.platformio.org/en/latest/404.html",
+      "title": "Page not found  -  PlatformIO latest documentation",
+      "word_count": 207,
+      "snippets": [],
+      "error": ""
+    },
+    {
+      "label": "SLSA provenance predicate",
+      "url": "https://slsa.dev/spec/v1.2/provenance",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://slsa.dev/spec/v1.2/provenance",
+      "title": "SLSA • Provenance",
+      "word_count": 414,
+      "snippets": [],
+      "error": ""
+    },
+    {
+      "label": "in-toto statement specification",
+      "url": "https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md",
+      "title": "attestation/spec/v1/statement.md at main · in-toto/attestation · GitHub",
+      "word_count": 887,
+      "snippets": [
+        "73 lines (59 loc) · 2.43 KB [Raw](https://github.com/in-toto/attestation/raw/refs/heads/main/spec/v1/statement.md) Copy raw file Download raw file Outline Edit and raw actions # Statement layer specification [](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md#statement-layer-specification) The Statement is the middle layer of the attestation, binding it to a particular subject and unambiguously identifying the types of the [Predicate](https://github.com/in-toto/attestation/blob/main/spec/v1/predicate.md). ## Schema [](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md#schema)",
+        "``` { \"_type\": \"https://in-toto.io/Statement/v1\", \"subject\": [ { \"name\": \"<NAME>\", \"digest\": {\"<ALGORITHM>\": \"<HEX_VALUE>\"} }, ... ], \"predicateType\": \"<URI>\", \"predicate\": { ... } } ```",
+        "## Fields [](https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md#fields) The Statement is represented as a [JSON](https://www.json.org/json-en.html) object with the following fields. Additional [parsing rules](https://github.com/in-toto/attestation/blob/main/spec/v1/README.md#parsing-rules) apply. `_type` _string ([TypeURI](https://github.com/in-toto/attestation/blob/main/spec/v1/field_types.md#TypeURI)), required_ > Identifier for the schema of the Statement. Always `https://in-toto.io/Statement/v1` for this version of the spec. `subject` _array of[ResourceDescriptor](https://github.com/in-toto/attestation/blob/main/spec/v1/resource_descriptor.md) objects, required_ > Set of software artifacts that the attestation applies"
+      ],
+      "error": ""
+    },
+    {
+      "label": "GitHub immutable releases",
+      "url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases",
+      "title": "Immutable releases - GitHub Docs",
+      "word_count": 2667,
+      "snippets": [
+        "Only the assets and tag are locked. You can still edit the title and release notes of a published immutable release, and change whether it is marked as a pre-release or as the latest release. Additionally, creating an immutable release automatically generates a **release attestation** , which is a cryptographically verifiable record of a release containing the release tag, commit SHA, and release assets. Consumers can use this attestation to make sure the releases and artifacts they are using exactly match the published GitHub releases. Note Immutable releases include protection against repository resurrection attacks. Even if you delete a repository and create a new one with the same name, you cannot reuse tags that were associated with im",
+        "**Immutable releases** are releases where the assets and associated Git tag cannot be changed after publication. The use of this type of release increases security by blocking supply chain attacks. Attackers cannot: * Inject vulnerabilities or malware into current project releases. * Make changes to assets and tags that may break developer workflows.",
+        "## [What immutable releases protect](https://docs.github.com/en/code-security/concepts/supply-chain-security/immutable-releases#what-immutable-releases-protect) When you enable immutable releases, the following protections are enforced: * **Git tags cannot be moved** : Once an immutable release is published, its associated Git tag is locked to a specific commit, cannot be changed, and cannot be deleted while the release exists. If you delete the immutable release, you can delete the tag, but you cannot reuse the same tag name. * **Release assets cannot be modified or deleted** : All files attached to the release (such as binaries and archives) are protected from modification or deletion."
+      ],
+      "error": ""
+    },
+    {
+      "label": "Python tar extraction filters",
+      "url": "https://docs.python.org/3/library/tarfile.html#extraction-filters",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.python.org/3/library/tarfile.html#extraction-filters",
+      "title": "tarfile  -  Read and write tar archive files  -  Python 3.15.2 documentation",
+      "word_count": 8022,
+      "snippets": [
+        "Changed in version 3.3: Added support for [`lzma`](https://docs.python.org/3/library/lzma.html#module-lzma \"lzma: A Python wrapper for the liblzma compression library.\") compression. Changed in version 3.12: Archives are extracted using a [filter](https://docs.python.org/3/library/tarfile.html#tarfile-extraction-filter), which makes it possible to either limit surprising/dangerous features, or to acknowledge that they are expected and the archive is fully trusted. Changed in version 3.14: Set the default extraction filter to [`data`](https://docs.python.org/3/library/tarfile.html#tarfile.data_filter \"tarfile.data_filter\"), which disallows some dangerous features such as links to absolute paths or paths outside of the destination. Previously",
+        "TarFile.extractall(_path ='.'_, _members =None_, _*_ , _numeric_owner =False_, _filter =None_)[¶](https://docs.python.org/3/library/tarfile.html#tarfile.TarFile.extractall \"Link to this definition\")",
+        "Extract all members from the archive to the current working directory or directory _path_. If optional _members_ is given, it must be a subset of the list returned by [`getmembers()`](https://docs.python.org/3/library/tarfile.html#tarfile.TarFile.getmembers \"tarfile.TarFile.getmembers\"). Directory information like owner, modification time and permissions are set after all members have been extracted. This is done to work around two problems: A directory’s modification time is reset each time a file is created in it. And, if a directory’s permissions do not allow writing, extracting files to it will fail. If _numeric_owner_ is [`True`](https://docs.python.org/3/builtins/constants.html#True \"True\"), the uid and gid numbers from the tarfile ar"
+      ],
+      "error": ""
+    },
+    {
+      "label": "Python zip decompression limits",
+      "url": "https://docs.python.org/3/library/zipfile.html#decompression-pitfalls",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.python.org/3/library/zipfile.html#decompression-pitfalls",
+      "title": "zipfile  -  Work with ZIP archives  -  Python 3.15.2 documentation",
+      "word_count": 5891,
+      "snippets": [
+        "Specify encoding of member names for [`-l`](https://docs.python.org/3/library/zipfile.html#cmdoption-zipfile-l), [`-e`](https://docs.python.org/3/library/zipfile.html#cmdoption-zipfile-e) and [`-t`](https://docs.python.org/3/library/zipfile.html#cmdoption-zipfile-t). Added in version 3.11. ## Decompression pitfalls[¶](https://docs.python.org/3/library/zipfile.html#decompression-pitfalls \"Link to this heading\") The extraction in zipfile module might fail due to some pitfalls listed below. ### From file itself[¶](https://docs.python.org/3/library/zipfile.html#from-file-itself \"Link to this heading\") Decompression may fail due to incorrect password / CRC checksum / ZIP format or unsupported compression method / decryption. ### File system limi",
+        "[ ![Python logo](https://docs.python.org/3/_static/py.svg) ](https://www.python.org/) dev (3.16) 3.15.2 3.14 3.13 3.12 3.11 3.10 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0 2.7 2.6 German | Deutsch Greek | Ελληνικά English Spanish | español Persian | فارسی French | français Italian | italiano Japanese | 日本語 Korean | 한국어 Punjabi | ਪੰਜਾਬੀ Polish | polski Brazilian Portuguese | Português brasileiro Romanian | Românește Russian | Русский Turkish | Türkçe Simplified Chinese | 简体中文 Traditional Chinese | 繁體中文 Theme Auto Light Dark ### [Table of Contents](https://docs.python.org/3/contents.html) * [`zipfile`  -  Work with ZIP archives](https://docs.python.org/3/library/zipfile.html#) * [ZipFile objects](https://docs.python.org/3/library/zipfile.html#zipf",
+        "# `zipfile`  -  Work with ZIP archives[¶](https://docs.python.org/3/library/zipfile.html#module-zipfile \"Link to this heading\") **Source code:** [Lib/zipfile/](https://github.com/python/cpython/tree/3.15/Lib/zipfile/) * * * The ZIP file format is a common archive and compression standard. This module provides tools to create, read, write, append, and list a ZIP file. Any advanced use of this module will require an understanding of the format, as defined in [PKZIP Application Note](https://pkware.cachefly.net/webdocs/casestudies/APPNOTE.TXT). This module does not handle multipart ZIP files. It can handle ZIP files that use the ZIP64 extensions (that is ZIP files that are more than 4 GiB in size). It supports decryption of encrypted files in ZI"
+      ],
+      "error": ""
+    },
+    {
+      "label": "PlatformIO build directory option",
+      "url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/build_dir.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/build_dir.html",
+      "title": "build_dir  -  PlatformIO latest documentation",
+      "word_count": 423,
+      "snippets": [
+        "Configuration * [platformio.ini](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html) * [Generic options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/index.html) * [Directory options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/index.html) * [`core_dir`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/core_dir.html) * [`globallib_dir`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/globallib_dir.html) * [`platfo",
+        "[PlatformIO](https://docs.platformio.org/en/latest/index.html) * [](https://docs.platformio.org/en/latest/index.html) * [“platformio.ini” (Project Configuration File)](https://docs.platformio.org/en/latest/projectconf/index.html) * [Section `[platformio]`](https://docs.platformio.org/en/latest/projectconf/sections/platformio/index.html) * [Directory options](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/index.html) * `build_dir` * [ Edit on GitHub](https://github.com/platformio/platformio-docs/blob/develop/projectconf/sections/platformio/options/directory/build_dir.rst)",
+        "* * * # `build_dir`[](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/build_dir.html#build-dir \"Link to this heading\") Warning **PLEASE DO NOT EDIT FILES IN THIS FOLDER**. PlatformIO will overwrite your changes on the next build. **THIS IS A CACHE DIRECTORY**. Type: `DirPath` | Multiple: `No` | Default: “[workspace_dir](https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/directory/workspace_dir.html#projectconf-pio-workspace-dir)/build” _PlatformIO Build System_ uses this folder for project environments to store compiled object files, static libraries, firmwares and other cached information. It allows PlatformIO to build sour"
+      ],
+      "error": ""
+    },
+    {
+      "label": "KiCad schematic netlist export",
+      "url": "https://docs.kicad.org/9.0/en/cli/cli.html#schematic_netlist_export",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://docs.kicad.org/9.0/en/cli/cli.html#schematic_netlist_export",
+      "title": "KiCad Command-Line Interface | 9.0 | English | Documentation | KiCad",
+      "word_count": 12986,
+      "snippets": [
+        "Usage: `kicad-cli fp upgrade [--help] [--output OUTPUT_DIR] [--force] INPUT_DIR` Positional arguments: | `INPUT_DIR` | Footprint library directory to upgrade. For KiCad format footprint libraries, this is the `.pretty` directory, not a `.kicad_mod` file. | | --- | --- | Optional arguments: | `-h`, `--help` | Show help for the footprint upgrade command. | | --- | --- | | `-o <output dir>`, `--output <output dir>` | The output directory for the upgraded footprints. When `--output` is not used, the upgraded footprints are saved over the original footprints. | | `--force` | Re-save the input library even if it is already in the current file format. | ## Jobset commands[](https://docs.kicad.org/9",
+        "#### Table of Contents * [Introduction to the KiCad Command-Line Interface](https://docs.kicad.org/9.0/en/cli/cli.html#introduction_to_the_kicad_command_line_interface) * [Footprint commands](https://docs.kicad.org/9.0/en/cli/cli.html#footprint_commands) * [Footprint export](https://docs.kicad.org/9.0/en/cli/cli.html#footprint_export) * [Footprint upgrade](https://docs.kicad.org/9.0/en/cli/cli.html#footprint_upgrade) * [Jobset commands](https://docs.kicad.org/9.0/en/cli/cli.html#jobset_commands) * [PCB commands](https://docs.kicad.org/9.0/en/cli/cli.html#pcb_commands) * [PCB DRC](https://docs.kicad.org/9.0/en/cli/cli.html#pcb_drc) * [PCB BREP (OCCT) export](https://docs.kicad.org/9.0/en/cli/",
+        "_KiCad 9.0 Reference Manual_ **Copyright** This document is Copyright The KiCad Documentation Contributors. You may distribute it and/or modify it under the terms of either the GNU General Public License (<http://www.gnu.org/licenses/gpl.html>), version 3 or later, or the Creative Commons Attribution License (<http://creativecommons.org/licenses/by/3.0/>), version 3.0 or later. All trademarks within this guide belong to their legitimate owners. **Contributors** Graham Keeth **Feedback** The KiCad project welcomes feedback, bug reports, and suggestions related to the software or its documentation. For more information on how to submit feedback or report an issue, please see the instructions a"
+      ],
+      "error": ""
+    },
+    {
+      "label": "KiCad schematic file format",
+      "url": "https://dev-docs.kicad.org/en/file-formats/sexpr-schematic/index.html",
+      "success": true,
+      "status_code": 200,
+      "final_url": "https://dev-docs.kicad.org/en/file-formats/sexpr-schematic/index.html",
+      "title": "Schematic File Format | Developer Documentation | KiCad",
+      "word_count": 2948,
+      "snippets": [
+        "``` (symbol \"LIBRARY_IDENTIFIER\" __**(1)** POSITION_IDENTIFIER __**(2)** (unit UNIT) __**(3)** (in_bom yes|no) __**(4)** (on_board yes|no) __**(5)** UNIQUE_IDENTIFIER __**(6)** PROPERTIES __**(7)** (pin \"1\" (uuid e148648c-6605-4af1-832a-31eaf808c2f8)) __**(8)** (instances __**(9)** (project \"PROJECT_NAME\" __**(10)** (path \"PATH_INSTANCE\" __**(11)** (reference \"REFERENCE\") __**(12)** (unit UNIT) __**(13)** )",
+        "| **1** | The [LIBRARY_IDENTIFIER](https://dev-docs.kicad.org/en/file-formats/sexpr-intro/index.html#_library_identifier) defines which symbol in the [library symbol section](https://dev-docs.kicad.org/en/file-formats/sexpr-schematic/index.html#_library_symbol_section) of the schematic that this schematic symbol references. | | --- | --- | | **2** | The POSITION_IDENTIFIER defines the [X and Y coordinates and angle of rotation](https://dev-docs.kicad.org/en/file-formats/sexpr-intro/index.html#_position_identifier) of the symbol. | | **3** | The `unit` token attribute defines which unit in the symbol library definition that the schematic symbol represents. | | **4** | The `in_bom` token attri"
+      ],
+      "error": ""
+    }
+  ]
+}
