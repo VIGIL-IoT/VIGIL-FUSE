@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import configparser
+import glob
 import hashlib
 import json
 import os
@@ -10,12 +11,16 @@ from typing import Any
 
 from .model import (
     CompilationDatabaseInventory,
+    PlatformIOConfigArtifact,
     PlatformIOEnvironment,
     PlatformIOInventory,
 )
 from .text_safety import safe_report_text
 
 MAX_PLATFORMIO_BYTES = 2 * 1024 * 1024
+MAX_PLATFORMIO_CONFIG_FILES = 64
+MAX_PLATFORMIO_CONFIG_DEPTH = 8
+MAX_PLATFORMIO_TOTAL_BYTES = 10 * 1024 * 1024
 MAX_COMPILATION_DATABASE_BYTES = 20 * 1024 * 1024
 MAX_COMPILATION_DATABASE_ENTRIES = 100_000
 
@@ -71,6 +76,157 @@ def _csv_values(value: str | None) -> tuple[str, ...]:
     )
 
 
+def _load_platformio_config_graph(
+    root: Path, root_config: Path, root_display: str
+) -> tuple[dict[str, dict[str, str]], tuple[PlatformIOConfigArtifact, ...], list[str], bool]:
+    """Merge a bounded PlatformIO extra_configs graph without expanding variables."""
+    sections: dict[str, dict[str, str]] = {}
+    artifacts: list[PlatformIOConfigArtifact] = []
+    limitations: list[str] = []
+    root_path = root.resolve(strict=True)
+    visited: set[Path] = set()
+    active: set[Path] = set()
+    total_bytes = 0
+    root_invalid = False
+
+    def load(config_path: Path, depth: int, is_root: bool = False) -> None:
+        nonlocal total_bytes, root_invalid
+        if depth > MAX_PLATFORMIO_CONFIG_DEPTH:
+            limitations.append(
+                f"PlatformIO extra_configs depth exceeded {MAX_PLATFORMIO_CONFIG_DEPTH}; remaining includes were not inspected."
+            )
+            return
+        lexical = Path(os.path.abspath(config_path))
+        try:
+            relative = lexical.relative_to(root_path)
+        except ValueError:
+            limitations.append("A PlatformIO extra_configs entry resolved outside the scan target and was not read.")
+            return
+        cursor = root_path
+        for part in relative.parts:
+            cursor = cursor / part
+            if cursor.is_symlink():
+                limitations.append("A symbolic link in PlatformIO extra_configs was not followed.")
+                return
+        try:
+            resolved = lexical.resolve(strict=True)
+            display_path = resolved.relative_to(root_path).as_posix()
+        except (OSError, ValueError):
+            limitations.append("A PlatformIO extra_configs entry was missing or outside the scan target.")
+            return
+        if resolved in active:
+            limitations.append("A cycle in PlatformIO extra_configs was detected; the repeated file was not read.")
+            return
+        if resolved in visited:
+            return
+        if len(artifacts) >= MAX_PLATFORMIO_CONFIG_FILES:
+            limitations.append(f"PlatformIO extra_configs exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-file limit.")
+            return
+        try:
+            data = _read_bounded(resolved, MAX_PLATFORMIO_BYTES, "PlatformIO configuration")
+        except ValueError as error:
+            limitations.append(f"{display_path}: {error}")
+            if is_root:
+                root_invalid = True
+            return
+        if total_bytes + len(data) > MAX_PLATFORMIO_TOTAL_BYTES:
+            limitations.append(
+                f"PlatformIO configuration inputs exceeded the {MAX_PLATFORMIO_TOTAL_BYTES}-byte total limit."
+            )
+            if is_root:
+                root_invalid = True
+            return
+        total_bytes += len(data)
+        artifacts.append(
+            PlatformIOConfigArtifact(
+                path=safe_report_text(display_path, limit=1000) or "unknown-path",
+                sha256=hashlib.sha256(data).hexdigest(),
+                byte_size=len(data),
+            )
+        )
+        try:
+            text = data.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            limitations.append(f"{display_path} is not UTF-8 text and was not parsed.")
+            if is_root:
+                root_invalid = True
+            visited.add(resolved)
+            return
+        parser = configparser.ConfigParser(interpolation=None, strict=False)
+        try:
+            parser.read_string(text)
+        except configparser.Error as error:
+            limitations.append(
+                f"{display_path} parse failed ({type(error).__name__}); that file was not merged."
+            )
+            if is_root:
+                root_invalid = True
+            visited.add(resolved)
+            return
+
+        active.add(resolved)
+        for section in parser.sections():
+            sections.setdefault(section, {}).update(dict(parser.items(section, raw=True)))
+        include_text = parser.get("platformio", "extra_configs", fallback="", raw=True)
+        patterns = [line.strip() for line in include_text.splitlines() if line.strip()]
+        for pattern in patterns:
+            if "${" in pattern or "$PROJECT_DIR" in pattern or "%" in pattern:
+                limitations.append(
+                    f"{display_path} contains an unresolved extra_configs variable; that include was not expanded."
+                )
+                continue
+            if "**" in pattern:
+                limitations.append(
+                    f"{display_path} uses recursive glob syntax in extra_configs; that include was not expanded."
+                )
+                continue
+            pattern_path = Path(pattern).expanduser()
+            lexical_pattern = (
+                Path(os.path.abspath(pattern_path))
+                if pattern_path.is_absolute()
+                else Path(os.path.abspath(root_path / pattern_path))
+            )
+            try:
+                lexical_pattern.relative_to(root_path)
+            except ValueError:
+                limitations.append(
+                    f"{display_path} declares an extra_configs path outside the scan target; it was not read."
+                )
+                continue
+            matches: list[Path] = []
+            match_limit_exceeded = False
+            for match in glob.iglob(str(lexical_pattern), recursive=False):
+                matches.append(Path(match))
+                if len(matches) > MAX_PLATFORMIO_CONFIG_FILES:
+                    limitations.append(
+                        f"{display_path} extra_configs pattern exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-path match limit; none of its matches were merged."
+                    )
+                    match_limit_exceeded = True
+                    break
+            if match_limit_exceeded:
+                continue
+            regular_matches = sorted(
+                (item for item in matches if item.is_file()),
+                key=lambda item: item.as_posix().casefold(),
+            )
+            if not regular_matches:
+                limitations.append(
+                    f"{display_path} extra_configs pattern {safe_report_text(pattern, limit=240)!r} matched no files."
+                )
+            for included in regular_matches:
+                if len(artifacts) >= MAX_PLATFORMIO_CONFIG_FILES:
+                    limitations.append(f"PlatformIO extra_configs exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-file limit.")
+                    break
+                load(included, depth + 1)
+        active.remove(resolved)
+        visited.add(resolved)
+
+    load(root_config, 0, is_root=True)
+    if not artifacts or artifacts[0].path != root_display:
+        root_invalid = True
+    return sections, tuple(artifacts), limitations, root_invalid
+
+
 def inspect_platformio(
     root: Path,
     *,
@@ -90,43 +246,26 @@ def inspect_platformio(
         return PlatformIOInventory()
 
     path, display = _select_project_file(root, supplied, "--platformio-config")
-    try:
-        data = _read_bounded(path, MAX_PLATFORMIO_BYTES, "PlatformIO configuration")
-        text = data.decode("utf-8-sig")
-    except UnicodeDecodeError:
+    merged_sections, config_artifacts, limitations, root_invalid = _load_platformio_config_graph(
+        root, path, display
+    )
+    root_artifact = next((item for item in config_artifacts if item.path == display), None)
+    if root_invalid or root_artifact is None:
         return PlatformIOInventory(
             status="invalid",
             path=display,
-            sha256=hashlib.sha256(data).hexdigest(),
-            byte_size=len(data),
-            limitations=("PlatformIO configuration is not UTF-8 text.",),
-        )
-    except ValueError as error:
-        return PlatformIOInventory(
-            status="invalid",
-            path=display,
-            limitations=(str(error),),
+            sha256=root_artifact.sha256 if root_artifact else None,
+            byte_size=root_artifact.byte_size if root_artifact else 0,
+            configurations=config_artifacts,
+            limitations=tuple(dict.fromkeys(limitations)) or ("PlatformIO configuration could not be parsed.",),
         )
 
-    parser = configparser.ConfigParser(interpolation=None, strict=False)
-    try:
-        parser.read_string(text)
-    except configparser.Error as error:
-        return PlatformIOInventory(
-            status="invalid",
-            path=display,
-            sha256=hashlib.sha256(data).hexdigest(),
-            byte_size=len(data),
-            limitations=(f"PlatformIO configuration parse failed ({type(error).__name__}).",),
-        )
-
-    base_values = dict(parser.items("env", raw=True)) if parser.has_section("env") else {}
+    base_values = merged_sections.get("env", {})
     sections = {
         section[4:]: section
-        for section in parser.sections()
+        for section in merged_sections
         if section.casefold().startswith("env:") and section[4:]
     }
-    limitations: list[str] = []
     resolved_sections: dict[str, dict[str, str]] = {}
     resolving: set[str] = set()
 
@@ -142,7 +281,7 @@ def inspect_platformio(
             return {}
         resolving.add(name)
         values = dict(base_values)
-        own = dict(parser.items(section_name, raw=True))
+        own = dict(merged_sections[section_name])
         parent = own.get("extends", "").strip()
         if parent:
             parent_name = parent.removeprefix("env:")
@@ -165,11 +304,20 @@ def inspect_platformio(
                 upload_protocol=safe_report_text(values.get("upload_protocol"), limit=240),
                 debug_tool=safe_report_text(values.get("debug_tool"), limit=240),
                 extends=safe_report_text(values.get("extends"), limit=240),
+                source_dir=safe_report_text(
+                    values.get("src_dir") or merged_sections.get("platformio", {}).get("src_dir"),
+                    limit=500,
+                ),
+                source_filter=tuple(
+                    cleaned
+                    for line in values.get("build_src_filter", "").splitlines()
+                    if (cleaned := safe_report_text(line.strip(), limit=500))
+                ),
             )
         )
 
     default_environments = _csv_values(
-        parser.get("platformio", "default_envs", fallback="", raw=True)
+        merged_sections.get("platformio", {}).get("default_envs", "")
     )
     available_names = {item.name for item in environments}
     if selected_environments:
@@ -196,8 +344,8 @@ def inspect_platformio(
     return PlatformIOInventory(
         status="partial" if limitations else "parsed",
         path=display,
-        sha256=hashlib.sha256(data).hexdigest(),
-        byte_size=len(data),
+        sha256=root_artifact.sha256,
+        byte_size=root_artifact.byte_size,
         default_environments=tuple(
             safe_report_text(name, limit=240) or "unnamed" for name in default_environments
         ),
@@ -205,6 +353,7 @@ def inspect_platformio(
             safe_report_text(name, limit=240) or "unnamed" for name in selected
         ),
         environments=tuple(environments),
+        configurations=config_artifacts,
         limitations=tuple(dict.fromkeys(limitations)),
     )
 
