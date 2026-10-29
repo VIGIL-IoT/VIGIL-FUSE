@@ -1,0 +1,1736 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.4.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+            },
+            {
+              "id": "FUSE003",
+              "shortDescription": {
+                "text": "TLS peer verification appears disabled"
+              },
+              "fullDescription": {
+                "text": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs."
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "severity": "high",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "transport-security",
+                "version": "1.2.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/ArduinoOTA/examples/BasicOTA/BasicOTA.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "2925c1cc235c6e5c5a55e16eb553c9a788bab561a709cc4e07e47b285f92f27d"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/ArduinoOTA/examples/BasicOTA/BasicOTA.ino:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/ArduinoOTA/examples/SignedOTA/SignedOTA.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 49,
+                  "endLine": 49
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "73e29a4dd06e245695ec9b437a1f27ddc2e3583fc230e9f3c19f3dd07661fbb8"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/ArduinoOTA/examples/SignedOTA/SignedOTA.ino:49",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/ESPmDNS/examples/mDNS_Web_Server/mDNS_Web_Server.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "ba32a81710373fa58d5f40e3ce416c87ee022888891d4531f07e51a778f657e3"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/ESPmDNS/examples/mDNS_Web_Server/mDNS_Web_Server.ino:24",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/HTTPClient/src/HTTPClient.cpp",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 90,
+                  "endLine": 90
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "3346549b4308e4bc0ff790c963ebe987d620b0357b4586014fbac97e324658a6"
+          },
+          "properties": {
+            "fuseId": "FUSE003:libraries/HTTPClient/src/HTTPClient.cpp:90",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/LittleFS/examples/LITTLEFS_time/LITTLEFS_time.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "12f0d291c021071d13fc7b1018ca3d7687a0da27614b641e8cf044c8445c27a4"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/LittleFS/examples/LITTLEFS_time/LITTLEFS_time.ino:20",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetBIOS/examples/ESP_NBNST/ESP_NBNST.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 6,
+                  "endLine": 6
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "b0aeae5c4cc57cffba6563d2f22e93353ad49a7416748c7e498c879e51977f16"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/NetBIOS/examples/ESP_NBNST/ESP_NBNST.ino:6",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 40,
+                  "endLine": 40
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "4ca96c950a7e386c4e1f034e10092f26aac2bcc386cdf23cd97779a63771d86d"
+          },
+          "properties": {
+            "fuseId": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientInsecure/WiFiClientInsecure.ino:40",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "e684dfd4b553920fbd7b8295aa950b8bab17206e4fe4767164a63c14dca43ef1"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 86,
+                  "endLine": 86
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "c6b1ac01cf348d48ce21dbb0f8d711b99dc5ae870432dfb02b211efab1addec2"
+          },
+          "properties": {
+            "fuseId": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientSecureProtocolUpgrade/WiFiClientSecureProtocolUpgrade.ino:86",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define WIFI_PASSWD \"[REDACTED]\""
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 23,
+                  "endLine": 23
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a94dd0a8a4d9e504073edad353c91b487586ed5a2f98c16683ddb4baabd24bae:1",
+            "vigilIoTFingerprint/v1": "3de306894d3c91033fd906dd567b5bb1db90ac28b70af8238bb3c4d7a69b10b0"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino:23",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "#define WIFI_PASSWD \"[REDACTED]\"",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 167,
+                  "endLine": 167
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
+            "vigilIoTFingerprint/v1": "c5b089ef4b4e6d55f2a9f250cd48edc4e2a993f3633e0a78d7116d02b82ea6bb"
+          },
+          "properties": {
+            "fuseId": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:167",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE003",
+          "level": "error",
+          "message": {
+            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 219,
+                  "endLine": 219
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:2",
+            "vigilIoTFingerprint/v1": "0e100b8eca8263e8a79597586974f7df0e44d26ace2a976d1f1dcf7f25c7bdfc"
+          },
+          "properties": {
+            "fuseId": "FUSE003:libraries/NetworkClientSecure/examples/WiFiClientTrustOnFirstUse/WiFiClientTrustOnFirstUse.ino:219",
+            "severity": "high",
+            "confidence": "high",
+            "category": "transport-security",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+            "evidence": ".setInsecure()",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/295.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *WIFI_PASSWORD = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/Update/examples/HTTP_Client_AES_OTA_Update/HTTP_Client_AES_OTA_Update.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 68,
+                  "endLine": 68
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "dd5a0da656794f9812f4d4c414954f1e0c6542ae8bf00625c6da8455302fc1ad:1",
+            "vigilIoTFingerprint/v1": "c42b230438886d7a967ba4fbd6014eb60461ff83ccbe427c8b65cc016c2fa819"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/Update/examples/HTTP_Client_AES_OTA_Update/HTTP_Client_AES_OTA_Update.ino:68",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *WIFI_PASSWORD = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/Update/examples/HTTP_Server_AES_OTA_Update/HTTP_Server_AES_OTA_Update.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 56,
+                  "endLine": 56
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "4ebad1994aab079a8b8c8171408c52840e58407e8de303fba939462d2835e96f"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/Update/examples/HTTP_Server_AES_OTA_Update/HTTP_Server_AES_OTA_Update.ino:56",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/AdvancedWebServer/AdvancedWebServer.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 38,
+                  "endLine": 38
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "2854b042a5571de3a60df49d9e4e05975e6c00a52b66cab9a4edde0377530736"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/AdvancedWebServer/AdvancedWebServer.ino:38",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/ChunkWriting/ChunkWriting.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "05c5f31e455a20e10c55954184ac9f64277ee95a48c86d2ec15ef1b6caabbc0b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/ChunkWriting/ChunkWriting.ino:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/Filters/Filters.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 10,
+                  "endLine": 10
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "4d61065bd98df34e23e9b4f2812c6ab5bef84edcc5b0552d05193fcb9b2fbd27"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/Filters/Filters.ino:10",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/FSBrowser/FSBrowser.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 44,
+                  "endLine": 44
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "bd0badfaa27fd635361f105fbf9eaff9a1fac472713f697b2df0c2f7f3b03cc9"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/FSBrowser/FSBrowser.ino:44",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HelloServer/HelloServer.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "3f2d3e46be49cff7a66bd171fffaba373c313a96803fa421c943b16a2671f8b9"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HelloServer/HelloServer.ino:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "264e6aa4d05040da09993cfa9761d49cd6070468aab51527346d8fdad6767f95"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:14",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *www_password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 19,
+                  "endLine": 19
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "087d682e8e2feaed0d3c3d90ed80273933210d843073ef2711b9ae31cb8817f4:1",
+            "vigilIoTFingerprint/v1": "f6deee41cb53da809af05151622e4abd6e7498a6db3df526820a26c389826ad3"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:19",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *www_password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpAuthCallback/HttpAuthCallback.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "39556832d9923df4e357dd40f16227f5f04be0b3336f1610c3a506f6ccc4a6a9"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpAuthCallback/HttpAuthCallback.ino:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpAuthCallbackInline/HttpAuthCallbackInline.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "0d9abcbab284330608d1b96fc34fd48042da504c3c35ec5446ff7197ccabacce"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpAuthCallbackInline/HttpAuthCallbackInline.ino:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "a2f51dd2e45f720107c5f36be1c360e685ace4017aadf96281c44cf93690b6a5"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *www_password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "087d682e8e2feaed0d3c3d90ed80273933210d843073ef2711b9ae31cb8817f4:1",
+            "vigilIoTFingerprint/v1": "0229badfdf8bbc2af47ada108cb7139c690801d3ed129bed8bcf1f840c69715c"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:13",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *www_password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 13,
+                  "endLine": 13
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "47359fb2d0001d094bc664b57da04bde0f1ccb5d4767aa02487b00570a4b78f7"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:13",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *www_password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "087d682e8e2feaed0d3c3d90ed80273933210d843073ef2711b9ae31cb8817f4:1",
+            "vigilIoTFingerprint/v1": "82f189e5c4f9bd23a7b4997b319d0b4357f8620b31b9faaee868f3da0e7fe87b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:20",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *www_password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *www_password_hex = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 26
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "27f50885e95c4bba82319b587ea488718d70add3980854b3623b655ecd1023f5:1",
+            "vigilIoTFingerprint/v1": "6be6401495e3794b72c83134d92900f44fd11143e9bf4eb6b895bda6fda55fcd"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:26",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *www_password_hex = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *www_password_base64 = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 31,
+                  "endLine": 31
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "b37d1f7c1fdbcb4152a3100cb46f3e08ce5f7b00de4ee9c95fa3a0367be53834:1",
+            "vigilIoTFingerprint/v1": "156f4e40b0b6c260af8fb65b6ad564abd2ac251fc6debf0492323d3c105a10c0"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:31",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *www_password_base64 = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: String secret_token_hex = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 22,
+                  "endLine": 22
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a40335667b03277cfd3f82f693e327c128a8c8e4eb63e4018c2faa2f32e54f42:1",
+            "vigilIoTFingerprint/v1": "53103489650bd9c5f4bd4747eab1dc7b0927793f6f063ea336abe5430a6faa1f"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:22",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "String secret_token_hex = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "354d09f453aec25ae47ee8ebd2d43c6afb5942d95793b3c8db4d7a02f665094a"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:27",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *www_password_hex = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 40,
+                  "endLine": 40
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "27f50885e95c4bba82319b587ea488718d70add3980854b3623b655ecd1023f5:1",
+            "vigilIoTFingerprint/v1": "c93fa274c408f11b98667b18918f1e726c9c4cc4bd1f8aac6871ba38eb262c44"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:40",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *www_password_hex = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/MultiHomedServers/MultiHomedServers.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 8,
+                  "endLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "9a838e591e833cd9d92b73ffe74d6bbb384c314b59825e4b020bc74c2e5b94da"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/MultiHomedServers/MultiHomedServers.ino:8",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/PathArgServer/PathArgServer.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 11,
+                  "endLine": 11
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "8e87958652bba4b8ee07392c1df4af14a074132953576f32ea6dda1b32176ab1"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/PathArgServer/PathArgServer.ino:11",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/SimpleAuthentification/SimpleAuthentification.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 7,
+                  "endLine": 7
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "77abb826a909823e5254dbc4410ce8d086e14e5e387f4a34b46e12e45cc0fdfc"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/SimpleAuthentification/SimpleAuthentification.ino:7",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WebServer/examples/WebUpdate/WebUpdate.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 14,
+                  "endLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "ad0250f25984b024dd8370d3ed66e406d07c0f3b43826c49a6595c7589efae2b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WebServer/examples/WebUpdate/WebUpdate.ino:14",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WiFi/examples/SimpleWiFiServer/SimpleWiFiServer.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 32,
+                  "endLine": 32
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "0869c8a1d3b42bca4e678836a4f1b34f3bd209b2830ed4b00f3840d1481ae23b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WiFi/examples/SimpleWiFiServer/SimpleWiFiServer.ino:32",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char *password = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WiFi/examples/WiFiAccessPoint/WiFiAccessPoint.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 25,
+                  "endLine": 25
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a2807a720938a4f149ca0db23f0a85578896ecdfcd1ce5d729193af4efc69c9b:1",
+            "vigilIoTFingerprint/v1": "f0b592c217e6362548a03173a38c845ce49a21260869df595fdb450613196e6b"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WiFi/examples/WiFiAccessPoint/WiFiAccessPoint.ino:25",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const char *password = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const String writeApiKey = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WiFi/examples/WiFiClient/WiFiClient.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 26,
+                  "endLine": 26
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "59b0cc93209d9abaef41c3900abd932c14aeb954dcbc0c8d638ce5fcaea1235f:1",
+            "vigilIoTFingerprint/v1": "be925fc47b7b4d73b816f24bf1e0518d15c428287449dd46e6560b2dae4b8484"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:26",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const String writeApiKey = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE001",
+          "level": "warning",
+          "message": {
+            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const String readApiKey = \"[REDACTED]\";"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "libraries/WiFi/examples/WiFiClient/WiFiClient.ino",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 27,
+                  "endLine": 27
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "000ca7f1d611d137521366464e0a821b78d6afe2666dc23ffa861bfb87dba5e7:1",
+            "vigilIoTFingerprint/v1": "f0a0346749cbd406c160ebab59bca3dbbbca56febd7be437783d98f6cce2d5d5"
+          },
+          "properties": {
+            "fuseId": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:27",
+            "severity": "medium",
+            "confidence": "high",
+            "category": "secrets",
+            "analyzer": "fuse-native",
+            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+            "evidence": "const String readApiKey = \"[REDACTED]\";",
+            "references": [
+              "https://cwe.mitre.org/data/definitions/798.html"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        }
+      ],
+      "properties": {
+        "target": "espressif/arduino-esp32",
+        "profile": "generic",
+        "networkPolicy": "not-requested",
+        "inputManifestSha256": "1045c5f3cafe0b358a3bafc755e821bedb3f07ed0d1fc3ca1e6c5dffa71aba5b",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 40,
+          "resultsIncluded": 40,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}
