@@ -1,0 +1,557 @@
+FUSE scan: tasmota
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638
+Files discovered/selected: 6802/6802
+Files filtered by path policy: 0
+Files scanned: 6800
+Source bytes read: 104871164
+Files skipped: 2
+Discovery complete: yes
+Findings: 16
+Hardware artifacts: 2
+PlatformIO: partial; 106 environment(s), 4 config file(s), selected: tasmota, tasmota-4M, tasmota-AD, tasmota-AF, tasmota-BG, tasmota-BR, tasmota-CN, tasmota-CZ, tasmota-DE, tasmota-display, tasmota-ES, tasmota-FR, tasmota-FY, tasmota-GR, tasmota-HE, tasmota-HU, tasmota-ir, tasmota-IT, tasmota-knx, tasmota-KO, tasmota-lite, tasmota-LT, tasmota-minimal, tasmota-NL, tasmota-PL, tasmota-PT, tasmota-RO, tasmota-RU, tasmota-SE, tasmota-sensors, tasmota-SK, tasmota-TR, tasmota-TW, tasmota-UK, tasmota-VN, tasmota-zbbridge, tasmota-zigbee, tasmota32, tasmota32-AD, tasmota32-AF, tasmota32-BG, tasmota32-bluetooth, tasmota32-BR, tasmota32-CN, tasmota32-CZ, tasmota32-DE, tasmota32-display, tasmota32-ES, tasmota32-FR, tasmota32-FY, tasmota32-GR, tasmota32-HE, tasmota32-HU, tasmota32-ir, tasmota32-IT, tasmota32-KO, tasmota32-LT, tasmota32-lvgl, tasmota32-NL, tasmota32-nspanel, tasmota32-PL, tasmota32-PT, tasmota32-RO, tasmota32-RU, tasmota32-safeboot, tasmota32-SE, tasmota32-SK, tasmota32-TR, tasmota32-TW, tasmota32-UK, tasmota32-VN, tasmota32-webcam, tasmota32-zbbrdgpro, tasmota32_base, tasmota32c2, tasmota32c2-safeboot, tasmota32c3, tasmota32c3-safeboot, tasmota32c3ser-safeboot, tasmota32c5, tasmota32c5-safeboot, tasmota32c5ser-safeboot, tasmota32c6, tasmota32c6-safeboot, tasmota32c61, tasmota32c61-safeboot, tasmota32c61ser-safeboot, tasmota32c6ser-safeboot, tasmota32p4, tasmota32p4-safeboot, tasmota32p4r3, tasmota32p4r3-safeboot, tasmota32p4r3ser-safeboot, tasmota32p4ser-safeboot, tasmota32s2, tasmota32s2-safeboot, tasmota32s2cdc, tasmota32s2cdc-safeboot, tasmota32s3, tasmota32s3-safeboot, tasmota32s31, tasmota32s31-safeboot, tasmota32s31ser-safeboot, tasmota32s3ser-safeboot, tasmota32solo1, tasmota32solo1-safeboot
+  tasmota [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-4M [${common.platform}, esp8266_4M2M, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-AD [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-AF [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-BG [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-BR [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-CN [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-CZ [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-DE [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-display [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-ES [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-FR [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-FY [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-GR [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-HE [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-HU [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-ir [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-IT [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-knx [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-KO [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-lite [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-LT [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-minimal [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-NL [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-PL [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-PT [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-RO [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-RU [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-SE [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-sensors [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-SK [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-TR [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-TW [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-UK [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-VN [${common.platform}, ${common.board}, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-zbbridge [${common.platform}, esp8266_zbbridge, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota-zigbee [${common.platform}, esp8266_4M2M, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32 [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-AD [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-AF [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-BG [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-bluetooth [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-BR [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-CN [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-CZ [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-DE [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-display [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-ES [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-FR [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-FY [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-GR [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-HE [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-HU [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-ir [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-IT [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-KO [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-LT [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-lvgl [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-NL [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-nspanel [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-PL [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-PT [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-RO [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-RU [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-safeboot [${core32.platform}, esp32-solo1, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-SE [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-SK [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-TR [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-TW [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-UK [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-VN [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-webcam [${core32.platform}, esp32-fix, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32-zbbrdgpro [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32_base [${core32.platform}, esp32, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c2 [${core32.platform}, esp32c2, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c2-safeboot [${core32.platform}, esp32c2, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c3 [${core32.platform}, esp32c3, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c3-safeboot [${core32.platform}, esp32c3, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c3ser-safeboot [${core32.platform}, esp32c3ser, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c5 [${core32.platform}, esp32c5, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c5-safeboot [${core32.platform}, esp32c5, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c5ser-safeboot [${core32.platform}, esp32c5ser, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c6 [${core32.platform}, esp32c6, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c6-safeboot [${core32.platform}, esp32c6, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c61 [${core32.platform}, esp32c61, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c61-safeboot [${core32.platform}, esp32c61, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c61ser-safeboot [${core32.platform}, esp32c61ser, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32c6ser-safeboot [${core32.platform}, esp32c6ser, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32p4 [${core32.platform}, esp32p4, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32p4-safeboot [${core32.platform}, esp32p4, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32p4r3 [${core32.platform}, esp32p4r3, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32p4r3-safeboot [${core32.platform}, esp32p4r3, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32p4r3ser-safeboot [${core32.platform}, esp32p4r3ser, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32p4ser-safeboot [${core32.platform}, esp32p4ser, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s2 [${core32.platform}, esp32s2, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s2-safeboot [${core32.platform}, esp32s2, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s2cdc [${core32.platform}, esp32s2cdc, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s2cdc-safeboot [${core32.platform}, esp32s2cdc, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s3 [${core32.platform}, esp32s3-qio_qspi, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s3-safeboot [${core32.platform}, esp32s3-qio_qspi, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s31 [https://github.com/Jason2866/platform-espressif32.git#IDF61, esp32s31-qio_opi, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s31-safeboot [https://github.com/Jason2866/platform-espressif32.git#IDF61, esp32s31-qio_opi, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s31ser-safeboot [https://github.com/Jason2866/platform-espressif32.git#IDF61, esp32s31ser-qio_opi, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32s3ser-safeboot [${core32.platform}, esp32s3ser-qio_qspi, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32solo1 [${core32.platform}, esp32-solo1, ${common.framework}]
+    source directory candidate: tasmota
+  tasmota32solo1-safeboot [${core32.platform}, esp32-solo1, ${common.framework}]
+    source directory candidate: tasmota
+  PlatformIO config: platformio.ini [sha256:b9babf979ebbc25258e36e59ff73bf563fe7f0408d1f44ab0f8a8438bd8741dc]
+  PlatformIO config: platformio_tasmota32.ini [sha256:aab01296b02d8e89ca9327fe44e76388f9acbfb5ce55719950ce4bbe5695d664]
+  PlatformIO config: platformio_tasmota_env.ini [sha256:f429cc7e76826ea37b7f4c66733088b2f87cb292162651bd52fae4597a203551]
+  PlatformIO config: platformio_tasmota_env32.ini [sha256:b9ad673dedc224603dd086d554c3c4e1a5c999dfcb3c48d0dea2b2aab8b87537]
+  PlatformIO limit: platformio.ini extra_configs pattern 'platformio_override.ini' matched no files.
+  PlatformIO limit: platformio.ini extra_configs pattern 'platformio_tasmota_cenv.ini' matched no files.
+Files not selected by the source profile: 1138
+  .aac: 1
+  .adoc: 3
+  .anim: 83
+  .autoconf: 1
+  .bec: 6
+  .bin: 6
+  .bmp: 3
+  .bytecode: 1
+  .cin: 1
+  .css: 1
+  .csv: 8
+  .dat: 1
+  .defaults: 3
+  .diff: 1
+  .ebnf: 3
+  .esp8266: 3
+  .ex: 2
+  .examples: 1
+  .exe: 1
+  .fdl: 1
+  .flac: 1
+  .fnt: 31
+  .freetype: 1
+  .fzpz: 3
+  .fzz: 2
+  .gif: 1
+  .git: 1
+  .gpl: 1
+  .hex: 19
+  .hin: 1
+  .html: 2
+  .ico: 1
+  .inl: 2
+  .ipynb: 1
+  .jpg: 13
+  .jsonl: 9
+  .lesser: 1
+  .lgpl: 1
+  .libwebm: 1
+  .lo: 23
+  .lvfont: 25
+  .md: 259
+  .mid: 2
+  .mp3: 1
+  .o: 23
+  .opus: 1
+  .ota: 5
+  .pbxproj: 1
+  .pc: 3
+  .pde: 25
+  .pdf: 6
+  .pdn: 1
+  .pl: 1
+  .plist: 1
+  .png: 83
+  .prefs: 1
+  .rc: 1
+  .rst: 3
+  .s: 6
+  .s_future: 1
+  .sed: 1
+  .settings: 1
+  .sf2: 2
+  .skip: 3
+  .svg: 6
+  .tapp: 16
+  .template: 1
+  .ttf: 14
+  .txt: 144
+  .wav: 4
+  .woff: 1
+  .xcuserstate: 1
+  .xcworkspacedata: 1
+  .xiph: 1
+  .xlsx: 2
+  .xslt: 1
+  .y: 1
+  .yapf: 1
+  .zb: 10
+  <no-extension>: 233
+Hardware inventory:
+  hardware-project: 2
+  lib/lib_div/arduino-vid6608/doc/vid6608-example-sketch.fzz [Fritzing project]
+  lib/lib_div/rfid-1.4.7/doc/fritzing/Arduino-Uno-r3-with-RFID-RC522.fzz [Fritzing project]
+Firmware-like file candidates: 30 / complete (extension and size only, contents not inspected)
+  .bin: 6
+  .hex: 19
+  .ota: 5
+  tools/fw_HM10_cc2541/CC2541hm10v709.bin [bin, 262144 bytes]
+  tools/fw_ShellyDimmer_stm32/shelly-dimmer-stm32_v51.5.bin [bin, 13944 bytes]
+  tools/fw_ShellyDimmer_stm32/shelly-dimmer-stm32_v51.6.bin [bin, 14484 bytes]
+  tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20181023.hex [hex, 22060 bytes]
+  tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20181102.hex [hex, 20268 bytes]
+  tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20181127.hex [hex, 22704 bytes]
+  tools/fw_SonoffRfBridge_efm8bb1/RF-Bridge-EFM8BB1-20190220.hex [hex, 21710 bytes]
+  tools/fw_SonoffRfBridge_efm8bb1/RF_Bridge_iTead_Original.hex [hex, 9241 bytes]
+  tools/fw_SonoffZigbeeBridgePro_cc2652/SonoffZBPro_coord_20220219.hex [hex, 403182 bytes]
+  tools/fw_SonoffZigbeeBridgePro_cc2652/SonoffZBPro_coord_20230507.hex [hex, 508053 bytes]
+  tools/fw_SonoffZigbeeBridgePro_cc2652/SonoffZBPro_coord_20240710.hex [hex, 506662 bytes]
+  tools/fw_SonoffZigbeeBridgePro_router_only_cc2652/SonoffZBPro_router_20220125.hex [hex, 440246 bytes]
+  tools/fw_SonoffZigbeeBridge_ezsp/ncp-uart-nsw_6.7.9_115200.ota [ota, 192240 bytes]
+  tools/fw_SonoffZigbeeBridge_ezsp/ncp-uart-sw_6.7.8_115200.ota [ota, 190756 bytes]
+  tools/fw_SonoffZigbeeBridge_ezsp/archive/ncp-uart-sw_6.5.5_115200.ota [ota, 181500 bytes]
+  tools/fw_SonoffZigbeeBridge_ezsp/archive/ncp-uart-sw_6.7.6_115200.ota [ota, 190272 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/AnalogJSON.ino.hex [hex, 11411 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/Blink.ino.hex [hex, 6993 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/BlinkSendCommand.ino.hex [hex, 7966 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/ClientRespondTele.ino.hex [hex, 8261 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-3V3-8Mhz/ClientSendCommand.ino.hex [hex, 12507 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/AnalogJSON.ino.hex [hex, 11444 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/Blink.ino.hex [hex, 7026 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/BlinkSendCommand.ino.hex [hex, 7999 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/ClientRespondTele.ino.hex [hex, 8294 bytes]
+  tools/fw_TasmotaClient_arduino/ProATmega328P-5V-16MHz/ClientSendCommand.ino.hex [hex, 12540 bytes]
+  tools/fw_TubeZigbee_efr32/MGM210PA32JIA_ncp-uart-sw_6.7.9.ota [ota, 206672 bytes]
+  tools/fw_Zigbee_cc2530/CC2530_CC2591_ZNP-Prod_20190608.bin [bin, 262144 bytes]
+  tools/fw_Zigbee_cc2530/CC2530_CC2592_ZNP-Prod_20190608.bin [bin, 262144 bytes]
+  tools/fw_Zigbee_cc2530/CC2530_ZNP-Prod_20190608.bin [bin, 262144 bytes]
+GitHub Actions workflows: 5 / completed; 66 non-SHA action reference(s), 1 floating-branch candidate(s)
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 410 selected input(s). The conservative prefilter excluded 6390 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: partial (Evaluated 11 selected input(s). The conservative prefilter excluded 6789 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE003: partial (Evaluated 309 selected input(s). The conservative prefilter excluded 6491 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 1671 selected input(s). The conservative prefilter excluded 5129 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: partial (Evaluated 10 selected input(s). The conservative prefilter excluded 6790 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 30 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.)
+Skip reasons: too_large=2
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/copy_change.yml:25
+  Evidence: uses: Jason2866/copy_file_to_another_repo_action@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino:47
+  Evidence: const char* kPassword = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2640
+  Evidence: verify = false
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_Const.h:2821
+  Evidence: verify = false
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_IMAP.h:6029
+  Evidence: verify = false
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/libesp32/ESP-Mail-Client/src/ESP_Mail_SMTP.h:3373
+  Evidence: verify = false
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:242
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: lib/libesp32/ESP-Mail-Client/src/SSLClient/client/BSSL_TCP_Client.cpp:433
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: pio-tools/post_esp32.py:230
+  Evidence: http://ota.tasmota.com
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/berry/drivers/ftp.be:60
+  Evidence: static password = "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/berry/drivers/ssh.be:871
+  Evidence: static password = "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE004 - Non-loopback HTTP endpoint configured
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/berry/extensions/Partition_Wizard/partition_wizard.be:18
+  Evidence: http://ota.tasmota.com
+  Explanation: A non-loopback URL explicitly uses HTTP. This indicates an unencrypted endpoint in source or configuration, but does not prove the endpoint is reachable or used.
+  Potential impact: If the endpoint carries sensitive data over an untrusted network, traffic may be observed or modified in transit.
+  Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
+  References: https://cwe.mitre.org/data/definitions/319.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/include/Powerwall.h:71
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/include/Powerwall.h:136
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/include/Powerwall.h:291
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
