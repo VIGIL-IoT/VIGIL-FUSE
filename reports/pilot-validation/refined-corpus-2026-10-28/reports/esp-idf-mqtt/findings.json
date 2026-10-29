@@ -1,0 +1,351 @@
+{
+  "schema_version": "1.10",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "espressif/esp-idf/examples/protocols/mqtt",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "esp-idf",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T16:52:17Z",
+    "completed_at": "2026-10-28T16:52:17Z",
+    "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc"
+  },
+  "summary": {
+    "files_discovered": 98,
+    "files_selected": 8,
+    "files_filtered": 90,
+    "files_scanned": 8,
+    "source_bytes_read": 13592,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 76,
+      "unsupported_file_types": {
+        ".anti_rollback": 1,
+        ".bin": 3,
+        ".bluedroid": 1,
+        ".crt": 1,
+        ".data_partition_verification": 1,
+        ".esp32": 4,
+        ".esp32c2": 3,
+        ".esp32c5": 1,
+        ".esp32c61": 4,
+        ".esp32p4": 1,
+        ".esp32s31": 1,
+        ".fish": 2,
+        ".flash_enc_wifi": 2,
+        ".flash_enc_wifi_2": 1,
+        ".md": 20,
+        ".nimble": 1,
+        ".on_update_no_sb_ecdsa": 1,
+        ".on_update_no_sb_ecdsa_esp32": 1,
+        ".on_update_no_sb_ecdsa_p256": 1,
+        ".on_update_no_sb_ecdsa_p384": 1,
+        ".on_update_no_sb_rsa": 2,
+        ".ota_resumption": 1,
+        ".ota_resumption_flash_enc": 1,
+        ".ota_resumption_partial_download": 1,
+        ".partial_download": 1,
+        ".png": 1,
+        ".recovery_bootloader": 1,
+        ".rename": 1,
+        ".spiram": 1,
+        ".tls1_2_dynamic": 1,
+        ".tls1_3": 1,
+        ".tls1_3_only_dynamic": 1,
+        ".txt": 1,
+        ".verify_revision_esp32c3": 1,
+        ".virt_sb_v2_and_fe": 1,
+        ".virt_sb_v2_and_fe_2": 1,
+        ".xip_psram": 1,
+        "<no-extension>": 7
+      }
+    },
+    "support": {
+      "capability_id": "source.esp-idf",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Generic native rules plus explicit boot-image validation setting checks.",
+      "limitations": [
+        "Source-only settings are conditional",
+        "Generated build inspection requires explicit --build-dir",
+        "Does not prove the selected build is released"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "skipped",
+        "version": "1.5.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 3 selected input(s). The conservative prefilter excluded 5 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 3 selected input(s). The conservative prefilter excluded 5 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 3 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 3,
+    "extension_counts": {
+      ".bin": 3
+    },
+    "candidates": [
+      {
+        "path": "examples/system/ota/advanced_https_ota/efuse_esp32c3.bin",
+        "format": "bin",
+        "byte_size": 1024
+      },
+      {
+        "path": "examples/system/ota/partitions_ota/test/signed_storage.bin",
+        "format": "bin",
+        "byte_size": 8192
+      },
+      {
+        "path": "examples/system/ota/partitions_ota/test/storage.bin",
+        "format": "bin",
+        "byte_size": 500
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": "esp-idf",
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": "build-context.esp-idf",
+    "adapter_support_label": "experimental",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "candidates-only",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "conventional-candidate",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": [
+        "The conventional sdkconfig.defaults path is only a candidate; project CMake code or the build environment may select a different SDKCONFIG_DEFAULTS list.",
+        "No selected build directory was supplied, so active sdkconfig and target were not resolved."
+      ]
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": [
+      "Project markers identify a likely framework project but do not prove which build or image is deployed.",
+      "FUSE did not invoke the framework build system or resolve dependency manifests.",
+      "The conventional sdkconfig.defaults path is only a candidate; project CMake code or the build environment may select a different SDKCONFIG_DEFAULTS list.",
+      "No selected build directory was supplied, so active sdkconfig and target were not resolved.",
+      "No selected generated ESP-IDF build configuration was supplied."
+    ]
+  },
+  "findings": [],
+  "artifacts": []
+}
