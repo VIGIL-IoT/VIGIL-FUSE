@@ -26,7 +26,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.8.schema.json"
+            / "fuse-report-1.10.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
@@ -43,11 +43,11 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.8.schema.json"
+            / "fuse-report-1.10.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         report = {
-            "schema_version": "1.8",
+            "schema_version": "1.10",
             "tool": {"name": "FUSE", "version": "test"},
             "target": ".",
             "unexpected": True,
@@ -61,7 +61,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.8.schema.json"
+            / "fuse-report-1.10.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         finding = Finding(
@@ -124,7 +124,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.8.schema.json"
+            / "fuse-report-1.10.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory() as temporary:
