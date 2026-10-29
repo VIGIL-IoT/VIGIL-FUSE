@@ -6,6 +6,7 @@ from collections import Counter
 from . import __version__
 from .model import ScanResult
 from .support import capability_for_scan
+from .text_safety import safe_terminal_text
 
 
 def _input_inventory_scope(result: ScanResult) -> str:
@@ -315,7 +316,7 @@ def to_json(result: ScanResult) -> str:
     return json.dumps(report, indent=2, ensure_ascii=False) + "\n"
 
 
-def to_text(result: ScanResult) -> str:
+def _to_text(result: ScanResult) -> str:
     support = capability_for_scan(result)
     lines = [
         f"FUSE scan: {result.target}",
@@ -592,3 +593,8 @@ def to_text(result: ScanResult) -> str:
             lines.append(f"  References: {', '.join(finding.references)}")
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
+
+
+def to_text(result: ScanResult) -> str:
+    """Render a human-readable report with untrusted controls made visible."""
+    return safe_terminal_text(_to_text(result))

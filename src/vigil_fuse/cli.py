@@ -41,6 +41,7 @@ from .scanner import (
 )
 from .support import capability_for_plan, support_matrix
 from .input_types import MAX_SBOM_DETECTION_BYTES, is_sbom_candidate, is_sbom_file
+from .text_safety import safe_terminal_text
 from .limits import (
     MAX_CONFIGURABLE_DISCOVERED_DIRECTORIES,
     MAX_CONFIGURABLE_DISCOVERED_PATHS,
@@ -53,6 +54,11 @@ from .target_labels import report_target_label
 from .zephyr_hardening import resolve_hardening_report_path
 
 _SEVERITY_ORDER = {"unknown": -1, "info": 0, "low": 1, "medium": 2, "high": 3, "critical": 4}
+
+
+def _safe_print(*values: object, sep: str = " ", end: str = "\n", file=None, flush: bool = False) -> None:
+    rendered = sep.join(safe_terminal_text(str(value)) for value in values)
+    print(rendered, end=end, file=file, flush=flush)
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -287,28 +293,28 @@ def _write_reports(result, output_dir: Path) -> None:
 
 
 def _doctor() -> int:
-    print(f"FUSE {__version__}")
-    print(f"Python: {platform.python_version()} ({sys.executable})")
-    print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
-    print("Optional analyzers:")
+    _safe_print(f"FUSE {__version__}")
+    _safe_print(f"Python: {platform.python_version()} ({sys.executable})")
+    _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
+    _safe_print("Optional analyzers:")
     for name, executable, version in inspect_tools():
         if executable is None:
-            print(f"  {name}: not installed")
+            _safe_print(f"  {name}: not installed")
         else:
             detail = version or "version unavailable"
-            print(f"  {name}: {detail} [{executable}]")
-    print(
+            _safe_print(f"  {name}: {detail} [{executable}]")
+    _safe_print(
         "ESP-IDF lockfile parser: "
         + ("available (PyYAML)" if lock_parser_available() else "not installed; use vigil-fuse[esp-idf]")
     )
-    print("Core scanner: available")
-    print(
+    _safe_print("Core scanner: available")
+    _safe_print(
         "Native rule execution: isolated subprocess, "
         f"{DEFAULT_RULE_TIMEOUT_SECONDS:g} seconds per rule and input"
     )
-    print("Support matrix:")
+    _safe_print("Support matrix:")
     for capability in support_matrix()["capabilities"]:
-        print(f"  {capability['id']}: {capability['label']} - {capability['scope']}")
+        _safe_print(f"  {capability['id']}: {capability['label']} - {capability['scope']}")
     return 0
 
 
@@ -711,13 +717,13 @@ def _scan_plan(
         "executed": False,
     }
     if output_format == "json":
-        print(json.dumps(plan, indent=2, ensure_ascii=False))
+        _safe_print(json.dumps(plan, indent=2, ensure_ascii=True))
     elif output_format == "sarif":
         raise ValueError("--format sarif is not available with --plan; use text or json")
     else:
-        print(f"FUSE scan plan for {plan['target']} ({kind}, profile: {profile})")
-        print("No analyzer ran; this is a bounded path and metadata preview.")
-        print(
+        _safe_print(f"FUSE scan plan for {plan['target']} ({kind}, profile: {profile})")
+        _safe_print("No analyzer ran; this is a bounded path and metadata preview.")
+        _safe_print(
             "Framework hints: "
             + (
                 ", ".join(
@@ -729,19 +735,19 @@ def _scan_plan(
             )
         )
         if platformio_inventory.status != "not-detected":
-            print(
+            _safe_print(
                 f"PlatformIO environments: {len(platformio_inventory.environments)} found; "
                 f"selected: {', '.join(platformio_inventory.selected_environments) or 'none'}"
             )
-            print("  PlatformIO commands will not run.")
+            _safe_print("  PlatformIO commands will not run.")
         if compilation_database.status != "not-detected":
-            print(
+            _safe_print(
                 f"Compilation database: {compilation_database.unique_translation_units} unique "
                 f"translation unit(s); commands will not run."
             )
-        print(f"Selected profile controls analyzer routing: {profile}")
+        _safe_print(f"Selected profile controls analyzer routing: {profile}")
         if discovery_preview is not None:
-            print(
+            _safe_print(
                 "Discovery preview: "
                 f"{discovery_preview['files_discovered']} supported, "
                 f"{discovery_preview['files_selected']} selected, "
@@ -750,37 +756,37 @@ def _scan_plan(
             )
             unsupported = discovery_preview["unsupported_file_types"]
             if unsupported:
-                print(
+                _safe_print(
                     "File types not selected by this source profile: "
                     + ", ".join(f"{kind}={count}" for kind, count in unsupported.items())
                 )
             samples = discovery_preview["selected_files_sample"]
             if samples:
-                print("Selected files (first 100):")
+                _safe_print("Selected files (first 100):")
                 for path in samples:
-                    print(f"  {path}")
+                    _safe_print(f"  {path}")
                 if discovery_preview["selected_files_omitted"]:
-                    print(f"  ... {discovery_preview['selected_files_omitted']} more")
+                    _safe_print(f"  ... {discovery_preview['selected_files_omitted']} more")
             if discovery_preview["hardware_artifact_count"]:
-                print(
+                _safe_print(
                     f"Hardware artifacts detected by filename: {discovery_preview['hardware_artifact_count']}"
                 )
                 for category, count in discovery_preview["hardware_category_counts"].items():
-                    print(f"  {category}: {count}")
-        print(
+                    _safe_print(f"  {category}: {count}")
+        _safe_print(
             f"Support: {plan['support']['label']} / {plan['support']['status']} "
             f"({plan['support']['capability_id']})"
         )
         for stage in stages:
             suffix = f" ({stage['reason']})" if stage.get("reason") else ""
-            print(f"  {stage['name']}: {stage['status']}{suffix}")
-        print(f"Reports directory: {output_dir}" if output_file is None else f"Report file: {output_file}")
+            _safe_print(f"  {stage['name']}: {stage['status']}{suffix}")
+        _safe_print(f"Reports directory: {output_dir}" if output_file is None else f"Report file: {output_file}")
         if selected_build_dir is not None:
-            print(f"Selected build directory: {selected_build_dir}")
+            _safe_print(f"Selected build directory: {selected_build_dir}")
         if selected_hardening_report is not None:
-            print(f"Selected Zephyr hardening report: {selected_hardening_report}")
-        print(f"Network: {plan['network']}")
-        print(
+            _safe_print(f"Selected Zephyr hardening report: {selected_hardening_report}")
+        _safe_print(f"Network: {plan['network']}")
+        _safe_print(
             "Resource caps: "
             f"{max_discovered_paths} paths, {max_discovered_directories} directories, "
             f"{max_source_bytes // (1024 * 1024)} MiB of source, "
@@ -926,7 +932,7 @@ def main(argv: list[str] | None = None) -> int:
                 args.fail_on_new,
             )
         except (OSError, ValueError) as error:
-            print(f"vigil-fuse: {error}", file=sys.stderr)
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
     try:
         config_path = args.config.expanduser() if args.config else None
@@ -1167,7 +1173,7 @@ def main(argv: list[str] | None = None) -> int:
             )
         if output_dir is not None:
             _write_reports(result, output_dir)
-            print(f"Reports written to {output_dir}", file=sys.stderr)
+            _safe_print(f"Reports written to {output_dir}", file=sys.stderr)
             if args.output_dir is None and config.output_dir is None:
                 sys.stdout.write(
                     to_json(result)
@@ -1188,7 +1194,7 @@ def main(argv: list[str] | None = None) -> int:
                 else to_text(result)
             )
             args.output.write_text(report, encoding="utf-8")
-            print(f"Report written to {args.output}", file=sys.stderr)
+            _safe_print(f"Report written to {args.output}", file=sys.stderr)
         else:
             sys.stdout.write(
                 to_json(result)
@@ -1198,7 +1204,7 @@ def main(argv: list[str] | None = None) -> int:
                 else to_text(result)
             )
     except (OSError, ValueError) as error:
-        print(f"vigil-fuse: {error}", file=sys.stderr)
+        _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
         return 2
 
     required_analyzers = {

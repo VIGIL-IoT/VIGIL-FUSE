@@ -216,6 +216,44 @@ class RuleFixtureTests(unittest.TestCase):
         )
         self.assertEqual(1, len(list(rule.scan(source))))
 
+    def test_tls_python_ast_detects_qualified_request_with_dynamic_endpoint(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        source = SourceFile(
+            "src/client.py",
+            "import requests\n"
+            "response = requests.get(\n"
+            "    endpoint,\n"
+            "    verify=False,\n"
+            ")\n",
+        )
+
+        findings = list(rule.scan(source))
+
+        self.assertEqual(1, len(findings))
+        self.assertEqual(4, findings[0].start_line)
+        self.assertEqual("verify=False", findings[0].evidence)
+
+    def test_tls_python_ast_detects_httpx_client_verification_bypass(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        source = SourceFile("src/client.py", "client = httpx.AsyncClient(verify=False)\n")
+
+        findings = list(rule.scan(source))
+
+        self.assertEqual(1, len(findings))
+        self.assertEqual(1, findings[0].start_line)
+
+    def test_tls_python_ast_does_not_flag_unrelated_verify_keyword(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        source = SourceFile(
+            "src/client.py",
+            "def configure(verify=False):\n"
+            "    return verify\n"
+            "\n"
+            "custom_builder(verify=False)\n",
+        )
+
+        self.assertEqual([], list(rule.scan(source)))
+
     def test_tls_rule_ignores_api_definition_but_keeps_bypass_call(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE003")
         definition = SourceFile(

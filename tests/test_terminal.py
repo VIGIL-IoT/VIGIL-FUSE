@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from vigil_fuse.terminal import show_banner
+from vigil_fuse.text_safety import safe_terminal_text
 
 
 class TerminalBannerTests(unittest.TestCase):
@@ -29,6 +30,15 @@ class TerminalBannerTests(unittest.TestCase):
         with redirect_stderr(output):
             show_banner()
         self.assertEqual("", output.getvalue())
+
+    def test_untrusted_control_and_bidirectional_characters_are_visible_escapes(self) -> None:
+        value = "name\x1b[2J\t\r\u202efile"
+
+        rendered = safe_terminal_text(value)
+
+        self.assertEqual(r"name\x1b[2J\t\r\u202efile", rendered)
+        self.assertNotIn("\x1b", rendered)
+        self.assertNotIn("\u202e", rendered)
 
 
 if __name__ == "__main__":

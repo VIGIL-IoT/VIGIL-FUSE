@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import ast
 import re
 from collections.abc import Iterable
+from pathlib import PurePosixPath
 
 from ..model import Finding, SourceFile
 from .base import RuleDefinition, code_without_string_literals, is_test_path, iter_code_lines
@@ -15,11 +17,68 @@ _BYPASS_PATTERNS = (
     re.compile(r"(?i)\.\s*setInsecure\s*\(\s*\)"),
 )
 _BYPASS_PREFILTER_TOKENS = (
-    "verify", "check_hostname", "cert_none", "insecure_skip_verify", "insecureskipverify", "setinsecure",
+    "verify",
+    "check_hostname",
+    "cert_none",
+    "insecure_skip_verify",
+    "insecureskipverify",
+    "setinsecure",
 )
 _TLS_CONTEXT = re.compile(
     r"(?i)(?:\b(?:tls|ssl|https|certificate|certificates|cert_verify|verify_peer|peer_verification)\b|https?://)"
 )
+_PYTHON_HTTP_CALLS = frozenset(
+    {
+        "get",
+        "options",
+        "head",
+        "post",
+        "put",
+        "patch",
+        "delete",
+        "request",
+        "Session",
+        "Client",
+        "AsyncClient",
+    }
+)
+
+
+def _qualified_name(node: ast.expr) -> str:
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        prefix = _qualified_name(node.value)
+        return f"{prefix}.{node.attr}" if prefix else node.attr
+    return ""
+
+
+def _python_tls_bypass_lines(source: SourceFile) -> set[int] | None:
+    if PurePosixPath(source.path.replace("\\", "/")).suffix.casefold() != ".py":
+        return None
+    try:
+        tree = ast.parse(source.text, filename=source.path)
+    except (SyntaxError, TypeError, ValueError, RecursionError):
+        return None
+
+    lines: set[int] = set()
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Call):
+            continue
+        qualified_name = _qualified_name(node.func)
+        parts = qualified_name.split(".")
+        if len(parts) < 2 or parts[0] not in {"requests", "httpx"}:
+            continue
+        if parts[-1] not in _PYTHON_HTTP_CALLS:
+            continue
+        for keyword in node.keywords:
+            if (
+                keyword.arg == "verify"
+                and isinstance(keyword.value, ast.Constant)
+                and keyword.value.value is False
+            ):
+                lines.add(keyword.value.lineno)
+    return lines
 
 
 def _may_contain_tls_bypass(source: SourceFile) -> bool:
@@ -40,11 +99,17 @@ def _has_tls_context(source: SourceFile, line: str) -> bool:
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
     if is_test_path(source.path):
         return
+    python_bypass_lines = _python_tls_bypass_lines(source)
     for line_number, line in iter_code_lines(source.text, source.path):
         code = code_without_string_literals(line)
         for index, pattern in enumerate(_BYPASS_PATTERNS):
             match = pattern.search(code)
-            if match and index == 0 and not _has_tls_context(source, line):
+            if (
+                match
+                and index == 0
+                and not _has_tls_context(source, line)
+                and (python_bypass_lines is None or line_number not in python_bypass_lines)
+            ):
                 continue
             if match:
                 yield rule.finding(source, line_number, match.group(0))
@@ -70,7 +135,7 @@ RULE = RuleDefinition(
         "anchor, and use a test-only override that cannot enter production builds."
     ),
     scanner=_scan,
-    version="1.2.0",
+    version="1.3.0",
     references=("https://cwe.mitre.org/data/definitions/295.html",),
     prefilter=_may_contain_tls_bypass,
 )

@@ -93,6 +93,26 @@ class ScannerAndReporterTests(unittest.TestCase):
         self.assertEqual(64, len(finding["fingerprint"]))
         self.assertEqual([], payload["artifacts"])
 
+    def test_text_report_escapes_terminal_controls_in_untrusted_paths_and_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "device.c").write_text(
+                'const char *password = "embedded-secret-value";\x1b[2J\n',
+                encoding="utf-8",
+            )
+            result = scan(root)
+            altered_finding = replace(
+                result.findings[0],
+                file="source\x1b[2J.c",
+                evidence=result.findings[0].evidence + "\u202e",
+            )
+            rendered = to_text(replace(result, findings=(altered_finding,)))
+
+        self.assertNotIn("\x1b", rendered)
+        self.assertNotIn("\u202e", rendered)
+        self.assertIn(r"source\x1b[2J.c", rendered)
+        self.assertIn(r"\u202e", rendered)
+
     def test_scan_records_latin1_fallback_for_legacy_text_files(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

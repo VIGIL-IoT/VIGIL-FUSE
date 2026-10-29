@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import random
 import tempfile
 import unittest
 from contextlib import redirect_stdout
@@ -81,7 +82,9 @@ class PlatformIOIncludeTests(unittest.TestCase):
 
         self.assertEqual("partial", inventory.status)
         self.assertEqual({"root", "extra"}, {item.name for item in inventory.environments})
-        self.assertTrue(any("unresolved extra_configs variable" in item for item in inventory.limitations))
+        self.assertTrue(
+            any("unresolved extra_configs variable" in item for item in inventory.limitations)
+        )
 
     def test_include_cycle_is_reported_without_recursing(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -111,7 +114,9 @@ class PlatformIOIncludeTests(unittest.TestCase):
 
 
 class FirmwareCandidateTests(unittest.TestCase):
-    def test_firmware_candidate_inventory_includes_common_build_outputs_without_reading(self) -> None:
+    def test_firmware_candidate_inventory_includes_common_build_outputs_without_reading(
+        self,
+    ) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             source_output = root / ".pio" / "build" / "release"
@@ -145,7 +150,9 @@ class GitHubActionsTests(unittest.TestCase):
             workflows.mkdir(parents=True)
             for filename in ("vulnerable.yml", "secure.yml"):
                 source = FIXTURES / "github-actions" / filename
-                (workflows / filename).write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+                (workflows / filename).write_text(
+                    source.read_text(encoding="utf-8"), encoding="utf-8"
+                )
             inventory, findings = inspect_github_actions(root)
 
         self.assertEqual("completed", inventory.status)
@@ -175,7 +182,9 @@ class GitHubActionsTests(unittest.TestCase):
         self.assertEqual(2, report["github_actions"]["non_sha_action_reference_count"])
         self.assertEqual(1, report["github_actions"]["floating_branch_reference_count"])
         self.assertEqual(2, report["github_actions"]["finding_count"])
-        self.assertEqual(2, sum(item["rule_id"].startswith("FUSE-GHA-") for item in report["findings"]))
+        self.assertEqual(
+            2, sum(item["rule_id"].startswith("FUSE-GHA-") for item in report["findings"])
+        )
 
     def test_pull_request_target_and_commented_patterns_alone_are_not_reported(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -262,7 +271,9 @@ class KiCadNetlistTests(unittest.TestCase):
             plan = json.loads(output.getvalue())
             output = StringIO()
             with redirect_stdout(output):
-                scan_exit = main(["scan", str(root), "--hardware-netlist", "design.net", "--format", "json"])
+                scan_exit = main(
+                    ["scan", str(root), "--hardware-netlist", "design.net", "--format", "json"]
+                )
             report = json.loads(output.getvalue())
 
         stage_names = {item["name"] for item in plan["stages"]}
@@ -283,6 +294,63 @@ class KiCadNetlistTests(unittest.TestCase):
         self.assertEqual("invalid", inventory.status)
         self.assertIn("DTD and entity", inventory.limitations[0])
         self.assertFalse(findings)
+
+    def test_utf16_netlist_with_entity_declaration_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            unsafe = (
+                '<?xml version="1.0" encoding="UTF-16"?>'
+                '<!DOCTYPE export [<!ENTITY x "JTAG">]>'
+                '<export><components/><nets><net name="&x;"/></nets></export>'
+            )
+            (root / "unsafe.net").write_bytes(unsafe.encode("utf-16"))
+            inventory, findings = inspect_kicad_netlist(root, "unsafe.net")
+
+        self.assertEqual("invalid", inventory.status)
+        self.assertIn("UTF-8", inventory.limitations[0])
+        self.assertFalse(findings)
+
+    def test_netlist_with_excessive_element_count_is_rejected_before_tree_parse(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            net_elements = "<net/>" * 100_001
+            (root / "large.net").write_text(
+                f"<export><components/><nets>{net_elements}</nets></export>",
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_kicad_netlist(root, "large.net")
+
+        self.assertEqual("invalid", inventory.status)
+        self.assertIn("element", inventory.limitations[0])
+        self.assertFalse(findings)
+
+    def test_netlist_with_excessive_nesting_is_rejected_before_tree_parse(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            nested = "<node>" * 128 + "</node>" * 128
+            (root / "deep.net").write_text(
+                f"<export>{nested}</export>",
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_kicad_netlist(root, "deep.net")
+
+        self.assertEqual("invalid", inventory.status)
+        self.assertIn("nesting", inventory.limitations[0])
+        self.assertFalse(findings)
+
+    def test_seeded_malformed_xml_inputs_stay_inside_the_parser_boundary(self) -> None:
+        rng = random.Random(20261029)
+        alphabet = bytes(range(1, 128))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            path = root / "fuzz.net"
+            for _ in range(64):
+                noise = bytes(rng.choice(alphabet) for _ in range(rng.randrange(1, 48)))
+                path.write_bytes(b"<export><components/><nets>" + noise + b"</nets></export>")
+                inventory, findings = inspect_kicad_netlist(root, path.name)
+
+                self.assertIn(inventory.status, {"invalid", "parsed"})
+                self.assertFalse(findings)
 
 
 if __name__ == "__main__":
