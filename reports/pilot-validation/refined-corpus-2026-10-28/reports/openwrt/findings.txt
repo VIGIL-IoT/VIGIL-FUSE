@@ -1,0 +1,67 @@
+FUSE scan: openwrt/openwrt, selected source and configuration
+Target kind: directory
+Profile: embedded-linux
+Support: basic / completed
+Network policy: not-requested
+Scanned manifest SHA-256: 5f027ca78e90de016aaf8d26fcf5e6c47de03d75c8b0af2582b5cf375e5804df
+Files discovered/selected: 368/368
+Files filtered by path policy: 0
+Files scanned: 368
+Source bytes read: 2463235
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 1
+Hardware artifacts: 0
+Files not selected by the source profile: 1237
+  .18: 2
+  .am: 1
+  .asnet: 1
+  .chat: 2
+  .clients: 1
+  .common: 1
+  .default: 3
+  .defaults: 2
+  .failsafe: 2
+  .gcom: 12
+  .hotplug: 4
+  .in: 12
+  .lds: 1
+  .list: 1
+  .local: 1
+  .m4: 2
+  .md: 3
+  .microsoft: 1
+  .patch: 698
+  .pptp: 1
+  .s: 2
+  .txt: 2
+  .uc: 10
+  .usb: 2
+  .usbmisc: 1
+  .users: 1
+  <no-extension>: 468
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 60 selected input(s). The conservative prefilter excluded 308 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 24 selected input(s). The conservative prefilter excluded 344 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 37 selected input(s). The conservative prefilter excluded 331 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 353 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 353 inputs without the rule's required markers.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: package/network/services/ead/src/tinysrp/t_pwd.h:96
+  Evidence: #define DEFAULT_PASSWD "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
