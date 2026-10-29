@@ -14,6 +14,7 @@ import tomllib
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "reports" / "repository-scans" / "scan-manifest.json"
 REPORT_ROOT = ROOT / "reports" / "repository-scans"
+MAX_MANIFEST_FILE_BYTES = 100 * 1024 * 1024
 
 
 def git_head(repository: Path) -> str:
@@ -98,6 +99,15 @@ def build_scan_command(checkout: Path, profile: str, scan: dict, output: Path) -
         ):
             raise ValueError("Repository scan rule_timeout_seconds must be between 0.1 and 30")
         command.extend(("--rule-timeout", str(rule_timeout)))
+    max_file_bytes = scan.get("max_file_bytes")
+    if max_file_bytes is not None:
+        if (
+            isinstance(max_file_bytes, bool)
+            or not isinstance(max_file_bytes, int)
+            or not 1 <= max_file_bytes <= MAX_MANIFEST_FILE_BYTES
+        ):
+            raise ValueError("max_file_bytes must be between 1 and 104857600")
+        command.extend(("--max-file-bytes", str(max_file_bytes)))
     command.extend(("--output-dir", str(output)))
     return command
 
@@ -125,6 +135,25 @@ def report_has_incomplete_coverage(report: dict) -> bool:
             )
             if not intentional_rule_skip:
                 return True
+    module_statuses = (
+        (report.get("build_context", {}), "platformio", {"partial", "invalid"}),
+        (report.get("build_context", {}), "compilation_database", {"partial", "invalid"}),
+        (report, "firmware_candidates", {"partial"}),
+        (report, "github_actions", {"partial"}),
+        (report, "hardware_netlist", {"partial", "invalid"}),
+        (report, "hardware_bom", {"partial", "invalid"}),
+        (report.get("product_context", {}), "vex_import", {"partial", "invalid"}),
+    )
+    for parent, key, incomplete_statuses in module_statuses:
+        value = parent.get(key) if isinstance(parent, dict) else None
+        if isinstance(value, dict) and value.get("status") in incomplete_statuses:
+            return True
+    provenance = report.get("provenance")
+    if isinstance(provenance, dict) and provenance.get("status") not in {
+        "not-requested",
+        "subject-match",
+    }:
+        return True
     return False
 
 
