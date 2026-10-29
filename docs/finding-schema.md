@@ -1,6 +1,6 @@
 # FUSE finding format
 
-FUSE JSON reports use `schema_version: "1.8"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.8.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan.
+FUSE JSON reports use `schema_version: "1.10"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.10.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan.
 
 The top-level `target` value is a shareable label. By default, it is the target basename. Pass `--target-label organization/repository` or set `scan.target_label` in TOML to give reports and baselines a stable identity when different repositories have the same folder name. Labels cannot be absolute paths or contain traversal segments. Local target paths are not included in reports.
 
@@ -47,7 +47,13 @@ The `coverage` object lists all available and enabled rules, analyzer status/ver
 
 The `hardware_inventory` object reports recognizable schematics, PCB design and fabrication artifacts, BOMs, CAD models, netlists, and HDL files. Detection uses filenames only and is independent of the source profile. `scope` is either the full directory target or a single file. `complete` is false if directory discovery stopped at a resource limit. Its entries are presence metadata, not vulnerability findings, and FUSE does not claim to validate hardware contents or security.
 
-The `build_context.platformio` object records selected metadata from `platformio.ini`, including declared environments, their allow-listed board and platform fields, default environment names, and a SHA-256 of the config file. It does not expand variable interpolation, run PlatformIO, or build each environment. `build_context.compilation_database` records bounded entry counts, source paths classified as in-target or external, compiler families, and a digest. FUSE treats compilation commands as data and never executes them. This inventory does not imply semantic C or C++ analysis.
+The `firmware_candidates` object records candidate paths, extensions, sizes, and counts across bounded source and common build-output directories. This is filename metadata only: candidate files are not opened, hashed, or validated as firmware. The path list is capped separately from the extension counts, and `omitted_count` shows when the displayed list was shortened.
+
+The `github_actions` object records workflow paths and hashes plus coverage for a narrow static check. FUSE reports a workflow-level `permissions: write-all` scalar, counts recognized non-SHA action references, and creates findings only for obvious floating branches such as `@main` or `@master`. Normal version tags are counted but are not findings. Job-level permission blocks, permission inheritance, event-controlled shell input, and whether a job can run on untrusted data are outside this check.
+
+The `hardware_netlist` object records metadata from one selected or uniquely detected KiCad XML netlist. FUSE rejects DTD and entity declarations, and reports a debug-net candidate only when a named debug/programming signal connects to a connector-designator or connector-like part. The result does not establish PCB routing, physical access, population state, or whether device debug access is enabled.
+
+The `build_context.platformio` object records selected metadata from `platformio.ini` and its bounded `extra_configs` include graph, including declared environments, allow-listed board and platform fields, default environment names, source directories, ordered `build_src_filter` lines, and per-file digests. It does not expand interpolation, resolve filters into an effective compiled file set, run PlatformIO, or build each environment. Missing or unsafe includes produce partial coverage. `build_context.compilation_database` records bounded entry counts, source paths classified as in-target or external, compiler families, and a digest. FUSE treats compilation commands as data and never executes them. This inventory does not imply semantic C or C++ analysis.
 
 The `hardware_bom` object is present-only unless `--hardware-bom` explicitly selects a CSV or TSV. It records the source digest, imported row count, listed quantity, normalized part fields, and parse limitations. FUSE also writes `hardware-bom.cdx.json`, a CycloneDX hardware inventory, and lists its digest in `artifacts`. Imported part names and manufacturer metadata may reveal board composition. Neither the imported BOM nor the generated HBOM is a hardware security assessment.
 
@@ -69,7 +75,7 @@ Severity, its source, confidence, applicability, and validation are separate dim
 
 ```json
 {
-  "schema_version": "1.8",
+  "schema_version": "1.10",
   "tool": {"name": "FUSE", "version": "0.2.0"},
   "target": "device-project",
   "scan": {
