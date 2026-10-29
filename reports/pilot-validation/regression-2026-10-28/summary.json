@@ -1,0 +1,2001 @@
+{
+  "generated_at": "2026-10-28T09:02:28Z",
+  "scan_date": "2026-10-28",
+  "cohort": "regression-validation",
+  "training_manifest": "../../repository-scans/scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Rerun the existing pinned public-repository corpus after the local FUSE 0.2.0 schema 1.9 implementation changes.",
+    "baseline_manifest": "../../repository-scans/scan-manifest.json",
+    "training_corpus_informed_rule_refinements": true,
+    "independent_or_blind_holdout": false,
+    "interpretation": "Fourteen repositories and fifteen previously selected scopes are reused at their exact pinned commits. This is regression validation, not a blind holdout, representative sample, or accuracy benchmark."
+  },
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "cc5fb46fe5cb64a3a26a67476bd6d2ed5e066b50",
+    "source_tree_sha256": "63d4226166101bdea1000075c2cc01e1f6ae1230dd94bc6e5f276e6b907d854c",
+    "source_tree_dirty": true,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "interpretation": "Regression validation against patterns observed in the initial holdout snapshot. The corpus informed these refinements and is not an untouched blind holdout; findings remain static signals, not confirmed vulnerabilities.",
+  "totals": {
+    "files_discovered": 18999,
+    "files_selected": 18859,
+    "files_scanned": 18855,
+    "files_skipped": 4,
+    "repository_count": 14,
+    "scan_scope_count": 15,
+    "finding_count": 63,
+    "rule_counts": {
+      "FUSE001": 40,
+      "FUSE002": 4,
+      "FUSE003": 15,
+      "FUSE004": 2,
+      "FUSE005": 0,
+      "FUSE006": 0,
+      "FUSE007": 0,
+      "FUSE-GHA-002": 2
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 19,
+      "medium": 42,
+      "low": 0,
+      "info": 2,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {
+      "not_utf8": 2,
+      "too_large": 2
+    },
+    "hardware_file_count": 28,
+    "hardware_category_counts": {
+      "hardware-project": 27,
+      "netlist": 1
+    },
+    "hardware_inventory_complete": true,
+    "module_coverage": {
+      "platformio": {
+        "environment_count": 106,
+        "configuration_count": 4,
+        "partial_scope_count": 1
+      },
+      "firmware_candidates": {
+        "candidate_count": 125,
+        "extension_counts": {
+          ".bin": 99,
+          ".hex": 20,
+          ".ota": 5,
+          ".uf2": 1
+        }
+      },
+      "github_actions": {
+        "workflow_count": 23,
+        "non_sha_action_reference_count": 88,
+        "floating_branch_reference_count": 2,
+        "finding_count": 2
+      },
+      "hardware_netlist": {
+        "scope_count": 0,
+        "component_count": 0,
+        "net_count": 0,
+        "debug_net_candidate_count": 0
+      }
+    }
+  },
+  "repositories": [
+    {
+      "id": "iotgoat",
+      "name": "OWASP/IoTGoat",
+      "url": "https://github.com/OWASP/IoTGoat",
+      "commit": "f67b7f961301d7a56b435fd7cffac73600f0c97b",
+      "profile": "embedded-linux",
+      "scan_count": 1,
+      "files_discovered": 1652,
+      "files_selected": 1652,
+      "files_scanned": 1651,
+      "files_skipped": 1,
+      "finding_count": 1,
+      "rule_counts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 5,
+          "extension_counts": {
+            ".bin": 5
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "not_utf8": 1
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "iotgoat",
+          "scope": "OpenWrt/openwrt-18.06.2/config, files, package/base-files, package/network/services, package/system, target/linux",
+          "profile": "embedded-linux",
+          "files_discovered": 1652,
+          "files_selected": 1652,
+          "files_scanned": 1651,
+          "files_skipped": 1,
+          "files_skipped_by_reason": {
+            "not_utf8": 1
+          },
+          "finding_count": 1,
+          "rule_counts": {
+            "FUSE001": 1,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 1,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 5,
+              "extension_counts": {
+                ".bin": 5
+              }
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/iotgoat/findings.json",
+            "text": "reports/iotgoat/findings.txt",
+            "sarif": "reports/iotgoat/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tasmota",
+      "name": "arendst/Tasmota",
+      "url": "https://github.com/arendst/Tasmota",
+      "commit": "63c38614ed0f19c550148d2d17f6e8cbaf8faea0",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 6802,
+      "files_selected": 6802,
+      "files_scanned": 6800,
+      "files_skipped": 2,
+      "finding_count": 16,
+      "rule_counts": {
+        "FUSE001": 3,
+        "FUSE002": 0,
+        "FUSE003": 10,
+        "FUSE004": 2,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 1
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 10,
+        "medium": 5,
+        "low": 0,
+        "info": 1,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 106,
+          "configuration_count": 4,
+          "partial_scope_count": 1
+        },
+        "firmware_candidates": {
+          "candidate_count": 30,
+          "extension_counts": {
+            ".bin": 6,
+            ".hex": 19,
+            ".ota": 5
+          }
+        },
+        "github_actions": {
+          "workflow_count": 5,
+          "non_sha_action_reference_count": 66,
+          "floating_branch_reference_count": 1,
+          "finding_count": 1
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "too_large": 2
+      },
+      "hardware_file_count": 2,
+      "hardware_category_counts": {
+        "hardware-project": 2
+      },
+      "scopes": [
+        {
+          "id": "tasmota",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 6802,
+          "files_selected": 6802,
+          "files_scanned": 6800,
+          "files_skipped": 2,
+          "files_skipped_by_reason": {
+            "too_large": 2
+          },
+          "finding_count": 16,
+          "rule_counts": {
+            "FUSE001": 3,
+            "FUSE002": 0,
+            "FUSE003": 10,
+            "FUSE004": 2,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 1
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 10,
+            "medium": 5,
+            "low": 0,
+            "info": 1,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": true,
+            "file_count": 2,
+            "category_counts": {
+              "hardware-project": 2
+            },
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "partial",
+              "environment_count": 106,
+              "configuration_count": 4
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 30,
+              "extension_counts": {
+                ".bin": 6,
+                ".hex": 19,
+                ".ota": 5
+              }
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 5,
+              "non_sha_action_reference_count": 66,
+              "floating_branch_reference_count": 1,
+              "finding_count": 1
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/tasmota/findings.json",
+            "text": "reports/tasmota/findings.txt",
+            "sarif": "reports/tasmota/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "esp-idf",
+      "name": "espressif/esp-idf",
+      "url": "https://github.com/espressif/esp-idf",
+      "commit": "d35ea023029363d97c42565f85e0db23486f26b2",
+      "profile": "esp-idf",
+      "scan_count": 2,
+      "files_discovered": 196,
+      "files_selected": 77,
+      "files_scanned": 77,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 6,
+          "extension_counts": {
+            ".bin": 6
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "esp-idf-mqtt",
+          "scope": "examples/protocols/mqtt",
+          "profile": "esp-idf",
+          "files_discovered": 98,
+          "files_selected": 8,
+          "files_scanned": 8,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 3,
+              "extension_counts": {
+                ".bin": 3
+              }
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/esp-idf-mqtt/findings.json",
+            "text": "reports/esp-idf-mqtt/findings.txt",
+            "sarif": "reports/esp-idf-mqtt/findings.sarif"
+          }
+        },
+        {
+          "id": "esp-idf-ota",
+          "scope": "examples/system/ota",
+          "profile": "esp-idf",
+          "files_discovered": 98,
+          "files_selected": 69,
+          "files_scanned": 69,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 3,
+              "extension_counts": {
+                ".bin": 3
+              }
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/esp-idf-ota/findings.json",
+            "text": "reports/esp-idf-ota/findings.txt",
+            "sarif": "reports/esp-idf-ota/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "esphome-devices",
+      "name": "esphome/devices.esphome.io",
+      "url": "https://github.com/esphome/devices.esphome.io",
+      "commit": "232bac526f06237daabba9111cee7910ac282f9c",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 73,
+      "files_selected": 73,
+      "files_scanned": 73,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 2,
+          "extension_counts": {
+            ".bin": 1,
+            ".uf2": 1
+          }
+        },
+        "github_actions": {
+          "workflow_count": 9,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "esphome-devices",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 73,
+          "files_selected": 73,
+          "files_scanned": 73,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 2,
+              "extension_counts": {
+                ".bin": 1,
+                ".uf2": 1
+              }
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 9,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/esphome-devices/findings.json",
+            "text": "reports/esphome-devices/findings.txt",
+            "sarif": "reports/esphome-devices/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "arduino-examples",
+      "name": "arduino/arduino-examples",
+      "url": "https://github.com/arduino/arduino-examples",
+      "commit": "50b66a3ce1e4e5e69cd96d3af5ca41a3383b311a",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 92,
+      "files_selected": 92,
+      "files_scanned": 92,
+      "files_skipped": 0,
+      "finding_count": 1,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 1
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 1,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 4,
+          "non_sha_action_reference_count": 13,
+          "floating_branch_reference_count": 1,
+          "finding_count": 1
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "arduino-examples",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 92,
+          "files_selected": 92,
+          "files_scanned": 92,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 1,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 1
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 1,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 4,
+              "non_sha_action_reference_count": 13,
+              "floating_branch_reference_count": 1,
+              "finding_count": 1
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/arduino-examples/findings.json",
+            "text": "reports/arduino-examples/findings.txt",
+            "sarif": "reports/arduino-examples/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pico-examples",
+      "name": "raspberrypi/pico-examples",
+      "url": "https://github.com/raspberrypi/pico-examples",
+      "commit": "0d62f75bafc2c8120d3276c3343d1a9195e909e9",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 373,
+      "files_selected": 373,
+      "files_scanned": 373,
+      "files_skipped": 0,
+      "finding_count": 3,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 3,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 3,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 5,
+          "extension_counts": {
+            ".bin": 4,
+            ".hex": 1
+          }
+        },
+        "github_actions": {
+          "workflow_count": 5,
+          "non_sha_action_reference_count": 9,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 25,
+      "hardware_category_counts": {
+        "hardware-project": 25
+      },
+      "scopes": [
+        {
+          "id": "pico-examples",
+          "scope": "Full shallow checkout, all FUSE-supported source and configuration files",
+          "profile": "generic",
+          "files_discovered": 373,
+          "files_selected": 373,
+          "files_scanned": 373,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 3,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 3,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 3,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": true,
+            "file_count": 25,
+            "category_counts": {
+              "hardware-project": 25
+            },
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 5,
+              "extension_counts": {
+                ".bin": 4,
+                ".hex": 1
+              }
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 5,
+              "non_sha_action_reference_count": 9,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/pico-examples/findings.json",
+            "text": "reports/pico-examples/findings.txt",
+            "sarif": "reports/pico-examples/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "zephyr",
+      "name": "zephyrproject-rtos/zephyr",
+      "url": "https://github.com/zephyrproject-rtos/zephyr",
+      "commit": "c4aa9324508f6226bc6c491f114dbecaf9dffb36",
+      "profile": "zephyr",
+      "scan_count": 1,
+      "files_discovered": 42,
+      "files_selected": 30,
+      "files_scanned": 30,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "zephyr-net-samples",
+          "scope": "samples/net/mqtt_publisher and samples/net/secure_mqtt_sensor_actuator",
+          "profile": "zephyr",
+          "files_discovered": 42,
+          "files_selected": 30,
+          "files_scanned": 30,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/zephyr-net-samples/findings.json",
+            "text": "reports/zephyr-net-samples/findings.txt",
+            "sarif": "reports/zephyr-net-samples/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "openwrt",
+      "name": "openwrt/openwrt",
+      "url": "https://github.com/openwrt/openwrt",
+      "commit": "b5ff052caf4b7e90eb4b84941dec77bb5e4b5e08",
+      "profile": "embedded-linux",
+      "scan_count": 1,
+      "files_discovered": 368,
+      "files_selected": 368,
+      "files_scanned": 368,
+      "files_skipped": 0,
+      "finding_count": 1,
+      "rule_counts": {
+        "FUSE001": 1,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 1,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "openwrt",
+          "scope": "package/base-files, package/network/services, package/network/utils, package/system, target/linux/generic",
+          "profile": "embedded-linux",
+          "files_discovered": 368,
+          "files_selected": 368,
+          "files_scanned": 368,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 1,
+          "rule_counts": {
+            "FUSE001": 1,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 1,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/openwrt/findings.json",
+            "text": "reports/openwrt/findings.txt",
+            "sarif": "reports/openwrt/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pico-sdk",
+      "name": "raspberrypi/pico-sdk",
+      "url": "https://github.com/raspberrypi/pico-sdk",
+      "commit": "079c6f39023649b154152db30f1d781e884879bc",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 774,
+      "files_selected": 772,
+      "files_scanned": 772,
+      "files_skipped": 0,
+      "finding_count": 1,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 1,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 1,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 3,
+          "extension_counts": {
+            ".bin": 3
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "pico-sdk",
+          "scope": "SDK C/C++ sources, public headers, library code, CMake files, and tools",
+          "profile": "generic",
+          "files_discovered": 774,
+          "files_selected": 772,
+          "files_scanned": 772,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 1,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 1,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 1,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 3,
+              "extension_counts": {
+                ".bin": 3
+              }
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/pico-sdk/findings.json",
+            "text": "reports/pico-sdk/findings.txt",
+            "sarif": "reports/pico-sdk/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "arduino-esp32",
+      "name": "espressif/arduino-esp32",
+      "url": "https://github.com/espressif/arduino-esp32",
+      "commit": "8e29d4de275cf58c767f453ff6ed26bea692dfec",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 1784,
+      "files_selected": 1778,
+      "files_scanned": 1778,
+      "files_skipped": 0,
+      "finding_count": 40,
+      "rule_counts": {
+        "FUSE001": 35,
+        "FUSE002": 0,
+        "FUSE003": 5,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 5,
+        "medium": 35,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 73,
+          "extension_counts": {
+            ".bin": 73
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "arduino-esp32",
+          "scope": "Arduino-ESP32 core, libraries, variants, and ESP-IDF component examples",
+          "profile": "generic",
+          "files_discovered": 1784,
+          "files_selected": 1778,
+          "files_scanned": 1778,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 40,
+          "rule_counts": {
+            "FUSE001": 35,
+            "FUSE002": 0,
+            "FUSE003": 5,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 5,
+            "medium": 35,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 73,
+              "extension_counts": {
+                ".bin": 73
+              }
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/arduino-esp32/findings.json",
+            "text": "reports/arduino-esp32/findings.txt",
+            "sarif": "reports/arduino-esp32/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "buildroot",
+      "name": "buildroot/buildroot",
+      "url": "https://github.com/buildroot/buildroot",
+      "commit": "1cfdb4efd539ad5917bc43ac806a95687e7f4b6b",
+      "profile": "embedded-linux",
+      "scan_count": 1,
+      "files_discovered": 4822,
+      "files_selected": 4821,
+      "files_scanned": 4820,
+      "files_skipped": 1,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 1,
+          "extension_counts": {
+            ".bin": 1
+          }
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "not_utf8": 1
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "buildroot",
+          "scope": "Buildroot package recipes, board support, system configuration, and package tooling",
+          "profile": "embedded-linux",
+          "files_discovered": 4822,
+          "files_selected": 4821,
+          "files_scanned": 4820,
+          "files_skipped": 1,
+          "files_skipped_by_reason": {
+            "not_utf8": 1
+          },
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 1,
+              "extension_counts": {
+                ".bin": 1
+              }
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/buildroot/findings.json",
+            "text": "reports/buildroot/findings.txt",
+            "sarif": "reports/buildroot/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "openembedded-core",
+      "name": "openembedded/openembedded-core",
+      "url": "https://github.com/openembedded/openembedded-core",
+      "commit": "fa83da7da277a641c3a997d3da26041fa46d48ab",
+      "profile": "embedded-linux",
+      "scan_count": 1,
+      "files_discovered": 819,
+      "files_selected": 819,
+      "files_scanned": 819,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 1,
+      "hardware_category_counts": {
+        "netlist": 1
+      },
+      "scopes": [
+        {
+          "id": "openembedded-core",
+          "scope": "OpenEmbedded Core classes, configuration, recipes, and build scripts",
+          "profile": "embedded-linux",
+          "files_discovered": 819,
+          "files_selected": 819,
+          "files_scanned": 819,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": true,
+            "file_count": 1,
+            "category_counts": {
+              "netlist": 1
+            },
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/openembedded-core/findings.json",
+            "text": "reports/openembedded-core/findings.txt",
+            "sarif": "reports/openembedded-core/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-openembedded",
+      "name": "openembedded/meta-openembedded",
+      "url": "https://github.com/openembedded/meta-openembedded",
+      "commit": "53276e6882048b990201b3c230e0b1fd0b8311b6",
+      "profile": "embedded-linux",
+      "scan_count": 1,
+      "files_discovered": 1183,
+      "files_selected": 1183,
+      "files_scanned": 1183,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "meta-openembedded",
+          "scope": "OpenEmbedded community recipes for core, networking, security, cryptography, and Python tools",
+          "profile": "embedded-linux",
+          "files_discovered": 1183,
+          "files_selected": 1183,
+          "files_scanned": 1183,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/meta-openembedded/findings.json",
+            "text": "reports/meta-openembedded/findings.txt",
+            "sarif": "reports/meta-openembedded/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "meta-yocto",
+      "name": "yoctoproject/meta-yocto",
+      "url": "https://github.com/yoctoproject/meta-yocto",
+      "commit": "82013b83db7ba41da07694e201a7c43f561a9e00",
+      "profile": "embedded-linux",
+      "scan_count": 1,
+      "files_discovered": 19,
+      "files_selected": 19,
+      "files_scanned": 19,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "platformio": {
+          "environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "meta-yocto",
+          "scope": "Poky distribution configuration and Yocto board support recipes",
+          "profile": "embedded-linux",
+          "files_discovered": 19,
+          "files_selected": 19,
+          "files_scanned": 19,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/meta-yocto/findings.json",
+            "text": "reports/meta-yocto/findings.txt",
+            "sarif": "reports/meta-yocto/findings.sarif"
+          }
+        }
+      ]
+    }
+  ]
+}
