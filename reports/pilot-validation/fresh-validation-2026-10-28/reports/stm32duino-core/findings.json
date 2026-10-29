@@ -1,0 +1,501 @@
+{
+  "schema_version": "1.10",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "stm32duino/Arduino_Core_STM32",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T17:01:50Z",
+    "completed_at": "2026-10-28T17:07:34Z",
+    "input_manifest_sha256": "d4e2aae2ba5440e2b01c25cc6efc600ba31648e44799b1c13f637801a02b79f2"
+  },
+  "summary": {
+    "files_discovered": 10161,
+    "files_selected": 10161,
+    "files_filtered": 0,
+    "files_scanned": 10113,
+    "source_bytes_read": 535708332,
+    "files_skipped": 48,
+    "analysis_performed": true,
+    "finding_count": 4,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 4,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {
+      "too_large": 48
+    },
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 18,
+      "files": [
+        "system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h",
+        "system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h",
+        "system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h",
+        "system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h",
+        "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c",
+        "system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c",
+        "system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c",
+        "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c",
+        "system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c",
+        "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c",
+        "system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c",
+        "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c",
+        "system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c",
+        "system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h",
+        "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c",
+        "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c",
+        "system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c",
+        "system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c"
+      ],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 3226,
+      "unsupported_file_types": {
+        ".adoc": 3,
+        ".bmp": 1,
+        ".css": 61,
+        ".dtsi": 1,
+        ".gv": 4,
+        ".html": 52,
+        ".in": 2,
+        ".jpg": 1,
+        ".ld": 696,
+        ".md": 207,
+        ".patch": 8,
+        ".pl": 2,
+        ".png": 165,
+        ".s": 286,
+        ".spec": 3,
+        ".svg": 47,
+        ".txt": 1667,
+        "<no-extension>": 20
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "partial",
+        "version": "0.2.0",
+        "detail": "One or more selected files were skipped; review coverage details.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.5.0",
+        "detail": "Evaluated 356 selected input(s). The conservative prefilter excluded 9757 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 257 selected input(s). The conservative prefilter excluded 9856 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 19 selected input(s). The conservative prefilter excluded 10094 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.",
+        "findings": 4
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 8,
+    "files": [
+      {
+        "path": ".github/workflows/Arduino-build.yml",
+        "sha256": "8183828aeea27643fdfece6234f06733e7ed5b1b04ab7fc4bbbe1e701163aa31",
+        "byte_size": 1465
+      },
+      {
+        "path": ".github/workflows/arduino-lint.yml",
+        "sha256": "1b6e32be199babfeddc8f439308d2a8118a2089eaa0aaf69099235b4fa4ca6ee",
+        "byte_size": 331
+      },
+      {
+        "path": ".github/workflows/astyle.yml",
+        "sha256": "1d8f47d5c7029bd4db4850ad6994bd0cc71d5ff5c1ca93c6557c34f8b8f3b03f",
+        "byte_size": 1167
+      },
+      {
+        "path": ".github/workflows/Cmake.yml",
+        "sha256": "ee40688336d7cfb63c4e3813ab5d41d399bd7ce5dacc26212b9eede00bf2aac9",
+        "byte_size": 1843
+      },
+      {
+        "path": ".github/workflows/CodeSpell.yml",
+        "sha256": "e67353a3de00d2f344beb62d49ce41697fa464943602f8b503242cac9714821e",
+        "byte_size": 773
+      },
+      {
+        "path": ".github/workflows/docs-check.yml",
+        "sha256": "60779d126aaa4f31ed57d8c88bdd31a70726ac0c9a9405adfe3a1371e44bd5b5",
+        "byte_size": 806
+      },
+      {
+        "path": ".github/workflows/PIO-build.yml",
+        "sha256": "11a3961fa4e47e41d50a1fde8bdfe7b883c0632c2cf8c85676cf4c0fc2ee8d12",
+        "byte_size": 1240
+      },
+      {
+        "path": ".github/workflows/publish-docs.yml",
+        "sha256": "e2ba8f6640343c89ef841eb02515c3bc9f3b431d8bdbd32fe25f480aff1fcd17",
+        "byte_size": 2956
+      }
+    ],
+    "non_sha_action_reference_count": 16,
+    "floating_branch_reference_count": 4,
+    "finding_count": 4,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE-GHA-002:.github/workflows/Arduino-build.yml:44",
+      "fingerprint": "7cf3c3b5657626adf3f99a46fc8e3b9024f009748d4bd518b00fadfdb949931c",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/Arduino-build.yml",
+        "start_line": 44,
+        "end_line": 44
+      },
+      "evidence": "uses: actions/checkout@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/Cmake.yml:67",
+      "fingerprint": "3459b2d3ff336fd194bb30caffa3f9ceccd64be7eceee6d3ae0562082e10fc30",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/Cmake.yml",
+        "start_line": 67,
+        "end_line": 67
+      },
+      "evidence": "uses: actions/checkout@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/Cmake.yml:72",
+      "fingerprint": "63547a54eb3e0ce2ad17500f2c30a15cf14e9fd5d388213d9eb0a851f5426e1d",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/Cmake.yml",
+        "start_line": 72,
+        "end_line": 72
+      },
+      "evidence": "uses: lukka/get-cmake@latest",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/PIO-build.yml:46",
+      "fingerprint": "27ed8815a87d6d13d451a078a3e397f591289b9d5673c4ef616ddca461211a8b",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/PIO-build.yml",
+        "start_line": 46,
+        "end_line": 46
+      },
+      "evidence": "uses: actions/checkout@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}
