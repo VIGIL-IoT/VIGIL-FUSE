@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="description" content="Independent FUSE validation across pinned embedded and IoT repository snapshots.">
+    <title>Independent validation | FUSE</title>
+    <link rel="icon" href="../assets/fuse-mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+      (() => {
+        try {
+          document.documentElement.dataset.theme = localStorage.getItem("vigil-fuse-theme") === "dark" ? "dark" : "light";
+        } catch {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="../styles.css?v=20261027-coverage">
+    <link rel="stylesheet" href="poc.css?v=20261028">
+    <script src="poc.js?v=20261028-3" defer></script>
+  </head>
+  <body class="regression-page">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="report-toolbar">
+      <a class="report-brand" href="../" aria-label="FUSE home, a VIGIL Project">
+        <img src="../assets/fuse-mark.svg" alt="" width="28" height="28">
+        <span><strong>FUSE</strong><small>A VIGIL Project</small></span>
+      </a>
+      <div class="report-toolbar-actions">
+        <a class="report-export" href="triage.csv" download>Export finding index</a>
+        <a class="report-export" href="manual-triage.csv" download>Export review ledger</a>
+        <a class="report-export" href="../regression/">Regression report</a>
+        <button class="theme-toggle report-theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+          <span class="theme-toggle-label">Dark mode</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="report-main" id="main">
+      <section class="report-intro" aria-labelledby="report-title">
+        <div>
+          <h1 id="report-title">Embedded source review</h1>
+          <p class="report-subtitle" id="report-date">Pinned regression run</p>
+        </div>
+        <p class="report-freshness" id="report-provenance">Loading run details...</p>
+      </section>
+
+      <aside class="report-notice" aria-label="Interpretation note">
+        <strong id="cohort-label">Regression validation</strong>
+        <span id="cohort-description">Previously used corpus, so results are not a blind accuracy benchmark. Signals are static review leads, not confirmed vulnerabilities.</span>
+      </aside>
+
+      <section class="report-overview" aria-label="Run overview">
+        <div class="report-metrics" id="report-metrics" aria-live="polite">
+          <p class="report-loading">Loading run totals...</p>
+        </div>
+        <p class="report-severity" id="report-severity"></p>
+      </section>
+
+      <section class="report-lead" id="signal-lead" aria-label="Example high-severity signal"></section>
+
+      <section class="report-distribution" aria-label="Finding distribution">
+        <figure class="report-chart">
+          <figcaption>
+            <strong>Raw signals by repository</strong>
+          </figcaption>
+          <p class="chart-scale-note">Counts use a linear scale. A zero is shown as zero.</p>
+          <div class="report-bars" id="repository-chart" aria-label="Raw finding signals by repository"></div>
+        </figure>
+        <figure class="report-chart">
+          <figcaption>
+            <strong>Signals by rule</strong>
+          </figcaption>
+          <p class="chart-scale-note">A finding can be a review lead even when its source is an example.</p>
+          <div class="report-bars" id="rule-chart" aria-label="Raw finding signals by rule"></div>
+        </figure>
+      </section>
+
+      <section class="report-findings" aria-labelledby="findings-title">
+        <div class="section-title-row findings-heading">
+          <div>
+            <h2 id="findings-title">Finding signals</h2>
+          </div>
+          <p id="finding-result-count" aria-live="polite">Loading signal records...</p>
+        </div>
+        <details class="finding-filter-panel" id="finding-filter-panel">
+          <summary>Search and filter signals</summary>
+          <div class="finding-filters" role="search" aria-label="Filter finding signals">
+            <label class="filter-search">Search source paths<input id="finding-search" type="search" autocomplete="off" placeholder="Repository, file, title"></label>
+            <label>Rule<select id="rule-filter"><option value="">All rules</option></select></label>
+            <label>Severity<select id="severity-filter"><option value="">All severities</option></select></label>
+            <label>Repository<select id="repository-filter"><option value="">All repositories</option></select></label>
+            <button class="filter-reset" id="filter-reset" type="button">Clear filters</button>
+          </div>
+        </details>
+        <p class="evidence-note">Evidence values are hidden. Severity and confidence remain separate. Open a source link for context.</p>
+        <div class="table-frame findings-table-frame">
+          <table class="report-table finding-table">
+            <thead><tr><th scope="col">Source and finding</th><th scope="col">Rule</th><th scope="col">Severity</th><th scope="col">Confidence</th></tr></thead>
+            <tbody id="finding-list"><tr><td colspan="4" class="report-loading">Loading finding signals...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="report-coverage" aria-labelledby="coverage-title">
+        <div class="section-title-row">
+          <div>
+            <h2 id="coverage-title">What the run recognized</h2>
+          </div>
+          <p>Inventory stages record candidate files and configurations. They do not imply those artifacts were security-tested.</p>
+        </div>
+        <dl class="coverage-list" id="coverage-list" aria-live="polite">
+          <div><dt>Loading coverage</dt><dd>...</dd></div>
+        </dl>
+      </section>
+
+      <section class="report-triage" aria-labelledby="triage-title">
+        <div class="section-title-row">
+          <div>
+            <h2 id="triage-title">What the signals need next</h2>
+          </div>
+          <p>Small manual checks show where context can reduce noise. These observations do not replace line-by-line review.</p>
+        </div>
+        <div class="triage-register">
+          <article>
+            <div class="triage-label"><span>FUSE001</span><strong>Example credentials</strong></div>
+            <p id="triage-fuse001">Credential-like settings need review in source and build context. Known tutorial placeholders are filtered by fixture-backed patterns.</p>
+            <small>Review next: identify placeholder and example context without hiding real credentials in release code.</small>
+          </article>
+          <article>
+            <div class="triage-label"><span>FUSE002</span><strong>Demo key files</strong></div>
+            <p id="triage-fuse002">Private-key marker matches identify files for review. A marker does not establish that key material is active or shipped.</p>
+            <small>Review next: validate the fixture and test-key context, then add narrow handling if justified.</small>
+          </article>
+          <article>
+            <div class="triage-label"><span>FUSE003</span><strong>TLS bypass indicators</strong></div>
+            <p id="triage-fuse003">TLS verification-bypass indicators require call-path and build review. Static matching does not prove runtime reachability.</p>
+            <small>Review next: separate shipped paths from demonstrations and dependencies while preserving the source evidence.</small>
+          </article>
+        </div>
+      </section>
+
+      <section class="report-snapshots" aria-labelledby="snapshots-title">
+        <div class="section-title-row">
+          <div>
+            <h2 id="snapshots-title">Repository snapshots</h2>
+          </div>
+          <p id="snapshot-status-note">Each source link opens the exact commit FUSE scanned. Coverage status is shown per repository.</p>
+        </div>
+        <div class="table-frame">
+          <table class="report-table repository-table">
+            <thead><tr><th scope="col">Repository</th><th scope="col">Commit</th><th scope="col">Status</th><th class="num" scope="col">Files scanned</th><th class="num" scope="col">Signals</th></tr></thead>
+            <tbody id="repository-list"><tr><td colspan="5" class="report-loading">Loading pinned snapshots...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="report-limits" aria-labelledby="limits-title">
+        <h2 id="limits-title">Scope and limits</h2>
+        <ul>
+          <li id="cohort-limit">The pinned corpus and selection protocol are described in the generated report.</li>
+          <li id="coverage-limit">Skipped inputs and legacy text decoding are disclosed in the coverage summary.</li>
+          <li id="partial-module-limit">Optional analyzer context may be partial even when source file scanning completed.</li>
+          <li>Firmware candidates are filename and size inventory only. Firmware bytes were not analyzed.</li>
+          <li>Hardware matches identify filenames only. No schematic or PCB security analysis was performed, and no netlist was parsed.</li>
+          <li>No build resolution, runtime or device validation, or dependency advisory analysis was performed.</li>
+          <li id="snapshot-overlap-limit">IoTGoat includes OpenWrt source that is also present in the separate OpenWrt snapshot. Raw scope totals are not deduplicated.</li>
+        </ul>
+      </section>
+
+      <footer class="report-footer">
+        <a href="../">Back to FUSE</a>
+        <span id="report-footer-note">Local proof of concept.</span>
+      </footer>
+    </main>
+  </body>
+</html>
