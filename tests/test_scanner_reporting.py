@@ -72,7 +72,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             result = scan(root)
             payload = json.loads(to_json(result))
 
-        self.assertEqual("1.8", payload["schema_version"])
+        self.assertEqual("1.10", payload["schema_version"])
         self.assertEqual(root.name, payload["target"])
         self.assertNotIn(str(root), to_json(result))
         self.assertEqual(1, payload["summary"]["files_discovered"])
@@ -92,6 +92,32 @@ class ScannerAndReporterTests(unittest.TestCase):
         self.assertEqual("fuse-native", finding["analyzer"])
         self.assertEqual(64, len(finding["fingerprint"]))
         self.assertEqual([], payload["artifacts"])
+
+    def test_scan_records_latin1_fallback_for_legacy_text_files(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "legacy.c"
+            source.write_bytes(
+                b'const char *password = "embedded-secret-value"; // caf\xe9\x1b\n'
+            )
+            result = scan(root)
+            report = json.loads(to_json(result))
+
+        self.assertEqual(1, result.files_scanned)
+        self.assertEqual({}, result.files_skipped_by_reason)
+        self.assertEqual(1, result.encoding_fallback_count)
+        self.assertEqual(("legacy.c",), result.encoding_fallback_files)
+        self.assertEqual(
+            {
+                "encoding": "iso-8859-1",
+                "count": 1,
+                "files": ["legacy.c"],
+                "omitted_count": 0,
+            },
+            report["coverage"]["encoding_fallback"],
+        )
+        self.assertEqual("FUSE001", report["findings"][0]["rule_id"])
+        self.assertNotIn("embedded-secret-value", report["findings"][0]["evidence"])
 
     def test_sarif_export_keeps_finding_identity_and_severity(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -612,7 +638,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
             output_dir_created = (root / "scan-results").exists()
         self.assertEqual(0, exit_code)
-        self.assertEqual("1.8", report["schema_version"])
+        self.assertEqual("1.10", report["schema_version"])
         self.assertFalse(output_dir_created)
 
     def test_firmware_target_is_hashed_without_claiming_native_content_scan(self) -> None:
