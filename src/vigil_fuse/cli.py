@@ -131,6 +131,11 @@ def _parser() -> argparse.ArgumentParser:
         help="import an explicit hardware BOM CSV or TSV and emit a CycloneDX HBOM",
     )
     scan_parser.add_argument(
+        "--hardware-netlist",
+        type=Path,
+        help="inspect one KiCad XML netlist for debug-interface candidates; no PCB exposure is asserted",
+    )
+    scan_parser.add_argument(
         "--vex",
         type=Path,
         help="import reviewed CycloneDX VEX context for exact package and advisory matches",
@@ -318,6 +323,7 @@ def _scan_plan(
     platformio_environments: tuple[str, ...],
     compile_commands: Path | None,
     hardware_bom: Path | None,
+    hardware_netlist: Path | None,
     vex: Path | None,
     provenance: Path | None,
     sbom: bool,
@@ -441,6 +447,41 @@ def _scan_plan(
             "reason": "filename-based inventory of recognized hardware artifacts",
         },
     ]
+    if kind == "directory":
+        netlist_count = (
+            discovery_preview.get("hardware_category_counts", {}).get("netlist", 0)
+            if discovery_preview is not None
+            else 0
+        )
+        netlist_stage_requested = hardware_netlist is not None or bool(netlist_count)
+        stages.extend((
+            {
+                "name": "firmware-candidate-inventory",
+                "requested": True,
+                "status": "planned",
+                "reason": "records candidate filenames, extensions, and sizes without reading binary contents",
+            },
+            {
+                "name": "github-actions-static",
+                "requested": True,
+                "status": "planned" if (target / ".github" / "workflows").is_dir() else "skipped",
+                "reason": "checks exact write-all permissions and mutable non-SHA action references without executing workflows",
+            },
+            {
+                "name": "kicad-netlist-static",
+                "requested": netlist_stage_requested,
+                "status": "planned" if netlist_stage_requested else "skipped",
+                "reason": (
+                    "inspects a selected KiCad XML netlist for debug-labeled nets connected to connector candidates"
+                    if hardware_netlist is not None
+                    else "auto-selects one detected electronic netlist"
+                    if netlist_count == 1
+                    else "select a netlist with --hardware-netlist because multiple design variants were detected"
+                    if netlist_count > 1
+                    else "no electronic netlist was detected"
+                ),
+            },
+        ))
     if build_dir is not None:
         stages.append({
             "name": "platform-build-context",
@@ -928,11 +969,14 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError("--provenance requires --firmware")
         if args.hardware_bom and not analyzer_target.is_dir():
             raise ValueError("--hardware-bom requires a project directory target")
+        if args.hardware_netlist and not analyzer_target.is_dir():
+            raise ValueError("--hardware-netlist requires a project directory target")
         if (
             args.platformio_config is not None
             or args.platformio_env
             or args.compile_commands is not None
             or args.hardware_bom is not None
+            or args.hardware_netlist is not None
         ) and not analyzer_target.is_dir():
             raise ValueError("PlatformIO, compilation database, and hardware BOM options require a project directory target")
         max_file_bytes = (
@@ -1010,6 +1054,7 @@ def main(argv: list[str] | None = None) -> int:
                 platformio_environments=tuple(args.platformio_env),
                 compile_commands=args.compile_commands,
                 hardware_bom=args.hardware_bom,
+                hardware_netlist=args.hardware_netlist,
                 vex=args.vex,
                 provenance=args.provenance,
                 sbom=sbom,
@@ -1054,6 +1099,7 @@ def main(argv: list[str] | None = None) -> int:
             platformio_environments=tuple(args.platformio_env),
             compile_commands=args.compile_commands,
             hardware_bom=args.hardware_bom,
+            hardware_netlist=args.hardware_netlist,
         )
         network_policy = (
             "no-network"
@@ -1196,6 +1242,12 @@ def main(argv: list[str] | None = None) -> int:
     if result.vex_import.status in {"partial", "invalid"}:
         return 2
     if result.provenance.status not in {"not-requested", "subject-match"}:
+        return 2
+    if result.firmware_candidates.status == "partial":
+        return 2
+    if result.github_actions.status == "partial":
+        return 2
+    if result.netlist_inventory.status in {"partial", "invalid"}:
         return 2
 
     if not result.analysis_performed:
