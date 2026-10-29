@@ -1,0 +1,71 @@
+{
+  "report_version": 1,
+  "date": "2026-10-28",
+  "scope": "One public PlatformIO firmware repository and one user-owned KiCad project",
+  "benchmark": false,
+  "source_repositories_modified": false,
+  "tasmota": {
+    "scan_status": "partial",
+    "profile": "generic",
+    "files_discovered_and_selected": 6802,
+    "files_scanned": 6800,
+    "source_bytes_read": 104871164,
+    "files_skipped_too_large": 2,
+    "findings": {
+      "total": 15,
+      "severity_counts": {
+        "high": 10,
+        "medium": 5
+      },
+      "rule_counts": {
+        "FUSE001": 3,
+        "FUSE003": 10,
+        "FUSE004": 2
+      },
+      "product_applicability": "unknown"
+    },
+    "hardware_artifacts_detected": 2,
+    "platformio_root_environment_count": 0,
+    "platformio_included_environment_counts": {
+      "platformio_tasmota_env.ini": 37,
+      "platformio_tasmota_env32.ini": 69
+    },
+    "compilation_database": "not-detected",
+    "unselected_file_extension_counts": {
+      ".bin": 6,
+      ".hex": 19,
+      ".ota": 5
+    }
+  },
+  "kicad_project": {
+    "hardware_inventory_complete": true,
+    "hardware_artifact_count": 10,
+    "hardware_categories": {
+      "bill-of-materials": 2,
+      "hardware-library": 3,
+      "hardware-project": 1,
+      "netlist": 1,
+      "pcb-layout": 1,
+      "schematic": 2
+    },
+    "selected_bom_import_status": "imported",
+    "selected_bom_component_count": 102,
+    "selected_bom_quantity_total": 120,
+    "selected_bom_has_manufacturer_part_number": false,
+    "source_files_analyzed": 1,
+    "source_rule_findings": 0,
+    "interpretation": "Inventory and BOM import succeeded; this is not a schematic or hardware security assessment."
+  },
+  "crawl4ai": {
+    "version": "0.9.5",
+    "url_attempts": 50,
+    "valid_http_responses": 47,
+    "stale_url_404s": 3,
+    "corrected_by_following_official_navigation": true,
+    "capture": "crawl4ai-source-index.json"
+  },
+  "privacy": {
+    "detailed_kicad_bom_report_is_local_only": true,
+    "published_to_website": false
+  }
+}
