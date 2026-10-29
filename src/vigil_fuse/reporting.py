@@ -25,7 +25,7 @@ def _input_inventory_scope(result: ScanResult) -> str:
 def to_json(result: ScanResult) -> str:
     counts = Counter(finding.severity for finding in result.findings)
     report = {
-        "schema_version": "1.8",
+        "schema_version": "1.10",
         "tool": {"name": "FUSE", "version": __version__},
         "target": result.target,
         "scan": {
@@ -52,6 +52,12 @@ def to_json(result: ScanResult) -> str:
         },
         "coverage": {
             "files_skipped_by_reason": result.files_skipped_by_reason,
+            "encoding_fallback": {
+                "encoding": "iso-8859-1",
+                "count": result.encoding_fallback_count,
+                "files": list(result.encoding_fallback_files),
+                "omitted_count": max(0, result.encoding_fallback_count - len(result.encoding_fallback_files)),
+            },
             "discovery_complete": result.discovery_complete,
             "limits_reached": list(result.limits_reached),
             "input_inventory": {
@@ -89,6 +95,40 @@ def to_json(result: ScanResult) -> str:
                 for item in result.hardware_inventory.artifacts
             ],
         },
+        "firmware_candidates": {
+            "status": result.firmware_candidates.status,
+            "scope": result.firmware_candidates.scope,
+            "candidate_count": result.firmware_candidates.candidate_count,
+            "extension_counts": result.firmware_candidates.extension_counts,
+            "candidates": [
+                {"path": item.path, "format": item.format, "byte_size": item.byte_size}
+                for item in result.firmware_candidates.candidates
+            ],
+            "omitted_count": result.firmware_candidates.omitted_count,
+            "limitations": list(result.firmware_candidates.limitations),
+        },
+        "github_actions": {
+            "status": result.github_actions.status,
+            "workflow_count": result.github_actions.workflow_count,
+            "files": [
+                {"path": item.path, "sha256": item.sha256, "byte_size": item.byte_size}
+                for item in result.github_actions.files
+            ],
+            "non_sha_action_reference_count": result.github_actions.non_sha_action_reference_count,
+            "floating_branch_reference_count": result.github_actions.floating_branch_reference_count,
+            "finding_count": result.github_actions.finding_count,
+            "limitations": list(result.github_actions.limitations),
+        },
+        "hardware_netlist": {
+            "status": result.netlist_inventory.status,
+            "path": result.netlist_inventory.path,
+            "sha256": result.netlist_inventory.sha256,
+            "byte_size": result.netlist_inventory.byte_size,
+            "component_count": result.netlist_inventory.component_count,
+            "net_count": result.netlist_inventory.net_count,
+            "debug_net_candidates": list(result.netlist_inventory.debug_net_candidates),
+            "limitations": list(result.netlist_inventory.limitations),
+        },
         "build_context": {
             "platformio": {
                 "status": result.platformio_inventory.status,
@@ -107,8 +147,14 @@ def to_json(result: ScanResult) -> str:
                         "upload_protocol": item.upload_protocol,
                         "debug_tool": item.debug_tool,
                         "extends": item.extends,
+                        "source_dir": item.source_dir,
+                        "source_filter": list(item.source_filter),
                     }
                     for item in result.platformio_inventory.environments
+                ],
+                "configurations": [
+                    {"path": item.path, "sha256": item.sha256, "byte_size": item.byte_size}
+                    for item in result.platformio_inventory.configurations
                 ],
                 "limitations": list(result.platformio_inventory.limitations),
             },
@@ -283,6 +329,7 @@ def to_text(result: ScanResult) -> str:
         f"Files scanned: {result.files_scanned}",
         f"Source bytes read: {result.source_bytes_read}",
         f"Files skipped: {result.files_skipped}",
+        f"Files decoded with ISO-8859-1 fallback: {result.encoding_fallback_count}",
         f"Discovery complete: {'yes' if result.discovery_complete else 'no'}",
         f"Findings: {len(result.findings)}",
         f"Hardware artifacts: {len(result.hardware_inventory.artifacts)}",
@@ -291,11 +338,16 @@ def to_text(result: ScanResult) -> str:
     if pio.status != "not-detected":
         lines.append(
             f"PlatformIO: {pio.status}; {len(pio.environments)} environment(s), "
-            f"selected: {', '.join(pio.selected_environments) or 'none'}"
+            f"{len(pio.configurations)} config file(s), selected: {', '.join(pio.selected_environments) or 'none'}"
         )
         for item in pio.environments:
             details = ", ".join(value for value in (item.platform, item.board, ",".join(item.frameworks)) if value)
             lines.append(f"  {item.name}" + (f" [{details}]" if details else ""))
+            if item.source_dir:
+                lines.append(f"    source directory candidate: {item.source_dir}")
+            if item.source_filter:
+                lines.append(f"    source filter: {' ; '.join(item.source_filter)}")
+        lines.extend(f"  PlatformIO config: {item.path} [sha256:{item.sha256}]" for item in pio.configurations)
         lines.extend(f"  PlatformIO limit: {item}" for item in pio.limitations)
     database = result.compilation_database
     if database.status != "not-detected":
@@ -412,6 +464,34 @@ def to_text(result: ScanResult) -> str:
         )
     else:
         lines.append("Hardware inventory: no recognized hardware artifacts in target scope.")
+    firmware = result.firmware_candidates
+    if firmware.status != "not-inspected":
+        lines.append(
+            f"Firmware-like file candidates: {firmware.candidate_count} / {firmware.status} "
+            "(extension and size only, contents not inspected)"
+        )
+        if firmware.extension_counts:
+            lines.extend(f"  {extension}: {count}" for extension, count in firmware.extension_counts.items())
+        lines.extend(
+            f"  {item.path} [{item.format}, {item.byte_size} bytes]"
+            for item in firmware.candidates
+        )
+        lines.extend(f"  Firmware inventory limit: {item}" for item in firmware.limitations)
+    if result.github_actions.status != "not-detected":
+        lines.append(
+            f"GitHub Actions workflows: {result.github_actions.workflow_count} / "
+            f"{result.github_actions.status}; "
+            f"{result.github_actions.non_sha_action_reference_count} non-SHA action reference(s), "
+            f"{result.github_actions.floating_branch_reference_count} floating-branch candidate(s)"
+        )
+        lines.extend(f"  Workflow limit: {item}" for item in result.github_actions.limitations)
+    if result.netlist_inventory.status != "not-detected" or result.netlist_inventory.limitations:
+        lines.append(
+            f"KiCad netlist: {result.netlist_inventory.status}; "
+            f"{len(result.netlist_inventory.debug_net_candidates)} debug-net candidate(s)"
+        )
+        lines.extend(f"  Candidate: {item}" for item in result.netlist_inventory.debug_net_candidates)
+        lines.extend(f"  Netlist limit: {item}" for item in result.netlist_inventory.limitations)
     if result.limits_reached:
         lines.append(f"Resource limits reached: {', '.join(result.limits_reached)}")
     if not result.hardware_inventory.complete:
@@ -432,6 +512,13 @@ def to_text(result: ScanResult) -> str:
             for reason, count in result.files_skipped_by_reason.items()
         )
         lines.append(f"Skip reasons: {reasons}")
+    if result.encoding_fallback_files:
+        lines.append("ISO-8859-1 fallback source files:")
+        lines.extend(f"  {path}" for path in result.encoding_fallback_files)
+    if result.encoding_fallback_count > len(result.encoding_fallback_files):
+        lines.append(
+            f"  {result.encoding_fallback_count - len(result.encoding_fallback_files)} more fallback file(s) omitted"
+        )
     if not result.rules_enabled:
         lines.append(
             "No native rules are enabled; see analyzer coverage for any other analysis stages."
