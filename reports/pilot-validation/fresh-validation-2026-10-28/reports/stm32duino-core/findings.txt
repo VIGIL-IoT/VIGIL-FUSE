@@ -1,0 +1,116 @@
+FUSE scan: stm32duino/Arduino_Core_STM32
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: not-requested
+Scanned manifest SHA-256: d4e2aae2ba5440e2b01c25cc6efc600ba31648e44799b1c13f637801a02b79f2
+Files discovered/selected: 10161/10161
+Files filtered by path policy: 0
+Files scanned: 10113
+Source bytes read: 535708332
+Files skipped: 48
+Files decoded with ISO-8859-1 fallback: 18
+Discovery complete: yes
+Findings: 4
+Hardware artifacts: 0
+Files not selected by the source profile: 3226
+  .adoc: 3
+  .bmp: 1
+  .css: 61
+  .dtsi: 1
+  .gv: 4
+  .html: 52
+  .in: 2
+  .jpg: 1
+  .ld: 696
+  .md: 207
+  .patch: 8
+  .pl: 2
+  .png: 165
+  .s: 286
+  .spec: 3
+  .svg: 47
+  .txt: 1667
+  <no-extension>: 20
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 8 / completed; 16 non-SHA action reference(s), 4 floating-branch candidate(s)
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 356 selected input(s). The conservative prefilter excluded 9757 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 257 selected input(s). The conservative prefilter excluded 9856 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 19 selected input(s). The conservative prefilter excluded 10094 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.)
+Skip reasons: too_large=48
+ISO-8859-1 fallback source files:
+  system/Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h
+  system/Drivers/CMSIS/Device/ST/STM32G4xx/Include/stm32g4xx.h
+  system/Drivers/CMSIS/Device/ST/STM32H5xx/Include/stm32h5xx.h
+  system/Drivers/CMSIS/Device/ST/STM32MP1xx/Include/stm32mp1xx.h
+  system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_alarm_template.c
+  system/Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_timebase_rtc_wakeup_template.c
+  system/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_timebase_rtc_alarm_template.c
+  system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_alarm_template.c
+  system/Drivers/STM32F2xx_HAL_Driver/Src/stm32f2xx_hal_timebase_rtc_wakeup_template.c
+  system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_alarm_template.c
+  system/Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_timebase_rtc_wakeup_template.c
+  system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_alarm_template.c
+  system/Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_timebase_rtc_wakeup_template.c
+  system/Drivers/STM32MP1xx_HAL_Driver/Inc/stm32mp1xx_hal_fdcan.h
+  system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp.c
+  system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_cryp_ex.c
+  system/Drivers/STM32MP1xx_HAL_Driver/Src/stm32mp1xx_hal_wwdg.c
+  system/Middlewares/ST/STM32_USB_Host_Library/Class/HID/Src/usbh_hid_keybd.c
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/Arduino-build.yml:44
+  Evidence: uses: actions/checkout@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/Cmake.yml:67
+  Evidence: uses: actions/checkout@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/Cmake.yml:72
+  Evidence: uses: lukka/get-cmake@latest
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/PIO-build.yml:46
+  Evidence: uses: actions/checkout@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
