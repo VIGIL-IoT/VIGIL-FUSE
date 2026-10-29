@@ -1,0 +1,380 @@
+{
+  "schema_version": "1.9",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "embedded-linux",
+    "network_policy": "not-requested",
+    "started_at": "2026-10-28T08:57:09Z",
+    "completed_at": "2026-10-28T08:57:51Z",
+    "input_manifest_sha256": "3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c"
+  },
+  "summary": {
+    "files_discovered": 1652,
+    "files_selected": 1652,
+    "files_filtered": 0,
+    "files_scanned": 1651,
+    "source_bytes_read": 6857505,
+    "files_skipped": 1,
+    "analysis_performed": true,
+    "finding_count": 1,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 1,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {
+      "not_utf8": 1
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 2578,
+      "unsupported_file_types": {
+        ".14": 38,
+        ".9": 28,
+        ".am": 1,
+        ".asnet": 1,
+        ".bak": 3,
+        ".bin": 5,
+        ".bootscript": 4,
+        ".common": 1,
+        ".css": 1,
+        ".date": 1,
+        ".db": 1,
+        ".default": 3,
+        ".defaults": 1,
+        ".failsafe": 1,
+        ".hotplug": 3,
+        ".htm": 6,
+        ".ico": 1,
+        ".images-bcm63xx": 1,
+        ".in": 28,
+        ".inc": 1,
+        ".lds": 11,
+        ".local": 2,
+        ".lua": 2,
+        ".m4": 2,
+        ".md": 3,
+        ".microsoft": 1,
+        ".og": 2,
+        ".openwrt": 1,
+        ".options": 1,
+        ".patch": 2106,
+        ".png": 3,
+        ".pptp": 1,
+        ".s": 15,
+        ".scr": 1,
+        ".squashfs": 1,
+        ".template": 1,
+        ".txt": 11,
+        ".upgrade": 2,
+        "<no-extension>": 283
+      }
+    },
+    "support": {
+      "capability_id": "source.embedded-linux",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Generic native rules over the expanded embedded Linux file profile.",
+      "limitations": [
+        "Does not resolve the selected image build or installed package set"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "partial",
+        "version": "0.2.0",
+        "detail": "One or more selected files were skipped; review coverage details.",
+        "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.4.0",
+        "detail": "Evaluated 48 selected input(s). The conservative prefilter excluded 1603 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 23 selected input(s). The conservative prefilter excluded 1628 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 51 selected input(s). The conservative prefilter excluded 1600 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 1636 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 1636 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 5 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 5,
+    "extension_counts": {
+      ".bin": 5
+    },
+    "candidates": [
+      {
+        "path": "OpenWrt/openwrt-18.06.2/target/linux/imx6/files/firmware/imx/sdma/sdma-imx6q.bin",
+        "format": "bin",
+        "byte_size": 2196
+      },
+      {
+        "path": "OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy11g_a14.bin",
+        "format": "bin",
+        "byte_size": 65536
+      },
+      {
+        "path": "OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy11g_a22.bin",
+        "format": "bin",
+        "byte_size": 65536
+      },
+      {
+        "path": "OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy22f_a14.bin",
+        "format": "bin",
+        "byte_size": 65536
+      },
+      {
+        "path": "OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy22f_a22.bin",
+        "format": "bin",
+        "byte_size": 65536
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE001:OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h:96",
+      "fingerprint": "1ef25386d4cfad4da096c5cd899c65c23f3402d2177b1e16342025798c106c46",
+      "rule_id": "FUSE001",
+      "rule_version": "1.4.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h",
+        "start_line": 96,
+        "end_line": 96
+      },
+      "evidence": "#define DEFAULT_PASSWD \"[REDACTED]\"",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}
