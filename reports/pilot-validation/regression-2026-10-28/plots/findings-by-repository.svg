@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 694" role="img" aria-labelledby="title desc">
+<title id="title">Raw FUSE signals by repository</title>
+<desc id="desc">Horizontal bars show raw FUSE signal counts. Bar lengths use a logarithmic scale; exact values appear at the right.</desc>
+<style>text{font-family:Arial,sans-serif;fill:#161616}.axis{fill:#595959;font-size:12px}.label{font-size:14px}.value{font-size:14px;font-weight:700}.grid{stroke:#dedede;stroke-width:1}.track{fill:#eeeeee}.bar{fill:#d92b21}</style>
+<text x="0" y="24" font-size="18" font-weight="700">Raw FUSE signals by repository</text>
+<text x="0" y="45" class="axis">Log scale for bar length, exact count shown</text>
+<line x1="340.0" y1="50" x2="340.0" y2="642" class="grid"/>
+<text x="340.0" y="682" text-anchor="middle" class="axis">0</text>
+<line x1="455.7" y1="50" x2="455.7" y2="642" class="grid"/>
+<text x="455.7" y="682" text-anchor="middle" class="axis">1</text>
+<line x1="740.3" y1="50" x2="740.3" y2="642" class="grid"/>
+<text x="740.3" y="682" text-anchor="middle" class="axis">10</text>
+<line x1="960.0" y1="50" x2="960.0" y2="642" class="grid"/>
+<text x="960.0" y="682" text-anchor="middle" class="axis">40</text>
+<text x="0" y="79" class="label">espressif/arduino-esp32</text>
+<rect x="340" y="62" width="620" height="22" class="track"/>
+<rect x="340" y="62" width="620.0" height="22" class="bar"/>
+<text x="974" y="79" class="value">40</text>
+<text x="0" y="121" class="label">arendst/Tasmota</text>
+<rect x="340" y="104" width="620" height="22" class="track"/>
+<rect x="340" y="104" width="473.0" height="22" class="bar"/>
+<text x="974" y="121" class="value">16</text>
+<text x="0" y="163" class="label">raspberrypi/pico-examples</text>
+<rect x="340" y="146" width="620" height="22" class="track"/>
+<rect x="340" y="146" width="231.4" height="22" class="bar"/>
+<text x="974" y="163" class="value">3</text>
+<text x="0" y="205" class="label">arduino/arduino-examples</text>
+<rect x="340" y="188" width="620" height="22" class="track"/>
+<rect x="340" y="188" width="115.7" height="22" class="bar"/>
+<text x="974" y="205" class="value">1</text>
+<text x="0" y="247" class="label">openwrt/openwrt</text>
+<rect x="340" y="230" width="620" height="22" class="track"/>
+<rect x="340" y="230" width="115.7" height="22" class="bar"/>
+<text x="974" y="247" class="value">1</text>
+<text x="0" y="289" class="label">OWASP/IoTGoat</text>
+<rect x="340" y="272" width="620" height="22" class="track"/>
+<rect x="340" y="272" width="115.7" height="22" class="bar"/>
+<text x="974" y="289" class="value">1</text>
+<text x="0" y="331" class="label">raspberrypi/pico-sdk</text>
+<rect x="340" y="314" width="620" height="22" class="track"/>
+<rect x="340" y="314" width="115.7" height="22" class="bar"/>
+<text x="974" y="331" class="value">1</text>
+<text x="0" y="373" class="label">buildroot/buildroot</text>
+<rect x="340" y="356" width="620" height="22" class="track"/>
+<rect x="340" y="356" width="0.0" height="22" class="bar"/>
+<text x="974" y="373" class="value">0</text>
+<text x="0" y="415" class="label">esphome/devices.esphome.io</text>
+<rect x="340" y="398" width="620" height="22" class="track"/>
+<rect x="340" y="398" width="0.0" height="22" class="bar"/>
+<text x="974" y="415" class="value">0</text>
+<text x="0" y="457" class="label">espressif/esp-idf</text>
+<rect x="340" y="440" width="620" height="22" class="track"/>
+<rect x="340" y="440" width="0.0" height="22" class="bar"/>
+<text x="974" y="457" class="value">0</text>
+<text x="0" y="499" class="label">openembedded/meta-openembedded</text>
+<rect x="340" y="482" width="620" height="22" class="track"/>
+<rect x="340" y="482" width="0.0" height="22" class="bar"/>
+<text x="974" y="499" class="value">0</text>
+<text x="0" y="541" class="label">openembedded/openembedded-core</text>
+<rect x="340" y="524" width="620" height="22" class="track"/>
+<rect x="340" y="524" width="0.0" height="22" class="bar"/>
+<text x="974" y="541" class="value">0</text>
+<text x="0" y="583" class="label">yoctoproject/meta-yocto</text>
+<rect x="340" y="566" width="620" height="22" class="track"/>
+<rect x="340" y="566" width="0.0" height="22" class="bar"/>
+<text x="974" y="583" class="value">0</text>
+<text x="0" y="625" class="label">zephyrproject-rtos/zephyr</text>
+<rect x="340" y="608" width="620" height="22" class="track"/>
+<rect x="340" y="608" width="0.0" height="22" class="bar"/>
+<text x="974" y="625" class="value">0</text>
+</svg>
