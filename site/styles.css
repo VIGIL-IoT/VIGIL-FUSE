@@ -852,6 +852,41 @@ p {
   max-width: 680px;
 }
 
+.regression-poc-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 0 0 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--surface);
+  border-bottom: 1px solid var(--surface);
+}
+
+.regression-poc-callout p {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+}
+
+.regression-poc-callout strong {
+  font-size: var(--step-small);
+  font-weight: 600;
+}
+
+.regression-poc-callout span {
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.regression-poc-callout a {
+  flex: none;
+  color: var(--signal-dark);
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
 .scan-kicker,
 .scan-detail-heading .scan-kicker {
   margin: 0 0 12px;
@@ -2201,6 +2236,12 @@ p {
 
   .scan-chart-grid {
     grid-template-columns: 1fr;
+  }
+
+  .regression-poc-callout {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .scan-detail-heading {
