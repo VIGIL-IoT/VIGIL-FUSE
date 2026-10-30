@@ -176,7 +176,7 @@ def hardware_bom_document(
             properties.append({"name": "fuse:part-number", "value": item.part_number})
         if item.description:
             properties.append({"name": "fuse:description", "value": item.description})
-        component = {
+        component: dict[str, object] = {
             "type": "device",
             "bom-ref": bom_ref,
             "name": item.name,
