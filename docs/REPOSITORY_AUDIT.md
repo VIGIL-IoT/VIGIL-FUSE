@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-31
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Code baseline before this increment:** `a4e4b90`
+**Code baseline before this increment:** `bd471b1`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -51,6 +51,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Added a deterministic CLI performance harness with wall-time and sampled process-tree RSS measurements, a versioned JSON report schema, a recorded local baseline, and CI smoke coverage. The benchmark uses only synthetic source and makes no general speed or accuracy claim.
 - Verified Syft 1.55.0 and OSV-Scanner 2.7.0 against positive, clean, and no-package-source fixtures. Fixed the OSV adapter's handling of the real CLI's exit-128 no-source response and added a repeatable harness plus experiment record.
 - Verified the Binwalk v2.3.3 identification adapter in WSL2 with a synthetic gzip positive and clean control. Added bounded help-banner version detection, a repeatable smoke harness, a regression test, and an experiment record. This is not a firmware-accuracy study.
+- Manually reviewed the 23 signals in the separately pinned second fresh-validation snapshot. Added grouped, source-context dispositions while preserving redaction and stating that the review is not independent accuracy evidence. Placeholder-looking defaults remain candidates because an unchanged example can still be built.
 - Preserved earlier engineering changes already in the workspace: analyzer module split, XML hardening, terminal control handling, subprocess input isolation, FUSE003 AST analysis, fixture benchmark, and stronger CI/package checks.
 
 ## Files added
@@ -58,7 +59,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - `CITATION.cff`, `CONTRIBUTING.md`, `.github/dependabot.yml`, `.github/workflows/dependency-audit.yml`
 - `.github/ISSUE_TEMPLATE/bug_report.yml`, `.github/ISSUE_TEMPLATE/feature_request.yml`, `.github/PULL_REQUEST_TEMPLATE.md`
 - `docs/REPOSITORY_AUDIT.md`, `docs/requirements.md`, `docs/methodology.md`, `docs/limitations.md`, `docs/traceability.md`, `docs/benchmarks.md`, `docs/repository-structure.md`, `docs/sbom.md`
-- `docs/experiments/pilot-scan-2026-10.md`, `docs/experiments/dependency-adapters-e2e-2026-10-31.md`, `docs/experiments/binwalk-adapter-e2e-2026-10-31.md`
+- `docs/experiments/pilot-scan-2026-10.md`, `docs/experiments/dependency-adapters-e2e-2026-10-31.md`, `docs/experiments/binwalk-adapter-e2e-2026-10-31.md`, `reports/repository-scans/fresh-validation-next/triage.md`
 - `docs/decisions/ADR-0001-cli-first-package.md`, `ADR-0002-bounded-non-executing-analysis.md`, `ADR-0003-normalized-findings-and-coverage.md`, `ADR-0004-optional-tool-adapters.md`
 - `scripts/validate_docs.py`, `scripts/verify_dependency_adapters.py`, `scripts/verify_binwalk_adapter.py`, `tests/test_docs_validation.py`, `tests/test_dependency_policy.py`
 - `scripts/benchmark_scan.py`, `tests/test_performance_benchmark.py`, `reports/benchmark/scan-performance.json`, `reports/benchmark/scan-performance.schema.json`
@@ -69,13 +70,15 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 ## Files modified
 
 - `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/benchmarks.md`, `docs/contributing.md`, `docs/methodology.md`, `docs/requirements.md`, `docs/repository-structure.md`, `docs/sbom.md`, `docs/roadmap.md`, `docs/website.md`, and the static site files under `site/`
-- The prior dependency increment modified `src/vigil_fuse/dependency_analyzers.py`; this increment modifies `src/vigil_fuse/firmware_analyzer.py`, `tests/test_analyzers.py`, `docs/integrations.md`, `docs/limitations.md`, `docs/traceability.md`, and this audit record. Earlier engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
+- The prior increments modified the Binwalk adapter and its verification docs; this increment adds manual review in `reports/repository-scans/fresh-validation-next/triage.md` and updates the cohort README, `docs/detection-benchmark.md`, and this audit record. Earlier engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
 - `LICENSE` was not modified.
 
 ## Testing performed
 
 - The Syft/OSV adapter increment passed local `unittest` discovery with 182 test methods, Ruff lint and formatting across 76 files, Markdown validation across 55 files, and the path audit across 504 tracked files and Git history. This Python environment did not include pytest or Mypy, so the configured CI jobs remain authoritative for those gates.
 - The Binwalk increment passed local `unittest` discovery with 183 test methods, Ruff lint and formatting across `src`, `tests`, and `scripts`, Markdown validation across 56 files, and the path audit across 506 tracked files and Git history. The real Binwalk v2.3.3 WSL2 smoke check passed before this documentation refresh; its temporary package extraction is not currently on `PATH`.
+- FUSE CI run `41118660790` passed all eight jobs for `bd471b1`, including Ubuntu, Windows, and macOS test jobs, strict Mypy, repository path checks, documentation validation, package installation, and branch coverage. The second fresh-validation cohort's 23 findings were manually reviewed against clean checkouts at their pinned commits; this is a source-context review, not an independent evaluation.
+- This documentation increment passed Markdown validation across 57 files, the repository path audit across 509 tracked files and Git history, and `git diff --check`.
 - Full pytest suite, including dependency policy and docs validation tests, plus the focused security and input-handling subset.
 - Branch-aware coverage report and threshold check.
 - Ruff lint and focused formatting check.
@@ -98,7 +101,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Test results
 
-For the preceding dependency adapter increment, local `python -m unittest discover -s tests` passed 182 test methods, including the no-package regression test. The real-tool harness passed with Syft 1.55.0 and OSV-Scanner 2.7.0, returning 11 positive findings, zero clean-control findings, and the expected partial status for a project without package sources. The Binwalk increment added one regression test and passed all 183 local test methods. Its real-tool harness passed with Binwalk v2.3.3, detecting the gzip signature in the positive control only, recording the version, and producing no extraction output. The documented experiment captures its package provenance and limits.
+For the preceding dependency adapter increment, local `python -m unittest discover -s tests` passed 182 test methods, including the no-package regression test. The real-tool harness passed with Syft 1.55.0 and OSV-Scanner 2.7.0, returning 11 positive findings, zero clean-control findings, and the expected partial status for a project without package sources. The Binwalk increment added one regression test and passed all 183 local test methods. Its real-tool harness passed with Binwalk v2.3.3, detecting the gzip signature in the positive control only, recording the version, and producing no extraction output. FUSE CI run `41118660790` passed all eight jobs for `bd471b1`. The second fresh-validation cohort contained 23 signals; all were reviewed against pinned source context and categorized without asserting exploitability, credential validity, or release applicability.
 
 The full suite passes locally with **193 tests** and **73 subtests** on Windows and Python 3.14.7 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. Run #232 on `1ade772` passed all eight jobs with **190 tests**, **73 subtests**, and **75%** branch-aware coverage. Its quality job scanned 206 files with zero findings, validated 53 Markdown files, and passed the path audit over 497 tracked files and Git history. The Python dependency audit found no known vulnerabilities in the resolved development dependencies and skipped the editable FUSE checkout itself. Runs #237 on `5bf4d69`, #238 on `54e9359`, #239 on `afaa7ad`, #240 on `c6f7f5d`, and #241 on `17cd1ff` passed all eight CI jobs; corresponding Vercel checks succeeded for the website changes and latest revision. Run #239 passed strict Mypy on the 10 native-rule modules. Run #241 passed strict Mypy on the 11 configured source files, and all 14 baseline-focused tests passed locally. The separate dependency audit for `17cd1ff` passed. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks. Type-checking increments through run #255 on `2a9d548` passed FUSE CI and the separate Python dependency audit. Run #256 on `683c190` passed with the expanded 23-file strict Mypy gate. Run #257 on `d451213` passed with strict Mypy covering all 44 source modules, and dependency audit #19 for the same revision also succeeded. Run #260 on `b2f971a` passed the platform test matrix, the benchmark smoke check, strict Mypy on the 44 source modules plus the benchmark script, the 70% coverage gate, package smoke, path and documentation validation, and the self-scan. Python dependency audit #20 for the same revision passed. FUSE CI runs #41106198114 for `1b9acdb` and #41109722395 for `2c5afa8` each passed all eight configured jobs across Ubuntu, Windows, and macOS. The local suite now passes **193 tests** and **73 subtests**; strict Mypy reports no issues in **45 files**, Ruff lint and formatting pass across `src`, `tests`, and `scripts`, and the path audit passes across **502 tracked files** and Git history. The current FUSE self-scan completed discovery across 235 selected files with zero findings.
 
@@ -175,7 +178,7 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | Security | 10 | 9 | Parser and output hardening retained; Gitleaks, Syft, OSV-Scanner, and Binwalk have bounded real-tool smoke checks, while external tools are not sandboxed |
 | Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, evaluation protocol, and repeatable Gitleaks, dependency, and Binwalk harnesses; other platforms and broader accuracy remain unverified |
 | Open Source Governance | 10 | 6 | Citation, contribution boundaries, issue forms, PR checklist, and release gates added; custom license and enforcement policy remain unresolved |
-| Research Rigor & Traceability | 10 | 9 | Evidence types, limitations, cohort method, and traceability now documented; no representative accuracy estimate or product comparison |
+| Research Rigor & Traceability | 10 | 9 | Evidence types, limitations, cohort method, and 23-signal source-context triage are documented; the triage is not independent adjudication and there is no representative accuracy estimate or product comparison |
 | **Total** | **100** | **89** | |
 
 ## Recommended next actions

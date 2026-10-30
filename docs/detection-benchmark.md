@@ -18,7 +18,7 @@ The evaluation unit is one rule on one fixture. A rule is considered positive fo
 
 This is a synthetic regression benchmark with 16 small examples. The fixture author knows the intended labels, and most rules have only one positive example. FUSE003 has one additional Python AST case. The results are useful for catching regressions in the fixture set. They do not estimate real-world precision or recall, measure missed vulnerabilities in arbitrary repositories, or validate applicability to a shipped product. The values must not be presented as field accuracy or independent validation.
 
-The repository scans and manual triage under `reports/pilot-validation/` remain separate evidence. They provide pinned examples and source-context dispositions, but they do not enumerate all true conditions in each repository. Therefore they cannot currently establish recall. A future field benchmark needs independently selected snapshots, whole-scope labels or a documented sampling method, reviewer adjudication, and explicit unresolved or partial coverage accounting.
+The repository scans and manual triage under `reports/pilot-validation/` and [`reports/repository-scans/fresh-validation-next/triage.md`](../reports/repository-scans/fresh-validation-next/triage.md) remain separate evidence. They provide pinned examples and source-context dispositions, but they do not enumerate all true conditions in each repository. The 23-signal review is not independent adjudication and cannot establish recall. A future field benchmark needs independently selected snapshots, whole-scope labels or a documented sampling method, reviewer adjudication, and explicit unresolved or partial coverage accounting.
 
 ## Labeling rules
 
