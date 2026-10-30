@@ -157,6 +157,21 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual(3, findings[0].start_line)
         self.assertEqual("FUSE001", findings[0].rule_id)
 
+    def test_credentials_ignore_tinysrp_password_database_filename_only_in_its_header(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        filename_fixture = FIXTURES / "FUSE001-tinysrp-passwd-file-secure.fixture"
+        credential_fixture = FIXTURES / "FUSE001-tinysrp-password-positive.fixture"
+        source_path = "package/network/services/ead/src/tinysrp/t_pwd.h"
+        filename_source = SourceFile(source_path, filename_fixture.read_text(encoding="utf-8"))
+        credential_source = SourceFile(source_path, credential_fixture.read_text(encoding="utf-8"))
+        unrelated_path_source = SourceFile(
+            "src/auth/config.h", filename_fixture.read_text(encoding="utf-8")
+        )
+
+        self.assertEqual([], list(rule.scan(filename_source)))
+        self.assertEqual(1, len(list(rule.scan(credential_source))))
+        self.assertEqual(1, len(list(rule.scan(unrelated_path_source))))
+
     def test_credentials_ignore_hash_tutorial_inputs_and_build_expressions(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         hash_demo = SourceFile(

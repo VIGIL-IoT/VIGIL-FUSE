@@ -60,6 +60,7 @@ _NON_SECRET_NAME_SUFFIX = re.compile(
     r"(?i)(?:^|[_-]|(?<=[a-z0-9]))"
     r"(?:file|filename|path|characteristic|uuid|label|prompt|message|title|description|placeholder|text|reserved)$"
 )
+_TINY_SRP_PASSWD_HEADER = re.compile(r"(?i)(?:^|/)tinysrp/t_pwd\.h$")
 _EXPRESSION_CONTINUATION = re.compile(r"(?i)^\s*(?:\+|\.|\|\||&&|\?|\b(?:or|and|if)\b)")
 _NMEA_SENTENCE_TOKEN = re.compile(r"^\$?(?:GP|GN|GL|GA|GB|BD|II|HE|HC|EC|SD|IN|TI)[A-Z]{3}$")
 _NMEA_PARSER_CONTEXT = re.compile(r"(?i)\b(?:NMEA|GPGGA|GPGSA)\b")
@@ -116,6 +117,15 @@ def _is_hash_tutorial_value(match: re.Match[str], source: SourceFile) -> bool:
 
 
 def _is_secret_literal(match: re.Match[str], line: str, source: SourceFile) -> bool:
+    path = source.path.replace("\\", "/")
+    if (
+        _TINY_SRP_PASSWD_HEADER.search(path)
+        and _C_DEFINE.match(line)
+        and match.group("name").casefold() == "default_passwd"
+        and match.group("value").strip().casefold() == "tpasswd"
+    ):
+        # TinySRP uses this macro as the default password database filename.
+        return False
     if _NON_SECRET_NAME_SUFFIX.search(match.group("name")):
         return False
     value = match.group("value").strip()
@@ -195,7 +205,7 @@ RULE = RuleDefinition(
         "through a deployment-specific secret store or protected device provisioning flow."
     ),
     scanner=_scan,
-    version="1.6.0",
+    version="1.7.0",
     references=("https://cwe.mitre.org/data/definitions/798.html",),
     prefilter=_may_contain_secret_assignment,
 )

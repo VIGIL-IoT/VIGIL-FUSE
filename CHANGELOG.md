@@ -4,6 +4,7 @@
 
 ### Changed
 
+- `FUSE001` filters TinySRP's `DEFAULT_PASSWD` database filename in `tinysrp/t_pwd.h`, while retaining detection of ordinary literals in the same macro.
 - `FUSE001` ignores credential-named filename and reserved-marker constants, including camelCase names, while continuing to report credential-like default literals.
 - Separate repository-scan summaries distinguish detected PlatformIO environments from selected environments, and generated plots now describe the metric they display.
 

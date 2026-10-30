@@ -26,6 +26,28 @@
       "rationale": "The value is an environment placeholder rather than an embedded credential."
     },
     {
+      "id": "FUSE001-tinysrp-passwd-file-secure",
+      "fixture": "FUSE001-tinysrp-passwd-file-secure.fixture",
+      "source_path": "package/network/services/ead/src/tinysrp/t_pwd.h",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "TinySRP uses DEFAULT_PASSWD for its password database filename in this header."
+    },
+    {
+      "id": "FUSE001-tinysrp-password-positive",
+      "fixture": "FUSE001-tinysrp-password-positive.fixture",
+      "source_path": "package/network/services/ead/src/tinysrp/t_pwd.h",
+      "expected_rules": ["FUSE001"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "A non-placeholder password literal in the same macro remains detectable."
+    },
+    {
       "id": "FUSE002-vulnerable",
       "fixture": "FUSE002-vulnerable.fixture",
       "source_path": "src/private_key.pem",
