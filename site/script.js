@@ -173,15 +173,16 @@ function renderScanMetrics(data) {
   const totals = data.totals;
   const repositoryCount = document.querySelector("#repo-snapshot-count");
   if (repositoryCount) repositoryCount.textContent = numberFormat.format(totals.repository_count);
-  const scanDate = document.querySelector("#scan-date");
-  if (scanDate && /^\d{4}-\d{2}-\d{2}$/.test(data.scan_date || "")) {
+  const scanIntro = document.querySelector("#scan-intro");
+  if (scanIntro && /^\d{4}-\d{2}-\d{2}$/.test(data.scan_date || "")) {
     const date = new Date(`${data.scan_date}T00:00:00Z`);
-    scanDate.textContent = `Repository scan pilot · ${new Intl.DateTimeFormat("en-GB", {
+    const formattedDate = new Intl.DateTimeFormat("en-GB", {
       day: "numeric",
       month: "short",
       year: "numeric",
       timeZone: "UTC"
-    }).format(date)}`;
+    }).format(date);
+    scanIntro.textContent = `Snapshot collected ${formattedDate}. It spans embedded and IoT repositories. Signals are static review leads, not confirmed vulnerabilities.`;
   }
   const severityCounts = document.querySelector("#scan-severity-counts");
   if (severityCounts) severityCounts.textContent = `${numberFormat.format(totals.severity_counts.high)} high · ${numberFormat.format(totals.severity_counts.medium)} medium`;
@@ -250,7 +251,7 @@ function renderRepositoryDetails(data) {
     details.id = `repo-${repo.id}`;
     const summary = element("summary");
     const identity = element("span", "scan-repo-identity");
-    identity.append(element("small", "", `Repository ${String(index + 1).padStart(2, "0")}`));
+    identity.append(element("small", "", `Repository ${index + 1}`));
     identity.append(element("strong", "", repo.name));
     summary.append(identity, element("span", "scan-profile", repo.profile));
     const count = element("span", "scan-signal-count");
@@ -308,7 +309,9 @@ function renderRepositoryDetails(data) {
           const encodedPath = example.file.split("/").map(encodeURIComponent).join("/");
           const line = example.line ? `#L${example.line}` : "";
           const path = `${example.file}${example.line ? `:${example.line}` : ""}`;
-          examples.append(element("li", "").appendChild(externalLink(path, `${repo.url}/blob/${repo.commit}/${encodedPath}${line}`)));
+          const exampleLink = externalLink("", `${repo.url}/blob/${repo.commit}/${encodedPath}${line}`);
+          exampleLink.append(element("code", "", path));
+          examples.append(element("li", "").appendChild(exampleLink));
         });
         card.append(examples);
         groups.append(card);

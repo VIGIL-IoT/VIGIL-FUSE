@@ -164,10 +164,9 @@
       <section class="scan-results page-wrap" id="results" aria-labelledby="results-title">
         <div class="section-heading reveal">
           <div>
-            <p class="scan-kicker" id="scan-date">Repository scan pilot</p>
             <h2 id="results-title">A first read across embedded projects.</h2>
           </div>
-          <p>This pinned source snapshot spans embedded and IoT repositories. Signals are static review leads, not confirmed vulnerabilities.</p>
+          <p id="scan-intro">This pinned source snapshot spans embedded and IoT repositories. Signals are static review leads, not confirmed vulnerabilities.</p>
         </div>
         <div class="regression-poc-callout reveal">
           <p><strong>Local validation reports / 28 Oct 2026</strong><span>Fourteen-repository noise-refinement rerun plus a separate four-repository holdout.</span></p>
@@ -178,16 +177,16 @@
         <p class="scan-severity-summary"><strong>Severity labels</strong><span id="scan-severity-counts"></span><small>Severity describes potential impact. Confidence describes evidence strength and is recorded separately.</small></p>
         <div class="scan-chart-grid">
           <figure class="scan-chart-panel scan-chart-wide">
-            <figcaption><span>01 / Repository coverage</span><strong>Raw signals by snapshot</strong></figcaption>
+            <figcaption><span>Repository coverage</span><strong>Raw signals by snapshot</strong></figcaption>
             <div class="scan-chart" id="repository-chart" aria-label="Raw signals by repository"></div>
           </figure>
           <figure class="scan-chart-panel">
-            <figcaption><span>02 / Rule coverage</span><strong>Signals by rule</strong></figcaption>
+            <figcaption><span>Rule coverage</span><strong>Signals by rule</strong></figcaption>
             <div class="scan-chart" id="rule-chart" aria-label="Raw signals by rule"></div>
           </figure>
         </div>
         <div class="scan-detail-heading">
-          <div><p class="scan-kicker">Pinned snapshots</p><h3>Explore the scan records.</h3></div>
+          <div><h3>Explore the scan records.</h3></div>
           <p>Counts stay grouped by repository. Open a row for scope, rule groups, example locations and report files.</p>
         </div>
         <div class="scan-repository-list" id="repository-list" aria-live="polite">
@@ -254,10 +253,7 @@
 
       <section class="archify-section page-wrap" id="architecture" aria-labelledby="architecture-title">
         <div class="section-heading archify-heading reveal">
-          <div>
-            <p class="scan-kicker">Workflow map · generated with <a class="vigil-link" href="https://github.com/tt-a1i/archify" target="_blank" rel="noreferrer">Archify</a></p>
-            <h2 id="architecture-title">How FUSE scans a project.</h2>
-          </div>
+          <h2 id="architecture-title">How FUSE scans a project.</h2>
           <p>The diagram follows FUSE's current CLI path and keeps optional analyzers distinct.</p>
         </div>
         <div class="archify-frame" data-ui="archify-workflow">
@@ -279,7 +275,7 @@
           </div>
         </div>
         <div class="archify-caption">
-          <p>Current behavior is grounded in the FUSE source. Device testing is outside this workflow.</p>
+          <p>Generated with <a class="vigil-link" href="https://github.com/tt-a1i/archify" target="_blank" rel="noreferrer">Archify</a>. Current behavior is grounded in the FUSE source. Device testing is outside this workflow.</p>
         </div>
       </section>
 

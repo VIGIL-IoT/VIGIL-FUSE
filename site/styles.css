@@ -13,7 +13,7 @@
   --page-gutter: clamp(20px, 5.6vw, 84px);
   --section-space: clamp(40px, 5vw, 72px);
   --radius: 4px;
-  --step-small: 13px;
+  --step-small: 14px;
   --step-body: 17px;
   --step-lead: 20px;
   --step-heading: clamp(2rem, 3.2vw, 3.35rem);
@@ -28,6 +28,11 @@
   --surface: #1d2328;
   --ink: #f1f4f6;
   --muted: #b6c0c7;
+}
+
+:root[data-theme="dark"] .regression-poc-callout a,
+:root[data-theme="dark"] .scan-severity-summary > span {
+  color: #ff8a83;
 }
 
 * {
@@ -841,7 +846,6 @@ p {
 
 .scan-results {
   padding-block: var(--section-space);
-  border-top: 1px solid var(--surface);
 }
 
 .scan-results .section-heading {
@@ -858,9 +862,9 @@ p {
   justify-content: space-between;
   gap: 18px;
   margin: 0 0 24px;
-  padding: 14px 0;
-  border-top: 1px solid var(--surface);
-  border-bottom: 1px solid var(--surface);
+  padding: 16px 18px;
+  border-left: 3px solid var(--signal);
+  background: var(--surface);
 }
 
 .regression-poc-callout p {
@@ -887,32 +891,20 @@ p {
   text-underline-offset: 4px;
 }
 
-.scan-kicker,
-.scan-detail-heading .scan-kicker {
-  margin: 0 0 12px;
-  color: var(--signal-dark);
-  font-size: var(--step-small);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .scan-metrics {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  margin-bottom: 24px;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
+  gap: 18px clamp(16px, 2vw, 28px);
+  margin-bottom: 22px;
 }
 
 .scan-metric {
   min-width: 0;
-  padding: 19px 22px 20px 0;
+  padding: 8px 0;
 }
 
 .scan-metric + .scan-metric {
-  padding-left: 22px;
-  border-left: 1px solid var(--surface);
+  padding-left: 0;
 }
 
 .scan-metric strong {
@@ -937,8 +929,7 @@ p {
   align-items: baseline;
   gap: 4px 16px;
   margin: -6px 0 25px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--surface);
+  padding: 0;
   font-size: var(--step-small);
 }
 
@@ -1038,7 +1029,7 @@ p {
 
 .scan-bar-count {
   color: var(--ink);
-  font-family: var(--mono);
+  font-family: var(--font);
   font-size: var(--step-small);
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -1049,8 +1040,8 @@ p {
   height: 19px;
   margin: 0;
   color: var(--muted);
-  font-family: var(--mono);
-  font-size: 10px;
+  font-family: var(--font);
+  font-size: var(--step-small);
 }
 
 .scan-axis span {
@@ -1091,12 +1082,8 @@ p {
   font-size: var(--step-body);
 }
 
-.scan-repository-list {
-  border-top: 1px solid var(--ink);
-}
-
 .scan-repository {
-  border-bottom: 1px solid var(--surface);
+  border-bottom: 1px solid var(--surface); /* taste-skill-ignore: expandable repository row boundary */
 }
 
 .scan-repository > summary {
@@ -1132,7 +1119,7 @@ p {
 .scan-signal-count small {
   display: block;
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--step-small);
 }
 
 .scan-repo-identity strong {
@@ -1146,10 +1133,10 @@ p {
 .scan-profile {
   width: fit-content;
   padding: 4px 8px;
-  border: 1px solid var(--surface);
+  background: var(--surface);
   color: var(--muted);
-  font-family: var(--mono);
-  font-size: 11px;
+  font-family: var(--font);
+  font-size: var(--step-small);
 }
 
 .scan-signal-count {
@@ -1221,7 +1208,7 @@ p {
 
 .scan-scope small {
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--step-small);
   text-align: right;
 }
 
@@ -1235,7 +1222,7 @@ p {
 .scan-group {
   min-width: 0;
   padding: 17px;
-  border: 1px solid var(--surface);
+  background: var(--surface);
 }
 
 .scan-group-heading {
@@ -1274,10 +1261,13 @@ p {
   display: block;
   overflow-wrap: anywhere;
   color: var(--ink);
-  font-family: var(--mono);
-  font-size: 11px;
   text-decoration-color: var(--muted);
   text-underline-offset: 3px;
+}
+
+.scan-examples code {
+  font-family: var(--mono);
+  font-size: var(--step-small);
 }
 
 .scan-empty {
@@ -1306,20 +1296,14 @@ p {
 
 .archify-section {
   padding-block: var(--section-space);
-  border-top: 1px solid var(--surface);
 }
 
 .archify-heading {
   margin-bottom: 30px;
 }
 
-.archify-heading .scan-kicker a {
-  color: inherit;
-}
-
 .archify-frame {
   overflow: hidden;
-  border: 1px solid rgba(218, 238, 231, 0.105);
   border-radius: 10px;
   background: #111716;
 }
@@ -1329,10 +1313,9 @@ p {
   justify-content: space-between;
   gap: 12px;
   padding: 12px 15px;
-  border-bottom: 1px solid rgba(218, 238, 231, 0.105);
+  border-bottom: 1px solid rgba(218, 238, 231, 0.105); /* taste-skill-ignore: separates diagram controls */
   color: #95a29b;
-  font: 8px var(--mono);
-  letter-spacing: 0.05em;
+  font: var(--step-small) var(--font);
 }
 
 .archify-frame-topline > span:last-child {
@@ -1352,12 +1335,12 @@ p {
   flex-wrap: wrap;
   gap: 12px 17px;
   padding: 12px 15px;
-  border-top: 1px solid rgba(218, 238, 231, 0.105);
+  border-top: 1px solid rgba(218, 238, 231, 0.105); /* taste-skill-ignore: separates source links */
 }
 
 .archify-frame-actions a {
   color: #74dfc3;
-  font-size: 9px;
+  font-size: var(--step-small);
   text-decoration: none;
 }
 
@@ -1623,7 +1606,6 @@ p {
 
 .support-section {
   padding-block: var(--section-space);
-  border-top: 1px solid var(--surface);
 }
 
 .support-heading {
@@ -1639,9 +1621,8 @@ p {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
   margin: 0 0 28px;
-  padding-block: 17px;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
+  padding: 17px;
+  background: var(--surface);
 }
 
 .support-legend div {
@@ -1659,12 +1640,8 @@ p {
   font-size: var(--step-small);
 }
 
-.support-list {
-  border-top: 1px solid var(--ink);
-}
-
 .support-entry {
-  border-bottom: 1px solid var(--surface);
+  border-bottom: 1px solid var(--surface); /* taste-skill-ignore: expandable capability row boundary */
 }
 
 .support-entry-summary {
@@ -2094,6 +2071,10 @@ p {
 }
 
 @media (max-width: 900px) {
+  .scan-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .site-header {
     grid-template-columns: auto 1fr auto auto;
   }
@@ -2215,20 +2196,6 @@ p {
 
   .scan-metrics {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .scan-metric:nth-child(3) {
-    padding-left: 0;
-    border-left: 0;
-  }
-
-  .scan-metric:nth-child(n + 3) {
-    border-top: 1px solid var(--surface);
-  }
-
-  .scan-metric:nth-child(even) {
-    padding-left: 16px;
-    border-left: 1px solid var(--surface);
   }
 
   .scan-chart-grid {
@@ -2544,7 +2511,7 @@ p {
   }
 
   .scan-axis {
-    font-size: 9px;
+    font-size: var(--step-small);
   }
 
   .scan-scope {

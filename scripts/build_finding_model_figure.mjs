@@ -323,7 +323,7 @@ const controls = `
 const initialReadout = `severity: medium · confidence: high`;
 const figure = k.plateHtml({
   fig: "FINDING MODEL",
-  title: "Evidence stays separate from impact",
+  title: "Evidence ≠ impact",
   hint: "Adjust either field below",
   readout: initialReadout,
   keys: [
