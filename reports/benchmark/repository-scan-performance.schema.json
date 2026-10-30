@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/benchmark/repository-scan-performance.schema.json",
+  "title": "FUSE pinned repository scan performance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "benchmark",
+    "generated_at_utc",
+    "tool",
+    "source_revision",
+    "environment",
+    "cohort",
+    "configuration",
+    "scopes",
+    "scope_limitations"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "benchmark": { "const": "fuse-pinned-repository-scan" },
+    "generated_at_utc": { "type": "string", "format": "date-time" },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "FUSE" },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "working_tree_dirty"],
+      "properties": {
+        "commit": { "type": ["string", "null"], "pattern": "^[0-9a-f]{40}$" },
+        "working_tree_dirty": { "type": ["boolean", "null"] }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "python_version",
+        "operating_system",
+        "os_release",
+        "machine",
+        "logical_cpu_count"
+      ],
+      "properties": {
+        "python_version": { "type": "string", "minLength": 1 },
+        "operating_system": { "type": "string", "minLength": 1 },
+        "os_release": { "type": "string", "minLength": 1 },
+        "machine": { "type": "string", "minLength": 1 },
+        "logical_cpu_count": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "cohort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scan_date", "repository_count", "manifest_sha256", "repository_commits"],
+      "properties": {
+        "scan_date": { "type": ["string", "null"] },
+        "repository_count": { "type": "integer", "minimum": 1 },
+        "manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "repository_commits": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": { "type": "string", "pattern": "^[0-9a-f]{40}$" }
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warmups",
+        "repetitions",
+        "timeout_seconds",
+        "network_enabled",
+        "optional_analyzers_enabled",
+        "native_rules_enabled"
+      ],
+      "properties": {
+        "warmups": { "type": "integer", "minimum": 0 },
+        "repetitions": { "type": "integer", "minimum": 1 },
+        "timeout_seconds": { "type": "integer", "minimum": 1 },
+        "network_enabled": { "const": false },
+        "optional_analyzers_enabled": { "const": false },
+        "native_rules_enabled": { "const": true }
+      }
+    },
+    "scopes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "repository_id",
+          "repository",
+          "repository_commit",
+          "scan_id",
+          "scope",
+          "profile",
+          "include_patterns",
+          "files_discovered",
+          "files_selected",
+          "files_scanned",
+          "source_bytes_read",
+          "files_skipped",
+          "finding_count",
+          "discovery_complete",
+          "scan_return_code",
+          "warmup_count",
+          "warmup_seconds",
+          "repetition_count",
+          "wall_time_seconds",
+          "files_per_second_at_median",
+          "mebibytes_per_second_at_median"
+        ],
+        "properties": {
+          "repository_id": { "type": "string", "minLength": 1 },
+          "repository": { "type": "string", "minLength": 1 },
+          "repository_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+          "scan_id": { "type": "string", "minLength": 1 },
+          "scope": { "type": "string", "minLength": 1 },
+          "profile": { "type": "string", "minLength": 1 },
+          "include_patterns": { "type": "array", "items": { "type": "string" } },
+          "files_discovered": { "type": "integer", "minimum": 0 },
+          "files_selected": { "type": "integer", "minimum": 0 },
+          "files_scanned": { "type": "integer", "minimum": 0 },
+          "source_bytes_read": { "type": "integer", "minimum": 0 },
+          "files_skipped": { "type": "integer", "minimum": 0 },
+          "finding_count": { "type": "integer", "minimum": 0 },
+          "discovery_complete": { "type": "boolean" },
+          "scan_return_code": { "enum": [0, 2] },
+          "warmup_count": { "type": "integer", "minimum": 0 },
+          "warmup_seconds": {
+            "type": "array",
+            "items": { "type": "number", "exclusiveMinimum": 0 }
+          },
+          "repetition_count": { "type": "integer", "minimum": 1 },
+          "wall_time_seconds": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["samples", "median", "minimum", "maximum", "median_absolute_deviation"],
+            "properties": {
+              "samples": {
+                "type": "array",
+                "minItems": 1,
+                "items": { "type": "number", "exclusiveMinimum": 0 }
+              },
+              "median": { "type": "number", "exclusiveMinimum": 0 },
+              "minimum": { "type": "number", "exclusiveMinimum": 0 },
+              "maximum": { "type": "number", "exclusiveMinimum": 0 },
+              "median_absolute_deviation": { "type": "number", "minimum": 0 }
+            }
+          },
+          "files_per_second_at_median": { "type": ["number", "null"], "minimum": 0 },
+          "mebibytes_per_second_at_median": { "type": ["number", "null"], "minimum": 0 }
+        }
+      }
+    },
+    "scope_limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

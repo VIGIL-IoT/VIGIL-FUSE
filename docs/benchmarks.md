@@ -48,6 +48,23 @@ The pinned [baseline report](../reports/benchmark/scan-performance.json) was gen
 
 This is one synthetic baseline on one Windows environment. It is useful for checking that the measurement path works and for future same-input comparisons. It does not represent a typical embedded repository, establish a cross-platform performance profile, estimate detection accuracy, or define a speed target. Extend the harness to representative pinned projects before making general performance claims.
 
+## Pinned repository scan measurements
+
+`scripts/benchmark_repository_cohort.py` provides a separate timing path for selected scopes in a pinned repository manifest. It verifies that every checkout is clean and at the expected commit, performs one warm-up and three measured scans by default, disables network and optional external analyzers, and confirms that file counts, byte counts, finding counts, coverage, and exit status remain stable across repetitions. It records wall-time samples, median and spread, scan throughput, findings, and coverage. It does not record a host name or local checkout path. The output format is defined by [repository-scan-performance.schema.json](../reports/benchmark/repository-scan-performance.schema.json).
+
+Run it from the FUSE repository root after preparing the checkouts at the revisions in the [second fresh-validation manifest](../reports/repository-scans/fresh-validation-next/manifest.json):
+
+```powershell
+python scripts/benchmark_repository_cohort.py `
+  --manifest reports/repository-scans/fresh-validation-next/manifest.json `
+  --checkouts ..\fuse-scan-targets-fresh-validation-next `
+  --warmups 1 `
+  --repetitions 3 `
+  --output reports/benchmark/repository-scan-performance.json
+```
+
+The report is a descriptive measurement of those exact scopes on the machine recorded in the JSON. It is not a cross-platform comparison, accuracy estimate, speed target, or hardware/firmware performance claim. Discovery gaps remain visible. Report values should be regenerated only when intentionally updating the environment or benchmark snapshot.
+
 ## Comparison limits
 
 No controlled comparison against Semgrep, CodeQL, Cppcheck, compiler analyzers, or another embedded security product is currently available. Similar rule names or overlapping scan outputs are not a fair comparison. A later study needs matched inputs, equivalent rule scope, pinned tool versions, independently reviewed labels, and disclosed exclusions before reporting comparative metrics.
