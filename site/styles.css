@@ -11,6 +11,7 @@
   --field-ink: #ffffff;
   --page-width: 1280px;
   --page-gutter: clamp(20px, 5.6vw, 84px);
+  --section-space: clamp(40px, 5vw, 72px);
   --radius: 4px;
   --step-small: 13px;
   --step-body: 17px;
@@ -542,7 +543,7 @@ p {
 }
 
 .showcase {
-  padding-bottom: clamp(100px, 12vw, 168px);
+  padding-bottom: var(--section-space);
 }
 
 .section-heading {
@@ -839,8 +840,7 @@ p {
 }
 
 .scan-results {
-  padding-top: clamp(62px, 8vw, 112px);
-  padding-bottom: clamp(100px, 12vw, 168px);
+  padding-block: var(--section-space);
   border-top: 1px solid var(--surface);
 }
 
@@ -1301,12 +1301,11 @@ p {
 }
 
 .workflow {
-  padding-bottom: clamp(100px, 12vw, 168px);
+  padding-bottom: var(--section-space);
 }
 
 .archify-section {
-  padding-top: clamp(66px, 9vw, 116px);
-  padding-bottom: clamp(84px, 11vw, 148px);
+  padding-block: var(--section-space);
   border-top: 1px solid var(--surface);
 }
 
@@ -1532,7 +1531,7 @@ p {
 }
 
 .rules {
-  padding-bottom: clamp(100px, 12vw, 168px);
+  padding-block: var(--section-space);
 }
 
 .rules-heading {
@@ -1623,8 +1622,7 @@ p {
 }
 
 .support-section {
-  padding-top: clamp(62px, 8vw, 112px);
-  padding-bottom: clamp(100px, 12vw, 168px);
+  padding-block: var(--section-space);
   border-top: 1px solid var(--surface);
 }
 
@@ -1765,7 +1763,7 @@ p {
 }
 
 .boundaries {
-  padding-block: clamp(52px, 7vw, 94px);
+  padding-block: var(--section-space);
   background: var(--field);
   color: var(--field-ink);
 }
@@ -1804,8 +1802,7 @@ p {
   grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: start;
   gap: 28px;
-  padding-top: clamp(90px, 11vw, 150px);
-  padding-bottom: clamp(96px, 12vw, 168px);
+  padding-block: var(--section-space);
 }
 
 .research-intro {
@@ -1935,8 +1932,7 @@ p {
   justify-content: space-between;
   align-items: center;
   gap: 30px;
-  padding-top: clamp(46px, 7vw, 96px);
-  padding-bottom: clamp(64px, 9vw, 118px);
+  padding-block: var(--section-space);
 }
 
 .cta p {
@@ -2110,6 +2106,7 @@ p {
 @media (max-width: 760px) {
   :root {
     --page-gutter: 22px;
+    --section-space: clamp(34px, 9vw, 42px);
   }
 
   .site-header {
@@ -2333,8 +2330,7 @@ p {
   }
 
   .archify-section {
-    padding-top: 70px;
-    padding-bottom: 88px;
+    padding-block: var(--section-space);
   }
 
   .archify-frame iframe {
@@ -2443,8 +2439,7 @@ p {
   .research {
     grid-template-columns: 1fr;
     gap: 25px;
-    padding-top: 90px;
-    padding-bottom: 94px;
+    padding-block: var(--section-space);
   }
 
   .research-intro,
@@ -2466,8 +2461,7 @@ p {
     align-items: flex-start;
     flex-direction: column;
     gap: 19px;
-    padding-top: 45px;
-    padding-bottom: 74px;
+    padding-block: var(--section-space);
   }
 
   .cta p {

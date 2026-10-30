@@ -39,7 +39,7 @@
         <a href="#rules">Rules</a>
         <a href="#results">Results</a>
         <a href="#coverage">Coverage</a>
-        <a href="#research">Research loop</a>
+        <a href="#research">Project scope</a>
       </nav>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
         <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -258,7 +258,7 @@
             <p class="scan-kicker">Workflow map · generated with <a class="vigil-link" href="https://github.com/tt-a1i/archify" target="_blank" rel="noreferrer">Archify</a></p>
             <h2 id="architecture-title">How FUSE scans a project.</h2>
           </div>
-          <p>The diagram follows the current CLI path, keeps optional analyzers distinct, and marks the SPECTRA-32 lab handoff as planned.</p>
+          <p>The diagram follows FUSE's current CLI path and keeps optional analyzers distinct.</p>
         </div>
         <div class="archify-frame" data-ui="archify-workflow">
           <div class="archify-frame-topline">
@@ -279,7 +279,7 @@
           </div>
         </div>
         <div class="archify-caption">
-          <p>Current behavior is grounded in the FUSE source. The research lab connection is a future workflow.</p>
+          <p>Current behavior is grounded in the FUSE source. Device testing is outside this workflow.</p>
         </div>
       </section>
 
@@ -327,10 +327,10 @@
           <p class="validation-count"><strong>7</strong><span>rules have vulnerable and secure fixture cases with expected outcomes.</span></p>
           <p class="validation-limit"><strong><span id="repo-snapshot-count">14</span> repository snapshots scanned</strong>Source and configuration scopes only. No physical boards or live devices were tested.</p>
         </div>
-        <aside class="research-tile reveal" aria-label="How FUSE complements SPECTRA-32">
-          <p class="tile-label">Planned <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL-IoT</a> research loop</p>
-          <p class="tile-copy">FUSE identifies a candidate weakness. SPECTRA-32 can reproduce selected cases in a controlled lab. After mitigation, FUSE rescans and SPECTRA-32 measures the overhead.</p>
-          <p class="tile-flow"><span>Inspect</span><b aria-hidden="true">→</b><span>Reproduce</span><b aria-hidden="true">→</b><span>Mitigate</span><b aria-hidden="true">→</b><span>Measure</span></p>
+        <aside class="research-tile reveal" aria-label="FUSE analysis scope">
+          <p class="tile-label">Current analysis scope</p>
+          <p class="tile-copy">FUSE inspects selected source, configuration, dependency, and firmware inputs. It does not execute firmware or validate device behavior.</p>
+          <p class="tile-flow"><span>Select</span><b aria-hidden="true">→</b><span>Inspect</span><b aria-hidden="true">→</b><span>Review</span><b aria-hidden="true">→</b><span>Report</span></p>
         </aside>
       </section>
 
