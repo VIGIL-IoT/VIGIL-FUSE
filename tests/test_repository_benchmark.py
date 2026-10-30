@@ -1,9 +1,15 @@
 import json
+import tempfile
 import unittest
 from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
 
+from scripts.prepare_repository_benchmark_cohort import (
+    DEFAULT_MANIFEST,
+    CohortPreparationError,
+    _load_cohort,
+)
 from scripts.benchmark_repository_cohort import (
     RepositoryBenchmarkError,
     _median_absolute_deviation,
@@ -14,6 +20,62 @@ from scripts.benchmark_repository_cohort import (
 
 
 class RepositoryBenchmarkTests(unittest.TestCase):
+    def test_default_cohort_manifest_has_four_pinned_safe_plans(self) -> None:
+        plans = _load_cohort(DEFAULT_MANIFEST)
+
+        self.assertEqual(
+            {"mynewt-core", "mbedtls", "openthread", "esp-iot-solution"},
+            {plan["id"] for plan in plans},
+        )
+        self.assertTrue(all(len(plan["commit"]) == 40 for plan in plans))
+        self.assertTrue(all(plan["url"].startswith("https://github.com/") for plan in plans))
+        self.assertTrue(all(plan["includes"] for plan in plans))
+
+    def test_cohort_manifest_rejects_unsafe_repository_paths_and_urls(self) -> None:
+        source = json.loads(DEFAULT_MANIFEST.read_text(encoding="utf-8"))
+        invalid_cases = (
+            ("repository id", lambda manifest: manifest["repositories"][0].update(id="../escape")),
+            ("commit", lambda manifest: manifest["repositories"][0].update(commit="not-a-sha")),
+            (
+                "URL",
+                lambda manifest: manifest["repositories"][0].update(
+                    url="https://example.com/owner/repo"
+                ),
+            ),
+            (
+                "URL port",
+                lambda manifest: manifest["repositories"][0].update(
+                    url="https://github.com:8443/owner/repo"
+                ),
+            ),
+            (
+                "include pattern",
+                lambda manifest: manifest["repositories"][0]["scans"][0].update(
+                    includes=["../../outside"]
+                ),
+            ),
+            (
+                "negative include pattern",
+                lambda manifest: manifest["repositories"][0]["scans"][0].update(
+                    includes=["!apps/**"]
+                ),
+            ),
+            (
+                "drive-qualified include pattern",
+                lambda manifest: manifest["repositories"][0]["scans"][0].update(
+                    includes=["C:/outside"]
+                ),
+            ),
+        )
+        for label, mutate in invalid_cases:
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
+                manifest = json.loads(json.dumps(source))
+                mutate(manifest)
+                path = Path(temporary) / "manifest.json"
+                path.write_text(json.dumps(manifest), encoding="utf-8")
+                with self.assertRaises(CohortPreparationError):
+                    _load_cohort(path)
+
     def test_performance_report_schema_accepts_a_complete_sample(self) -> None:
         schema_path = (
             Path(__file__).resolve().parents[1]

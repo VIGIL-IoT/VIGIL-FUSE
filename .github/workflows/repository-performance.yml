@@ -1,0 +1,75 @@
+name: Pinned repository performance
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: repository-performance-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    name: Cohort scan on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    env:
+      GIT_LFS_SKIP_SMUDGE: "1"
+      GIT_TERMINAL_PROMPT: "0"
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - name: Check out FUSE
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install report schema validator
+        run: python -m pip install "jsonschema>=4.23,<5"
+      - name: Prepare clean pinned repository checkouts
+        shell: bash
+        run: >-
+          python scripts/prepare_repository_benchmark_cohort.py
+          --manifest reports/repository-scans/fresh-validation-next/manifest.json
+          --checkouts "$RUNNER_TEMP/fuse-repository-cohort"
+          --timeout-seconds 1200
+      - name: Measure pinned repository scopes
+        shell: bash
+        run: >-
+          python scripts/benchmark_repository_cohort.py
+          --manifest reports/repository-scans/fresh-validation-next/manifest.json
+          --checkouts "$RUNNER_TEMP/fuse-repository-cohort"
+          --warmups 1
+          --repetitions 3
+          --timeout-seconds 150
+          --output "$RUNNER_TEMP/fuse-repository-performance.json"
+      - name: Validate benchmark report schema
+        shell: bash
+        run: >-
+          python -c 'import json, os; from jsonschema import Draft202012Validator, FormatChecker;
+          from pathlib import Path; report=json.loads((Path(os.environ["RUNNER_TEMP"]) /
+          "fuse-repository-performance.json").read_text(encoding="utf-8"));
+          schema=json.loads(Path("reports/benchmark/repository-scan-performance.schema.json").read_text(encoding="utf-8"));
+          Draft202012Validator(schema, format_checker=FormatChecker()).validate(report);
+          assert len(report["scopes"]) == 4;
+          assert report["configuration"]["network_enabled"] is False;
+          print("Pinned repository performance report is schema-valid")'
+      - name: Upload measured report
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: repository-performance-${{ matrix.os }}
+          path: ${{ runner.temp }}/fuse-repository-performance.json
+          if-no-files-found: error
+          retention-days: 30

@@ -49,6 +49,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Updated the static site to describe FUSE's present analysis scope, remove the planned external lab handoff, and use a shared vertical-spacing scale across major sections.
 - Added Mypy 2.4.1 as a development dependency and a strict type-checking CI gate across all 44 source modules plus the scan benchmark script. Strict Mypy passes without suppressing diagnostics.
 - Added a deterministic CLI performance harness with wall-time and sampled process-tree RSS measurements, a versioned JSON report schema, a recorded local baseline, and CI smoke coverage. The benchmark uses only synthetic source and makes no general speed or accuracy claim.
+- Added a manifest-driven sparse-checkout preparer and a manually dispatched Ubuntu, Windows, and macOS workflow for the same four pinned repository scopes. Each run validates and uploads a schema-checked report artifact. The workflow is implemented but has not yet produced cross-platform results.
 - Verified Syft 1.55.0 and OSV-Scanner 2.7.0 against positive, clean, and no-package-source fixtures. Fixed the OSV adapter's handling of the real CLI's exit-128 no-source response and added a repeatable harness plus experiment record.
 - Verified the Binwalk v2.3.3 identification adapter in WSL2 with a synthetic gzip positive and clean control. Added bounded help-banner version detection, a repeatable smoke harness, a regression test, and an experiment record. This is not a firmware-accuracy study.
 - Manually reviewed the 23 signals in the separately pinned second fresh-validation snapshot. Added grouped, source-context dispositions while preserving redaction and stating that the review is not independent accuracy evidence. Placeholder-looking defaults remain candidates because an unchanged example can still be built.
@@ -61,7 +62,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - `docs/REPOSITORY_AUDIT.md`, `docs/requirements.md`, `docs/methodology.md`, `docs/limitations.md`, `docs/traceability.md`, `docs/benchmarks.md`, `docs/repository-structure.md`, `docs/sbom.md`
 - `docs/experiments/pilot-scan-2026-10.md`, `docs/experiments/dependency-adapters-e2e-2026-10-31.md`, `docs/experiments/binwalk-adapter-e2e-2026-10-31.md`, `reports/repository-scans/fresh-validation-next/triage.md`
 - `docs/decisions/ADR-0001-cli-first-package.md`, `ADR-0002-bounded-non-executing-analysis.md`, `ADR-0003-normalized-findings-and-coverage.md`, `ADR-0004-optional-tool-adapters.md`
-- `scripts/validate_docs.py`, `scripts/verify_dependency_adapters.py`, `scripts/verify_binwalk_adapter.py`, `tests/test_docs_validation.py`, `tests/test_dependency_policy.py`
+- `scripts/validate_docs.py`, `scripts/verify_dependency_adapters.py`, `scripts/verify_binwalk_adapter.py`, `scripts/prepare_repository_benchmark_cohort.py`, `tests/test_docs_validation.py`, `tests/test_dependency_policy.py`, `tests/test_repository_performance_workflow.py`, `.github/workflows/repository-performance.yml`
 - `scripts/benchmark_scan.py`, `tests/test_performance_benchmark.py`, `reports/benchmark/scan-performance.json`, `reports/benchmark/scan-performance.schema.json`
 - `scripts/build_finding_model_figure.mjs`, `scripts/vendor/anatomy/iso-kit.mjs`, `scripts/vendor/anatomy/LICENSE`, `scripts/vendor/anatomy/NOTICE.md`
 - `docs/figures/fuse-finding-model.svg`, `docs/figures/fuse-finding-model-light.svg`, `site/diagrams/fuse-finding-model.html`
@@ -69,7 +70,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Files modified
 
-- `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/benchmarks.md`, `docs/contributing.md`, `docs/methodology.md`, `docs/requirements.md`, `docs/repository-structure.md`, `docs/sbom.md`, `docs/roadmap.md`, `docs/website.md`, and the static site files under `site/`
+- `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/benchmarks.md`, `docs/traceability.md`, `docs/contributing.md`, `docs/methodology.md`, `docs/requirements.md`, `docs/repository-structure.md`, `docs/sbom.md`, `docs/roadmap.md`, `docs/website.md`, and the static site files under `site/`
 - The prior increments modified the Binwalk adapter and its verification docs; this increment adds manual review in `reports/repository-scans/fresh-validation-next/triage.md` and updates the cohort README, `docs/detection-benchmark.md`, and this audit record. Earlier engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
 - `LICENSE` was not modified.
 
@@ -80,6 +81,8 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - FUSE CI run `41118660790` passed all eight jobs for `bd471b1`, including Ubuntu, Windows, and macOS test jobs, strict Mypy, repository path checks, documentation validation, package installation, and branch coverage. The second fresh-validation cohort's 23 findings were manually reviewed against clean checkouts at their pinned commits; this is a source-context review, not an independent evaluation.
 - FUSE CI run `41119431946` passed all eight jobs for `953b786`, including the manual-triage documentation links, repository path check, package installation, platform tests, strict Mypy, and branch coverage.
 - This documentation increment passed Markdown validation across 57 files, the repository path audit across 509 tracked files and Git history, and `git diff --check`.
+- The pinned repository cohort increment passed 202 local pytest tests plus 81 subtests, Ruff, strict Mypy, fixture benchmark validation, documentation validation, report-schema validation, and the personal-path audit. Its three sequential commits each passed their FUSE CI workflow.
+- The cross-platform workflow increment is locally validated for manifest safety and workflow configuration. Its new manual platform run is pending, so no cross-platform timing claim or maturity-score increase is recorded yet.
 - Full pytest suite, including dependency policy and docs validation tests, plus the focused security and input-handling subset.
 - Branch-aware coverage report and threshold check.
 - Ruff lint and focused formatting check.
@@ -187,9 +190,11 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 1. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
 2. Extend the Binwalk smoke evidence to supported versions and native platforms while retaining positive and clean controls for Gitleaks, Syft, and OSV-Scanner.
 3. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.
-4. Repeat the pinned repository performance cohort on Linux and macOS, add real-project memory measurements, and consider thresholds only after cross-platform baselines are stable.
+4. Run the pinned repository performance workflow on Linux, Windows, and macOS, inspect partial coverage and timing variability, then consider real-project memory measurements. Do not set timing thresholds until repeated measurements are stable.
 5. Defer device, hardware, and firmware-extraction claims until controlled hardware or isolated extraction environments are available.
 
 ## Evidence update, 2026-10-31
 
 Commits `0acde65` and `0f11e7c` add a repeatable performance harness and measured results for four selected pinned repository scopes. CI run #41122163492 passed all eight jobs on `0f11e7c`. The [experiment record](experiments/repository-scan-performance-2026-10-31.md) and [versioned JSON report](../reports/benchmark/repository-scan-performance.json) preserve the inputs, three-run samples, coverage status, and skipped-file reasons. The 89/100 maturity assessment remains unchanged because this evidence covers one Windows machine and does not supply independent finding adjudication, Linux/macOS comparison, or a representative accuracy corpus.
+
+The manually dispatched cross-platform workflow is added in `.github/workflows/repository-performance.yml`. Its first run and operating-system artifacts are still pending. The score remains 89/100 until the cross-platform outputs are reviewed.

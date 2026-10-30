@@ -1,0 +1,40 @@
+import re
+import unittest
+from pathlib import Path
+
+import yaml
+
+
+ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW = ROOT / ".github" / "workflows" / "repository-performance.yml"
+
+
+class RepositoryPerformanceWorkflowTests(unittest.TestCase):
+    def test_workflow_is_manual_and_runs_the_cohort_on_three_platforms(self) -> None:
+        workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+
+        self.assertEqual({"workflow_dispatch": ""}, workflow["on"])
+        self.assertEqual({}, workflow["permissions"])
+        benchmark = workflow["jobs"]["benchmark"]
+        self.assertEqual(
+            ["ubuntu-latest", "windows-latest", "macos-latest"],
+            benchmark["strategy"]["matrix"]["os"],
+        )
+
+    def test_workflow_actions_are_pinned_and_reports_are_retained_as_artifacts(self) -> None:
+        workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        steps = workflow["jobs"]["benchmark"]["steps"]
+        action_steps = [step for step in steps if "uses" in step]
+
+        self.assertEqual(3, len(action_steps))
+        for step in action_steps:
+            with self.subTest(action=step["uses"]):
+                self.assertRegex(step["uses"], re.compile(r"^.+@[0-9a-f]{40}$"))
+
+        upload = next(step for step in action_steps if "upload-artifact" in step["uses"])
+        self.assertEqual("error", upload["with"]["if-no-files-found"])
+        self.assertEqual("30", upload["with"]["retention-days"])
+
+
+if __name__ == "__main__":
+    unittest.main()

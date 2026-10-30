@@ -52,18 +52,32 @@ This is one synthetic baseline on one Windows environment. It is useful for chec
 
 `scripts/benchmark_repository_cohort.py` provides a separate timing path for selected scopes in a pinned repository manifest. It verifies that every checkout is clean and at the expected commit, performs one warm-up and three measured scans by default, disables network and optional external analyzers, and confirms that file counts, byte counts, finding counts, skipped-file reasons, native-analysis status, discovery coverage, and exit status remain stable across repetitions. It records wall-time samples, median and spread, scan throughput, findings, skipped-file reasons, native-analysis status, and discovery coverage. It does not record a host name or local checkout path. The output format is defined by [repository-scan-performance.schema.json](../reports/benchmark/repository-scan-performance.schema.json).
 
-Run it from the FUSE repository root after preparing the checkouts at the revisions in the [second fresh-validation manifest](../reports/repository-scans/fresh-validation-next/manifest.json):
+Run it from the FUSE repository root. The preparer downloads each public source at the manifest's pinned commit and uses the selected include patterns for a sparse checkout. Existing checkouts are reused only when their commit and clean status match. A non-pinned or dirty checkout causes an error and is never overwritten.
 
 ```powershell
+python scripts/prepare_repository_benchmark_cohort.py `
+  --manifest reports/repository-scans/fresh-validation-next/manifest.json `
+  --checkouts ..\fuse-repository-benchmark-cohort
+
 python scripts/benchmark_repository_cohort.py `
   --manifest reports/repository-scans/fresh-validation-next/manifest.json `
-  --checkouts ..\fuse-scan-targets-fresh-validation-next `
+  --checkouts ..\fuse-repository-benchmark-cohort `
   --warmups 1 `
   --repetitions 3 `
   --output reports/benchmark/repository-scan-performance.json
 ```
 
 The report is a descriptive measurement of those exact scopes on the machine recorded in the JSON. It is not a cross-platform comparison, accuracy estimate, speed target, or hardware/firmware performance claim. Discovery gaps remain visible. Report values should be regenerated only when intentionally updating the environment or benchmark snapshot.
+
+### Cross-platform cohort workflow
+
+The manually triggered [repository performance workflow](../.github/workflows/repository-performance.yml) runs the pinned cohort on GitHub-hosted Ubuntu, Windows, and macOS runners. It prepares sparse checkouts from the same manifest, uses one warm-up and three measured scans, validates each JSON report against the checked-in schema, and uploads one report artifact per operating system. Artifacts are retained for 30 days. Trigger it from the GitHub Actions page or with:
+
+```powershell
+gh workflow run repository-performance.yml --ref main
+```
+
+The workflow does not commit generated measurements. Review the downloaded reports for platform and coverage differences before treating them as comparable. Hosted runner timings are descriptive and should not be used as fixed speed thresholds.
 
 ### Recorded pinned-project cohort
 
