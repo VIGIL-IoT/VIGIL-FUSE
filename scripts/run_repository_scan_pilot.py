@@ -79,6 +79,11 @@ def build_scan_command(checkout: Path, profile: str, scan: dict, output: Path) -
         str(checkout),
         "--profile",
         profile,
+        "--no-sbom",
+        "--no-vulnerabilities",
+        "--no-firmware",
+        "--no-git-history",
+        "--no-network",
     ]
     for include in scan.get("includes", ()):
         if not isinstance(include, str):

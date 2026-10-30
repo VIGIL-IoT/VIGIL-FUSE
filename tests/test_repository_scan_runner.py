@@ -45,6 +45,11 @@ class RepositoryScanRunnerTests(unittest.TestCase):
             )
 
         self.assertEqual(sys.executable, command[0])
+        self.assertIn("--no-sbom", command)
+        self.assertIn("--no-vulnerabilities", command)
+        self.assertIn("--no-firmware", command)
+        self.assertIn("--no-git-history", command)
+        self.assertIn("--no-network", command)
         self.assertIn("--target-label", command)
         label_index = command.index("--target-label")
         self.assertEqual("org/repository, mqtt examples", command[label_index + 1])
