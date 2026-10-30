@@ -1,0 +1,64 @@
+FUSE scan: RT-Thread/rt-thread, selected kernel and component source
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: no-network
+Scanned manifest SHA-256: b14d88cc285b7f01d8f0c9a20fa8cc3492b382d528f0d7fce7a4c0d7d47d6731
+Files discovered/selected: 2127/2127
+Files filtered by path policy: 0
+Files scanned: 2126
+Source bytes read: 26753309
+Files skipped: 1
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 1
+Hardware artifacts: 0
+Files not selected by the source profile: 422
+  .a: 12
+  .bin: 6
+  .doxyfile: 3
+  .gif: 3
+  .h264: 1
+  .html: 10
+  .in: 4
+  .jpg: 1
+  .md: 38
+  .png: 1
+  .ppm: 2
+  .psf: 2
+  .svg: 1
+  .txt: 26
+  .yuyv: 1
+  <no-extension>: 311
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 6 / complete (extension and size only, contents not inspected)
+  .bin: 6
+  components/net/lwip/lwip-2.2.1/test/fuzz/inputs/arp/arp_req.bin [bin, 42 bytes]
+  components/net/lwip/lwip-2.2.1/test/fuzz/inputs/icmp/icmp_ping.bin [bin, 98 bytes]
+  components/net/lwip/lwip-2.2.1/test/fuzz/inputs/ipv6/neighbor_solicitation.bin [bin, 86 bytes]
+  components/net/lwip/lwip-2.2.1/test/fuzz/inputs/ipv6/router_adv.bin [bin, 118 bytes]
+  components/net/lwip/lwip-2.2.1/test/fuzz/inputs/tcp/tcp_syn.bin [bin, 74 bytes]
+  components/net/lwip/lwip-2.2.1/test/fuzz/inputs/udp/udp_port_5000.bin [bin, 50 bytes]
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 150 selected input(s). The conservative prefilter excluded 1976 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 145 selected input(s). The conservative prefilter excluded 1981 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 111 selected input(s). The conservative prefilter excluded 2015 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 6 filename and size candidate(s); no image contents were read or verified.)
+Skip reasons: too_large=1
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: components/finsh/shell.h:47
+  Evidence: #define FINSH_DEFAULT_PASSWORD "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html

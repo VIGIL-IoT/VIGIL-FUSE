@@ -1,0 +1,897 @@
+{
+  "schema_version": "1.10",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "meshtastic/firmware, selected radio firmware and board configuration",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "no-network",
+    "started_at": "2026-10-30T22:36:31Z",
+    "completed_at": "2026-10-30T22:37:15Z",
+    "input_manifest_sha256": "5c5ac4ee1debd85f280ad8984654ae35c83a32435bd6119eb10a86ab859386f9"
+  },
+  "summary": {
+    "files_discovered": 1739,
+    "files_selected": 1731,
+    "files_filtered": 8,
+    "files_scanned": 1731,
+    "source_bytes_read": 11246892,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 4,
+    "severity_counts": {
+      "critical": 0,
+      "high": 1,
+      "medium": 3,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 56,
+      "unsupported_file_types": {
+        ".csv": 5,
+        ".dockerfile": 1,
+        ".gif": 1,
+        ".jpg": 1,
+        ".jsonc": 1,
+        ".ld": 4,
+        ".lock": 1,
+        ".md": 22,
+        ".nix": 2,
+        ".pdf": 1,
+        ".png": 2,
+        ".rpkg": 1,
+        ".s": 1,
+        ".test": 1,
+        ".txt": 1,
+        ".webp": 1,
+        ".xbm": 2,
+        "<no-extension>": 8
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 4
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.5.0",
+        "detail": "Evaluated 37 selected input(s). The conservative prefilter excluded 1694 inputs without the rule's required markers.",
+        "findings": 3
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.3.0",
+        "detail": "Evaluated 36 selected input(s). The conservative prefilter excluded 1695 inputs without the rule's required markers.",
+        "findings": 1
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 15 selected input(s). The conservative prefilter excluded 1716 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "completed",
+        "version": "1.1.0",
+        "detail": "Evaluated 4 selected input(s). The conservative prefilter excluded 1727 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 1730 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 1730 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "partial",
+      "path": "platformio.ini",
+      "sha256": "77db83f82dcc8824f7724e5028cfe33fe71a50c40e30a0ce6b70ffa0c2da4015",
+      "byte_size": 17343,
+      "default_environments": [
+        "heltec-v3"
+      ],
+      "selected_environments": [],
+      "environments": [
+        {
+          "name": "9m2ibr_aprs_lora_tracker",
+          "platform": null,
+          "board": "esp32doit-devkit-v1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32_base",
+          "source_dir": null,
+          "source_filter": [
+            "${esp32_base.build_src_filter}",
+            "+<../variants/esp32/diy/9m2ibr_aprs_lora_tracker>"
+          ]
+        },
+        {
+          "name": "esp32c3_super_mini",
+          "platform": null,
+          "board": "esp32-c3-devkitm-1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32c3_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "hydra",
+          "platform": null,
+          "board": "esp32doit-devkit-v1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "meshtastic-diy-v1",
+          "platform": null,
+          "board": "esp32doit-devkit-v1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "meshtastic-diy-v1_1",
+          "platform": null,
+          "board": "esp32doit-devkit-v1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "meshtastic-dr-dev",
+          "platform": null,
+          "board": "esp32doit-devkit-v1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "my-esp32s3-diy-eink",
+          "platform": null,
+          "board": "my_esp32s3_diy_eink",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": "esptool",
+          "debug_tool": null,
+          "extends": "esp32s3_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "my-esp32s3-diy-oled",
+          "platform": null,
+          "board": "my-esp32s3-diy-oled",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": "esptool",
+          "debug_tool": null,
+          "extends": "esp32s3_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "nrf52_promicro_diy-easypromicro",
+          "platform": null,
+          "board": "promicro-nrf52840",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "nrf52840_base",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>"
+          ]
+        },
+        {
+          "name": "nrf52_promicro_diy-inkhud",
+          "platform": null,
+          "board": "promicro-nrf52840",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "nrf52840_base, inkhud",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter}",
+            "${inkhud.build_src_filter}",
+            "+<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>"
+          ]
+        },
+        {
+          "name": "nrf52_promicro_diy-sx1280",
+          "platform": null,
+          "board": "promicro-nrf52840",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "nrf52840_base",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>"
+          ]
+        },
+        {
+          "name": "nrf52_promicro_diy_tcxo",
+          "platform": null,
+          "board": "promicro-nrf52840",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "nrf52840_base",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>"
+          ]
+        },
+        {
+          "name": "pico2_w5500_e22",
+          "platform": null,
+          "board": "rpipico2",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": "picotool",
+          "debug_tool": "cmsis-dap",
+          "extends": "rp2350_base",
+          "source_dir": null,
+          "source_filter": [
+            "${rp2350_base.build_src_filter} +<mesh/eth/> +<mesh/api/> +<mqtt/>"
+          ]
+        },
+        {
+          "name": "seeed_xiao_nrf52840_btb",
+          "platform": null,
+          "board": null,
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "env:seeed_xiao_nrf52840_kit",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>"
+          ]
+        },
+        {
+          "name": "seeed_xiao_nrf52840_e22_900m30s",
+          "platform": null,
+          "board": null,
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:seeed_xiao_nrf52840_kit",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "seeed_xiao_nrf52840_e22_900m33s",
+          "platform": null,
+          "board": null,
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "env:seeed_xiao_nrf52840_kit",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "t-energy-s3_e22",
+          "platform": null,
+          "board": "esp32-s3-devkitc-1",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": null,
+          "extends": "esp32s3_base",
+          "source_dir": null,
+          "source_filter": []
+        },
+        {
+          "name": "WashTastic",
+          "platform": null,
+          "board": "promicro-nrf52840",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "nrf52840_base",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>"
+          ]
+        },
+        {
+          "name": "wiznet_5500_evb_pico2_e22p",
+          "platform": null,
+          "board": "wiznet_5500_evb_pico2",
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": "picotool",
+          "debug_tool": "cmsis-dap",
+          "extends": "rp2350_base",
+          "source_dir": null,
+          "source_filter": [
+            "${rp2350_base.build_src_filter} +<mesh/eth/> +<mesh/api/> +<mqtt/>"
+          ]
+        },
+        {
+          "name": "xiao_ble",
+          "platform": null,
+          "board": null,
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "env:seeed_xiao_nrf52840_kit",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>"
+          ]
+        },
+        {
+          "name": "xiao_ble_30db",
+          "platform": null,
+          "board": null,
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "env:seeed_xiao_nrf52840_kit",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>"
+          ]
+        },
+        {
+          "name": "xiao_ble_33db",
+          "platform": null,
+          "board": null,
+          "frameworks": [],
+          "build_type": null,
+          "upload_protocol": null,
+          "debug_tool": "jlink",
+          "extends": "env:seeed_xiao_nrf52840_kit",
+          "source_dir": null,
+          "source_filter": [
+            "${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>"
+          ]
+        }
+      ],
+      "configurations": [
+        {
+          "path": "platformio.ini",
+          "sha256": "77db83f82dcc8824f7724e5028cfe33fe71a50c40e30a0ce6b70ffa0c2da4015",
+          "byte_size": 17343
+        },
+        {
+          "path": "variants/esp32/esp32-common.ini",
+          "sha256": "e57ac284d5e780f69dff7fe2aed41a440023767b178c8bfbc56a9eb1d1ccd851",
+          "byte_size": 13623
+        },
+        {
+          "path": "variants/esp32/esp32.ini",
+          "sha256": "f0485f816d4d5e7c5a1a1b9729eb02dfc229b8465a4564763436153803996a73",
+          "byte_size": 3050
+        },
+        {
+          "path": "variants/esp32c3/esp32c3.ini",
+          "sha256": "8ff1efc56f2ca525d898ef5155dd940174f37878cc3d97c968e053fa59cbc596",
+          "byte_size": 827
+        },
+        {
+          "path": "variants/esp32c6/esp32c6.ini",
+          "sha256": "5298c9c687cc45a0870aa4211a62f72445a6051684ce7556a01bb29d1520ce22",
+          "byte_size": 1122
+        },
+        {
+          "path": "variants/esp32p4/esp32p4.ini",
+          "sha256": "97a6c2cb29dbd822b0441d504aa2b77321724866dc6763ecfb2dece5f5a10146",
+          "byte_size": 3745
+        },
+        {
+          "path": "variants/esp32s2/esp32s2.ini",
+          "sha256": "62213cccb8cb2655afca66da77c4b0713fe6b8f2959ca7270a6eafcc22d8e8fd",
+          "byte_size": 865
+        },
+        {
+          "path": "variants/esp32s3/esp32s3.ini",
+          "sha256": "b6bf0d4fe404292f138cd082fa7cbbba44c705f25621fa509e94e8a9da1a3d14",
+          "byte_size": 611
+        },
+        {
+          "path": "variants/native/portduino.ini",
+          "sha256": "0215d449e630a7dbc490e47c3488e15ebcb15b132d99e7998ca9b48521fe9dca",
+          "byte_size": 4263
+        },
+        {
+          "path": "variants/nrf52840/nrf52.ini",
+          "sha256": "c7f23c5f13a664a9c78ed63225f7e15c00e0354055c48521591017ae1aca6625",
+          "byte_size": 3986
+        },
+        {
+          "path": "variants/nrf52840/nrf52840.ini",
+          "sha256": "7c7d53dea735bc4c68f0a5a3360634c9e64a7b5c2123d5fb8eae983c9e8f0c2f",
+          "byte_size": 3695
+        },
+        {
+          "path": "variants/nrf54l15/nrf54.ini",
+          "sha256": "bacbb3eff06bcb60ff0199ab90bddf0f375559ab8d80fb66bd2037b22830cc26",
+          "byte_size": 1594
+        },
+        {
+          "path": "variants/rp2040/rp2040.ini",
+          "sha256": "555d28b2d3e842107adf83659c4ac558549bc007e6a941bb59965a8cace1d8ac",
+          "byte_size": 1490
+        },
+        {
+          "path": "variants/rp2350/rp2350.ini",
+          "sha256": "00b8126bebb734b32d279e0650b74006a981905063bde708512a0edf8c3ac771",
+          "byte_size": 1443
+        },
+        {
+          "path": "variants/stm32/stm32.ini",
+          "sha256": "c538b5293264dd524e34e14801bc01402e1ebf580a09a2168ad6eba96d1bdb26",
+          "byte_size": 2929
+        },
+        {
+          "path": "variants/esp32/diy/9m2ibr_aprs_lora_tracker/platformio.ini",
+          "sha256": "6be7188e09759efac45fdc8eaf0bd1642cbb36befaad20eddabf6999ca0d9402",
+          "byte_size": 540
+        },
+        {
+          "path": "variants/esp32/diy/dr-dev/platformio.ini",
+          "sha256": "cf05e309679486ff0ac83f7e646cc1f7110d79496468ed185d44995566622162",
+          "byte_size": 541
+        },
+        {
+          "path": "variants/esp32/diy/hydra/platformio.ini",
+          "sha256": "76b276aaefe72d9da798441981d94aa2e0a6cb45a63c1b329c6b2ba7567a1850",
+          "byte_size": 491
+        },
+        {
+          "path": "variants/esp32/diy/v1/platformio.ini",
+          "sha256": "72cc94f63f948f6739e12a969c607db26298d3d2568d62d006f6f1a3924c7917",
+          "byte_size": 604
+        },
+        {
+          "path": "variants/esp32/diy/v1_1/platformio.ini",
+          "sha256": "9a69a5f3ef7b947c1828c407a6d531a4fe7081f7b13ee6488e815ae324eccd20",
+          "byte_size": 277
+        },
+        {
+          "path": "variants/esp32c3/diy/esp32c3_super_mini/platformio.ini",
+          "sha256": "29defd4de7ab6937e74dbd79c9fb992e3424f82b56de445c708afb458d75e61a",
+          "byte_size": 350
+        },
+        {
+          "path": "variants/esp32s3/diy/my_esp32s3_diy_eink/platformio.ini",
+          "sha256": "54fa4382a4188d00a0a91f8a33282680e982b0749c85773f283f01e88968d37c",
+          "byte_size": 786
+        },
+        {
+          "path": "variants/esp32s3/diy/my_esp32s3_diy_oled/platformio.ini",
+          "sha256": "1b5424348949dbbebaa78349ab0ace625248d74f07f65e3c139e63deb10e828e",
+          "byte_size": 431
+        },
+        {
+          "path": "variants/esp32s3/diy/t-energy-s3_e22/platformio.ini",
+          "sha256": "fd5fb6d1f4f82e9084825d4784db6ded7dc4fd06435e9e85bf4d51ce78861239",
+          "byte_size": 490
+        },
+        {
+          "path": "variants/nrf52840/diy/nrf52_promicro_diy_tcxo/platformio.ini",
+          "sha256": "ea85c51bc02ca7b3f22fe1b09a10c92953fc67ed7ac78021dd9ee7071e3cb2f4",
+          "byte_size": 2821
+        },
+        {
+          "path": "variants/nrf52840/diy/seeed-xiao-nrf52840-wio-sx1262/platformio.ini",
+          "sha256": "d2d906ae89b925ebbd687bc50aad9f754216f57be00cb49d41379a37942edbf8",
+          "byte_size": 856
+        },
+        {
+          "path": "variants/nrf52840/diy/seeed_xiao_nrf52840_e22/platformio.ini",
+          "sha256": "99209f1e7a0ec4a7c68ecd826599ab5858c40001a1b31245be2e53ac65137139",
+          "byte_size": 800
+        },
+        {
+          "path": "variants/nrf52840/diy/WashTastic/platformio.ini",
+          "sha256": "54a4adf692577cb2f262e8968f2bcdb84c1cef11da57fba2fbb0403f8c9933e9",
+          "byte_size": 365
+        },
+        {
+          "path": "variants/nrf52840/diy/xiao_ble/platformio.ini",
+          "sha256": "f3d643f76446e2a3d14b3b409f8f6b0c9caab3d37bfae4aa2c493538c0a885ba",
+          "byte_size": 2689
+        },
+        {
+          "path": "variants/rp2350/diy/pico2_w5500_e22/platformio.ini",
+          "sha256": "a026260f3c949d5b19763fe3c3e8e444f6ae4184d750d7543e6ba5bca31f02c9",
+          "byte_size": 1113
+        },
+        {
+          "path": "variants/rp2350/diy/wiznet_5500_evb_pico2_e22p/platformio.ini",
+          "sha256": "eeaea07f980e9a2aa849946b68f038dd921f53652c44721ae0cca724a519815b",
+          "byte_size": 1214
+        },
+        {
+          "path": "src/graphics/niche/InkHUD/PlatformioConfig.ini",
+          "sha256": "0e6d895fef143adffc4a2ff5e3eb43beb4a757fbed5c45c3c6fec755c45e6976",
+          "byte_size": 1287
+        }
+      ],
+      "limitations": [
+        "platformio.ini extra_configs pattern exceeded the 64-path match limit; none of its matches were merged.",
+        "Environment inheritance target esp32_base was not found.",
+        "Environment inheritance target esp32c3_base was not found.",
+        "Environment inheritance target esp32s3_base was not found.",
+        "Environment inheritance target nrf52840_base was not found.",
+        "Environment inheritance target nrf52840_base, inkhud was not found.",
+        "Environment inheritance target rp2350_base was not found.",
+        "Environment inheritance target seeed_xiao_nrf52840_kit was not found.",
+        "One or more default environments are not declared: heltec-v3."
+      ]
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE001:src/mesh/Default.h:79",
+      "fingerprint": "5675b06da9d9c75f1cda3796d00b37fcadc1efb5c62fc4e01febc0e508e0b2f9",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "src/mesh/Default.h",
+        "start_line": 79,
+        "end_line": 79
+      },
+      "evidence": "#define default_mqtt_password \"[REDACTED]\"",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:src/modules/AdminModule.cpp:92",
+      "fingerprint": "11bf731196bc615c86bec599dd1b2dccc5848780184a2433514104a379e4f668",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "src/modules/AdminModule.cpp",
+        "start_line": 92,
+        "end_line": 92
+      },
+      "evidence": "static const char *secretReserved = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE003:src/mqtt/MQTT.cpp:544",
+      "fingerprint": "c2685c76943c1d51f6bb735b565dcf39633c29ca7847f56c61823a195fdf7dd7",
+      "rule_id": "FUSE003",
+      "rule_version": "1.3.0",
+      "analyzer": "fuse-native",
+      "title": "TLS peer verification appears disabled",
+      "severity": "high",
+      "confidence": "high",
+      "category": "transport-security",
+      "location": {
+        "file": "src/mqtt/MQTT.cpp",
+        "start_line": 544,
+        "end_line": 544
+      },
+      "evidence": ".setInsecure()",
+      "explanation": "The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.",
+      "potential_impact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
+      "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/295.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE001:src/security/EncryptedStorage.cpp:35",
+      "fingerprint": "2e0d04d0dadbaff915bd4845932ec00bef1a29e670197349260251ac6355cfb1",
+      "rule_id": "FUSE001",
+      "rule_version": "1.5.0",
+      "analyzer": "fuse-native",
+      "title": "Credential-like literal assigned in source",
+      "severity": "medium",
+      "confidence": "high",
+      "category": "secrets",
+      "location": {
+        "file": "src/security/EncryptedStorage.cpp",
+        "start_line": 35,
+        "end_line": 35
+      },
+      "evidence": "static const char *TOKEN_FILENAME = \"[REDACTED]\";",
+      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
+      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
+      "references": [
+        "https://cwe.mitre.org/data/definitions/798.html"
+      ],
+      "applicability": "unknown",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}

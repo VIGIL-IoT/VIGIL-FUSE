@@ -1,0 +1,131 @@
+{
+  "cohort": "independent-holdout",
+  "scan_date": "2026-10-31",
+  "training_manifest": "../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Check qualitative transfer across an autopilot, an RTOS, BMC firmware recipes, and radio firmware that do not appear in the earlier FUSE scan manifests.",
+    "pinned_before_scan": true,
+    "rule_tuning_during_scan": false,
+    "builds_or_tests_run": false,
+    "interpretation": "A purposive source-only validation set. It is not representative, independently adjudicated, or an accuracy benchmark. Static signals do not establish shipped-product exposure or exploitability."
+  },
+  "repositories": [
+    {
+      "id": "ardupilot",
+      "name": "ArduPilot/ardupilot",
+      "url": "https://github.com/ArduPilot/ardupilot",
+      "commit": "278a68a57aa0d9b98e6dbaaf9346f6b485f4c9ac",
+      "profile": "generic",
+      "checkout_scope": [
+        "ArduCopter autopilot sources",
+        "MAVLink ground station communications",
+        "networking, arming, hardware abstraction, and parameter libraries"
+      ],
+      "scans": [
+        {
+          "id": "ardupilot",
+          "scope": "ArduCopter plus selected communications, networking, arming, HAL, and parameter libraries",
+          "target_label": "ArduPilot/ardupilot, selected autopilot and communications source",
+          "includes": [
+            "ArduCopter/**",
+            "libraries/GCS_MAVLink/**",
+            "libraries/AP_Networking/**",
+            "libraries/AP_Arming/**",
+            "libraries/AP_HAL/**",
+            "libraries/AP_Param/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rt-thread",
+      "name": "RT-Thread/rt-thread",
+      "url": "https://github.com/RT-Thread/rt-thread",
+      "commit": "cbc19778d0ae5ef2533a28c0f62c6a399858010a",
+      "profile": "generic",
+      "checkout_scope": [
+        "RTOS core and public headers",
+        "network components and device drivers",
+        "FinSH shell, utilities, and root Kconfig"
+      ],
+      "scans": [
+        {
+          "id": "rt-thread",
+          "scope": "RTOS core, headers, networking, drivers, shell, utilities, and root configuration",
+          "target_label": "RT-Thread/rt-thread, selected kernel and component source",
+          "includes": [
+            "src/**",
+            "include/**",
+            "components/net/**",
+            "components/drivers/**",
+            "components/finsh/**",
+            "components/utilities/**",
+            "Kconfig"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "openbmc",
+      "name": "openbmc/openbmc",
+      "url": "https://github.com/openbmc/openbmc",
+      "commit": "c9bb07fa438f008aa1c998fe2e742a386cd15776",
+      "profile": "embedded-linux",
+      "checkout_scope": [
+        "OpenBMC phosphor recipes and image configuration",
+        "IBM platform-specific host and network recipe extensions"
+      ],
+      "scans": [
+        {
+          "id": "openbmc",
+          "scope": "Phosphor service recipes and selected IBM host and network recipe extensions",
+          "target_label": "openbmc/openbmc, selected phosphor and IBM recipes",
+          "includes": [
+            "meta-phosphor/conf/**",
+            "meta-phosphor/recipes-phosphor/**",
+            "meta-ibm/recipes-phosphor/network/**",
+            "meta-ibm/recipes-phosphor/host/**"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meshtastic-firmware",
+      "name": "meshtastic/firmware",
+      "url": "https://github.com/meshtastic/firmware",
+      "commit": "332b5b0a2c4fec2896de3c5fa63f46d5cd05ea98",
+      "profile": "generic",
+      "checkout_scope": [
+        "radio firmware sources",
+        "board and variant configurations",
+        "PlatformIO and ESP configuration, partition tables, and build helper scripts"
+      ],
+      "scans": [
+        {
+          "id": "meshtastic-firmware",
+          "scope": "Firmware source, board variants, and selected build configuration",
+          "target_label": "meshtastic/firmware, selected radio firmware and board configuration",
+          "includes": [
+            "src/**",
+            "boards/**",
+            "variants/**",
+            "extra_scripts/**",
+            "platformio.ini",
+            "sdkconfig.defaults*",
+            "partition-table*.csv",
+            "default_*.csv",
+            "pyocd.yaml"
+          ]
+        }
+      ]
+    }
+  ],
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "bbfcc69aa34b5d24aeca25fc1a7817a6ef564a15",
+    "source_tree_sha256": "eafcc960fc145e9163b34b809804c106ca11f8d73f92a81b537bbb02b635a2c4",
+    "source_tree_dirty": false,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  }
+}

@@ -58,6 +58,8 @@ See [`triage.md`](triage.md) for path-level context, false-positive candidates, 
 
 The four-repository validation corpus is stored separately in [`holdout/`](holdout/). Its first snapshot was held out from rule tuning; the later regression pass used those observations to refine rules. Neither pass is mixed into this training-corpus summary or the website dashboard, and the current corpus is not a blind accuracy benchmark.
 
+The separate [2026-10-31 fresh transfer cohort](fresh-validation-20261031/README.md) covers four additional pinned scopes. Its initial snapshot and post-refinement regression reports remain outside this training summary and website dashboard. The before-and-after reduction from 5 to 3 raw signals is a qualitative regression comparison, not an accuracy score.
+
 ## Historical noise-reduction baseline
 
 The 2026-10-26 pilot covered the first eight repositories and nine scopes. Its 0.1.0 run reported 1,663 raw signals. FUSE 0.2.0 reduced that same initial corpus to 20 signals while adding 604 Tasmota Berry files. This is a useful rule-noise comparison, not a precision score. The expanded 14-repository corpus initially had 78 signals; fixture-backed refinements first reduced it to 62, and a later FUSE001 refinement brought the current snapshot to 61 without changing the pinned scope.

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 274" role="img" aria-labelledby="title desc">
+<title id="title">Firmware file candidates by repository</title>
+<desc id="desc">Bars show filename and size inventory candidates. File contents were not checked to verify firmware. Bar lengths use a logarithmic scale; exact values appear at the right.</desc>
+<style>text{font-family:Arial,sans-serif;fill:#161616}.axis{fill:#595959;font-size:12px}.label{font-size:14px}.value{font-size:14px;font-weight:700}.grid{stroke:#dedede;stroke-width:1}.track{fill:#eeeeee}.bar{fill:#d92b21}</style>
+<text x="0" y="24" font-size="18" font-weight="700">Firmware file candidates by repository</text>
+<text x="0" y="45" class="axis">Log scale for bar length, exact count shown</text>
+<line x1="340.0" y1="50" x2="340.0" y2="222" class="grid"/>
+<text x="340.0" y="262" text-anchor="middle" class="axis">0</text>
+<line x1="526.6" y1="50" x2="526.6" y2="222" class="grid"/>
+<text x="526.6" y="262" text-anchor="middle" class="axis">1</text>
+<line x1="864.0" y1="50" x2="864.0" y2="222" class="grid"/>
+<text x="864.0" y="262" text-anchor="middle" class="axis">6</text>
+<text x="0" y="79" class="label">RT-Thread/rt-thread</text>
+<rect x="340" y="62" width="620" height="22" class="track"/>
+<rect x="340" y="62" width="524.0" height="22" class="bar"/>
+<text x="974" y="79" class="value">6</text>
+<text x="0" y="121" class="label">ArduPilot/ardupilot</text>
+<rect x="340" y="104" width="620" height="22" class="track"/>
+<rect x="340" y="104" width="0.0" height="22" class="bar"/>
+<text x="974" y="121" class="value">0</text>
+<text x="0" y="163" class="label">meshtastic/firmware</text>
+<rect x="340" y="146" width="620" height="22" class="track"/>
+<rect x="340" y="146" width="0.0" height="22" class="bar"/>
+<text x="974" y="163" class="value">0</text>
+<text x="0" y="205" class="label">openbmc/openbmc</text>
+<rect x="340" y="188" width="620" height="22" class="track"/>
+<rect x="340" y="188" width="0.0" height="22" class="bar"/>
+<text x="974" y="205" class="value">0</text>
+</svg>

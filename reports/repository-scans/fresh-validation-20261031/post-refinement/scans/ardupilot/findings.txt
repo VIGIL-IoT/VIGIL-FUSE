@@ -1,0 +1,36 @@
+FUSE scan: ArduPilot/ardupilot, selected autopilot and communications source
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: a283102aa2dfa9fff8cee9ee8b2a9fe9fbce3a7d8bc858a97dd2b6955fd8c43c
+Files discovered/selected: 263/260
+Files filtered by path policy: 3
+Files scanned: 260
+Source bytes read: 2729385
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 46
+  .cff: 1
+  .el: 1
+  .in: 1
+  .jsonc: 1
+  .md: 4
+  .txt: 3
+  <no-extension>: 35
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 7 selected input(s). The conservative prefilter excluded 253 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 5 selected input(s). The conservative prefilter excluded 255 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 49 selected input(s). The conservative prefilter excluded 211 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+No findings from the enabled rules.

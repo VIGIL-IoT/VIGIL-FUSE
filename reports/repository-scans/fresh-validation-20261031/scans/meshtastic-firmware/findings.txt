@@ -1,0 +1,170 @@
+FUSE scan: meshtastic/firmware, selected radio firmware and board configuration
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: 5c5ac4ee1debd85f280ad8984654ae35c83a32435bd6119eb10a86ab859386f9
+Files discovered/selected: 1739/1731
+Files filtered by path policy: 8
+Files scanned: 1731
+Source bytes read: 11246892
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 4
+Hardware artifacts: 0
+PlatformIO: partial; 22 environment(s), 32 config file(s), selected: none
+  9m2ibr_aprs_lora_tracker [esp32doit-devkit-v1]
+    source filter: ${esp32_base.build_src_filter} ; +<../variants/esp32/diy/9m2ibr_aprs_lora_tracker>
+  esp32c3_super_mini [esp32-c3-devkitm-1]
+  hydra [esp32doit-devkit-v1]
+  meshtastic-diy-v1 [esp32doit-devkit-v1]
+  meshtastic-diy-v1_1 [esp32doit-devkit-v1]
+  meshtastic-dr-dev [esp32doit-devkit-v1]
+  my-esp32s3-diy-eink [my_esp32s3_diy_eink]
+  my-esp32s3-diy-oled [my-esp32s3-diy-oled]
+  nrf52_promicro_diy-easypromicro [promicro-nrf52840]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf52_promicro_diy-inkhud [promicro-nrf52840]
+    source filter: ${nrf52_base.build_src_filter} ; ${inkhud.build_src_filter} ; +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf52_promicro_diy-sx1280 [promicro-nrf52840]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf52_promicro_diy_tcxo [promicro-nrf52840]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  pico2_w5500_e22 [rpipico2]
+    source filter: ${rp2350_base.build_src_filter} +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  seeed_xiao_nrf52840_btb
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  seeed_xiao_nrf52840_e22_900m30s
+  seeed_xiao_nrf52840_e22_900m33s
+  t-energy-s3_e22 [esp32-s3-devkitc-1]
+  WashTastic [promicro-nrf52840]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  wiznet_5500_evb_pico2_e22p [wiznet_5500_evb_pico2]
+    source filter: ${rp2350_base.build_src_filter} +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  xiao_ble
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  xiao_ble_30db
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  xiao_ble_33db
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  PlatformIO config: platformio.ini [sha256:77db83f82dcc8824f7724e5028cfe33fe71a50c40e30a0ce6b70ffa0c2da4015]
+  PlatformIO config: variants/esp32/esp32-common.ini [sha256:e57ac284d5e780f69dff7fe2aed41a440023767b178c8bfbc56a9eb1d1ccd851]
+  PlatformIO config: variants/esp32/esp32.ini [sha256:f0485f816d4d5e7c5a1a1b9729eb02dfc229b8465a4564763436153803996a73]
+  PlatformIO config: variants/esp32c3/esp32c3.ini [sha256:8ff1efc56f2ca525d898ef5155dd940174f37878cc3d97c968e053fa59cbc596]
+  PlatformIO config: variants/esp32c6/esp32c6.ini [sha256:5298c9c687cc45a0870aa4211a62f72445a6051684ce7556a01bb29d1520ce22]
+  PlatformIO config: variants/esp32p4/esp32p4.ini [sha256:97a6c2cb29dbd822b0441d504aa2b77321724866dc6763ecfb2dece5f5a10146]
+  PlatformIO config: variants/esp32s2/esp32s2.ini [sha256:62213cccb8cb2655afca66da77c4b0713fe6b8f2959ca7270a6eafcc22d8e8fd]
+  PlatformIO config: variants/esp32s3/esp32s3.ini [sha256:b6bf0d4fe404292f138cd082fa7cbbba44c705f25621fa509e94e8a9da1a3d14]
+  PlatformIO config: variants/native/portduino.ini [sha256:0215d449e630a7dbc490e47c3488e15ebcb15b132d99e7998ca9b48521fe9dca]
+  PlatformIO config: variants/nrf52840/nrf52.ini [sha256:c7f23c5f13a664a9c78ed63225f7e15c00e0354055c48521591017ae1aca6625]
+  PlatformIO config: variants/nrf52840/nrf52840.ini [sha256:7c7d53dea735bc4c68f0a5a3360634c9e64a7b5c2123d5fb8eae983c9e8f0c2f]
+  PlatformIO config: variants/nrf54l15/nrf54.ini [sha256:bacbb3eff06bcb60ff0199ab90bddf0f375559ab8d80fb66bd2037b22830cc26]
+  PlatformIO config: variants/rp2040/rp2040.ini [sha256:555d28b2d3e842107adf83659c4ac558549bc007e6a941bb59965a8cace1d8ac]
+  PlatformIO config: variants/rp2350/rp2350.ini [sha256:00b8126bebb734b32d279e0650b74006a981905063bde708512a0edf8c3ac771]
+  PlatformIO config: variants/stm32/stm32.ini [sha256:c538b5293264dd524e34e14801bc01402e1ebf580a09a2168ad6eba96d1bdb26]
+  PlatformIO config: variants/esp32/diy/9m2ibr_aprs_lora_tracker/platformio.ini [sha256:6be7188e09759efac45fdc8eaf0bd1642cbb36befaad20eddabf6999ca0d9402]
+  PlatformIO config: variants/esp32/diy/dr-dev/platformio.ini [sha256:cf05e309679486ff0ac83f7e646cc1f7110d79496468ed185d44995566622162]
+  PlatformIO config: variants/esp32/diy/hydra/platformio.ini [sha256:76b276aaefe72d9da798441981d94aa2e0a6cb45a63c1b329c6b2ba7567a1850]
+  PlatformIO config: variants/esp32/diy/v1/platformio.ini [sha256:72cc94f63f948f6739e12a969c607db26298d3d2568d62d006f6f1a3924c7917]
+  PlatformIO config: variants/esp32/diy/v1_1/platformio.ini [sha256:9a69a5f3ef7b947c1828c407a6d531a4fe7081f7b13ee6488e815ae324eccd20]
+  PlatformIO config: variants/esp32c3/diy/esp32c3_super_mini/platformio.ini [sha256:29defd4de7ab6937e74dbd79c9fb992e3424f82b56de445c708afb458d75e61a]
+  PlatformIO config: variants/esp32s3/diy/my_esp32s3_diy_eink/platformio.ini [sha256:54fa4382a4188d00a0a91f8a33282680e982b0749c85773f283f01e88968d37c]
+  PlatformIO config: variants/esp32s3/diy/my_esp32s3_diy_oled/platformio.ini [sha256:1b5424348949dbbebaa78349ab0ace625248d74f07f65e3c139e63deb10e828e]
+  PlatformIO config: variants/esp32s3/diy/t-energy-s3_e22/platformio.ini [sha256:fd5fb6d1f4f82e9084825d4784db6ded7dc4fd06435e9e85bf4d51ce78861239]
+  PlatformIO config: variants/nrf52840/diy/nrf52_promicro_diy_tcxo/platformio.ini [sha256:ea85c51bc02ca7b3f22fe1b09a10c92953fc67ed7ac78021dd9ee7071e3cb2f4]
+  PlatformIO config: variants/nrf52840/diy/seeed-xiao-nrf52840-wio-sx1262/platformio.ini [sha256:d2d906ae89b925ebbd687bc50aad9f754216f57be00cb49d41379a37942edbf8]
+  PlatformIO config: variants/nrf52840/diy/seeed_xiao_nrf52840_e22/platformio.ini [sha256:99209f1e7a0ec4a7c68ecd826599ab5858c40001a1b31245be2e53ac65137139]
+  PlatformIO config: variants/nrf52840/diy/WashTastic/platformio.ini [sha256:54a4adf692577cb2f262e8968f2bcdb84c1cef11da57fba2fbb0403f8c9933e9]
+  PlatformIO config: variants/nrf52840/diy/xiao_ble/platformio.ini [sha256:f3d643f76446e2a3d14b3b409f8f6b0c9caab3d37bfae4aa2c493538c0a885ba]
+  PlatformIO config: variants/rp2350/diy/pico2_w5500_e22/platformio.ini [sha256:a026260f3c949d5b19763fe3c3e8e444f6ae4184d750d7543e6ba5bca31f02c9]
+  PlatformIO config: variants/rp2350/diy/wiznet_5500_evb_pico2_e22p/platformio.ini [sha256:eeaea07f980e9a2aa849946b68f038dd921f53652c44721ae0cca724a519815b]
+  PlatformIO config: src/graphics/niche/InkHUD/PlatformioConfig.ini [sha256:0e6d895fef143adffc4a2ff5e3eb43beb4a757fbed5c45c3c6fec755c45e6976]
+  PlatformIO limit: platformio.ini extra_configs pattern exceeded the 64-path match limit; none of its matches were merged.
+  PlatformIO limit: Environment inheritance target esp32_base was not found.
+  PlatformIO limit: Environment inheritance target esp32c3_base was not found.
+  PlatformIO limit: Environment inheritance target esp32s3_base was not found.
+  PlatformIO limit: Environment inheritance target nrf52840_base was not found.
+  PlatformIO limit: Environment inheritance target nrf52840_base, inkhud was not found.
+  PlatformIO limit: Environment inheritance target rp2350_base was not found.
+  PlatformIO limit: Environment inheritance target seeed_xiao_nrf52840_kit was not found.
+  PlatformIO limit: One or more default environments are not declared: heltec-v3.
+Files not selected by the source profile: 56
+  .csv: 5
+  .dockerfile: 1
+  .gif: 1
+  .jpg: 1
+  .jsonc: 1
+  .ld: 4
+  .lock: 1
+  .md: 22
+  .nix: 2
+  .pdf: 1
+  .png: 2
+  .rpkg: 1
+  .s: 1
+  .test: 1
+  .txt: 1
+  .webp: 1
+  .xbm: 2
+  <no-extension>: 8
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 37 selected input(s). The conservative prefilter excluded 1694 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 36 selected input(s). The conservative prefilter excluded 1695 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 1716 inputs without the rule's required markers.)
+  native-rule:FUSE005: completed (Evaluated 4 selected input(s). The conservative prefilter excluded 1727 inputs without the rule's required markers.)
+  native-rule:FUSE006: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 1730 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 1730 inputs without the rule's required markers.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/mesh/Default.h:79
+  Evidence: #define default_mqtt_password "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/modules/AdminModule.cpp:92
+  Evidence: static const char *secretReserved = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/mqtt/MQTT.cpp:544
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html
+
+[MEDIUM] FUSE001 - Credential-like literal assigned in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/security/EncryptedStorage.cpp:35
+  Evidence: static const char *TOKEN_FILENAME = "[REDACTED]";
+  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
