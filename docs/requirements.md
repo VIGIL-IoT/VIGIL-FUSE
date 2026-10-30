@@ -49,7 +49,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 - Selected, bounded KiCad netlist parsing, BOM import, platform/build metadata, GitHub Actions checks, and Zephyr hardening report intake.
 - Opt-in integrations for Syft, OSV-Scanner, Binwalk, and Gitleaks.
 - Local baseline review and suppression workflow.
-- Deterministic synthetic scan performance measurement with revision, input hash, environment, options, timing, and sampled process-tree RSS recorded separately from detection evidence.
+- Deterministic synthetic and pinned-project scan performance measurement with revision, input hash, environment, options, timing, coverage, and sampled process-tree RSS recorded separately from detection evidence.
 
 ### Partially implemented or experimental
 
@@ -79,7 +79,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 | FR-7 | Support optional dependency, firmware-signature, and Git-history tools | Implemented adapters; external tools were unavailable during this audit |
 | FR-8 | Provide rule-level regression fixtures and automated checks | Implemented for the seven native rules; benchmark is synthetic |
 | FR-9 | Build, install, and smoke-check package artifacts | Implemented in the package workflow; distribution remains subject to the license gate |
-| FR-10 | Provide a repeatable performance measurement path without claiming field speed | Implemented as a synthetic CLI benchmark with a versioned result schema and a CI smoke check; timing thresholds and representative project comparisons are not provided |
+| FR-10 | Provide a repeatable performance measurement path without claiming field speed | Implemented as synthetic and pinned-cohort CLI benchmarks with versioned schemas, cross-platform reports, and sampled process-tree RSS; thresholds, controlled platform comparisons, and field accuracy estimates are not provided |
 
 ## Nonfunctional requirements
 

@@ -67,12 +67,12 @@ The same pinned four-scope cohort was scanned on GitHub-hosted Linux, Windows, a
 
 | Selected scope | Linux | Windows | macOS | Coverage |
 | --- | ---: | ---: | ---: | --- |
-| Apache Mynewt Core | 5.427 s | 9.529 s | 6.051 s | 3,354 / 3,355, partial |
-| Mbed TLS | 1.203 s | 1.696 s | 1.281 s | 121 / 121, complete |
-| OpenThread | 1.966 s | 3.247 s | 2.250 s | 909 / 909, complete |
-| ESP-IoT-Solution | 4.052 s | 8.135 s | 4.871 s | 3,886 / 3,888, partial |
+| Apache Mynewt Core | 7.586 s | 5.490 s | 6.508 s | 3,354 / 3,355, partial |
+| Mbed TLS | 1.544 s | 0.948 s | 1.234 s | 121 / 121, complete |
+| OpenThread | 2.629 s | 1.930 s | 2.047 s | 909 / 909, complete |
+| ESP-IoT-Solution | 5.760 s | 4.791 s | 4.877 s | 3,886 / 3,888, partial |
 
-These are descriptive samples from one hosted runner per OS, not a controlled speed ranking. Mynewt Core and ESP-IoT-Solution had oversized selected files skipped on every platform. See the [method, limitations, and raw reports](docs/experiments/repository-scan-performance-matrix-2026-10-31.md).
+These timings include 20 ms memory sampling and are descriptive samples from one hosted runner per OS, not a controlled speed ranking. Mynewt Core and ESP-IoT-Solution had oversized selected files skipped on every platform. The linked report also records sampled process-tree RSS. See the [method, limitations, and raw reports](docs/experiments/repository-scan-performance-matrix-2026-10-31.md).
 
 ## Relationship to the VIGIL-IoT suite
 

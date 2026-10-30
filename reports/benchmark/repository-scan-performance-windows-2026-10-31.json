@@ -12,6 +12,8 @@
     "scan_date": "2026-10-28"
   },
   "configuration": {
+    "memory_sample_interval_ms": 20,
+    "memory_sampling_enabled": true,
     "native_rules_enabled": true,
     "network_enabled": false,
     "optional_analyzers_enabled": false,
@@ -26,8 +28,8 @@
     "os_release": "2025Server",
     "python_version": "3.12.10"
   },
-  "generated_at_utc": "2026-10-30T21:13:20+00:00",
-  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-30T21:25:28+00:00",
+  "schema_version": "1.1",
   "scope_limitations": [
     "Measurements describe only the pinned repository scopes in the input manifest.",
     "Wall time includes starting a fresh Python CLI process and writing temporary reports.",
@@ -35,13 +37,15 @@
     "Optional networked and external analyzers were disabled for every run.",
     "Files skipped or partial coverage remain visible and are not treated as complete scans.",
     "Finding counts are scan observations, not a measure of detection accuracy.",
-    "Memory, CPU utilization, build time, device runtime, and firmware behavior were not measured."
+    "Process-tree RSS is the sum of sampled resident sets; shared pages can be counted more than once.",
+    "RSS sampling can miss peaks shorter than the sampling interval and does not include filesystem cache or other system memory.",
+    "CPU utilization, build time, device runtime, and firmware behavior were not measured."
   ],
   "scopes": [
     {
       "discovery_complete": true,
       "files_discovered": 3357,
-      "files_per_second_at_median": 351.977,
+      "files_per_second_at_median": 610.93,
       "files_scanned": 3354,
       "files_selected": 3355,
       "files_skipped": 1,
@@ -59,8 +63,23 @@
         "Kconfig",
         "Makefile"
       ],
-      "mebibytes_per_second_at_median": 2.253562,
+      "mebibytes_per_second_at_median": 3.911523,
       "native_analysis_status": "partial",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 55345152,
+        "process_samples_per_run": [
+          202,
+          200,
+          200
+        ],
+        "samples": [
+          54542336,
+          55336960,
+          55345152
+        ],
+        "sampling_complete": true
+      },
       "profile": "generic",
       "repetition_count": 3,
       "repository": "apache/mynewt-core",
@@ -71,25 +90,25 @@
       "scope": "Mynewt kernel, system, hardware, targets, networking, and NimBLE source",
       "source_bytes_read": 22517374,
       "wall_time_seconds": {
-        "maximum": 9.623534,
-        "median": 9.529024,
-        "median_absolute_deviation": 0.069052,
-        "minimum": 9.459972,
+        "maximum": 5.50005,
+        "median": 5.489995,
+        "median_absolute_deviation": 0.010055,
+        "minimum": 5.433539,
         "samples": [
-          9.529024,
-          9.623534,
-          9.459972
+          5.50005,
+          5.433539,
+          5.489995
         ]
       },
       "warmup_count": 1,
       "warmup_seconds": [
-        9.684328
+        5.661925
       ]
     },
     {
       "discovery_complete": true,
       "files_discovered": 125,
-      "files_per_second_at_median": 71.325,
+      "files_per_second_at_median": 127.652,
       "files_scanned": 121,
       "files_selected": 121,
       "files_skipped": 0,
@@ -103,8 +122,23 @@
         "CMakeLists.txt",
         "Makefile"
       ],
-      "mebibytes_per_second_at_median": 1.674457,
+      "mebibytes_per_second_at_median": 2.99681,
       "native_analysis_status": "completed",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 47136768,
+        "process_samples_per_run": [
+          36,
+          35,
+          35
+        ],
+        "samples": [
+          47136768,
+          45850624,
+          45883392
+        ],
+        "sampling_complete": true
+      },
       "profile": "generic",
       "repetition_count": 3,
       "repository": "Mbed-TLS/mbedtls",
@@ -115,25 +149,25 @@
       "scope": "Mbed TLS library, public headers, configuration, programs, and examples",
       "source_bytes_read": 2978642,
       "wall_time_seconds": {
-        "maximum": 1.697473,
-        "median": 1.696463,
-        "median_absolute_deviation": 0.00101,
-        "minimum": 1.688636,
+        "maximum": 0.983534,
+        "median": 0.947893,
+        "median_absolute_deviation": 0.00209,
+        "minimum": 0.945803,
         "samples": [
-          1.696463,
-          1.688636,
-          1.697473
+          0.983534,
+          0.947893,
+          0.945803
         ]
       },
       "warmup_count": 1,
       "warmup_seconds": [
-        1.690034
+        0.960191
       ]
     },
     {
       "discovery_complete": true,
       "files_discovered": 911,
-      "files_per_second_at_median": 279.918,
+      "files_per_second_at_median": 471.041,
       "files_scanned": 909,
       "files_selected": 909,
       "files_skipped": 0,
@@ -146,8 +180,23 @@
         "CMakeLists.txt",
         "Makefile"
       ],
-      "mebibytes_per_second_at_median": 3.849908,
+      "mebibytes_per_second_at_median": 6.478554,
       "native_analysis_status": "completed",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 49250304,
+        "process_samples_per_run": [
+          74,
+          74,
+          70
+        ],
+        "samples": [
+          48967680,
+          49250304,
+          48406528
+        ],
+        "sampling_complete": true
+      },
       "profile": "generic",
       "repetition_count": 3,
       "repository": "openthread/openthread",
@@ -158,25 +207,25 @@
       "scope": "OpenThread source, examples, public headers, and root build configuration",
       "source_bytes_read": 13109413,
       "wall_time_seconds": {
-        "maximum": 3.284599,
-        "median": 3.247379,
-        "median_absolute_deviation": 0.019617,
-        "minimum": 3.227763,
+        "maximum": 1.98501,
+        "median": 1.929769,
+        "median_absolute_deviation": 0.043357,
+        "minimum": 1.886412,
         "samples": [
-          3.247379,
-          3.284599,
-          3.227763
+          1.98501,
+          1.929769,
+          1.886412
         ]
       },
       "warmup_count": 1,
       "warmup_seconds": [
-        3.246449
+        1.989172
       ]
     },
     {
       "discovery_complete": true,
       "files_discovered": 3897,
-      "files_per_second_at_median": 477.678,
+      "files_per_second_at_median": 811.109,
       "files_scanned": 3886,
       "files_selected": 3888,
       "files_skipped": 2,
@@ -191,8 +240,23 @@
         "idf_component.yml",
         "sdkconfig.defaults*"
       ],
-      "mebibytes_per_second_at_median": 4.507923,
+      "mebibytes_per_second_at_median": 7.654559,
       "native_analysis_status": "partial",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 61157376,
+        "process_samples_per_run": [
+          176,
+          173,
+          180
+        ],
+        "samples": [
+          61157376,
+          61046784,
+          60428288
+        ],
+        "sampling_complete": true
+      },
       "profile": "esp-idf",
       "repetition_count": 3,
       "repository": "espressif/esp-iot-solution",
@@ -203,24 +267,24 @@
       "scope": "ESP-IoT-Solution components, examples, sdkconfig defaults, and component manifests",
       "source_bytes_read": 38454181,
       "wall_time_seconds": {
-        "maximum": 8.154004,
-        "median": 8.135179,
-        "median_absolute_deviation": 0.018824,
-        "minimum": 8.031315,
+        "maximum": 4.988497,
+        "median": 4.79097,
+        "median_absolute_deviation": 0.021634,
+        "minimum": 4.769337,
         "samples": [
-          8.154004,
-          8.031315,
-          8.135179
+          4.769337,
+          4.79097,
+          4.988497
         ]
       },
       "warmup_count": 1,
       "warmup_seconds": [
-        8.124817
+        4.700212
       ]
     }
   ],
   "source_revision": {
-    "commit": "b033594881046eb35ddb6d1597a15ac97bd1e0ef",
+    "commit": "fa600e01578db3555b9822085fb393d70f63bcf2",
     "working_tree_dirty": false
   },
   "tool": {
