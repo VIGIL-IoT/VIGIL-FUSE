@@ -75,6 +75,8 @@ jobs:
         run: python scripts/check_repository_paths.py
       - name: Validate local documentation links and Mermaid blocks
         run: python scripts/validate_docs.py
+      - name: Render Mermaid documentation diagrams
+        run: python scripts/render_mermaid_docs.py --timeout-seconds 300
       - name: Check Python formatting
         run: python -m ruff format --check src tests scripts
       - name: Run FUSE security self-scan
