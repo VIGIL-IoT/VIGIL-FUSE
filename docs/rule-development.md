@@ -18,7 +18,7 @@ Native rules are small, evidence-oriented checks over selected source or configu
 
 - **Category:** secrets
 - **Evidence:** A credential-related identifier such as `password`, `secret`, `token`, or `api_key` is assigned a literal. Plain assignments are also checked in `.env` files. Evidence replaces matched values with `[REDACTED]`.
-- **False-positive considerations:** UI labels, comments, tests, localization, placeholders, prompts, computed values, selected BitBake metadata, and disabled XML accounts are filtered using narrow context checks. Ordinary literals in examples remain review signals when they look credential-like.
+- **False-positive considerations:** UI labels, comments, tests, localization, placeholders, prompts, computed values, filename and reserved-marker constants, selected BitBake metadata, and disabled XML accounts are filtered using narrow context checks. Ordinary literals in examples remain review signals when they look credential-like.
 - **Limitations:** FUSE cannot validate the credential, determine if it is used, or establish whether the file is built or deployed. It does not scan binary data for secrets.
 - **Remediation:** Remove committed secrets, rotate any exposed value, and provision credentials through a protected deployment or device-provisioning process.
 - **Reference:** [CWE-798](https://cwe.mitre.org/data/definitions/798.html)

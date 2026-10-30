@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- `FUSE001` ignores credential-named filename and reserved-marker constants, including camelCase names, while continuing to report credential-like default literals.
+
 ### Added
 
 - Deterministic synthetic scan-performance harness with a versioned JSON report schema and a clearly scoped local baseline. The benchmark is descriptive and has no timing gate.

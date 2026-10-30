@@ -57,7 +57,8 @@ _NON_SECRET_LABEL = re.compile(
     r"(?:\s+(?:is\s+)?(?:required|invalid|incorrect|missing|empty|not set|failed))?[.!:]?$"
 )
 _NON_SECRET_NAME_SUFFIX = re.compile(
-    r"(?i)(?:^|[_-])(?:file|path|characteristic|uuid|label|prompt|message|title|description|placeholder|text)$"
+    r"(?i)(?:^|[_-]|(?<=[a-z0-9]))"
+    r"(?:file|filename|path|characteristic|uuid|label|prompt|message|title|description|placeholder|text|reserved)$"
 )
 _EXPRESSION_CONTINUATION = re.compile(r"(?i)^\s*(?:\+|\.|\|\||&&|\?|\b(?:or|and|if)\b)")
 _NMEA_SENTENCE_TOKEN = re.compile(r"^\$?(?:GP|GN|GL|GA|GB|BD|II|HE|HC|EC|SD|IN|TI)[A-Z]{3}$")
@@ -194,7 +195,7 @@ RULE = RuleDefinition(
         "through a deployment-specific secret store or protected device provisioning flow."
     ),
     scanner=_scan,
-    version="1.5.0",
+    version="1.6.0",
     references=("https://cwe.mitre.org/data/definitions/798.html",),
     prefilter=_may_contain_secret_assignment,
 )

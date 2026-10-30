@@ -142,6 +142,21 @@ class RuleFixtureTests(unittest.TestCase):
         literal = SourceFile("src/config.cpp", 'const char *DEFAULT_PASSWORD = "device-default";\n')
         self.assertEqual(1, len(list(rule.scan(literal))))
 
+    def test_credentials_ignore_filename_and_reserved_marker_constants(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        source = SourceFile(
+            "src/security/EncryptedStorage.cpp",
+            'const char *TOKEN_FILENAME = "unlock.token";\n'
+            'const char *secretReserved = "reserved-marker-value";\n'
+            'const char *access_token = "device-specific-auth-value";\n',
+        )
+
+        findings = list(rule.scan(source))
+
+        self.assertEqual(1, len(findings))
+        self.assertEqual(3, findings[0].start_line)
+        self.assertEqual("FUSE001", findings[0].rule_id)
+
     def test_credentials_ignore_hash_tutorial_inputs_and_build_expressions(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         hash_demo = SourceFile(
