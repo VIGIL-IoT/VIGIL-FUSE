@@ -11,7 +11,10 @@ from .model import ScanResult
 @lru_cache(maxsize=1)
 def support_matrix() -> dict[str, Any]:
     resource = files("vigil_fuse").joinpath("support-matrix.json")
-    return json.loads(resource.read_text(encoding="utf-8"))
+    document: object = json.loads(resource.read_text(encoding="utf-8"))
+    if not isinstance(document, dict):
+        raise ValueError("Bundled support matrix must be a JSON object")
+    return document
 
 
 def _capability(capability_id: str) -> dict[str, Any]:
