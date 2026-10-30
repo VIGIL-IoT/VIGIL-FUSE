@@ -46,7 +46,7 @@ The pinned [baseline report](../reports/benchmark/scan-performance.json) was gen
 | Throughput at median | 107.317 files/s, 0.007188 MiB/s |
 | Maximum sampled process-tree RSS | 52,838,400 bytes |
 
-This is one synthetic baseline on one Windows environment. It is useful for checking that the measurement path works and for future same-input comparisons. It does not represent a typical embedded repository, establish a cross-platform performance profile, estimate detection accuracy, or define a speed target. The pinned-repository harness below enables separate real-project scope measurements, with their own limits.
+This is one synthetic baseline on one Windows environment. It is useful for checking that the measurement path works and for future same-input comparisons. It does not represent a typical embedded repository, establish a cross-platform performance profile, estimate detection accuracy, or define a speed target. The pinned-repository measurements below add separate real-project scope observations, with their own limits.
 
 ## Pinned repository scan measurements
 
@@ -64,6 +64,19 @@ python scripts/benchmark_repository_cohort.py `
 ```
 
 The report is a descriptive measurement of those exact scopes on the machine recorded in the JSON. It is not a cross-platform comparison, accuracy estimate, speed target, or hardware/firmware performance claim. Discovery gaps remain visible. Report values should be regenerated only when intentionally updating the environment or benchmark snapshot.
+
+### Recorded pinned-project cohort
+
+The [saved report](../reports/benchmark/repository-scan-performance.json) was measured on Windows 11 with Python 3.14.7 from clean FUSE revision `0f11e7c`. It uses the four pinned repositories in the manifest above, with one warm-up and three measured runs per scope. Network and optional external analyzers were disabled. Wall time includes starting a fresh Python CLI process and writing a temporary report.
+
+| Selected repository scope | Files scanned | Source bytes | Median | MAD | Candidate signals | Skipped files | Native analysis |
+| --- | ---: | ---: | ---: | ---: | ---: | --- | --- |
+| Apache Mynewt Core | 3,354 | 23,149,934 | 13.404 s | 0.055 s | 0 | 1 too large | Partial |
+| Mbed TLS | 121 | 3,062,060 | 2.498 s | 0.040 s | 0 | 0 | Completed |
+| OpenThread | 909 | 13,485,203 | 5.305 s | 0.072 s | 5 | 0 | Completed |
+| ESP-IoT-Solution | 3,885 | 37,088,151 | 10.558 s | 0.020 s | 21 | 3 too large | Partial |
+
+Discovery completed in all four scopes. Mynewt Core and ESP-IoT-Solution skipped oversized selected files, so their native analysis status is partial and FUSE returned status 2 for those runs. Do not interpret `discovery_complete` alone as proof that every selected input was analyzed. The 26 signals in OpenThread and ESP-IoT-Solution are candidate matches, not confirmed vulnerabilities; this benchmark does not adjudicate them. These measurements cover only the manifest's selected paths and one Windows machine. They do not establish full-repository or cross-platform speed, memory use, accuracy, hardware behavior, or firmware performance. The [experiment record](experiments/repository-scan-performance-2026-10-31.md) includes exact revisions, samples, and reproduction details.
 
 ## Comparison limits
 

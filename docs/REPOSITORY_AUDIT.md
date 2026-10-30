@@ -147,8 +147,8 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 - FUSE CI run #41106198114 for `1b9acdb` passed all eight configured jobs across Ubuntu, Windows, and macOS. The README and architecture diagrams were rendered and inspected manually, but Mermaid rendering is not yet a CI regression gate.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Gitleaks 8.30.0, Syft 1.55.0, and OSV-Scanner 2.7.0 passed local Windows smoke checks. Binwalk v2.3.3 passed a WSL2 Ubuntu smoke check only; Windows-native execution, Binwalk v3.1.0, broader signatures, and real firmware remain untested. These checks do not measure field precision, recall, exploitability, reachability, or the validity of real credentials.
-- The performance harness has one local Windows baseline on synthetic C files. CI runs only a small smoke workload without timing thresholds; real-project and cross-platform performance comparisons remain unmeasured. Sampled process-tree RSS can double-count shared pages and can miss brief peaks.
-- Strict Mypy covers all 44 source modules plus the benchmark script and passed locally and in run #260. Dependency audit #20 passed for the same revision. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
+- Performance evidence includes a synthetic C baseline and a repeatable pinned cohort over four selected embedded/IoT repository scopes on one Windows 11 / Python 3.14.7 machine. The cohort uses one warm-up and three measured runs per scope and records skips and native-analysis status; two scopes were partial because selected files exceeded the scanner's file-size limit. Cross-platform comparisons, memory measurement on the real-project cohort, and timing thresholds remain unmeasured. The synthetic process-tree RSS estimate can double-count shared pages and miss brief peaks.
+- Strict Mypy covers all 44 source modules and both benchmark scripts; the 46-file check passed in CI run #41122163492. Dependency audit #20 passed on its recorded revision. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
 - The Markdown validator checks local link targets, code fences, and Mermaid block types, not full renderer semantics. The six current Mermaid diagrams passed manual rendering and visual review. The finding-model SVGs passed structural validation and the interactive figure received browser review.
 - Custom license and distribution terms require owner and qualified legal review before registry or release distribution.
 
@@ -174,10 +174,10 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | --- | ---: | ---: | --- |
 | Architecture & Modularity | 15 | 14 | Mermaid data flow and hardware boundary plus four ADRs; hardware and product applicability remain limited |
 | Documentation | 15 | 14 | Requirements, methods, limitations, benchmarks, structure, and audit are explicit; no SDG impact claim is supported |
-| Code Quality | 15 | 14 | Full-tree Ruff checks and strict Mypy over 44 source modules plus the benchmark runner, green in CI run #260; external tools have only bounded smoke evidence |
-| Testing | 15 | 14 | 193 local tests, a cross-platform benchmark smoke test, the 70% remote branch-coverage gate, fixture and docs checks, and a green Ubuntu/Windows/macOS matrix; field accuracy remains unmeasured |
+| Code Quality | 15 | 14 | Full-tree Ruff checks and strict Mypy over 44 source modules plus both benchmark runners; CI run #41122163492 passed on `0f11e7c`. External tools have only bounded smoke evidence |
+| Testing | 15 | 14 | 202 local pytest tests plus 81 subtests; CI run #41122163492 passed all eight Ubuntu, Windows, macOS, quality, and package jobs. Field accuracy remains unmeasured |
 | Security | 10 | 9 | Parser and output hardening retained; Gitleaks, Syft, OSV-Scanner, and Binwalk have bounded real-tool smoke checks, while external tools are not sandboxed |
-| Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, evaluation protocol, and repeatable Gitleaks, dependency, and Binwalk harnesses; other platforms and broader accuracy remain unverified |
+| Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, evaluation protocol, repeatable Gitleaks, dependency, and Binwalk harnesses, and three-run timing samples for four pinned project scopes; other platforms and broader accuracy remain unverified |
 | Open Source Governance | 10 | 6 | Citation, contribution boundaries, issue forms, PR checklist, and release gates added; custom license and enforcement policy remain unresolved |
 | Research Rigor & Traceability | 10 | 9 | Evidence types, limitations, cohort method, and 23-signal source-context triage are documented; the triage is not independent adjudication and there is no representative accuracy estimate or product comparison |
 | **Total** | **100** | **89** | |
@@ -187,5 +187,9 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 1. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
 2. Extend the Binwalk smoke evidence to supported versions and native platforms while retaining positive and clean controls for Gitleaks, Syft, and OSV-Scanner.
 3. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.
-4. Collect more performance baselines on representative pinned repositories and consider thresholds only after repeated cross-platform measurements.
+4. Repeat the pinned repository performance cohort on Linux and macOS, add real-project memory measurements, and consider thresholds only after cross-platform baselines are stable.
 5. Defer device, hardware, and firmware-extraction claims until controlled hardware or isolated extraction environments are available.
+
+## Evidence update, 2026-10-31
+
+Commits `0acde65` and `0f11e7c` add a repeatable performance harness and measured results for four selected pinned repository scopes. CI run #41122163492 passed all eight jobs on `0f11e7c`. The [experiment record](experiments/repository-scan-performance-2026-10-31.md) and [versioned JSON report](../reports/benchmark/repository-scan-performance.json) preserve the inputs, three-run samples, coverage status, and skipped-file reasons. The 89/100 maturity assessment remains unchanged because this evidence covers one Windows machine and does not supply independent finding adjudication, Linux/macOS comparison, or a representative accuracy corpus.
