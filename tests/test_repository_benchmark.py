@@ -94,20 +94,41 @@ class RepositoryBenchmarkTests(unittest.TestCase):
 
     def test_preparer_rejects_existing_checkouts_with_platform_line_endings(self) -> None:
         commit = "a" * 40
+        invalid_configurations = (("true", "lf"), ("false", "native"))
+        for autocrlf, eol in invalid_configurations:
+            with self.subTest(autocrlf=autocrlf, eol=eol):
+                with tempfile.TemporaryDirectory() as temporary:
+                    checkout = Path(temporary) / "example"
+                    checkout.mkdir()
+                    with patch(
+                        "scripts.prepare_repository_benchmark_cohort._git",
+                        side_effect=(commit, "", autocrlf, eol),
+                    ):
+                        with self.assertRaisesRegex(CohortPreparationError, "line endings"):
+                            _existing_checkout_is_ready(
+                                checkout,
+                                repository={"id": "example", "commit": commit},
+                                environment=os.environ.copy(),
+                                timeout_seconds=10,
+                            )
+
+    def test_preparer_reuses_only_lf_normalized_checkouts(self) -> None:
+        commit = "a" * 40
         with tempfile.TemporaryDirectory() as temporary:
             checkout = Path(temporary) / "example"
             checkout.mkdir()
             with patch(
                 "scripts.prepare_repository_benchmark_cohort._git",
-                side_effect=(commit, "", "true"),
+                side_effect=(commit, "", "false", "lf"),
             ):
-                with self.assertRaisesRegex(CohortPreparationError, "line endings"):
+                self.assertTrue(
                     _existing_checkout_is_ready(
                         checkout,
                         repository={"id": "example", "commit": commit},
                         environment=os.environ.copy(),
                         timeout_seconds=10,
                     )
+                )
 
     def test_performance_report_schema_accepts_a_complete_sample(self) -> None:
         schema_path = (

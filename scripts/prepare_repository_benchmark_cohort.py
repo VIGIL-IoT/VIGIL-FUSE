@@ -174,7 +174,13 @@ def _existing_checkout_is_ready(
         timeout_seconds=timeout_seconds,
         repository_id=repository["id"],
     )
-    if autocrlf.lower() != "false":
+    eol = _git(
+        ["-C", str(checkout), "config", "--get", "--default", "native", "core.eol"],
+        environment=environment,
+        timeout_seconds=timeout_seconds,
+        repository_id=repository["id"],
+    )
+    if autocrlf.lower() != "false" or eol.lower() != "lf":
         raise CohortPreparationError(
             f"existing checkout for {repository['id']} may use platform-specific line endings; "
             "choose a fresh output directory"
@@ -237,6 +243,12 @@ def prepare_cohort(
         )
         _git(
             ["-C", str(checkout), "config", "core.autocrlf", "false"],
+            environment=environment,
+            timeout_seconds=timeout_seconds,
+            repository_id=repository["id"],
+        )
+        _git(
+            ["-C", str(checkout), "config", "core.eol", "lf"],
             environment=environment,
             timeout_seconds=timeout_seconds,
             repository_id=repository["id"],
