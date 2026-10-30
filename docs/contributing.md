@@ -20,24 +20,14 @@ On POSIX shells, activate with `source .venv/bin/activate`.
 python -m pytest -q
 python scripts/evaluate_rule_benchmark.py --check
 python -m ruff check src tests scripts
+python -m mypy
 python scripts/validate_docs.py
-python -m ruff format --check `
-  src/vigil_fuse/analyzers.py `
-  src/vigil_fuse/analyzer_runtime.py `
-  src/vigil_fuse/dependency_analyzers.py `
-  src/vigil_fuse/firmware_analyzer.py `
-  src/vigil_fuse/hardware_netlist.py `
-  src/vigil_fuse/history_analyzer.py `
-  src/vigil_fuse/rules/tls.py `
-  src/vigil_fuse/text_safety.py `
-  scripts/evaluate_rule_benchmark.py `
-  tests/test_extended_inventory.py `
-  tests/test_terminal.py
+python -m ruff format --check src tests scripts
 python -m coverage run -m pytest
 python -m coverage report -m --fail-under=70
 ```
 
-The coverage report is a development signal, not a target to inflate. The focused format check covers files added or materially hardened in this change. A repository-wide format check currently identifies pre-existing formatting differences across dozens of files, so expanding that gate requires a separately reviewed cleanup. CI also builds the wheel and source distribution, self-scans the repository, and runs the installed CLI smoke test in a clean virtual environment.
+The coverage report is a development signal, not a target to inflate. CI runs strict Mypy checks on the native rule package and checks Ruff formatting across the full source, test, and script trees. It also builds the wheel and source distribution, self-scans the repository, and runs the installed CLI smoke test in a clean virtual environment.
 
 ## Security rule changes
 

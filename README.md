@@ -83,6 +83,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 python -m pip install -e ".[dev]"
 python -m pytest -q
 python -m ruff check src tests scripts
+python -m mypy
 python scripts/validate_docs.py
 ```
 

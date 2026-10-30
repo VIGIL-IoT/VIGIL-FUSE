@@ -82,7 +82,7 @@ def iter_code_lines(text: str, path: str) -> Iterable[tuple[int, str]]:
     that need to inspect configured values.
     """
     suffix = PurePosixPath(path.replace("\\", "/")).suffix.casefold()
-    simple_markers = ("'", '"', "`", "//", "/*", "<!--", "#")
+    simple_markers: tuple[str, ...] = ("'", '"', "`", "//", "/*", "<!--", "#")
     if suffix in {".ini", ".cfg", ".conf"}:
         simple_markers = (*simple_markers, ";")
     in_block: str | None = None
