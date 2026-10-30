@@ -63,6 +63,7 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 ## 3. Firmware intake - identification implemented; extraction deferred
 
 - Explicit firmware mode hashes the image and can run Binwalk signature identification without extraction.
+- The pinned Binwalk v3.1.0 adapter workflow passed synthetic gzip, XZ, and CRC-valid U-Boot uImage positives plus clean and invalid-header controls on Ubuntu and Windows; see the [signature matrix experiment](experiments/binwalk-signature-matrix-2026-10-31.md). Real firmware and filesystem images are still untested.
 - Optional in-toto SLSA provenance intake compares the statement's subject digest to a selected firmware image. It does not authenticate the statement or claimed builder.
 - Add an isolated, bounded extractor only after a disposable worker/container boundary is available.
 - Any future extractor must run in a disposable, unprivileged worker with byte, file-count, recursion, time, and memory limits.
