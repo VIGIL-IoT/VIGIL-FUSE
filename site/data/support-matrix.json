@@ -70,6 +70,66 @@
       ]
     },
     {
+      "id": "build-context.platformio",
+      "input": "platformio.ini project configuration",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Merges a bounded extra_configs graph and inventories declared environments, boards, platforms, frameworks, source directories, source-filter declarations, and selected defaults without invoking PlatformIO.",
+      "limitations": [
+        "Does not evaluate variable substitutions, project scripts, or source filters into compiled files",
+        "Missing or unsafe includes produce partial coverage",
+        "Does not build or test any environment",
+        "Does not compare environment-specific compiled output"
+      ]
+    },
+    {
+      "id": "inventory.firmware-candidates",
+      "input": "Project tree and common build-output directories",
+      "profile": null,
+      "label": "detected",
+      "scope": "Records candidate paths, extensions, and sizes without opening binary contents.",
+      "limitations": [
+        "An extension does not prove a file is firmware",
+        "No digest or format validation is performed",
+        "The listed path set is bounded"
+      ]
+    },
+    {
+      "id": "ci.github-actions-static",
+      "input": "GitHub Actions workflow YAML",
+      "profile": null,
+      "label": "basic",
+      "scope": "Checks a workflow-level write-all permission scalar, counts recognized non-SHA action references, and reports only obvious floating branch refs as findings.",
+      "limitations": [
+        "Does not check job-level permission blocks",
+        "Version-tag refs are counted but are not findings",
+        "Not a general YAML, expression, permission-inheritance, or event-taint analyzer",
+        "Findings describe workflow supply-chain candidates, not device vulnerabilities"
+      ]
+    },
+    {
+      "id": "hardware.kicad-netlist-debug-candidates",
+      "input": "Selected or uniquely detected KiCad XML netlist",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Reports named debug/programming nets connected to connector-designator or connector-like components.",
+      "limitations": [
+        "Does not validate PCB routing, physical access, population state, or debug-port configuration",
+        "Does not export a netlist or invoke KiCad"
+      ]
+    },
+    {
+      "id": "inventory.compilation-database",
+      "input": "compile_commands.json",
+      "profile": null,
+      "label": "detected",
+      "scope": "Indexes translation units and compiler families as bounded metadata.",
+      "limitations": [
+        "Compiler commands and project code are never executed",
+        "No compiler or semantic C/C++ analyzer is run"
+      ]
+    },
+    {
       "id": "inventory.esp-idf-lock",
       "input": "ESP-IDF dependencies.lock",
       "profile": "esp-idf",
@@ -141,17 +201,53 @@
       "label": "detected",
       "scope": "Filename-based presence inventory with category counts and paths.",
       "limitations": [
-        "Does not parse files or assess hardware security"
+        "Presence-only filename detection does not assess hardware security",
+        "KiCad netlist parsing is a separate candidate analyzer",
+        "Detailed BOM parsing requires the explicit hardware.hbom-import capability"
       ]
     },
     {
-      "id": "runtime.device-validation",
-      "input": "Physical device or live firmware behavior",
+      "id": "hardware.hbom-import",
+      "input": "Explicit CSV or TSV hardware BOM",
       "profile": null,
-      "label": "unsupported",
-      "scope": "FUSE does not connect to devices, execute firmware, or validate runtime behavior.",
+      "label": "experimental",
+      "scope": "Imports allow-listed component columns and exports a CycloneDX 1.6 hardware inventory.",
       "limitations": [
-        "The current scanner reports static and artifact evidence only"
+        "Does not validate part specifications or assess circuit security",
+        "Import is limited to UTF-8 CSV and TSV"
+      ]
+    },
+    {
+      "id": "product.vex-context",
+      "input": "CycloneDX VEX 1.5 or 1.6",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Attaches reviewed status to exact product, package PURL, and advisory matches while retaining findings.",
+      "limitations": [
+        "VEX signatures are not authenticated",
+        "Imported review does not change finding severity or fail thresholds",
+        "Only exact PURL and advisory matches are applied"
+      ]
+    },
+    {
+      "id": "supply-chain.provenance-subject",
+      "input": "In-toto SLSA provenance statement and firmware image",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Compares a supplied subject SHA-256 with the selected firmware image and records claimed builder metadata.",
+      "limitations": [
+        "Signature and builder trust are not verified",
+        "Does not validate build policy or provenance completeness"
+      ]
+    },
+    {
+      "id": "runtime.lab-validation",
+      "input": "Physical device or controlled lab evidence",
+      "profile": null,
+      "label": "planned",
+      "scope": "Physical device testing is outside the current FUSE workflow.",
+      "limitations": [
+        "Not performed by the current FUSE scanner"
       ]
     }
   ]

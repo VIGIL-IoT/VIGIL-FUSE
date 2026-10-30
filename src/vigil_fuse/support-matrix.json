@@ -175,7 +175,7 @@
       "input": "Physical device or controlled lab evidence",
       "profile": null,
       "label": "planned",
-      "scope": "Future linked validation with tools such as SPECTRA-32.",
+      "scope": "Physical device testing is outside the current FUSE workflow.",
       "limitations": ["Not performed by the current FUSE scanner"]
     }
   ]
