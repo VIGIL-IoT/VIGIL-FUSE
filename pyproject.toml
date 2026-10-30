@@ -70,6 +70,7 @@ files = [
   "src/vigil_fuse/baseline.py",
   "src/vigil_fuse/support.py",
   "src/vigil_fuse/analyzer_runtime.py",
+  "src/vigil_fuse/config.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true
