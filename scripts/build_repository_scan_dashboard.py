@@ -267,7 +267,12 @@ def build_support_matrix() -> dict[str, Any]:
     return matrix
 
 
-def svg_chart(title: str, rows: list[tuple[str, int]], output: Path) -> None:
+def svg_chart(
+    title: str,
+    rows: list[tuple[str, int]],
+    output: Path,
+    description: str = "Horizontal bars show raw FUSE signal counts.",
+) -> None:
     width = 1120
     left = 340
     plot_width = 620
@@ -285,7 +290,7 @@ def svg_chart(title: str, rows: list[tuple[str, int]], output: Path) -> None:
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
         f'<title id="title">{escape(title)}</title>',
-        '<desc id="desc">Horizontal bars show raw FUSE signal counts. Bar lengths use a logarithmic scale; exact values appear at the right.</desc>',
+        f'<desc id="desc">{escape(description)} Bar lengths use a logarithmic scale; exact values appear at the right.</desc>',
         "<style>text{font-family:Arial,sans-serif;fill:#161616}.axis{fill:#595959;font-size:12px}.label{font-size:14px}.value{font-size:14px;font-weight:700}.grid{stroke:#dedede;stroke-width:1}.track{fill:#eeeeee}.bar{fill:#d92b21}</style>",
         f'<text x="0" y="24" font-size="18" font-weight="700">{escape(title)}</text>',
         '<text x="0" y="45" class="axis">Log scale for bar length, exact count shown</text>',

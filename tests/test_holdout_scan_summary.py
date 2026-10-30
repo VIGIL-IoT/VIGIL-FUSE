@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.build_holdout_scan_summary import build_summary
+from scripts.build_holdout_scan_summary import build_charts, build_summary
 
 
 class HoldoutScanSummaryTests(unittest.TestCase):
@@ -61,6 +61,11 @@ class HoldoutScanSummaryTests(unittest.TestCase):
                         "build_context": {
                             "platformio": {
                                 "status": "partial",
+                                "environments": [
+                                    {"name": "env-a"},
+                                    {"name": "env-b"},
+                                    {"name": "env-c"},
+                                ],
                                 "selected_environments": ["env-a", "env-b"],
                                 "configurations": [{"path": "platformio.ini"}],
                             },
@@ -99,12 +104,23 @@ class HoldoutScanSummaryTests(unittest.TestCase):
             )
 
             summary = build_summary(manifest_path, reports, root)
+            build_charts(summary, root)
+            platformio_chart = (
+                root / "plots" / "platformio-environments-by-repository.svg"
+            ).read_text(encoding="utf-8")
 
         self.assertEqual("independent-holdout", summary["cohort"])
         self.assertEqual(2, summary["totals"]["files_scanned"])
         self.assertEqual(2, summary["totals"]["finding_count"])
         self.assertEqual(1, summary["totals"]["rule_counts"]["FUSE-GHA-002"])
-        self.assertEqual(2, summary["totals"]["module_coverage"]["platformio"]["environment_count"])
+        self.assertEqual(3, summary["totals"]["module_coverage"]["platformio"]["environment_count"])
+        self.assertEqual(
+            2,
+            summary["totals"]["module_coverage"]["platformio"]["selected_environment_count"],
+        )
+        self.assertIn("PlatformIO environments detected", platformio_chart)
+        self.assertIn("No builds were run", platformio_chart)
+        self.assertNotIn("raw FUSE signal counts", platformio_chart)
         self.assertEqual(
             3, summary["totals"]["module_coverage"]["firmware_candidates"]["candidate_count"]
         )

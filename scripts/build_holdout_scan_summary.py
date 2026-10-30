@@ -71,8 +71,13 @@ def _module_coverage(report: dict[str, Any]) -> dict[str, Any]:
     firmware = report.get("firmware_candidates", {})
     actions = report.get("github_actions", {})
     netlist = report.get("hardware_netlist", {})
-    environments = (
+    selected_environments = (
         platformio.get("selected_environments", []) if isinstance(platformio, dict) else []
+    )
+    environments = (
+        platformio.get("environments", selected_environments)
+        if isinstance(platformio, dict)
+        else []
     )
     configurations = platformio.get("configurations", []) if isinstance(platformio, dict) else []
     extension_counts = firmware.get("extension_counts", {}) if isinstance(firmware, dict) else {}
@@ -95,6 +100,9 @@ def _module_coverage(report: dict[str, Any]) -> dict[str, Any]:
             if isinstance(platformio, dict)
             else "not-reported",
             "environment_count": len(environments) if isinstance(environments, list) else 0,
+            "selected_environment_count": len(selected_environments)
+            if isinstance(selected_environments, list)
+            else 0,
             "configuration_count": len(configurations) if isinstance(configurations, list) else 0,
         },
         "firmware_candidates": {
@@ -183,6 +191,7 @@ def _has_partial_analysis(report: dict[str, Any]) -> bool:
 
 def _sum_module_coverage(scopes: list[dict[str, Any]]) -> dict[str, Any]:
     platformio_environments = 0
+    platformio_selected_environments = 0
     platformio_configurations = 0
     platformio_partial_scopes = 0
     firmware_candidates = 0
@@ -207,6 +216,7 @@ def _sum_module_coverage(scopes: list[dict[str, Any]]) -> dict[str, Any]:
         actions = modules["github_actions"]
         netlist = modules["hardware_netlist"]
         platformio_environments += pio["environment_count"]
+        platformio_selected_environments += pio["selected_environment_count"]
         platformio_configurations += pio["configuration_count"]
         platformio_partial_scopes += int(pio["status"] == "partial")
         firmware_candidates += firmware["candidate_count"]
@@ -232,6 +242,7 @@ def _sum_module_coverage(scopes: list[dict[str, Any]]) -> dict[str, Any]:
         },
         "platformio": {
             "environment_count": platformio_environments,
+            "selected_environment_count": platformio_selected_environments,
             "configuration_count": platformio_configurations,
             "partial_scope_count": platformio_partial_scopes,
         },
@@ -468,33 +479,45 @@ def build_charts(summary: dict[str, Any], output_root: Path) -> None:
     rule_rows = [(rule, int(count)) for rule, count in summary["totals"]["rule_counts"].items()]
     plots = output_root / "plots"
     svg_chart(
-        "Raw FUSE signals by repository", repository_rows, plots / "findings-by-repository.svg"
+        "Raw FUSE signals by repository",
+        repository_rows,
+        plots / "findings-by-repository.svg",
+        "Bars show untriaged static signal counts for each selected repository scope.",
     )
-    svg_chart("Raw FUSE signals by rule", rule_rows, plots / "findings-by-rule.svg")
-    for module_key, metric_key, filename, title in (
+    svg_chart(
+        "Raw FUSE signals by rule",
+        rule_rows,
+        plots / "findings-by-rule.svg",
+        "Bars show untriaged static signal counts grouped by FUSE rule.",
+    )
+    for module_key, metric_key, filename, title, description in (
         (
             "firmware_candidates",
             "candidate_count",
             "firmware-candidates-by-repository.svg",
             "Firmware file candidates by repository",
+            "Bars show filename and size inventory candidates. File contents were not checked to verify firmware.",
         ),
         (
             "github_actions",
             "floating_branch_reference_count",
             "floating-action-branches-by-repository.svg",
             "Floating GitHub Action branches by repository",
+            "Bars show obvious floating branch references in workflow action declarations. This is not a vulnerability count.",
         ),
         (
             "platformio",
             "environment_count",
             "platformio-environments-by-repository.svg",
-            "PlatformIO environments recovered by repository",
+            "PlatformIO environments detected by repository",
+            "Bars show declared PlatformIO environments recovered from selected configuration files. No builds were run.",
         ),
         (
             "hardware_netlist",
             "debug_net_candidate_count",
             "netlist-debug-candidates-by-repository.svg",
             "KiCad debug-net candidates by repository",
+            "Bars show candidate debug-net connections in selected netlist metadata. Physical routing and access were not verified.",
         ),
     ):
         rows = sorted(
@@ -504,7 +527,7 @@ def build_charts(summary: dict[str, Any], output_root: Path) -> None:
             ),
             key=lambda item: (-item[1], item[0].casefold()),
         )
-        svg_chart(title, rows, plots / filename)
+        svg_chart(title, rows, plots / filename, description)
 
 
 def main() -> None:

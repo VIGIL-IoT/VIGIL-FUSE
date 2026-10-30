@@ -5,6 +5,7 @@
 ### Changed
 
 - `FUSE001` ignores credential-named filename and reserved-marker constants, including camelCase names, while continuing to report credential-like default literals.
+- Separate repository-scan summaries distinguish detected PlatformIO environments from selected environments, and generated plots now describe the metric they display.
 
 ### Added
 
