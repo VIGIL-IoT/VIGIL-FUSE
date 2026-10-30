@@ -41,6 +41,7 @@ dev = [
   "pytest-cov>=6,<8",
   "ruff>=0.11,<1",
   "twine>=6,<7",
+  "types-PyYAML>=6,<7",
 ]
 
 [project.urls]
@@ -77,6 +78,7 @@ files = [
   "src/vigil_fuse/product_context.py",
   "src/vigil_fuse/dependency_analyzers.py",
   "src/vigil_fuse/rule_execution.py",
+  "src/vigil_fuse/esp_idf_lock.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true

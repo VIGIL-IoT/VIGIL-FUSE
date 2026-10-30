@@ -4,6 +4,7 @@ import hashlib
 import importlib.util
 import re
 from pathlib import Path
+from typing import Literal
 
 from .model import AnalyzerStatus, ComponentLockInventory, ContextArtifact, ResolvedComponent
 
@@ -62,44 +63,55 @@ def _read_lock(path: Path) -> tuple[bytes | None, str | None]:
     return data, None
 
 
-def _validate_yaml_bounds(yaml, text: str) -> None:
+def _validate_yaml_bounds(text: str) -> None:
     """Reject YAML aliases and cap parser work before constructing the lock mapping."""
+    import yaml
+    from yaml.events import AliasEvent, MappingEndEvent, MappingStartEvent, SequenceEndEvent
+    from yaml.events import SequenceStartEvent
+
     event_count = 0
     depth = 0
     for event in yaml.parse(text, Loader=yaml.SafeLoader):
         event_count += 1
         if event_count > MAX_LOCK_YAML_EVENTS:
             raise ValueError("dependencies.lock exceeds the YAML event limit")
-        if isinstance(event, yaml.AliasEvent):
+        if isinstance(event, AliasEvent):
             raise ValueError("YAML aliases are not supported in dependencies.lock")
-        if isinstance(event, (yaml.MappingStartEvent, yaml.SequenceStartEvent)):
+        if isinstance(event, (MappingStartEvent, SequenceStartEvent)):
             depth += 1
             if depth > MAX_LOCK_YAML_DEPTH:
                 raise ValueError("dependencies.lock exceeds the YAML nesting limit")
-        elif isinstance(event, (yaml.MappingEndEvent, yaml.SequenceEndEvent)):
+        elif isinstance(event, (MappingEndEvent, SequenceEndEvent)):
             depth -= 1
 
 
-def _load_unique_yaml_mapping(yaml, text: str):
-    class UniqueKeySafeLoader(yaml.SafeLoader):
+def _load_unique_yaml_mapping(text: str) -> object:
+    import yaml
+    from yaml.constructor import ConstructorError
+    from yaml.loader import SafeLoader
+    from yaml.nodes import MappingNode
+
+    class UniqueKeySafeLoader(SafeLoader):
         pass
 
-    def construct_unique_mapping(loader, node, deep=False):
+    def construct_unique_mapping(
+        loader: SafeLoader, node: MappingNode, deep: bool = False
+    ) -> dict[object, object]:
         loader.flatten_mapping(node)
-        mapping = {}
+        mapping: dict[object, object] = {}
         for key_node, value_node in node.value:
-            key = loader.construct_object(key_node, deep=deep)
+            key: object = loader.construct_object(key_node, deep=deep)
             try:
                 duplicate = key in mapping
             except TypeError as error:
-                raise yaml.constructor.ConstructorError(
+                raise ConstructorError(
                     "while constructing dependencies.lock",
                     node.start_mark,
                     "mapping keys must be hashable",
                     key_node.start_mark,
                 ) from error
             if duplicate:
-                raise yaml.constructor.ConstructorError(
+                raise ConstructorError(
                     "while constructing dependencies.lock",
                     node.start_mark,
                     f"duplicate mapping key {key!r}",
@@ -184,8 +196,8 @@ def inspect_dependencies_lock(
         )
     try:
         lock_text = data.decode("utf-8-sig")
-        _validate_yaml_bounds(yaml, lock_text)
-        document = _load_unique_yaml_mapping(yaml, lock_text)
+        _validate_yaml_bounds(lock_text)
+        document = _load_unique_yaml_mapping(lock_text)
     except (UnicodeDecodeError, yaml.YAMLError, RecursionError, ValueError) as error:
         detail = f"dependencies.lock could not be parsed safely ({type(error).__name__})."
         inventory = ComponentLockInventory(
@@ -323,7 +335,7 @@ def inspect_dependencies_lock(
         structural_warnings.append("The lock file has no valid SHA-256 manifest_hash.")
 
     warnings.extend(structural_warnings)
-    status = (
+    status: Literal["partial", "target-mismatch", "target-matches", "target-unverified"] = (
         "partial"
         if structural_warnings
         else (
