@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-30
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Workspace revision:** `4065c79` plus local uncommitted changes
+**Workspace revision:** `dd1c043` plus a local cross-platform CI update
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -80,9 +80,9 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Test results
 
-The complete suite passes with **183 tests**. The focused security and input-handling subset passes with **122 tests**. Branch-aware coverage is **75%**, above the configured 70% minimum. Ruff lint passes. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels. Documentation validation passes over **56 Markdown files**. Package build and clean-install smoke checks pass locally. The FUSE self-scan covered 222 files, completed discovery, and reported zero findings. The path audit passes over 465 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
+The complete suite passes with **183 tests**. The focused security and input-handling subset passes with **122 tests**. Branch-aware coverage is **75%**, above the configured 70% minimum. Ruff lint passes. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels. Documentation validation passes over **56 Markdown files**. Package build and clean-install smoke checks pass locally. The FUSE self-scan covered 222 files, completed discovery, and reported zero findings. The path audit passes over 493 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
 
-The repository-wide Ruff formatting check still reports 42 existing files that would be reformatted; the focused format gate for new and materially changed safety/benchmark files passes. The latest completed GitHub Actions run at this audit point is #226 on `0f8d4ef`. The Python matrix and package-build jobs passed. The quality job stopped at documentation validation because the README linked to supporting docs that were still untracked in that commit; those documents are included in the following documentation increment. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
+The repository-wide Ruff formatting check still reports 42 existing files that would be reformatted; the focused format gate for new and materially changed safety/benchmark files passes. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs that were not yet in that commit. The next documentation increment added those files, and run #227 on `dd1c043` succeeded across all CI jobs. At the time of that result, CI covered Python 3.11 through 3.14 on Ubuntu only. This audit update adds Windows and macOS Python 3.11 test jobs; their remote result is pending. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
 
 ## Security findings
 
@@ -117,7 +117,7 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 ## Remaining limitations
 
 - No representative independent ground-truth corpus or field accuracy estimate.
-- No remote CI result for the current local changes and no Windows/macOS CI matrix.
+- No remote CI result for the newly added Windows/macOS matrix until its workflow completes.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Optional analyzers were not installed and tested end to end.
 - No configured static type checker and no complete dependency vulnerability audit.
