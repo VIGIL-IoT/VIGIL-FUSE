@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-30
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Workspace revision:** `121c74e` plus local documentation-validator hardening
+**Workspace revision:** `ee957cf` plus local dependency-audit improvements
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -45,29 +45,30 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Added a generated Anatomy-style finding model in dark and light SVG, plus a self-contained interactive view. It shows severity, confidence, applicability, and validation as separate fields. The locally vendored drawing kit is pinned in `scripts/vendor/anatomy/NOTICE.md`.
 - Replaced the single README CI badge with verified Shields.io CI, release, Python-version, and custom-license badges. No PyPI or coverage badge is shown because those would imply unsupported publication or reporting setup.
 - Added an Unreleased changelog section and roadmap horizons for immediate, short-term, medium-term, and long-term work.
+- Added weekly Dependabot checks for pip and GitHub Actions, plus a separate dependency-audit workflow using pip-audit. The first audit identified the vulnerable pytest 8.x range and led to raising the test floor to 9.0.3.
 - Preserved earlier engineering changes already in the workspace: analyzer module split, XML hardening, terminal control handling, subprocess input isolation, FUSE003 AST analysis, fixture benchmark, and stronger CI/package checks.
 
 ## Files added
 
-- `CITATION.cff`, `CONTRIBUTING.md`
+- `CITATION.cff`, `CONTRIBUTING.md`, `.github/dependabot.yml`, `.github/workflows/dependency-audit.yml`
 - `.github/ISSUE_TEMPLATE/bug_report.yml`, `.github/ISSUE_TEMPLATE/feature_request.yml`, `.github/PULL_REQUEST_TEMPLATE.md`
 - `docs/REPOSITORY_AUDIT.md`, `docs/requirements.md`, `docs/methodology.md`, `docs/limitations.md`, `docs/traceability.md`, `docs/benchmarks.md`, `docs/repository-structure.md`, `docs/sbom.md`
 - `docs/experiments/pilot-scan-2026-10.md`
 - `docs/decisions/ADR-0001-cli-first-package.md`, `ADR-0002-bounded-non-executing-analysis.md`, `ADR-0003-normalized-findings-and-coverage.md`, `ADR-0004-optional-tool-adapters.md`
-- `scripts/validate_docs.py`, `tests/test_docs_validation.py`
+- `scripts/validate_docs.py`, `tests/test_docs_validation.py`, `tests/test_dependency_policy.py`
 - `scripts/build_finding_model_figure.mjs`, `scripts/vendor/anatomy/iso-kit.mjs`, `scripts/vendor/anatomy/LICENSE`, `scripts/vendor/anatomy/NOTICE.md`
 - `docs/figures/fuse-finding-model.svg`, `docs/figures/fuse-finding-model-light.svg`, `site/diagrams/fuse-finding-model.html`
 - Earlier workspace additions include focused analyzer modules, the native-rule fixture evaluator, rule fixtures, and `reports/benchmark/native-rule-fixtures.json`.
 
 ## Files modified
 
-- `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `docs/architecture.md`, `docs/contributing.md`, and `docs/roadmap.md`
+- `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/contributing.md`, `docs/requirements.md`, `docs/sbom.md`, and `docs/roadmap.md`
 - Existing local engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
 - `LICENSE` was not modified.
 
 ## Testing performed
 
-- Full pytest suite, including docs validation tests, plus the focused security and input-handling subset.
+- Full pytest suite, including dependency policy and docs validation tests, plus the focused security and input-handling subset.
 - Branch-aware coverage report and threshold check.
 - Ruff lint and focused formatting check.
 - Synthetic native-rule fixture benchmark.
@@ -75,18 +76,20 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - YAML parsing for workflow and issue-form configuration; citation metadata YAML parsing.
 - Package wheel and source distribution build, Twine metadata check, clean virtual environment wheel install, CLI version/doctor/help checks, and installed-package scan smoke test.
 - FUSE local self-scan with network and optional external analyzers disabled.
+- pip-audit against an isolated virtual environment created from the declared development extras.
 - Git diff whitespace check and changed-file punctuation review.
 - Anatomy generator syntax, generated inline JavaScript parsing, SVG XML structure, and Shields.io badge response checks.
 
 ## Test results
 
-The complete suite passes locally with **187 tests** on Windows and Python 3.14. Workflow run `41005760221` on `121c74e` passed all eight jobs and all **186 tests**, with **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator now uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching the latest remote count. Package build and clean-install smoke checks passed on `dd1c043`. The FUSE self-scan in the latest remote quality job covered 203 files, completed discovery, and reported zero findings. The path audit passes over 494 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks. The documentation-validator change and its additional test have passed locally; remote verification is pending.
+The full suite passes locally with **190 tests** on Windows and Python 3.14 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. The FUSE self-scan in the latest remote quality job covered 203 files, completed discovery, and reported zero findings. The path audit passes over 494 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks. A fresh pip-audit 2.10.1 run on 2026-10-30 found no known vulnerabilities in the resolved development dependencies; it skipped the editable FUSE checkout itself. The current dependency-audit workflow and pytest 9 range have passed local tests, and their GitHub run is pending.
 
 The original full-tree Ruff check identified 42 files for reformatting. Four were formatted with the path fix, and the remaining 38 are formatted in `121c74e`. CI now checks formatting across all Python files under `src`, `tests`, and `scripts`. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. The fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Run #229 on `fd15878` passed all eight jobs across Ubuntu Python 3.11 to 3.14, Windows Python 3.11, macOS Python 3.11, quality, and package smoke. The next run on `121c74e` also passed all eight jobs, including full-tree formatting and YAML-enabled tests. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
 
 ## Security findings
 
 - No license changes or credentials were introduced by this pass. FUSE's own self-scan and focused security tests are part of local validation.
+- pip-audit found `PYSEC-2026-1845` / `CVE-2025-71176` in pytest 8.4.2. The [GitHub-reviewed advisory](https://github.com/advisories/GHSA-6w46-j5rx-g56g) marks versions below 9.0.3 affected, and [pytest 9.0.3 release notes](https://github.com/pytest-dev/pytest/releases/tag/9.0.3) list the fix. FUSE's test and development extras now require pytest `>=9.0.3,<10`.
 - KiCad XML parsing rejects DTD/entity declarations and enforces size, element, and depth limits. Terminal output escapes control and bidi characters. Optional analyzer subprocesses receive no inherited interactive stdin.
 - The rule and scan reports are candidate evidence. They do not prove exploitability, reachability, or deployed-product applicability.
 - External analyzers parse their own inputs and are not sandboxed. Syft, OSV-Scanner, Binwalk, and Gitleaks were not installed during this audit, so those end-to-end integrations remain unverified here.
@@ -94,9 +97,9 @@ The original full-tree Ruff check identified 42 files for reformatting. Four wer
 
 ## Dependency findings
 
-The core runtime dependency list is empty. `pyproject.toml` declares Python `>=3.11`, setuptools as the PEP 517 build backend, an optional PyYAML extra for ESP-IDF lock parsing, and bounded test/development dependency ranges. Syft, OSV-Scanner, Binwalk, and Gitleaks are external executables, not Python runtime dependencies.
+The core runtime dependency list is empty. `pyproject.toml` declares Python `>=3.11`, setuptools as the PEP 517 build backend, an optional PyYAML extra for ESP-IDF lock parsing, and bounded test/development dependency ranges. The isolated pip-audit run checked resolved development distributions and reported no known advisories after the pytest floor was raised. FUSE was installed editable and skipped as expected. Syft, OSV-Scanner, Binwalk, and Gitleaks are external executables, not Python runtime dependencies, and were not covered by pip-audit.
 
-No complete dependency vulnerability audit was run because OSV-Scanner was unavailable. The [PyPI JSON endpoint for `vigil-fuse`](https://pypi.org/pypi/vigil-fuse/json) returned HTTP 404 when checked on 2026-10-29. This is only a point-in-time name availability observation and neither reserves the name nor grants permission to publish. Recheck before any future release review.
+The Python development environment has a clean point-in-time pip-audit result. System libraries, external analyzer binaries, malicious-package behavior, and all optional dependency configurations are not covered by that scan. The [PyPI JSON endpoint for `vigil-fuse`](https://pypi.org/pypi/vigil-fuse/json) returned HTTP 404 when checked on 2026-10-29. This is only a point-in-time name availability observation and neither reserves the name nor grants permission to publish. Recheck before any future release review.
 
 ## Documentation improvements
 
@@ -120,7 +123,7 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 - The latest remote CI run is green across Ubuntu, Windows, and macOS. Browser rendering and interaction of the finding-model figure remain unverified.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Optional analyzers were not installed and tested end to end.
-- No configured static type checker and no complete dependency vulnerability audit.
+- No configured static type checker and no complete third-party dependency audit. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
 - No rendered Mermaid browser check; the validator checks local link targets, code fences, and Mermaid block types, not full renderer semantics. The new SVGs were structurally validated, but visual browser review remains outstanding.
 - Custom license and distribution terms require owner and qualified legal review before registry or release distribution.
 - Browser-based visual and interaction review of the new finding-model figure remains outstanding.
@@ -148,8 +151,8 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | Architecture & Modularity | 15 | 14 | Mermaid data flow and hardware boundary plus four ADRs; hardware and product applicability remain limited |
 | Documentation | 15 | 14 | Requirements, methods, limitations, benchmarks, structure, and audit are explicit; no SDG impact claim is supported |
 | Code Quality | 15 | 12 | Product code was preserved; docs validator is tested and full-tree Ruff formatting now passes locally. Type checking remains |
-| Testing | 15 | 13 | 186 local tests, 73% remote branch-aware coverage, fixture check, docs check, and a green Ubuntu/Windows/macOS matrix; field accuracy remains unmeasured |
-| Security | 10 | 9 | Parser and output hardening retained; external tools are not sandboxed and were unavailable for end-to-end checks |
+| Testing | 15 | 13 | 190 local tests, 75% remote branch-aware coverage, fixture check, docs check, and a green Ubuntu/Windows/macOS matrix; field accuracy remains unmeasured |
+| Security | 10 | 9 | Parser and output hardening retained, with a clean point-in-time Python dependency audit; external tools are not sandboxed and remain unverified end to end |
 | Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, and evaluation protocol; optional tools and remote CI not reproduced here |
 | Open Source Governance | 10 | 6 | Citation, contribution boundaries, issue forms, PR checklist, and release gates added; custom license and enforcement policy remain unresolved |
 | Research Rigor & Traceability | 10 | 9 | Evidence types, limitations, cohort method, and traceability now documented; no representative accuracy estimate or product comparison |

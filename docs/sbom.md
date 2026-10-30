@@ -22,6 +22,17 @@ syft dir:. -o cyclonedx-json=./fuse-sbom.cdx.json
 
 Review the output against the package metadata and the exact source revision. Syft inventory depends on what its scanner recognizes in the checkout and environment. It does not create a signed release attestation or verify package provenance.
 
+## Audit Python dependencies
+
+The development environment includes `pip-audit`. Create the development environment with an editable FUSE install, then run the audit:
+
+```powershell
+python -m pip install -e ".[dev]"
+python -m pip_audit --skip-editable --timeout 45
+```
+
+The repository also runs this check in a separate GitHub Actions workflow when Python dependency metadata changes and on a weekly schedule. It checks installed Python distributions against public vulnerability advisories at scan time. It does not inspect source code, system packages, external analyzer binaries, malicious package behavior, or whether a reported package is reachable in a deployed FUSE use case. A clean result is not a general security certification.
+
 ## Reproducibility and handling
 
 - Record the FUSE commit or source archive digest, Syft version, operating system, and command alongside an SBOM used for an evaluation or release review.
