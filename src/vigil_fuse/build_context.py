@@ -70,9 +70,7 @@ def _csv_values(value: str | None) -> tuple[str, ...]:
     if not value:
         return ()
     return tuple(
-        cleaned
-        for item in value.split(",")
-        if (cleaned := safe_report_text(item, limit=240))
+        cleaned for item in value.split(",") if (cleaned := safe_report_text(item, limit=240))
     )
 
 
@@ -100,7 +98,9 @@ def _load_platformio_config_graph(
         try:
             relative = lexical.relative_to(root_path)
         except ValueError:
-            limitations.append("A PlatformIO extra_configs entry resolved outside the scan target and was not read.")
+            limitations.append(
+                "A PlatformIO extra_configs entry resolved outside the scan target and was not read."
+            )
             return
         cursor = root_path
         for part in relative.parts:
@@ -112,15 +112,21 @@ def _load_platformio_config_graph(
             resolved = lexical.resolve(strict=True)
             display_path = resolved.relative_to(root_path).as_posix()
         except (OSError, ValueError):
-            limitations.append("A PlatformIO extra_configs entry was missing or outside the scan target.")
+            limitations.append(
+                "A PlatformIO extra_configs entry was missing or outside the scan target."
+            )
             return
         if resolved in active:
-            limitations.append("A cycle in PlatformIO extra_configs was detected; the repeated file was not read.")
+            limitations.append(
+                "A cycle in PlatformIO extra_configs was detected; the repeated file was not read."
+            )
             return
         if resolved in visited:
             return
         if len(artifacts) >= MAX_PLATFORMIO_CONFIG_FILES:
-            limitations.append(f"PlatformIO extra_configs exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-file limit.")
+            limitations.append(
+                f"PlatformIO extra_configs exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-file limit."
+            )
             return
         try:
             data = _read_bounded(resolved, MAX_PLATFORMIO_BYTES, "PlatformIO configuration")
@@ -215,7 +221,9 @@ def _load_platformio_config_graph(
                 )
             for included in regular_matches:
                 if len(artifacts) >= MAX_PLATFORMIO_CONFIG_FILES:
-                    limitations.append(f"PlatformIO extra_configs exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-file limit.")
+                    limitations.append(
+                        f"PlatformIO extra_configs exceeded the {MAX_PLATFORMIO_CONFIG_FILES}-file limit."
+                    )
                     break
                 load(included, depth + 1)
         active.remove(resolved)
@@ -257,7 +265,8 @@ def inspect_platformio(
             sha256=root_artifact.sha256 if root_artifact else None,
             byte_size=root_artifact.byte_size if root_artifact else 0,
             configurations=config_artifacts,
-            limitations=tuple(dict.fromkeys(limitations)) or ("PlatformIO configuration could not be parsed.",),
+            limitations=tuple(dict.fromkeys(limitations))
+            or ("PlatformIO configuration could not be parsed.",),
         )
 
     base_values = merged_sections.get("env", {})
@@ -323,9 +332,7 @@ def inspect_platformio(
     if selected_environments:
         unknown = set(selected_environments) - available_names
         if unknown:
-            raise ValueError(
-                "Unknown PlatformIO environment(s): " + ", ".join(sorted(unknown))
-            )
+            raise ValueError("Unknown PlatformIO environment(s): " + ", ".join(sorted(unknown)))
         selected = tuple(name for name in selected_environments if name in available_names)
     elif default_environments:
         selected = tuple(name for name in default_environments if name in available_names)
@@ -377,7 +384,11 @@ def _compiler_family(command: list[str]) -> str:
 
 def _entry_command(entry: dict[str, Any]) -> list[str]:
     arguments = entry.get("arguments")
-    if isinstance(arguments, list) and arguments and all(isinstance(item, str) for item in arguments):
+    if (
+        isinstance(arguments, list)
+        and arguments
+        and all(isinstance(item, str) for item in arguments)
+    ):
         return arguments
     command = entry.get("command")
     if isinstance(command, str) and command:
@@ -454,7 +465,11 @@ def inspect_compilation_database(
             continue
         source_name = entry.get("file")
         directory_value = entry.get("directory")
-        if not isinstance(source_name, str) or not source_name or not isinstance(directory_value, str):
+        if (
+            not isinstance(source_name, str)
+            or not source_name
+            or not isinstance(directory_value, str)
+        ):
             malformed += 1
             continue
         command = _entry_command(entry)

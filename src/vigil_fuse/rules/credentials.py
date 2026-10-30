@@ -14,16 +14,19 @@ from .base import (
 
 _SECRET_NAME = r"(?:password|passwd|pwd|secret|token|api[_-]?key|access[_-]?token|auth[_-]?token)"
 _ASSIGNMENT = re.compile(
-    r"(?i)\b(?P<name>[\w.-]*" + _SECRET_NAME +
-    r"[\w.-]*)\b\s*(?:=|:)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    r"(?i)\b(?P<name>[\w.-]*"
+    + _SECRET_NAME
+    + r"[\w.-]*)\b\s*(?:=|:)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _C_DEFINE = re.compile(
-    r"(?i)^\s*#\s*define\s+(?P<name>[\w]*" + _SECRET_NAME +
-    r"[\w]*)\s+(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    r"(?i)^\s*#\s*define\s+(?P<name>[\w]*"
+    + _SECRET_NAME
+    + r"[\w]*)\s+(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _ENV_ASSIGNMENT = re.compile(
-    r"(?i)^\s*(?:export\s+)?(?P<name>[\w.-]*" + _SECRET_NAME +
-    r"[\w.-]*)\s*=\s*(?P<value>(?![\"'])[^\s#]{4,})\s*(?:#.*)?$"
+    r"(?i)^\s*(?:export\s+)?(?P<name>[\w.-]*"
+    + _SECRET_NAME
+    + r"[\w.-]*)\s*=\s*(?P<value>(?![\"'])[^\s#]{4,})\s*(?:#.*)?$"
 )
 _PLACEHOLDER = re.compile(
     r"(?i)^(?:your(?:[_ -])|change[_-]?me|replace[_-]?me|example|placeholder|dummy|"
@@ -60,8 +63,20 @@ _EXPRESSION_CONTINUATION = re.compile(r"(?i)^\s*(?:\+|\.|\|\||&&|\?|\b(?:or|and|
 _NMEA_SENTENCE_TOKEN = re.compile(r"^\$?(?:GP|GN|GL|GA|GB|BD|II|HE|HC|EC|SD|IN|TI)[A-Z]{3}$")
 _NMEA_PARSER_CONTEXT = re.compile(r"(?i)\b(?:NMEA|GPGGA|GPGSA)\b")
 _SECRET_PREFILTER_TOKENS = (
-    "password", "passwd", "pwd", "secret", "token", "api_key", "api-key", "apikey",
-    "access_token", "access-token", "accesstoken", "auth_token", "auth-token", "authtoken",
+    "password",
+    "passwd",
+    "pwd",
+    "secret",
+    "token",
+    "api_key",
+    "api-key",
+    "apikey",
+    "access_token",
+    "access-token",
+    "accesstoken",
+    "auth_token",
+    "auth-token",
+    "authtoken",
 )
 
 
@@ -88,7 +103,9 @@ def _is_hash_tutorial_value(match: re.Match[str], source: SourceFile) -> bool:
     value = match.group("value").strip()
     if value.casefold() in {"hello world", "hello, world", "hello-world"}:
         return True
-    if not match.group("name").casefold().endswith("ashex") or not re.fullmatch(r"[0-9a-fA-F]+", value):
+    if not match.group("name").casefold().endswith("ashex") or not re.fullmatch(
+        r"[0-9a-fA-F]+", value
+    ):
         return False
     try:
         decoded = bytes.fromhex(value).decode("ascii").casefold()
@@ -112,7 +129,7 @@ def _is_secret_literal(match: re.Match[str], line: str, source: SourceFile) -> b
         return False
     if _COMPUTED_VALUE.search(match.group("value")) or _is_hash_tutorial_value(match, source):
         return False
-    return not _EXPRESSION_CONTINUATION.match(line[match.end():])
+    return not _EXPRESSION_CONTINUATION.match(line[match.end() :])
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
@@ -141,9 +158,7 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
             matches.extend(_ENV_ASSIGNMENT.finditer(line))
         code_line = code_without_string_literals(line)
         matches = [
-            item
-            for item in matches
-            if code_line[item.start("name"):item.end("name")].strip()
+            item for item in matches if code_line[item.start("name") : item.end("name")].strip()
         ]
         match = next(
             (item for item in matches if _is_secret_literal(item, line, source)),
@@ -154,9 +169,7 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
         redacted = line
         for item in sorted(matches, key=lambda value: value.start("value"), reverse=True):
             redacted = (
-                redacted[: item.start("value")]
-                + "[REDACTED]"
-                + redacted[item.end("value") :]
+                redacted[: item.start("value")] + "[REDACTED]" + redacted[item.end("value") :]
             )
         yield rule.finding(source, line_number, redacted)
 

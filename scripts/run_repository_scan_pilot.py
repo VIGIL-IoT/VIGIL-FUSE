@@ -126,13 +126,12 @@ def report_has_incomplete_coverage(report: dict) -> bool:
         if status in {"partial", "unavailable", "failed"}:
             return True
         if status == "skipped":
-            intentional_rule_skip = (
-                str(analyzer.get("name", "")).startswith("native-rule:")
-                and analyzer.get("detail") in {
-                    "No selected input was passed to this rule.",
-                    "No selected input matched this rule's supported input scope.",
-                }
-            )
+            intentional_rule_skip = str(analyzer.get("name", "")).startswith(
+                "native-rule:"
+            ) and analyzer.get("detail") in {
+                "No selected input was passed to this rule.",
+                "No selected input matched this rule's supported input scope.",
+            }
             if not intentional_rule_skip:
                 return True
     module_statuses = (
@@ -197,7 +196,12 @@ def run(
 
         for scan in repository["scans"]:
             scan_id = scan.get("id")
-            if not isinstance(scan_id, str) or not scan_id or Path(scan_id).is_absolute() or ".." in Path(scan_id).parts:
+            if (
+                not isinstance(scan_id, str)
+                or not scan_id
+                or Path(scan_id).is_absolute()
+                or ".." in Path(scan_id).parts
+            ):
                 raise ValueError(f"Invalid repository scan ID: {scan_id!r}")
             output = (report_root / scan_id).resolve()
             if not output.is_relative_to(report_root):
@@ -216,8 +220,12 @@ def run(
                     f"FUSE did not write a fresh JSON report for {repository['name']} scope {scan['id']}"
                 )
             report = json.loads(report_path.read_text(encoding="utf-8"))
-            if not isinstance(report.get("coverage"), dict) or not isinstance(report.get("summary"), dict):
-                raise RuntimeError(f"FUSE report is missing coverage for {repository['name']} scope {scan['id']}")
+            if not isinstance(report.get("coverage"), dict) or not isinstance(
+                report.get("summary"), dict
+            ):
+                raise RuntimeError(
+                    f"FUSE report is missing coverage for {repository['name']} scope {scan['id']}"
+                )
             incomplete = report_has_incomplete_coverage(report)
             if (completed.returncode == 2) != incomplete:
                 raise RuntimeError(
@@ -278,7 +286,8 @@ def main() -> None:
     selected = set(args.repository_ids) if args.repository_ids else None
     if selected:
         manifest_ids = {
-            item["id"] for item in json.loads(args.manifest.read_text(encoding="utf-8"))["repositories"]
+            item["id"]
+            for item in json.loads(args.manifest.read_text(encoding="utf-8"))["repositories"]
         }
         unknown = selected - manifest_ids
         if unknown:

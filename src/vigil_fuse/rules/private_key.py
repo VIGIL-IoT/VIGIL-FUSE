@@ -6,9 +6,7 @@ from collections.abc import Iterable
 from ..model import Finding, SourceFile
 from .base import RuleDefinition, is_test_path, iter_code_lines
 
-_PEM_MARKER = re.compile(
-    r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----"
-)
+_PEM_MARKER = re.compile(r"-----BEGIN (?:RSA |EC |DSA |OPENSSH |ENCRYPTED )?PRIVATE KEY-----")
 
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:

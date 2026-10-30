@@ -19,7 +19,9 @@ class RuleFixtureTests(unittest.TestCase):
         for rule in RULES:
             with self.subTest(rule=rule.id):
                 source = self.fixture_source(rule.id, "vulnerable")
-                self.assertTrue(rule.may_scan(source), f"{rule.id} prefilter rejected its vulnerable fixture")
+                self.assertTrue(
+                    rule.may_scan(source), f"{rule.id} prefilter rejected its vulnerable fixture"
+                )
                 findings = list(rule.scan(source))
                 self.assertTrue(findings, f"{rule.id} did not match its vulnerable fixture")
                 self.assertEqual({rule.id}, {finding.rule_id for finding in findings})
@@ -47,10 +49,7 @@ class RuleFixtureTests(unittest.TestCase):
     def test_all_secret_values_on_a_matching_line_are_redacted(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         keys = ("pass" + "word", "api" + "_" + "token")
-        text = (
-            f'{keys[0]} = "first-secret-value"; '
-            f'{keys[1]} = "second-secret-value"\n'
-        )
+        text = f'{keys[0]} = "first-secret-value"; {keys[1]} = "second-secret-value"\n'
         finding = next(iter(rule.scan(SourceFile(path="secrets.py", text=text))))
         self.assertNotIn("first-secret-value", finding.evidence)
         self.assertNotIn("second-secret-value", finding.evidence)
@@ -72,14 +71,24 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual(1, len(findings))
         self.assertEqual(2, findings[0].start_line)
         self.assertEqual(f"{key}=y", findings[0].evidence)
-        self.assertIn("does not establish that the file is the active build configuration", findings[0].explanation)
+        self.assertIn(
+            "does not establish that the file is the active build configuration",
+            findings[0].explanation,
+        )
 
-    def test_credentials_ignore_labels_locales_comments_and_test_source_but_scan_env_test(self) -> None:
+    def test_credentials_ignore_labels_locales_comments_and_test_source_but_scan_env_test(
+        self,
+    ) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         cases = (
             SourceFile("src/language/en.h", 'PASSWORD_LABEL = "Enter password"\n'),
-            SourceFile("src/core/language.h", '#define STR_PASSWORD_TOO_LONG "Password is too long"\n'),
-            SourceFile("src/lcd/mks_ui/tft_Language_s_cn.h", '#define WIFI_SETTINGS_PASSWORD_CN "Password"\n'),
+            SourceFile(
+                "src/core/language.h", '#define STR_PASSWORD_TOO_LONG "Password is too long"\n'
+            ),
+            SourceFile(
+                "src/lcd/mks_ui/tft_Language_s_cn.h",
+                '#define WIFI_SETTINGS_PASSWORD_CN "Password"\n',
+            ),
             SourceFile("src/app.c", 'PASSWORD = "password is required"\n'),
             SourceFile("src/app.c", '// PASSWORD = "actual-secret-value"\n'),
             SourceFile("tests/test_config.py", 'password = "actual-secret-value"\n'),
@@ -108,7 +117,9 @@ class RuleFixtureTests(unittest.TestCase):
         )
         for value in placeholders:
             with self.subTest(value=value):
-                source = SourceFile("examples/wifi_config.cpp", f'const char *password = "{value}";\n')
+                source = SourceFile(
+                    "examples/wifi_config.cpp", f'const char *password = "{value}";\n'
+                )
                 self.assertEqual([], list(rule.scan(source)))
 
     def test_credentials_ignore_password_prompt_literals_inside_code_strings(self) -> None:
@@ -156,10 +167,10 @@ class RuleFixtureTests(unittest.TestCase):
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         parser_tokens = SourceFile(
             "src/gps_parser.c",
-            'static ParserConfig parsers[] = {\n'
+            "static ParserConfig parsers[] = {\n"
             '  {.token = "GPGSA", .parser = gpgsaParser},\n'
             '  {.token = "GPGGA", .parser = gpggaParser}\n'
-            '};\n',
+            "};\n",
         )
         self.assertEqual([], list(rule.scan(parser_tokens)))
 
@@ -173,13 +184,13 @@ class RuleFixtureTests(unittest.TestCase):
             "package/gerbera/config.xml",
             '<accounts enabled="no">\n'
             '  <account user="gerbera" password="gerbera" />\n'
-            '</accounts>\n',
+            "</accounts>\n",
         )
         enabled_xml = SourceFile(
             "package/device/config.xml",
             '<accounts enabled="yes">\n'
             '  <account user="gerbera" password="device-default" />\n'
-            '</accounts>\n',
+            "</accounts>\n",
         )
         self.assertEqual([], list(rule.scan(metadata)))
         self.assertEqual([], list(rule.scan(disabled_xml)))
@@ -202,7 +213,9 @@ class RuleFixtureTests(unittest.TestCase):
             SourceFile("src/tls.c", 'const char *note = "client.setInsecure()";\n'),
             SourceFile("tests/test_tls.py", "session.verify = False\n"),
             SourceFile("src/menu_bed_tramming.cpp", "bool probe(const bool verify=false);\n"),
-            SourceFile("src/device.cpp", "// https://docs.example/tls\nbool probe(bool verify=false);\n"),
+            SourceFile(
+                "src/device.cpp", "// https://docs.example/tls\nbool probe(bool verify=false);\n"
+            ),
         )
         for source in sources:
             with self.subTest(path=source.path, text=source.text):
@@ -220,11 +233,7 @@ class RuleFixtureTests(unittest.TestCase):
         rule = next(rule for rule in RULES if rule.id == "FUSE003")
         source = SourceFile(
             "src/client.py",
-            "import requests\n"
-            "response = requests.get(\n"
-            "    endpoint,\n"
-            "    verify=False,\n"
-            ")\n",
+            "import requests\nresponse = requests.get(\n    endpoint,\n    verify=False,\n)\n",
         )
 
         findings = list(rule.scan(source))
@@ -246,10 +255,7 @@ class RuleFixtureTests(unittest.TestCase):
         rule = next(rule for rule in RULES if rule.id == "FUSE003")
         source = SourceFile(
             "src/client.py",
-            "def configure(verify=False):\n"
-            "    return verify\n"
-            "\n"
-            "custom_builder(verify=False)\n",
+            "def configure(verify=False):\n    return verify\n\ncustom_builder(verify=False)\n",
         )
 
         self.assertEqual([], list(rule.scan(source)))
@@ -264,7 +270,9 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual([], list(rule.scan(definition)))
         self.assertEqual(1, len(list(rule.scan(call))))
 
-    def test_http_rule_requires_endpoint_context_and_ignores_comment_test_and_templates(self) -> None:
+    def test_http_rule_requires_endpoint_context_and_ignores_comment_test_and_templates(
+        self,
+    ) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE004")
         sources = (
             SourceFile("src/http.c", 'const char *homepage = "http://docs.vendor.example";\n'),
@@ -278,7 +286,9 @@ class RuleFixtureTests(unittest.TestCase):
             with self.subTest(path=source.path, text=source.text):
                 self.assertEqual([], list(rule.scan(source)))
 
-        direct_call = SourceFile("src/client.py", 'requests.get("http://api.device.local/status")\n')
+        direct_call = SourceFile(
+            "src/client.py", 'requests.get("http://api.device.local/status")\n'
+        )
         self.assertEqual(1, len(list(rule.scan(direct_call))))
 
     def test_http_rule_ignores_reserved_test_domains_and_example_private_addresses(self) -> None:
@@ -293,7 +303,9 @@ class RuleFixtureTests(unittest.TestCase):
             with self.subTest(path=source.path, text=source.text):
                 self.assertEqual([], list(rule.scan(source)))
 
-        application_private_host = SourceFile("src/client.ino", 'http.begin("http://192.168.1.12/status");\n')
+        application_private_host = SourceFile(
+            "src/client.ino", 'http.begin("http://192.168.1.12/status");\n'
+        )
         self.assertEqual(1, len(list(rule.scan(application_private_host))))
 
     def test_http_rule_ignores_an_explicit_https_redirect_probe(self) -> None:
@@ -309,7 +321,7 @@ class RuleFixtureTests(unittest.TestCase):
 
     def test_http_rule_strips_multiline_comments_and_keeps_endpoint_assignments(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE004")
-        text = "/* license comment\n API_URL = \\\"http://api.device.local\\\";\n*/\nAPI_URL = \"http://api.device.local/v1\"\n"
+        text = '/* license comment\n API_URL = \\"http://api.device.local\\";\n*/\nAPI_URL = "http://api.device.local/v1"\n'
         findings = list(rule.scan(SourceFile("src/config.h", text)))
         self.assertEqual(1, len(findings))
         self.assertEqual(4, findings[0].start_line)
@@ -322,7 +334,9 @@ class RuleFixtureTests(unittest.TestCase):
         )
         self.assertEqual(1, len(list(rule.scan(source))))
 
-    def test_mqtt_rule_requires_broker_context_and_ignores_comments_tests_and_loopback(self) -> None:
+    def test_mqtt_rule_requires_broker_context_and_ignores_comments_tests_and_loopback(
+        self,
+    ) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE005")
         sources = (
             SourceFile("src/app.c", 'const char *uri = "mqtt://broker.device.example";\n'),
@@ -335,7 +349,9 @@ class RuleFixtureTests(unittest.TestCase):
             with self.subTest(path=source.path, text=source.text):
                 self.assertEqual([], list(rule.scan(source)))
 
-        configured = SourceFile("src/mqtt/client.c", 'broker_uri = "mqtt://broker.device.example:1883"\n')
+        configured = SourceFile(
+            "src/mqtt/client.c", 'broker_uri = "mqtt://broker.device.example:1883"\n'
+        )
         self.assertEqual(1, len(list(rule.scan(configured))))
 
     def test_esp_idf_configuration_rules_are_scoped_to_kconfig_inputs(self) -> None:
@@ -348,7 +364,9 @@ class RuleFixtureTests(unittest.TestCase):
                 self.assertEqual([], list(rule.scan(SourceFile("README.md", f"{key}=y\n"))))
                 self.assertEqual([], list(rule.scan(SourceFile("tests/sdkconfig", f"{key}=y\n"))))
                 self.assertEqual([], list(rule.scan(SourceFile("sdkconfig", f"# {key}=y\n"))))
-                findings = list(rule.scan(SourceFile("sdkconfig.defaults", f"{key}=y # reviewed\n")))
+                findings = list(
+                    rule.scan(SourceFile("sdkconfig.defaults", f"{key}=y # reviewed\n"))
+                )
                 self.assertEqual(1, len(findings))
                 self.assertEqual("medium", findings[0].severity)
                 self.assertEqual("high", findings[0].confidence)

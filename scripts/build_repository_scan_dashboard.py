@@ -17,7 +17,9 @@ SUPPORT_MATRIX_SOURCE_PATH = ROOT / "src" / "vigil_fuse" / "support-matrix.json"
 SITE_SUPPORT_MATRIX_PATH = ROOT / "site" / "data" / "support-matrix.json"
 SEVERITIES = ("critical", "high", "medium", "low", "info", "unknown")
 RULE_IDS = tuple(f"FUSE{number:03d}" for number in range(1, 8))
-SUPPORTED_REPORT_SCHEMAS = frozenset({"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10"})
+SUPPORTED_REPORT_SCHEMAS = frozenset(
+    {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10"}
+)
 GITHUB_REPORTS = "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans"
 
 
@@ -154,8 +156,12 @@ def build_summary() -> dict[str, Any]:
             scan = summarize_scan(scan_config, report)
             scans.append(scan)
             all_scans.append(scan)
-            total_rule_counts.update(finding.get("rule_id", "unknown") for finding in report.get("findings", []))
-            total_severity_counts.update(finding.get("severity", "unknown") for finding in report.get("findings", []))
+            total_rule_counts.update(
+                finding.get("rule_id", "unknown") for finding in report.get("findings", [])
+            )
+            total_severity_counts.update(
+                finding.get("severity", "unknown") for finding in report.get("findings", [])
+            )
             total_skips.update(report.get("coverage", {}).get("files_skipped_by_reason", {}))
             total_hardware_categories.update(scan["hardware_category_counts"])
 
@@ -178,12 +184,25 @@ def build_summary() -> dict[str, Any]:
                     {
                         key: scan[key]
                         for key in (
-                            "id", "profile", "scope", "files_discovered", "files_selected",
-                            "files_scanned", "files_skipped", "files_skipped_by_reason",
-                            "finding_count", "analysis_performed", "scan_status", "support_label",
-                            "limits_reached", "hardware_file_count", "hardware_category_counts",
-                            "hardware_inventory", "hardware_inventory_complete",
-                            "input_manifest_sha256", "report_files",
+                            "id",
+                            "profile",
+                            "scope",
+                            "files_discovered",
+                            "files_selected",
+                            "files_scanned",
+                            "files_skipped",
+                            "files_skipped_by_reason",
+                            "finding_count",
+                            "analysis_performed",
+                            "scan_status",
+                            "support_label",
+                            "limits_reached",
+                            "hardware_file_count",
+                            "hardware_category_counts",
+                            "hardware_inventory",
+                            "hardware_inventory_complete",
+                            "input_manifest_sha256",
+                            "report_files",
                         )
                     }
                     for scan in scans
@@ -193,10 +212,16 @@ def build_summary() -> dict[str, Any]:
                 "files_scanned": sum_field(scans, "files_scanned"),
                 "files_skipped": sum_field(scans, "files_skipped"),
                 "hardware_file_count": sum_field(scans, "hardware_file_count"),
-                "hardware_category_counts": dict(sorted(
-                    sum((Counter(scan["hardware_category_counts"]) for scan in scans), Counter()).items()
-                )),
-                "hardware_inventory_complete": all(scan["hardware_inventory_complete"] for scan in scans),
+                "hardware_category_counts": dict(
+                    sorted(
+                        sum(
+                            (Counter(scan["hardware_category_counts"]) for scan in scans), Counter()
+                        ).items()
+                    )
+                ),
+                "hardware_inventory_complete": all(
+                    scan["hardware_inventory_complete"] for scan in scans
+                ),
                 "finding_count": sum_field(scans, "finding_count"),
                 "severity_counts": {key: severity_counts.get(key, 0) for key in SEVERITIES},
                 "rule_counts": {key: rule_counts.get(key, 0) for key in RULE_IDS},
@@ -213,7 +238,9 @@ def build_summary() -> dict[str, Any]:
         "files_skipped": sum_field(all_scans, "files_skipped"),
         "hardware_file_count": sum_field(all_scans, "hardware_file_count"),
         "hardware_category_counts": dict(sorted(total_hardware_categories.items())),
-        "hardware_inventory_complete": all(scan["hardware_inventory_complete"] for scan in all_scans),
+        "hardware_inventory_complete": all(
+            scan["hardware_inventory_complete"] for scan in all_scans
+        ),
         "finding_count": sum_field(all_scans, "finding_count"),
         "severity_counts": {key: total_severity_counts.get(key, 0) for key in SEVERITIES},
         "rule_counts": {key: total_rule_counts.get(key, 0) for key in RULE_IDS},
@@ -221,7 +248,9 @@ def build_summary() -> dict[str, Any]:
     }
     end_times = [scan["completed_at"] for scan in all_scans if scan.get("completed_at")]
     return {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "generated_at": datetime.now(timezone.utc)
+        .isoformat(timespec="seconds")
+        .replace("+00:00", "Z"),
         "scan_date": manifest["scan_date"],
         "fuse": manifest["fuse"],
         "latest_scan_completed_at": max(end_times) if end_times else None,
@@ -257,7 +286,7 @@ def svg_chart(title: str, rows: list[tuple[str, int]], output: Path) -> None:
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
         f'<title id="title">{escape(title)}</title>',
         '<desc id="desc">Horizontal bars show raw FUSE signal counts. Bar lengths use a logarithmic scale; exact values appear at the right.</desc>',
-        '<style>text{font-family:Arial,sans-serif;fill:#161616}.axis{fill:#595959;font-size:12px}.label{font-size:14px}.value{font-size:14px;font-weight:700}.grid{stroke:#dedede;stroke-width:1}.track{fill:#eeeeee}.bar{fill:#d92b21}</style>',
+        "<style>text{font-family:Arial,sans-serif;fill:#161616}.axis{fill:#595959;font-size:12px}.label{font-size:14px}.value{font-size:14px;font-weight:700}.grid{stroke:#dedede;stroke-width:1}.track{fill:#eeeeee}.bar{fill:#d92b21}</style>",
         f'<text x="0" y="24" font-size="18" font-weight="700">{escape(title)}</text>',
         '<text x="0" y="45" class="axis">Log scale for bar length, exact count shown</text>',
     ]
@@ -266,8 +295,12 @@ def svg_chart(title: str, rows: list[tuple[str, int]], output: Path) -> None:
     for tick in axis_ticks:
         transformed = math.log10(tick + 1) / scale_max if maximum else 0
         x = left + transformed * plot_width
-        parts.append(f'<line x1="{x:.1f}" y1="{grid_top}" x2="{x:.1f}" y2="{grid_bottom}" class="grid"/>')
-        parts.append(f'<text x="{x:.1f}" y="{height - 12}" text-anchor="middle" class="axis">{tick}</text>')
+        parts.append(
+            f'<line x1="{x:.1f}" y1="{grid_top}" x2="{x:.1f}" y2="{grid_bottom}" class="grid"/>'
+        )
+        parts.append(
+            f'<text x="{x:.1f}" y="{height - 12}" text-anchor="middle" class="axis">{tick}</text>'
+        )
 
     for index, (label, value) in enumerate(rows):
         y = top + index * row_height
@@ -278,8 +311,10 @@ def svg_chart(title: str, rows: list[tuple[str, int]], output: Path) -> None:
         if value and bar_width < 2:
             bar_width = 2
         parts.append(f'<rect x="{left}" y="{y}" width="{bar_width:.1f}" height="22" class="bar"/>')
-        parts.append(f'<text x="{left + plot_width + 14}" y="{y + 17}" class="value">{value}</text>')
-    parts.append('</svg>')
+        parts.append(
+            f'<text x="{left + plot_width + 14}" y="{y + 17}" class="value">{value}</text>'
+        )
+    parts.append("</svg>")
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text("\n".join(parts) + "\n", encoding="utf-8")
 
@@ -291,8 +326,18 @@ def build_charts(summary: dict[str, Any]) -> None:
     )
     rule_rows = [(rule, int(summary["totals"]["rule_counts"].get(rule, 0))) for rule in RULE_IDS]
     charts = [
-        ("Raw FUSE signals by repository", repository_rows, "findings-by-repository.svg", "scan-findings-by-repository.svg"),
-        ("Raw FUSE signals by rule", rule_rows, "findings-by-rule.svg", "scan-findings-by-rule.svg"),
+        (
+            "Raw FUSE signals by repository",
+            repository_rows,
+            "findings-by-repository.svg",
+            "scan-findings-by-repository.svg",
+        ),
+        (
+            "Raw FUSE signals by rule",
+            rule_rows,
+            "findings-by-rule.svg",
+            "scan-findings-by-rule.svg",
+        ),
     ]
     for title, rows, report_name, site_name in charts:
         svg_chart(title, rows, REPORT_ROOT / "plots" / report_name)

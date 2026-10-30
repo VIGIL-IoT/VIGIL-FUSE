@@ -22,7 +22,10 @@ WORKER_IDLE_TIMEOUT_SECONDS = 5.0
 
 
 def validate_rule_timeout(value: float) -> float:
-    if not math.isfinite(value) or not MIN_RULE_TIMEOUT_SECONDS <= value <= MAX_RULE_TIMEOUT_SECONDS:
+    if (
+        not math.isfinite(value)
+        or not MIN_RULE_TIMEOUT_SECONDS <= value <= MAX_RULE_TIMEOUT_SECONDS
+    ):
         raise ValueError(
             f"rule timeout must be between {MIN_RULE_TIMEOUT_SECONDS:g} and "
             f"{MAX_RULE_TIMEOUT_SECONDS:g} seconds"
@@ -210,7 +213,9 @@ class IsolatedRuleExecutor:
                 process.stdin.flush()
             except (BrokenPipeError, OSError):
                 self._stop(force=True)
-                result.failed.update({rule_id: "rule worker closed its input" for rule_id in pending})
+                result.failed.update(
+                    {rule_id: "rule worker closed its input" for rule_id in pending}
+                )
                 break
 
             current_rule: str | None = None
@@ -256,7 +261,10 @@ class IsolatedRuleExecutor:
                     if current_rule is None:
                         unresolved = [rule_id for rule_id in pending if rule_id not in handled]
                         result.failed.update(
-                            {rule_id: "rule worker stopped responding between rules" for rule_id in unresolved}
+                            {
+                                rule_id: "rule worker stopped responding between rules"
+                                for rule_id in unresolved
+                            }
                         )
                         self._stop(force=True)
                         worker_failed = True
@@ -266,7 +274,12 @@ class IsolatedRuleExecutor:
                     rule_id = event.get("rule_id")
                     if not isinstance(rule_id, str) or rule_id not in pending or rule_id in handled:
                         unresolved = [item for item in pending if item not in handled]
-                        result.failed.update({item: "rule worker returned an unexpected rule ID" for item in unresolved})
+                        result.failed.update(
+                            {
+                                item: "rule worker returned an unexpected rule ID"
+                                for item in unresolved
+                            }
+                        )
                         self._stop(force=True)
                         worker_failed = True
                         break
@@ -300,18 +313,27 @@ class IsolatedRuleExecutor:
                     rule_id = event.get("rule_id")
                     if rule_id != current_rule:
                         unresolved = [item for item in pending if item not in handled]
-                        result.failed.update({item: "rule worker returned an unexpected rule error" for item in unresolved})
+                        result.failed.update(
+                            {
+                                item: "rule worker returned an unexpected rule error"
+                                for item in unresolved
+                            }
+                        )
                         self._stop(force=True)
                         worker_failed = True
                         break
                     error_name = event.get("error")
-                    result.failed[current_rule] = f"rule raised {error_name if isinstance(error_name, str) else 'an error'}"
+                    result.failed[current_rule] = (
+                        f"rule raised {error_name if isinstance(error_name, str) else 'an error'}"
+                    )
                     handled.add(current_rule)
                     current_rule = None
                     continue
                 if event_type == "request-error":
                     unresolved = [item for item in pending if item not in handled]
-                    result.failed.update({item: "rule worker rejected the scan request" for item in unresolved})
+                    result.failed.update(
+                        {item: "rule worker rejected the scan request" for item in unresolved}
+                    )
                     self._stop(force=True)
                     worker_failed = True
                     break
@@ -323,7 +345,9 @@ class IsolatedRuleExecutor:
                 if event_type == "ready":
                     continue
                 unresolved = [item for item in pending if item not in handled]
-                result.failed.update({item: "rule worker returned an unknown response" for item in unresolved})
+                result.failed.update(
+                    {item: "rule worker returned an unknown response" for item in unresolved}
+                )
                 self._stop(force=True)
                 worker_failed = True
                 break

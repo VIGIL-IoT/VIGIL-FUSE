@@ -124,7 +124,7 @@ def iter_code_lines(text: str, path: str) -> Iterable[tuple[int, str]]:
                         code.extend(line[index:])
                     break
                 if not strip_triple_string:
-                    code.extend(line[index:end + 3])
+                    code.extend(line[index : end + 3])
                 index = end + len(in_triple_string)
                 in_triple_string = None
                 strip_triple_string = False
@@ -143,7 +143,7 @@ def iter_code_lines(text: str, path: str) -> Iterable[tuple[int, str]]:
                 continue
 
             if line.startswith(("'''", '"""'), index):
-                in_triple_string = line[index:index + 3]
+                in_triple_string = line[index : index + 3]
                 strip_triple_string = not "".join(code).strip()
                 if not strip_triple_string:
                     code.append(in_triple_string)
@@ -199,10 +199,24 @@ def code_without_string_literals(line: str) -> str:
 
 _TEST_DIRECTORY_NAMES = frozenset(
     {
-        "test", "tests", "spec", "specs", "__tests__", "testdata", "test_data",
-        "fixtures", "fixture", "test_certs", "test-certs", "test_certificates",
-        "unit_test", "unit_tests", "integration_test", "integration_tests",
-        "selftest", "oeqa",
+        "test",
+        "tests",
+        "spec",
+        "specs",
+        "__tests__",
+        "testdata",
+        "test_data",
+        "fixtures",
+        "fixture",
+        "test_certs",
+        "test-certs",
+        "test_certificates",
+        "unit_test",
+        "unit_tests",
+        "integration_test",
+        "integration_tests",
+        "selftest",
+        "oeqa",
     }
 )
 _TEST_BASENAME = re.compile(r"(?i)(?:^|[._-])(?:test|tests|spec|specs|pytest)(?:[._-]|$)")
@@ -216,13 +230,22 @@ def is_test_path(path: str) -> bool:
     basename = PurePosixPath(path.replace("\\", "/")).name
     stem = PurePosixPath(basename).stem
     return bool(
-        stem.casefold().startswith(("test_", "pytest_", "spec_"))
-        or _TEST_BASENAME.search(stem)
+        stem.casefold().startswith(("test_", "pytest_", "spec_")) or _TEST_BASENAME.search(stem)
     )
 
 
 _LOCALIZATION_NAMES = frozenset(
-    {"lang", "language", "languages", "locale", "locales", "translation", "translations", "i18n", "l10n"}
+    {
+        "lang",
+        "language",
+        "languages",
+        "locale",
+        "locales",
+        "translation",
+        "translations",
+        "i18n",
+        "l10n",
+    }
 )
 
 
@@ -249,20 +272,67 @@ def is_kconfig_input_path(path: str) -> bool:
 
 _ENDPOINT_TOKENS = frozenset(
     {
-        "api", "http", "https", "rest", "mqtt", "broker", "server", "endpoint",
-        "service", "cloud", "ota", "safeboot", "update", "firmware", "upload", "download",
-        "gateway", "host", "listen", "base", "web", "websocket", "socket", "proxy",
+        "api",
+        "http",
+        "https",
+        "rest",
+        "mqtt",
+        "broker",
+        "server",
+        "endpoint",
+        "service",
+        "cloud",
+        "ota",
+        "safeboot",
+        "update",
+        "firmware",
+        "upload",
+        "download",
+        "gateway",
+        "host",
+        "listen",
+        "base",
+        "web",
+        "websocket",
+        "socket",
+        "proxy",
     }
 )
 _METADATA_TOKENS = frozenset(
     {
-        "license", "licence", "copyright", "homepage", "website", "documentation",
-        "docs", "schema", "support", "author", "vendor", "source", "project",
-        "contact", "forum", "wiki", "repository", "help",
+        "license",
+        "licence",
+        "copyright",
+        "homepage",
+        "website",
+        "documentation",
+        "docs",
+        "schema",
+        "support",
+        "author",
+        "vendor",
+        "source",
+        "project",
+        "contact",
+        "forum",
+        "wiki",
+        "repository",
+        "help",
     }
 )
 _ENDPOINT_CONTEXT_PATH_TOKENS = frozenset(
-    {"broker", "cloud", "endpoint", "firmware", "gateway", "mqtt", "ota", "server", "service", "update"}
+    {
+        "broker",
+        "cloud",
+        "endpoint",
+        "firmware",
+        "gateway",
+        "mqtt",
+        "ota",
+        "server",
+        "service",
+        "update",
+    }
 )
 _NETWORK_CALL = re.compile(
     r"(?i)\b(?:requests?\.(?:get|post|put|patch|delete|request)|"

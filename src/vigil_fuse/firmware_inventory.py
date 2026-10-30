@@ -9,14 +9,42 @@ from pathlib import Path
 from .model import FirmwareCandidate, FirmwareCandidateInventory
 from .text_safety import safe_report_text
 
-FIRMWARE_EXTENSIONS = frozenset({
-    ".bin", ".dfu", ".elf", ".hex", ".img", ".mot", ".ota", ".rom", ".srec", ".uf2", ".fw",
-    ".bin.gz", ".elf.gz", ".hex.gz", ".ota.gz", ".uf2.gz",
-})
-SKIP_DIRECTORY_NAMES = frozenset({
-    ".git", ".hg", ".svn", ".venv", "venv", "node_modules", "__pycache__", ".tox",
-    ".mypy_cache", ".pytest_cache", ".fuse-results", "fuse-results",
-})
+FIRMWARE_EXTENSIONS = frozenset(
+    {
+        ".bin",
+        ".dfu",
+        ".elf",
+        ".hex",
+        ".img",
+        ".mot",
+        ".ota",
+        ".rom",
+        ".srec",
+        ".uf2",
+        ".fw",
+        ".bin.gz",
+        ".elf.gz",
+        ".hex.gz",
+        ".ota.gz",
+        ".uf2.gz",
+    }
+)
+SKIP_DIRECTORY_NAMES = frozenset(
+    {
+        ".git",
+        ".hg",
+        ".svn",
+        ".venv",
+        "venv",
+        "node_modules",
+        "__pycache__",
+        ".tox",
+        ".mypy_cache",
+        ".pytest_cache",
+        ".fuse-results",
+        "fuse-results",
+    }
+)
 MAX_REPORTED_CANDIDATES = 500
 
 
@@ -71,7 +99,9 @@ def inspect_firmware_candidates(
         complete = False
         limitations.append("One or more directories could not be inventoried.")
 
-    for directory, names, filenames in os.walk(target, topdown=True, followlinks=False, onerror=on_error):
+    for directory, names, filenames in os.walk(
+        target, topdown=True, followlinks=False, onerror=on_error
+    ):
         directories_seen += 1
         if directories_seen > max_directories or time.monotonic() >= deadline:
             complete = False
@@ -123,7 +153,9 @@ def inspect_firmware_candidates(
     count_total = sum(counts.values())
     omitted = max(0, count_total - len(candidates))
     if omitted:
-        limitations.append(f"The path list is capped at {MAX_REPORTED_CANDIDATES} entries; extension counts include all discovered candidates.")
+        limitations.append(
+            f"The path list is capped at {MAX_REPORTED_CANDIDATES} entries; extension counts include all discovered candidates."
+        )
     return FirmwareCandidateInventory(
         status="complete" if complete else "partial",
         scope="bounded filename and size inventory across source and common output directories",

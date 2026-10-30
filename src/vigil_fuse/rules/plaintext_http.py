@@ -14,6 +14,7 @@ _RESERVED_DOMAIN_SUFFIXES = (".example", ".invalid", ".test", ".localhost")
 _EXPECTED_REDIRECT = re.compile(r"(?i)\bexpect\w*.{0,50}\b301\b")
 _HTTPS_REDIRECT_STATUS = re.compile(r"(?i)HTTP_CODE_MOVED_PERMANENTLY")
 
+
 def _is_loopback(host: str) -> bool:
     if host.lower() == "localhost" or host.lower().endswith(".localhost"):
         return True
@@ -25,9 +26,14 @@ def _is_loopback(host: str) -> bool:
 
 def _is_reserved_example_host(host: str) -> bool:
     normalized = host.casefold().rstrip(".")
-    return normalized in _RESERVED_EXAMPLE_DOMAINS or any(
-        normalized == suffix[1:] or normalized.endswith(suffix) for suffix in _RESERVED_DOMAIN_SUFFIXES
-    ) or any(normalized.endswith("." + domain) for domain in _RESERVED_EXAMPLE_DOMAINS)
+    return (
+        normalized in _RESERVED_EXAMPLE_DOMAINS
+        or any(
+            normalized == suffix[1:] or normalized.endswith(suffix)
+            for suffix in _RESERVED_DOMAIN_SUFFIXES
+        )
+        or any(normalized.endswith("." + domain) for domain in _RESERVED_EXAMPLE_DOMAINS)
+    )
 
 
 def _is_example_private_address(host: str, path: str) -> bool:

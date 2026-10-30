@@ -209,9 +209,9 @@ def render_readme(data: dict, site_path: str = "site/regression") -> str:
     )
     noise_reduction = data.get("noiseReduction", {})
     triage = data.get("triageSummary", {})
-    extension_text = ", ".join(
-        f"{key} {value}" for key, value in firmware_extensions.items()
-    ) or "none"
+    extension_text = (
+        ", ".join(f"{key} {value}" for key, value in firmware_extensions.items()) or "none"
+    )
     fallback_files = source_decoding.get("fallback_files", [])
     fallback_text = ", ".join(f"`{path}`" for path in fallback_files) or "none"
     if source_decoding.get("omitted_count", 0):
@@ -235,27 +235,15 @@ def render_readme(data: dict, site_path: str = "site/regression") -> str:
         f"{'is' if partial_scopes == 1 else 'are'} marked partial."
     )
     if noise_reduction.get("baselineSignalCount", 0):
-        credential_triage_note = (
-            f"FUSE001 retained {format_count(rules.get('FUSE001', 0), 'credential-like signal')} after excluding known tutorial placeholder patterns from the earlier regression corpus. Remaining matches are not automatically valid or deployed credentials. The published view omits matched evidence values."
-        )
-        noise_note = (
-            f"The earlier regression ledger contains {format_count(noise_reduction.get('filteredPlaceholderCount', 0), 'credential-like match')} now excluded as narrow tutorial placeholders. The current run retains {retained_credential_signals} for review. Placeholder filtering is fixture-backed and does not suppress ordinary hard-coded values."
-        )
+        credential_triage_note = f"FUSE001 retained {format_count(rules.get('FUSE001', 0), 'credential-like signal')} after excluding known tutorial placeholder patterns from the earlier regression corpus. Remaining matches are not automatically valid or deployed credentials. The published view omits matched evidence values."
+        noise_note = f"The earlier regression ledger contains {format_count(noise_reduction.get('filteredPlaceholderCount', 0), 'credential-like match')} now excluded as narrow tutorial placeholders. The current run retains {retained_credential_signals} for review. Placeholder filtering is fixture-backed and does not suppress ordinary hard-coded values."
     else:
-        credential_triage_note = (
-            f"FUSE001 retained {format_count(rules.get('FUSE001', 0), 'credential-like signal')}. This independent cohort has no placeholder-baseline comparison. Remaining matches are not automatically valid or deployed credentials. The published view omits matched evidence values."
-        )
-        noise_note = (
-            f"No placeholder-baseline comparison is attached to this cohort. The current run retains {retained_credential_signals} for review. Placeholder filtering remains limited to fixture-backed patterns and does not suppress ordinary hard-coded values."
-        )
+        credential_triage_note = f"FUSE001 retained {format_count(rules.get('FUSE001', 0), 'credential-like signal')}. This independent cohort has no placeholder-baseline comparison. Remaining matches are not automatically valid or deployed credentials. The published view omits matched evidence values."
+        noise_note = f"No placeholder-baseline comparison is attached to this cohort. The current run retains {retained_credential_signals} for review. Placeholder filtering remains limited to fixture-backed patterns and does not suppress ordinary hard-coded values."
     if platformio.get("partial_scope_count", 0):
-        platformio_note = (
-            f"PlatformIO found {format_number(platformio.get('environment_count', 0))} environments across {format_number(platformio.get('configuration_count', 0))} configuration files. {format_count(platformio.get('partial_scope_count', 0), 'scope')} has partial context because optional include files are absent from the pinned checkout."
-        )
+        platformio_note = f"PlatformIO found {format_number(platformio.get('environment_count', 0))} environments across {format_number(platformio.get('configuration_count', 0))} configuration files. {format_count(platformio.get('partial_scope_count', 0), 'scope')} has partial context because optional include files are absent from the pinned checkout."
     else:
-        platformio_note = (
-            f"PlatformIO found {format_number(platformio.get('environment_count', 0))} environments across {format_number(platformio.get('configuration_count', 0))} configuration files. No partial PlatformIO context was reported."
-        )
+        platformio_note = f"PlatformIO found {format_number(platformio.get('environment_count', 0))} environments across {format_number(platformio.get('configuration_count', 0))} configuration files. No partial PlatformIO context was reported."
     overlap_note = (
         "Counts are raw per scanned scope. The IoTGoat scope includes OpenWrt source also present in the OpenWrt snapshot, so some source lines overlap across repositories."
         if is_regression

@@ -28,7 +28,9 @@ def main() -> int:
                 generated_config=bool(source_data["generated_config"]),
             )
             rule_ids = request["rule_ids"]
-            if not isinstance(rule_ids, list) or any(not isinstance(rule_id, str) for rule_id in rule_ids):
+            if not isinstance(rule_ids, list) or any(
+                not isinstance(rule_id, str) for rule_id in rule_ids
+            ):
                 raise ValueError("invalid rule list")
         except Exception as error:
             _write({"event": "request-error", "error": type(error).__name__})

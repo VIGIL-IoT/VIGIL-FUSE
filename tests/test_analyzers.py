@@ -56,7 +56,9 @@ class OSVNormalizationTests(unittest.TestCase):
                                     "aliases": ["CVE-2026-12345"],
                                     "summary": "Example vulnerability",
                                     "severity": [{"type": "CVSS_V3", "score": "8.1"}],
-                                    "references": [{"type": "WEB", "url": "https://example.org/advisory"}],
+                                    "references": [
+                                        {"type": "WEB", "url": "https://example.org/advisory"}
+                                    ],
                                 },
                                 {
                                     "id": "CVE-2026-12345",
@@ -114,7 +116,10 @@ class OSVNormalizationTests(unittest.TestCase):
                         {
                             "package": {"name": "p", "version": "1", "ecosystem": "npm"},
                             "vulnerabilities": [
-                                {"id": "GHSA-aaaa-bbbb-cccc", "severity": [{"type": "CVSS_V4", "score": vector}]}
+                                {
+                                    "id": "GHSA-aaaa-bbbb-cccc",
+                                    "severity": [{"type": "CVSS_V4", "score": vector}],
+                                }
                             ],
                         }
                     ],
@@ -163,11 +168,15 @@ class OptionalAnalyzerTests(unittest.TestCase):
                 )
                 return subprocess.CompletedProcess(command, 0, "", "")
 
-            with patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="syft"), \
-                 patch("vigil_fuse.dependency_analyzers._tool_version", return_value="syft 1.54.0"), \
-                 patch("vigil_fuse.dependency_analyzers._run", side_effect=run) as mocked_run:
+            with (
+                patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="syft"),
+                patch("vigil_fuse.dependency_analyzers._tool_version", return_value="syft 1.54.0"),
+                patch("vigil_fuse.dependency_analyzers._run", side_effect=run) as mocked_run,
+            ):
                 result = generate_sbom(target, output)
-            artifact_hash = hashlib.sha256((output / "components.cdx.json").read_bytes()).hexdigest()
+            artifact_hash = hashlib.sha256(
+                (output / "components.cdx.json").read_bytes()
+            ).hexdigest()
 
         self.assertEqual("completed", result.status.status)
         self.assertEqual("syft 1.54.0", result.status.version)
@@ -184,7 +193,12 @@ class OptionalAnalyzerTests(unittest.TestCase):
                     "packages": [
                         {
                             "package": {"name": "demo", "version": "1.0", "ecosystem": "npm"},
-                            "vulnerabilities": [{"id": "GHSA-aaaa-bbbb-cccc", "database_specific": {"severity": "HIGH"}}],
+                            "vulnerabilities": [
+                                {
+                                    "id": "GHSA-aaaa-bbbb-cccc",
+                                    "database_specific": {"severity": "HIGH"},
+                                }
+                            ],
                         }
                     ],
                 }
@@ -195,10 +209,17 @@ class OptionalAnalyzerTests(unittest.TestCase):
             target.mkdir()
             (target / "package-lock.json").touch()
             output = target / "reports"
-            completed = subprocess.CompletedProcess([], 1, json.dumps(document), "found vulnerability")
-            with patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="osv-scanner"), \
-                 patch("vigil_fuse.dependency_analyzers._tool_version", return_value="osv-scanner 2.3.0"), \
-                 patch("vigil_fuse.dependency_analyzers._run", return_value=completed) as mocked_run:
+            completed = subprocess.CompletedProcess(
+                [], 1, json.dumps(document), "found vulnerability"
+            )
+            with (
+                patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="osv-scanner"),
+                patch(
+                    "vigil_fuse.dependency_analyzers._tool_version",
+                    return_value="osv-scanner 2.3.0",
+                ),
+                patch("vigil_fuse.dependency_analyzers._run", return_value=completed) as mocked_run,
+            ):
                 result = scan_vulnerabilities(target, output)
             output_exists = (output / "osv-results.json").is_file()
             osv_command = mocked_run.call_args.args[0]
@@ -218,9 +239,14 @@ class OptionalAnalyzerTests(unittest.TestCase):
             target.mkdir()
             (target / "package-lock.json").touch()
             completed = subprocess.CompletedProcess([], 0, '{"results":[]}', "")
-            with patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="osv-scanner"), \
-                 patch("vigil_fuse.dependency_analyzers._tool_version", return_value="OSV-Scanner 2.3.0"), \
-                 patch("vigil_fuse.dependency_analyzers._run", return_value=completed) as mocked_run:
+            with (
+                patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="osv-scanner"),
+                patch(
+                    "vigil_fuse.dependency_analyzers._tool_version",
+                    return_value="OSV-Scanner 2.3.0",
+                ),
+                patch("vigil_fuse.dependency_analyzers._run", return_value=completed) as mocked_run,
+            ):
                 result = scan_vulnerabilities(target, root / "reports", no_network=True)
             command = mocked_run.call_args.args[0]
 
@@ -235,9 +261,11 @@ class OptionalAnalyzerTests(unittest.TestCase):
             firmware.write_bytes(b"image")
             output = root / "reports"
             completed = subprocess.CompletedProcess([], 0, "offset | signature\n", "")
-            with patch("vigil_fuse.firmware_analyzer.shutil.which", return_value="binwalk"), \
-                 patch("vigil_fuse.firmware_analyzer._tool_version", return_value="Binwalk v3"), \
-                 patch("vigil_fuse.firmware_analyzer._run", return_value=completed) as mocked_run:
+            with (
+                patch("vigil_fuse.firmware_analyzer.shutil.which", return_value="binwalk"),
+                patch("vigil_fuse.firmware_analyzer._tool_version", return_value="Binwalk v3"),
+                patch("vigil_fuse.firmware_analyzer._run", return_value=completed) as mocked_run,
+            ):
                 result = identify_firmware(firmware, output)
 
         self.assertEqual("completed", result.status.status)
@@ -254,10 +282,12 @@ class OptionalAnalyzerTests(unittest.TestCase):
             firmware.write_bytes(b"image")
             output = root / "reports"
             completed = subprocess.CompletedProcess([], 0, "0123456789", "")
-            with patch("vigil_fuse.firmware_analyzer.shutil.which", return_value="binwalk"), \
-                 patch("vigil_fuse.firmware_analyzer._tool_version", return_value="Binwalk v3"), \
-                 patch("vigil_fuse.firmware_analyzer.MAX_BINWALK_REPORT_BYTES", 8), \
-                 patch("vigil_fuse.firmware_analyzer._run", return_value=completed):
+            with (
+                patch("vigil_fuse.firmware_analyzer.shutil.which", return_value="binwalk"),
+                patch("vigil_fuse.firmware_analyzer._tool_version", return_value="Binwalk v3"),
+                patch("vigil_fuse.firmware_analyzer.MAX_BINWALK_REPORT_BYTES", 8),
+                patch("vigil_fuse.firmware_analyzer._run", return_value=completed),
+            ):
                 result = identify_firmware(firmware, output)
             saved_report = (output / "firmware-identification.txt").read_bytes()
 
@@ -285,24 +315,36 @@ class GitHistoryAnalyzerTests(unittest.TestCase):
 
     def test_history_report_omits_secret_and_commit_author_fields(self) -> None:
         secret = "s3cr3t-history-value-123456"
-        report = [{
-            "RuleID": "aws-access-token",
-            "File": "src/config.h",
-            "StartLine": 17,
-            "Commit": "a" * 40,
-            "Date": "2025-06-01T12:30:00Z",
-            "Secret": secret,
-            "Match": f"TOKEN={secret}",
-            "Author": "Private Author",
-            "Email": "person@example.invalid",
-            "Message": "contains private information",
-        }]
+        report = [
+            {
+                "RuleID": "aws-access-token",
+                "File": "src/config.h",
+                "StartLine": 17,
+                "Commit": "a" * 40,
+                "Date": "2025-06-01T12:30:00Z",
+                "Secret": secret,
+                "Match": f"TOKEN={secret}",
+                "Author": "Private Author",
+                "Email": "person@example.invalid",
+                "Message": "contains private information",
+            }
+        ]
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            with patch("vigil_fuse.history_analyzer.shutil.which", side_effect=lambda name: f"{name}.exe"), \
-                 patch("vigil_fuse.history_analyzer._tool_version", return_value="gitleaks 8.30.0"), \
-                 patch("vigil_fuse.history_analyzer._git_command", side_effect=self._git_metadata(root)), \
-                 patch("vigil_fuse.history_analyzer._run", return_value=subprocess.CompletedProcess([], 0, json.dumps(report), "")) as run:
+            with (
+                patch(
+                    "vigil_fuse.history_analyzer.shutil.which",
+                    side_effect=lambda name: f"{name}.exe",
+                ),
+                patch("vigil_fuse.history_analyzer._tool_version", return_value="gitleaks 8.30.0"),
+                patch(
+                    "vigil_fuse.history_analyzer._git_command", side_effect=self._git_metadata(root)
+                ),
+                patch(
+                    "vigil_fuse.history_analyzer._run",
+                    return_value=subprocess.CompletedProcess([], 0, json.dumps(report), ""),
+                ) as run,
+            ):
                 result = scan_git_history(root, root / "reports")
             saved = (root / "reports" / "git-history-findings.json").read_text(encoding="utf-8")
             finding = json.dumps(result.findings[0].to_dict())
@@ -313,7 +355,12 @@ class GitHistoryAnalyzerTests(unittest.TestCase):
         self.assertEqual("historical-secret-exposure", result.findings[0].category)
         self.assertEqual("unknown", result.findings[0].severity)
         self.assertEqual("medium", result.findings[0].confidence)
-        for sensitive in (secret, "Private Author", "person@example.invalid", "contains private information"):
+        for sensitive in (
+            secret,
+            "Private Author",
+            "person@example.invalid",
+            "contains private information",
+        ):
             self.assertNotIn(sensitive, saved)
             self.assertNotIn(sensitive, finding)
         self.assertIn("--redact=100", command)
@@ -323,12 +370,25 @@ class GitHistoryAnalyzerTests(unittest.TestCase):
     def test_shallow_history_is_partial_and_says_history_is_incomplete(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            with patch("vigil_fuse.history_analyzer.shutil.which", side_effect=lambda name: f"{name}.exe"), \
-                 patch("vigil_fuse.history_analyzer._tool_version", return_value="gitleaks 8.30.0"), \
-                 patch("vigil_fuse.history_analyzer._git_command", side_effect=self._git_metadata(root, shallow="true")), \
-                 patch("vigil_fuse.history_analyzer._run", return_value=subprocess.CompletedProcess([], 0, "[]", "")):
+            with (
+                patch(
+                    "vigil_fuse.history_analyzer.shutil.which",
+                    side_effect=lambda name: f"{name}.exe",
+                ),
+                patch("vigil_fuse.history_analyzer._tool_version", return_value="gitleaks 8.30.0"),
+                patch(
+                    "vigil_fuse.history_analyzer._git_command",
+                    side_effect=self._git_metadata(root, shallow="true"),
+                ),
+                patch(
+                    "vigil_fuse.history_analyzer._run",
+                    return_value=subprocess.CompletedProcess([], 0, "[]", ""),
+                ),
+            ):
                 result = scan_git_history(root, root / "reports")
-            saved = json.loads((root / "reports" / "git-history-findings.json").read_text(encoding="utf-8"))
+            saved = json.loads(
+                (root / "reports" / "git-history-findings.json").read_text(encoding="utf-8")
+            )
 
         self.assertEqual("partial", result.status.status)
         self.assertIn("shallow", result.status.detail)
@@ -340,10 +400,18 @@ class GitHistoryAnalyzerTests(unittest.TestCase):
             root = Path(temporary)
             nested = root / "nested"
             nested.mkdir()
-            with patch("vigil_fuse.history_analyzer.shutil.which", side_effect=lambda name: f"{name}.exe"), \
-                 patch("vigil_fuse.history_analyzer._tool_version", return_value="gitleaks 8.30.0"), \
-                 patch("vigil_fuse.history_analyzer._git_command", return_value=subprocess.CompletedProcess([], 0, str(root), "")), \
-                 patch("vigil_fuse.history_analyzer._run") as run:
+            with (
+                patch(
+                    "vigil_fuse.history_analyzer.shutil.which",
+                    side_effect=lambda name: f"{name}.exe",
+                ),
+                patch("vigil_fuse.history_analyzer._tool_version", return_value="gitleaks 8.30.0"),
+                patch(
+                    "vigil_fuse.history_analyzer._git_command",
+                    return_value=subprocess.CompletedProcess([], 0, str(root), ""),
+                ),
+                patch("vigil_fuse.history_analyzer._run") as run,
+            ):
                 result = scan_git_history(nested, root / "reports")
 
         self.assertEqual("skipped", result.status.status)
@@ -353,10 +421,14 @@ class GitHistoryAnalyzerTests(unittest.TestCase):
     def test_missing_gitleaks_is_reported_as_unavailable(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
+
             def which(name: str) -> str | None:
                 return "git.exe" if name == "git" else None
-            with patch("vigil_fuse.history_analyzer.shutil.which", side_effect=which), \
-                 patch("vigil_fuse.history_analyzer._run") as run:
+
+            with (
+                patch("vigil_fuse.history_analyzer.shutil.which", side_effect=which),
+                patch("vigil_fuse.history_analyzer._run") as run,
+            ):
                 result = scan_git_history(root, root / "reports")
 
         self.assertEqual("unavailable", result.status.status)

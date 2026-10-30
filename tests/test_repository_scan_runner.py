@@ -85,11 +85,13 @@ class RepositoryScanRunnerTests(unittest.TestCase):
         report = {
             "summary": {"analysis_performed": True},
             "coverage": {
-                "analyzers": [{
-                    "name": "native-rule:FUSE006",
-                    "status": "skipped",
-                    "detail": "No selected input matched this rule's supported input scope.",
-                }]
+                "analyzers": [
+                    {
+                        "name": "native-rule:FUSE006",
+                        "status": "skipped",
+                        "detail": "No selected input matched this rule's supported input scope.",
+                    }
+                ]
             },
         }
         self.assertFalse(report_has_incomplete_coverage(report))

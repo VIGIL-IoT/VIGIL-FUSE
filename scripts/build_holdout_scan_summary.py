@@ -37,7 +37,18 @@ def _read_report(report_root: Path, scan_id: str) -> dict[str, Any]:
     if not path.is_relative_to(report_root.resolve()):
         raise ValueError(f"Holdout report path escapes report root: {scan_id!r}")
     report = json.loads(path.read_text(encoding="utf-8"))
-    if str(report.get("schema_version", "")) not in {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10"}:
+    if str(report.get("schema_version", "")) not in {
+        "1.1",
+        "1.2",
+        "1.3",
+        "1.4",
+        "1.5",
+        "1.6",
+        "1.7",
+        "1.8",
+        "1.9",
+        "1.10",
+    }:
         raise ValueError(f"Unsupported or missing FUSE report schema in {path}")
     if not isinstance(report.get("summary"), dict) or not isinstance(report.get("coverage"), dict):
         raise ValueError(f"FUSE report is missing summary or coverage: {path}")
@@ -60,7 +71,9 @@ def _module_coverage(report: dict[str, Any]) -> dict[str, Any]:
     firmware = report.get("firmware_candidates", {})
     actions = report.get("github_actions", {})
     netlist = report.get("hardware_netlist", {})
-    environments = platformio.get("selected_environments", []) if isinstance(platformio, dict) else []
+    environments = (
+        platformio.get("selected_environments", []) if isinstance(platformio, dict) else []
+    )
     configurations = platformio.get("configurations", []) if isinstance(platformio, dict) else []
     extension_counts = firmware.get("extension_counts", {}) if isinstance(firmware, dict) else {}
     debug_candidates = netlist.get("debug_net_candidates", []) if isinstance(netlist, dict) else []
@@ -78,27 +91,53 @@ def _module_coverage(report: dict[str, Any]) -> dict[str, Any]:
             "omitted_count": int(encoding_fallback.get("omitted_count", 0)),
         },
         "platformio": {
-            "status": platformio.get("status", "not-reported") if isinstance(platformio, dict) else "not-reported",
+            "status": platformio.get("status", "not-reported")
+            if isinstance(platformio, dict)
+            else "not-reported",
             "environment_count": len(environments) if isinstance(environments, list) else 0,
             "configuration_count": len(configurations) if isinstance(configurations, list) else 0,
         },
         "firmware_candidates": {
-            "status": firmware.get("status", "not-reported") if isinstance(firmware, dict) else "not-reported",
-            "candidate_count": int(firmware.get("candidate_count", 0)) if isinstance(firmware, dict) else 0,
-            "extension_counts": dict(sorted(extension_counts.items())) if isinstance(extension_counts, dict) else {},
+            "status": firmware.get("status", "not-reported")
+            if isinstance(firmware, dict)
+            else "not-reported",
+            "candidate_count": int(firmware.get("candidate_count", 0))
+            if isinstance(firmware, dict)
+            else 0,
+            "extension_counts": dict(sorted(extension_counts.items()))
+            if isinstance(extension_counts, dict)
+            else {},
         },
         "github_actions": {
-            "status": actions.get("status", "not-reported") if isinstance(actions, dict) else "not-reported",
-            "workflow_count": int(actions.get("workflow_count", 0)) if isinstance(actions, dict) else 0,
-            "non_sha_action_reference_count": int(actions.get("non_sha_action_reference_count", 0)) if isinstance(actions, dict) else 0,
-            "floating_branch_reference_count": int(actions.get("floating_branch_reference_count", 0)) if isinstance(actions, dict) else 0,
-            "finding_count": int(actions.get("finding_count", 0)) if isinstance(actions, dict) else 0,
+            "status": actions.get("status", "not-reported")
+            if isinstance(actions, dict)
+            else "not-reported",
+            "workflow_count": int(actions.get("workflow_count", 0))
+            if isinstance(actions, dict)
+            else 0,
+            "non_sha_action_reference_count": int(actions.get("non_sha_action_reference_count", 0))
+            if isinstance(actions, dict)
+            else 0,
+            "floating_branch_reference_count": int(
+                actions.get("floating_branch_reference_count", 0)
+            )
+            if isinstance(actions, dict)
+            else 0,
+            "finding_count": int(actions.get("finding_count", 0))
+            if isinstance(actions, dict)
+            else 0,
         },
         "hardware_netlist": {
-            "status": netlist.get("status", "not-reported") if isinstance(netlist, dict) else "not-reported",
-            "component_count": int(netlist.get("component_count", 0)) if isinstance(netlist, dict) else 0,
+            "status": netlist.get("status", "not-reported")
+            if isinstance(netlist, dict)
+            else "not-reported",
+            "component_count": int(netlist.get("component_count", 0))
+            if isinstance(netlist, dict)
+            else 0,
             "net_count": int(netlist.get("net_count", 0)) if isinstance(netlist, dict) else 0,
-            "debug_net_candidate_count": len(debug_candidates) if isinstance(debug_candidates, list) else 0,
+            "debug_net_candidate_count": len(debug_candidates)
+            if isinstance(debug_candidates, list)
+            else 0,
         },
     }
 
@@ -222,7 +261,9 @@ def build_summary(manifest_path: Path, report_root: Path, output_root: Path) -> 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     cohort = manifest.get("cohort")
     if cohort not in {"independent-holdout", "regression-validation"}:
-        raise ValueError("Refusing to summarize a manifest that is not a separate holdout or regression-validation cohort")
+        raise ValueError(
+            "Refusing to summarize a manifest that is not a separate holdout or regression-validation cohort"
+        )
     if not report_root.is_relative_to(output_root):
         raise ValueError("Holdout reports must be inside the output root")
 
@@ -270,16 +311,16 @@ def build_summary(manifest_path: Path, report_root: Path, output_root: Path) -> 
                 raise ValueError(f"FUSE findings must be a list for {scan.get('id')}")
 
             scope_rule_counts = Counter(str(item.get("rule_id", "unknown")) for item in findings)
-            scope_severity_counts = Counter(str(item.get("severity", "unknown")) for item in findings)
+            scope_severity_counts = Counter(
+                str(item.get("severity", "unknown")) for item in findings
+            )
             scope_skips = Counter(coverage.get("files_skipped_by_reason", {}))
             scope_hardware = Counter(hardware.get("category_counts", {}))
             module_coverage = _module_coverage(report)
             support_status = coverage.get("support", {}).get("status", "unknown")
             files_skipped = int(summary.get("files_skipped", 0))
             scan_status = (
-                "partial"
-                if _has_partial_analysis(report) or files_skipped
-                else support_status
+                "partial" if _has_partial_analysis(report) or files_skipped else support_status
             )
             scope = {
                 "id": scan["id"],
@@ -292,7 +333,9 @@ def build_summary(manifest_path: Path, report_root: Path, output_root: Path) -> 
                 "files_skipped_by_reason": dict(sorted(scope_skips.items())),
                 "finding_count": len(findings),
                 "rule_counts": {rule: scope_rule_counts.get(rule, 0) for rule in rule_ids},
-                "severity_counts": {severity: scope_severity_counts.get(severity, 0) for severity in SEVERITIES},
+                "severity_counts": {
+                    severity: scope_severity_counts.get(severity, 0) for severity in SEVERITIES
+                },
                 "scan_status": scan_status,
                 "support_label": coverage.get("support", {}).get("label", "unknown"),
                 "limits_reached": coverage.get("limits_reached", []),
@@ -305,7 +348,11 @@ def build_summary(manifest_path: Path, report_root: Path, output_root: Path) -> 
                 "module_coverage": module_coverage,
                 "report_files": {
                     format_name: f"{reports_relative}/{scan['id']}/findings.{extension}"
-                    for format_name, extension in (("json", "json"), ("text", "txt"), ("sarif", "sarif"))
+                    for format_name, extension in (
+                        ("json", "json"),
+                        ("text", "txt"),
+                        ("sarif", "sarif"),
+                    )
                 },
             }
             scopes.append(scope)
@@ -314,58 +361,80 @@ def build_summary(manifest_path: Path, report_root: Path, output_root: Path) -> 
             repo_rule_counts.update(scope_rule_counts)
             repo_severity_counts.update(scope_severity_counts)
             repo_skips.update(scope_skips)
-            repo_totals.update({
-                key: int(summary.get(key, 0))
-                for key in ("files_discovered", "files_selected", "files_scanned", "files_skipped")
-            })
+            repo_totals.update(
+                {
+                    key: int(summary.get(key, 0))
+                    for key in (
+                        "files_discovered",
+                        "files_selected",
+                        "files_scanned",
+                        "files_skipped",
+                    )
+                }
+            )
             repo_hardware_categories.update(scope_hardware)
             rule_counts.update(scope_rule_counts)
             severity_counts.update(scope_severity_counts)
             skipped_by_reason.update(scope_skips)
             hardware_categories.update(scope_hardware)
-            totals.update({
-                key: int(summary.get(key, 0))
-                for key in ("files_discovered", "files_selected", "files_scanned", "files_skipped")
-            })
+            totals.update(
+                {
+                    key: int(summary.get(key, 0))
+                    for key in (
+                        "files_discovered",
+                        "files_selected",
+                        "files_scanned",
+                        "files_skipped",
+                    )
+                }
+            )
 
-        repositories.append({
-            "id": repository["id"],
-            "name": repository["name"],
-            "url": repository["url"],
-            "commit": repository["commit"],
-            "profile": repository["profile"],
-            "scan_count": len(scopes),
-            "files_discovered": repo_totals["files_discovered"],
-            "files_selected": repo_totals["files_selected"],
-            "files_scanned": repo_totals["files_scanned"],
-            "files_skipped": repo_totals["files_skipped"],
-            "finding_count": sum(repo_rule_counts.values()),
-            "rule_counts": {rule: repo_rule_counts.get(rule, 0) for rule in rule_ids},
-            "severity_counts": {severity: repo_severity_counts.get(severity, 0) for severity in SEVERITIES},
-            "module_coverage": _sum_module_coverage(repo_scopes),
-            "files_skipped_by_reason": dict(sorted(repo_skips.items())),
-            "hardware_file_count": sum(repo_hardware_categories.values()),
-            "hardware_category_counts": dict(sorted(repo_hardware_categories.items())),
-            "scopes": scopes,
-        })
+        repositories.append(
+            {
+                "id": repository["id"],
+                "name": repository["name"],
+                "url": repository["url"],
+                "commit": repository["commit"],
+                "profile": repository["profile"],
+                "scan_count": len(scopes),
+                "files_discovered": repo_totals["files_discovered"],
+                "files_selected": repo_totals["files_selected"],
+                "files_scanned": repo_totals["files_scanned"],
+                "files_skipped": repo_totals["files_skipped"],
+                "finding_count": sum(repo_rule_counts.values()),
+                "rule_counts": {rule: repo_rule_counts.get(rule, 0) for rule in rule_ids},
+                "severity_counts": {
+                    severity: repo_severity_counts.get(severity, 0) for severity in SEVERITIES
+                },
+                "module_coverage": _sum_module_coverage(repo_scopes),
+                "files_skipped_by_reason": dict(sorted(repo_skips.items())),
+                "hardware_file_count": sum(repo_hardware_categories.values()),
+                "hardware_category_counts": dict(sorted(repo_hardware_categories.items())),
+                "scopes": scopes,
+            }
+        )
 
     totals_summary = dict(totals)
-    totals_summary.update({
-        "repository_count": len(repositories),
-        "scan_scope_count": sum(repository["scan_count"] for repository in repositories),
-        "finding_count": sum(rule_counts.values()),
-        "rule_counts": {rule: rule_counts.get(rule, 0) for rule in rule_ids},
-        "severity_counts": {severity: severity_counts.get(severity, 0) for severity in SEVERITIES},
-        "files_skipped_by_reason": dict(sorted(skipped_by_reason.items())),
-        "hardware_file_count": sum(hardware_categories.values()),
-        "hardware_category_counts": dict(sorted(hardware_categories.items())),
-        "hardware_inventory_complete": all(
-            scope["hardware_inventory"]["complete"]
-            for repository in repositories
-            for scope in repository["scopes"]
-        ),
-        "module_coverage": _sum_module_coverage(all_scopes),
-    })
+    totals_summary.update(
+        {
+            "repository_count": len(repositories),
+            "scan_scope_count": sum(repository["scan_count"] for repository in repositories),
+            "finding_count": sum(rule_counts.values()),
+            "rule_counts": {rule: rule_counts.get(rule, 0) for rule in rule_ids},
+            "severity_counts": {
+                severity: severity_counts.get(severity, 0) for severity in SEVERITIES
+            },
+            "files_skipped_by_reason": dict(sorted(skipped_by_reason.items())),
+            "hardware_file_count": sum(hardware_categories.values()),
+            "hardware_category_counts": dict(sorted(hardware_categories.items())),
+            "hardware_inventory_complete": all(
+                scope["hardware_inventory"]["complete"]
+                for repository in repositories
+                for scope in repository["scopes"]
+            ),
+            "module_coverage": _sum_module_coverage(all_scopes),
+        }
+    )
     if cohort == "regression-validation":
         interpretation = (
             "Regression validation against patterns observed in the initial holdout snapshot. "
@@ -377,7 +446,9 @@ def build_summary(manifest_path: Path, report_root: Path, output_root: Path) -> 
             "This small purposive holdout is not a representative accuracy benchmark; findings are not confirmed vulnerabilities."
         )
     return {
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "generated_at": datetime.now(timezone.utc)
+        .isoformat(timespec="seconds")
+        .replace("+00:00", "Z"),
         "scan_date": manifest["scan_date"],
         "cohort": manifest["cohort"],
         "training_manifest": manifest.get("training_manifest"),
@@ -396,13 +467,35 @@ def build_charts(summary: dict[str, Any], output_root: Path) -> None:
     )
     rule_rows = [(rule, int(count)) for rule, count in summary["totals"]["rule_counts"].items()]
     plots = output_root / "plots"
-    svg_chart("Raw FUSE signals by repository", repository_rows, plots / "findings-by-repository.svg")
+    svg_chart(
+        "Raw FUSE signals by repository", repository_rows, plots / "findings-by-repository.svg"
+    )
     svg_chart("Raw FUSE signals by rule", rule_rows, plots / "findings-by-rule.svg")
     for module_key, metric_key, filename, title in (
-        ("firmware_candidates", "candidate_count", "firmware-candidates-by-repository.svg", "Firmware file candidates by repository"),
-        ("github_actions", "floating_branch_reference_count", "floating-action-branches-by-repository.svg", "Floating GitHub Action branches by repository"),
-        ("platformio", "environment_count", "platformio-environments-by-repository.svg", "PlatformIO environments recovered by repository"),
-        ("hardware_netlist", "debug_net_candidate_count", "netlist-debug-candidates-by-repository.svg", "KiCad debug-net candidates by repository"),
+        (
+            "firmware_candidates",
+            "candidate_count",
+            "firmware-candidates-by-repository.svg",
+            "Firmware file candidates by repository",
+        ),
+        (
+            "github_actions",
+            "floating_branch_reference_count",
+            "floating-action-branches-by-repository.svg",
+            "Floating GitHub Action branches by repository",
+        ),
+        (
+            "platformio",
+            "environment_count",
+            "platformio-environments-by-repository.svg",
+            "PlatformIO environments recovered by repository",
+        ),
+        (
+            "hardware_netlist",
+            "debug_net_candidate_count",
+            "netlist-debug-candidates-by-repository.svg",
+            "KiCad debug-net candidates by repository",
+        ),
     ):
         rows = sorted(
             (
@@ -415,7 +508,9 @@ def build_charts(summary: dict[str, Any], output_root: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Summarize a separate FUSE holdout or regression-validation corpus.")
+    parser = argparse.ArgumentParser(
+        description="Summarize a separate FUSE holdout or regression-validation corpus."
+    )
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--report-root", type=Path, default=DEFAULT_REPORT_ROOT)
     parser.add_argument("--output-root", type=Path, default=HOLDOUT_ROOT)

@@ -18,14 +18,17 @@ _GENERATED_HEADER = re.compile(
 
 def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
     basename = PurePosixPath(source.path.replace("\\", "/")).name.casefold()
-    if basename == "sdkconfig.ci" or is_test_path(source.path) or not (
-        is_kconfig_input_path(source.path) or source.generated_config
+    if (
+        basename == "sdkconfig.ci"
+        or is_test_path(source.path)
+        or not (is_kconfig_input_path(source.path) or source.generated_config)
     ):
         return
     for line_number, line in iter_code_lines(source.text, source.path):
-        if not (_SKIP_VALIDATION.fullmatch(line) or (
-            source.generated_config and _GENERATED_HEADER.fullmatch(line)
-        )):
+        if not (
+            _SKIP_VALIDATION.fullmatch(line)
+            or (source.generated_config and _GENERATED_HEADER.fullmatch(line))
+        ):
             continue
         finding = rule.finding(
             source,

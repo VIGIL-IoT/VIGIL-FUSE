@@ -28,22 +28,37 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
         )
 
     @classmethod
-    def create_report(cls, root: Path, report_path: Path, label: str, *, add_comment: bool = False) -> dict:
+    def create_report(
+        cls, root: Path, report_path: Path, label: str, *, add_comment: bool = False
+    ) -> dict:
         cls.write_vulnerable_source(root, add_comment=add_comment)
         result = scan(root, target_label=label)
         report_path.write_text(to_json(result), encoding="utf-8")
         return json.loads(report_path.read_text(encoding="utf-8"))
 
     @staticmethod
-    def diff_json(report_path: Path, baseline_path: Path, suppressions_path: Path | None = None) -> tuple[int, dict]:
+    def diff_json(
+        report_path: Path, baseline_path: Path, suppressions_path: Path | None = None
+    ) -> tuple[int, dict]:
         stdout = StringIO()
         with redirect_stdout(stdout):
             code = diff_baseline(report_path, baseline_path, suppressions_path, "json", "none")
         return code, json.loads(stdout.getvalue())
 
     def test_target_labels_accept_repository_names_and_reject_paths(self) -> None:
-        self.assertEqual("my-lab/firmware-project", validate_target_label(" my-lab/firmware-project "))
-        for label in ("", ".", "../repo", "org//repo", "/tmp/repo", "C:/repo", r"org\repo", "bad\nlabel"):
+        self.assertEqual(
+            "my-lab/firmware-project", validate_target_label(" my-lab/firmware-project ")
+        )
+        for label in (
+            "",
+            ".",
+            "../repo",
+            "org//repo",
+            "/tmp/repo",
+            "C:/repo",
+            r"org\repo",
+            "bad\nlabel",
+        ):
             with self.subTest(label=label):
                 with self.assertRaises(ValueError):
                     validate_target_label(label)
@@ -71,18 +86,33 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             stdout = StringIO()
             stderr = StringIO()
             with redirect_stdout(stdout), redirect_stderr(stderr):
-                code = main([
-                    "scan", str(root), "--target-label", "lab/actual-repository",
-                    "--output", str(report_path), "--format", "json",
-                ])
+                code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--target-label",
+                        "lab/actual-repository",
+                        "--output",
+                        str(report_path),
+                        "--format",
+                        "json",
+                    ]
+                )
             report = json.loads(report_path.read_text(encoding="utf-8"))
 
             plan_stdout = StringIO()
             with redirect_stdout(plan_stdout), redirect_stderr(StringIO()):
-                plan_code = main([
-                    "scan", str(root), "--plan", "--format", "json",
-                    "--target-label", "lab/actual-repository",
-                ])
+                plan_code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--plan",
+                        "--format",
+                        "json",
+                        "--target-label",
+                        "lab/actual-repository",
+                    ]
+                )
             plan = json.loads(plan_stdout.getvalue())
 
         self.assertEqual(0, code)
@@ -102,10 +132,20 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             output = Path(temporary) / "configured.json"
             stdout = StringIO()
             with redirect_stdout(stdout), redirect_stderr(StringIO()):
-                code = main([
-                    "scan", str(root), "--config", str(config), "--output", str(output),
-                    "--format", "json", "--target-label", "cli/repository",
-                ])
+                code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--config",
+                        str(config),
+                        "--output",
+                        str(output),
+                        "--format",
+                        "json",
+                        "--target-label",
+                        "cli/repository",
+                    ]
+                )
             report = json.loads(output.read_text(encoding="utf-8"))
             config.write_text('[scan]\ntarget_label = "../local-path"\n', encoding="utf-8")
             with self.assertRaises(ValueError):
@@ -146,9 +186,13 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             root = parent / "checkout"
             source = root / "src" / "config.yaml"
             source.parent.mkdir(parents=True)
-            source.write_text('network:\n  mqtt_password: "S0me-realistic-secret"\n', encoding="utf-8")
+            source.write_text(
+                'network:\n  mqtt_password: "S0me-realistic-secret"\n', encoding="utf-8"
+            )
             first_path = parent / "first.json"
-            first_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            first_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             baseline_path = parent / "baseline.json"
             with redirect_stdout(StringIO()):
                 create_baseline(first_path, baseline_path)
@@ -156,7 +200,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             moved_source = root / "src" / "settings.yaml"
             source.rename(moved_source)
             current_path = parent / "current.json"
-            current_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            current_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             code, diff = self.diff_json(current_path, baseline_path)
 
         self.assertEqual(0, code)
@@ -177,7 +223,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
                 source.parent.mkdir(parents=True, exist_ok=True)
                 source.write_text(content, encoding="utf-8")
             first_path = parent / "first.json"
-            first_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            first_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             baseline_path = parent / "baseline.json"
             with redirect_stdout(StringIO()):
                 create_baseline(first_path, baseline_path)
@@ -186,7 +234,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             (root / "src" / "second.yaml").unlink()
             (root / "src" / "renamed.yaml").write_text(content, encoding="utf-8")
             current_path = parent / "current.json"
-            current_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            current_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             code, diff = self.diff_json(current_path, baseline_path)
 
         self.assertEqual(0, code)
@@ -200,9 +250,13 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             root = parent / "checkout"
             source = root / "src" / "config.yaml"
             source.parent.mkdir(parents=True)
-            source.write_text('network:\n  mqtt_password: "S0me-realistic-secret"\n', encoding="utf-8")
+            source.write_text(
+                'network:\n  mqtt_password: "S0me-realistic-secret"\n', encoding="utf-8"
+            )
             first_path = parent / "first.json"
-            first_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            first_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             first_report = json.loads(first_path.read_text(encoding="utf-8"))
             baseline_path = parent / "baseline.json"
             suppressions_path = parent / "suppressions.json"
@@ -219,7 +273,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
 
             source.rename(root / "src" / "renamed.yaml")
             current_path = parent / "current.json"
-            current_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            current_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             code, diff = self.diff_json(current_path, baseline_path, suppressions_path)
 
         self.assertEqual(0, code)
@@ -306,14 +362,22 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             with redirect_stdout(StringIO()):
                 create_baseline(report_path, baseline_path)
                 suppress_code = suppress_finding(
-                    report_path, fingerprint, "Reviewed with the hardware owner", "firmware team",
-                    None, suppressions_path,
+                    report_path,
+                    fingerprint,
+                    "Reviewed with the hardware owner",
+                    "firmware team",
+                    None,
+                    suppressions_path,
                 )
-            suppressed_code, suppressed = self.diff_json(report_path, baseline_path, suppressions_path)
+            suppressed_code, suppressed = self.diff_json(
+                report_path, baseline_path, suppressions_path
+            )
 
             with redirect_stdout(StringIO()):
                 unsuppress_code = unsuppress_finding(report_path, fingerprint, suppressions_path)
-            unsuppressed_code, unsuppressed = self.diff_json(report_path, baseline_path, suppressions_path)
+            unsuppressed_code, unsuppressed = self.diff_json(
+                report_path, baseline_path, suppressions_path
+            )
             suppression_data = json.loads(suppressions_path.read_text(encoding="utf-8"))
 
         self.assertEqual(0, suppress_code)
@@ -333,7 +397,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             assignment = '  mqtt_password: "S0me-realistic-secret"\n'
             source.write_text("network:\n" + assignment * 2, encoding="utf-8")
             first_path = parent / "first.json"
-            first_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            first_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             first_report = json.loads(first_path.read_text(encoding="utf-8"))
             self.assertEqual(2, len(first_report["findings"]))
 
@@ -352,7 +418,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
 
             source.write_text("# unrelated comment\nnetwork:\n" + assignment * 2, encoding="utf-8")
             current_path = parent / "current.json"
-            current_path.write_text(to_json(scan(root, target_label="team/firmware")), encoding="utf-8")
+            current_path.write_text(
+                to_json(scan(root, target_label="team/firmware")), encoding="utf-8"
+            )
             code, diff = self.diff_json(current_path, baseline_path, suppressions_path)
             current_report = json.loads(current_path.read_text(encoding="utf-8"))
             with redirect_stdout(StringIO()):
@@ -361,7 +429,9 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
                     current_report["findings"][0]["fingerprint"],
                     suppressions_path,
                 )
-            unsuppressed_code, unsuppressed = self.diff_json(current_path, baseline_path, suppressions_path)
+            unsuppressed_code, unsuppressed = self.diff_json(
+                current_path, baseline_path, suppressions_path
+            )
 
         self.assertEqual(0, code)
         self.assertEqual(2, diff["summary"]["persistent"])
@@ -388,17 +458,24 @@ class TargetLabelAndBaselineTests(unittest.TestCase):
             baseline["format_version"] = "1.0"
             baseline_path.write_text(json.dumps(baseline), encoding="utf-8")
             suppression_path = parent / "legacy-suppressions.json"
-            suppression_path.write_text(json.dumps({
-                "format_version": "1.0",
-                "project": baseline["project"],
-                "suppressions": [{
-                    "identity": baseline["findings"][0]["identity"],
-                    "reason": "Existing reviewed suppression",
-                    "owner": None,
-                    "created_at": "2026-01-01T00:00:00Z",
-                    "expires_at": None,
-                }],
-            }), encoding="utf-8")
+            suppression_path.write_text(
+                json.dumps(
+                    {
+                        "format_version": "1.0",
+                        "project": baseline["project"],
+                        "suppressions": [
+                            {
+                                "identity": baseline["findings"][0]["identity"],
+                                "reason": "Existing reviewed suppression",
+                                "owner": None,
+                                "created_at": "2026-01-01T00:00:00Z",
+                                "expires_at": None,
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
 
             code, diff = self.diff_json(report_path, baseline_path, suppression_path)
 

@@ -17,7 +17,9 @@ _ACTION_USE = re.compile(
     r"^[ \t]*(?:-[ \t]+)?uses[ \t]*:[ \t]*(?P<target>(?:[A-Za-z0-9_.-]+/){1,2}[A-Za-z0-9_./-]+)@(?P<ref>[A-Za-z0-9_./-]+)[ \t]*$"
 )
 _FULL_SHA = re.compile(r"^[a-fA-F0-9]{40}$")
-_WRITE_ALL_URL = "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions"
+_WRITE_ALL_URL = (
+    "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions"
+)
 _PIN_ACTION_URL = "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
 
 
@@ -95,7 +97,9 @@ def inspect_github_actions(
     if (root_path / ".github").is_symlink() or workflow_dir.is_symlink():
         return GitHubActionsInventory(
             status="partial",
-            limitations=("The .github/workflows directory is a symbolic link and was not followed.",),
+            limitations=(
+                "The .github/workflows directory is a symbolic link and was not followed.",
+            ),
         ), ()
     if not workflow_dir.is_dir():
         return GitHubActionsInventory(), ()
@@ -129,10 +133,14 @@ def inspect_github_actions(
         try:
             size = path.stat().st_size
             if size > MAX_WORKFLOW_FILE_BYTES:
-                limitations.append(f"{relative} exceeds the {MAX_WORKFLOW_FILE_BYTES}-byte workflow file limit.")
+                limitations.append(
+                    f"{relative} exceeds the {MAX_WORKFLOW_FILE_BYTES}-byte workflow file limit."
+                )
                 continue
             if total_bytes + size > MAX_WORKFLOW_TOTAL_BYTES:
-                limitations.append(f"Workflow inputs exceeded the {MAX_WORKFLOW_TOTAL_BYTES}-byte total limit.")
+                limitations.append(
+                    f"Workflow inputs exceeded the {MAX_WORKFLOW_TOTAL_BYTES}-byte total limit."
+                )
                 break
             data = path.read_bytes()
         except OSError:
@@ -155,49 +163,55 @@ def inspect_github_actions(
         for line_number, original in enumerate(text.splitlines(), 1):
             line = _strip_yaml_comment(original)
             if _PERMISSIONS_WRITE_ALL.fullmatch(line):
-                findings.append(_finding(
-                    rule_id="FUSE-GHA-001",
-                    file=relative,
-                    line=line_number,
-                    evidence=original,
-                    title="Workflow-level permissions grant write access to every supported permission",
-                    explanation=(
-                        "At workflow scope, this file explicitly uses the broad write-all permission setting. "
-                        "FUSE does not infer whether every permission is needed or whether an untrusted event can reach this job."
-                    ),
-                    impact=(
-                        "A compromised action or unsafe workflow path may receive a larger repository token capability than required."
-                    ),
-                    remediation=(
-                        "Declare only the required permissions at workflow or job scope, then review event triggers and action trust boundaries."
-                    ),
-                    reference=_WRITE_ALL_URL,
-                ))
+                findings.append(
+                    _finding(
+                        rule_id="FUSE-GHA-001",
+                        file=relative,
+                        line=line_number,
+                        evidence=original,
+                        title="Workflow-level permissions grant write access to every supported permission",
+                        explanation=(
+                            "At workflow scope, this file explicitly uses the broad write-all permission setting. "
+                            "FUSE does not infer whether every permission is needed or whether an untrusted event can reach this job."
+                        ),
+                        impact=(
+                            "A compromised action or unsafe workflow path may receive a larger repository token capability than required."
+                        ),
+                        remediation=(
+                            "Declare only the required permissions at workflow or job scope, then review event triggers and action trust boundaries."
+                        ),
+                        reference=_WRITE_ALL_URL,
+                    )
+                )
             action = _ACTION_USE.fullmatch(line)
             if action and not _FULL_SHA.fullmatch(action.group("ref")):
                 non_sha_action_reference_count += 1
             if action and action.group("ref").casefold() in _FLOATING_BRANCH_REFS:
                 floating_branch_reference_count += 1
-                findings.append(_finding(
-                    rule_id="FUSE-GHA-002",
-                    file=relative,
-                    line=line_number,
-                    evidence=original,
-                    title="GitHub Action reference points to a floating branch",
-                    explanation=(
-                        "The workflow selects an action by a branch-like reference that can move without a workflow change. "
-                        "Other non-SHA version references are counted in inventory but are not findings in this conservative check."
-                    ),
-                    impact=(
-                        "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility."
-                    ),
-                    remediation=(
-                        "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates."
-                    ),
-                    reference=_PIN_ACTION_URL,
-                ))
+                findings.append(
+                    _finding(
+                        rule_id="FUSE-GHA-002",
+                        file=relative,
+                        line=line_number,
+                        evidence=original,
+                        title="GitHub Action reference points to a floating branch",
+                        explanation=(
+                            "The workflow selects an action by a branch-like reference that can move without a workflow change. "
+                            "Other non-SHA version references are counted in inventory but are not findings in this conservative check."
+                        ),
+                        impact=(
+                            "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility."
+                        ),
+                        remediation=(
+                            "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates."
+                        ),
+                        reference=_PIN_ACTION_URL,
+                    )
+                )
             if len(findings) >= MAX_WORKFLOW_FINDINGS:
-                limitations.append(f"Workflow findings were capped at {MAX_WORKFLOW_FINDINGS} entries.")
+                limitations.append(
+                    f"Workflow findings were capped at {MAX_WORKFLOW_FINDINGS} entries."
+                )
                 break
         if len(findings) >= MAX_WORKFLOW_FINDINGS:
             break

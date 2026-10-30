@@ -42,11 +42,15 @@ def _load_json(path: Path) -> dict[str, Any]:
     if not path.is_file():
         raise ValueError(f"Review input is not a regular file: {path}")
     if path.stat().st_size > MAX_REVIEW_INPUT_BYTES:
-        raise ValueError(f"Review input exceeds the {MAX_REVIEW_INPUT_BYTES // (1024 * 1024)} MiB limit: {path}")
+        raise ValueError(
+            f"Review input exceeds the {MAX_REVIEW_INPUT_BYTES // (1024 * 1024)} MiB limit: {path}"
+        )
     with path.open("rb") as source:
         data = source.read(MAX_REVIEW_INPUT_BYTES + 1)
     if len(data) > MAX_REVIEW_INPUT_BYTES:
-        raise ValueError(f"Review input exceeds the {MAX_REVIEW_INPUT_BYTES // (1024 * 1024)} MiB limit: {path}")
+        raise ValueError(
+            f"Review input exceeds the {MAX_REVIEW_INPUT_BYTES // (1024 * 1024)} MiB limit: {path}"
+        )
     try:
         value = json.loads(data.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
@@ -97,7 +101,9 @@ def _finding_identity(finding: dict[str, Any]) -> str:
     category = finding.get("category", "")
     analyzer = finding.get("analyzer", "")
     finding_id = finding.get("id")
-    if not all(isinstance(item, str) for item in (file_path, rule_id, title, evidence, category, analyzer)):
+    if not all(
+        isinstance(item, str) for item in (file_path, rule_id, title, evidence, category, analyzer)
+    ):
         raise ValueError("Finding is missing required identity fields")
     if analyzer == "osv-scanner" and isinstance(finding_id, str) and finding_id:
         # Advisory identity already includes the advisory, package/version, and
@@ -172,7 +178,10 @@ def _findings(report: dict[str, Any]) -> list[dict[str, Any]]:
         if (
             not isinstance(fingerprint, str)
             or not _SHA256.fullmatch(fingerprint)
-            or not all(isinstance(item, str) and item for item in (rule_id, title, severity, confidence, category))
+            or not all(
+                isinstance(item, str) and item
+                for item in (rule_id, title, severity, confidence, category)
+            )
             or severity not in _SEVERITIES
             or confidence not in _CONFIDENCES
             or not isinstance(location, dict)
@@ -189,7 +198,9 @@ def _findings(report: dict[str, Any]) -> list[dict[str, Any]]:
             "confidence": confidence,
             "category": category,
             "file": _normalized_path(location["file"]),
-            "start_line": location.get("start_line") if isinstance(location.get("start_line"), int) else None,
+            "start_line": location.get("start_line")
+            if isinstance(location.get("start_line"), int)
+            else None,
         }
         move_identity = _finding_move_identity(finding)
         if move_identity is not None:
@@ -238,20 +249,38 @@ def _completion(report: dict[str, Any]) -> tuple[bool, list[str]]:
         status = analyzer.get("status")
         name = analyzer.get("name", "unknown analyzer")
         detail = analyzer.get("detail")
-        if not isinstance(status, str) or status not in {"completed", "partial", "unavailable", "failed", "skipped"}:
+        if not isinstance(status, str) or status not in {
+            "completed",
+            "partial",
+            "unavailable",
+            "failed",
+            "skipped",
+        }:
             reasons.append(f"{name} has an unknown completion status.")
             continue
         if status in {"partial", "unavailable", "failed"}:
             reasons.append(f"{name} status is {status}.")
         elif status == "skipped" and not (
-            isinstance(detail, str) and any(detail.startswith(prefix) for prefix in _INTENTIONAL_SKIPS)
+            isinstance(detail, str)
+            and any(detail.startswith(prefix) for prefix in _INTENTIONAL_SKIPS)
         ):
             reasons.append(f"{name} was skipped.")
     return not reasons, list(dict.fromkeys(reasons))
 
 
 def _validate_report(report: dict[str, Any]) -> None:
-    if report.get("schema_version") not in {"1.1", "1.2", "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9", "1.10"}:
+    if report.get("schema_version") not in {
+        "1.1",
+        "1.2",
+        "1.3",
+        "1.4",
+        "1.5",
+        "1.6",
+        "1.7",
+        "1.8",
+        "1.9",
+        "1.10",
+    }:
         raise ValueError("Unsupported FUSE report schema version")
     _project(report)
     _findings(report)
@@ -284,7 +313,9 @@ def _load_baseline(path: Path) -> dict[str, Any]:
     version = baseline.get("format_version")
     if not isinstance(version, str) or version not in SUPPORTED_BASELINE_FORMAT_VERSIONS:
         raise ValueError("Unsupported FUSE baseline format version")
-    if not isinstance(baseline.get("findings"), list) or not isinstance(baseline.get("project"), dict):
+    if not isinstance(baseline.get("findings"), list) or not isinstance(
+        baseline.get("project"), dict
+    ):
         raise ValueError("Baseline file is missing findings or project metadata")
     if not all(
         isinstance(baseline["project"].get(field), str) and baseline["project"][field]
@@ -292,7 +323,11 @@ def _load_baseline(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("Baseline project metadata is malformed")
     for finding in baseline["findings"]:
-        suppression_identity = finding.get("suppression_identity", finding.get("identity")) if isinstance(finding, dict) else None
+        suppression_identity = (
+            finding.get("suppression_identity", finding.get("identity"))
+            if isinstance(finding, dict)
+            else None
+        )
         move_identity = finding.get("move_identity") if isinstance(finding, dict) else None
         if (
             not isinstance(finding, dict)
@@ -310,7 +345,10 @@ def _load_baseline(path: Path) -> dict[str, Any]:
                 isinstance(finding.get(field), str) and finding[field]
                 for field in ("rule_id", "title", "severity", "confidence", "category", "file")
             )
-            or (finding.get("start_line") is not None and not isinstance(finding.get("start_line"), int))
+            or (
+                finding.get("start_line") is not None
+                and not isinstance(finding.get("start_line"), int)
+            )
         ):
             raise ValueError("Baseline contains invalid finding identity metadata")
     return baseline
@@ -345,7 +383,9 @@ def _load_suppressions(
             or not entry["reason"].strip()
             or not isinstance(entry.get("created_at"), str)
             or (entry.get("owner") is not None and not isinstance(entry.get("owner"), str))
-            or (entry.get("expires_at") is not None and not isinstance(entry.get("expires_at"), str))
+            or (
+                entry.get("expires_at") is not None and not isinstance(entry.get("expires_at"), str)
+            )
         ):
             raise ValueError("Suppression file contains an invalid entry")
         expires = entry.get("expires_at")
@@ -369,7 +409,9 @@ def _diff_document(
     _validate_report(report)
     current_project = _project(report)
     if current_project != baseline["project"]:
-        raise ValueError("Current report target, target kind, or profile does not match this baseline")
+        raise ValueError(
+            "Current report target, target kind, or profile does not match this baseline"
+        )
     complete, reasons = _completion(report)
     current_findings = _findings(report)
 
@@ -463,7 +505,8 @@ def _diff_document(
         "resolved": len(resolved) if complete else None,
         "suppressed": sum(1 for item in changes if item["suppressed"]),
         "expired_suppressions": sum(
-            1 for identity, suppression in suppressions.items()
+            1
+            for identity, suppression in suppressions.items()
             if identity in current_by_identity and not _is_active(suppression, today)
         ),
         "resolved_evaluated": complete,
@@ -614,8 +657,12 @@ def diff_baseline(
             print(f"Incomplete: {reason}")
         for item in result["findings"]:
             marker = "suppressed" if item["suppressed"] else item["change"]
-            location = f"{item['file']}:{item['start_line']}" if item["start_line"] else item["file"]
-            print(f"  [{item['severity'].upper()}] {marker}: {item['rule_id']} {location} - {item['title']}")
+            location = (
+                f"{item['file']}:{item['start_line']}" if item["start_line"] else item["file"]
+            )
+            print(
+                f"  [{item['severity'].upper()}] {marker}: {item['rule_id']} {location} - {item['title']}"
+            )
             if item["change"] == "moved":
                 print(f"    Moved from: {item['moved_from']}")
             if item["suppression"]:
@@ -623,7 +670,9 @@ def diff_baseline(
                 if item["suppression"].get("owner"):
                     print(f"    Owner: {item['suppression']['owner']}")
         for item in result["resolved_findings"]:
-            location = f"{item['file']}:{item['start_line']}" if item["start_line"] else item["file"]
+            location = (
+                f"{item['file']}:{item['start_line']}" if item["start_line"] else item["file"]
+            )
             print(f"  [RESOLVED] {item['rule_id']} {location} - {item['title']}")
 
     if result["analysis_status"] != "complete":

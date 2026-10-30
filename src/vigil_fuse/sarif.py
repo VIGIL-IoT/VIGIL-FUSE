@@ -75,11 +75,7 @@ def to_sarif(result: ScanResult) -> str:
                     "category": finding.category,
                     "version": finding.rule_version,
                 },
-                **(
-                    {"helpUri": finding.references[0]}
-                    if finding.references
-                    else {}
-                ),
+                **({"helpUri": finding.references[0]} if finding.references else {}),
             },
         )
 

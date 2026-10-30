@@ -51,7 +51,10 @@ def validate_package_purl(value: str) -> str:
     """Validate the structural parts of a package URL used as product identity."""
     if not isinstance(value, str) or not value.startswith("pkg:"):
         raise ValueError("--product-purl must be a valid package URL beginning with pkg:")
-    if any(character.isspace() for character in value) or safe_report_text(value, limit=len(value)) != value:
+    if (
+        any(character.isspace() for character in value)
+        or safe_report_text(value, limit=len(value)) != value
+    ):
         raise ValueError("--product-purl cannot contain whitespace or control characters")
     if re.search(r"%(?![A-Fa-f0-9]{2})", value):
         raise ValueError("--product-purl contains an invalid percent escape")
@@ -130,7 +133,9 @@ def dependency_component(
     )
 
 
-def _read_json(root: Path, path: Path, option: str) -> tuple[dict[str, Any] | None, str, bytes, str | None]:
+def _read_json(
+    root: Path, path: Path, option: str
+) -> tuple[dict[str, Any] | None, str, bytes, str | None]:
     selected, display = _select_project_file(root, path, option)
     data = _read_bounded(selected, MAX_PRODUCT_CONTEXT_BYTES, option)
     digest = hashlib.sha256(data).hexdigest()
@@ -179,7 +184,10 @@ def import_vex(
             product_purl=product_purl,
             limitations=("VEX input is not a JSON object.",),
         )
-    if document.get("bomFormat") != "CycloneDX" or document.get("specVersion") not in {"1.5", "1.6"}:
+    if document.get("bomFormat") != "CycloneDX" or document.get("specVersion") not in {
+        "1.5",
+        "1.6",
+    }:
         return findings, VexImport(
             status="invalid",
             source_path=display,
@@ -237,10 +245,13 @@ def import_vex(
         detail = analysis.get("detail") if isinstance(analysis, dict) else None
         justification_valid = (
             justification is None
-            or isinstance(justification, str) and justification in _VEX_JUSTIFICATIONS
+            or isinstance(justification, str)
+            and justification in _VEX_JUSTIFICATIONS
         )
         if not justification_valid or state == "not_affected" and justification is None:
-            limitations.append(f"VEX record {vulnerability_id} has a missing or unsupported justification.")
+            limitations.append(
+                f"VEX record {vulnerability_id} has a missing or unsupported justification."
+            )
             unmatched += 1
             invalid_records += 1
             continue
@@ -276,10 +287,7 @@ def import_vex(
     matched_findings = 0
     for finding in findings:
         reviews = pending.get(finding.fingerprint, [])
-        distinct_reviews = {
-            (item.state, item.justification, item.detail): item
-            for item in reviews
-        }
+        distinct_reviews = {(item.state, item.justification, item.detail): item for item in reviews}
         if len(distinct_reviews) == 1:
             imported.append(replace(finding, vex_review=next(iter(distinct_reviews.values()))))
             matched_findings += 1
@@ -296,10 +304,16 @@ def import_vex(
     if len(records) > 100_000:
         limitations.append("VEX record count exceeded the 100000-record parsing limit.")
     if unmatched:
-        limitations.append(f"{unmatched} VEX record(s) did not match an exact FUSE advisory and package PURL.")
-    limitations.append("Imported VEX is review context, not signature verification; base findings and fail thresholds remain unchanged.")
+        limitations.append(
+            f"{unmatched} VEX record(s) did not match an exact FUSE advisory and package PURL."
+        )
+    limitations.append(
+        "Imported VEX is review context, not signature verification; base findings and fail thresholds remain unchanged."
+    )
     return tuple(imported), VexImport(
-        status="partial" if invalid_records or conflicting_reviews or len(records) > 100_000 else "imported",
+        status="partial"
+        if invalid_records or conflicting_reviews or len(records) > 100_000
+        else "imported",
         source_path=display,
         sha256=digest,
         byte_size=len(data),
@@ -340,9 +354,11 @@ def inspect_provenance(
     predicate = statement.get("predicate")
     if (
         not isinstance(statement_type, str)
-        or statement_type not in {"https://in-toto.io/Statement/v1", "https://in-toto.io/Statement/v0.1"}
+        or statement_type
+        not in {"https://in-toto.io/Statement/v1", "https://in-toto.io/Statement/v0.1"}
         or not isinstance(predicate_type, str)
-        or predicate_type not in {"https://slsa.dev/provenance/v1", "https://slsa.dev/provenance/v0.2"}
+        or predicate_type
+        not in {"https://slsa.dev/provenance/v1", "https://slsa.dev/provenance/v0.2"}
         or not isinstance(subjects, list)
         or not isinstance(predicate, dict)
     ):
@@ -350,7 +366,10 @@ def inspect_provenance(
             status="invalid",
             **base,
             predicate_type=safe_report_text(predicate_type, limit=500),
-            limitations=("Input is not a supported in-toto SLSA provenance statement or lacks subject data.", *limitation),
+            limitations=(
+                "Input is not a supported in-toto SLSA provenance statement or lacks subject data.",
+                *limitation,
+            ),
         )
 
     build_definition = predicate.get("buildDefinition")
@@ -359,7 +378,11 @@ def inspect_provenance(
     if not isinstance(builder, dict):
         builder = predicate.get("builder")
     builder_id = builder.get("id") if isinstance(builder, dict) else None
-    build_type = build_definition.get("buildType") if isinstance(build_definition, dict) else predicate.get("buildType")
+    build_type = (
+        build_definition.get("buildType")
+        if isinstance(build_definition, dict)
+        else predicate.get("buildType")
+    )
     actual_hash: str | None = None
     try:
         size = firmware_path.stat().st_size
@@ -377,7 +400,10 @@ def inspect_provenance(
             predicate_type=safe_report_text(predicate_type, limit=500),
             builder_id=safe_report_text(builder_id, limit=500),
             build_type=safe_report_text(build_type, limit=500),
-            limitations=(f"Firmware digest could not be checked ({type(error).__name__}).", *limitation),
+            limitations=(
+                f"Firmware digest could not be checked ({type(error).__name__}).",
+                *limitation,
+            ),
         )
 
     matched_name: str | None = None
@@ -388,7 +414,11 @@ def inspect_provenance(
         if not isinstance(subject, dict):
             continue
         name = subject.get("name")
-        safe_name = safe_report_text(Path(name.replace("\\", "/")).name, limit=200) if isinstance(name, str) else None
+        safe_name = (
+            safe_report_text(Path(name.replace("\\", "/")).name, limit=200)
+            if isinstance(name, str)
+            else None
+        )
         digests = subject.get("digest")
         sha256 = digests.get("sha256") if isinstance(digests, dict) else None
         if not isinstance(sha256, str) or not _SHA256.fullmatch(sha256.casefold()):
@@ -399,7 +429,13 @@ def inspect_provenance(
         if sha256 == actual_hash:
             matched_name, matched_digest = safe_name, sha256
             break
-    status = "subject-match" if matched_digest else "subject-mismatch" if first_subject_digest else "unverified"
+    status = (
+        "subject-match"
+        if matched_digest
+        else "subject-mismatch"
+        if first_subject_digest
+        else "unverified"
+    )
     return ProvenanceRecord(
         status=status,
         **base,

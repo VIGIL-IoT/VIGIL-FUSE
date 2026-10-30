@@ -27,14 +27,18 @@ def source_capability(profile: str) -> dict[str, Any]:
 
 def capability_for_scan(result: ScanResult) -> dict[str, Any]:
     if result.target_kind == "firmware-image":
-        input_status = next((item for item in result.analyzers if item.name == "firmware-input"), None)
+        input_status = next(
+            (item for item in result.analyzers if item.name == "firmware-input"), None
+        )
         if input_status is not None:
             capability = {
                 "id": "input.unsupported",
                 "input": "Firmware image over the configured size limit",
                 "label": "unsupported",
                 "scope": "The firmware image was rejected before hashing or signature identification.",
-                "limitations": ["Reduce the image size or raise scan.max_firmware_bytes within the configured maximum"],
+                "limitations": [
+                    "Reduce the image size or raise scan.max_firmware_bytes within the configured maximum"
+                ],
             }
             status = "unsupported"
         else:

@@ -198,10 +198,11 @@ def build_triage(
                         text=_source_text(source_path),
                     )
                     rule = rules.get(rule_id)
-                    current_rule_lines[file_path] = {
-                        item.start_line or 0
-                        for item in rule.scan(source_cache[file_path])
-                    } if rule else set()
+                    current_rule_lines[file_path] = (
+                        {item.start_line or 0 for item in rule.scan(source_cache[file_path])}
+                        if rule
+                        else set()
+                    )
                 currently_reported = (
                     line in current_rule_lines.get(file_path, set())
                     if rule_id == "FUSE001"
@@ -232,7 +233,9 @@ def build_triage(
                         "source_url": commit_url,
                     }
                 )
-    return sorted(rows, key=lambda row: (row["repository"].casefold(), row["file"].casefold(), row["line"]))
+    return sorted(
+        rows, key=lambda row: (row["repository"].casefold(), row["file"].casefold(), row["line"])
+    )
 
 
 def write_triage(rows: list[dict[str, str]], output: Path) -> None:
@@ -270,7 +273,9 @@ def write_triage(rows: list[dict[str, str]], output: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Create a value-redacted triage ledger for pinned FUSE findings.")
+    parser = argparse.ArgumentParser(
+        description="Create a value-redacted triage ledger for pinned FUSE findings."
+    )
     parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
     parser.add_argument("--report-root", type=Path, default=DEFAULT_REPORT_ROOT)
     parser.add_argument("--checkouts-root", type=Path, default=DEFAULT_CHECKOUTS_ROOT)

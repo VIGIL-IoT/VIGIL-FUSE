@@ -117,9 +117,7 @@ class ScannerAndReporterTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             source = root / "legacy.c"
-            source.write_bytes(
-                b'const char *password = "embedded-secret-value"; // caf\xe9\x1b\n'
-            )
+            source.write_bytes(b'const char *password = "embedded-secret-value"; // caf\xe9\x1b\n')
             result = scan(root)
             report = json.loads(to_json(result))
 
@@ -221,7 +219,9 @@ class ScannerAndReporterTests(unittest.TestCase):
             shifted = json.loads(to_sarif(scan(root)))["runs"][0]["results"]
 
         first_hashes = [item["partialFingerprints"]["primaryLocationLineHash"] for item in first]
-        shifted_hashes = [item["partialFingerprints"]["primaryLocationLineHash"] for item in shifted]
+        shifted_hashes = [
+            item["partialFingerprints"]["primaryLocationLineHash"] for item in shifted
+        ]
         self.assertEqual(2, len(first_hashes))
         self.assertEqual(2, len(set(first_hashes)))
         self.assertEqual(first_hashes, shifted_hashes)
@@ -282,7 +282,9 @@ class ScannerAndReporterTests(unittest.TestCase):
         result = replace(
             base,
             findings=(dependency,),
-            artifacts=(AnalysisArtifact("components.cdx.json", "application/vnd.cyclonedx+json", "b" * 64),),
+            artifacts=(
+                AnalysisArtifact("components.cdx.json", "application/vnd.cyclonedx+json", "b" * 64),
+            ),
         )
         report = json.loads(to_sarif(result))
         result_item = report["runs"][0]["results"][0]
@@ -304,7 +306,9 @@ class ScannerAndReporterTests(unittest.TestCase):
             result = scan(root)
             report = to_text(result)
             payload = json.loads(to_json(result))
-        self.assertIn("No supported source/configuration files were analyzed for profile 'generic'.", report)
+        self.assertIn(
+            "No supported source/configuration files were analyzed for profile 'generic'.", report
+        )
         self.assertFalse(payload["summary"]["analysis_performed"])
 
     def test_unsupported_only_target_returns_incomplete_cli_status(self) -> None:
@@ -338,9 +342,7 @@ class ScannerAndReporterTests(unittest.TestCase):
     def test_esp_idf_profile_discovers_sdkconfig(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            (root / "sdkconfig").write_text(
-                self.esp_idf_secret_config(), encoding="utf-8"
-            )
+            (root / "sdkconfig").write_text(self.esp_idf_secret_config(), encoding="utf-8")
             generic = scan(root)
             esp_idf = scan(root, profile="esp-idf")
         self.assertEqual(0, generic.files_discovered)
@@ -353,9 +355,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             root = Path(temporary)
             option_a = "CONFIG_BOOTLOADER_" + "SKIP_VALIDATE_ALWAYS"
             option_b = "CONFIG_BOOTLOADER_SKIP_VALIDATE_" + "IN_DEEP_SLEEP"
-            (root / "sdkconfig").write_text(
-                f"{option_a}=y\n{option_b}=y\n", encoding="utf-8"
-            )
+            (root / "sdkconfig").write_text(f"{option_a}=y\n{option_b}=y\n", encoding="utf-8")
 
             generic = scan(root, profile="generic")
             esp_idf = scan(root, profile="esp-idf")
@@ -425,8 +425,13 @@ class ScannerAndReporterTests(unittest.TestCase):
             (root / "board.kicad_pcb").write_text("placeholder\n", encoding="utf-8")
             stdout = StringIO()
             stderr = StringIO()
-            with patch("vigil_fuse.cli.scan", side_effect=AssertionError("scanner ran")) as scan_call, \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
+            with (
+                patch(
+                    "vigil_fuse.cli.scan", side_effect=AssertionError("scanner ran")
+                ) as scan_call,
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
                 exit_code = main(["scan", str(root), "--plan", "--format", "json"])
             plan = json.loads(stdout.getvalue())
 
@@ -443,13 +448,23 @@ class ScannerAndReporterTests(unittest.TestCase):
             (root / "app.py").write_text("value = 1\n", encoding="utf-8")
             stdout = StringIO()
             with redirect_stdout(stdout):
-                exit_code = main([
-                    "scan", str(root), "--plan", "--format", "json",
-                    "--max-discovered-paths", "5",
-                    "--max-discovered-directories", "4",
-                    "--max-source-bytes", "100",
-                    "--max-scan-seconds", "12",
-                ])
+                exit_code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--plan",
+                        "--format",
+                        "json",
+                        "--max-discovered-paths",
+                        "5",
+                        "--max-discovered-directories",
+                        "4",
+                        "--max-source-bytes",
+                        "100",
+                        "--max-scan-seconds",
+                        "12",
+                    ]
+                )
             plan = json.loads(stdout.getvalue())
 
         self.assertEqual(0, exit_code)
@@ -473,10 +488,17 @@ class ScannerAndReporterTests(unittest.TestCase):
             (root / "b.py").write_text("value = 1\n", encoding="utf-8")
             stdout = StringIO()
             with redirect_stdout(stdout):
-                exit_code = main([
-                    "scan", str(root), "--plan", "--format", "json",
-                    "--max-discovered-paths", "1",
-                ])
+                exit_code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--plan",
+                        "--format",
+                        "json",
+                        "--max-discovered-paths",
+                        "1",
+                    ]
+                )
             plan = json.loads(stdout.getvalue())
 
         self.assertEqual(0, exit_code)
@@ -495,7 +517,9 @@ class ScannerAndReporterTests(unittest.TestCase):
 
         self.assertEqual(1, result.files_scanned)
         self.assertEqual(3, report["summary"]["source_bytes_read"])
-        self.assertEqual(1, report["coverage"]["files_skipped_by_reason"]["total_source_bytes_limit"])
+        self.assertEqual(
+            1, report["coverage"]["files_skipped_by_reason"]["total_source_bytes_limit"]
+        )
         self.assertIn("total-source-bytes", report["coverage"]["limits_reached"])
         native = next(
             item for item in report["coverage"]["analyzers"] if item["name"] == "fuse-native"
@@ -507,13 +531,17 @@ class ScannerAndReporterTests(unittest.TestCase):
             root = Path(temporary)
             (root / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
             stdout = StringIO()
-            with patch("vigil_fuse.cli.shutil.which", return_value="tool.exe"), \
-                 patch(
-                     "vigil_fuse.cli.subprocess.run",
-                     return_value=SimpleNamespace(returncode=0, stdout=str(root)),
-                 ), \
-                 patch("vigil_fuse.cli.scan", side_effect=AssertionError("scanner ran")) as scan_call, \
-                 redirect_stdout(stdout):
+            with (
+                patch("vigil_fuse.cli.shutil.which", return_value="tool.exe"),
+                patch(
+                    "vigil_fuse.cli.subprocess.run",
+                    return_value=SimpleNamespace(returncode=0, stdout=str(root)),
+                ),
+                patch(
+                    "vigil_fuse.cli.scan", side_effect=AssertionError("scanner ran")
+                ) as scan_call,
+                redirect_stdout(stdout),
+            ):
                 exit_code = main(["scan", str(root), "--git-history", "--plan", "--format", "json"])
             plan = json.loads(stdout.getvalue())
 
@@ -531,9 +559,11 @@ class ScannerAndReporterTests(unittest.TestCase):
             ("Binwalk", None, None),
         )
         stdout = StringIO()
-        with patch("vigil_fuse.cli.inspect_tools", return_value=tools), \
-             patch("vigil_fuse.cli.lock_parser_available", return_value=False), \
-             redirect_stdout(stdout):
+        with (
+            patch("vigil_fuse.cli.inspect_tools", return_value=tools),
+            patch("vigil_fuse.cli.lock_parser_available", return_value=False),
+            redirect_stdout(stdout),
+        ):
             exit_code = main(["doctor"])
 
         self.assertEqual(0, exit_code)
@@ -565,8 +595,14 @@ class ScannerAndReporterTests(unittest.TestCase):
         self.assertTrue(inventory["complete"])
         self.assertEqual(len(hardware_files), inventory["file_count"])
         self.assertEqual(
-            {"bill-of-materials": 1, "fabrication": 1, "hdl": 1, "mechanical-cad": 1,
-             "pcb-layout": 1, "schematic": 1},
+            {
+                "bill-of-materials": 1,
+                "fabrication": 1,
+                "hdl": 1,
+                "mechanical-cad": 1,
+                "pcb-layout": 1,
+                "schematic": 1,
+            },
             inventory["category_counts"],
         )
         self.assertEqual(set(hardware_files), {item["path"] for item in inventory["artifacts"]})
@@ -586,19 +622,17 @@ class ScannerAndReporterTests(unittest.TestCase):
     def test_toml_config_applies_profile_and_output_dir(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            (root / "sdkconfig").write_text(
-                self.esp_idf_secret_config(), encoding="utf-8"
-            )
+            (root / "sdkconfig").write_text(self.esp_idf_secret_config(), encoding="utf-8")
             (root / "app.py").write_text("value = 1\n", encoding="utf-8")
             config = root / "fuse.toml"
             config.write_text(
                 '[scan]\nprofile = "esp-idf"\ninclude = ["sdkconfig"]\n'
-                'max_discovered_paths = 42\n'
-                'max_discovered_directories = 12\n'
-                'max_source_bytes = 4096\n'
-                'max_scan_seconds = 30\n'
-                'max_firmware_bytes = 1073741824\n'
-                '[rules]\ndisabled = []\n'
+                "max_discovered_paths = 42\n"
+                "max_discovered_directories = 12\n"
+                "max_source_bytes = 4096\n"
+                "max_scan_seconds = 30\n"
+                "max_firmware_bytes = 1073741824\n"
+                "[rules]\ndisabled = []\n"
                 '[report]\noutput_dir = "scan-results"\n',
                 encoding="utf-8",
             )
@@ -651,10 +685,18 @@ class ScannerAndReporterTests(unittest.TestCase):
             stdout = StringIO()
             stderr = StringIO()
             with redirect_stdout(stdout), redirect_stderr(stderr):
-                exit_code = main([
-                    "scan", str(root), "--config", str(config),
-                    "--output", str(report_path), "--format", "json",
-                ])
+                exit_code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--config",
+                        str(config),
+                        "--output",
+                        str(report_path),
+                        "--format",
+                        "json",
+                    ]
+                )
             report = json.loads(report_path.read_text(encoding="utf-8"))
             output_dir_created = (root / "scan-results").exists()
         self.assertEqual(0, exit_code)
@@ -694,12 +736,22 @@ class ScannerAndReporterTests(unittest.TestCase):
             output = root / "reports"
             stdout = StringIO()
             stderr = StringIO()
-            with patch("vigil_fuse.cli.identify_firmware") as binwalk, \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
-                exit_code = main([
-                    "scan", str(firmware), "--firmware", "--max-firmware-bytes", "4",
-                    "--output-dir", str(output),
-                ])
+            with (
+                patch("vigil_fuse.cli.identify_firmware") as binwalk,
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                exit_code = main(
+                    [
+                        "scan",
+                        str(firmware),
+                        "--firmware",
+                        "--max-firmware-bytes",
+                        "4",
+                        "--output-dir",
+                        str(output),
+                    ]
+                )
             report = json.loads((output / "findings.json").read_text(encoding="utf-8"))
 
         self.assertEqual(2, exit_code)
@@ -724,8 +776,11 @@ class ScannerAndReporterTests(unittest.TestCase):
                     detail="Signature identification only; no extraction or firmware execution was attempted.",
                 )
             )
-            with patch("vigil_fuse.cli.identify_firmware", return_value=signature_scan), \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
+            with (
+                patch("vigil_fuse.cli.identify_firmware", return_value=signature_scan),
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
                 exit_code = main(["scan", str(firmware), "--firmware"])
             report = json.loads(
                 (Path(temporary) / ".fuse-results" / "findings.json").read_text(encoding="utf-8")
@@ -733,7 +788,8 @@ class ScannerAndReporterTests(unittest.TestCase):
 
         self.assertEqual(0, exit_code)
         binwalk_status = next(
-            analyzer for analyzer in report["coverage"]["analyzers"]
+            analyzer
+            for analyzer in report["coverage"]["analyzers"]
             if analyzer["name"] == "binwalk"
         )
         self.assertEqual("completed", binwalk_status["status"])
@@ -754,16 +810,18 @@ class ScannerAndReporterTests(unittest.TestCase):
                     detail="The saved signature report was truncated.",
                 )
             )
-            with patch("vigil_fuse.cli.identify_firmware", return_value=partial_result), \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
-                exit_code = main([
-                    "scan", str(firmware), "--firmware", "--output-dir", str(output)
-                ])
+            with (
+                patch("vigil_fuse.cli.identify_firmware", return_value=partial_result),
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                exit_code = main(["scan", str(firmware), "--firmware", "--output-dir", str(output)])
             report = json.loads((output / "findings.json").read_text(encoding="utf-8"))
 
         self.assertEqual(2, exit_code)
         binwalk_status = next(
-            analyzer for analyzer in report["coverage"]["analyzers"]
+            analyzer
+            for analyzer in report["coverage"]["analyzers"]
             if analyzer["name"] == "binwalk"
         )
         self.assertEqual("partial", binwalk_status["status"])
@@ -791,12 +849,15 @@ class ScannerAndReporterTests(unittest.TestCase):
             stdout = StringIO()
             stderr = StringIO()
             result = AdapterResult(AnalyzerStatus("osv-scanner", "completed", findings=0))
-            with patch("vigil_fuse.cli.generate_sbom") as generate, \
-                 patch("vigil_fuse.cli.scan_vulnerabilities", return_value=result) as osv, \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
-                exit_code = main([
-                    "scan", str(sbom), "--vulnerabilities", "--output-dir", str(output)
-                ])
+            with (
+                patch("vigil_fuse.cli.generate_sbom") as generate,
+                patch("vigil_fuse.cli.scan_vulnerabilities", return_value=result) as osv,
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                exit_code = main(
+                    ["scan", str(sbom), "--vulnerabilities", "--output-dir", str(output)]
+                )
             report = json.loads((output / "findings.json").read_text(encoding="utf-8"))
             osv_kwargs = osv.call_args.kwargs
 
@@ -813,13 +874,24 @@ class ScannerAndReporterTests(unittest.TestCase):
             output = root / "reports"
             stdout = StringIO()
             stderr = StringIO()
-            result = AdapterResult(AnalyzerStatus("osv-scanner", "completed", version="OSV-Scanner 2.3.0"))
-            with patch("vigil_fuse.cli.scan_vulnerabilities", return_value=result) as osv, \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
-                exit_code = main([
-                    "scan", str(sbom), "--vulnerabilities", "--no-network",
-                    "--output-dir", str(output),
-                ])
+            result = AdapterResult(
+                AnalyzerStatus("osv-scanner", "completed", version="OSV-Scanner 2.3.0")
+            )
+            with (
+                patch("vigil_fuse.cli.scan_vulnerabilities", return_value=result) as osv,
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                exit_code = main(
+                    [
+                        "scan",
+                        str(sbom),
+                        "--vulnerabilities",
+                        "--no-network",
+                        "--output-dir",
+                        str(output),
+                    ]
+                )
             report = json.loads((output / "findings.json").read_text(encoding="utf-8"))
 
         self.assertEqual(0, exit_code)
@@ -834,13 +906,16 @@ class ScannerAndReporterTests(unittest.TestCase):
             output = root / "reports"
             stdout = StringIO()
             stderr = StringIO()
-            with patch("vigil_fuse.cli.MAX_SBOM_DETECTION_BYTES", 8), \
-                 patch("vigil_fuse.scanner.MAX_SBOM_DETECTION_BYTES", 8), \
-                 patch("vigil_fuse.cli.scan_vulnerabilities") as osv, \
-                 redirect_stdout(stdout), redirect_stderr(stderr):
-                exit_code = main([
-                    "scan", str(sbom), "--vulnerabilities", "--output-dir", str(output)
-                ])
+            with (
+                patch("vigil_fuse.cli.MAX_SBOM_DETECTION_BYTES", 8),
+                patch("vigil_fuse.scanner.MAX_SBOM_DETECTION_BYTES", 8),
+                patch("vigil_fuse.cli.scan_vulnerabilities") as osv,
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                exit_code = main(
+                    ["scan", str(sbom), "--vulnerabilities", "--output-dir", str(output)]
+                )
             report = json.loads((output / "findings.json").read_text(encoding="utf-8"))
 
         self.assertEqual(2, exit_code)
@@ -872,9 +947,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             root = Path(temporary)
             env_key = "pass" + "word"
             env_content = f"{env_key}=embedded-env-value-123\n"
-            (root / ".env").write_text(
-                env_content, encoding="utf-8"
-            )
+            (root / ".env").write_text(env_content, encoding="utf-8")
             result = scan(root)
             self.assertEqual(1, result.files_scanned)
             self.assertEqual("FUSE001", result.findings[0].rule_id)

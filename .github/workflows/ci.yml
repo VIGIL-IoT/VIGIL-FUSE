@@ -73,24 +73,8 @@ jobs:
         run: python scripts/check_repository_paths.py
       - name: Validate local documentation links and Mermaid blocks
         run: python scripts/validate_docs.py
-      - name: Check formatting for new or materially changed files
-        run: >-
-          python -m ruff format --check
-          src/vigil_fuse/analyzers.py
-          src/vigil_fuse/analyzer_runtime.py
-          src/vigil_fuse/dependency_analyzers.py
-          src/vigil_fuse/firmware_analyzer.py
-          src/vigil_fuse/hardware_netlist.py
-          src/vigil_fuse/history_analyzer.py
-          src/vigil_fuse/rules/tls.py
-          src/vigil_fuse/text_safety.py
-          scripts/evaluate_rule_benchmark.py
-          scripts/check_repository_paths.py
-          scripts/validate_docs.py
-          tests/test_extended_inventory.py
-          tests/test_docs_validation.py
-          tests/test_repository_path_check.py
-          tests/test_terminal.py
+      - name: Check Python formatting
+        run: python -m ruff format --check src tests scripts
       - name: Run FUSE security self-scan
         run: |
           vigil-fuse scan . --no-network --no-sbom --no-vulnerabilities --no-firmware --no-git-history --format json --output "$RUNNER_TEMP/fuse-self-scan.json"

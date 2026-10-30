@@ -57,8 +57,20 @@ MAX_TOTAL_SOURCE_BYTES = DEFAULT_MAX_SOURCE_BYTES
 MAX_FIRMWARE_IMAGE_BYTES = DEFAULT_MAX_FIRMWARE_BYTES
 MAX_SCAN_SECONDS = DEFAULT_MAX_SCAN_SECONDS
 SKIPPED_DIRECTORIES = {
-    ".git", ".hg", ".svn", ".venv", "venv", "node_modules", "build", "dist",
-    "__pycache__", ".tox", ".mypy_cache", ".pytest_cache", ".fuse-results", "fuse-results",
+    ".git",
+    ".hg",
+    ".svn",
+    ".venv",
+    "venv",
+    "node_modules",
+    "build",
+    "dist",
+    "__pycache__",
+    ".tox",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".fuse-results",
+    "fuse-results",
 }
 _KCONFIG_RULE_IDS = frozenset({"FUSE006", "FUSE007"})
 
@@ -106,7 +118,13 @@ def _candidate_paths(
             else None
         )
         hardware_items = [hardware] if hardware is not None else []
-        return selected, len(discovered), hardware_items, True, dict(sorted(unsupported_types.items()))
+        return (
+            selected,
+            len(discovered),
+            hardware_items,
+            True,
+            dict(sorted(unsupported_types.items())),
+        )
 
     selected: list[Path] = []
     hardware_items: list[HardwareArtifact] = []
@@ -135,7 +153,8 @@ def _candidate_paths(
                     )
                 )
         names[:] = sorted(
-            name for name in names
+            name
+            for name in names
             if name not in SKIPPED_DIRECTORIES and not (current / name).is_symlink()
         )
         for filename in sorted(filenames):
@@ -237,13 +256,17 @@ def _load_source(
         # recording the fallback so the report never implies UTF-8 decoding.
         text = data.decode("iso-8859-1")
         encoding = "iso-8859-1"
-    return SourceFile(
-        path=_display_path(path, base),
-        text=text,
-        sha256=hashlib.sha256(data).hexdigest(),
-        byte_size=len(data),
-        encoding=encoding,
-    ), None, len(data)
+    return (
+        SourceFile(
+            path=_display_path(path, base),
+            text=text,
+            sha256=hashlib.sha256(data).hexdigest(),
+            byte_size=len(data),
+            encoding=encoding,
+        ),
+        None,
+        len(data),
+    )
 
 
 def _sha256_file(path: Path, *, max_bytes: int | None = None) -> str:
@@ -291,7 +314,9 @@ def scan(
 ) -> ScanResult:
     requested = Path(target).expanduser()
     if requested.is_symlink():
-        raise ValueError("Symbolic-link targets are not followed; pass the resolved file or directory explicitly")
+        raise ValueError(
+            "Symbolic-link targets are not followed; pass the resolved file or directory explicitly"
+        )
     if not requested.exists():
         raise FileNotFoundError(f"Target does not exist: {requested}")
     if not requested.is_file() and not requested.is_dir():
@@ -303,8 +328,16 @@ def scan(
         raise ValueError("SBOM input must be a single file")
     if firmware_image and sbom_input:
         raise ValueError("A target cannot be both a firmware image and an SBOM")
-    if (platformio_config is not None or platformio_environments or compile_commands is not None or hardware_bom is not None or hardware_netlist is not None) and not requested.is_dir():
-        raise ValueError("PlatformIO, compilation database, and hardware BOM inputs require a project directory target")
+    if (
+        platformio_config is not None
+        or platformio_environments
+        or compile_commands is not None
+        or hardware_bom is not None
+        or hardware_netlist is not None
+    ) and not requested.is_dir():
+        raise ValueError(
+            "PlatformIO, compilation database, and hardware BOM inputs require a project directory target"
+        )
     if hardware_bom is not None and (firmware_image or sbom_input):
         raise ValueError("--hardware-bom can only be used with a source project directory")
     if hardware_netlist is not None and (firmware_image or sbom_input):
@@ -345,10 +378,12 @@ def scan(
     validate_rule_timeout(rule_timeout_seconds)
 
     profile_info = get_profile(profile)
-    project_context, generated_config_sources, context_warnings, dependency_status = inspect_project_context(
-        requested,
-        profile,
-        build_dir,
+    project_context, generated_config_sources, context_warnings, dependency_status = (
+        inspect_project_context(
+            requested,
+            profile,
+            build_dir,
+        )
     )
     platformio_inventory = inspect_platformio(
         requested,
@@ -404,7 +439,9 @@ def scan(
             manifest.update(f"{requested.name}\0skip:sbom_too_large\n".encode("utf-8"))
         else:
             manifest.update(
-                f"{requested.name}\0{_sha256_file(requested, max_bytes=MAX_SBOM_DETECTION_BYTES)}\n".encode("utf-8")
+                f"{requested.name}\0{_sha256_file(requested, max_bytes=MAX_SBOM_DETECTION_BYTES)}\n".encode(
+                    "utf-8"
+                )
             )
     else:
         (
@@ -438,9 +475,7 @@ def scan(
     selected_netlist: str | Path | None = hardware_netlist
     auto_selected_netlist = False
     if selected_netlist is None and requested.is_dir():
-        netlist_paths = [
-            item.path for item in hardware_items if item.category == "netlist"
-        ]
+        netlist_paths = [item.path for item in hardware_items if item.category == "netlist"]
         if len(netlist_paths) == 1:
             selected_netlist = netlist_paths[0]
             auto_selected_netlist = True
@@ -582,14 +617,17 @@ def scan(
             if execution.scan_deadline_reached:
                 limits_reached.add("scan-time")
                 for rule_id in execution.unfinished_rule_ids:
-                    rule_incomplete.setdefault(rule_id, "Not completed before the scan-wide time limit.")
+                    rule_incomplete.setdefault(
+                        rule_id, "Not completed before the scan-wide time limit."
+                    )
                 if index + 1 < len(candidates):
                     continue
 
         if build_dir is not None and time.monotonic() < scan_deadline:
             platform_rule_ids = {"FUSE006", "FUSE007"} if profile == "esp-idf" else set()
             enabled_platform_rules = tuple(
-                rule for rule in enabled_rules
+                rule
+                for rule in enabled_rules
                 if rule.id in platform_rule_ids and rule.id not in disabled_after_error
             )
             for source in generated_config_sources:
@@ -598,12 +636,13 @@ def scan(
                     for rule in enabled_platform_rules:
                         if rule.id in disabled_after_error:
                             continue
-                        rule_incomplete.setdefault(rule.id, "Not completed before the scan-wide time limit.")
+                        rule_incomplete.setdefault(
+                            rule.id, "Not completed before the scan-wide time limit."
+                        )
                     break
                 manifest.update(f"build-context:{source.path}\0{source.sha256}\n".encode("utf-8"))
                 active_platform_rules = tuple(
-                    rule for rule in enabled_platform_rules
-                    if rule.id not in disabled_after_error
+                    rule for rule in enabled_platform_rules if rule.id not in disabled_after_error
                 )
                 execution = rule_executor.execute(
                     source,
@@ -630,7 +669,9 @@ def scan(
                 if execution.scan_deadline_reached:
                     limits_reached.add("scan-time")
                     for rule_id in execution.unfinished_rule_ids:
-                        rule_incomplete.setdefault(rule_id, "Not completed before the scan-wide time limit.")
+                        rule_incomplete.setdefault(
+                            rule_id, "Not completed before the scan-wide time limit."
+                        )
                     break
         elif build_dir is not None:
             platform_rule_ids = {"FUSE006", "FUSE007"} if profile == "esp-idf" else set()
@@ -677,35 +718,42 @@ def scan(
         else "No selected text files or no enabled rules."
     )
     analyzer_status = (
-        AnalyzerStatus(
-            name="sbom-input",
-            status="skipped",
-            detail="SBOM exceeds the 50 MiB input limit and was not parsed or hashed.",
-        ),
-    ) if sbom_too_large else (
-        AnalyzerStatus(
-            name="fuse-native",
-            status=(
-                "partial"
-                if native_partial
-                else "completed"
-                if files_scanned and enabled_rules
-                else "skipped"
+        (
+            AnalyzerStatus(
+                name="sbom-input",
+                status="skipped",
+                detail="SBOM exceeds the 50 MiB input limit and was not parsed or hashed.",
             ),
-            version=__version__,
-            detail=native_detail,
-            findings=native_findings_count,
-        ),
+        )
+        if sbom_too_large
+        else (
+            AnalyzerStatus(
+                name="fuse-native",
+                status=(
+                    "partial"
+                    if native_partial
+                    else "completed"
+                    if files_scanned and enabled_rules
+                    else "skipped"
+                ),
+                version=__version__,
+                detail=native_detail,
+                findings=native_findings_count,
+            ),
+        )
     )
     if firmware_input_rejected:
-        analyzer_status = (*analyzer_status, AnalyzerStatus(
-            name="firmware-input",
-            status="failed",
-            detail=(
-                f"Firmware image exceeds the configured {max_firmware_bytes}-byte limit; "
-                "the image was not hashed or passed to Binwalk."
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="firmware-input",
+                status="failed",
+                detail=(
+                    f"Firmware image exceeds the configured {max_firmware_bytes}-byte limit; "
+                    "the image was not hashed or passed to Binwalk."
+                ),
             ),
-        ))
+        )
     if not sbom_too_large:
         rule_definition_by_id = {rule.id: rule for rule in enabled_rules}
         for rule_id, rule in rule_definition_by_id.items():
@@ -735,52 +783,66 @@ def scan(
                     if rule_prefilter_skips[rule_id]
                     else "No selected input was passed to this rule."
                 )
-            analyzer_status = (*analyzer_status, AnalyzerStatus(
-                name=f"native-rule:{rule_id}",
-                status=status,
-                version=rule.version,
-                detail=detail,
-                findings=rule_finding_counts[rule_id],
-            ))
+            analyzer_status = (
+                *analyzer_status,
+                AnalyzerStatus(
+                    name=f"native-rule:{rule_id}",
+                    status=status,
+                    version=rule.version,
+                    detail=detail,
+                    findings=rule_finding_counts[rule_id],
+                ),
+            )
     if dependency_status is not None:
         analyzer_status = (*analyzer_status, dependency_status)
     if hardening_status is not None:
         analyzer_status = (*analyzer_status, hardening_status)
-    analyzer_status = (*analyzer_status, AnalyzerStatus(
-        name="firmware-candidate-inventory",
-        status="partial" if firmware_candidates.status == "partial" else "completed",
-        detail=(
-            f"Recorded {firmware_candidates.candidate_count} filename and size candidate(s); no image contents were read or verified."
-            if firmware_candidates.status != "partial"
-            else "; ".join(firmware_candidates.limitations)
+    analyzer_status = (
+        *analyzer_status,
+        AnalyzerStatus(
+            name="firmware-candidate-inventory",
+            status="partial" if firmware_candidates.status == "partial" else "completed",
+            detail=(
+                f"Recorded {firmware_candidates.candidate_count} filename and size candidate(s); no image contents were read or verified."
+                if firmware_candidates.status != "partial"
+                else "; ".join(firmware_candidates.limitations)
+            ),
         ),
-    ))
+    )
     if github_actions.status != "not-detected":
-        analyzer_status = (*analyzer_status, AnalyzerStatus(
-            name="github-actions-static",
-            status="partial" if github_actions.status == "partial" else "completed",
-            detail=(
-                "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed."
-                if github_actions.status == "completed"
-                else "; ".join(github_actions.limitations)
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="github-actions-static",
+                status="partial" if github_actions.status == "partial" else "completed",
+                detail=(
+                    "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed."
+                    if github_actions.status == "completed"
+                    else "; ".join(github_actions.limitations)
+                ),
+                findings=github_actions.finding_count,
             ),
-            findings=github_actions.finding_count,
-        ))
+        )
     if netlist_inventory.status != "not-detected":
-        analyzer_status = (*analyzer_status, AnalyzerStatus(
-            name="kicad-netlist-static",
-            status=(
-                "completed" if netlist_inventory.status == "parsed"
-                else "partial" if netlist_inventory.status == "partial"
-                else "failed"
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="kicad-netlist-static",
+                status=(
+                    "completed"
+                    if netlist_inventory.status == "parsed"
+                    else "partial"
+                    if netlist_inventory.status == "partial"
+                    else "failed"
+                ),
+                detail=(
+                    f"Inspected {netlist_inventory.net_count} KiCad net(s) and recorded {len(netlist_inventory.debug_net_candidates)} debug-net candidate(s)."
+                    if netlist_inventory.status == "parsed"
+                    else "; ".join(netlist_inventory.limitations)
+                ),
+                findings=len(netlist_findings),
             ),
-            detail=(
-                f"Inspected {netlist_inventory.net_count} KiCad net(s) and recorded {len(netlist_inventory.debug_net_candidates)} debug-net candidate(s)."
-                if netlist_inventory.status == "parsed"
-                else "; ".join(netlist_inventory.limitations)
-            ),
-            findings=len(netlist_findings),
-        ))
+        )
     if build_dir is not None:
         platform_rule_ids = {"FUSE006", "FUSE007"} if profile == "esp-idf" else set()
         platform_rules_incomplete = any(
@@ -792,17 +854,20 @@ def scan(
             if generated_config_sources and not context_warnings and not platform_rules_incomplete
             else "partial"
         )
-        analyzer_status = (*analyzer_status, AnalyzerStatus(
-            name="platform-build-context",
-            status=platform_status,
-            detail=(
-                f"Inspected the selected {profile} build context without invoking its build system."
-                if platform_status == "completed"
-                else "; ".join(context_warnings)
-                or f"No recognized generated configuration was found in {project_context.build_dir}."
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="platform-build-context",
+                status=platform_status,
+                detail=(
+                    f"Inspected the selected {profile} build context without invoking its build system."
+                    if platform_status == "completed"
+                    else "; ".join(context_warnings)
+                    or f"No recognized generated configuration was found in {project_context.build_dir}."
+                ),
+                findings=platform_findings,
             ),
-            findings=platform_findings,
-        ))
+        )
     target_kind = (
         "firmware-image"
         if firmware_image

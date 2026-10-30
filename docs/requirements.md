@@ -96,10 +96,10 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 | Build | PEP 517/518 setuptools backend, `setuptools>=77.0.3` |
 | Runtime dependencies | None required for the core package |
 | Optional Python dependency | PyYAML `>=6,<7` for selected ESP-IDF lock metadata |
-| Development dependencies | Build, coverage, jsonschema, pytest, pytest-cov, Ruff, and Twine, with ranges in `pyproject.toml` |
+| Development dependencies | Build, coverage, jsonschema, PyYAML, pytest, pytest-cov, Ruff, and Twine, with ranges in `pyproject.toml` |
 | Optional system analyzers | Syft, OSV-Scanner, Binwalk, and Gitleaks, invoked only when requested |
 | Reports | Text, JSON Schema 2020-12, SARIF, and selected CycloneDX outputs |
-| CI | GitHub Actions on Ubuntu with Python 3.11 to 3.14, plus Windows and macOS jobs on Python 3.11 |
+| CI | GitHub Actions on Ubuntu with Python 3.11 to 3.14, plus Windows and macOS jobs on Python 3.11; tests include the optional YAML parser |
 | Site | Static files in `site/`, configured by `vercel.json`; independent of the analyzer runtime |
 
 ## Assumptions and constraints

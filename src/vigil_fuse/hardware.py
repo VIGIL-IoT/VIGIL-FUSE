@@ -84,7 +84,9 @@ def classify_hardware_file(path: Path, display_path: str) -> HardwareArtifact | 
             or "partslist" in compact_name
         )
         if is_bom:
-            return HardwareArtifact(display_path, "bill-of-materials", f"BOM {suffix.lstrip('.').upper()}")
+            return HardwareArtifact(
+                display_path, "bill-of-materials", f"BOM {suffix.lstrip('.').upper()}"
+            )
     recognized = _FORMATS.get(suffix)
     if recognized is None:
         # Multi-part KiCad extensions are checked explicitly because Path.suffix

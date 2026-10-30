@@ -145,8 +145,10 @@ def inspect_dependencies_lock(
             byte_size=byte_size,
             limitations=(read_error,),
         )
-        return inventory, artifact, AnalyzerStatus(
-            "esp-idf-dependencies", "partial", detail=read_error
+        return (
+            inventory,
+            artifact,
+            AnalyzerStatus("esp-idf-dependencies", "partial", detail=read_error),
         )
     assert data is not None
     if not lock_parser_available():
@@ -158,7 +160,11 @@ def inspect_dependencies_lock(
             byte_size=byte_size,
             limitations=(detail,),
         )
-        return inventory, artifact, AnalyzerStatus("esp-idf-dependencies", "unavailable", detail=detail)
+        return (
+            inventory,
+            artifact,
+            AnalyzerStatus("esp-idf-dependencies", "unavailable", detail=detail),
+        )
 
     try:
         import yaml
@@ -171,7 +177,11 @@ def inspect_dependencies_lock(
             byte_size=byte_size,
             limitations=(detail,),
         )
-        return inventory, artifact, AnalyzerStatus("esp-idf-dependencies", "unavailable", detail=detail)
+        return (
+            inventory,
+            artifact,
+            AnalyzerStatus("esp-idf-dependencies", "unavailable", detail=detail),
+        )
     try:
         lock_text = data.decode("utf-8-sig")
         _validate_yaml_bounds(yaml, lock_text)
@@ -185,8 +195,15 @@ def inspect_dependencies_lock(
             byte_size=byte_size,
             limitations=(detail,),
         )
-        return inventory, artifact, AnalyzerStatus(
-            "esp-idf-dependencies", "failed", version=getattr(yaml, "__version__", None), detail=detail
+        return (
+            inventory,
+            artifact,
+            AnalyzerStatus(
+                "esp-idf-dependencies",
+                "failed",
+                version=getattr(yaml, "__version__", None),
+                detail=detail,
+            ),
         )
 
     if not isinstance(document, dict):
@@ -198,8 +215,15 @@ def inspect_dependencies_lock(
             byte_size=byte_size,
             limitations=(detail,),
         )
-        return inventory, artifact, AnalyzerStatus(
-            "esp-idf-dependencies", "failed", version=getattr(yaml, "__version__", None), detail=detail
+        return (
+            inventory,
+            artifact,
+            AnalyzerStatus(
+                "esp-idf-dependencies",
+                "failed",
+                version=getattr(yaml, "__version__", None),
+                detail=detail,
+            ),
         )
 
     dependencies = document.get("dependencies")
@@ -232,7 +256,9 @@ def inspect_dependencies_lock(
         structural_warnings.append("dependencies is not a mapping.")
         dependencies = {}
     if len(dependencies) > MAX_LOCK_COMPONENTS:
-        structural_warnings.append(f"dependencies exceeds the {MAX_LOCK_COMPONENTS}-component limit.")
+        structural_warnings.append(
+            f"dependencies exceeds the {MAX_LOCK_COMPONENTS}-component limit."
+        )
     for raw_name, entry in list(dependencies.items())[:MAX_LOCK_COMPONENTS]:
         name = _safe_name(raw_name)
         if name is None or not isinstance(entry, dict):
@@ -244,27 +270,30 @@ def inspect_dependencies_lock(
             continue
         raw_hash = entry.get("component_hash")
         component_hash = (
-            raw_hash.lower()
-            if isinstance(raw_hash, str) and _SHA256.fullmatch(raw_hash)
-            else None
+            raw_hash.lower() if isinstance(raw_hash, str) and _SHA256.fullmatch(raw_hash) else None
         )
         targets_raw = entry.get("targets", [])
-        compatible_targets = tuple(
-            target_name
-            for target_name in (
-                _safe_name(item) for item in targets_raw[:100]
+        compatible_targets = (
+            tuple(
+                target_name
+                for target_name in (_safe_name(item) for item in targets_raw[:100])
+                if target_name is not None
             )
-            if target_name is not None
-        ) if isinstance(targets_raw, list) else ()
+            if isinstance(targets_raw, list)
+            else ()
+        )
         dependencies_raw = entry.get("dependencies", {})
-        dependency_names = tuple(sorted(
-            name_value
-            for name_value in (
-                _safe_name(item)
-                for item in dependencies_raw.keys()
+        dependency_names = (
+            tuple(
+                sorted(
+                    name_value
+                    for name_value in (_safe_name(item) for item in dependencies_raw.keys())
+                    if name_value is not None
+                )
             )
-            if name_value is not None
-        )) if isinstance(dependencies_raw, dict) else ()
+            if isinstance(dependencies_raw, dict)
+            else ()
+        )
         components.append(
             ResolvedComponent(
                 name=name,
@@ -285,16 +314,22 @@ def inspect_dependencies_lock(
     if target is None:
         structural_warnings.append("The lock file has no supported target value.")
     elif selected_target is None:
-        warnings.append("The lock target could not be compared because no generated build target was selected.")
+        warnings.append(
+            "The lock target could not be compared because no generated build target was selected."
+        )
     elif selected_target_match is False:
         warnings.append("The lock target does not match the selected generated build target.")
     if manifest_hash is None:
         structural_warnings.append("The lock file has no valid SHA-256 manifest_hash.")
 
     warnings.extend(structural_warnings)
-    status = "partial" if structural_warnings else (
-        "target-mismatch" if selected_target_match is False else (
-            "target-matches" if selected_target_match is True else "target-unverified"
+    status = (
+        "partial"
+        if structural_warnings
+        else (
+            "target-mismatch"
+            if selected_target_match is False
+            else ("target-matches" if selected_target_match is True else "target-unverified")
         )
     )
     limitations = [
@@ -319,9 +354,7 @@ def inspect_dependencies_lock(
     analyzer_status = AnalyzerStatus(
         name="esp-idf-dependencies",
         status=(
-            "partial"
-            if structural_warnings or selected_target_match is False
-            else "completed"
+            "partial" if structural_warnings or selected_target_match is False else "completed"
         ),
         version=getattr(yaml, "__version__", None),
         detail=(

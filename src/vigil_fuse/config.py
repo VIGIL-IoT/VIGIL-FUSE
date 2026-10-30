@@ -75,14 +75,25 @@ def load_config(path: str | Path) -> ScanConfig:
         if not isinstance(section, dict):
             raise ValueError(f"Config section [{section_name}] must be a table")
     unknown_scan = set(scan_data) - {
-        "profile", "target_label", "include", "exclude", "max_file_bytes",
-        "max_discovered_paths", "max_discovered_directories", "max_source_bytes",
-        "max_scan_seconds", "max_firmware_bytes",
+        "profile",
+        "target_label",
+        "include",
+        "exclude",
+        "max_file_bytes",
+        "max_discovered_paths",
+        "max_discovered_directories",
+        "max_source_bytes",
+        "max_scan_seconds",
+        "max_firmware_bytes",
     }
     unknown_rules = set(rules_data) - {"disabled"}
     unknown_report = set(report_data) - {"output_dir"}
     unknown_analysis = set(analysis_data) - {
-        "sbom", "vulnerabilities", "firmware", "offline_vulnerabilities", "git_history"
+        "sbom",
+        "vulnerabilities",
+        "firmware",
+        "offline_vulnerabilities",
+        "git_history",
     }
     if unknown_scan or unknown_rules or unknown_report or unknown_analysis:
         unknown = sorted(unknown_scan | unknown_rules | unknown_report | unknown_analysis)

@@ -225,7 +225,9 @@ class VexImport:
 
 @dataclass(frozen=True)
 class ProvenanceRecord:
-    status: Literal["not-requested", "unverified", "subject-match", "subject-mismatch", "invalid"] = "not-requested"
+    status: Literal[
+        "not-requested", "unverified", "subject-match", "subject-mismatch", "invalid"
+    ] = "not-requested"
     source_path: str | None = None
     sha256: str | None = None
     byte_size: int = 0
@@ -274,10 +276,16 @@ class ConfigurationDefault:
 class ConfigurationOrigin:
     """Evidence describing the selected ESP-IDF config and defaults provenance."""
 
-    status: Literal["not-inspected", "selected", "candidates-only", "partial", "unresolved"] = "not-inspected"
+    status: Literal["not-inspected", "selected", "candidates-only", "partial", "unresolved"] = (
+        "not-inspected"
+    )
     selected_sdkconfig: str | None = None
-    selected_sdkconfig_source: Literal["cmake-cache", "project-default", "unresolved", "none"] = "none"
-    defaults_source: Literal["cmake-cache", "conventional-candidate", "unavailable", "not-applicable"] = "not-applicable"
+    selected_sdkconfig_source: Literal["cmake-cache", "project-default", "unresolved", "none"] = (
+        "none"
+    )
+    defaults_source: Literal[
+        "cmake-cache", "conventional-candidate", "unavailable", "not-applicable"
+    ] = "not-applicable"
     defaults_order_resolved: bool = False
     default_files: tuple[ConfigurationDefault, ...] = ()
     limitations: tuple[str, ...] = ()
@@ -301,8 +309,13 @@ class ComponentLockInventory:
     """Validated metadata from an ESP-IDF Component Manager lock file."""
 
     status: Literal[
-        "not-detected", "partial", "parser-unavailable", "invalid",
-        "target-matches", "target-mismatch", "target-unverified",
+        "not-detected",
+        "partial",
+        "parser-unavailable",
+        "invalid",
+        "target-matches",
+        "target-mismatch",
+        "target-unverified",
     ] = "not-detected"
     path: str | None = None
     sha256: str | None = None

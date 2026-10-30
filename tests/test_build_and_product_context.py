@@ -80,12 +80,16 @@ class PlatformIOInventoryTests(unittest.TestCase):
         self.assertEqual(("espidf",), release.frameworks)
         self.assertEqual("release", release.build_type)
         self.assertNotIn("should-not-be-reported", json.dumps(report))
-        self.assertEqual("release", report["build_context"]["platformio"]["selected_environments"][0])
+        self.assertEqual(
+            "release", report["build_context"]["platformio"]["selected_environments"][0]
+        )
 
     def test_platformio_selection_rejects_unknown_environment(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
-            (root / "platformio.ini").write_text("[env:board]\nboard = esp32dev\n", encoding="utf-8")
+            (root / "platformio.ini").write_text(
+                "[env:board]\nboard = esp32dev\n", encoding="utf-8"
+            )
             with self.assertRaisesRegex(ValueError, "Unknown PlatformIO"):
                 inspect_platformio(root, selected_environments=("missing",))
 
@@ -110,25 +114,39 @@ class PlatformIOInventoryTests(unittest.TestCase):
                 encoding="utf-8",
             )
             (root / "compile_commands.json").write_text(
-                json.dumps([
-                    {
-                        "directory": str(root),
-                        "file": "main.c",
-                        "arguments": ["xtensa-esp32-elf-gcc", "-c", "main.c"],
-                    }
-                ]),
+                json.dumps(
+                    [
+                        {
+                            "directory": str(root),
+                            "file": "main.c",
+                            "arguments": ["xtensa-esp32-elf-gcc", "-c", "main.c"],
+                        }
+                    ]
+                ),
                 encoding="utf-8",
             )
             stdout = StringIO()
             with redirect_stdout(stdout):
-                exit_code = main(["scan", str(root), "--plan", "--format", "json", "--platformio-env", "esp32dev"])
+                exit_code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--plan",
+                        "--format",
+                        "json",
+                        "--platformio-env",
+                        "esp32dev",
+                    ]
+                )
             plan = json.loads(stdout.getvalue())
 
         stages = {item["name"]: item for item in plan["stages"]}
         self.assertEqual(0, exit_code)
         self.assertFalse(plan["executed"])
         self.assertEqual(["esp32dev"], plan["build_context"]["platformio"]["selected_environments"])
-        self.assertEqual(1, plan["build_context"]["compilation_database"]["unique_translation_units"])
+        self.assertEqual(
+            1, plan["build_context"]["compilation_database"]["unique_translation_units"]
+        )
         self.assertIn("never executed", stages["compilation-database-index"]["reason"])
 
 
@@ -149,7 +167,7 @@ class CompilationDatabaseTests(unittest.TestCase):
                 {
                     "directory": str(root / "build"),
                     "file": str(outside_source),
-                    "command": f'python -c "from pathlib import Path; Path(r\'{marker}\').write_text(\'ran\')"',
+                    "command": f"python -c \"from pathlib import Path; Path(r'{marker}').write_text('ran')\"",
                 },
                 {"file": "missing-directory.c"},
             ]
@@ -186,7 +204,7 @@ class HardwareBOMTests(unittest.TestCase):
             source.write_text(
                 "Reference,Value,Footprint,Manufacturer,MPN\n"
                 "R1,R 10k,0603,Acme,RES-10K\n"
-                'C1; C2,100nF,0402,Parts Inc,CAP-100N\n',
+                "C1; C2,100nF,0402,Parts Inc,CAP-100N\n",
                 encoding="utf-8",
             )
             inventory = inspect_hardware_bom(root, source.name)
@@ -200,7 +218,9 @@ class HardwareBOMTests(unittest.TestCase):
         self.assertEqual("CycloneDX", document["bomFormat"])
         self.assertEqual("1.6", document["specVersion"])
         self.assertEqual("device", document["metadata"]["component"]["type"])
-        self.assertEqual(["R1", "C1; C2"], [item["properties"][0]["value"] for item in document["components"]])
+        self.assertEqual(
+            ["R1", "C1; C2"], [item["properties"][0]["value"] for item in document["components"]]
+        )
         self.assertEqual(2, report["hardware_bom"]["component_count"])
 
     def test_invalid_hardware_bom_is_reported_without_inventing_components(self) -> None:
@@ -223,8 +243,12 @@ class HardwareBOMTests(unittest.TestCase):
             )
             stdout = StringIO()
             with redirect_stdout(stdout):
-                exit_code = main(["scan", str(root), "--hardware-bom", "bom.csv", "--format", "json"])
-            report = json.loads((root / ".fuse-results" / "findings.json").read_text(encoding="utf-8"))
+                exit_code = main(
+                    ["scan", str(root), "--hardware-bom", "bom.csv", "--format", "json"]
+                )
+            report = json.loads(
+                (root / ".fuse-results" / "findings.json").read_text(encoding="utf-8")
+            )
             hbom_path = root / ".fuse-results" / "hardware-bom.cdx.json"
             digest = hashlib.sha256(hbom_path.read_bytes()).hexdigest()
 
@@ -237,7 +261,9 @@ class HardwareBOMTests(unittest.TestCase):
 class ProductContextTests(unittest.TestCase):
     def test_common_osv_ecosystems_get_package_urls(self) -> None:
         self.assertEqual("pkg:pypi/requests@2.32.0", package_purl("PyPI", "Requests", "2.32.0"))
-        self.assertEqual("pkg:npm/%40scope/package@1.2.3", package_purl("npm", "@scope/package", "1.2.3"))
+        self.assertEqual(
+            "pkg:npm/%40scope/package@1.2.3", package_purl("npm", "@scope/package", "1.2.3")
+        )
         self.assertEqual(
             "pkg:maven/org.example/demo@1.0",
             package_purl("Maven", "org.example:demo", "1.0"),
@@ -258,7 +284,13 @@ class ProductContextTests(unittest.TestCase):
                     {
                         "bomFormat": "CycloneDX",
                         "specVersion": "1.6",
-                        "metadata": {"component": {"type": "application", "name": "device", "purl": "pkg:generic/device@1.0"}},
+                        "metadata": {
+                            "component": {
+                                "type": "application",
+                                "name": "device",
+                                "purl": "pkg:generic/device@1.0",
+                            }
+                        },
                         "vulnerabilities": [
                             {
                                 "id": "CVE-2026-1000",
@@ -292,12 +324,14 @@ class ProductContextTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             (root / "review.vex.json").write_text(
-                json.dumps({
-                    "bomFormat": "CycloneDX",
-                    "specVersion": "1.5",
-                    "metadata": {"component": {"purl": "pkg:generic/other@1"}},
-                    "vulnerabilities": [],
-                }),
+                json.dumps(
+                    {
+                        "bomFormat": "CycloneDX",
+                        "specVersion": "1.5",
+                        "metadata": {"component": {"purl": "pkg:generic/other@1"}},
+                        "vulnerabilities": [],
+                    }
+                ),
                 encoding="utf-8",
             )
             findings, vex_import = import_vex(

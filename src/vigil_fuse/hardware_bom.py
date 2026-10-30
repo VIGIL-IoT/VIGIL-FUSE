@@ -24,7 +24,11 @@ _HEADER_ALIASES = {
     "footprint": {"footprint", "package", "landpattern"},
     "manufacturer": {"manufacturer", "mfr", "vendor", "supplier"},
     "part_number": {
-        "mpn", "partnumber", "manufacturerpartnumber", "manufacturerpn", "supplierpartnumber",
+        "mpn",
+        "partnumber",
+        "manufacturerpartnumber",
+        "manufacturerpn",
+        "supplierpartnumber",
     },
     "quantity": {"qty", "quantity", "count"},
 }
@@ -114,7 +118,9 @@ def inspect_hardware_bom(root: Path, supplied: str | Path) -> HardwareBOMInvento
                     footprint=cell("footprint") or None,
                     manufacturer=cell("manufacturer") or None,
                     part_number=part_number,
-                    description=cell("name") if part_number and cell("name") != part_number else None,
+                    description=cell("name")
+                    if part_number and cell("name") != part_number
+                    else None,
                 )
             )
     except (csv.Error, StopIteration, ValueError) as error:
@@ -156,7 +162,9 @@ def hardware_bom_document(
         raise ValueError("No importable hardware BOM is available")
     components = []
     for item in inventory.components:
-        identity = "\0".join((item.reference, item.name, item.part_number or "", item.manufacturer or ""))
+        identity = "\0".join(
+            (item.reference, item.name, item.part_number or "", item.manufacturer or "")
+        )
         bom_ref = "urn:fuse:hardware:" + hashlib.sha256(identity.encode("utf-8")).hexdigest()
         properties = [
             {"name": "fuse:reference", "value": item.reference},

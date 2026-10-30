@@ -57,7 +57,9 @@ def to_json(result: ScanResult) -> str:
                 "encoding": "iso-8859-1",
                 "count": result.encoding_fallback_count,
                 "files": list(result.encoding_fallback_files),
-                "omitted_count": max(0, result.encoding_fallback_count - len(result.encoding_fallback_files)),
+                "omitted_count": max(
+                    0, result.encoding_fallback_count - len(result.encoding_fallback_files)
+                ),
             },
             "discovery_complete": result.discovery_complete,
             "limits_reached": list(result.limits_reached),
@@ -286,7 +288,9 @@ def to_json(result: ScanResult) -> str:
                 "selected_target_match": result.project_context.component_lock.selected_target_match,
                 "manifest_hash": result.project_context.component_lock.manifest_hash,
                 "manifest_freshness": result.project_context.component_lock.manifest_freshness,
-                "direct_dependencies": list(result.project_context.component_lock.direct_dependencies),
+                "direct_dependencies": list(
+                    result.project_context.component_lock.direct_dependencies
+                ),
                 "components": [
                     {
                         "name": item.name,
@@ -342,13 +346,18 @@ def _to_text(result: ScanResult) -> str:
             f"{len(pio.configurations)} config file(s), selected: {', '.join(pio.selected_environments) or 'none'}"
         )
         for item in pio.environments:
-            details = ", ".join(value for value in (item.platform, item.board, ",".join(item.frameworks)) if value)
+            details = ", ".join(
+                value for value in (item.platform, item.board, ",".join(item.frameworks)) if value
+            )
             lines.append(f"  {item.name}" + (f" [{details}]" if details else ""))
             if item.source_dir:
                 lines.append(f"    source directory candidate: {item.source_dir}")
             if item.source_filter:
                 lines.append(f"    source filter: {' ; '.join(item.source_filter)}")
-        lines.extend(f"  PlatformIO config: {item.path} [sha256:{item.sha256}]" for item in pio.configurations)
+        lines.extend(
+            f"  PlatformIO config: {item.path} [sha256:{item.sha256}]"
+            for item in pio.configurations
+        )
         lines.extend(f"  PlatformIO limit: {item}" for item in pio.limitations)
     database = result.compilation_database
     if database.status != "not-detected":
@@ -391,8 +400,7 @@ def _to_text(result: ScanResult) -> str:
         )
     if result.unsupported_file_types:
         lines.extend(
-            f"  {file_type}: {count}"
-            for file_type, count in result.unsupported_file_types.items()
+            f"  {file_type}: {count}" for file_type, count in result.unsupported_file_types.items()
         )
     if not result.discovery_complete:
         lines.append("Input inventory is incomplete because discovery stopped at a resource limit.")
@@ -420,8 +428,7 @@ def _to_text(result: ScanResult) -> str:
         if context.settings:
             lines.append("Selected generated security settings:")
             lines.extend(
-                f"  {item.name}={item.value} ({item.path}:{item.line})"
-                for item in context.settings
+                f"  {item.name}={item.value} ({item.path}:{item.line})" for item in context.settings
             )
         origin = context.configuration_origin
         if origin.status != "not-inspected":
@@ -443,11 +450,17 @@ def _to_text(result: ScanResult) -> str:
             lines.append(
                 f"ESP-IDF resolved dependencies: {len(lock.components)} component(s) / {lock.status}"
             )
-            lines.append(f"  Lockfile: {lock.path} (sha256:{lock.sha256})" if lock.sha256 else f"  Lockfile: {lock.path} (not hashed)")
+            lines.append(
+                f"  Lockfile: {lock.path} (sha256:{lock.sha256})"
+                if lock.sha256
+                else f"  Lockfile: {lock.path} (not hashed)"
+            )
             if lock.target:
                 lines.append(f"  Lock target: {lock.target}")
             if lock.selected_target_match is not None:
-                lines.append(f"  Selected build target match: {'yes' if lock.selected_target_match else 'no'}")
+                lines.append(
+                    f"  Selected build target match: {'yes' if lock.selected_target_match else 'no'}"
+                )
             lines.extend(
                 f"  {item.name}@{item.version} [{item.source_type}, {'direct' if item.direct else 'transitive'}]"
                 for item in lock.components
@@ -460,8 +473,7 @@ def _to_text(result: ScanResult) -> str:
         for category, count in result.hardware_inventory.category_counts.items():
             lines.append(f"  {category}: {count}")
         lines.extend(
-            f"  {item.path} [{item.format}]"
-            for item in result.hardware_inventory.artifacts
+            f"  {item.path} [{item.format}]" for item in result.hardware_inventory.artifacts
         )
     else:
         lines.append("Hardware inventory: no recognized hardware artifacts in target scope.")
@@ -472,10 +484,11 @@ def _to_text(result: ScanResult) -> str:
             "(extension and size only, contents not inspected)"
         )
         if firmware.extension_counts:
-            lines.extend(f"  {extension}: {count}" for extension, count in firmware.extension_counts.items())
+            lines.extend(
+                f"  {extension}: {count}" for extension, count in firmware.extension_counts.items()
+            )
         lines.extend(
-            f"  {item.path} [{item.format}, {item.byte_size} bytes]"
-            for item in firmware.candidates
+            f"  {item.path} [{item.format}, {item.byte_size} bytes]" for item in firmware.candidates
         )
         lines.extend(f"  Firmware inventory limit: {item}" for item in firmware.limitations)
     if result.github_actions.status != "not-detected":
@@ -491,17 +504,20 @@ def _to_text(result: ScanResult) -> str:
             f"KiCad netlist: {result.netlist_inventory.status}; "
             f"{len(result.netlist_inventory.debug_net_candidates)} debug-net candidate(s)"
         )
-        lines.extend(f"  Candidate: {item}" for item in result.netlist_inventory.debug_net_candidates)
+        lines.extend(
+            f"  Candidate: {item}" for item in result.netlist_inventory.debug_net_candidates
+        )
         lines.extend(f"  Netlist limit: {item}" for item in result.netlist_inventory.limitations)
     if result.limits_reached:
         lines.append(f"Resource limits reached: {', '.join(result.limits_reached)}")
     if not result.hardware_inventory.complete:
-        lines.append("Hardware inventory is incomplete because discovery stopped at a resource limit.")
+        lines.append(
+            "Hardware inventory is incomplete because discovery stopped at a resource limit."
+        )
     if result.analyzers:
         lines.append("Analyzers:")
         lines.extend(
-            f"  {item.name}: {item.status}"
-            + (f" ({item.detail})" if item.detail else "")
+            f"  {item.name}: {item.status}" + (f" ({item.detail})" if item.detail else "")
             for item in result.analyzers
         )
     if result.artifacts:
@@ -509,8 +525,7 @@ def _to_text(result: ScanResult) -> str:
         lines.extend(f"  {artifact.path} [{artifact.media_type}]" for artifact in result.artifacts)
     if result.files_skipped_by_reason:
         reasons = ", ".join(
-            f"{reason}={count}"
-            for reason, count in result.files_skipped_by_reason.items()
+            f"{reason}={count}" for reason, count in result.files_skipped_by_reason.items()
         )
         lines.append(f"Skip reasons: {reasons}")
     if result.encoding_fallback_files:
@@ -528,7 +543,9 @@ def _to_text(result: ScanResult) -> str:
         )
         return "\n".join(lines) + "\n"
     if result.target_kind == "sbom" and not result.analysis_performed:
-        lines.append("SBOM recognized; use --vulnerabilities to match its components against OSV advisories.")
+        lines.append(
+            "SBOM recognized; use --vulnerabilities to match its components against OSV advisories."
+        )
         return "\n".join(lines) + "\n"
     if result.files_scanned == 0:
         if result.files_filtered and result.analysis_performed:
@@ -542,7 +559,9 @@ def _to_text(result: ScanResult) -> str:
                 "No native source/configuration files were analyzed. Review analyzer coverage and artifacts for other analysis stages."
             )
         else:
-            lines.append(f"No supported source/configuration files were analyzed for profile '{result.profile}'.")
+            lines.append(
+                f"No supported source/configuration files were analyzed for profile '{result.profile}'."
+            )
         return "\n".join(lines) + "\n"
     if not result.findings:
         lines.append("No findings from the enabled rules.")
@@ -558,11 +577,9 @@ def _to_text(result: ScanResult) -> str:
                 f"  Confidence: {finding.confidence}",
                 f"  Applicability: {finding.applicability}",
                 f"  Validation: {finding.validation_method} ({finding.validation_status})",
-                "  Location: " + finding.file + (
-                    f":{finding.start_line}"
-                    if finding.start_line is not None
-                    else ""
-                ),
+                "  Location: "
+                + finding.file
+                + (f":{finding.start_line}" if finding.start_line is not None else ""),
                 f"  Evidence: {finding.evidence}",
                 f"  Explanation: {finding.explanation}",
                 f"  Potential impact: {finding.potential_impact}",

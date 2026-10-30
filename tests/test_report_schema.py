@@ -82,7 +82,9 @@ class ReportSchemaTests(unittest.TestCase):
             potential_impact="Impact depends on inclusion and reachability.",
             remediation="Review and update the dependency.",
             component=DependencyComponent("sample", "1.0.0", "npm", "pkg:npm/sample@1.0.0"),
-            vex_review=VexReview("not_affected", "code_not_present", "Reviewed against the selected product."),
+            vex_review=VexReview(
+                "not_affected", "code_not_present", "Reviewed against the selected product."
+            ),
         )
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
@@ -136,9 +138,15 @@ class ReportSchemaTests(unittest.TestCase):
                 encoding="utf-8",
             )
             (root / "compile_commands.json").write_text(
-                json.dumps([
-                    {"directory": str(root), "file": "main.c", "arguments": ["clang", "-c", "main.c"]}
-                ]),
+                json.dumps(
+                    [
+                        {
+                            "directory": str(root),
+                            "file": "main.c",
+                            "arguments": ["clang", "-c", "main.c"],
+                        }
+                    ]
+                ),
                 encoding="utf-8",
             )
             (root / "bom.csv").write_text(

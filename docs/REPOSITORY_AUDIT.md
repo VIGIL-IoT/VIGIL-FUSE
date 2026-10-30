@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-30
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Workspace revision:** `dd1c043` plus a local cross-platform CI update
+**Workspace revision:** `fd15878` plus local formatting and test-dependency updates
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -80,9 +80,9 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Test results
 
-The complete suite passes locally with **186 tests** on Windows and Python 3.14. The focused security and input-handling subset previously passed with **122 tests**. The last successful branch-aware coverage report was **75%** on revision `dd1c043`, above the configured 70% minimum; coverage for the new path-handling code awaits the next remote run. Ruff lint and the complete formatter check pass in the current local tree. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels. Documentation validation passes over **56 Markdown files**. Package build and clean-install smoke checks passed on `dd1c043`. The FUSE self-scan covered 222 files, completed discovery, and reported zero findings. The path audit passes over 494 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
+The complete suite passes locally with **186 tests** on Windows and Python 3.14. The latest remote quality job on `fd15878` passed **182 tests**, skipped four PyYAML-dependent checks because the test extra did not install that optional parser, and measured **73%** coverage against the 70% gate. This increment adds PyYAML to the test and development extras so CI can exercise those cases. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. Documentation validation passes locally over **56 Markdown files**, while the remote run checked **53 tracked Markdown files**. The local count includes ignored files and is a known parity issue scheduled for a separate validator improvement. Package build and clean-install smoke checks passed on `dd1c043`. The FUSE self-scan in the latest remote quality job covered 203 files, completed discovery, and reported zero findings. The path audit passes over 494 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
 
-The original full-tree Ruff check identified 42 files for reformatting. Four of those were formatted with this path fix; the remaining formatting work and full-tree CI gate are the next increment. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. This fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Its remote rerun is pending. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
+The original full-tree Ruff check identified 42 files for reformatting. Four were formatted with the path fix, and the remaining 38 are formatted in this increment. CI now checks formatting across all Python files under `src`, `tests`, and `scripts`. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. The fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Run #229 on `fd15878` passed all eight jobs across Ubuntu Python 3.11 to 3.14, Windows Python 3.11, macOS Python 3.11, quality, and package smoke. The current formatting and PyYAML dependency increment has not yet run remotely. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
 
 ## Security findings
 
@@ -117,7 +117,7 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 ## Remaining limitations
 
 - No representative independent ground-truth corpus or field accuracy estimate.
-- No remote CI result yet for the Windows/macOS path-alias fix.
+- The latest remote CI run is green across Ubuntu, Windows, and macOS. The current full-tree formatting and test-dependency changes still need remote CI verification.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Optional analyzers were not installed and tested end to end.
 - No configured static type checker and no complete dependency vulnerability audit.
@@ -147,8 +147,8 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | --- | ---: | ---: | --- |
 | Architecture & Modularity | 15 | 14 | Mermaid data flow and hardware boundary plus four ADRs; hardware and product applicability remain limited |
 | Documentation | 15 | 14 | Requirements, methods, limitations, benchmarks, structure, and audit are explicit; no SDG impact claim is supported |
-| Code Quality | 15 | 12 | Product code was preserved; docs validator is tested. Type checking and broad format cleanup remain |
-| Testing | 15 | 13 | 180 tests, 75% branch-aware coverage, fixture check, and docs check; remote CI and other OS matrix remain |
+| Code Quality | 15 | 12 | Product code was preserved; docs validator is tested and full-tree Ruff formatting now passes locally. Type checking remains |
+| Testing | 15 | 13 | 186 local tests, 73% remote branch-aware coverage, fixture check, docs check, and a green Ubuntu/Windows/macOS matrix; field accuracy remains unmeasured |
 | Security | 10 | 9 | Parser and output hardening retained; external tools are not sandboxed and were unavailable for end-to-end checks |
 | Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, and evaluation protocol; optional tools and remote CI not reproduced here |
 | Open Source Governance | 10 | 6 | Citation, contribution boundaries, issue forms, PR checklist, and release gates added; custom license and enforcement policy remain unresolved |
