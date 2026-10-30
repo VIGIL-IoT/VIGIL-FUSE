@@ -8,6 +8,7 @@ from collections import Counter
 from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Literal, Protocol, TypedDict
 
 from . import __version__
 from .build_context import inspect_compilation_database, inspect_platformio
@@ -31,6 +32,7 @@ from .limits import (
 )
 from .model import (
     AnalyzerStatus,
+    Finding,
     HardwareArtifact,
     HardwareBOMInventory,
     HardwareInventory,
@@ -73,6 +75,26 @@ SKIPPED_DIRECTORIES = {
     "fuse-results",
 }
 _KCONFIG_RULE_IDS = frozenset({"FUSE006", "FUSE007"})
+_AnalyzerStatusValue = Literal["completed", "partial", "unavailable", "skipped", "failed"]
+
+
+class DiscoveryPreview(TypedDict):
+    files_discovered: int
+    files_selected: int
+    files_filtered: int
+    selected_files_sample: list[str]
+    selected_files_sample_limit: int
+    selected_files_omitted: int
+    unsupported_file_types: dict[str, int]
+    unsupported_file_count: int
+    unsupported_file_inventory_complete: bool
+    hardware_artifact_count: int
+    hardware_category_counts: dict[str, int]
+    discovery_complete: bool
+
+
+class _ManifestDigest(Protocol):
+    def update(self, data: bytes, /) -> None: ...
 
 
 def _timestamp() -> str:
@@ -109,7 +131,7 @@ def _candidate_paths(
     unsupported_types: Counter[str] = Counter()
     if target.is_file():
         discovered = [target] if profile.supports(target) else []
-        selected = [p for p in discovered if _selected(p, target, include, exclude)]
+        single_file_selected = [p for p in discovered if _selected(p, target, include, exclude)]
         if not discovered and not specialized_input and _selected(target, target, (), exclude):
             unsupported_types[_file_type_label(target)] += 1
         hardware = (
@@ -117,11 +139,11 @@ def _candidate_paths(
             if _selected(target, target, (), exclude)
             else None
         )
-        hardware_items = [hardware] if hardware is not None else []
+        single_file_hardware_items = [hardware] if hardware is not None else []
         return (
-            selected,
+            single_file_selected,
             len(discovered),
-            hardware_items,
+            single_file_hardware_items,
             True,
             dict(sorted(unsupported_types.items())),
         )
@@ -198,7 +220,7 @@ def preview_discovery(
     budget_seconds: float = 15,
     max_discovered_paths: int = MAX_DISCOVERED_PATHS,
     max_discovered_directories: int = MAX_DISCOVERED_DIRECTORIES,
-) -> dict[str, object]:
+) -> DiscoveryPreview:
     """Summarize path selection without opening source files or invoking analyzers."""
     root = Path(target).expanduser()
     candidates, discovered, hardware, complete, unsupported = _candidate_paths(
@@ -281,7 +303,9 @@ def _sha256_file(path: Path, *, max_bytes: int | None = None) -> str:
     return digest.hexdigest()
 
 
-def _manifest_skipped_paths(manifest, paths: list[Path], base: Path, reason: str) -> None:
+def _manifest_skipped_paths(
+    manifest: _ManifestDigest, paths: list[Path], base: Path, reason: str
+) -> None:
     for path in paths:
         display_path = _display_path(path, base)
         manifest.update(f"{display_path}\0skip:{reason}\n".encode("utf-8"))
@@ -400,9 +424,10 @@ def scan(
         else HardwareBOMInventory()
     )
     hardening_artifact = None
-    hardening_findings = ()
+    hardening_findings: tuple[Finding, ...] = ()
     hardening_status = None
     if zephyr_hardening_report is not None:
+        assert build_dir is not None
         hardening_artifact, hardening_findings, hardening_status = inspect_hardening_report(
             requested,
             build_dir,
@@ -433,6 +458,8 @@ def scan(
     sbom_too_large = sbom_input and requested.stat().st_size > MAX_SBOM_DETECTION_BYTES
     hardware_items: list[HardwareArtifact] = []
     unsupported_file_types: dict[str, int] = {}
+    candidates: list[Path]
+    files_discovered: int
     if sbom_input:
         candidates, files_discovered = [], 0
         if sbom_too_large:
@@ -471,7 +498,7 @@ def scan(
     )
     github_actions, workflow_findings = inspect_github_actions(requested, exclude=exclude)
     netlist_inventory = NetlistInventory()
-    netlist_findings = ()
+    netlist_findings: tuple[Finding, ...] = ()
     selected_netlist: str | Path | None = hardware_netlist
     auto_selected_netlist = False
     if selected_netlist is None and requested.is_dir():
@@ -490,8 +517,8 @@ def scan(
         netlist_inventory, netlist_findings = inspect_kicad_netlist(
             requested, selected_netlist, strict_format=not auto_selected_netlist
         )
-    findings = []
-    skipped = Counter()
+    findings: list[Finding] = []
+    skipped: Counter[str] = Counter()
     if sbom_too_large:
         skipped["sbom_too_large"] += 1
     files_scanned = 0
@@ -717,7 +744,7 @@ def scan(
         if sbom_input
         else "No selected text files or no enabled rules."
     )
-    analyzer_status = (
+    analyzer_status: tuple[AnalyzerStatus, ...] = (
         (
             AnalyzerStatus(
                 name="sbom-input",
@@ -758,26 +785,26 @@ def scan(
         rule_definition_by_id = {rule.id: rule for rule in enabled_rules}
         for rule_id, rule in rule_definition_by_id.items():
             if rule_id in rule_timeouts:
-                status = "partial"
+                rule_status: _AnalyzerStatusValue = "partial"
                 detail = rule_timeouts[rule_id]
             elif rule_id in rule_incomplete:
-                status = "partial"
+                rule_status = "partial"
                 detail = rule_incomplete[rule_id]
             elif rule_id in rule_errors:
-                status = "failed"
+                rule_status = "failed"
                 detail = rule_errors[rule_id]
             elif rule_runs[rule_id]:
-                status = "partial" if limits_reached or skipped else "completed"
+                rule_status = "partial" if limits_reached or skipped else "completed"
                 detail = f"Evaluated {rule_runs[rule_id]} selected input(s)."
                 if rule_prefilter_skips[rule_id]:
                     detail += (
                         f" The conservative prefilter excluded {rule_prefilter_skips[rule_id]} "
                         "inputs without the rule's required markers."
                     )
-                if status == "partial":
+                if rule_status == "partial":
                     detail += " Other selected inputs were skipped or limited."
             else:
-                status = "skipped"
+                rule_status = "skipped"
                 detail = (
                     "No selected input matched this rule's supported input scope."
                     if rule_prefilter_skips[rule_id]
@@ -787,7 +814,7 @@ def scan(
                 *analyzer_status,
                 AnalyzerStatus(
                     name=f"native-rule:{rule_id}",
-                    status=status,
+                    status=rule_status,
                     version=rule.version,
                     detail=detail,
                     findings=rule_finding_counts[rule_id],
@@ -849,7 +876,7 @@ def scan(
             rule_id in rule_timeouts or rule_id in rule_incomplete or rule_id in rule_errors
             for rule_id in platform_rule_ids
         )
-        platform_status = (
+        platform_status: _AnalyzerStatusValue = (
             "completed"
             if generated_config_sources and not context_warnings and not platform_rules_incomplete
             else "partial"

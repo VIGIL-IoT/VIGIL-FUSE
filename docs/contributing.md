@@ -27,7 +27,7 @@ python -m coverage run -m pytest
 python -m coverage report -m --fail-under=70
 ```
 
-The coverage report is a development signal, not a target to inflate. CI runs strict Mypy checks on the native rule package and checks Ruff formatting across the full source, test, and script trees. It also builds the wheel and source distribution, self-scans the repository, and runs the installed CLI smoke test in a clean virtual environment.
+The coverage report is a development signal, not a target to inflate. CI runs strict Mypy checks across all source modules and checks Ruff formatting across the full source, test, and script trees. It also builds the wheel and source distribution, self-scans the repository, and runs the installed CLI smoke test in a clean virtual environment.
 
 ## Security rule changes
 

@@ -3,9 +3,24 @@ from __future__ import annotations
 import json
 from functools import lru_cache
 from importlib.resources import files
-from typing import Any
+from typing import Any, TypedDict
 
 from .model import ScanResult
+
+
+class CapabilityDefinition(TypedDict):
+    id: str
+    label: str
+    scope: str
+    limitations: list[str]
+
+
+class CapabilitySummary(TypedDict):
+    capability_id: str
+    label: str
+    status: str
+    scope: str
+    limitations: list[str]
 
 
 @lru_cache(maxsize=1)
@@ -17,18 +32,35 @@ def support_matrix() -> dict[str, Any]:
     return document
 
 
-def _capability(capability_id: str) -> dict[str, Any]:
+def _capability(capability_id: str) -> CapabilityDefinition:
     for item in support_matrix()["capabilities"]:
-        if item["id"] == capability_id:
-            return dict(item)
+        if not isinstance(item, dict) or item.get("id") != capability_id:
+            continue
+        label = item.get("label")
+        scope = item.get("scope")
+        limitations = item.get("limitations")
+        if (
+            not isinstance(label, str)
+            or not isinstance(scope, str)
+            or not isinstance(limitations, list)
+            or not all(isinstance(limitation, str) for limitation in limitations)
+        ):
+            raise ValueError(f"Invalid FUSE support capability: {capability_id}")
+        return {
+            "id": capability_id,
+            "label": label,
+            "scope": scope,
+            "limitations": limitations,
+        }
     raise ValueError(f"Unknown FUSE support capability: {capability_id}")
 
 
-def source_capability(profile: str) -> dict[str, Any]:
+def source_capability(profile: str) -> CapabilityDefinition:
     return _capability(f"source.{profile}")
 
 
-def capability_for_scan(result: ScanResult) -> dict[str, Any]:
+def capability_for_scan(result: ScanResult) -> CapabilitySummary:
+    capability: CapabilityDefinition
     if result.target_kind == "firmware-image":
         input_status = next(
             (item for item in result.analyzers if item.name == "firmware-input"), None
@@ -36,7 +68,6 @@ def capability_for_scan(result: ScanResult) -> dict[str, Any]:
         if input_status is not None:
             capability = {
                 "id": "input.unsupported",
-                "input": "Firmware image over the configured size limit",
                 "label": "unsupported",
                 "scope": "The firmware image was rejected before hashing or signature identification.",
                 "limitations": [
@@ -54,7 +85,6 @@ def capability_for_scan(result: ScanResult) -> dict[str, Any]:
         if input_status is not None:
             capability = {
                 "id": "input.unsupported",
-                "input": "Oversized SBOM",
                 "label": "unsupported",
                 "scope": "The SBOM exceeds the configured parse and hash limit.",
                 "limitations": ["No SBOM parsing or advisory lookup was performed"],
@@ -69,8 +99,6 @@ def capability_for_scan(result: ScanResult) -> dict[str, Any]:
     elif result.target_kind == "unsupported-file":
         capability = {
             "id": "input.unsupported",
-            "input": "Unrecognized or unsupported input",
-            "profile": result.profile,
             "label": "unsupported",
             "scope": "FUSE did not select a security analyzer for this target.",
             "limitations": ["No security analysis was performed"],
@@ -100,7 +128,7 @@ def capability_for_plan(
     oversized_sbom: bool,
     oversized_firmware: bool = False,
     unsupported_input: bool = False,
-) -> dict[str, Any]:
+) -> CapabilitySummary:
     if oversized_firmware:
         return {
             "capability_id": "input.unsupported",
@@ -126,8 +154,6 @@ def capability_for_plan(
     elif unsupported_input:
         capability = {
             "id": "input.unsupported",
-            "input": "Unrecognized or unsupported input",
-            "profile": profile,
             "label": "unsupported",
             "scope": "FUSE will not select a security analyzer for this target.",
             "limitations": ["No security analysis will be performed"],

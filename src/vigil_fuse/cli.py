@@ -9,6 +9,7 @@ import subprocess
 import sys
 from dataclasses import replace
 from pathlib import Path
+from typing import Literal, TextIO, TypedDict
 
 from . import __version__
 from .analyzers import (
@@ -23,7 +24,7 @@ from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
 from .esp_idf_lock import lock_parser_available
 from .hardware_bom import hardware_bom_document
-from .model import AnalysisArtifact, AnalyzerStatus
+from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
@@ -36,10 +37,11 @@ from .rule_execution import (
 )
 from .sarif import to_sarif
 from .scanner import (
+    DiscoveryPreview,
     preview_discovery,
     scan,
 )
-from .support import capability_for_plan, support_matrix
+from .support import CapabilitySummary, capability_for_plan, support_matrix
 from .input_types import MAX_SBOM_DETECTION_BYTES, is_sbom_candidate, is_sbom_file
 from .text_safety import safe_terminal_text
 from .limits import (
@@ -54,10 +56,46 @@ from .target_labels import report_target_label
 from .zephyr_hardening import resolve_hardening_report_path
 
 _SEVERITY_ORDER = {"unknown": -1, "info": 0, "low": 1, "medium": 2, "high": 3, "critical": 4}
+_PlanStageStatus = Literal["planned", "skipped", "unavailable", "unsupported", "partial"]
+
+
+class _FrameworkHint(TypedDict):
+    name: str
+    evidence: list[str]
+
+
+class _PlanStage(TypedDict):
+    name: str
+    requested: bool
+    status: _PlanStageStatus
+    reason: str
+
+
+class _ScanPlan(TypedDict):
+    target: str
+    target_kind: str
+    profile: str
+    selected_build_dir: str | None
+    selected_zephyr_hardening_report: str | None
+    detected_frameworks: list[_FrameworkHint]
+    framework_hints_are_advisory: bool
+    build_context: dict[str, object]
+    discovery_preview: DiscoveryPreview | None
+    support: CapabilitySummary
+    stages: list[_PlanStage]
+    reports_directory: str | None
+    report_file: str | None
+    network: str
+    resource_limits: dict[str, int | float]
+    executed: bool
 
 
 def _safe_print(
-    *values: object, sep: str = " ", end: str = "\n", file=None, flush: bool = False
+    *values: object,
+    sep: str = " ",
+    end: str = "\n",
+    file: TextIO | None = None,
+    flush: bool = False,
 ) -> None:
     rendered = sep.join(safe_terminal_text(str(value)) for value in values)
     print(rendered, end=end, file=file, flush=flush)
@@ -350,7 +388,7 @@ def _exclude_output_directory(
     return (*excludes, relative.as_posix().rstrip("/") + "/**")
 
 
-def _write_reports(result, output_dir: Path) -> None:
+def _write_reports(result: ScanResult, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     reports = {
         "findings.json": to_json(result),
@@ -488,11 +526,11 @@ def _scan_plan(
     firmware_too_large = (
         firmware and target.is_file() and target.stat().st_size > max_firmware_bytes
     )
-    framework_hints = [
+    framework_hints: list[_FrameworkHint] = [
         {"name": name, "evidence": list(evidence)}
         for name, evidence in detect_project_frameworks(target)
     ]
-    discovery_preview = None
+    discovery_preview: DiscoveryPreview | None = None
     if not sbom_input and not firmware:
         discovery_preview = preview_discovery(
             target,
@@ -518,7 +556,7 @@ def _scan_plan(
         if discovery_preview is not None
         else not sbom_input and not firmware and get_profile(profile).supports(target)
     )
-    stages = [
+    stages: list[_PlanStage] = [
         {
             "name": "fuse-native",
             "requested": True,
@@ -814,7 +852,7 @@ def _scan_plan(
             }
         )
 
-    plan = {
+    plan: _ScanPlan = {
         "target": shareable_target,
         "target_kind": kind,
         "profile": profile,
@@ -957,7 +995,7 @@ def _scan_plan(
 
 
 def _analyze_with_optional_tools(
-    result,
+    result: ScanResult,
     target: Path,
     output_dir: Path,
     *,
@@ -968,7 +1006,7 @@ def _analyze_with_optional_tools(
     git_history: bool = False,
     no_network: bool = False,
     sbom_input: bool = False,
-):
+) -> ScanResult:
     analyzers = list(result.analyzers)
     findings = list(result.findings)
     artifacts = list(result.artifacts)

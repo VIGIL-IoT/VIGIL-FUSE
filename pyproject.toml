@@ -66,22 +66,7 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.mypy]
 python_version = "3.11"
-files = [
-  "src/vigil_fuse/rules",
-  "src/vigil_fuse/baseline.py",
-  "src/vigil_fuse/support.py",
-  "src/vigil_fuse/analyzer_runtime.py",
-  "src/vigil_fuse/config.py",
-  "src/vigil_fuse/hardware_bom.py",
-  "src/vigil_fuse/history_analyzer.py",
-  "src/vigil_fuse/sarif.py",
-  "src/vigil_fuse/product_context.py",
-  "src/vigil_fuse/dependency_analyzers.py",
-  "src/vigil_fuse/rule_execution.py",
-  "src/vigil_fuse/esp_idf_lock.py",
-  "src/vigil_fuse/hardware_netlist.py",
-  "src/vigil_fuse/platform_context.py",
-]
+files = ["src/vigil_fuse"]
 mypy_path = "src"
 explicit_package_bases = true
 strict = true
