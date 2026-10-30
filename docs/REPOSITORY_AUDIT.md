@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-30
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Workspace revision at this update:** `17cd1ff`
+**Baseline revision for this update:** `2a9d548`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -47,8 +47,8 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Added an Unreleased changelog section and roadmap horizons for immediate, short-term, medium-term, and long-term work.
 - Added weekly Dependabot checks for pip and GitHub Actions, plus a separate dependency-audit workflow using pip-audit. The first audit identified the vulnerable pytest 8.x range and led to raising the test floor to 9.0.3.
 - Updated the static site to describe FUSE's present analysis scope, remove the planned external lab handoff, and use a shared vertical-spacing scale across major sections.
-- Added Mypy 2.4.1 as a development dependency and a strict type-checking CI gate for the 10 native-rule modules, then expanded the gate to include baseline handling. Fixed tuple-shape inference and validated report fields explicitly.
-- Ran a strict baseline over all 44 source modules. After the native rules and baseline module passed, 106 diagnostics remain across 14 modules; these are recorded as remaining work rather than suppressed.
+- Added Mypy 2.4.1 as a development dependency and a strict type-checking CI gate. The gate now covers 23 source files, including native rules, report handling, hardware inventory, project context, configuration, and analyzer modules.
+- Ran a strict baseline over all 44 source modules. The current baseline has 32 diagnostics across `scanner.py` and `cli.py`; these remain recorded as work rather than suppressed.
 - Preserved earlier engineering changes already in the workspace: analyzer module split, XML hardening, terminal control handling, subprocess input isolation, FUSE003 AST analysis, fixture benchmark, and stronger CI/package checks.
 
 ## Files added
@@ -83,11 +83,11 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Git diff whitespace check and changed-file punctuation review.
 - Anatomy generator syntax, generated inline JavaScript parsing, SVG XML structure, and Shields.io badge response checks.
 - Static-site screenshots reviewed at 1440, 768, and 390 pixel widths. The browser reported no console errors or horizontal overflow. The desktop full-page inspector returned a load timeout after producing screenshots; its separate style heuristics still report 8 failures and 5 warnings, including the intentionally scrollable report-fragment row.
-- Strict Mypy checking of the 10 native-rule modules and `src/vigil_fuse/baseline.py`, including CI execution. The broader 44-module source baseline was also captured to plan staged adoption.
+- Strict Mypy checking of 23 configured source files, including CI execution. The broader 44-module source baseline was also captured to plan staged adoption.
 
 ## Test results
 
-The full suite passes locally with **190 tests** on Windows and Python 3.14 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. Run #232 on `1ade772` passed all eight jobs with **190 tests**, **73 subtests**, and **75%** branch-aware coverage. Its quality job scanned 206 files with zero findings, validated 53 Markdown files, and passed the path audit over 497 tracked files and Git history. The Python dependency audit found no known vulnerabilities in the resolved development dependencies and skipped the editable FUSE checkout itself. Runs #237 on `5bf4d69`, #238 on `54e9359`, #239 on `afaa7ad`, #240 on `c6f7f5d`, and #241 on `17cd1ff` passed all eight CI jobs; corresponding Vercel checks succeeded for the website changes and latest revision. Run #239 passed strict Mypy on the 10 native-rule modules. Run #241 passed strict Mypy on the 11 configured source files, and all 14 baseline-focused tests passed locally. The separate dependency audit for `17cd1ff` passed. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
+The full suite passes locally with **191 tests** and **73 subtests** on Windows and Python 3.14 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. Run #232 on `1ade772` passed all eight jobs with **190 tests**, **73 subtests**, and **75%** branch-aware coverage. Its quality job scanned 206 files with zero findings, validated 53 Markdown files, and passed the path audit over 497 tracked files and Git history. The Python dependency audit found no known vulnerabilities in the resolved development dependencies and skipped the editable FUSE checkout itself. Runs #237 on `5bf4d69`, #238 on `54e9359`, #239 on `afaa7ad`, #240 on `c6f7f5d`, and #241 on `17cd1ff` passed all eight CI jobs; corresponding Vercel checks succeeded for the website changes and latest revision. Run #239 passed strict Mypy on the 10 native-rule modules. Run #241 passed strict Mypy on the 11 configured source files, and all 14 baseline-focused tests passed locally. The separate dependency audit for `17cd1ff` passed. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks. Later type-checking increments through run #255 on `2a9d548` passed FUSE CI and the separate Python dependency audit. The current local update expands the strict Mypy gate to 23 source files; its project-context and hardware-inventory tests pass, and the full suite again passes all 191 tests and 73 subtests.
 
 The original full-tree Ruff check identified 42 files for reformatting. Four were formatted with the path fix, and the remaining 38 are formatted in `121c74e`. CI now checks formatting across all Python files under `src`, `tests`, and `scripts`. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. The fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Run #229 on `fd15878` passed all eight jobs across Ubuntu Python 3.11 to 3.14, Windows Python 3.11, macOS Python 3.11, quality, and package smoke. The next run on `121c74e` also passed all eight jobs, including full-tree formatting and YAML-enabled tests. The static site has now been visually inspected at desktop, tablet, and mobile widths. Browser rendering and interaction of the separate finding-model figure remain unverified.
 
@@ -125,10 +125,10 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 ## Remaining limitations
 
 - No representative independent ground-truth corpus or field accuracy estimate.
-- Workflow runs #237 through #241 are green across Ubuntu, Windows, and macOS. Run #241 checks strict Mypy on 11 source files. The static site was inspected at desktop, tablet, and mobile widths with no console errors or horizontal overflow. Browser rendering and interaction of the separate finding-model figure remain unverified.
+- Workflow runs #237 through #255 are green across Ubuntu, Windows, and macOS. Run #255 checks strict Mypy on 22 source files; the current local update adds `platform_context.py` to make 23. The static site was inspected at desktop, tablet, and mobile widths with no console errors or horizontal overflow. Browser rendering and interaction of the separate finding-model figure remain unverified.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Optional analyzers were not installed and tested end to end.
-- Strict Mypy CI currently covers the 10 native-rule modules and baseline handling. The broader source baseline reports 106 diagnostics across 14 of 44 modules, so the remaining package is not yet type-clean. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
+- Strict Mypy CI currently covers 22 files on the latest remote-verified revision, with 23 passing locally after this project-context increment. The broader source baseline reports 32 diagnostics across `scanner.py` and `cli.py`, so the remaining package is not yet type-clean. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
 - No rendered Mermaid browser check; the validator checks local link targets, code fences, and Mermaid block types, not full renderer semantics. The new SVGs were structurally validated, but visual browser review remains outstanding.
 - Custom license and distribution terms require owner and qualified legal review before registry or release distribution.
 - Browser-based visual and interaction review of the new finding-model figure remains outstanding.
@@ -155,7 +155,7 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | --- | ---: | ---: | --- |
 | Architecture & Modularity | 15 | 14 | Mermaid data flow and hardware boundary plus four ADRs; hardware and product applicability remain limited |
 | Documentation | 15 | 14 | Requirements, methods, limitations, benchmarks, structure, and audit are explicit; no SDG impact claim is supported |
-| Code Quality | 15 | 13 | Full-tree Ruff checks and strict Mypy CI cover 11 source files; 106 baseline diagnostics across 14 other source modules remain |
+| Code Quality | 15 | 13 | Full-tree Ruff checks and strict Mypy CI cover 22 source files; 32 baseline diagnostics remain in `scanner.py` and `cli.py` |
 | Testing | 15 | 13 | 190 local tests, 75% remote branch-aware coverage, fixture check, docs check, and a green Ubuntu/Windows/macOS matrix; field accuracy remains unmeasured |
 | Security | 10 | 9 | Parser and output hardening retained, with a clean point-in-time Python dependency audit; external tools are not sandboxed and remain unverified end to end |
 | Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, and evaluation protocol; optional tools and remote CI not reproduced here |
@@ -165,7 +165,7 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 
 ## Recommended next actions
 
-1. Expand strict Mypy coverage in staged batches, resolving the 106 recorded diagnostics without blanket ignores.
+1. Expand strict Mypy coverage in staged batches, resolving the 32 remaining diagnostics in `scanner.py` and `cli.py` without blanket ignores.
 2. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
 3. Install and pin optional analyzers in a controlled environment, then validate their real outputs and failure states.
 4. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.

@@ -4,6 +4,7 @@ import hashlib
 import json
 import re
 from pathlib import Path
+from typing import Literal
 
 from .esp_idf_lock import inspect_dependencies_lock
 from .model import (
@@ -23,6 +24,15 @@ _ESP_IDF_SECURITY_OPTIONS = (
     "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS",
     "CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP",
 )
+_ConfigurationDefaultState = Literal["present", "missing", "outside-target", "unreadable"]
+_ConfigurationOriginStatus = Literal[
+    "not-inspected", "selected", "candidates-only", "partial", "unresolved"
+]
+_ConfigurationDefaultsSource = Literal[
+    "cmake-cache", "conventional-candidate", "unavailable", "not-applicable"
+]
+_SelectedSdkconfigSource = Literal["cmake-cache", "project-default", "unresolved", "none"]
+_ProjectPathError = Literal["outside-target", "unreadable"]
 
 
 def _read_limited(path: Path) -> bytes | None:
@@ -205,7 +215,7 @@ def _cmake_cache_values(source: SourceFile | None) -> dict[str, str]:
     return values
 
 
-def _safe_project_path(root: Path, value: str) -> tuple[Path | None, str | None]:
+def _safe_project_path(root: Path, value: str) -> tuple[Path | None, _ProjectPathError | None]:
     """Resolve a configuration path inside the target without following symlinks."""
     if not value or "\x00" in value or "$" in value:
         return None, "unreadable"
@@ -240,7 +250,9 @@ def _inspect_esp_idf_configuration_origin(
     defaults: list[ConfigurationDefault] = []
     warnings: list[str] = []
     limitations: list[str] = []
-    default_list_value = values.get("SDKCONFIG_DEFAULTS")
+    default_list_value = values.get("SDKCONFIG_DEFAULTS", "")
+    defaults_source: _ConfigurationDefaultsSource
+    bases: list[str]
     if build_root is not None and "SDKCONFIG_DEFAULTS" in values:
         defaults_source = "cmake-cache"
         bases = [item.strip().strip('"') for item in default_list_value.split(";") if item.strip()]
@@ -271,10 +283,12 @@ def _inspect_esp_idf_configuration_origin(
     for order, (value, target_specific) in enumerate(default_candidates, start=1):
         candidate, path_error = _safe_project_path(root, value)
         if candidate is None:
-            state = path_error or "unreadable"
-            display_path = "<outside-target>" if state == "outside-target" else "<unreadable-path>"
-            defaults.append(ConfigurationDefault(display_path, order, target_specific, state))
-            if state == "outside-target":
+            path_state = path_error or "unreadable"
+            display_path = (
+                "<outside-target>" if path_state == "outside-target" else "<unreadable-path>"
+            )
+            defaults.append(ConfigurationDefault(display_path, order, target_specific, path_state))
+            if path_state == "outside-target":
                 limitations.append(
                     "One or more ESP-IDF defaults resolve outside the selected target and were not read."
                 )
@@ -296,8 +310,8 @@ def _inspect_esp_idf_configuration_origin(
         )
         if source is None:
             exists = candidate.exists()
-            state = "unreadable" if exists else "missing"
-            defaults.append(ConfigurationDefault(display_path, order, target_specific, state))
+            file_state: _ConfigurationDefaultState = "unreadable" if exists else "missing"
+            defaults.append(ConfigurationDefault(display_path, order, target_specific, file_state))
             artifacts.append(artifact)
             if warning:
                 warnings.append(warning)
@@ -333,6 +347,7 @@ def _inspect_esp_idf_configuration_origin(
         )
 
     selected_value = values.get("SDKCONFIG")
+    selected_source: _SelectedSdkconfigSource
     if selected_value:
         selected_source = "cmake-cache"
         selected_path, path_error = _safe_project_path(root, selected_value)
@@ -342,7 +357,7 @@ def _inspect_esp_idf_configuration_origin(
 
     selected_relative: str | None = None
     selected_source_file: SourceFile | None = None
-    selected_status = "unresolved"
+    selected_status: _ConfigurationOriginStatus = "unresolved"
     if selected_path is not None:
         selected_relative = _display(selected_path, root)
         artifact, selected_source_file, warning = _read_context_file(
@@ -383,7 +398,7 @@ def _inspect_esp_idf_configuration_origin(
             "Target-specific defaults could not be ordered because the selected build target is unknown."
         )
 
-    status = selected_status
+    status: _ConfigurationOriginStatus = selected_status
     if status == "selected" and (warnings or path_error):
         status = "partial"
     return (
@@ -439,7 +454,7 @@ def inspect_project_context(
                 None,
                 build_root=None,
             )
-            configuration_files = (
+            configuration_files_without_build = (
                 *origin_artifacts,
                 *((lock_artifact,) if lock_artifact is not None else ()),
             )
@@ -447,7 +462,9 @@ def inspect_project_context(
             limitations.extend(origin_warnings)
         else:
             origin = ConfigurationOrigin()
-            configuration_files = (lock_artifact,) if lock_artifact is not None else ()
+            configuration_files_without_build = (
+                (lock_artifact,) if lock_artifact is not None else ()
+            )
         if framework == "esp-idf":
             limitations.append("No selected generated ESP-IDF build configuration was supplied.")
         else:
@@ -458,7 +475,7 @@ def inspect_project_context(
                 status=status,
                 project_detected=detected,
                 evidence=evidence,
-                configuration_files=configuration_files,
+                configuration_files=configuration_files_without_build,
                 configuration_origin=origin,
                 component_lock=component_lock or ProjectContext().component_lock,
                 limitations=tuple(limitations),
@@ -491,7 +508,7 @@ def inspect_project_context(
                 warnings.append(warning)
 
     if framework == "esp-idf":
-        config_candidates = (
+        config_candidates: tuple[tuple[Path, str], ...] = (
             (build_root / "config" / "sdkconfig.h", "generated ESP-IDF sdkconfig header"),
         )
         metadata_path = build_root / "project_description.json"
@@ -534,19 +551,19 @@ def inspect_project_context(
                         ("CONFIG_BOARD", "board_value"),
                         ("CONFIG_KERNELVERSION", "version_value"),
                     ):
-                        match = re.search(
+                        field_match: re.Match[str] | None = re.search(
                             rf'^\s*{key}\s*=\s*"?([^"\r\n#]+)', source.text, re.MULTILINE
                         )
-                        if match:
+                        if field_match:
                             if variable == "board_value":
-                                candidate_board = match.group(1).strip()
+                                candidate_board = field_match.group(1).strip()
                                 board_value = (
                                     candidate_board
                                     if _SAFE_METADATA_VALUE.fullmatch(candidate_board)
                                     else None
                                 )
                             else:
-                                candidate_version = match.group(1).strip()
+                                candidate_version = field_match.group(1).strip()
                                 version_value = (
                                     candidate_version
                                     if _SAFE_METADATA_VALUE.fullmatch(candidate_version)
