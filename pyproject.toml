@@ -74,6 +74,7 @@ files = [
   "scripts/benchmark_repository_cohort.py",
   "scripts/prepare_repository_benchmark_cohort.py",
   "scripts/benchmark_process.py",
+  "scripts/build_repository_scan_dashboard.py",
   "scripts/verify_binwalk_adapter.py",
 ]
 mypy_path = "src"

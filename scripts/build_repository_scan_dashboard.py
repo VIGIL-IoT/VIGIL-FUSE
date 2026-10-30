@@ -7,7 +7,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from html import escape
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,7 +36,7 @@ def normalize_report(scan: dict[str, str]) -> dict[str, Any]:
     if not json_path.is_file():
         raise FileNotFoundError(f"Missing FUSE JSON report for scan '{scan_id}': {json_path}")
 
-    report = json.loads(json_path.read_text(encoding="utf-8"))
+    report = cast(dict[str, Any], json.loads(json_path.read_text(encoding="utf-8")))
     schema_version = str(report.get("schema_version", ""))
     if schema_version not in SUPPORTED_REPORT_SCHEMAS:
         supported = ", ".join(sorted(SUPPORTED_REPORT_SCHEMAS))
@@ -166,8 +166,8 @@ def build_summary() -> dict[str, Any]:
             total_skips.update(report.get("coverage", {}).get("files_skipped_by_reason", {}))
             total_hardware_categories.update(scan["hardware_category_counts"])
 
-        rule_counts = Counter()
-        severity_counts = Counter()
+        rule_counts: Counter[str] = Counter()
+        severity_counts: Counter[str] = Counter()
         for scan in scans:
             for finding in scan["report"].get("findings", []):
                 rule_counts[str(finding.get("rule_id", "unknown"))] += 1
@@ -262,7 +262,9 @@ def build_summary() -> dict[str, Any]:
 
 
 def build_support_matrix() -> dict[str, Any]:
-    matrix = json.loads(SUPPORT_MATRIX_SOURCE_PATH.read_text(encoding="utf-8"))
+    matrix = cast(
+        dict[str, Any], json.loads(SUPPORT_MATRIX_SOURCE_PATH.read_text(encoding="utf-8"))
+    )
     if matrix.get("schema_version") != "1.0" or not isinstance(matrix.get("capabilities"), list):
         raise ValueError(f"Invalid FUSE support matrix: {SUPPORT_MATRIX_SOURCE_PATH}")
     return matrix
