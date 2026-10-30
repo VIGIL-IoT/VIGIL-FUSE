@@ -1,13 +1,25 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
+import psutil
 
+from scripts.benchmark_process import sample_process_tree_rss
 from scripts.benchmark_scan import create_synthetic_project, run_benchmark
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_process_tree_sampler_includes_the_root_process() -> None:
+    current_process_rss = psutil.Process().memory_info().rss
+
+    sampled_rss, inaccessible_samples = sample_process_tree_rss(os.getpid(), psutil)
+
+    assert sampled_rss >= current_process_rss
+    assert inaccessible_samples == 0
 
 
 def test_synthetic_project_generation_is_deterministic(tmp_path) -> None:

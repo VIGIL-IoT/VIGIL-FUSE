@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -23,10 +24,27 @@ DEFAULT_MANIFEST = ROOT / "reports" / "repository-scans" / "fresh-validation-nex
 DEFAULT_CHECKOUTS = ROOT.parent / "fuse-scan-targets-fresh-validation-next"
 SOURCE_ROOT = ROOT / "src"
 RUN_TIMEOUT_SECONDS = 900
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(SOURCE_ROOT))
+
+from scripts.benchmark_process import (  # noqa: E402
+    sample_process_tree_rss,
+    terminate_process_tree,
+)
 
 
 class RepositoryBenchmarkError(RuntimeError):
     """Raised when a pinned scan cannot produce comparable measurements."""
+
+
+@dataclass(frozen=True)
+class ProcessRun:
+    elapsed_seconds: float
+    report: dict[str, Any]
+    return_code: int
+    peak_process_tree_rss_bytes: int
+    rss_sample_count: int
+    inaccessible_process_samples: int
 
 
 def _manifest_sha256(contents: bytes) -> str:
@@ -123,29 +141,61 @@ def _scan_command(
 
 
 def _run_once(
-    command: list[str], *, timeout_seconds: int, environment: dict[str, str]
-) -> tuple[float, dict[str, Any], int]:
+    command: list[str],
+    *,
+    timeout_seconds: int,
+    environment: dict[str, str],
+    sample_interval_seconds: float,
+    psutil: Any,
+) -> ProcessRun:
     started = time.perf_counter()
-    try:
-        completed = subprocess.run(
-            command,
-            cwd=ROOT,
-            env=environment,
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-            check=False,
-            timeout=timeout_seconds,
-        )
-    except subprocess.TimeoutExpired as error:
-        raise RepositoryBenchmarkError(
-            f"FUSE scan exceeded the {timeout_seconds}-second timeout"
-        ) from error
+    process = subprocess.Popen(
+        command,
+        cwd=ROOT,
+        env=environment,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+    deadline = started + timeout_seconds
+    peak_rss_bytes = 0
+    rss_sample_count = 0
+    inaccessible_process_samples = 0
+
+    def record_memory_sample() -> None:
+        nonlocal peak_rss_bytes, rss_sample_count, inaccessible_process_samples
+        rss_bytes, inaccessible = sample_process_tree_rss(process.pid, psutil)
+        if rss_bytes:
+            rss_sample_count += 1
+            peak_rss_bytes = max(peak_rss_bytes, rss_bytes)
+        inaccessible_process_samples += inaccessible
+
+    record_memory_sample()
+    while True:
+        remaining_seconds = deadline - time.perf_counter()
+        if remaining_seconds <= 0:
+            terminate_process_tree(process.pid, process, psutil)
+            stdout, stderr = process.communicate()
+            raise RepositoryBenchmarkError(
+                f"FUSE scan exceeded the {timeout_seconds}-second timeout; "
+                f"stdout={stdout[-500:]!r}, stderr={stderr[-500:]!r}"
+            )
+        try:
+            stdout, stderr = process.communicate(
+                timeout=min(sample_interval_seconds, remaining_seconds)
+            )
+            break
+        except subprocess.TimeoutExpired:
+            record_memory_sample()
+
+    stdout, stderr = process.communicate()
     elapsed = time.perf_counter() - started
-    if completed.returncode not in {0, 2}:
+    if process.returncode not in {0, 2}:
         raise RepositoryBenchmarkError(
-            f"FUSE exited with status {completed.returncode}: {completed.stderr[-1000:]}"
+            f"FUSE exited with status {process.returncode}: {stderr[-1000:]}"
         )
     report_path = Path(command[-1]) / "findings.json"
     if not report_path.is_file():
@@ -162,7 +212,14 @@ def _run_once(
         raise RepositoryBenchmarkError("FUSE report lacks summary or coverage data")
     if summary.get("analysis_performed") is not True:
         raise RepositoryBenchmarkError("FUSE did not perform analysis")
-    return elapsed, report, completed.returncode
+    return ProcessRun(
+        elapsed_seconds=elapsed,
+        report=report,
+        return_code=process.returncode,
+        peak_process_tree_rss_bytes=peak_rss_bytes,
+        rss_sample_count=rss_sample_count,
+        inaccessible_process_samples=inaccessible_process_samples,
+    )
 
 
 def _summary_signature(report: dict[str, Any]) -> tuple[Any, ...]:
@@ -221,26 +278,38 @@ def _scope_measurement(
     warmups: int,
     repetitions: int,
     timeout_seconds: int,
+    sample_interval_ms: int,
     environment: dict[str, str],
     temporary_root: Path,
+    psutil: Any,
 ) -> dict[str, Any]:
     timings: list[float] = []
     warmup_timings: list[float] = []
+    rss_peak_samples: list[int] = []
+    rss_sample_counts: list[int] = []
+    inaccessible_process_samples = 0
     reports: list[dict[str, Any]] = []
     return_codes: list[int] = []
     scan_id = scan["id"]
     for index in range(warmups + repetitions):
         output = temporary_root / repository["id"] / scan_id / f"run-{index:02d}"
         command = _scan_command(checkout, repository["profile"], scan, output)
-        elapsed, report, return_code = _run_once(
-            command, timeout_seconds=timeout_seconds, environment=environment
+        observation = _run_once(
+            command,
+            timeout_seconds=timeout_seconds,
+            environment=environment,
+            sample_interval_seconds=sample_interval_ms / 1000,
+            psutil=psutil,
         )
         if index < warmups:
-            warmup_timings.append(elapsed)
+            warmup_timings.append(observation.elapsed_seconds)
             continue
-        timings.append(elapsed)
-        reports.append(report)
-        return_codes.append(return_code)
+        timings.append(observation.elapsed_seconds)
+        reports.append(observation.report)
+        return_codes.append(observation.return_code)
+        rss_peak_samples.append(observation.peak_process_tree_rss_bytes)
+        rss_sample_counts.append(observation.rss_sample_count)
+        inaccessible_process_samples += observation.inaccessible_process_samples
 
     signatures = {_summary_signature(report) for report in reports}
     if len(signatures) != 1:
@@ -281,6 +350,14 @@ def _scope_measurement(
         "warmup_count": warmups,
         "warmup_seconds": [round(value, 6) for value in warmup_timings],
         "repetition_count": repetitions,
+        "process_tree_rss_bytes": {
+            "samples": rss_peak_samples,
+            "maximum": max(rss_peak_samples),
+            "process_samples_per_run": rss_sample_counts,
+            "inaccessible_process_samples": inaccessible_process_samples,
+            "sampling_complete": all(count > 0 for count in rss_sample_counts)
+            and inaccessible_process_samples == 0,
+        },
         **measured,
     }
 
@@ -292,6 +369,7 @@ def run_benchmark(
     warmups: int = 1,
     repetitions: int = 3,
     timeout_seconds: int = RUN_TIMEOUT_SECONDS,
+    sample_interval_ms: int = 20,
 ) -> dict[str, Any]:
     if not 0 <= warmups <= 10:
         raise ValueError("warmups must be between 0 and 10")
@@ -299,6 +377,15 @@ def run_benchmark(
         raise ValueError("repetitions must be between 1 and 20")
     if not 1 <= timeout_seconds <= 3600:
         raise ValueError("timeout must be between 1 and 3600 seconds")
+    if not 1 <= sample_interval_ms <= 1000:
+        raise ValueError("sample_interval_ms must be between 1 and 1000")
+    try:
+        import psutil
+    except ImportError as error:
+        raise RepositoryBenchmarkError(
+            "psutil is required for process-tree RSS sampling; install with "
+            '`python -m pip install "psutil>=7.2,<8"` or `python -m pip install -e ".[dev]"`.'
+        ) from error
     manifest_path = manifest_path.resolve()
     checkouts_root = checkouts_root.resolve()
     manifest_bytes = manifest_path.read_bytes()
@@ -350,8 +437,10 @@ def run_benchmark(
                         warmups=warmups,
                         repetitions=repetitions,
                         timeout_seconds=timeout_seconds,
+                        sample_interval_ms=sample_interval_ms,
                         environment=environment,
                         temporary_root=temporary_root,
+                        psutil=psutil,
                     )
                 )
 
@@ -360,7 +449,7 @@ def run_benchmark(
     except ImportError as error:
         raise RepositoryBenchmarkError("install FUSE or set PYTHONPATH to src") from error
     return {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "benchmark": "fuse-pinned-repository-scan",
         "generated_at_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "tool": {"name": "FUSE", "version": __version__},
@@ -386,6 +475,8 @@ def run_benchmark(
             "warmups": warmups,
             "repetitions": repetitions,
             "timeout_seconds": timeout_seconds,
+            "memory_sampling_enabled": True,
+            "memory_sample_interval_ms": sample_interval_ms,
             "network_enabled": False,
             "optional_analyzers_enabled": False,
             "native_rules_enabled": True,
@@ -398,7 +489,9 @@ def run_benchmark(
             "Optional networked and external analyzers were disabled for every run.",
             "Files skipped or partial coverage remain visible and are not treated as complete scans.",
             "Finding counts are scan observations, not a measure of detection accuracy.",
-            "Memory, CPU utilization, build time, device runtime, and firmware behavior were not measured.",
+            "Process-tree RSS is the sum of sampled resident sets; shared pages can be counted more than once.",
+            "RSS sampling can miss peaks shorter than the sampling interval and does not include filesystem cache or other system memory.",
+            "CPU utilization, build time, device runtime, and firmware behavior were not measured.",
         ],
     }
 
@@ -410,6 +503,9 @@ def main() -> int:
     parser.add_argument("--warmups", type=int, default=1)
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument("--timeout-seconds", type=int, default=RUN_TIMEOUT_SECONDS)
+    parser.add_argument(
+        "--sample-interval-ms", type=int, default=20, help="process-tree RSS sampling interval"
+    )
     parser.add_argument("--output", type=Path, help="write JSON results to this path")
     args = parser.parse_args()
     try:
@@ -419,6 +515,7 @@ def main() -> int:
             warmups=args.warmups,
             repetitions=args.repetitions,
             timeout_seconds=args.timeout_seconds,
+            sample_interval_ms=args.sample_interval_ms,
         )
     except (OSError, ValueError, KeyError, json.JSONDecodeError, RepositoryBenchmarkError) as error:
         print(f"repository benchmark failed: {error}", file=sys.stderr)
@@ -436,6 +533,7 @@ def main() -> int:
             print(
                 f"{scope['repository_id']}/{scope['scan_id']}: "
                 f"{scope['files_scanned']} files, median {times['median']:.3f}s, "
+                f"peak RSS {scope['process_tree_rss_bytes']['maximum'] / (1024 * 1024):.1f} MiB, "
                 f"{scope['finding_count']} signals, discovery_complete={scope['discovery_complete']}"
             )
         print(f"JSON report written to {output}")

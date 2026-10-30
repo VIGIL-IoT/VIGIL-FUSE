@@ -21,8 +21,13 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE_ROOT = ROOT / "src"
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(SOURCE_ROOT))
 
+from scripts.benchmark_process import (  # noqa: E402
+    sample_process_tree_rss as _sample_process_tree_rss,
+    terminate_process_tree as _terminate_process_tree,
+)
 from vigil_fuse import __version__  # noqa: E402
 
 
@@ -84,51 +89,6 @@ def create_synthetic_project(root: Path, file_count: int) -> Workload:
         digest.update(relative_path.encode("utf-8") + b"\0" + content + b"\0")
 
     return Workload(file_count=file_count, source_bytes=source_bytes, sha256=digest.hexdigest())
-
-
-def _sample_process_tree_rss(pid: int, psutil: Any) -> tuple[int, int]:
-    """Return summed RSS and the number of inaccessible process samples."""
-    try:
-        root_process = psutil.Process(pid)
-        processes = [root_process, *root_process.children(recursive=True)]
-    except psutil.NoSuchProcess:
-        return 0, 0
-    except psutil.AccessDenied:
-        return 0, 1
-
-    total_rss = 0
-    inaccessible = 0
-    for process in processes:
-        try:
-            total_rss += process.memory_info().rss
-        except (psutil.NoSuchProcess, psutil.ZombieProcess):
-            continue
-        except psutil.AccessDenied:
-            inaccessible += 1
-    return total_rss, inaccessible
-
-
-def _terminate_process_tree(pid: int, process: subprocess.Popen[str], psutil: Any) -> None:
-    try:
-        root_process = psutil.Process(pid)
-        children = root_process.children(recursive=True)
-        for child in reversed(children):
-            try:
-                child.terminate()
-            except psutil.NoSuchProcess:
-                pass
-        try:
-            root_process.terminate()
-        except psutil.NoSuchProcess:
-            pass
-        _, alive = psutil.wait_procs([*children, root_process], timeout=2)
-        for remaining in alive:
-            try:
-                remaining.kill()
-            except psutil.NoSuchProcess:
-                pass
-    except (psutil.NoSuchProcess, psutil.AccessDenied):
-        process.kill()
 
 
 def _run_scan(

@@ -68,7 +68,13 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["src/vigil_fuse", "scripts/benchmark_scan.py", "scripts/benchmark_repository_cohort.py", "scripts/prepare_repository_benchmark_cohort.py"]
+files = [
+  "src/vigil_fuse",
+  "scripts/benchmark_scan.py",
+  "scripts/benchmark_repository_cohort.py",
+  "scripts/prepare_repository_benchmark_cohort.py",
+  "scripts/benchmark_process.py",
+]
 mypy_path = "src"
 explicit_package_bases = true
 strict = true

@@ -1,11 +1,12 @@
 import json
 import os
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from jsonschema import Draft202012Validator, FormatChecker
+from jsonschema import Draft202012Validator, FormatChecker, ValidationError
 
 from scripts.prepare_repository_benchmark_cohort import (
     DEFAULT_MANIFEST,
@@ -15,6 +16,7 @@ from scripts.prepare_repository_benchmark_cohort import (
 )
 from scripts.benchmark_repository_cohort import (
     RepositoryBenchmarkError,
+    run_benchmark,
     _manifest_sha256,
     _median_absolute_deviation,
     _scan_command,
@@ -24,6 +26,88 @@ from scripts.benchmark_repository_cohort import (
 
 
 class RepositoryBenchmarkTests(unittest.TestCase):
+    def test_pinned_cohort_report_includes_measured_process_tree_rss(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            temporary_root = Path(temporary)
+            checkouts_root = temporary_root / "checkouts"
+            checkout = checkouts_root / "example"
+            (checkout / "src").mkdir(parents=True)
+            subprocess.run(["git", "init", "--quiet", str(checkout)], check=True)
+            subprocess.run(
+                ["git", "-C", str(checkout), "config", "user.name", "FUSE benchmark test"],
+                check=True,
+            )
+            subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(checkout),
+                    "config",
+                    "user.email",
+                    "fuse-benchmark-test@example.invalid",
+                ],
+                check=True,
+            )
+            (checkout / "src" / "module.c").write_text(
+                "int main(void) { return 0; }\n", encoding="utf-8"
+            )
+            subprocess.run(["git", "-C", str(checkout), "add", "src/module.c"], check=True)
+            subprocess.run(
+                ["git", "-C", str(checkout), "commit", "--quiet", "-m", "fixture"],
+                check=True,
+            )
+            commit = subprocess.run(
+                ["git", "-C", str(checkout), "rev-parse", "HEAD"],
+                check=True,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+            ).stdout.strip()
+            manifest_path = temporary_root / "manifest.json"
+            manifest_path.write_text(
+                json.dumps(
+                    {
+                        "scan_date": "2026-10-31",
+                        "repositories": [
+                            {
+                                "id": "example",
+                                "name": "Example project",
+                                "commit": commit,
+                                "profile": "generic",
+                                "scans": [
+                                    {"id": "all", "scope": "C source", "includes": ["src/**"]}
+                                ],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            report = run_benchmark(
+                manifest_path=manifest_path,
+                checkouts_root=checkouts_root,
+                warmups=0,
+                repetitions=1,
+                timeout_seconds=60,
+                sample_interval_ms=5,
+            )
+
+        scope = report["scopes"][0]
+        rss = scope["process_tree_rss_bytes"]
+        self.assertEqual("1.1", report["schema_version"])
+        self.assertTrue(report["configuration"]["memory_sampling_enabled"])
+        self.assertGreater(rss["maximum"], 0)
+        self.assertTrue(rss["sampling_complete"])
+        schema_path = (
+            Path(__file__).resolve().parents[1]
+            / "reports"
+            / "benchmark"
+            / "repository-scan-performance.schema.json"
+        )
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        Draft202012Validator(schema, format_checker=FormatChecker()).validate(report)
+
     def test_manifest_digest_normalizes_line_endings_across_platforms(self) -> None:
         manifest = b'{"repositories": []}\n'
 
@@ -206,6 +290,22 @@ class RepositoryBenchmarkTests(unittest.TestCase):
             Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(report)
         )
         self.assertEqual([], errors)
+
+        report["schema_version"] = "1.1"
+        report["configuration"]["memory_sampling_enabled"] = True
+        report["configuration"]["memory_sample_interval_ms"] = 20
+        report["scopes"][0]["process_tree_rss_bytes"] = {
+            "samples": [12_000_000, 13_000_000],
+            "maximum": 13_000_000,
+            "process_samples_per_run": [24, 26],
+            "inaccessible_process_samples": 0,
+            "sampling_complete": True,
+        }
+        validator = Draft202012Validator(schema, format_checker=FormatChecker())
+        validator.validate(report)
+        report["scopes"][0].pop("process_tree_rss_bytes")
+        with self.assertRaises(ValidationError):
+            validator.validate(report)
 
     def test_repeatability_signature_includes_skip_reasons_and_native_status(self) -> None:
         report = {

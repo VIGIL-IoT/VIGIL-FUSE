@@ -5,6 +5,7 @@
 ### Added
 
 - Deterministic synthetic scan-performance harness with a versioned JSON report schema and a clearly scoped local baseline. The benchmark is descriptive and has no timing gate.
+- Pinned repository scans now capture sampled process-tree RSS for each measured run in report schema 1.1, with the sampling interval and completeness recorded separately from scan findings.
 
 ## 0.2.0 - 2026-10-26
 
