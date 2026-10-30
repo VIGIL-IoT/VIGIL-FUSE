@@ -140,64 +140,63 @@ def to_sarif(result: ScanResult) -> str:
             }
         )
 
+    run_properties: dict[str, object] = {
+        "target": result.target,
+        "profile": result.profile,
+        "networkPolicy": result.network_policy,
+        "inputManifestSha256": result.input_manifest_sha256,
+        "analysisPerformed": result.analysis_performed,
+        "analyzers": [
+            {
+                "name": analyzer.name,
+                "status": analyzer.status,
+                "version": analyzer.version,
+            }
+            for analyzer in result.analyzers
+        ],
+        "sarifExport": {
+            "resultsAvailable": len(results),
+            "resultsIncluded": len(results),
+            "resultsOmitted": 0,
+            "maxBytes": MAX_SARIF_BYTES,
+        },
+    }
+    run_document: dict[str, object] = {
+        "tool": {
+            "driver": {
+                "name": "FUSE",
+                "semanticVersion": __version__,
+                "rules": list(definitions.values()),
+            }
+        },
+        "artifacts": [
+            {
+                "location": {"uri": quote(artifact.path, safe="/._-")},
+                "mimeType": artifact.media_type,
+                "hashes": {"sha-256": artifact.sha256},
+            }
+            for artifact in result.artifacts
+        ],
+        "originalUriBaseIds": {
+            "%SRCROOT%": {"uri": "./"},
+        },
+        "results": results,
+        "properties": run_properties,
+    }
     report = {
         "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
         "version": "2.1.0",
-        "runs": [
-            {
-                "tool": {
-                    "driver": {
-                        "name": "FUSE",
-                        "semanticVersion": __version__,
-                        "rules": list(definitions.values()),
-                    }
-                },
-                "artifacts": [
-                    {
-                        "location": {"uri": quote(artifact.path, safe="/._-")},
-                        "mimeType": artifact.media_type,
-                        "hashes": {"sha-256": artifact.sha256},
-                    }
-                    for artifact in result.artifacts
-                ],
-                "originalUriBaseIds": {
-                    "%SRCROOT%": {"uri": "./"},
-                },
-                "results": results,
-                "properties": {
-                    "target": result.target,
-                    "profile": result.profile,
-                    "networkPolicy": result.network_policy,
-                    "inputManifestSha256": result.input_manifest_sha256,
-                    "analysisPerformed": result.analysis_performed,
-                    "analyzers": [
-                        {
-                            "name": analyzer.name,
-                            "status": analyzer.status,
-                            "version": analyzer.version,
-                        }
-                        for analyzer in result.analyzers
-                    ],
-                    "sarifExport": {
-                        "resultsAvailable": len(results),
-                        "resultsIncluded": len(results),
-                        "resultsOmitted": 0,
-                        "maxBytes": MAX_SARIF_BYTES,
-                    },
-                },
-            }
-        ],
+        "runs": [run_document],
     }
     serialized = json.dumps(report, indent=2, ensure_ascii=False) + "\n"
     if len(serialized.encode("utf-8")) <= MAX_SARIF_BYTES:
         return serialized
 
-    run = report["runs"][0]
     left, right = 0, len(results)
     while left < right:
         included = (left + right + 1) // 2
-        run["results"] = results[:included]
-        run["properties"]["sarifExport"] = {
+        run_document["results"] = results[:included]
+        run_properties["sarifExport"] = {
             "resultsAvailable": len(results),
             "resultsIncluded": included,
             "resultsOmitted": len(results) - included,
@@ -209,8 +208,8 @@ def to_sarif(result: ScanResult) -> str:
         else:
             right = included - 1
 
-    run["results"] = results[:left]
-    run["properties"]["sarifExport"] = {
+    run_document["results"] = results[:left]
+    run_properties["sarifExport"] = {
         "resultsAvailable": len(results),
         "resultsIncluded": left,
         "resultsOmitted": len(results) - left,

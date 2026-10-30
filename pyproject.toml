@@ -73,6 +73,7 @@ files = [
   "src/vigil_fuse/config.py",
   "src/vigil_fuse/hardware_bom.py",
   "src/vigil_fuse/history_analyzer.py",
+  "src/vigil_fuse/sarif.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true
