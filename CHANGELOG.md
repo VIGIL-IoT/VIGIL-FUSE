@@ -8,6 +8,7 @@
 - Pinned repository scans now capture sampled process-tree RSS for each measured run in report schema 1.1, with the sampling interval and completeness recorded separately from scan findings.
 - CI renders Markdown Mermaid diagrams with a pinned renderer container and validates the generated SVG files.
 - Added a manual Ubuntu and Windows workflow that builds upstream Binwalk v3.1.0 from a pinned commit and checks the FUSE adapter with positive and clean controls. Its Rust build does not promote upstream warnings to errors.
+- Verified the Binwalk v3.1.0 adapter workflow on Ubuntu and native Windows: the synthetic gzip positive was identified, the clean control stayed clear, and neither run created extraction output.
 
 ## 0.2.0 - 2026-10-26
 
