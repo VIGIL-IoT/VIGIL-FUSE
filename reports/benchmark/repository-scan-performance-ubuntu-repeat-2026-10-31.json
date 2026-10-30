@@ -1,0 +1,294 @@
+{
+  "benchmark": "fuse-pinned-repository-scan",
+  "cohort": {
+    "manifest_sha256": "cb75e3de0a9e5d7b3e97a3bd844dd9b5857f868e0cae4f4adff6a6732a30cfd1",
+    "repository_commits": {
+      "esp-iot-solution": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "mbedtls": "03e1438089654fb884ac48e0f3cd0049cfe2c102",
+      "mynewt-core": "73c201517aae919ce521f73177d8a91099f6a539",
+      "openthread": "1f6c3ad43306f037dda60cd3e39998772016be10"
+    },
+    "repository_count": 4,
+    "scan_date": "2026-10-28"
+  },
+  "configuration": {
+    "memory_sample_interval_ms": 20,
+    "memory_sampling_enabled": true,
+    "native_rules_enabled": true,
+    "network_enabled": false,
+    "optional_analyzers_enabled": false,
+    "repetitions": 3,
+    "timeout_seconds": 150,
+    "warmups": 1
+  },
+  "environment": {
+    "logical_cpu_count": 4,
+    "machine": "x86_64",
+    "operating_system": "Linux",
+    "os_release": "7.0.0-1017-azure",
+    "python_version": "3.12.15"
+  },
+  "generated_at_utc": "2026-10-30T22:09:43+00:00",
+  "schema_version": "1.1",
+  "scope_limitations": [
+    "Measurements describe only the pinned repository scopes in the input manifest.",
+    "Wall time includes starting a fresh Python CLI process and writing temporary reports.",
+    "Measurements use a single Linux host; this is not a controlled cross-platform comparison.",
+    "Optional networked and external analyzers were disabled for every run.",
+    "Files skipped or partial coverage remain visible and are not treated as complete scans.",
+    "Finding counts are scan observations, not a measure of detection accuracy.",
+    "Process-tree RSS is the sum of sampled resident sets; shared pages can be counted more than once.",
+    "RSS sampling can miss peaks shorter than the sampling interval and does not include filesystem cache or other system memory.",
+    "CPU utilization, build time, device runtime, and firmware behavior were not measured."
+  ],
+  "scopes": [
+    {
+      "discovery_complete": true,
+      "files_discovered": 3357,
+      "files_per_second_at_median": 617.488,
+      "files_scanned": 3354,
+      "files_selected": 3355,
+      "files_skipped": 1,
+      "files_skipped_by_reason": {
+        "too_large": 1
+      },
+      "finding_count": 0,
+      "include_patterns": [
+        "apps/**",
+        "kernel/**",
+        "nimble/**",
+        "sys/**",
+        "hw/**",
+        "targets/**",
+        "Kconfig",
+        "Makefile"
+      ],
+      "mebibytes_per_second_at_median": 3.953515,
+      "native_analysis_status": "partial",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 54550528,
+        "process_samples_per_run": [
+          232,
+          233,
+          232
+        ],
+        "samples": [
+          54550528,
+          54542336,
+          54312960
+        ],
+        "sampling_complete": true
+      },
+      "profile": "generic",
+      "repetition_count": 3,
+      "repository": "apache/mynewt-core",
+      "repository_commit": "73c201517aae919ce521f73177d8a91099f6a539",
+      "repository_id": "mynewt-core",
+      "scan_id": "mynewt-core",
+      "scan_return_code": 2,
+      "scope": "Mynewt kernel, system, hardware, targets, networking, and NimBLE source",
+      "source_bytes_read": 22517374,
+      "wall_time_seconds": {
+        "maximum": 5.450959,
+        "median": 5.431683,
+        "median_absolute_deviation": 0.019276,
+        "minimum": 5.382214,
+        "samples": [
+          5.431683,
+          5.450959,
+          5.382214
+        ]
+      },
+      "warmup_count": 1,
+      "warmup_seconds": [
+        5.506195
+      ]
+    },
+    {
+      "discovery_complete": true,
+      "files_discovered": 125,
+      "files_per_second_at_median": 100.604,
+      "files_scanned": 121,
+      "files_selected": 121,
+      "files_skipped": 0,
+      "files_skipped_by_reason": {},
+      "finding_count": 0,
+      "include_patterns": [
+        "library/**",
+        "include/**",
+        "programs/**",
+        "configs/**",
+        "CMakeLists.txt",
+        "Makefile"
+      ],
+      "mebibytes_per_second_at_median": 2.361825,
+      "native_analysis_status": "completed",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 46010368,
+        "process_samples_per_run": [
+          51,
+          51,
+          51
+        ],
+        "samples": [
+          45744128,
+          45834240,
+          46010368
+        ],
+        "sampling_complete": true
+      },
+      "profile": "generic",
+      "repetition_count": 3,
+      "repository": "Mbed-TLS/mbedtls",
+      "repository_commit": "03e1438089654fb884ac48e0f3cd0049cfe2c102",
+      "repository_id": "mbedtls",
+      "scan_id": "mbedtls",
+      "scan_return_code": 0,
+      "scope": "Mbed TLS library, public headers, configuration, programs, and examples",
+      "source_bytes_read": 2978642,
+      "wall_time_seconds": {
+        "maximum": 1.211946,
+        "median": 1.202737,
+        "median_absolute_deviation": 0.009209,
+        "minimum": 1.165418,
+        "samples": [
+          1.211946,
+          1.202737,
+          1.165418
+        ]
+      },
+      "warmup_count": 1,
+      "warmup_seconds": [
+        1.199515
+      ]
+    },
+    {
+      "discovery_complete": true,
+      "files_discovered": 911,
+      "files_per_second_at_median": 457.24,
+      "files_scanned": 909,
+      "files_selected": 909,
+      "files_skipped": 0,
+      "files_skipped_by_reason": {},
+      "finding_count": 5,
+      "include_patterns": [
+        "src/**",
+        "examples/**",
+        "include/**",
+        "CMakeLists.txt",
+        "Makefile"
+      ],
+      "mebibytes_per_second_at_median": 6.288738,
+      "native_analysis_status": "completed",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 47775744,
+        "process_samples_per_run": [
+          84,
+          85,
+          85
+        ],
+        "samples": [
+          47538176,
+          47636480,
+          47775744
+        ],
+        "sampling_complete": true
+      },
+      "profile": "generic",
+      "repetition_count": 3,
+      "repository": "openthread/openthread",
+      "repository_commit": "1f6c3ad43306f037dda60cd3e39998772016be10",
+      "repository_id": "openthread",
+      "scan_id": "openthread",
+      "scan_return_code": 0,
+      "scope": "OpenThread source, examples, public headers, and root build configuration",
+      "source_bytes_read": 13109413,
+      "wall_time_seconds": {
+        "maximum": 2.004758,
+        "median": 1.988016,
+        "median_absolute_deviation": 0.016742,
+        "minimum": 1.946582,
+        "samples": [
+          1.946582,
+          2.004758,
+          1.988016
+        ]
+      },
+      "warmup_count": 1,
+      "warmup_seconds": [
+        1.9536
+      ]
+    },
+    {
+      "discovery_complete": true,
+      "files_discovered": 3897,
+      "files_per_second_at_median": 949.342,
+      "files_scanned": 3886,
+      "files_selected": 3888,
+      "files_skipped": 2,
+      "files_skipped_by_reason": {
+        "too_large": 2
+      },
+      "finding_count": 19,
+      "include_patterns": [
+        "components/**",
+        "examples/**",
+        "CMakeLists.txt",
+        "idf_component.yml",
+        "sdkconfig.defaults*"
+      ],
+      "mebibytes_per_second_at_median": 8.959087,
+      "native_analysis_status": "partial",
+      "process_tree_rss_bytes": {
+        "inaccessible_process_samples": 0,
+        "maximum": 69722112,
+        "process_samples_per_run": [
+          174,
+          175,
+          177
+        ],
+        "samples": [
+          69722112,
+          69701632,
+          69693440
+        ],
+        "sampling_complete": true
+      },
+      "profile": "esp-idf",
+      "repetition_count": 3,
+      "repository": "espressif/esp-iot-solution",
+      "repository_commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "repository_id": "esp-iot-solution",
+      "scan_id": "esp-iot-solution",
+      "scan_return_code": 2,
+      "scope": "ESP-IoT-Solution components, examples, sdkconfig defaults, and component manifests",
+      "source_bytes_read": 38454181,
+      "wall_time_seconds": {
+        "maximum": 4.099717,
+        "median": 4.09336,
+        "median_absolute_deviation": 0.006357,
+        "minimum": 4.012931,
+        "samples": [
+          4.012931,
+          4.099717,
+          4.09336
+        ]
+      },
+      "warmup_count": 1,
+      "warmup_seconds": [
+        4.148318
+      ]
+    }
+  ],
+  "source_revision": {
+    "commit": "c67008d159015c3e56a8fbc4bdc1f5ed49b0623b",
+    "working_tree_dirty": false
+  },
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  }
+}
