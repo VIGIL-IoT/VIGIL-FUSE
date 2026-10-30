@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -12,8 +13,30 @@ from .analyzer_runtime import (
     _artifact_destination,
     _run,
     _tool_version,
+    TOOL_VERSION_TIMEOUT_SECONDS,
 )
 from .model import AnalyzerStatus
+
+
+def _binwalk_version(executable: str) -> str | None:
+    version = _tool_version(executable)
+    if version is not None:
+        return version
+    try:
+        completed = _run(
+            [executable, "--help"],
+            timeout=TOOL_VERSION_TIMEOUT_SECONDS,
+        )
+    except (OSError, subprocess.TimeoutExpired, AnalyzerOutputLimitError):
+        return None
+    if completed.returncode != 0:
+        return None
+    output = completed.stdout or completed.stderr
+    for line in output.splitlines():
+        value = line.strip()
+        if re.match(r"(?i)^binwalk\s+v?\d", value):
+            return value[:120]
+    return None
 
 
 def identify_firmware(target: Path, output_dir: Path) -> AdapterResult:
@@ -27,7 +50,7 @@ def identify_firmware(target: Path, output_dir: Path) -> AdapterResult:
                 detail="Install Binwalk and rerun with --firmware; extraction is not performed.",
             )
         )
-    version = _tool_version(executable)
+    version = _binwalk_version(executable)
     try:
         completed = _run([executable, str(target.resolve())])
     except subprocess.TimeoutExpired:

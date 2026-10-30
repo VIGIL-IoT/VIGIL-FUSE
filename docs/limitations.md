@@ -38,7 +38,7 @@ FUSE is an alpha-stage static inspection tool. A clean report means only that en
 - Performance evidence currently consists of one synthetic C workload on one Windows environment. It does not characterize typical embedded repositories or support a general speed claim. The sampled process-tree RSS estimate may double-count shared pages and miss brief peaks.
 - CI tests Ubuntu with Python 3.11 through 3.14, and Windows and macOS with Python 3.11. Its quality job runs Ruff lint and formatting checks over `src`, `tests`, and `scripts`, strict Mypy across all 44 source modules plus the scan benchmark script, documentation and path validation, a FUSE self-scan, and a small benchmark smoke run. FUSE CI run #263 for `00bb3f2` succeeded. This is evidence for that revision, not a promise that every commit has passed.
 - The package workflow builds and installs a wheel, then exercises the installed CLI. Strict Mypy and Ruff formatting are development and CI checks, not runtime dependencies.
-- Syft 1.55.0 and OSV-Scanner 2.7.0 passed bounded end-to-end smoke checks, and Gitleaks 8.30.0 passed a synthetic positive and clean-control check. Binwalk's real executable integration remains unverified. These checks do not establish broad detector accuracy or cross-platform behavior.
+- Gitleaks 8.30.0, Syft 1.55.0, OSV-Scanner 2.7.0, and Binwalk v2.3.3 passed bounded local smoke checks. Binwalk was checked in WSL2 Ubuntu, not on Windows natively or with v3.1.0. These checks do not establish broad detector accuracy or cross-platform behavior.
 - The package is version `0.2.0` and alpha. The custom license restricts redistribution and registry uploads without written permission; distribution rights need review before publication.
 
 ## Explicit non-claims

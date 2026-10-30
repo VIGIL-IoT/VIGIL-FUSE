@@ -39,3 +39,15 @@ python scripts/verify_dependency_adapters.py --expected-syft-version 1.55.0 --ex
 ```
 
 The harness expects at least one advisory for `urllib3==1.25.2`, no advisory for `idna==3.15` on the recorded database snapshot, and a partial OSV status with no fabricated result artifact when a CycloneDX SBOM has no package components. Advisory data changes over time, so the positive count can vary. The tool versions, release asset hashes, observed outputs, and limitations for the 2026-10-31 run are recorded in the [experiment note](experiments/dependency-adapters-e2e-2026-10-31.md).
+
+## Binwalk adapter smoke check
+
+The [Binwalk adapter harness](../scripts/verify_binwalk_adapter.py) checks `--firmware` against a synthetic gzip image and a clean byte-string control. It confirms that FUSE records the tool version and identification output, detects the gzip signature only in the positive control, and does not create an extraction directory. It does not extract or execute firmware.
+
+Install Binwalk in a Linux or Windows environment, make it available on `PATH`, then run from the FUSE repository root:
+
+```powershell
+python scripts/verify_binwalk_adapter.py
+```
+
+Use `--expected-version` when a specific executable banner is required. The 2026-10-31 check used Ubuntu's Binwalk package in WSL2; the executable help banner was `Binwalk v2.3.3`. The package hashes, results, and limits are recorded in the [experiment note](experiments/binwalk-adapter-e2e-2026-10-31.md).

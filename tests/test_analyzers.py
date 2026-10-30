@@ -304,6 +304,36 @@ class OptionalAnalyzerTests(unittest.TestCase):
         self.assertFalse(any(argument in {"-e", "--extract", "-Me"} for argument in command))
         self.assertIn("no extraction", result.status.detail.lower())
 
+    def test_binwalk_legacy_help_banner_provides_version_fallback(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            firmware = root / "image.bin"
+            firmware.write_bytes(b"image")
+            output = root / "reports"
+            version_error = subprocess.CompletedProcess(
+                [], 1, "", "General Error: Cannot open file --version"
+            )
+            help_output = subprocess.CompletedProcess([], 0, "Binwalk v2.3.3\nUsage: binwalk", "")
+            scan_output = subprocess.CompletedProcess([], 0, "gzip compressed data\n", "")
+            with (
+                patch("vigil_fuse.firmware_analyzer.shutil.which", return_value="binwalk"),
+                patch(
+                    "vigil_fuse.analyzer_runtime._run", return_value=version_error
+                ) as version_run,
+                patch(
+                    "vigil_fuse.firmware_analyzer._run",
+                    side_effect=[help_output, scan_output],
+                ) as mocked_run,
+            ):
+                result = identify_firmware(firmware, output)
+
+        self.assertEqual("completed", result.status.status)
+        self.assertEqual("Binwalk v2.3.3", result.status.version)
+        commands = [call.args[0] for call in mocked_run.call_args_list]
+        self.assertEqual("--version", version_run.call_args.args[0][1])
+        self.assertEqual("--help", commands[0][1])
+        self.assertEqual(str(firmware.resolve()), commands[1][1])
+
     def test_binwalk_report_truncation_is_reported_as_partial(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
