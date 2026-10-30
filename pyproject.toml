@@ -74,6 +74,7 @@ files = [
   "src/vigil_fuse/hardware_bom.py",
   "src/vigil_fuse/history_analyzer.py",
   "src/vigil_fuse/sarif.py",
+  "src/vigil_fuse/product_context.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true

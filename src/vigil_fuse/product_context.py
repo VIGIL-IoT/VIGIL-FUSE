@@ -6,7 +6,7 @@ import re
 from dataclasses import replace
 from pathlib import Path
 from urllib.parse import quote
-from typing import Any
+from typing import Any, Literal
 
 from .build_context import _read_bounded, _select_project_file
 from .model import (
@@ -259,9 +259,11 @@ def import_vex(
         affected_purls: set[str] = set()
         if isinstance(affected, list):
             for item in affected:
-                if not isinstance(item, dict) or not isinstance(item.get("ref"), str):
+                if not isinstance(item, dict):
                     continue
-                reference = item["ref"]
+                reference = item.get("ref")
+                if not isinstance(reference, str):
+                    continue
                 purl = references.get(reference, reference)
                 if purl.startswith("pkg:"):
                     affected_purls.add(purl)
@@ -333,11 +335,6 @@ def inspect_provenance(
     max_firmware_bytes: int,
 ) -> ProvenanceRecord:
     statement, display, data, digest = _read_json(root, Path(supplied), "--provenance")
-    base = {
-        "source_path": display,
-        "sha256": digest,
-        "byte_size": len(data),
-    }
     limitation = (
         "FUSE compares the attested subject digest only. It does not authenticate a signature, "
         "establish a trusted builder, or validate the SLSA predicate policy.",
@@ -345,7 +342,9 @@ def inspect_provenance(
     if statement is None:
         return ProvenanceRecord(
             status="invalid",
-            **base,
+            source_path=display,
+            sha256=digest,
+            byte_size=len(data),
             limitations=("Provenance input is not an in-toto statement JSON object.", *limitation),
         )
     statement_type = statement.get("_type")
@@ -364,7 +363,9 @@ def inspect_provenance(
     ):
         return ProvenanceRecord(
             status="invalid",
-            **base,
+            source_path=display,
+            sha256=digest,
+            byte_size=len(data),
             predicate_type=safe_report_text(predicate_type, limit=500),
             limitations=(
                 "Input is not a supported in-toto SLSA provenance statement or lacks subject data.",
@@ -396,7 +397,9 @@ def inspect_provenance(
     except (OSError, ValueError) as error:
         return ProvenanceRecord(
             status="invalid",
-            **base,
+            source_path=display,
+            sha256=digest,
+            byte_size=len(data),
             predicate_type=safe_report_text(predicate_type, limit=500),
             builder_id=safe_report_text(builder_id, limit=500),
             build_type=safe_report_text(build_type, limit=500),
@@ -429,7 +432,7 @@ def inspect_provenance(
         if sha256 == actual_hash:
             matched_name, matched_digest = safe_name, sha256
             break
-    status = (
+    status: Literal["subject-match", "subject-mismatch", "unverified"] = (
         "subject-match"
         if matched_digest
         else "subject-mismatch"
@@ -438,7 +441,9 @@ def inspect_provenance(
     )
     return ProvenanceRecord(
         status=status,
-        **base,
+        source_path=display,
+        sha256=digest,
+        byte_size=len(data),
         predicate_type=safe_report_text(predicate_type, limit=500),
         builder_id=safe_report_text(builder_id, limit=500),
         build_type=safe_report_text(build_type, limit=500),
