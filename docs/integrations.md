@@ -17,3 +17,13 @@ FUSE keeps native rules, inventory observations, and optional external analyzers
 Optional executables are resolved from the current environment's `PATH`. FUSE passes argument arrays, never shell commands, and records analyzer status, version when available, output artifact hashes, timeouts, and diagnostic-output limit failures. These controls do not sandbox an external tool. Review `threat-model.md` before enabling optional tools on hostile inputs.
 
 Analyzer absence, failure, and partial coverage remain visible in reports. Use `docs/github-actions.md` for the separate workflow that runs FUSE in a repository's CI.
+
+## Gitleaks adapter smoke check
+
+The optional [Gitleaks adapter harness](../scripts/verify_gitleaks_adapter.py) uses temporary local repositories to check one synthetic positive history and one clean control. It verifies completion status and checks that the generated test value is absent from output. It does not contact a credential service or validate detector accuracy. Run it from the repository root with Git and Gitleaks available on `PATH`:
+
+```powershell
+python scripts/verify_gitleaks_adapter.py --expected-version 8.30.0
+```
+
+The pinned tool version, checksum, observed results, and limits for the 2026-10-31 run are recorded in the [experiment note](experiments/gitleaks-adapter-e2e-2026-10-31.md).
