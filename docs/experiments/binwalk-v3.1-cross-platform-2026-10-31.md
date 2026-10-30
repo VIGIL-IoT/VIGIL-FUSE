@@ -1,9 +1,11 @@
 # Binwalk v3.1.0 cross-platform adapter smoke check
 
-**Date:** 2026-10-31  
-**FUSE revision:** `d873da619e08a4ab5a71ac7802cb55656608b442`  
-**Binwalk source revision:** `4fdab3d464d97b68e0af9088df3f9e2e1545b21c`  
-**Workflow run:** [41134907521](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41134907521)
+| Field | Value |
+| --- | --- |
+| Date | 2026-10-31 |
+| FUSE revision | `d873da619e08a4ab5a71ac7802cb55656608b442` |
+| Binwalk source revision | `4fdab3d464d97b68e0af9088df3f9e2e1545b21c` |
+| Workflow run | [41134907521](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41134907521) |
 
 ## Purpose
 
