@@ -98,6 +98,8 @@ jobs:
               f"{report['summary']['finding_count']} findings"
           )
           PY
+      - name: Smoke-check synthetic scan benchmark
+        run: python scripts/benchmark_scan.py --files 16 --warmups 0 --repetitions 1 --output "$RUNNER_TEMP/fuse-scan-performance.json"
       - name: Run tests with branch coverage
         run: |
           python -m coverage run -m pytest -q

@@ -15,6 +15,10 @@ def test_test_extras_exclude_pytest_versions_with_known_advisories() -> None:
 
     assert "pytest>=9.0.3,<10" in extras["test"]
     assert "pytest>=9.0.3,<10" in extras["dev"]
+    assert "psutil>=7.2,<8" in extras["test"]
+    assert "psutil>=7.2,<8" in extras["dev"]
+    assert "types-psutil>=7.2,<8" in extras["dev"]
+    assert project["project"]["dependencies"] == []
 
 
 def test_dependabot_covers_python_and_github_actions_weekly() -> None:
