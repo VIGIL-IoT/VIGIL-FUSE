@@ -1,7 +1,7 @@
 {
   "benchmark": "fuse-pinned-repository-scan",
   "cohort": {
-    "manifest_sha256": "54b20ddf020082931efb8699fce070547dfe0c808b47441e7ea127670fac24cf",
+    "manifest_sha256": "cb75e3de0a9e5d7b3e97a3bd844dd9b5857f868e0cae4f4adff6a6732a30cfd1",
     "repository_commits": {
       "esp-iot-solution": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
       "mbedtls": "03e1438089654fb884ac48e0f3cd0049cfe2c102",
@@ -32,6 +32,7 @@
     "Measurements describe only the pinned repository scopes in the input manifest.",
     "Wall time includes starting a fresh Python CLI process and writing temporary reports.",
     "One Windows machine was measured; this is not a cross-platform comparison.",
+    "This historical checkout predates enforced LF worktree line endings; source-byte totals and size-limit skips may differ from the normalized cross-platform reports.",
     "Optional networked and external analyzers were disabled for every run.",
     "Files skipped or partial coverage remain visible and are not treated as complete scans.",
     "Finding counts are scan observations, not a measure of detection accuracy.",

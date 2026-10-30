@@ -61,6 +61,19 @@ The figure starts from the illustrative `FUSE001` record in the [finding format]
 
 See [supported inputs and limits](src/vigil_fuse/support-matrix.json), [firmware analysis](docs/firmware-analysis.md), [hardware analysis](docs/hardware-analysis.md), and [known limitations](docs/limitations.md) for exact boundaries. FUSE does not provide compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 
+## Measured scan sample
+
+The same pinned four-scope cohort was scanned on GitHub-hosted Linux, Windows, and macOS runners with one warm-up and three measured runs per scope.
+
+| Selected scope | Linux | Windows | macOS | Coverage |
+| --- | ---: | ---: | ---: | --- |
+| Apache Mynewt Core | 5.427 s | 9.529 s | 6.051 s | 3,354 / 3,355, partial |
+| Mbed TLS | 1.203 s | 1.696 s | 1.281 s | 121 / 121, complete |
+| OpenThread | 1.966 s | 3.247 s | 2.250 s | 909 / 909, complete |
+| ESP-IoT-Solution | 4.052 s | 8.135 s | 4.871 s | 3,886 / 3,888, partial |
+
+These are descriptive samples from one hosted runner per OS, not a controlled speed ranking. Mynewt Core and ESP-IoT-Solution had oversized selected files skipped on every platform. See the [method, limitations, and raw reports](docs/experiments/repository-scan-performance-matrix-2026-10-31.md).
+
 ## Relationship to the VIGIL-IoT suite
 
 FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/VIGIL-IoT), it inspects candidate weaknesses while SPECTRA-32 can reproduce selected cases in a controlled lab, evaluate mitigations, and measure overhead. Findings remain candidates until the relevant behavior is validated.
@@ -73,7 +86,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Configuration and integrations](docs/integrations.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
 - [Methodology](docs/methodology.md) · [Traceability](docs/traceability.md)
-- [Benchmark method and evidence](docs/benchmarks.md) · [Synthetic scan baseline](reports/benchmark/scan-performance.json) · [Pinned repository performance report](reports/benchmark/repository-scan-performance.json)
+- [Benchmark method and evidence](docs/benchmarks.md) · [Synthetic scan baseline](reports/benchmark/scan-performance.json) · [Pinned repository performance report](reports/benchmark/repository-scan-performance.json) · [Cross-platform report set](docs/experiments/repository-scan-performance-matrix-2026-10-31.md)
 - [Repository scan reports](reports/repository-scans/README.md) · [Evaluation notes](docs/experiments/pilot-scan-2026-10.md)
 - [Development roadmap](docs/roadmap.md) · [Release process](docs/release-process.md)
 - [Project site](site/) · [Website maintenance notes](docs/website.md)

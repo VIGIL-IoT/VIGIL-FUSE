@@ -12,7 +12,7 @@ Measure repeatability and wall time for FUSE native scans over selected, pinned 
 
 ## Inputs and method
 
-The cohort is defined in [`fresh-validation-next/manifest.json`](../../reports/repository-scans/fresh-validation-next/manifest.json). Its SHA-256 is `54b20ddf020082931efb8699fce070547dfe0c808b47441e7ea127670fac24cf`. Each local checkout was verified clean and at its pinned commit before measurement. The complete recorded output, including repository commit IDs and all timing samples, is [`repository-scan-performance.json`](../../reports/benchmark/repository-scan-performance.json).
+The cohort is defined in [`fresh-validation-next/manifest.json`](../../reports/repository-scans/fresh-validation-next/manifest.json). Its canonical SHA-256 is `cb75e3de0a9e5d7b3e97a3bd844dd9b5857f868e0cae4f4adff6a6732a30cfd1`, calculated after normalizing platform line endings. Each local checkout was verified clean and at its pinned commit before measurement. The complete recorded output, including repository commit IDs and all timing samples, is [`repository-scan-performance.json`](../../reports/benchmark/repository-scan-performance.json). The stored report's manifest digest was updated to this canonical fingerprint after the cross-platform review; measured timings and scan observations were not changed.
 
 FUSE ran one warm-up followed by three measured scans for each of four selected scopes. The report counts process startup and temporary report writing in wall time. Network access, SBOM generation, vulnerability database queries, firmware analysis, and Git history analysis were disabled. Native rules and the enabled static inventory checks ran. Counts, bytes, findings, discovery status, native-analysis status, skip reasons, and exit status remained stable across each scope's measured repetitions.
 
@@ -21,7 +21,7 @@ Reproduce from the repository root after checking out the manifest's pinned repo
 ```powershell
 python scripts/benchmark_repository_cohort.py `
   --manifest reports/repository-scans/fresh-validation-next/manifest.json `
-  --checkouts ..\fuse-scan-targets-fresh-validation-next `
+  --checkouts ..\fuse-repository-benchmark-cohort `
   --warmups 1 `
   --repetitions 3 `
   --output reports/benchmark/repository-scan-performance.json
@@ -49,7 +49,8 @@ OpenThread and ESP-IoT-Solution produced 26 raw candidate signals combined. Thes
 - Network-dependent and optional external analyzers were disabled.
 - Candidate signal counts describe scan output. No false-positive, recall, exploitability, reachability, or accuracy conclusion follows from them.
 - Two scopes were partial due to oversized files. The full skip details and native-analysis status are retained in the versioned JSON report.
+- This Windows run predates the benchmark preparer's `core.eol=lf` enforcement. Its source-byte totals and oversized-file skips are historical local results and should not be compared directly with the normalized cross-platform measurements.
 
 ## Outcome
 
-FUSE completed repeatable native analysis of the configured scopes on this machine, with measured medians from 2.498 to 13.404 seconds. The report now retains enough coverage detail to distinguish completed native analysis from complete file discovery. Cross-platform performance measurement and independent finding adjudication remain future work.
+FUSE completed repeatable native analysis of the configured scopes on this machine, with measured medians from 2.498 to 13.404 seconds. The report retains enough coverage detail to distinguish completed native analysis from complete file discovery. The line-ending-normalized cross-platform results are recorded separately in the [matrix follow-up](repository-scan-performance-matrix-2026-10-31.md); independent finding adjudication remains future work.

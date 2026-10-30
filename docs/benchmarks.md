@@ -52,7 +52,7 @@ This is one synthetic baseline on one Windows environment. It is useful for chec
 
 `scripts/benchmark_repository_cohort.py` provides a separate timing path for selected scopes in a pinned repository manifest. It verifies that every checkout is clean and at the expected commit, performs one warm-up and three measured scans by default, disables network and optional external analyzers, and confirms that file counts, byte counts, finding counts, skipped-file reasons, native-analysis status, discovery coverage, and exit status remain stable across repetitions. It records wall-time samples, median and spread, scan throughput, findings, skipped-file reasons, native-analysis status, and discovery coverage. It does not record a local checkout path. The manifest digest normalizes line endings so Windows, Linux, and macOS report the same fingerprint for identical manifest content. The output format is defined by [repository-scan-performance.schema.json](../reports/benchmark/repository-scan-performance.schema.json).
 
-Run it from the FUSE repository root. The preparer downloads each public source at the manifest's pinned commit, disables Git's automatic CRLF conversion, and uses the selected include patterns for a sparse checkout. Existing checkouts are reused only when their commit and clean status match and their effective `core.autocrlf` setting is false. A non-pinned, dirty, or checkout configured to convert line endings causes an error and is never overwritten.
+Run it from the FUSE repository root. The preparer downloads each public source at the manifest's pinned commit, sets `core.autocrlf=false` and `core.eol=lf` before checkout, and uses the selected include patterns for a sparse checkout. Existing checkouts are reused only when their commit and clean status match and both effective line-ending settings are normalized. A non-pinned, dirty, or non-normalized checkout causes an error and is never overwritten.
 
 ```powershell
 python scripts/prepare_repository_benchmark_cohort.py `
@@ -77,7 +77,7 @@ The manually triggered [repository performance workflow](../.github/workflows/re
 gh workflow run repository-performance.yml --ref main
 ```
 
-The workflow does not commit generated measurements. Review the downloaded reports for platform and coverage differences before treating them as comparable. Hosted runner timings are descriptive and should not be used as fixed speed thresholds.
+The workflow uploads reports as artifacts and does not commit them automatically. The reviewed snapshot from run [41129068118](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41129068118) is checked in as [Ubuntu JSON](../reports/benchmark/repository-scan-performance-ubuntu-2026-10-31.json), [Windows JSON](../reports/benchmark/repository-scan-performance-windows-2026-10-31.json), and [macOS JSON](../reports/benchmark/repository-scan-performance-macos-2026-10-31.json). See the [cross-platform experiment record](experiments/repository-scan-performance-matrix-2026-10-31.md) for the environment, timing samples, coverage comparison, and limitations. Hosted runner timings are descriptive and should not be used as fixed speed thresholds or an OS speed ranking.
 
 ### Recorded pinned-project cohort
 

@@ -63,7 +63,11 @@
       "properties": {
         "scan_date": { "type": ["string", "null"] },
         "repository_count": { "type": "integer", "minimum": 1 },
-        "manifest_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 of manifest bytes after CRLF and CR line endings are normalized to LF."
+        },
         "repository_commits": {
           "type": "object",
           "minProperties": 1,
