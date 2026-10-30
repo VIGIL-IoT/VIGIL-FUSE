@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-30
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Workspace revision:** `ee957cf` plus local dependency-audit improvements
+**Workspace revision at this update:** `5bf4d69`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -46,6 +46,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Replaced the single README CI badge with verified Shields.io CI, release, Python-version, and custom-license badges. No PyPI or coverage badge is shown because those would imply unsupported publication or reporting setup.
 - Added an Unreleased changelog section and roadmap horizons for immediate, short-term, medium-term, and long-term work.
 - Added weekly Dependabot checks for pip and GitHub Actions, plus a separate dependency-audit workflow using pip-audit. The first audit identified the vulnerable pytest 8.x range and led to raising the test floor to 9.0.3.
+- Updated the static site to describe FUSE's present analysis scope, remove the planned external lab handoff, and use a shared vertical-spacing scale across major sections.
 - Preserved earlier engineering changes already in the workspace: analyzer module split, XML hardening, terminal control handling, subprocess input isolation, FUSE003 AST analysis, fixture benchmark, and stronger CI/package checks.
 
 ## Files added
@@ -62,7 +63,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Files modified
 
-- `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/contributing.md`, `docs/requirements.md`, `docs/sbom.md`, and `docs/roadmap.md`
+- `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/contributing.md`, `docs/requirements.md`, `docs/sbom.md`, `docs/roadmap.md`, `docs/website.md`, and the static site files under `site/`
 - Existing local engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
 - `LICENSE` was not modified.
 
@@ -79,12 +80,13 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - pip-audit against an isolated virtual environment created from the declared development extras.
 - Git diff whitespace check and changed-file punctuation review.
 - Anatomy generator syntax, generated inline JavaScript parsing, SVG XML structure, and Shields.io badge response checks.
+- Static-site screenshots reviewed at 1440, 768, and 390 pixel widths. The browser reported no console errors or horizontal overflow. The desktop full-page inspector returned a load timeout after producing screenshots; its separate style heuristics still report 8 failures and 5 warnings, including the intentionally scrollable report-fragment row.
 
 ## Test results
 
-The full suite passes locally with **190 tests** on Windows and Python 3.14 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. The FUSE self-scan in the latest remote quality job covered 203 files, completed discovery, and reported zero findings. The path audit passes over 494 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks. A fresh pip-audit 2.10.1 run on 2026-10-30 found no known vulnerabilities in the resolved development dependencies; it skipped the editable FUSE checkout itself. The current dependency-audit workflow and pytest 9 range have passed local tests, and their GitHub run is pending.
+The full suite passes locally with **190 tests** on Windows and Python 3.14 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. Run #232 on `1ade772` passed all eight jobs with **190 tests**, **73 subtests**, and **75%** branch-aware coverage. Its quality job scanned 206 files with zero findings, validated 53 Markdown files, and passed the path audit over 497 tracked files and Git history. The Python dependency audit found no known vulnerabilities in the resolved development dependencies and skipped the editable FUSE checkout itself. Run #237 on `5bf4d69` also passed all eight jobs, and the Vercel status check succeeded. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
 
-The original full-tree Ruff check identified 42 files for reformatting. Four were formatted with the path fix, and the remaining 38 are formatted in `121c74e`. CI now checks formatting across all Python files under `src`, `tests`, and `scripts`. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. The fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Run #229 on `fd15878` passed all eight jobs across Ubuntu Python 3.11 to 3.14, Windows Python 3.11, macOS Python 3.11, quality, and package smoke. The next run on `121c74e` also passed all eight jobs, including full-tree formatting and YAML-enabled tests. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
+The original full-tree Ruff check identified 42 files for reformatting. Four were formatted with the path fix, and the remaining 38 are formatted in `121c74e`. CI now checks formatting across all Python files under `src`, `tests`, and `scripts`. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. The fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Run #229 on `fd15878` passed all eight jobs across Ubuntu Python 3.11 to 3.14, Windows Python 3.11, macOS Python 3.11, quality, and package smoke. The next run on `121c74e` also passed all eight jobs, including full-tree formatting and YAML-enabled tests. The static site has now been visually inspected at desktop, tablet, and mobile widths. Browser rendering and interaction of the separate finding-model figure remain unverified.
 
 ## Security findings
 
@@ -120,7 +122,7 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 ## Remaining limitations
 
 - No representative independent ground-truth corpus or field accuracy estimate.
-- The latest remote CI run is green across Ubuntu, Windows, and macOS. Browser rendering and interaction of the finding-model figure remain unverified.
+- Workflow run #237 on `5bf4d69` is green across Ubuntu, Windows, and macOS. The static site was inspected at desktop, tablet, and mobile widths with no console errors or horizontal overflow. Browser rendering and interaction of the separate finding-model figure remain unverified.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Optional analyzers were not installed and tested end to end.
 - No configured static type checker and no complete third-party dependency audit. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
@@ -160,8 +162,8 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 
 ## Recommended next actions
 
-1. Review this local diff and run the configured GitHub Actions on a reviewed commit.
-2. Resolve the license and allowed distribution channels before publishing a release or package.
+1. Add a static type-checking tool only after checking the existing codebase and choosing a supported Python version range.
+2. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
 3. Install and pin optional analyzers in a controlled environment, then validate their real outputs and failure states.
 4. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.
 5. Add a reproducible performance and memory harness before reporting speed or throughput.

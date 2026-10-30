@@ -22,7 +22,7 @@ Preview locally from the repository root with:
 
 Then open http://localhost:4173. The website's command example installs the package from the repository and writes a scan's text, JSON, and SARIF reports to the `.fuse-results` folder.
 
-The interactive finding panel uses vulnerable fixtures for FUSE001, FUSE003, and FUSE006. They are labelled as test examples. The repository scan section reads its pinned snapshot from `site/data/repository-scan-results.json`; full JSON, text, and SARIF reports are in `reports/repository-scans/`. Its counts are raw static indicators, not confirmed vulnerabilities or hardware results. FUSE 0.2.0's rule-context changes and remaining limitations are documented in the report directory. The SPECTRA-32 research loop remains planned work.
+The interactive finding panel uses vulnerable fixtures for FUSE001, FUSE003, and FUSE006. They are labelled as test examples. The repository scan section reads its pinned snapshot from `site/data/repository-scan-results.json`; full JSON, text, and SARIF reports are in `reports/repository-scans/`. Its counts are raw static indicators, not confirmed vulnerabilities or hardware results. FUSE 0.2.0's rule-context changes and remaining limitations are documented in the report directory. The site describes FUSE's current analysis scope and states that device testing is not part of the workflow.
 
 After regenerating repository scan reports, run `py scripts\build_repository_scan_dashboard.py` from the repository root to refresh the scan summary, supported-input matrix, and SVG plots in `reports/repository-scans/plots/` and `site/assets/`.
 
