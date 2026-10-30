@@ -6,6 +6,10 @@ The top-level `target` value is a shareable label. By default, it is the target 
 
 ## Finding fields
 
+The fields are separate judgments. The [interactive finding model](../site/diagrams/fuse-finding-model.html) lets you adjust severity and confidence independently. The static figure below uses the illustrative `FUSE001` example in this document. It is a teaching model, not a scan result or a physical FUSE device.
+
+![Conceptual model of independent FUSE finding fields](figures/fuse-finding-model.svg)
+
 | Field | Meaning |
 | --- | --- |
 | `id` | Stable location-based identifier: `rule_id:file:line` |
