@@ -227,7 +227,6 @@ def render_readme(data: dict, site_path: str = "site/regression") -> str:
         else "FUSE independent validation"
     )
     is_regression = data["meta"].get("cohort") == "regression-validation"
-    retained_credential_count = format_number(rules.get("FUSE001", 0))
     retained_credential_signals = format_count(rules.get("FUSE001", 0), "FUSE001 signal")
     total_scopes = totals.get("scan_scope_count", 0)
     partial_scope_text = (

@@ -380,7 +380,9 @@ def _diff_document(
     for item in baseline["findings"]:
         baseline_by_identity[item["identity"]].append(item)
 
-    sort_finding = lambda item: (item["file"], item["start_line"] or 0, item["fingerprint"])
+    def sort_finding(item: dict[str, Any]) -> tuple[str, int, str]:
+        return item["file"], item["start_line"] or 0, item["fingerprint"]
+
     persistent_current: set[int] = set()
     matched_baseline: set[int] = set()
     moved_from: dict[int, str] = {}

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import math
-from collections import Counter, defaultdict
+from collections import Counter
 from datetime import datetime, timezone
 from html import escape
 from pathlib import Path

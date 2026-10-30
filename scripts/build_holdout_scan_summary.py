@@ -16,7 +16,12 @@ DEFAULT_MANIFEST = HOLDOUT_ROOT / "manifest.json"
 DEFAULT_REPORT_ROOT = HOLDOUT_ROOT / "reports"
 
 sys.path.insert(0, str(ROOT))
-from scripts.build_repository_scan_dashboard import RULE_IDS, SEVERITIES, svg_chart, write_json
+from scripts.build_repository_scan_dashboard import (  # noqa: E402
+    RULE_IDS,
+    SEVERITIES,
+    svg_chart,
+    write_json,
+)
 
 
 def _read_report(report_root: Path, scan_id: str) -> dict[str, Any]:

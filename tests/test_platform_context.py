@@ -4,8 +4,6 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
-
 from vigil_fuse.platform_context import (
     detect_project_frameworks,
     inspect_project_context,
