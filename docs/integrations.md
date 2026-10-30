@@ -27,3 +27,15 @@ python scripts/verify_gitleaks_adapter.py --expected-version 8.30.0
 ```
 
 The pinned tool version, checksum, observed results, and limits for the 2026-10-31 run are recorded in the [experiment note](experiments/gitleaks-adapter-e2e-2026-10-31.md).
+
+## Syft and OSV-Scanner adapter smoke check
+
+The optional [dependency adapter harness](../scripts/verify_dependency_adapters.py) checks the full Syft to CycloneDX to OSV-Scanner flow with a vulnerable dependency, a clean dependency control, and a project with no dependency sources. It creates temporary manifests and reports, does not install the listed packages, and removes its fixtures when the run ends. OSV-Scanner uses its normal online advisory lookup for the two dependency cases.
+
+Install Syft and OSV-Scanner, make both available on `PATH`, then run from the FUSE repository root:
+
+```powershell
+python scripts/verify_dependency_adapters.py --expected-syft-version 1.55.0 --expected-osv-version 2.7.0
+```
+
+The harness expects at least one advisory for `urllib3==1.25.2`, no advisory for `idna==3.15` on the recorded database snapshot, and a partial OSV status with no fabricated result artifact when a CycloneDX SBOM has no package components. Advisory data changes over time, so the positive count can vary. The tool versions, release asset hashes, observed outputs, and limitations for the 2026-10-31 run are recorded in the [experiment note](experiments/dependency-adapters-e2e-2026-10-31.md).

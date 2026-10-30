@@ -2,7 +2,7 @@
 
 **Audit date:** 2026-10-31
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Code baseline for this update:** `2c5afa8`
+**Code baseline before this increment:** `b174591`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 ## Repository overview
@@ -49,6 +49,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Updated the static site to describe FUSE's present analysis scope, remove the planned external lab handoff, and use a shared vertical-spacing scale across major sections.
 - Added Mypy 2.4.1 as a development dependency and a strict type-checking CI gate across all 44 source modules plus the scan benchmark script. Strict Mypy passes without suppressing diagnostics.
 - Added a deterministic CLI performance harness with wall-time and sampled process-tree RSS measurements, a versioned JSON report schema, a recorded local baseline, and CI smoke coverage. The benchmark uses only synthetic source and makes no general speed or accuracy claim.
+- Verified Syft 1.55.0 and OSV-Scanner 2.7.0 against positive, clean, and no-package-source fixtures. Fixed the OSV adapter's handling of the real CLI's exit-128 no-source response and added a repeatable harness plus experiment record.
 - Preserved earlier engineering changes already in the workspace: analyzer module split, XML hardening, terminal control handling, subprocess input isolation, FUSE003 AST analysis, fixture benchmark, and stronger CI/package checks.
 
 ## Files added
@@ -56,9 +57,9 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - `CITATION.cff`, `CONTRIBUTING.md`, `.github/dependabot.yml`, `.github/workflows/dependency-audit.yml`
 - `.github/ISSUE_TEMPLATE/bug_report.yml`, `.github/ISSUE_TEMPLATE/feature_request.yml`, `.github/PULL_REQUEST_TEMPLATE.md`
 - `docs/REPOSITORY_AUDIT.md`, `docs/requirements.md`, `docs/methodology.md`, `docs/limitations.md`, `docs/traceability.md`, `docs/benchmarks.md`, `docs/repository-structure.md`, `docs/sbom.md`
-- `docs/experiments/pilot-scan-2026-10.md`
+- `docs/experiments/pilot-scan-2026-10.md`, `docs/experiments/dependency-adapters-e2e-2026-10-31.md`
 - `docs/decisions/ADR-0001-cli-first-package.md`, `ADR-0002-bounded-non-executing-analysis.md`, `ADR-0003-normalized-findings-and-coverage.md`, `ADR-0004-optional-tool-adapters.md`
-- `scripts/validate_docs.py`, `tests/test_docs_validation.py`, `tests/test_dependency_policy.py`
+- `scripts/validate_docs.py`, `scripts/verify_dependency_adapters.py`, `tests/test_docs_validation.py`, `tests/test_dependency_policy.py`
 - `scripts/benchmark_scan.py`, `tests/test_performance_benchmark.py`, `reports/benchmark/scan-performance.json`, `reports/benchmark/scan-performance.schema.json`
 - `scripts/build_finding_model_figure.mjs`, `scripts/vendor/anatomy/iso-kit.mjs`, `scripts/vendor/anatomy/LICENSE`, `scripts/vendor/anatomy/NOTICE.md`
 - `docs/figures/fuse-finding-model.svg`, `docs/figures/fuse-finding-model-light.svg`, `site/diagrams/fuse-finding-model.html`
@@ -67,11 +68,12 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 ## Files modified
 
 - `README.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `.github/workflows/ci.yml`, `pyproject.toml`, `docs/architecture.md`, `docs/benchmarks.md`, `docs/contributing.md`, `docs/methodology.md`, `docs/requirements.md`, `docs/repository-structure.md`, `docs/sbom.md`, `docs/roadmap.md`, `docs/website.md`, and the static site files under `site/`
-- Existing local engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
+- This increment modifies `src/vigil_fuse/dependency_analyzers.py`, `tests/test_analyzers.py`, `docs/integrations.md`, and this audit record. Earlier engineering changes also touch `.gitignore`, `SECURITY.md`, `pyproject.toml`, scanner and analyzer modules, native TLS rule, reporting, terminal safety, parser and product context code, related tests, and report-building scripts.
 - `LICENSE` was not modified.
 
 ## Testing performed
 
+- The Syft/OSV adapter increment passed local `unittest` discovery with 182 test methods, Ruff lint and formatting across 76 files, Markdown validation across 55 files, and the path audit across 504 tracked files and Git history. This Python environment did not include pytest or Mypy, so the configured CI jobs remain authoritative for those gates.
 - Full pytest suite, including dependency policy and docs validation tests, plus the focused security and input-handling subset.
 - Branch-aware coverage report and threshold check.
 - Ruff lint and focused formatting check.
@@ -79,6 +81,7 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 - Local Markdown path and Mermaid block validation.
 - Mermaid rendering follow-up on 2026-10-31: rendered the one README diagram and all five diagrams in `docs/architecture.md` with Mermaid 12.0.0 in headless Chromium. All six produced SVGs and were visually inspected at desktop width. Labels and connectors were legible, with no clipping. GitHub's architecture page lazy-loads its diagram frames; after scrolling and waiting for hydration, all five diagrams rendered.
 - Gitleaks history adapter end-to-end check on 2026-10-31: verified the official Gitleaks 8.30.0 Windows x64 release asset by SHA-256, then ran a synthetic positive fixture and clean control. The positive case returned two redacted signals, the clean control returned none, and the generated value was absent from every report and captured output. The reproducible harness and limits are in [the experiment record](experiments/gitleaks-adapter-e2e-2026-10-31.md) and [verification script](../scripts/verify_gitleaks_adapter.py).
+- Syft and OSV-Scanner end-to-end check on 2026-10-31: verified the official Syft 1.55.0 and OSV-Scanner 2.7.0 Windows x64 asset SHA-256 digests, then ran a vulnerable dependency, a clean dependency control, and a no-package-source project through FUSE. The first two produced 11 and zero OSV findings with completed adapter status. The no-source case produced the expected partial OSV status, no fabricated results artifact, and CLI exit code 2. See the [experiment record](experiments/dependency-adapters-e2e-2026-10-31.md) and [verification script](../scripts/verify_dependency_adapters.py).
 - YAML parsing for workflow and issue-form configuration; citation metadata YAML parsing.
 - Package wheel and source distribution build, Twine metadata check, clean virtual environment wheel install, CLI version/doctor/help checks, and installed-package scan smoke test.
 - FUSE local self-scan with network and optional external analyzers disabled: discovery completed across 235 selected files with zero findings; the report inventoried three hardware artifacts.
@@ -93,6 +96,8 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Test results
 
+For the current adapter increment, local `python -m unittest discover -s tests` passed 182 test methods, including the new no-package regression test. The real-tool harness passed with Syft 1.55.0 and OSV-Scanner 2.7.0, returning 11 positive findings, zero clean-control findings, and the expected partial status for a project without package sources.
+
 The full suite passes locally with **193 tests** and **73 subtests** on Windows and Python 3.14.7 using pytest 9.2.0. Workflow run #231 on `ee957cf` passed all eight jobs, all **187 tests**, and measured **75%** branch-aware coverage against the 70% gate. Adding PyYAML to the test extra enabled all four ESP-IDF YAML checks in CI. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels; these are synthetic fixtures and do not measure field accuracy. The documentation validator uses Git's tracked and non-ignored untracked file list, so local validation covers **53 Markdown files**, matching CI. Package build and clean-install smoke checks passed on `dd1c043`. Run #232 on `1ade772` passed all eight jobs with **190 tests**, **73 subtests**, and **75%** branch-aware coverage. Its quality job scanned 206 files with zero findings, validated 53 Markdown files, and passed the path audit over 497 tracked files and Git history. The Python dependency audit found no known vulnerabilities in the resolved development dependencies and skipped the editable FUSE checkout itself. Runs #237 on `5bf4d69`, #238 on `54e9359`, #239 on `afaa7ad`, #240 on `c6f7f5d`, and #241 on `17cd1ff` passed all eight CI jobs; corresponding Vercel checks succeeded for the website changes and latest revision. Run #239 passed strict Mypy on the 10 native-rule modules. Run #241 passed strict Mypy on the 11 configured source files, and all 14 baseline-focused tests passed locally. The separate dependency audit for `17cd1ff` passed. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks. Type-checking increments through run #255 on `2a9d548` passed FUSE CI and the separate Python dependency audit. Run #256 on `683c190` passed with the expanded 23-file strict Mypy gate. Run #257 on `d451213` passed with strict Mypy covering all 44 source modules, and dependency audit #19 for the same revision also succeeded. Run #260 on `b2f971a` passed the platform test matrix, the benchmark smoke check, strict Mypy on the 44 source modules plus the benchmark script, the 70% coverage gate, package smoke, path and documentation validation, and the self-scan. Python dependency audit #20 for the same revision passed. FUSE CI runs #41106198114 for `1b9acdb` and #41109722395 for `2c5afa8` each passed all eight configured jobs across Ubuntu, Windows, and macOS. The local suite now passes **193 tests** and **73 subtests**; strict Mypy reports no issues in **45 files**, Ruff lint and formatting pass across `src`, `tests`, and `scripts`, and the path audit passes across **502 tracked files** and Git history. The current FUSE self-scan completed discovery across 235 selected files with zero findings.
 
 The saved synthetic performance baseline is pinned to `00bb3f2`, Windows 11 build `10.0.26300`, Python 3.14.7, and psutil 7.2.2. It scans 128 generated files and 8,990 bytes with one warm-up and five measured runs. Median wall time was **1.192724 seconds**, with **107.317 files/second** and maximum sampled process-tree RSS of **52,838,400 bytes**. Discovery completed and no findings were produced. These are descriptive measurements for one synthetic input on one machine, not field performance claims. The report and its JSON Schema are checked in under `reports/benchmark/`.
@@ -105,12 +110,12 @@ The original full-tree Ruff check identified 42 files for reformatting. Four wer
 - pip-audit found `PYSEC-2026-1845` / `CVE-2025-71176` in pytest 8.4.2. The [GitHub-reviewed advisory](https://github.com/advisories/GHSA-6w46-j5rx-g56g) marks versions below 9.0.3 affected, and [pytest 9.0.3 release notes](https://github.com/pytest-dev/pytest/releases/tag/9.0.3) list the fix. FUSE's test and development extras now require pytest `>=9.0.3,<10`.
 - KiCad XML parsing rejects DTD/entity declarations and enforces size, element, and depth limits. Terminal output escapes control and bidi characters. Optional analyzer subprocesses receive no inherited interactive stdin.
 - The rule and scan reports are candidate evidence. They do not prove exploitability, reachability, or deployed-product applicability.
-- External analyzers parse their own inputs and are not sandboxed. Gitleaks 8.30.0 passed one synthetic positive and one clean-control end-to-end check. Syft, OSV-Scanner, and Binwalk remain unverified with their real executables; the Gitleaks smoke test does not establish detector accuracy or credential validity.
+- External analyzers parse their own inputs and are not sandboxed. Gitleaks 8.30.0, Syft 1.55.0, and OSV-Scanner 2.7.0 passed bounded local smoke checks with synthetic fixtures. Binwalk remains unverified with its real executable. These checks do not establish detector accuracy, credential validity, exploitability, or reachability.
 - The custom license permits commercial use but restricts sharing and redistribution, including package registry uploads without written permission. Do not treat the successful package build as distribution authorization.
 
 ## Dependency findings
 
-The core runtime dependency list is empty. `pyproject.toml` declares Python `>=3.11`, setuptools as the PEP 517 build backend, an optional PyYAML extra for ESP-IDF lock parsing, and bounded test/development dependency ranges. Mypy is a development-only tool and is not installed for end users. The isolated pip-audit run checked resolved development distributions and reported no known advisories after the pytest floor was raised. FUSE was installed editable and skipped as expected. Syft, OSV-Scanner, Binwalk, and Gitleaks are external executables, not Python runtime dependencies, and are outside pip-audit coverage. The Gitleaks 8.30.0 binary used for the experiment had its official Windows x64 release asset hash verified before execution.
+The core runtime dependency list is empty. `pyproject.toml` declares Python `>=3.11`, setuptools as the PEP 517 build backend, an optional PyYAML extra for ESP-IDF lock parsing, and bounded test/development dependency ranges. Mypy is a development-only tool and is not installed for end users. The isolated pip-audit run checked resolved development distributions and reported no known advisories after the pytest floor was raised. FUSE was installed editable and skipped as expected. Syft, OSV-Scanner, Binwalk, and Gitleaks are external executables, not Python runtime dependencies, and are outside pip-audit coverage. Official Windows x64 SHA-256 digests were verified for the Gitleaks, Syft, and OSV-Scanner release assets used in the recorded checks.
 
 The Python development environment has a clean point-in-time pip-audit result. System libraries, external analyzer binaries, malicious-package behavior, and all optional dependency configurations are not covered by that scan. The [PyPI JSON endpoint for `vigil-fuse`](https://pypi.org/pypi/vigil-fuse/json) returned HTTP 404 when checked on 2026-10-29. This is only a point-in-time name availability observation and neither reserves the name nor grants permission to publish. Recheck before any future release review.
 
@@ -124,7 +129,7 @@ The repository scan is described as a pinned, descriptive evaluation. It records
 
 ## Reproducibility improvements
 
-The new methodology page gives install, scan, test, and fixture-check commands. Existing manifests pin repositories and scopes. The package workflow builds wheel and sdist, checks metadata, installs into a clean environment, and runs CLI smoke checks. The Gitleaks adapter has a repeatable synthetic positive and negative smoke harness. A FUSE SBOM generation path is documented, but no SBOM was produced because Syft is unavailable locally and no static SBOM was generated that could become stale.
+The new methodology page gives install, scan, test, and fixture-check commands. Existing manifests pin repositories and scopes. The package workflow builds wheel and sdist, checks metadata, installs into a clean environment, and runs CLI smoke checks. Gitleaks has a repeatable synthetic positive and negative smoke harness. Syft and OSV-Scanner have a repeatable positive, clean, and no-source adapter harness. No static SBOM is committed, avoiding a stale generated inventory.
 
 ## Traceability status
 
@@ -135,7 +140,7 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 - No representative independent ground-truth corpus or field accuracy estimate.
 - FUSE CI run #41106198114 for `1b9acdb` passed all eight configured jobs across Ubuntu, Windows, and macOS. The README and architecture diagrams were rendered and inspected manually, but Mermaid rendering is not yet a CI regression gate.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
-- Gitleaks 8.30.0 passed one synthetic positive and one clean-control end-to-end check on Windows. Syft, OSV-Scanner, and Binwalk remain untested with real executables; the Gitleaks check does not measure field precision, recall, or the validity of real credentials.
+- Gitleaks 8.30.0, Syft 1.55.0, and OSV-Scanner 2.7.0 passed local Windows smoke checks. Binwalk remains untested with its real executable. These checks do not measure field precision, recall, exploitability, reachability, or the validity of real credentials.
 - The performance harness has one local Windows baseline on synthetic C files. CI runs only a small smoke workload without timing thresholds; real-project and cross-platform performance comparisons remain unmeasured. Sampled process-tree RSS can double-count shared pages and can miss brief peaks.
 - Strict Mypy covers all 44 source modules plus the benchmark script and passed locally and in run #260. Dependency audit #20 passed for the same revision. pip-audit covers only the resolved Python development environment and does not assess system packages or external analyzer binaries.
 - The Markdown validator checks local link targets, code fences, and Mermaid block types, not full renderer semantics. The six current Mermaid diagrams passed manual rendering and visual review. The finding-model SVGs passed structural validation and the interactive figure received browser review.
@@ -165,8 +170,8 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | Documentation | 15 | 14 | Requirements, methods, limitations, benchmarks, structure, and audit are explicit; no SDG impact claim is supported |
 | Code Quality | 15 | 14 | Full-tree Ruff checks and strict Mypy over 44 source modules plus the benchmark runner, green in CI run #260; external analyzer behavior remains unverified |
 | Testing | 15 | 14 | 193 local tests, a cross-platform benchmark smoke test, the 70% remote branch-coverage gate, fixture and docs checks, and a green Ubuntu/Windows/macOS matrix; field accuracy remains unmeasured |
-| Security | 10 | 9 | Parser and output hardening retained; Gitleaks has one real-tool smoke check, while three other optional adapters remain unverified and external tools are not sandboxed |
-| Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, evaluation protocol, and a repeatable Gitleaks smoke harness; other optional tools and platforms remain unverified |
+| Security | 10 | 9 | Parser and output hardening retained; Gitleaks, Syft, and OSV-Scanner have bounded real-tool smoke checks, while Binwalk remains unverified and external tools are not sandboxed |
+| Reproducibility | 10 | 9 | Pinned manifests, commands, CI package smoke checks, evaluation protocol, and repeatable Gitleaks plus dependency-adapter harnesses; other platforms and broader accuracy remain unverified |
 | Open Source Governance | 10 | 6 | Citation, contribution boundaries, issue forms, PR checklist, and release gates added; custom license and enforcement policy remain unresolved |
 | Research Rigor & Traceability | 10 | 9 | Evidence types, limitations, cohort method, and traceability now documented; no representative accuracy estimate or product comparison |
 | **Total** | **100** | **89** | |
@@ -174,7 +179,7 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 ## Recommended next actions
 
 1. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
-2. Run real-tool end-to-end checks for Syft, OSV-Scanner, and Binwalk in controlled environments, and retain the Gitleaks positive and clean-control smoke check.
+2. Add a real-tool Binwalk identification smoke check in a controlled environment, and retain the Gitleaks, Syft, and OSV-Scanner positive and clean-control checks.
 3. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.
 4. Collect more performance baselines on representative pinned repositories and consider thresholds only after repeated cross-platform measurements.
 5. Defer device, hardware, and firmware-extraction claims until controlled hardware or isolated extraction environments are available.

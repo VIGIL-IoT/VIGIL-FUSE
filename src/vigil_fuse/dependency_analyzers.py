@@ -469,6 +469,18 @@ def scan_vulnerabilities(
         if not isinstance(document, dict) or not isinstance(document.get("results", []), list):
             raise ValueError("JSON does not contain an OSV results array")
     except (json.JSONDecodeError, ValueError):
+        diagnostics = f"{completed.stdout}\n{completed.stderr}"
+        if completed.returncode == 128 and "No package sources found" in diagnostics:
+            return AdapterResult(
+                AnalyzerStatus(
+                    "osv-scanner",
+                    "partial",
+                    version=version,
+                    detail=(
+                        "No package sources were found, so OSV advisory matching was not performed."
+                    ),
+                )
+            )
         return AdapterResult(
             AnalyzerStatus(
                 "osv-scanner",

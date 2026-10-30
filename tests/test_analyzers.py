@@ -232,6 +232,35 @@ class OptionalAnalyzerTests(unittest.TestCase):
         self.assertIn("--x-exclude", osv_command)
         self.assertIn("g:reports/**", osv_command)
 
+    def test_osv_no_package_sources_is_partial_without_a_fake_results_artifact(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            target = root / "target"
+            target.mkdir()
+            output = root / "reports"
+            completed = subprocess.CompletedProcess(
+                [],
+                128,
+                "",
+                "No package sources found, --help for usage information.",
+            )
+            with (
+                patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="osv-scanner"),
+                patch(
+                    "vigil_fuse.dependency_analyzers._tool_version",
+                    return_value="osv-scanner version: 2.7.0",
+                ),
+                patch("vigil_fuse.dependency_analyzers._run", return_value=completed),
+            ):
+                result = scan_vulnerabilities(target, output)
+
+        self.assertEqual("partial", result.status.status)
+        self.assertEqual(0, result.status.findings)
+        self.assertIn("matching was not performed", result.status.detail or "")
+        self.assertEqual((), result.findings)
+        self.assertEqual((), result.artifacts)
+        self.assertFalse((output / "osv-results.json").exists())
+
     def test_strict_no_network_mode_uses_osv_offline_flag(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
