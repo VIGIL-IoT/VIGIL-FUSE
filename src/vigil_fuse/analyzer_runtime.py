@@ -6,6 +6,7 @@ import subprocess
 import threading
 from dataclasses import dataclass
 from pathlib import Path
+from typing import IO
 
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
 
@@ -75,7 +76,7 @@ def _run(
     lock = threading.Lock()
     exceeded = threading.Event()
 
-    def drain(name: str, stream) -> None:
+    def drain(name: str, stream: IO[bytes]) -> None:
         nonlocal total
         while True:
             chunk = stream.read(64 * 1024)
