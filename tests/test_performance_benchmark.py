@@ -29,6 +29,8 @@ def test_scan_benchmark_reports_complete_path_free_evidence() -> None:
     measurements = report["measurements"]
     assert report["benchmark"] == "fuse-synthetic-project-scan"
     assert report["input"]["files"] == 8
+    assert report["environment"]["psutil_version"]
+    assert "--no-network" in report["configuration"]["scanner_options"]
     assert measurements["files_scanned"] == 8
     assert measurements["source_bytes_read"] == report["input"]["source_bytes"]
     assert measurements["finding_count"] == 0
