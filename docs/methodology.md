@@ -43,6 +43,7 @@ python -m vigil_fuse doctor
 python -m vigil_fuse scan path\to\embedded-project --format json --output findings.json
 python -m pytest -q
 python scripts/evaluate_rule_benchmark.py --check
+python scripts/benchmark_scan.py --files 128 --warmups 1 --repetitions 5 --output reports/benchmark/scan-performance.json
 ```
 
-The package has no core runtime dependencies. Optional analysis stages require the corresponding external executable and may use the network as documented in `docs/integrations.md`.
+The package has no core runtime dependencies. The performance harness uses the development-only psutil dependency to sample process-tree RSS. Optional analysis stages require the corresponding external executable and may use the network as documented in `docs/integrations.md`.

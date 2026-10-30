@@ -1,8 +1,13 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
+
+from jsonschema import Draft202012Validator
 
 from scripts.benchmark_scan import create_synthetic_project, run_benchmark
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_synthetic_project_generation_is_deterministic(tmp_path) -> None:
@@ -38,6 +43,14 @@ def test_scan_benchmark_reports_complete_path_free_evidence() -> None:
     assert measurements["wall_time_seconds"]["median"] > 0
     assert measurements["sampled_process_tree_rss_bytes"]["maximum"] > 0
     assert measurements["sampled_process_tree_rss_bytes"]["sampling_complete"] is True
+
+    schema = json.loads(
+        (ROOT / "reports" / "benchmark" / "scan-performance.schema.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    Draft202012Validator.check_schema(schema)
+    Draft202012Validator(schema).validate(report)
 
     serialized = json.dumps(report)
     assert "synthetic-embedded-project" not in serialized

@@ -35,7 +35,8 @@ FUSE is an alpha-stage static inspection tool. A clean report means only that en
 ## Reproducibility and project status
 
 - The pinned repository scans reproduce selected historical snapshots, not current upstream branches.
-- CI tests Ubuntu with Python 3.11 through 3.14, and Windows and macOS with Python 3.11. Its quality job runs Ruff lint and formatting checks over `src`, `tests`, and `scripts`, strict Mypy across all 44 source modules, documentation and path validation, and a FUSE self-scan. The latest verified run for `69e2223` succeeded. This is evidence for that revision, not a promise that every commit has passed.
+- Performance evidence currently consists of one synthetic C workload on one Windows environment. It does not characterize typical embedded repositories or support a general speed claim. The sampled process-tree RSS estimate may double-count shared pages and miss brief peaks.
+- CI tests Ubuntu with Python 3.11 through 3.14, and Windows and macOS with Python 3.11. Its quality job runs Ruff lint and formatting checks over `src`, `tests`, and `scripts`, strict Mypy across all 44 source modules plus the scan benchmark script, documentation and path validation, a FUSE self-scan, and a small benchmark smoke run. FUSE CI run #263 for `00bb3f2` succeeded. This is evidence for that revision, not a promise that every commit has passed.
 - The package workflow builds and installs a wheel, then exercises the installed CLI. Strict Mypy and Ruff formatting are development and CI checks, not runtime dependencies.
 - Syft, OSV-Scanner, Binwalk, and Gitleaks were not installed during this local audit, so their real executable integrations remain unverified end to end.
 - The package is version `0.2.0` and alpha. The custom license restricts redistribution and registry uploads without written permission; distribution rights need review before publication.

@@ -14,10 +14,10 @@ VIGIL-FUSE/
 │   ├── research/              sourced research and feature strategy
 │   └── *.md                   architecture, requirements, methods, limits, governance
 ├── reports/
-│   ├── benchmark/             synthetic native-rule fixture results
+│   ├── benchmark/             native-rule and scan-performance evidence plus schemas
 │   ├── pilot-validation/      separately labelled pilot and holdout evidence
 │   └── repository-scans/      pinned scan manifests, reports, plots, and triage
-├── scripts/                   scan runners, report builders, validators, benchmarks
+├── scripts/                   scan runners, report builders, validators, and scan benchmark
 ├── site/                      static project page and reviewed result snapshots
 ├── src/vigil_fuse/
 │   ├── rules/                  native rule modules

@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/benchmark/scan-performance.schema.json",
+  "title": "FUSE synthetic scan performance report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "benchmark",
+    "generated_at_utc",
+    "tool",
+    "source_revision",
+    "environment",
+    "input",
+    "configuration",
+    "measurements",
+    "scope_limitations"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "benchmark": { "const": "fuse-synthetic-project-scan" },
+    "generated_at_utc": { "type": "string", "format": "date-time" },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "FUSE" },
+        "version": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "working_tree_dirty"],
+      "properties": {
+        "commit": {
+          "type": ["string", "null"],
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$"
+        },
+        "working_tree_dirty": { "type": ["boolean", "null"] }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "python_version",
+        "operating_system",
+        "os_release",
+        "os_version",
+        "machine",
+        "processor",
+        "psutil_version",
+        "logical_cpu_count",
+        "total_memory_bytes"
+      ],
+      "properties": {
+        "python_version": { "type": "string", "minLength": 1 },
+        "operating_system": { "type": "string", "minLength": 1 },
+        "os_release": { "type": "string", "minLength": 1 },
+        "os_version": { "type": "string", "minLength": 1 },
+        "machine": { "type": "string", "minLength": 1 },
+        "processor": { "type": ["string", "null"] },
+        "psutil_version": { "type": "string", "minLength": 1 },
+        "logical_cpu_count": { "type": ["integer", "null"], "minimum": 1 },
+        "total_memory_bytes": { "type": ["integer", "null"], "minimum": 1 }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile", "description", "files", "source_bytes", "sha256"],
+      "properties": {
+        "profile": { "const": "generic" },
+        "description": { "type": "string", "minLength": 1 },
+        "files": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "source_bytes": { "type": "integer", "minimum": 1 },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "warmups",
+        "repetitions",
+        "sample_interval_ms",
+        "timeout_seconds",
+        "scanner_options",
+        "network_enabled",
+        "external_analyzers_enabled",
+        "native_rules_enabled"
+      ],
+      "properties": {
+        "warmups": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "repetitions": { "type": "integer", "minimum": 1, "maximum": 30 },
+        "sample_interval_ms": { "type": "integer", "minimum": 1, "maximum": 1000 },
+        "timeout_seconds": { "type": "integer", "minimum": 1, "maximum": 1800 },
+        "scanner_options": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "network_enabled": { "const": false },
+        "external_analyzers_enabled": { "const": false },
+        "native_rules_enabled": { "const": true }
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "wall_time_seconds",
+        "files_scanned",
+        "source_bytes_read",
+        "finding_count",
+        "completed_native_rules",
+        "files_per_second_at_median",
+        "mebibytes_per_second_at_median",
+        "sampled_process_tree_rss_bytes"
+      ],
+      "properties": {
+        "wall_time_seconds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["samples", "median", "minimum", "maximum", "median_absolute_deviation"],
+          "properties": {
+            "samples": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "number", "exclusiveMinimum": 0 }
+            },
+            "median": { "type": "number", "exclusiveMinimum": 0 },
+            "minimum": { "type": "number", "exclusiveMinimum": 0 },
+            "maximum": { "type": "number", "exclusiveMinimum": 0 },
+            "median_absolute_deviation": { "type": "number", "minimum": 0 }
+          }
+        },
+        "files_scanned": { "type": "integer", "minimum": 1 },
+        "source_bytes_read": { "type": "integer", "minimum": 1 },
+        "finding_count": { "const": 0 },
+        "completed_native_rules": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^native-rule:FUSE[0-9]{3}$" }
+        },
+        "files_per_second_at_median": { "type": "number", "exclusiveMinimum": 0 },
+        "mebibytes_per_second_at_median": { "type": "number", "exclusiveMinimum": 0 },
+        "sampled_process_tree_rss_bytes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "samples",
+            "median",
+            "maximum",
+            "process_samples_per_run",
+            "inaccessible_process_samples",
+            "sampling_complete"
+          ],
+          "properties": {
+            "samples": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "integer", "minimum": 0 }
+            },
+            "median": { "type": "integer", "minimum": 0 },
+            "maximum": { "type": "integer", "minimum": 0 },
+            "process_samples_per_run": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "integer", "minimum": 0 }
+            },
+            "inaccessible_process_samples": { "type": "integer", "minimum": 0 },
+            "sampling_complete": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "scope_limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

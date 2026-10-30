@@ -1,0 +1,105 @@
+{
+  "benchmark": "fuse-synthetic-project-scan",
+  "configuration": {
+    "external_analyzers_enabled": false,
+    "native_rules_enabled": true,
+    "network_enabled": false,
+    "repetitions": 5,
+    "sample_interval_ms": 10,
+    "scanner_options": [
+      "--profile generic",
+      "--target-label benchmark/synthetic",
+      "--no-network",
+      "--no-sbom",
+      "--no-vulnerabilities",
+      "--no-firmware",
+      "--no-git-history",
+      "--format json",
+      "--output <temporary-report-path>"
+    ],
+    "timeout_seconds": 120,
+    "warmups": 1
+  },
+  "environment": {
+    "logical_cpu_count": 16,
+    "machine": "AMD64",
+    "operating_system": "Windows",
+    "os_release": "11",
+    "os_version": "10.0.26300",
+    "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+    "psutil_version": "7.2.2",
+    "python_version": "3.14.7",
+    "total_memory_bytes": 25380823040
+  },
+  "generated_at_utc": "2026-10-30T17:34:54+00:00",
+  "input": {
+    "description": "Deterministically generated C source files. The first file contains comment-only prefilter probes and should produce no findings.",
+    "files": 128,
+    "profile": "generic",
+    "sha256": "3963e4a3e42c3893345876e5ab1df7d764eef3290e8822724fcbf0cc5ec4f0c3",
+    "source_bytes": 8990
+  },
+  "measurements": {
+    "completed_native_rules": [
+      "native-rule:FUSE001",
+      "native-rule:FUSE002",
+      "native-rule:FUSE003",
+      "native-rule:FUSE004",
+      "native-rule:FUSE005"
+    ],
+    "files_per_second_at_median": 107.317,
+    "files_scanned": 128,
+    "finding_count": 0,
+    "mebibytes_per_second_at_median": 0.007188,
+    "sampled_process_tree_rss_bytes": {
+      "inaccessible_process_samples": 0,
+      "maximum": 52838400,
+      "median": 52289536,
+      "process_samples_per_run": [
+        45,
+        43,
+        40,
+        44,
+        36
+      ],
+      "samples": [
+        51351552,
+        52269056,
+        52289536,
+        52838400,
+        52645888
+      ],
+      "sampling_complete": true
+    },
+    "source_bytes_read": 8990,
+    "wall_time_seconds": {
+      "maximum": 1.209947,
+      "median": 1.192724,
+      "median_absolute_deviation": 0.017222,
+      "minimum": 0.935354,
+      "samples": [
+        1.192724,
+        1.195061,
+        1.09492,
+        1.209947,
+        0.935354
+      ]
+    }
+  },
+  "schema_version": "1.0",
+  "scope_limitations": [
+    "The input is synthetic and does not represent a typical embedded repository.",
+    "Wall time includes a fresh Python CLI process for each scan.",
+    "Process-tree RSS is the sum of sampled per-process RSS values; shared pages can be counted more than once.",
+    "RSS sampling can miss short peaks and does not include filesystem cache or other system memory.",
+    "This benchmark is descriptive and does not define a performance pass threshold."
+  ],
+  "source_revision": {
+    "commit": "00bb3f2e7ecc824d944d15438c6363d239051df8",
+    "working_tree_dirty": false
+  },
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  }
+}

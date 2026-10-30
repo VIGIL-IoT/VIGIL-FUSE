@@ -73,6 +73,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Configuration and integrations](docs/integrations.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
 - [Methodology](docs/methodology.md) · [Traceability](docs/traceability.md)
+- [Benchmark method and evidence](docs/benchmarks.md) · [Recorded synthetic scan baseline](reports/benchmark/scan-performance.json)
 - [Repository scan reports](reports/repository-scans/README.md) · [Evaluation notes](docs/experiments/pilot-scan-2026-10.md)
 - [Development roadmap](docs/roadmap.md) · [Release process](docs/release-process.md)
 - [Project site](site/) · [Website maintenance notes](docs/website.md)

@@ -22,11 +22,31 @@ Inputs, scope, rule counts, caveats, and historical comparisons are in [`reports
 
 On 2026-10-29, the local Windows 11 / Python 3.14.7 working tree self-scan visited 222 files, reported zero findings, and completed discovery with JSON schema 1.10. The scan used `--no-network --no-sbom --no-vulnerabilities --no-firmware --no-git-history`. This checks that the current source tree can be scanned with complete discovery. It is not an independent security review, performance benchmark, or evidence that FUSE has no defects.
 
-## Performance metrics
+## Synthetic scan performance benchmark
 
-The repository does not currently maintain a cross-platform throughput or memory benchmark. CI's self-scan checks completion and severity conditions, not elapsed time or memory. Historical local timing observations are not used here as a supported performance claim because they are not tied to a committed benchmark harness and stable input snapshot.
+`scripts/benchmark_scan.py` measures a fresh FUSE CLI process over a deterministic generated C project. It records the source revision, generated input hash, Python and psutil versions, OS and machine details, scanner options, warm-ups, repetitions, wall-time spread, throughput, and sampled process-tree RSS. Each scan must complete discovery, read the expected files and bytes, and produce zero findings for the benign input. Native rules FUSE001 through FUSE005 receive comment-only prefilter probes so the benchmark exercises their worker path without introducing a finding.
 
-Future performance evidence should record the exact FUSE revision, OS, Python version, CPU and memory, repository manifest, scanner options, warm-up policy, repetition count, median and spread, files/bytes scanned, skipped inputs, and peak memory. A timing result must be kept separate from detection-quality evidence.
+Run it after installing the development dependencies:
+
+```powershell
+python scripts/benchmark_scan.py --files 128 --warmups 1 --repetitions 5 --output reports/benchmark/scan-performance.json
+```
+
+The saved result uses [scan-performance.schema.json](../reports/benchmark/scan-performance.schema.json). CI runs a smaller one-repetition smoke check and has no timing threshold. The test matrix also exercises the benchmark runner on Ubuntu, Windows, and macOS. The process-tree RSS estimate uses psutil's per-process RSS readings. It sums RSS across the CLI and its descendants, so shared pages may be counted more than once, and 10 ms sampling can miss brief peaks. See the [psutil process and memory API documentation](https://psutil.readthedocs.io/stable/).
+
+### Recorded local baseline
+
+The pinned [baseline report](../reports/benchmark/scan-performance.json) was generated from clean revision `00bb3f2` on Windows 11 build `10.0.26300`, Python 3.14.7, and psutil 7.2.2. It scanned 128 synthetic C files containing 8,990 source bytes, with one warm-up and five measured runs. Discovery completed on all five runs, five native rules were exercised, and no findings were produced.
+
+| Measure | Observed value |
+| --- | ---: |
+| Median wall time | 1.192724 s |
+| Run range | 0.935354 s to 1.209947 s |
+| Median absolute deviation | 0.017222 s |
+| Throughput at median | 107.317 files/s, 0.007188 MiB/s |
+| Maximum sampled process-tree RSS | 52,838,400 bytes |
+
+This is one synthetic baseline on one Windows environment. It is useful for checking that the measurement path works and for future same-input comparisons. It does not represent a typical embedded repository, establish a cross-platform performance profile, estimate detection accuracy, or define a speed target. Extend the harness to representative pinned projects before making general performance claims.
 
 ## Comparison limits
 

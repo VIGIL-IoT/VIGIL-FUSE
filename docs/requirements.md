@@ -32,7 +32,7 @@ This is an engineering gap statement, not a claim that existing tools lack all e
 | O-3 | Expose incomplete or unavailable analysis | Reports identify scan coverage and analyzer status; partial scans are not presented as complete |
 | O-4 | Support incremental rule quality work | Every native rule has vulnerable and secure fixtures and a CI-checked fixture benchmark |
 | O-5 | Preserve useful embedded project context | Hardware inventory and selected platform/build adapters emit scoped metadata with explicit limits |
-| O-6 | Keep routine use reproducible | Documented install, scan, test, benchmark, and package-build commands work in CI or a clean local environment |
+| O-6 | Keep routine use reproducible | Documented install, scan, test, fixture benchmark, performance benchmark, and package-build commands work in CI or a clean local environment |
 | O-7 | Evaluate signals without overstating accuracy | Pinned manifests, scan reports, manual triage records, and synthetic fixture limits are disclosed |
 
 These criteria assess engineering behavior. They do not establish that FUSE finds every vulnerability or that a scanned product is secure.
@@ -49,6 +49,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 - Selected, bounded KiCad netlist parsing, BOM import, platform/build metadata, GitHub Actions checks, and Zephyr hardening report intake.
 - Opt-in integrations for Syft, OSV-Scanner, Binwalk, and Gitleaks.
 - Local baseline review and suppression workflow.
+- Deterministic synthetic scan performance measurement with revision, input hash, environment, options, timing, and sampled process-tree RSS recorded separately from detection evidence.
 
 ### Partially implemented or experimental
 
@@ -77,6 +78,8 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 | FR-6 | Parse selected supported hardware/build metadata without invoking project commands | Implemented for documented formats; format limits remain |
 | FR-7 | Support optional dependency, firmware-signature, and Git-history tools | Implemented adapters; external tools were unavailable during this audit |
 | FR-8 | Provide rule-level regression fixtures and automated checks | Implemented for the seven native rules; benchmark is synthetic |
+| FR-9 | Build, install, and smoke-check package artifacts | Implemented in the package workflow; distribution remains subject to the license gate |
+| FR-10 | Provide a repeatable performance measurement path without claiming field speed | Implemented as a synthetic CLI benchmark with a versioned result schema and a CI smoke check; timing thresholds and representative project comparisons are not provided |
 
 ## Nonfunctional requirements
 
@@ -96,7 +99,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 | Build | PEP 517/518 setuptools backend, `setuptools>=77.0.3` |
 | Runtime dependencies | None required for the core package |
 | Optional Python dependency | PyYAML `>=6,<7` for selected ESP-IDF lock metadata |
-| Development dependencies | Build, coverage, jsonschema, Mypy, pip-audit, PyYAML, pytest, pytest-cov, Ruff, and Twine, with ranges in `pyproject.toml` |
+| Test and development dependencies | Build, coverage, jsonschema, Mypy, pip-audit, psutil, PyYAML, pytest, pytest-cov, Ruff, Twine, and psutil type stubs, with ranges in `pyproject.toml` |
 | Optional system analyzers | Syft, OSV-Scanner, Binwalk, and Gitleaks, invoked only when requested |
 | Reports | Text, JSON Schema 2020-12, SARIF, and selected CycloneDX outputs |
 | CI | GitHub Actions on Ubuntu with Python 3.11 to 3.14, plus Windows and macOS jobs on Python 3.11; includes native-rule type checking, the optional YAML parser, and a scheduled Python dependency audit |
