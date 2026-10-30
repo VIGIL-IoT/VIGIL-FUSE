@@ -1,7 +1,9 @@
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from jsonschema import Draft202012Validator, FormatChecker
 
@@ -9,6 +11,7 @@ from scripts.prepare_repository_benchmark_cohort import (
     DEFAULT_MANIFEST,
     CohortPreparationError,
     _load_cohort,
+    _existing_checkout_is_ready,
 )
 from scripts.benchmark_repository_cohort import (
     RepositoryBenchmarkError,
@@ -88,6 +91,23 @@ class RepositoryBenchmarkTests(unittest.TestCase):
                 path.write_text(json.dumps(manifest), encoding="utf-8")
                 with self.assertRaises(CohortPreparationError):
                     _load_cohort(path)
+
+    def test_preparer_rejects_existing_checkouts_with_platform_line_endings(self) -> None:
+        commit = "a" * 40
+        with tempfile.TemporaryDirectory() as temporary:
+            checkout = Path(temporary) / "example"
+            checkout.mkdir()
+            with patch(
+                "scripts.prepare_repository_benchmark_cohort._git",
+                side_effect=(commit, "", "true"),
+            ):
+                with self.assertRaisesRegex(CohortPreparationError, "line endings"):
+                    _existing_checkout_is_ready(
+                        checkout,
+                        repository={"id": "example", "commit": commit},
+                        environment=os.environ.copy(),
+                        timeout_seconds=10,
+                    )
 
     def test_performance_report_schema_accepts_a_complete_sample(self) -> None:
         schema_path = (

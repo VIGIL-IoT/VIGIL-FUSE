@@ -168,6 +168,17 @@ def _existing_checkout_is_ready(
         timeout_seconds=timeout_seconds,
         repository_id=repository["id"],
     )
+    autocrlf = _git(
+        ["-C", str(checkout), "config", "--get", "--default", "false", "core.autocrlf"],
+        environment=environment,
+        timeout_seconds=timeout_seconds,
+        repository_id=repository["id"],
+    )
+    if autocrlf.lower() != "false":
+        raise CohortPreparationError(
+            f"existing checkout for {repository['id']} may use platform-specific line endings; "
+            "choose a fresh output directory"
+        )
     if actual_commit.lower() != repository["commit"] or dirty:
         raise CohortPreparationError(
             f"existing checkout for {repository['id']} is not the expected clean pinned revision"
@@ -220,6 +231,12 @@ def prepare_cohort(
                 repository["url"],
                 str(checkout),
             ],
+            environment=environment,
+            timeout_seconds=timeout_seconds,
+            repository_id=repository["id"],
+        )
+        _git(
+            ["-C", str(checkout), "config", "core.autocrlf", "false"],
             environment=environment,
             timeout_seconds=timeout_seconds,
             repository_id=repository["id"],
