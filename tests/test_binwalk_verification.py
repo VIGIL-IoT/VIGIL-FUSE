@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import gzip
+import hashlib
 import lzma
 import os
 import struct
@@ -14,6 +15,7 @@ from scripts.verify_binwalk_adapter import (
     FIRMWARE_PREFIX,
     PAYLOAD,
     configure_binwalk_environment,
+    real_firmware_case,
     signature_cases,
 )
 
@@ -88,3 +90,27 @@ def test_configure_binwalk_environment_uses_path_when_no_override_is_given() -> 
         resolved = configure_binwalk_environment(None, {"PATH": "/tools"})
 
     assert resolved == Path("/tools/binwalk")
+
+
+def test_real_firmware_case_requires_and_preserves_the_pinned_sample(
+    tmp_path: Path,
+) -> None:
+    sample = tmp_path / "upstream-firmware.bin.gz"
+    data = b"\x1f\x8b externally sourced firmware sample"
+    sample.write_bytes(data)
+    digest = hashlib.sha256(data).hexdigest()
+
+    case = real_firmware_case(sample, digest, "gzip")
+
+    assert case.label == "upstream-real-firmware"
+    assert case.data == data
+    assert case.marker == "gzip"
+    assert case.detected
+
+
+def test_real_firmware_case_rejects_a_changed_sample(tmp_path: Path) -> None:
+    sample = tmp_path / "upstream-firmware.bin.gz"
+    sample.write_bytes(b"changed firmware sample")
+
+    with pytest.raises(ValueError, match="SHA-256 did not match"):
+        real_firmware_case(sample, "0" * 64, "gzip")

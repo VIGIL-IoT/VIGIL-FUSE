@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import lzma
 import os
@@ -20,6 +21,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN_TIMEOUT_SECONDS = 240
+MAX_REAL_FIRMWARE_BYTES = 16 * 1024 * 1024
 FIRMWARE_PREFIX = b"FUSE synthetic container\x00"
 PAYLOAD = b"FUSE synthetic firmware signature fixture"
 
@@ -87,6 +89,27 @@ def signature_cases() -> tuple[SignatureCase, ...]:
             False,
         ),
     )
+
+
+def real_firmware_case(path: Path, expected_sha256: str, marker: str) -> SignatureCase:
+    """Load a small, externally sourced firmware sample after checking its digest."""
+    if len(expected_sha256) != 64 or any(
+        character not in "0123456789abcdefABCDEF" for character in expected_sha256
+    ):
+        raise ValueError("The expected firmware SHA-256 must contain 64 hexadecimal characters.")
+    if not marker.strip():
+        raise ValueError("The expected firmware signature marker must not be empty.")
+
+    if not path.is_file():
+        raise ValueError("The real firmware sample path must name a regular file.")
+    with path.open("rb") as sample:
+        data = sample.read(MAX_REAL_FIRMWARE_BYTES + 1)
+    if not data or len(data) > MAX_REAL_FIRMWARE_BYTES:
+        raise ValueError("The real firmware sample must be between 1 byte and 16 MiB.")
+    actual_sha256 = hashlib.sha256(data).hexdigest()
+    if actual_sha256.casefold() != expected_sha256.casefold():
+        raise ValueError("The real firmware sample SHA-256 did not match the pinned value.")
+    return SignatureCase("upstream-real-firmware", data, marker, True)
 
 
 def run(
@@ -214,7 +237,32 @@ def main() -> int:
         type=Path,
         help="use this Binwalk executable and add its directory to the scan PATH",
     )
+    parser.add_argument(
+        "--real-firmware",
+        type=Path,
+        help="also scan a small externally sourced firmware sample",
+    )
+    parser.add_argument(
+        "--real-firmware-sha256",
+        help="require this SHA-256 before scanning the real firmware sample",
+    )
+    parser.add_argument(
+        "--real-firmware-marker",
+        help="require this Binwalk signature text in the real firmware report",
+    )
     args = parser.parse_args()
+    real_firmware_arguments = (
+        args.real_firmware,
+        args.real_firmware_sha256,
+        args.real_firmware_marker,
+    )
+    if any(value is not None for value in real_firmware_arguments) and not all(
+        value is not None for value in real_firmware_arguments
+    ):
+        parser.error(
+            "--real-firmware, --real-firmware-sha256, and "
+            "--real-firmware-marker must be provided together"
+        )
     env = os.environ.copy()
     try:
         executable = configure_binwalk_environment(args.binwalk_executable, env)
@@ -228,6 +276,21 @@ def main() -> int:
         part for part in (source_path, env.get("PYTHONPATH", "")) if part
     )
 
+    cases = signature_cases()
+    real_case: SignatureCase | None = None
+    if args.real_firmware is not None:
+        assert args.real_firmware_sha256 is not None
+        assert args.real_firmware_marker is not None
+        try:
+            real_case = real_firmware_case(
+                args.real_firmware,
+                args.real_firmware_sha256,
+                args.real_firmware_marker,
+            )
+        except (OSError, ValueError) as error:
+            parser.error(str(error))
+        cases = (*cases, real_case)
+
     with tempfile.TemporaryDirectory(prefix="fuse-binwalk-adapter-e2e-") as temporary:
         root = Path(temporary)
         versions = [
@@ -237,18 +300,26 @@ def main() -> int:
                 root=root,
                 env=env,
             )
-            for case in signature_cases()
+            for case in cases
         ]
 
     if len(set(versions)) != 1:
         raise RuntimeError(
             "FUSE reported inconsistent Binwalk versions across the fixture controls."
         )
-    print(
+    summary = (
         f"Binwalk adapter smoke check passed: {versions[0]}; "
         "gzip, XZ, and U-Boot uImage signatures detected; clean and invalid-uImage "
         "controls clear; no extraction."
     )
+    if real_case is not None:
+        assert args.real_firmware is not None
+        real_sha256 = hashlib.sha256(real_case.data).hexdigest()
+        summary += (
+            f" Upstream real firmware signature detected ({args.real_firmware.name}, "
+            f"sha256 {real_sha256})."
+        )
+    print(summary)
     return 0
 
 
