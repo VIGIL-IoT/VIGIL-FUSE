@@ -1,0 +1,5 @@
+#if 1
+client.setCACert(root_ca);
+#else
+client.setInsecure();
+#endif

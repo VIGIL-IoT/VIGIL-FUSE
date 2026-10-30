@@ -36,8 +36,8 @@ Native rules are small, evidence-oriented checks over selected source or configu
 
 - **Category:** transport-security
 - **Evidence:** Explicit patterns include `verify=false`, `check_hostname=false`, `CERT_NONE`, Go `InsecureSkipVerify: true`, `insecure_skip_verify=true`, and `.setInsecure()`. For syntactically valid Python, the standard-library AST also recognizes literal `verify=False` in qualified `requests` and `httpx` calls, even when the endpoint is dynamic. Generic lexical `verify=false` requires TLS-related context in the file or line.
-- **False-positive considerations:** Comments, strings, test paths, and a C++ method definition are filtered. A TLS bypass in a test or unreachable branch may not affect a release.
-- **Limitations:** The rule does not resolve variables, callbacks, function reachability, conditional compilation, trust stores, or build inclusion. The Python AST check requires qualified `requests` or `httpx` calls and does not track imported aliases or data flow. Syntax errors use the existing conservative lexical checks.
+- **False-positive considerations:** Comments, strings, test paths, C++ method definitions, and calls inside literal inactive C preprocessor branches are filtered. A TLS bypass in a test or unreachable branch may not affect a release.
+- **Limitations:** The rule does not resolve variables, callbacks, function reachability, symbolic preprocessor conditions, trust stores, or build inclusion. The Python AST check requires qualified `requests` or `httpx` calls and does not track imported aliases or data flow. Syntax errors use the existing conservative lexical checks.
 - **Remediation:** Enable certificate-chain and hostname verification, provision the right trust anchor, and prevent test overrides from entering production builds.
 - **Reference:** [CWE-295](https://cwe.mitre.org/data/definitions/295.html)
 

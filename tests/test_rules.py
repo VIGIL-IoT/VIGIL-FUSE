@@ -300,6 +300,30 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertEqual([], list(rule.scan(definition)))
         self.assertEqual(1, len(list(rule.scan(call))))
 
+    def test_tls_rule_skips_only_known_inactive_cpp_preprocessor_branches(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE003")
+        dead_branch = SourceFile(
+            "src/tls_client.cpp",
+            "#if 1\n"
+            "client.setCACert(root_ca);\n"
+            "#else\n"
+            "client.setInsecure();\n"
+            "#endif\n"
+            "#if 0\n"
+            "another_client.setInsecure();\n"
+            "#else\n"
+            "another_client.setCACert(root_ca);\n"
+            "#endif\n",
+        )
+        symbolic_branch = SourceFile(
+            "src/tls_client.cpp", "#if ENABLE_TLS\nclient.setInsecure();\n#endif\n"
+        )
+        python_source = SourceFile("src/tls_client.py", "#if 1\nclient.setInsecure()\n")
+
+        self.assertEqual([], list(rule.scan(dead_branch)))
+        self.assertEqual(1, len(list(rule.scan(symbolic_branch))))
+        self.assertEqual(1, len(list(rule.scan(python_source))))
+
     def test_http_rule_requires_endpoint_context_and_ignores_comment_test_and_templates(
         self,
     ) -> None:

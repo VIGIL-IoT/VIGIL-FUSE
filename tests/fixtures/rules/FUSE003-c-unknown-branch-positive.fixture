@@ -1,0 +1,3 @@
+#if ENABLE_TLS
+client.setInsecure();
+#endif

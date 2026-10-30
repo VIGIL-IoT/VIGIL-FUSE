@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import re
 from collections.abc import Iterable
+from dataclasses import dataclass
 from pathlib import PurePosixPath
 
 from ..model import Finding, SourceFile
@@ -42,6 +43,72 @@ _PYTHON_HTTP_CALLS = frozenset(
         "AsyncClient",
     }
 )
+_C_SOURCE_SUFFIXES = frozenset({".c", ".h", ".cc", ".cpp", ".cxx", ".hh", ".hpp", ".hxx", ".ino"})
+_PREPROCESSOR_BRANCH = re.compile(
+    r"^\s*#\s*(?P<directive>if|ifdef|ifndef|elif|else|endif)\b(?P<expression>.*)$"
+)
+
+
+@dataclass
+class _PreprocessorFrame:
+    prior_branch_active: bool | None
+    branch_active: bool | None
+
+
+def _literal_condition(expression: str) -> bool | None:
+    value = expression.strip()
+    if value == "1":
+        return True
+    if value == "0":
+        return False
+    return None
+
+
+def _inactive_cpp_lines(source: SourceFile) -> set[int]:
+    suffix = PurePosixPath(source.path.replace("\\", "/")).suffix.casefold()
+    if suffix not in _C_SOURCE_SUFFIXES:
+        return set()
+
+    inactive: set[int] = set()
+    frames: list[_PreprocessorFrame] = []
+    for line_number, line in iter_code_lines(source.text, source.path):
+        match = _PREPROCESSOR_BRANCH.match(line)
+        if match:
+            directive = match.group("directive").casefold()
+            expression = match.group("expression")
+            if directive in {"if", "ifdef", "ifndef"}:
+                condition = _literal_condition(expression) if directive == "if" else None
+                frames.append(_PreprocessorFrame(condition, condition))
+            elif directive == "elif" and frames:
+                frame = frames[-1]
+                condition = _literal_condition(expression)
+                if frame.prior_branch_active is True:
+                    frame.branch_active = False
+                elif frame.prior_branch_active is False:
+                    frame.branch_active = condition
+                else:
+                    frame.branch_active = None
+                if frame.prior_branch_active is True or condition is True:
+                    frame.prior_branch_active = True
+                elif frame.prior_branch_active is False and condition is False:
+                    frame.prior_branch_active = False
+                else:
+                    frame.prior_branch_active = None
+            elif directive == "else" and frames:
+                frame = frames[-1]
+                if frame.prior_branch_active is True:
+                    frame.branch_active = False
+                elif frame.prior_branch_active is False:
+                    frame.branch_active = True
+                else:
+                    frame.branch_active = None
+            elif directive == "endif" and frames:
+                frames.pop()
+            continue
+
+        if any(frame.branch_active is False for frame in frames):
+            inactive.add(line_number)
+    return inactive
 
 
 def _qualified_name(node: ast.expr) -> str:
@@ -100,7 +167,10 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
     if is_test_path(source.path):
         return
     python_bypass_lines = _python_tls_bypass_lines(source)
+    inactive_cpp_lines = _inactive_cpp_lines(source)
     for line_number, line in iter_code_lines(source.text, source.path):
+        if line_number in inactive_cpp_lines:
+            continue
         code = code_without_string_literals(line)
         for index, pattern in enumerate(_BYPASS_PATTERNS):
             match = pattern.search(code)
@@ -135,7 +205,7 @@ RULE = RuleDefinition(
         "anchor, and use a test-only override that cannot enter production builds."
     ),
     scanner=_scan,
-    version="1.3.0",
+    version="1.4.0",
     references=("https://cwe.mitre.org/data/definitions/295.html",),
     prefilter=_may_contain_tls_bypass,
 )

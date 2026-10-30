@@ -92,6 +92,28 @@
       "rationale": "The sample explicitly keeps TLS verification enabled."
     },
     {
+      "id": "FUSE003-c-dead-branch-secure",
+      "fixture": "FUSE003-c-dead-branch-secure.fixture",
+      "source_path": "src/tls_client.cpp",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The insecure call exists only in literal inactive C preprocessor branches."
+    },
+    {
+      "id": "FUSE003-c-unknown-branch-positive",
+      "fixture": "FUSE003-c-unknown-branch-positive.fixture",
+      "source_path": "src/tls_client.cpp",
+      "expected_rules": ["FUSE003"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "A symbolic preprocessor condition is unresolved and remains a review signal."
+    },
+    {
       "id": "FUSE003-python-ast-vulnerable",
       "fixture": "FUSE003-python-ast-vulnerable.fixture",
       "source_path": "src/client.py",
