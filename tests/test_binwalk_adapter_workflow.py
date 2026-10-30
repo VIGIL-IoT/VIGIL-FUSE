@@ -9,6 +9,7 @@ import yaml
 ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / ".github" / "workflows" / "binwalk-adapter.yml"
 BINWALK_SOURCE_COMMIT = "4fdab3d464d97b68e0af9088df3f9e2e1545b21c"
+TASMOTA_FIRMWARE_SHA256 = "15a8e568af5096c9f43efd636da534214f2d170faf6551b4a9e9b6182117766c"
 
 
 def test_binwalk_workflow_is_manual_and_uses_windows_and_ubuntu() -> None:
@@ -28,6 +29,10 @@ def test_binwalk_workflow_pins_upstream_source_and_actions() -> None:
     steps = job["steps"]
 
     assert workflow["env"]["BINWALK_SOURCE_COMMIT"] == BINWALK_SOURCE_COMMIT
+    assert workflow["env"]["TASMOTA_FIRMWARE_URL"].endswith(
+        "/v16.0.0/tasmota-4M.bin.gz"
+    )
+    assert workflow["env"]["TASMOTA_FIRMWARE_SHA256"] == TASMOTA_FIRMWARE_SHA256
     action_uses = [step["uses"] for step in steps if "uses" in step]
     assert len(action_uses) == 3
     for use in action_uses:
@@ -37,7 +42,7 @@ def test_binwalk_workflow_pins_upstream_source_and_actions() -> None:
     assert rust_step["with"]["rustflags"] == ""
 
 
-def test_binwalk_workflow_builds_locked_source_and_runs_signature_matrix() -> None:
+def test_binwalk_workflow_builds_locked_source_and_scans_pinned_real_firmware() -> None:
     workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
     steps = workflow["jobs"]["adapter-smoke"]["steps"]
     build_steps = [
@@ -48,3 +53,8 @@ def test_binwalk_workflow_builds_locked_source_and_runs_signature_matrix() -> No
     assert "--expected-version 3.1.0" in build_steps[0]["run"]
     assert "--expected-version 3.1.0" in build_steps[1]["run"]
     assert all("--binwalk-executable" in step["run"] for step in build_steps)
+    assert all("--real-firmware" in step["run"] for step in build_steps)
+    assert all("--real-firmware-sha256" in step["run"] for step in build_steps)
+    assert all("--real-firmware-marker gzip" in step["run"] for step in build_steps)
+    assert "curl --fail --location" in build_steps[0]["run"]
+    assert "Invoke-WebRequest" in build_steps[1]["run"]
