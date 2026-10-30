@@ -389,7 +389,7 @@ def run_benchmark(
         "scope_limitations": [
             "Measurements describe only the pinned repository scopes in the input manifest.",
             "Wall time includes starting a fresh Python CLI process and writing temporary reports.",
-            "One Windows machine was measured; this is not a cross-platform comparison.",
+            f"Measurements use a single {platform.system()} host; this is not a controlled cross-platform comparison.",
             "Optional networked and external analyzers were disabled for every run.",
             "Files skipped or partial coverage remain visible and are not treated as complete scans.",
             "Finding counts are scan observations, not a measure of detection accuracy.",

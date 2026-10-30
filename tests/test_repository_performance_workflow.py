@@ -35,6 +35,21 @@ class RepositoryPerformanceWorkflowTests(unittest.TestCase):
         self.assertEqual("error", upload["with"]["if-no-files-found"])
         self.assertEqual("30", upload["with"]["retention-days"])
 
+    def test_workflow_installs_fuse_before_running_the_benchmark(self) -> None:
+        workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
+        steps = workflow["jobs"]["benchmark"]["steps"]
+        install_index = next(
+            index for index, step in enumerate(steps) if step.get("name") == "Install FUSE package"
+        )
+        benchmark_index = next(
+            index
+            for index, step in enumerate(steps)
+            if step.get("name") == "Measure pinned repository scopes"
+        )
+
+        self.assertEqual("python -m pip install -e .", steps[install_index]["run"])
+        self.assertLess(install_index, benchmark_index)
+
 
 if __name__ == "__main__":
     unittest.main()

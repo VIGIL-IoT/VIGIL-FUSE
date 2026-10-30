@@ -38,6 +38,8 @@ jobs:
           python-version: "3.12"
       - name: Install report schema validator
         run: python -m pip install "jsonschema>=4.23,<5"
+      - name: Install FUSE package
+        run: python -m pip install -e .
       - name: Prepare clean pinned repository checkouts
         shell: bash
         run: >-
@@ -65,6 +67,7 @@ jobs:
           Draft202012Validator(schema, format_checker=FormatChecker()).validate(report);
           assert len(report["scopes"]) == 4;
           assert report["configuration"]["network_enabled"] is False;
+          assert any(report["environment"]["operating_system"] in item for item in report["scope_limitations"]);
           print("Pinned repository performance report is schema-valid")'
       - name: Upload measured report
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
