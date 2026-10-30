@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a reproducible defect in FUSE
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Do not include credentials, private keys, proprietary source, or unredacted scan reports.
+        For a vulnerability in FUSE, follow SECURITY.md instead of filing a public issue.
+  - type: input
+    id: version
+    attributes:
+      label: FUSE version or commit
+      placeholder: "0.2.0 or commit hash"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and configuration
+      description: Remove secrets and private paths before posting.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal sanitized reproduction
+    validations:
+      required: false

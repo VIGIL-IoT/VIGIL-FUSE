@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a bounded improvement to FUSE
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: >
+        FUSE favors evidence-backed, tested checks. Do not include credentials,
+        proprietary firmware, or private scan reports.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and user
+      description: What embedded or IoT review task is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Example and evidence
+      description: Share a public reference or a small sanitized example.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Expected scope and limitations
+      description: What should FUSE report, and what should it not claim?
+    validations:
+      required: true

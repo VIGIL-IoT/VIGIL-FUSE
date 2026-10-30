@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use FUSE in research or an engineering report, cite the version you used and the associated repository revision."
+type: software
+title: "FUSE: Firmware & Unified Security Engine"
+authors:
+  - name: "VIGIL-IoT"
+version: "0.2.0"
+date-released: 2026-10-26
+url: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
+repository-code: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
+keywords:
+  - embedded security
+  - firmware analysis
+  - IoT
+  - static analysis
