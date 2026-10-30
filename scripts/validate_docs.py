@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import re
+import os
+import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -27,10 +29,28 @@ MERMAID_DIAGRAMS = {
 
 
 def markdown_files(root: Path) -> list[Path]:
+    try:
+        result = subprocess.run(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        candidates = root.rglob("*.md")
+    else:
+        candidates = (
+            root / Path(os.fsdecode(entry))
+            for entry in result.stdout.split(b"\0")
+            if entry and Path(os.fsdecode(entry)).suffix.lower() == ".md"
+        )
+
+    excluded_directories = {".git", "build", "dist", ".venv"}
     return sorted(
         path
-        for path in root.rglob("*.md")
-        if not any(part in {".git", "build", "dist", ".venv"} for part in path.parts)
+        for path in candidates
+        if path.is_file()
+        and not any(part in excluded_directories for part in path.relative_to(root).parts)
     )
 
 
