@@ -79,6 +79,7 @@ files = [
   "src/vigil_fuse/dependency_analyzers.py",
   "src/vigil_fuse/rule_execution.py",
   "src/vigil_fuse/esp_idf_lock.py",
+  "src/vigil_fuse/hardware_netlist.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true

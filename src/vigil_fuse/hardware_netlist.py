@@ -5,6 +5,7 @@ import re
 import xml.etree.ElementTree as ET
 from xml.parsers import expat
 from pathlib import Path
+from typing import TypedDict
 
 from .build_context import _read_bounded, _select_project_file
 from .model import Finding, NetlistInventory
@@ -25,6 +26,12 @@ _CONNECTOR_WORDS = re.compile(
 
 class _UnsafeNetlistXml(ValueError):
     """Raised when the selected XML exceeds safe parser limits."""
+
+
+class _NetlistBase(TypedDict):
+    path: str
+    sha256: str
+    byte_size: int
 
 
 def _preflight_xml(data: bytes) -> None:
@@ -77,7 +84,7 @@ def inspect_kicad_netlist(
     except ValueError as error:
         return NetlistInventory(status="invalid", limitations=(str(error),)), ()
     digest = hashlib.sha256(data).hexdigest()
-    base = {
+    base: _NetlistBase = {
         "path": display,
         "sha256": digest,
         "byte_size": len(data),
