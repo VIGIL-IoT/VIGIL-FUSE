@@ -1,0 +1,76 @@
+name: Binwalk adapter integration
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: binwalk-adapter-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  BINWALK_SOURCE_COMMIT: 4fdab3d464d97b68e0af9088df3f9e2e1545b21c
+  CARGO_TERM_COLOR: always
+
+jobs:
+  adapter-smoke:
+    name: Binwalk v3.1.0 on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    steps:
+      - name: Check out FUSE
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Rust 1.89.0
+        uses: actions-rust-lang/setup-rust-toolchain@46268bd060767258de96ed93c1251119784f2ab6 # v1.16.1
+        with:
+          toolchain: 1.89.0
+          cache: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install FUSE
+        run: python -m pip install .
+      - name: Install Ubuntu Binwalk build libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y build-essential libfontconfig1-dev liblzma-dev
+      - name: Build pinned Binwalk and run adapter controls on Ubuntu
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          source_dir="$RUNNER_TEMP/binwalk-source"
+          git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git "$source_dir"
+          git -C "$source_dir" checkout --detach "$BINWALK_SOURCE_COMMIT"
+          test "$(git -C "$source_dir" rev-parse HEAD)" = "$BINWALK_SOURCE_COMMIT"
+          cargo build --release --locked --manifest-path "$source_dir/Cargo.toml"
+          python scripts/verify_binwalk_adapter.py \
+            --expected-version 3.1.0 \
+            --binwalk-executable "$source_dir/target/release/binwalk"
+      - name: Build pinned Binwalk and run adapter controls on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $sourceDir = Join-Path $env:RUNNER_TEMP 'binwalk-source'
+          git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git $sourceDir
+          if ($LASTEXITCODE -ne 0) { throw 'Could not clone pinned Binwalk source.' }
+          git -C $sourceDir checkout --detach $env:BINWALK_SOURCE_COMMIT
+          if ($LASTEXITCODE -ne 0) { throw 'Could not check out pinned Binwalk source.' }
+          $actualCommit = git -C $sourceDir rev-parse HEAD
+          if ($actualCommit -ne $env:BINWALK_SOURCE_COMMIT) { throw 'Binwalk source commit did not match the pinned revision.' }
+          cargo build --release --locked --manifest-path (Join-Path $sourceDir 'Cargo.toml')
+          if ($LASTEXITCODE -ne 0) { throw 'Could not build pinned Binwalk source.' }
+          $binwalk = Join-Path $sourceDir 'target\release\binwalk.exe'
+          python scripts/verify_binwalk_adapter.py --expected-version 3.1.0 --binwalk-executable $binwalk

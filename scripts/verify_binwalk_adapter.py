@@ -50,6 +50,24 @@ def analyzer_status(report: dict[str, Any]) -> dict[str, Any]:
     return status
 
 
+def configure_binwalk_environment(
+    executable: Path | None,
+    env: dict[str, str],
+) -> Path | None:
+    """Make an explicitly supplied Binwalk executable discoverable by FUSE."""
+    if executable is None:
+        discovered = shutil.which("binwalk", path=env.get("PATH"))
+        return Path(discovered) if discovered else None
+
+    resolved = executable.expanduser().resolve()
+    if not resolved.is_file():
+        raise FileNotFoundError("The supplied Binwalk executable does not exist.")
+    env["PATH"] = os.pathsep.join(
+        part for part in (str(resolved.parent), env.get("PATH", "")) if part
+    )
+    return resolved
+
+
 def scan_case(
     *,
     label: str,
@@ -123,11 +141,20 @@ def scan_case(
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--expected-version", help="require this Binwalk version substring")
+    parser.add_argument(
+        "--binwalk-executable",
+        type=Path,
+        help="use this Binwalk executable and add its directory to the scan PATH",
+    )
     args = parser.parse_args()
-    if shutil.which("binwalk") is None:
+    env = os.environ.copy()
+    try:
+        executable = configure_binwalk_environment(args.binwalk_executable, env)
+    except FileNotFoundError as error:
+        parser.error(str(error))
+    if executable is None:
         parser.error("Binwalk must be available on PATH")
 
-    env = os.environ.copy()
     source_path = str(ROOT / "src")
     env["PYTHONPATH"] = os.pathsep.join(
         part for part in (source_path, env.get("PYTHONPATH", "")) if part
