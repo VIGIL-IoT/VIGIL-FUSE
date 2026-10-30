@@ -10,7 +10,8 @@ import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
+from types import TracebackType
+from typing import Any, IO
 
 from .model import Finding, SourceFile
 
@@ -86,7 +87,7 @@ class IsolatedRuleExecutor:
 
     def _read_events(
         self,
-        stream,
+        stream: IO[str],
         events: queue.Queue[dict[str, Any] | None],
     ) -> None:
         try:
@@ -291,6 +292,17 @@ class IsolatedRuleExecutor:
                     continue
                 if event_type == "rule-result":
                     rule_id = event.get("rule_id")
+                    if current_rule is None:
+                        unresolved = [item for item in pending if item not in handled]
+                        result.failed.update(
+                            {
+                                item: "rule worker returned a result without an active rule"
+                                for item in unresolved
+                            }
+                        )
+                        self._stop(force=True)
+                        worker_failed = True
+                        break
                     try:
                         if rule_id != current_rule:
                             raise ValueError("unexpected rule result")
@@ -311,7 +323,7 @@ class IsolatedRuleExecutor:
                     continue
                 if event_type == "rule-error":
                     rule_id = event.get("rule_id")
-                    if rule_id != current_rule:
+                    if current_rule is None or rule_id != current_rule:
                         unresolved = [item for item in pending if item not in handled]
                         result.failed.update(
                             {
@@ -365,7 +377,12 @@ class IsolatedRuleExecutor:
     def __enter__(self) -> IsolatedRuleExecutor:
         return self
 
-    def __exit__(self, exc_type, exc, traceback) -> None:
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
         self.close()
 
     def __del__(self) -> None:
