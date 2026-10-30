@@ -80,9 +80,9 @@ FUSE's core analysis is bounded and read-only. Native rules operate on decoded s
 
 ## Test results
 
-The complete suite passes with **183 tests**. The focused security and input-handling subset passes with **122 tests**. Branch-aware coverage is **75%**, above the configured 70% minimum. Ruff lint passes. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels. Documentation validation passes over **56 Markdown files**. Package build and clean-install smoke checks pass locally. The FUSE self-scan covered 222 files, completed discovery, and reported zero findings. The path audit passes over 493 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
+The complete suite passes locally with **186 tests** on Windows and Python 3.14. The focused security and input-handling subset previously passed with **122 tests**. The last successful branch-aware coverage report was **75%** on revision `dd1c043`, above the configured 70% minimum; coverage for the new path-handling code awaits the next remote run. Ruff lint and the complete formatter check pass in the current local tree. The synthetic fixture benchmark reports 16 cases across seven native rules, all matching their labels. Documentation validation passes over **56 Markdown files**. Package build and clean-install smoke checks passed on `dd1c043`. The FUSE self-scan covered 222 files, completed discovery, and reported zero findings. The path audit passes over 494 tracked files and Git history. The Anatomy builder reports 56 named parts; the generator, inline JavaScript, and both SVG files pass structural checks.
 
-The repository-wide Ruff formatting check still reports 42 existing files that would be reformatted; the focused format gate for new and materially changed safety/benchmark files passes. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs that were not yet in that commit. The next documentation increment added those files, and run #227 on `dd1c043` succeeded across all CI jobs. At the time of that result, CI covered Python 3.11 through 3.14 on Ubuntu only. This audit update adds Windows and macOS Python 3.11 test jobs; their remote result is pending. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
+The original full-tree Ruff check identified 42 files for reformatting. Four of those were formatted with this path fix; the remaining formatting work and full-tree CI gate are the next increment. Run #226 on `0f8d4ef` failed documentation validation because the README linked to supporting docs not yet in that commit. The docs increment resolved those links, and run #227 on `dd1c043` succeeded. Run #228 on `d219d1e` exercised the new Windows and macOS Python 3.11 jobs and exposed path-alias failures in four tests on each OS. This fix uses file identity to recognize OS aliases to the project root, checks in-target path components for symlinks, and adds regression cases for both behaviors. Its remote rerun is pending. Both SVGs parse as XML and the interactive script parses, but browser rendering and live interaction have not been visually verified.
 
 ## Security findings
 
@@ -117,7 +117,7 @@ The new methodology page gives install, scan, test, and fixture-check commands. 
 ## Remaining limitations
 
 - No representative independent ground-truth corpus or field accuracy estimate.
-- No remote CI result for the newly added Windows/macOS matrix until its workflow completes.
+- No remote CI result yet for the Windows/macOS path-alias fix.
 - No compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 - Optional analyzers were not installed and tested end to end.
 - No configured static type checker and no complete dependency vulnerability audit.

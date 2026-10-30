@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import re
 from pathlib import Path
 
@@ -16,6 +15,7 @@ from .model import (
     ProjectContext,
     SourceFile,
 )
+from .path_safety import resolve_inside_directory
 
 MAX_CONTEXT_FILE_BYTES = 4 * 1024 * 1024
 _SAFE_METADATA_VALUE = re.compile(r"^[A-Za-z0-9_.+-]{1,120}$")
@@ -66,9 +66,10 @@ def _project_markers(root: Path, framework: str) -> tuple[bool, tuple[str, ...]]
         prj_conf = root / "prj.conf"
         if prj_conf.is_file() and not prj_conf.is_symlink():
             evidence.append("prj.conf exists")
-        return bool("CMakeLists.txt requests the Zephyr CMake package" in evidence or (
-            "west.yml manifest exists" in evidence and "prj.conf exists" in evidence
-        )), tuple(evidence)
+        return bool(
+            "CMakeLists.txt requests the Zephyr CMake package" in evidence
+            or ("west.yml manifest exists" in evidence and "prj.conf exists" in evidence)
+        ), tuple(evidence)
 
     return False, ()
 
@@ -91,24 +92,15 @@ def resolve_build_dir(root: Path, build_dir: str | Path) -> tuple[Path, str]:
     root_path = root.resolve(strict=True)
     supplied = Path(build_dir).expanduser()
     candidate = supplied if supplied.is_absolute() else root_path / supplied
-    lexical_candidate = Path(os.path.abspath(candidate))
     try:
-        lexical_relative = lexical_candidate.relative_to(root_path)
+        resolved, relative = resolve_inside_directory(root_path, candidate)
     except ValueError as error:
-        raise ValueError("--build-dir must resolve inside the scan target directory") from error
-    cursor = root_path
-    for part in lexical_relative.parts:
-        cursor = cursor / part
-        if cursor.is_symlink():
-            raise ValueError("--build-dir cannot pass through a symbolic link")
-    resolved = lexical_candidate.resolve(strict=True)
-    try:
-        relative = resolved.relative_to(root_path)
-    except ValueError as error:
+        if "symbolic link" in str(error):
+            raise ValueError("--build-dir cannot pass through a symbolic link") from error
         raise ValueError("--build-dir must resolve inside the scan target directory") from error
     if not resolved.is_dir():
         raise ValueError("--build-dir must identify an existing directory")
-    return resolved, relative.as_posix() or "."
+    return resolved, relative
 
 
 def _display(path: Path, root: Path) -> str:
@@ -131,16 +123,28 @@ def _read_context_file(
             path_has_symlink = True
             break
     if path_has_symlink:
-        return ContextArtifact(relative, role, None, 0), None, f"{relative} is a symbolic link and was not read"
+        return (
+            ContextArtifact(relative, role, None, 0),
+            None,
+            f"{relative} is a symbolic link and was not read",
+        )
     try:
         size = path.stat().st_size
     except OSError:
         return ContextArtifact(relative, role, None, 0), None, f"{relative} could not be inspected"
     if size > MAX_CONTEXT_FILE_BYTES:
-        return ContextArtifact(relative, role, None, size), None, f"{relative} exceeds the 4 MiB context-file limit"
+        return (
+            ContextArtifact(relative, role, None, size),
+            None,
+            f"{relative} exceeds the 4 MiB context-file limit",
+        )
     data = _read_limited(path)
     if data is None:
-        return ContextArtifact(relative, role, None, size), None, f"{relative} could not be read safely"
+        return (
+            ContextArtifact(relative, role, None, size),
+            None,
+            f"{relative} could not be read safely",
+        )
     digest = hashlib.sha256(data).hexdigest()
     artifact = ContextArtifact(relative, role, digest, len(data))
     try:
@@ -169,8 +173,10 @@ def _security_settings(source: SourceFile) -> tuple[ContextSetting, ...]:
             if not match:
                 continue
             raw_value = match.group(1).strip().strip('"').casefold()
-            value = "enabled" if raw_value in {"y", "1", "yes", "true"} else (
-                "disabled" if raw_value in {"n", "0", "no", "false"} else "unknown"
+            value = (
+                "enabled"
+                if raw_value in {"y", "1", "yes", "true"}
+                else ("disabled" if raw_value in {"n", "0", "no", "false"} else "unknown")
             )
             settings.append(ContextSetting(name, value, source.path, line_number))
     return tuple(settings)
@@ -205,22 +211,13 @@ def _safe_project_path(root: Path, value: str) -> tuple[Path | None, str | None]
         return None, "unreadable"
     supplied = Path(value)
     candidate = supplied if supplied.is_absolute() else root / supplied
-    lexical = Path(os.path.abspath(candidate))
     try:
-        relative = lexical.relative_to(root)
-    except ValueError:
-        return None, "outside-target"
-    cursor = root
-    for part in relative.parts:
-        cursor = cursor / part
-        if cursor.is_symlink():
+        resolved, relative = resolve_inside_directory(root, candidate)
+    except ValueError as error:
+        if "symbolic link" in str(error):
             return None, "unreadable"
-    try:
-        resolved = lexical.resolve(strict=False)
-        resolved_relative = resolved.relative_to(root)
-    except (OSError, ValueError):
         return None, "outside-target"
-    if not resolved_relative.parts:
+    if relative == ".":
         return None, "unreadable"
     return resolved, None
 
@@ -319,7 +316,9 @@ def _inspect_esp_idf_configuration_origin(
             artifacts.append(artifact)
 
     if build_root is None:
-        limitations.append("No selected build directory was supplied, so active sdkconfig and target were not resolved.")
+        limitations.append(
+            "No selected build directory was supplied, so active sdkconfig and target were not resolved."
+        )
         return (
             ConfigurationOrigin(
                 status="candidates-only",
@@ -376,9 +375,13 @@ def _inspect_esp_idf_configuration_origin(
             "Default-file order follows the SDKCONFIG_DEFAULTS value observed in CMakeCache.txt; project CMake code or environment overrides are not evaluated."
         )
     elif not defaults:
-        limitations.append("No conventional sdkconfig.defaults file was found; a selected build may still use custom defaults.")
+        limitations.append(
+            "No conventional sdkconfig.defaults file was found; a selected build may still use custom defaults."
+        )
     if not order_resolved and target is None:
-        limitations.append("Target-specific defaults could not be ordered because the selected build target is unknown.")
+        limitations.append(
+            "Target-specific defaults could not be ordered because the selected build target is unknown."
+        )
 
     status = selected_status
     if status == "selected" and (warnings or path_error):
@@ -428,13 +431,18 @@ def inspect_project_context(
         lock_artifact = None
         lock_analyzer_status = None
         if framework == "esp-idf":
-            component_lock, lock_artifact, lock_analyzer_status = inspect_dependencies_lock(root, None)
+            component_lock, lock_artifact, lock_analyzer_status = inspect_dependencies_lock(
+                root, None
+            )
             origin, origin_artifacts, _, origin_warnings = _inspect_esp_idf_configuration_origin(
                 root,
                 None,
                 build_root=None,
             )
-            configuration_files = (*origin_artifacts, *((lock_artifact,) if lock_artifact is not None else ()))
+            configuration_files = (
+                *origin_artifacts,
+                *((lock_artifact,) if lock_artifact is not None else ()),
+            )
             limitations.extend(origin.limitations)
             limitations.extend(origin_warnings)
         else:
@@ -444,16 +452,21 @@ def inspect_project_context(
             limitations.append("No selected generated ESP-IDF build configuration was supplied.")
         else:
             limitations.append("No selected Zephyr build output was supplied.")
-        return ProjectContext(
-            framework=framework,
-            status=status,
-            project_detected=detected,
-            evidence=evidence,
-            configuration_files=configuration_files,
-            configuration_origin=origin,
-            component_lock=component_lock or ProjectContext().component_lock,
-            limitations=tuple(limitations),
-        ), (), (), lock_analyzer_status
+        return (
+            ProjectContext(
+                framework=framework,
+                status=status,
+                project_detected=detected,
+                evidence=evidence,
+                configuration_files=configuration_files,
+                configuration_origin=origin,
+                component_lock=component_lock or ProjectContext().component_lock,
+                limitations=tuple(limitations),
+            ),
+            (),
+            (),
+            lock_analyzer_status,
+        )
 
     build_root, relative_build = resolve_build_dir(root, build_dir)
     configuration_files: list[ContextArtifact] = []
@@ -517,8 +530,13 @@ def inspect_project_context(
                         )
                         break
                 else:
-                    for key, variable in (("CONFIG_BOARD", "board_value"), ("CONFIG_KERNELVERSION", "version_value")):
-                        match = re.search(rf'^\s*{key}\s*=\s*"?([^"\r\n#]+)', source.text, re.MULTILINE)
+                    for key, variable in (
+                        ("CONFIG_BOARD", "board_value"),
+                        ("CONFIG_KERNELVERSION", "version_value"),
+                    ):
+                        match = re.search(
+                            rf'^\s*{key}\s*=\s*"?([^"\r\n#]+)', source.text, re.MULTILINE
+                        )
                         if match:
                             if variable == "board_value":
                                 candidate_board = match.group(1).strip()
@@ -560,7 +578,8 @@ def inspect_project_context(
     if framework == "esp-idf":
         target_value = target_value or (
             cache_values.get("IDF_TARGET")
-            if cache_values.get("IDF_TARGET") and _SAFE_METADATA_VALUE.fullmatch(cache_values["IDF_TARGET"])
+            if cache_values.get("IDF_TARGET")
+            and _SAFE_METADATA_VALUE.fullmatch(cache_values["IDF_TARGET"])
             else None
         )
 
@@ -599,18 +618,24 @@ def inspect_project_context(
         else ()
     )
     has_generated_config = bool(generated_sources)
-    status = "generated-config-found" if has_generated_config and not warnings else (
-        "partial" if has_generated_config or warnings else "build-selected"
+    status = (
+        "generated-config-found"
+        if has_generated_config and not warnings
+        else ("partial" if has_generated_config or warnings else "build-selected")
     )
     limitations.extend(warnings)
     if not has_generated_config:
-        limitations.append("The selected build directory contains no recognized generated configuration.")
+        limitations.append(
+            "The selected build directory contains no recognized generated configuration."
+        )
     if framework == "zephyr":
         limitations.append(
             "FUSE does not run Zephyr hardenconfig; its selected JSON output can be imported separately."
         )
     else:
-        limitations.append("Selected build configuration evidence does not prove which image was released or deployed.")
+        limitations.append(
+            "Selected build configuration evidence does not prove which image was released or deployed."
+        )
 
     context = ProjectContext(
         framework=framework,

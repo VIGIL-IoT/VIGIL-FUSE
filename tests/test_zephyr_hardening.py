@@ -46,7 +46,9 @@ class ZephyrHardeningTests(unittest.TestCase):
             )
             report = json.loads(to_json(result))
 
-        finding = next(item for item in report["findings"] if item["rule_id"] == "ZEPHYR-HARDENCONFIG")
+        finding = next(
+            item for item in report["findings"] if item["rule_id"] == "ZEPHYR-HARDENCONFIG"
+        )
         self.assertEqual("unknown", finding["severity"])
         self.assertEqual("high", finding["confidence"])
         self.assertEqual("candidate", finding["applicability"])
@@ -56,13 +58,21 @@ class ZephyrHardeningTests(unittest.TestCase):
             "https://cwe.mitre.org/data/definitions/200.html",
             finding["references"][1],
         )
-        analyzer = next(item for item in report["coverage"]["analyzers"] if item["name"] == "zephyr-hardenconfig")
+        analyzer = next(
+            item
+            for item in report["coverage"]["analyzers"]
+            if item["name"] == "zephyr-hardenconfig"
+        )
         self.assertEqual("completed", analyzer["status"])
         self.assertEqual(1, analyzer["findings"])
         self.assertIn("1 FAIL, 1 PASS, 1 not applicable", analyzer["detail"])
         self.assertNotIn("/private/build", json.dumps(report))
-        self.assertEqual("build/zephyr/.config", report["project_context"]["configuration_files"][0]["path"])
-        self.assertEqual("build/hardenconfig.json", report["project_context"]["configuration_files"][1]["path"])
+        self.assertEqual(
+            "build/zephyr/.config", report["project_context"]["configuration_files"][0]["path"]
+        )
+        self.assertEqual(
+            "build/hardenconfig.json", report["project_context"]["configuration_files"][1]["path"]
+        )
 
     def test_passing_report_completes_without_emitting_findings(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -86,17 +96,21 @@ class ZephyrHardeningTests(unittest.TestCase):
             build_dir = _project(root)
             report_path = build_dir / "hardenconfig.json"
             report_path.write_text(
-                json.dumps({
-                    "profile": "strict",
-                    "fail_count": 0,
-                    "options": [{
-                        "name": "SHELL",
-                        "recommended": "n",
-                        "rationale": "Disables an interactive shell.",
-                        "result": "FAIL",
-                        "current": "y",
-                    }],
-                }),
+                json.dumps(
+                    {
+                        "profile": "strict",
+                        "fail_count": 0,
+                        "options": [
+                            {
+                                "name": "SHELL",
+                                "recommended": "n",
+                                "rationale": "Disables an interactive shell.",
+                                "result": "FAIL",
+                                "current": "y",
+                            }
+                        ],
+                    }
+                ),
                 encoding="utf-8",
             )
 
@@ -130,10 +144,21 @@ class ZephyrHardeningTests(unittest.TestCase):
 
             output = StringIO()
             with redirect_stdout(output):
-                exit_code = main([
-                    "scan", str(root), "--profile", "zephyr", "--build-dir", "build",
-                    "--zephyr-hardening-report", "build/hardenconfig.json", "--plan", "--format", "json",
-                ])
+                exit_code = main(
+                    [
+                        "scan",
+                        str(root),
+                        "--profile",
+                        "zephyr",
+                        "--build-dir",
+                        "build",
+                        "--zephyr-hardening-report",
+                        "build/hardenconfig.json",
+                        "--plan",
+                        "--format",
+                        "json",
+                    ]
+                )
             plan = json.loads(output.getvalue())
 
         self.assertEqual(0, exit_code)

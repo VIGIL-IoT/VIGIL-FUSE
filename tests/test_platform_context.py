@@ -14,10 +14,12 @@ from vigil_fuse.scanner import scan
 from vigil_fuse.esp_idf_lock import lock_parser_available
 
 
-def _esp_idf_project(root: Path, *, version: str = "v5.2.1", lock_target: str | None = None) -> Path:
+def _esp_idf_project(
+    root: Path, *, version: str = "v5.2.1", lock_target: str | None = None
+) -> Path:
     root.mkdir(parents=True, exist_ok=True)
     (root / "CMakeLists.txt").write_text(
-        'include($ENV{IDF_PATH}/tools/cmake/project.cmake)\nproject(fixture)\n',
+        "include($ENV{IDF_PATH}/tools/cmake/project.cmake)\nproject(fixture)\n",
         encoding="utf-8",
     )
     build = root / "build"
@@ -98,7 +100,9 @@ class PlatformContextTests(unittest.TestCase):
         self.assertEqual("v5.3.0", context.framework_version)
         self.assertEqual(1, len(sources))
         self.assertEqual((), warnings)
-        self.assertTrue(all(not Path(artifact.path).is_absolute() for artifact in context.configuration_files))
+        self.assertTrue(
+            all(not Path(artifact.path).is_absolute() for artifact in context.configuration_files)
+        )
 
     def test_esp_idf_context_records_selected_sdkconfig_and_defaults_order(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -109,10 +113,18 @@ class PlatformContextTests(unittest.TestCase):
                 "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y\n",
                 encoding="utf-8",
             )
-            (root / "sdkconfig.defaults").write_text("CONFIG_LOG_DEFAULT_LEVEL=3\n", encoding="utf-8")
-            (root / "sdkconfig.defaults.esp32").write_text("CONFIG_LOG_DEFAULT_LEVEL=4\n", encoding="utf-8")
-            (root / "config" / "release.defaults").write_text("CONFIG_FREERTOS_HZ=1000\n", encoding="utf-8")
-            (root / "config" / "release.defaults.esp32").write_text("CONFIG_FREERTOS_HZ=500\n", encoding="utf-8")
+            (root / "sdkconfig.defaults").write_text(
+                "CONFIG_LOG_DEFAULT_LEVEL=3\n", encoding="utf-8"
+            )
+            (root / "sdkconfig.defaults.esp32").write_text(
+                "CONFIG_LOG_DEFAULT_LEVEL=4\n", encoding="utf-8"
+            )
+            (root / "config" / "release.defaults").write_text(
+                "CONFIG_FREERTOS_HZ=1000\n", encoding="utf-8"
+            )
+            (root / "config" / "release.defaults.esp32").write_text(
+                "CONFIG_FREERTOS_HZ=500\n", encoding="utf-8"
+            )
             (build / "CMakeCache.txt").write_text(
                 f"SDKCONFIG:FILEPATH={root / 'sdkconfig.release'}\n"
                 "SDKCONFIG_DEFAULTS:STRING=sdkconfig.defaults;config/release.defaults\n"
@@ -138,7 +150,9 @@ class PlatformContextTests(unittest.TestCase):
             ],
             [(item.order, item.path, item.target_specific) for item in origin.default_files],
         )
-        self.assertTrue(all(item.state == "present" and item.sha256 for item in origin.default_files))
+        self.assertTrue(
+            all(item.state == "present" and item.sha256 for item in origin.default_files)
+        )
         self.assertEqual("sdkconfig.release", sources[0].path)
         self.assertEqual((), warnings)
         finding = next(item for item in result.findings if item.rule_id == "FUSE006")
@@ -155,9 +169,40 @@ class PlatformContextTests(unittest.TestCase):
                 "config/release.defaults",
                 "config/release.defaults.esp32",
             ],
-            [item["path"] for item in report["project_context"]["configuration_origin"]["default_files"]],
+            [
+                item["path"]
+                for item in report["project_context"]["configuration_origin"]["default_files"]
+            ],
         )
         self.assertNotIn(str(root), to_json(result))
+
+    def test_esp_idf_cache_path_accepts_an_os_alias_to_the_project(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root = parent / "project"
+            build = _esp_idf_project(root)
+            (root / "sdkconfig.release").write_text(
+                "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y\n",
+                encoding="utf-8",
+            )
+            alias = parent / "parent-alias"
+            try:
+                alias.symlink_to(parent, target_is_directory=True)
+            except (NotImplementedError, OSError):
+                self.skipTest("directory symlinks are unavailable")
+            aliased_sdkconfig = alias / root.name / "sdkconfig.release"
+            (build / "CMakeCache.txt").write_text(
+                f"SDKCONFIG:FILEPATH={aliased_sdkconfig}\nIDF_TARGET:STRING=esp32\n",
+                encoding="utf-8",
+            )
+
+            context, sources, warnings, _ = inspect_project_context(root, "esp-idf", "build")
+
+        origin = context.configuration_origin
+        self.assertEqual("selected", origin.status)
+        self.assertEqual("sdkconfig.release", origin.selected_sdkconfig)
+        self.assertEqual(["sdkconfig.release"], [source.path for source in sources])
+        self.assertEqual((), warnings)
 
     def test_esp_idf_external_sdkconfig_path_is_not_read_or_reported(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -184,8 +229,12 @@ class PlatformContextTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / "project"
             root.mkdir()
-            (root / "sdkconfig.defaults").write_text("CONFIG_LOG_DEFAULT_LEVEL=3\n", encoding="utf-8")
-            (root / "sdkconfig.defaults.esp32").write_text("CONFIG_LOG_DEFAULT_LEVEL=4\n", encoding="utf-8")
+            (root / "sdkconfig.defaults").write_text(
+                "CONFIG_LOG_DEFAULT_LEVEL=3\n", encoding="utf-8"
+            )
+            (root / "sdkconfig.defaults.esp32").write_text(
+                "CONFIG_LOG_DEFAULT_LEVEL=4\n", encoding="utf-8"
+            )
             context, _, _, _ = inspect_project_context(root, "esp-idf")
             (root / "sdkconfig.defaults.esp32").write_text(
                 "CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y\n",
@@ -234,6 +283,42 @@ class PlatformContextTests(unittest.TestCase):
         self.assertEqual("build", relative)
         self.assertTrue(resolved_is_dir)
 
+    def test_build_directory_cannot_pass_through_a_symbolic_link(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root = parent / "project"
+            root.mkdir()
+            outside = parent / "outside"
+            outside.mkdir()
+            link = root / "linked-build"
+            try:
+                link.symlink_to(outside, target_is_directory=True)
+            except (NotImplementedError, OSError):
+                self.skipTest("directory symlinks are unavailable")
+
+            with self.assertRaisesRegex(ValueError, "symbolic link"):
+                resolve_build_dir(root, link)
+
+    def test_build_directory_accepts_a_parent_path_alias(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            parent = Path(temporary)
+            root = parent / "project"
+            build = root / "build"
+            build.mkdir(parents=True)
+            alias = parent / "parent-alias"
+            try:
+                alias.symlink_to(parent, target_is_directory=True)
+            except (NotImplementedError, OSError):
+                self.skipTest("directory symlinks are unavailable")
+
+            resolved, relative = resolve_build_dir(root, alias / root.name / "build")
+            resolved_is_dir = resolved.is_dir()
+            resolved_matches = resolved == (root / "build").resolve()
+
+        self.assertEqual("build", relative)
+        self.assertTrue(resolved_is_dir)
+        self.assertTrue(resolved_matches)
+
     @unittest.skipUnless(lock_parser_available(), "PyYAML optional dependency is not installed")
     def test_esp_idf_lock_records_component_origin_and_target_match(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -261,7 +346,9 @@ class PlatformContextTests(unittest.TestCase):
         self.assertEqual("target-mismatch", context.component_lock.status)
         self.assertFalse(context.component_lock.selected_target_match)
         self.assertEqual("partial", status.status)
-        self.assertTrue(any("does not match" in warning for warning in context.component_lock.limitations))
+        self.assertTrue(
+            any("does not match" in warning for warning in context.component_lock.limitations)
+        )
 
     @unittest.skipUnless(lock_parser_available(), "PyYAML optional dependency is not installed")
     def test_esp_idf_lock_rejects_duplicate_yaml_keys(self) -> None:
