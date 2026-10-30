@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tempfile
 from pathlib import Path, PurePosixPath
+from typing import Literal
 
 from .analyzer_runtime import (
     ANALYZER_TIMEOUT_SECONDS,
@@ -208,9 +209,13 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
     head_result = _git_command(target, "rev-parse", "HEAD")
     count_result = _git_command(target, "rev-list", "--count", "HEAD")
     shallow_result = _git_command(target, "rev-parse", "--is-shallow-repository")
-    if any(
-        result is None or result.returncode != 0
-        for result in (head_result, count_result, shallow_result)
+    if (
+        head_result is None
+        or head_result.returncode != 0
+        or count_result is None
+        or count_result.returncode != 0
+        or shallow_result is None
+        or shallow_result.returncode != 0
     ):
         return AdapterResult(
             AnalyzerStatus(
@@ -313,7 +318,9 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
             )
         )
 
-    status = "completed" if history_state == "complete" else "partial"
+    status: Literal["completed", "partial"] = (
+        "completed" if history_state == "complete" else "partial"
+    )
     detail = f"Scanned {commit_count} commit(s) reachable from HEAD {head[:12]}; secret values were not retained."
     if shallow:
         detail += " The repository is shallow, so older history was not available."
