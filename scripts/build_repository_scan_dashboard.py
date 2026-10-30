@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import math
 from collections import Counter
@@ -324,7 +325,7 @@ def svg_chart(
     output.write_text("\n".join(parts) + "\n", encoding="utf-8")
 
 
-def build_charts(summary: dict[str, Any]) -> None:
+def build_charts(summary: dict[str, Any], *, update_site: bool = True) -> None:
     repository_rows = sorted(
         ((item["name"], int(item["finding_count"])) for item in summary["repositories"]),
         key=lambda item: (-item[1], item[0].casefold()),
@@ -346,16 +347,26 @@ def build_charts(summary: dict[str, Any]) -> None:
     ]
     for title, rows, report_name, site_name in charts:
         svg_chart(title, rows, REPORT_ROOT / "plots" / report_name)
-        svg_chart(title, rows, ROOT / "site" / "assets" / site_name)
+        if update_site:
+            svg_chart(title, rows, ROOT / "site" / "assets" / site_name)
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Build repository scan summaries and plots.")
+    parser.add_argument(
+        "--report-only",
+        action="store_true",
+        help="write report summaries and plots without updating generated website files",
+    )
+    args = parser.parse_args()
+
     summary = build_summary()
-    support_matrix = build_support_matrix()
     write_json(REPORT_ROOT / "summary.json", summary)
-    write_json(SITE_DATA_PATH, summary)
-    write_json(SITE_SUPPORT_MATRIX_PATH, support_matrix)
-    build_charts(summary)
+    if not args.report_only:
+        support_matrix = build_support_matrix()
+        write_json(SITE_DATA_PATH, summary)
+        write_json(SITE_SUPPORT_MATRIX_PATH, support_matrix)
+    build_charts(summary, update_site=not args.report_only)
     print(
         "Built repository scan summary: "
         f"{summary['totals']['repository_count']} repositories, "
