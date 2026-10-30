@@ -5,18 +5,88 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
+import lzma
 import os
 import shutil
+import struct
 import subprocess
 import sys
 import tempfile
+import zlib
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN_TIMEOUT_SECONDS = 240
-SIGNATURE_MARKER = "gzip"
+FIRMWARE_PREFIX = b"FUSE synthetic container\x00"
+PAYLOAD = b"FUSE synthetic firmware signature fixture"
+
+
+@dataclass(frozen=True)
+class SignatureCase:
+    label: str
+    data: bytes
+    marker: str
+    detected: bool
+
+
+def _make_uimage(payload: bytes) -> bytes:
+    """Build a minimal CRC-valid U-Boot legacy image without executing it."""
+    name = b"FUSE synthetic image".ljust(32, b"\x00")
+    header = bytearray(
+        struct.pack(
+            ">7I4B32s",
+            0x27051956,
+            0,
+            0,
+            len(payload),
+            0x80000000,
+            0x80000000,
+            zlib.crc32(payload),
+            5,
+            2,
+            2,
+            0,
+            name,
+        )
+    )
+    struct.pack_into(">I", header, 4, zlib.crc32(header))
+    return bytes(header) + payload
+
+
+def signature_cases() -> tuple[SignatureCase, ...]:
+    """Return deterministic positive, clean, and malformed firmware controls."""
+    xz_data = lzma.compress(PAYLOAD, format=lzma.FORMAT_XZ)
+    invalid_uimage = struct.pack(">I", 0x27051956) + bytes(60) + PAYLOAD
+    return (
+        SignatureCase(
+            "gzip-positive",
+            FIRMWARE_PREFIX + gzip.compress(PAYLOAD, mtime=0),
+            "gzip",
+            True,
+        ),
+        SignatureCase(
+            "xz-positive",
+            FIRMWARE_PREFIX + xz_data,
+            "xz compressed data",
+            True,
+        ),
+        SignatureCase(
+            "uimage-positive",
+            FIRMWARE_PREFIX + _make_uimage(PAYLOAD),
+            "uimage firmware image",
+            True,
+        ),
+        SignatureCase("clean", PAYLOAD, "no known signature", False),
+        SignatureCase(
+            "invalid-uimage-control",
+            FIRMWARE_PREFIX + invalid_uimage,
+            "uimage firmware image",
+            False,
+        ),
+    )
 
 
 def run(
@@ -69,18 +139,15 @@ def configure_binwalk_environment(
 
 
 def scan_case(
+    case: SignatureCase,
     *,
-    label: str,
-    positive: bool,
     expected_version: str | None,
     root: Path,
     env: dict[str, str],
 ) -> str:
-    target = root / f"{label}-firmware.bin"
-    output = root / f"{label}-reports"
-    payload = b"FUSE synthetic gzip signature fixture"
-    data = gzip.compress(payload, mtime=0) if positive else payload
-    target.write_bytes(data)
+    target = root / f"{case.label}-firmware.bin"
+    output = root / f"{case.label}-reports"
+    target.write_bytes(case.data)
 
     result = run(
         [
@@ -101,34 +168,35 @@ def scan_case(
         env=env,
     )
     if result.returncode != 0:
-        raise RuntimeError(f"FUSE {label} scan failed with exit status {result.returncode}.")
+        raise RuntimeError(f"FUSE {case.label} scan failed with exit status {result.returncode}.")
 
     report_path = output / "findings.json"
     identification_path = output / "firmware-identification.txt"
     if not report_path.is_file() or not identification_path.is_file():
-        raise RuntimeError(f"FUSE {label} scan did not produce expected firmware reports.")
+        raise RuntimeError(f"FUSE {case.label} scan did not produce expected firmware reports.")
     try:
         report = json.loads(report_path.read_text(encoding="utf-8"))
         identification = identification_path.read_text(encoding="utf-8")
     except (OSError, json.JSONDecodeError) as error:
-        raise RuntimeError(f"FUSE {label} scan produced unreadable reports.") from error
+        raise RuntimeError(f"FUSE {case.label} scan produced unreadable reports.") from error
     if not isinstance(report, dict):
-        raise RuntimeError(f"FUSE {label} scan produced an unexpected JSON structure.")
+        raise RuntimeError(f"FUSE {case.label} scan produced an unexpected JSON structure.")
 
     status = analyzer_status(report)
     if status.get("status") != "completed":
-        raise RuntimeError(f"FUSE {label} scan did not complete Binwalk identification.")
+        raise RuntimeError(f"FUSE {case.label} scan did not complete Binwalk identification.")
     version = status.get("version")
     if not isinstance(version, str) or not version:
-        raise RuntimeError(f"FUSE {label} scan did not record the Binwalk version.")
+        raise RuntimeError(f"FUSE {case.label} scan did not record the Binwalk version.")
     if expected_version and expected_version not in version:
         raise RuntimeError("FUSE reported a Binwalk version different from the expected value.")
 
-    marker_found = SIGNATURE_MARKER in identification.casefold()
-    if marker_found != positive:
-        expectation = "present" if positive else "absent"
+    marker_found = case.marker in identification.casefold()
+    if marker_found != case.detected:
+        expectation = "present" if case.detected else "absent"
         raise RuntimeError(
-            f"The gzip signature marker was expected to be {expectation} in {label} output."
+            f"The {case.marker} signature marker was expected to be {expectation} "
+            f"in {case.label} output."
         )
     extraction_path = root / f"_{target.name}.extracted"
     if extraction_path.exists():
@@ -162,26 +230,24 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="fuse-binwalk-adapter-e2e-") as temporary:
         root = Path(temporary)
-        positive_version = scan_case(
-            label="positive",
-            positive=True,
-            expected_version=args.expected_version,
-            root=root,
-            env=env,
-        )
-        clean_version = scan_case(
-            label="clean",
-            positive=False,
-            expected_version=args.expected_version,
-            root=root,
-            env=env,
-        )
+        versions = [
+            scan_case(
+                case,
+                expected_version=args.expected_version,
+                root=root,
+                env=env,
+            )
+            for case in signature_cases()
+        ]
 
-    if positive_version != clean_version:
-        raise RuntimeError("FUSE reported inconsistent Binwalk versions across the two controls.")
+    if len(set(versions)) != 1:
+        raise RuntimeError(
+            "FUSE reported inconsistent Binwalk versions across the fixture controls."
+        )
     print(
-        f"Binwalk adapter smoke check passed: {positive_version}; "
-        "gzip positive detected, clean control clear, no extraction."
+        f"Binwalk adapter smoke check passed: {versions[0]}; "
+        "gzip, XZ, and U-Boot uImage signatures detected; clean and invalid-uImage "
+        "controls clear; no extraction."
     )
     return 0
 

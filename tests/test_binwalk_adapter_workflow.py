@@ -37,7 +37,7 @@ def test_binwalk_workflow_pins_upstream_source_and_actions() -> None:
     assert rust_step["with"]["rustflags"] == ""
 
 
-def test_binwalk_workflow_builds_locked_source_and_runs_both_controls() -> None:
+def test_binwalk_workflow_builds_locked_source_and_runs_signature_matrix() -> None:
     workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
     steps = workflow["jobs"]["adapter-smoke"]["steps"]
     build_steps = [
