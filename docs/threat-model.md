@@ -32,7 +32,7 @@ Native rules run in a killable Python worker with a per-rule, per-input timeout.
 
 ### Optional external analyzers
 
-Syft, OSV-Scanner, Binwalk, and Gitleaks are opt-in subprocess integrations. FUSE passes argument arrays and does not use `shell=True`. It limits each analyzer's execution time and combined captured stdout and stderr, and reports tool status and version. These controls do not sandbox the external executable or guarantee a child process tree is contained. Firmware parsing is performed by the selected external tool. Use current trusted tools and an isolated environment for hostile firmware.
+Syft, OSV-Scanner, Binwalk, and Gitleaks are opt-in subprocess integrations. FUSE passes argument arrays and does not use `shell=True`. It limits each analyzer's execution time and combined captured stdout and stderr, and reports tool status and version. When a timeout or output limit is reached, FUSE attempts to terminate the analyzer process tree: it uses a dedicated process session on POSIX and the Windows system `taskkill /T /F` command on Windows. This is best-effort cleanup only. A detached descendant, OS-level failure, or missing Windows utility can leave a process behind. These controls do not sandbox the external executable or impose memory, privilege, or network restrictions. Firmware parsing is performed by the selected external tool. Use current trusted tools and an isolated environment for hostile firmware.
 
 OSV lookup can use the network when requested. Use the documented offline database or no-network option when network access is not acceptable. Other optional stages have their own data flow and status in the scan report. FUSE does not silently enable them.
 
@@ -56,7 +56,7 @@ Report paths are target relative where applicable. Fixed artifact names are writ
 | Terminal escape and bidi spoofing | Human-readable report and CLI text escape terminal control and bidi characters | JSON consumers may render text differently; inspect before publishing reports |
 | XML entities and parser exhaustion | UTF-8 check, DTD/entity rejection, streaming structural preflight, byte, element, and depth limits | XML parsing still occurs in-process and shares FUSE's memory and privileges |
 | Malformed JSON/YAML/configuration | Bounded reads, safe loader, duplicate-key and depth/event checks where applicable, explicit invalid or partial status | Not every format has a complete adversarial corpus or independent parser sandbox |
-| Analyzer output flood or hang | Streaming output cap and timeout; errors become analyzer status | The child process is not a sandbox; orphaned grandchildren and OS-level resource use are not fully controlled |
+| Analyzer output flood or hang | Streaming output cap, timeout, and best-effort process-tree termination; errors become analyzer status | Descendants can escape process-tree cleanup; the child process is not a sandbox and OS-level resource use is not fully controlled |
 | Secret exposure in output | Native credential and private-key evidence is redacted; history scanning stores redacted metadata | Secrets may appear in unsupported files, imported artifacts, filenames, external tool data, or other fields; review before sharing |
 | Output overwrite or symlink target | Output directory and fixed artifact destinations are checked; symlink report destinations are refused | Existing regular files can be replaced; concurrent filesystem changes can create races |
 | Misleading vulnerability claims | Severity, confidence, applicability, validation, and coverage are separate; static findings remain unvalidated by default | Users can still misinterpret findings if they ignore these fields and limitations |
@@ -72,4 +72,4 @@ Report paths are target relative where applicable. Fixed artifact names are writ
 
 ## Deferred hardening
 
-FUSE does not currently provide a container or OS sandbox, process memory limits, transactional snapshots, automatic archive extraction, or full child-process-tree containment. It does not perform symbolic execution, complete C/C++ data-flow analysis, physical hardware testing, or firmware execution. Those limits remain visible in the architecture and support matrix.
+FUSE does not currently provide a container or OS sandbox, process memory limits, transactional snapshots, or automatic archive extraction. Optional analyzer timeout and output-limit paths make a best-effort attempt to terminate descendants, but do not guarantee full child-process-tree containment. FUSE does not perform symbolic execution, complete C/C++ data-flow analysis, physical hardware testing, or firmware execution. Those limits remain visible in the architecture and support matrix.

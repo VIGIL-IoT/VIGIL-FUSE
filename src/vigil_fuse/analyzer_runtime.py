@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import ctypes
 import hashlib
+import os
+import signal
 import shutil
 import subprocess
 import threading
@@ -43,6 +46,66 @@ class AnalyzerOutputLimitError(RuntimeError):
     """Raised when a child process exceeds FUSE's combined diagnostic limit."""
 
 
+def _windows_system_directory() -> Path | None:
+    """Resolve the actual Windows system directory without consulting PATH."""
+    if os.name != "nt":
+        return None
+    try:
+        win_dll = getattr(ctypes, "WinDLL")
+        kernel32 = win_dll("kernel32", use_last_error=True)
+        get_system_directory = kernel32.GetSystemDirectoryW
+        get_system_directory.argtypes = [ctypes.POINTER(ctypes.c_wchar), ctypes.c_uint]
+        get_system_directory.restype = ctypes.c_uint
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = get_system_directory(buffer, len(buffer))
+    except (AttributeError, OSError, TypeError, ctypes.ArgumentError):
+        return None
+    if length == 0 or length >= len(buffer):
+        return None
+    return Path(buffer.value)
+
+
+def _terminate_process_tree(process: subprocess.Popen[bytes]) -> None:
+    """Best-effort termination of an analyzer and descendants it started."""
+    if os.name == "nt":
+        system_directory = _windows_system_directory()
+        taskkill = system_directory / "taskkill.exe" if system_directory is not None else None
+        if taskkill is not None and taskkill.is_file():
+            try:
+                completed = subprocess.run(
+                    [str(taskkill), "/PID", str(process.pid), "/T", "/F"],
+                    stdin=subprocess.DEVNULL,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    timeout=5,
+                    check=False,
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                )
+            except (OSError, subprocess.TimeoutExpired):
+                pass
+            else:
+                if completed.returncode == 0:
+                    return
+        try:
+            process.kill()
+        except OSError:
+            pass
+        return
+
+    kill_process_group = getattr(os, "killpg", None)
+    kill_signal = getattr(signal, "SIGKILL", None)
+    if kill_process_group is not None and kill_signal is not None:
+        try:
+            kill_process_group(process.pid, kill_signal)
+            return
+        except OSError:
+            pass
+    try:
+        process.kill()
+    except OSError:
+        pass
+
+
 def _artifact(path: Path, media_type: str, output_dir: Path) -> AnalysisArtifact:
     data = path.read_bytes()
     return AnalysisArtifact(
@@ -64,13 +127,23 @@ def _artifact_destination(output_dir: Path, filename: str) -> Path:
 def _run(
     command: list[str], *, timeout: int = ANALYZER_TIMEOUT_SECONDS, cwd: Path | None = None
 ) -> subprocess.CompletedProcess[str]:
-    process = subprocess.Popen(
-        command,
-        stdin=subprocess.DEVNULL,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        cwd=cwd,
-    )
+    if os.name == "nt":
+        process = subprocess.Popen(
+            command,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=cwd,
+        )
+    else:
+        process = subprocess.Popen(
+            command,
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            cwd=cwd,
+            start_new_session=True,
+        )
     captured = {"stdout": bytearray(), "stderr": bytearray()}
     total = 0
     lock = threading.Lock()
@@ -82,17 +155,17 @@ def _run(
             chunk = stream.read(64 * 1024)
             if not chunk:
                 return
+            terminate_tree = False
             with lock:
                 remaining = max(0, MAX_ANALYZER_OUTPUT_BYTES - total)
                 keep = min(len(chunk), remaining)
                 captured[name].extend(chunk[:keep])
                 total += len(chunk)
-                if len(chunk) > remaining:
+                if len(chunk) > remaining and not exceeded.is_set():
                     exceeded.set()
-                    try:
-                        process.terminate()
-                    except OSError:
-                        pass
+                    terminate_tree = True
+            if terminate_tree:
+                _terminate_process_tree(process)
 
     assert process.stdout is not None and process.stderr is not None
     readers = [
@@ -104,10 +177,7 @@ def _run(
     try:
         returncode = process.wait(timeout=timeout)
     except subprocess.TimeoutExpired:
-        try:
-            process.kill()
-        except OSError:
-            pass
+        _terminate_process_tree(process)
         process.wait()
         for reader in readers:
             reader.join()

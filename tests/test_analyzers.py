@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 
@@ -146,12 +147,50 @@ class OptionalAnalyzerTests(unittest.TestCase):
         self.assertEqual(0, completed.returncode)
         self.assertEqual("", completed.stdout.strip())
 
+    def test_timeout_terminates_descendant_processes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            marker = Path(temporary) / "descendant-survived.txt"
+            child_code = (
+                "import time; from pathlib import Path; time.sleep(1.5); "
+                f"Path({str(marker)!r}).write_text('survived', encoding='utf-8')"
+            )
+            parent_code = (
+                "import subprocess, sys, time; "
+                f"subprocess.Popen([sys.executable, '-c', {child_code!r}]); "
+                "time.sleep(30)"
+            )
+
+            with self.assertRaises(subprocess.TimeoutExpired):
+                _run([sys.executable, "-c", parent_code], timeout=0.5)
+            time.sleep(1.8)
+
+            self.assertFalse(marker.exists(), "analyzer descendant survived its timeout")
+
     def test_subprocess_output_is_capped_while_streaming(self) -> None:
         with self.assertRaises(AnalyzerOutputLimitError):
             _run(
                 [sys.executable, "-c", "import sys; sys.stdout.write('x' * 12000000)"],
                 timeout=10,
             )
+
+    def test_output_limit_terminates_descendant_processes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            marker = Path(temporary) / "descendant-survived.txt"
+            child_code = (
+                "import time; from pathlib import Path; time.sleep(2); "
+                f"Path({str(marker)!r}).write_text('survived', encoding='utf-8')"
+            )
+            parent_code = (
+                "import subprocess, sys, time; "
+                f"subprocess.Popen([sys.executable, '-c', {child_code!r}]); "
+                "sys.stdout.write('x' * 131072); sys.stdout.flush(); time.sleep(30)"
+            )
+            with patch("vigil_fuse.analyzer_runtime.MAX_ANALYZER_OUTPUT_BYTES", 1024):
+                with self.assertRaises(AnalyzerOutputLimitError):
+                    _run([sys.executable, "-c", parent_code], timeout=10)
+            time.sleep(2.3)
+
+            self.assertFalse(marker.exists(), "analyzer descendant survived the output limit")
 
     def test_syft_generates_hashed_cyclonedx_artifact(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

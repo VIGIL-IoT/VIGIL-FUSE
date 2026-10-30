@@ -95,7 +95,7 @@ CLI
 - `model.py`: shared source, finding, component, build inventory, hardware inventory, product review, analyzer-status, and scan-result data structures.
 - `rules/`: one module per rule plus the explicit rule registry. Rule scanners receive source text in the isolated worker and emit common findings. FUSE003 uses the standard-library Python AST for qualified Requests and HTTPX verification arguments, while retaining bounded lexical checks for other inputs.
 - `reporting.py` and `sarif.py`: text, schema-versioned JSON with explicit input-inventory scope, component and VEX context, and SARIF serialization.
-- `analyzer_runtime.py`: shared bounded subprocess, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
+- `analyzer_runtime.py`: shared bounded subprocess, best-effort process-tree cleanup, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
 - `dependency_analyzers.py`: optional Syft inventory and OSV vulnerability matching.
 - `firmware_analyzer.py`: optional Binwalk signature identification only, with no extraction.
 - `history_analyzer.py`: optional redacted Gitleaks history scanning.
@@ -122,7 +122,7 @@ flowchart TD
     Model --> Baseline
 ```
 
-The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. See the [threat model](threat-model.md) for trust boundaries and residual risks.
+The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers run in isolated process groups on POSIX. On Windows, FUSE uses the system `taskkill` utility to request termination of the analyzer and its child processes. This is best-effort cleanup, not a sandbox. See the [threat model](threat-model.md) for trust boundaries and residual risks.
 
 ## Rule contract
 

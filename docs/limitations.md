@@ -27,7 +27,7 @@ FUSE is an alpha-stage static inspection tool. A clean report means only that en
 
 ## Optional tools and security
 
-- Syft, OSV-Scanner, Binwalk, and Gitleaks have separate parsers and risks. FUSE does not sandbox them. Tools may be unavailable, fail, time out, or use the network depending on options.
+- Syft, OSV-Scanner, Binwalk, and Gitleaks have separate parsers and risks. On timeout or output-limit breach, FUSE makes a best-effort attempt to terminate the analyzer process tree. This is not a sandbox, and detached descendants or OS-level failures may leave processes running. Tools may be unavailable, fail, or use the network depending on options.
 - The native worker process provides timeout control, not privilege isolation. Run FUSE and external analyzers with least privilege on untrusted input.
 - Reports can expose paths, component inventories, build settings, and security indicators. Review and sanitize reports before sharing them.
 - A bounded parser can still contain defects. Limits reduce resource exposure but do not prove parser safety.
