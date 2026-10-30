@@ -65,7 +65,7 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.mypy]
 python_version = "3.11"
-files = ["src/vigil_fuse/rules"]
+files = ["src/vigil_fuse/rules", "src/vigil_fuse/baseline.py"]
 mypy_path = "src"
 explicit_package_bases = true
 strict = true

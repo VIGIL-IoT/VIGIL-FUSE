@@ -101,8 +101,13 @@ def _finding_identity(finding: dict[str, Any]) -> str:
     category = finding.get("category", "")
     analyzer = finding.get("analyzer", "")
     finding_id = finding.get("id")
-    if not all(
-        isinstance(item, str) for item in (file_path, rule_id, title, evidence, category, analyzer)
+    if (
+        not isinstance(file_path, str)
+        or not isinstance(rule_id, str)
+        or not isinstance(title, str)
+        or not isinstance(evidence, str)
+        or not isinstance(category, str)
+        or not isinstance(analyzer, str)
     ):
         raise ValueError("Finding is missing required identity fields")
     if analyzer == "osv-scanner" and isinstance(finding_id, str) and finding_id:
@@ -133,7 +138,13 @@ def _finding_move_identity(finding: dict[str, Any]) -> str | None:
     title = finding.get("title")
     evidence = finding.get("evidence")
     category = finding.get("category", "")
-    if not all(isinstance(item, str) for item in (analyzer, rule_id, title, evidence, category)):
+    if (
+        not isinstance(analyzer, str)
+        or not isinstance(rule_id, str)
+        or not isinstance(title, str)
+        or not isinstance(evidence, str)
+        or not isinstance(category, str)
+    ):
         raise ValueError("Finding is missing required identity fields")
     normalized_evidence = " ".join(evidence.split())
     identity_data = "\0".join((analyzer, rule_id, category, title, normalized_evidence))
@@ -147,7 +158,14 @@ def _project(report: dict[str, Any]) -> dict[str, str]:
     target = report.get("target")
     target_kind = scan.get("target_kind")
     profile = scan.get("profile")
-    if not all(isinstance(item, str) and item for item in (target, target_kind, profile)):
+    if (
+        not isinstance(target, str)
+        or not target
+        or not isinstance(target_kind, str)
+        or not target_kind
+        or not isinstance(profile, str)
+        or not profile
+    ):
         raise ValueError("FUSE report is missing target, target kind, or profile")
     normalized_target = target.replace("\\", "/")
     # Current FUSE reports store a shareable label. Keep multi-part labels intact
