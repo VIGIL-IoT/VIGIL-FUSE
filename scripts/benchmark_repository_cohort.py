@@ -29,6 +29,11 @@ class RepositoryBenchmarkError(RuntimeError):
     """Raised when a pinned scan cannot produce comparable measurements."""
 
 
+def _manifest_sha256(contents: bytes) -> str:
+    normalized = contents.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    return hashlib.sha256(normalized).hexdigest()
+
+
 def _git(repository: Path, *arguments: str) -> str:
     result = subprocess.run(
         ["git", "-C", str(repository), *arguments],
@@ -370,7 +375,7 @@ def run_benchmark(
         "cohort": {
             "scan_date": manifest.get("scan_date"),
             "repository_count": len(repositories),
-            "manifest_sha256": hashlib.sha256(manifest_bytes).hexdigest(),
+            "manifest_sha256": _manifest_sha256(manifest_bytes),
             "repository_commits": {
                 item["id"]: item["commit"]
                 for item in repositories

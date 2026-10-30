@@ -12,6 +12,7 @@ from scripts.prepare_repository_benchmark_cohort import (
 )
 from scripts.benchmark_repository_cohort import (
     RepositoryBenchmarkError,
+    _manifest_sha256,
     _median_absolute_deviation,
     _scan_command,
     _summary_signature,
@@ -20,6 +21,18 @@ from scripts.benchmark_repository_cohort import (
 
 
 class RepositoryBenchmarkTests(unittest.TestCase):
+    def test_manifest_digest_normalizes_line_endings_across_platforms(self) -> None:
+        manifest = b'{"repositories": []}\n'
+
+        self.assertEqual(
+            _manifest_sha256(manifest),
+            _manifest_sha256(manifest.replace(b"\n", b"\r\n")),
+        )
+        self.assertEqual(
+            _manifest_sha256(manifest),
+            _manifest_sha256(manifest.replace(b"\n", b"\r")),
+        )
+
     def test_default_cohort_manifest_has_four_pinned_safe_plans(self) -> None:
         plans = _load_cohort(DEFAULT_MANIFEST)
 
