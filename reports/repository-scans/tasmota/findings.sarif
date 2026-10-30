@@ -56,7 +56,7 @@
                 "validationMethod": "static",
                 "validationStatus": "not-validated",
                 "category": "transport-security",
-                "version": "1.3.0"
+                "version": "1.4.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
             },
@@ -108,7 +108,7 @@
                 "validationMethod": "static",
                 "validationStatus": "not-validated",
                 "category": "secrets",
-                "version": "1.6.0"
+                "version": "1.7.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
             }
@@ -681,46 +681,6 @@
             "component": null,
             "vexReview": null
           }
-        },
-        {
-          "ruleId": "FUSE003",
-          "level": "error",
-          "message": {
-            "text": "TLS peer verification appears disabled. The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs. Evidence: .setInsecure()"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 14178,
-                  "endLine": 14178
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "primaryLocationLineHash": "d2ff5f1fbeb5911c58ad98fbbec4f3e1ab5a52c1c18c9927bb42c8cad86b3ffb:1",
-            "vigilIoTFingerprint/v1": "21f88efdb524406587542102169038b0c90c5dd33b54c40029fb613482df320f"
-          },
-          "properties": {
-            "fuseId": "FUSE003:tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178",
-            "severity": "high",
-            "confidence": "high",
-            "category": "transport-security",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.",
-            "remediation": "Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.",
-            "evidence": ".setInsecure()",
-            "references": [
-              "https://cwe.mitre.org/data/definitions/295.html"
-            ],
-            "component": null,
-            "vexReview": null
-          }
         }
       ],
       "properties": {
@@ -738,7 +698,7 @@
           {
             "name": "native-rule:FUSE001",
             "status": "partial",
-            "version": "1.6.0"
+            "version": "1.7.0"
           },
           {
             "name": "native-rule:FUSE002",
@@ -748,7 +708,7 @@
           {
             "name": "native-rule:FUSE003",
             "status": "partial",
-            "version": "1.3.0"
+            "version": "1.4.0"
           },
           {
             "name": "native-rule:FUSE004",
@@ -782,8 +742,8 @@
           }
         ],
         "sarifExport": {
-          "resultsAvailable": 15,
-          "resultsIncluded": 15,
+          "resultsAvailable": 14,
+          "resultsIncluded": 14,
           "resultsOmitted": 0,
           "maxBytes": 9437184
         }

@@ -11,7 +11,7 @@ Source bytes read: 2463235
 Files skipped: 0
 Files decoded with ISO-8859-1 fallback: 0
 Discovery complete: yes
-Findings: 1
+Findings: 0
 Hardware artifacts: 0
 Files not selected by the source profile: 1237
   .18: 2
@@ -53,15 +53,4 @@ Analyzers:
   native-rule:FUSE006: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 353 inputs without the rule's required markers.)
   native-rule:FUSE007: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 353 inputs without the rule's required markers.)
   firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
-
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
-  Severity basis: rule
-  Confidence: high
-  Applicability: unknown
-  Validation: static (not-validated)
-  Location: package/network/services/ead/src/tinysrp/t_pwd.h:96
-  Evidence: #define DEFAULT_PASSWD "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
-  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
-  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
-  References: https://cwe.mitre.org/data/definitions/798.html
+No findings from the enabled rules.

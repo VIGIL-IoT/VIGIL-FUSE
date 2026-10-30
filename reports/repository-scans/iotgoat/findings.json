@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "embedded-linux",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T22:49:39Z",
-    "completed_at": "2026-10-30T22:50:21Z",
+    "started_at": "2026-10-30T23:21:58Z",
+    "completed_at": "2026-10-30T23:22:03Z",
     "input_manifest_sha256": "713ef0a8024a62859f28ed5a84cf268953fd38a6f2bc40ecc6394a60698d302d"
   },
   "summary": {
@@ -21,11 +21,11 @@
     "source_bytes_read": 6857505,
     "files_skipped": 0,
     "analysis_performed": true,
-    "finding_count": 1,
+    "finding_count": 0,
     "severity_counts": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
       "info": 0,
       "unknown": 0
@@ -122,14 +122,14 @@
         "status": "completed",
         "version": "0.2.0",
         "detail": "Native rules completed.",
-        "findings": 1
+        "findings": 0
       },
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.6.0",
+        "version": "1.7.0",
         "detail": "Evaluated 48 selected input(s). The conservative prefilter excluded 1604 inputs without the rule's required markers.",
-        "findings": 1
+        "findings": 0
       },
       {
         "name": "native-rule:FUSE002",
@@ -141,7 +141,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.3.0",
+        "version": "1.4.0",
         "detail": "Evaluated 23 selected input(s). The conservative prefilter excluded 1629 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -348,39 +348,6 @@
     },
     "limitations": []
   },
-  "findings": [
-    {
-      "id": "FUSE001:OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h:96",
-      "fingerprint": "1ef25386d4cfad4da096c5cd899c65c23f3402d2177b1e16342025798c106c46",
-      "rule_id": "FUSE001",
-      "rule_version": "1.6.0",
-      "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "secrets",
-      "location": {
-        "file": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h",
-        "start_line": 96,
-        "end_line": 96
-      },
-      "evidence": "#define DEFAULT_PASSWD \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
-      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/798.html"
-      ],
-      "applicability": "unknown",
-      "validation_method": "static",
-      "validation_status": "not-validated",
-      "severity_basis": "rule",
-      "severity_score": null,
-      "severity_vector": null,
-      "severity_version": null,
-      "component": null,
-      "vex_review": null
-    }
-  ],
+  "findings": [],
   "artifacts": []
 }

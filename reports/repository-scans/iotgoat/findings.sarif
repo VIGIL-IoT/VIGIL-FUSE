@@ -7,34 +7,7 @@
         "driver": {
           "name": "FUSE",
           "semanticVersion": "0.2.0",
-          "rules": [
-            {
-              "id": "FUSE001",
-              "shortDescription": {
-                "text": "Credential-like literal assigned in source"
-              },
-              "fullDescription": {
-                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
-              },
-              "defaultConfiguration": {
-                "level": "warning"
-              },
-              "properties": {
-                "severity": "medium",
-                "severityBasis": "rule",
-                "severityScore": null,
-                "severityVector": null,
-                "severityVersion": null,
-                "confidence": "high",
-                "applicability": "unknown",
-                "validationMethod": "static",
-                "validationStatus": "not-validated",
-                "category": "secrets",
-                "version": "1.6.0"
-              },
-              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
-            }
-          ]
+          "rules": []
         }
       },
       "artifacts": [],
@@ -43,48 +16,7 @@
           "uri": "./"
         }
       },
-      "results": [
-        {
-          "ruleId": "FUSE001",
-          "level": "warning",
-          "message": {
-            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: #define DEFAULT_PASSWD \"[REDACTED]\""
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h",
-                  "uriBaseId": "%SRCROOT%"
-                },
-                "region": {
-                  "startLine": 96,
-                  "endLine": 96
-                }
-              }
-            }
-          ],
-          "partialFingerprints": {
-            "primaryLocationLineHash": "1e8279fc173ee26d0ccb05df0df1144b2f1776bbea15ee9f6588b7f76e5d8de0:1",
-            "vigilIoTFingerprint/v1": "1ef25386d4cfad4da096c5cd899c65c23f3402d2177b1e16342025798c106c46"
-          },
-          "properties": {
-            "fuseId": "FUSE001:OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h:96",
-            "severity": "medium",
-            "confidence": "high",
-            "category": "secrets",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-            "evidence": "#define DEFAULT_PASSWD \"[REDACTED]\"",
-            "references": [
-              "https://cwe.mitre.org/data/definitions/798.html"
-            ],
-            "component": null,
-            "vexReview": null
-          }
-        }
-      ],
+      "results": [],
       "properties": {
         "target": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source",
         "profile": "embedded-linux",
@@ -100,7 +32,7 @@
           {
             "name": "native-rule:FUSE001",
             "status": "completed",
-            "version": "1.6.0"
+            "version": "1.7.0"
           },
           {
             "name": "native-rule:FUSE002",
@@ -110,7 +42,7 @@
           {
             "name": "native-rule:FUSE003",
             "status": "completed",
-            "version": "1.3.0"
+            "version": "1.4.0"
           },
           {
             "name": "native-rule:FUSE004",
@@ -139,8 +71,8 @@
           }
         ],
         "sarifExport": {
-          "resultsAvailable": 1,
-          "resultsIncluded": 1,
+          "resultsAvailable": 0,
+          "resultsIncluded": 0,
           "resultsOmitted": 0,
           "maxBytes": 9437184
         }

@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-30T23:01:00Z",
-  "scan_date": "2026-10-28",
+  "generated_at": "2026-10-30T23:26:44Z",
+  "scan_date": "2026-10-31",
   "fuse": {
     "version": "0.2.0",
-    "commit": "2e50a6e53855f0bdbe664a66d0f3823acc68c914",
-    "source_tree_sha256": "e36ee3d2d2d703f17255923bcf1ec62402b7f59fcaecaa84da2a261d7c55cf1f",
+    "commit": "fe6dfd2a5353a50ba126ff49c3bf204904e090ca",
+    "source_tree_sha256": "96a92e141d2645edf6a24896f7a97a628a906c2c811fc2670f0f7adee0fb43b1",
     "source_tree_dirty": false,
     "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
     "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
   },
-  "latest_scan_completed_at": "2026-10-30T22:57:05Z",
+  "latest_scan_completed_at": "2026-10-30T23:23:17Z",
   "interpretation": "Raw static indicators from the listed source/configuration scopes. Findings are not confirmed vulnerabilities.",
   "totals": {
     "repository_count": 14,
@@ -24,19 +24,19 @@
       "netlist": 1
     },
     "hardware_inventory_complete": true,
-    "finding_count": 38,
+    "finding_count": 35,
     "severity_counts": {
       "critical": 0,
-      "high": 19,
-      "medium": 17,
+      "high": 18,
+      "medium": 15,
       "low": 0,
       "info": 2,
       "unknown": 0
     },
     "rule_counts": {
-      "FUSE001": 15,
+      "FUSE001": 13,
       "FUSE002": 4,
-      "FUSE003": 15,
+      "FUSE003": 14,
       "FUSE004": 2,
       "FUSE005": 0,
       "FUSE006": 0,
@@ -63,7 +63,7 @@
           "files_scanned": 1652,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 1,
+          "finding_count": 0,
           "analysis_performed": true,
           "scan_status": "completed",
           "support_label": "basic",
@@ -95,17 +95,17 @@
       "hardware_file_count": 0,
       "hardware_category_counts": {},
       "hardware_inventory_complete": true,
-      "finding_count": 1,
+      "finding_count": 0,
       "severity_counts": {
         "critical": 0,
         "high": 0,
-        "medium": 1,
+        "medium": 0,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 1,
+        "FUSE001": 0,
         "FUSE002": 0,
         "FUSE003": 0,
         "FUSE004": 0,
@@ -113,25 +113,7 @@
         "FUSE006": 0,
         "FUSE007": 0
       },
-      "finding_groups": [
-        {
-          "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
-          "severity": "medium",
-          "category": "secrets",
-          "count": 1,
-          "confidence_counts": {
-            "high": 1
-          },
-          "examples": [
-            {
-              "scan_id": "iotgoat",
-              "file": "OpenWrt/openwrt-18.06.2/package/network/services/ead/src/tinysrp/t_pwd.h",
-              "line": 96
-            }
-          ]
-        }
-      ]
+      "finding_groups": []
     },
     {
       "id": "tasmota",
@@ -151,7 +133,7 @@
           "files_skipped_by_reason": {
             "too_large": 2
           },
-          "finding_count": 15,
+          "finding_count": 14,
           "analysis_performed": true,
           "scan_status": "partial",
           "support_label": "basic",
@@ -189,10 +171,10 @@
         "hardware-project": 2
       },
       "hardware_inventory_complete": true,
-      "finding_count": 15,
+      "finding_count": 14,
       "severity_counts": {
         "critical": 0,
-        "high": 10,
+        "high": 9,
         "medium": 4,
         "low": 0,
         "info": 1,
@@ -201,7 +183,7 @@
       "rule_counts": {
         "FUSE001": 2,
         "FUSE002": 0,
-        "FUSE003": 10,
+        "FUSE003": 9,
         "FUSE004": 2,
         "FUSE005": 0,
         "FUSE006": 0,
@@ -213,9 +195,9 @@
           "title": "TLS peer verification appears disabled",
           "severity": "high",
           "category": "transport-security",
-          "count": 10,
+          "count": 9,
           "confidence_counts": {
-            "high": 10
+            "high": 9
           },
           "examples": [
             {
@@ -739,7 +721,7 @@
           "files_scanned": 368,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 1,
+          "finding_count": 0,
           "analysis_performed": true,
           "scan_status": "completed",
           "support_label": "basic",
@@ -771,17 +753,17 @@
       "hardware_file_count": 0,
       "hardware_category_counts": {},
       "hardware_inventory_complete": true,
-      "finding_count": 1,
+      "finding_count": 0,
       "severity_counts": {
         "critical": 0,
         "high": 0,
-        "medium": 1,
+        "medium": 0,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 1,
+        "FUSE001": 0,
         "FUSE002": 0,
         "FUSE003": 0,
         "FUSE004": 0,
@@ -789,25 +771,7 @@
         "FUSE006": 0,
         "FUSE007": 0
       },
-      "finding_groups": [
-        {
-          "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
-          "severity": "medium",
-          "category": "secrets",
-          "count": 1,
-          "confidence_counts": {
-            "high": 1
-          },
-          "examples": [
-            {
-              "scan_id": "openwrt",
-              "file": "package/network/services/ead/src/tinysrp/t_pwd.h",
-              "line": 96
-            }
-          ]
-        }
-      ]
+      "finding_groups": []
     },
     {
       "id": "pico-sdk",

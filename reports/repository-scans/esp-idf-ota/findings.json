@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "esp-idf",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T22:53:03Z",
-    "completed_at": "2026-10-30T22:53:05Z",
+    "started_at": "2026-10-30T23:22:33Z",
+    "completed_at": "2026-10-30T23:22:33Z",
     "input_manifest_sha256": "707c519ba8dfdc796b7788eb468b363c0f0a788658567aa99ff77023380d4ba9"
   },
   "summary": {
@@ -126,7 +126,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.6.0",
+        "version": "1.7.0",
         "detail": "Evaluated 5 selected input(s). The conservative prefilter excluded 64 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -140,7 +140,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.3.0",
+        "version": "1.4.0",
         "detail": "Evaluated 6 selected input(s). The conservative prefilter excluded 63 inputs without the rule's required markers.",
         "findings": 0
       },

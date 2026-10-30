@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "zephyr",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T22:53:23Z",
-    "completed_at": "2026-10-30T22:53:24Z",
+    "started_at": "2026-10-30T23:22:40Z",
+    "completed_at": "2026-10-30T23:22:41Z",
     "input_manifest_sha256": "ce5784ac1cdb575cc7e1264554727902b0a96cb6dd72cc8e7194ad91c0aea93c"
   },
   "summary": {
@@ -95,7 +95,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.6.0",
+        "version": "1.7.0",
         "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -109,7 +109,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.3.0",
+        "version": "1.4.0",
         "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
         "findings": 0
       },

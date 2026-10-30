@@ -1,6 +1,17 @@
 # FUSE 0.2.0 scan triage
 
-The initial eight-repository pilot produced 20 static signals. The first expanded 14-repository snapshot contained 78 signals; the first fixture-backed follow-up reduced this to 62, and a later string-context refinement brought the current snapshot to 61. These are not confirmed vulnerabilities. Paths and evidence were reviewed, and representative source contexts were checked. Repository builds, dependency resolution, release configurations, and device behavior were not validated.
+The latest clean-source snapshot was produced by FUSE 0.2.0 at `fe6dfd2` on 2026-10-31. It covers 14 pinned repositories and 15 scopes, scans 18,857 of 18,859 selected files, and reports 35 static signals: 18 high, 15 medium, and two informational GitHub Actions signals. Two oversized Tasmota files were skipped, so that scope is partial. These are candidate indicators, not confirmed vulnerabilities. Source paths were reviewed, but repository builds, dependency resolution, release configurations, and device behavior were not validated. The 35-signal count is not an accuracy or precision estimate.
+
+## Latest clean-source triage, 31 October 2026
+
+- **FUSE001 credential-like literals, 13 matches:** eleven are in Arduino-ESP32 examples and two are Tasmota Berry FTP/SSH defaults. These are concrete credential-like source literals, but FUSE does not establish whether an example is selected, a default is active, or unchanged values reach a deployed device. A preceding scan's two duplicated TinySRP matches in IoTGoat and OpenWrt were removed after source review showed `DEFAULT_PASSWD "tpasswd"` names a password database file rather than a password value.
+- **FUSE002 private-key markers, 4 matches:** three are in Pico examples and one in the Pico SDK example-key tools. The files contain private-key markers, with evidence redacted in reports. Their sample/tool paths are consistent with development keys; use in a product image or release is unknown.
+- **FUSE003 TLS bypass indicators, 14 matches:** five are in Arduino-ESP32 and nine are in Tasmota. They include library fallback behavior, explicit insecure examples, Trust On First Use examples, and Tasmota mail/SSLClient and Powerwall source. They remain source indicators because selected builds, call reachability, and configuration are unknown. One Tasmota `.setInsecure()` match was removed after its source was confirmed to be inside a literal inactive `#else` under `#if 1`; a regression fixture preserves that behavior while symbolic preprocessor conditions remain findings.
+- **FUSE004 plaintext HTTP endpoint indicators, 2 matches:** both are in Tasmota. One is in a build helper that downloads a safeboot image; the other is an HTTP URL in the Berry Partition Wizard. The first is a build-time path, not evidence of a device runtime request. Invocation, endpoint control, integrity checks, and product inclusion remain unverified.
+- **FUSE-GHA-002 floating action references, 2 informational matches:** one each in Tasmota and Arduino examples. Pinning each third-party action to a reviewed full commit SHA would improve workflow reproducibility.
+- **FUSE005, FUSE006, and FUSE007, 0 matches:** no enabled rule matched MQTT URI or the selected Kconfig indicators in these scopes. This says nothing about unselected files, assembled endpoints, effective build configuration, or other security weaknesses.
+
+The hardware inventory identifies 28 filename-matched artifacts across the corpus, 27 hardware-project files and one netlist. It only reports file presence and category. It does not parse schematics or PCB content or assess hardware security. Overall, the corpus is a bounded source/configuration scan, not a representative accuracy benchmark. The source review is not independent adjudication.
 
 ## Initial pilot signal groups
 
@@ -13,7 +24,7 @@ The initial eight-repository pilot produced 20 static signals. The first expande
 
 In the initial pilot, 13 high and 7 medium labels were rule-assigned severity values. Severity and confidence remain separate fields. FUSE does not verify endpoint reachability, credential validity, firmware inclusion, or exploitability.
 
-Evaluation provenance: the latest reports were regenerated on 2026-10-28 with FUSE 0.2.0 from commit `b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0`. The working source tree contained local changes; its SHA-256 fingerprint and scope, plus every pinned checkout commit, are recorded in `scan-manifest.json` so the results can be tied to the exact scanner and input snapshots.
+Evaluation provenance: the older 2026-10-28 reports at `b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0` used a dirty source tree and are historical. The latest reports were regenerated on 2026-10-31 from clean FUSE source commit `fe6dfd2a5353a50ba126ff49c3bf204904e090ca`. The SHA-256 fingerprint and scope, plus every pinned checkout commit, are recorded in `scan-manifest.json` so results can be tied to the exact scanner and input snapshots.
 
 ## What changed from 0.1.0
 
@@ -47,12 +58,12 @@ The 58 signals added by the six new scans comprise 44 FUSE001, one FUSE002, five
 
 These observations drove the fixture-backed refinements below. Example and QA paths are not excluded globally because they can contain insecure defaults users may copy.
 
-## Current rule-noise refinement and expanded coverage, 28 October 2026
+## Historical rule-noise refinement and expanded coverage, 28 October 2026
 
-The same 14 pinned repositories and 15 scopes were rescanned. The latest rescan covers 18,855 scanned files out of 18,859 selected, with four skipped files and 28 filename-matched hardware artifacts. The first fixture-backed stage reduced signals from 78 to 62: 19 high and 43 medium by rule-assigned severity. A later FUSE001 string-context filter reduced the current total from 62 to 61: 19 high and 42 medium. The change is limited to this qualitative corpus and does not measure precision.
+The same 14 pinned repositories and 15 scopes were rescanned. This historical snapshot covers 18,855 scanned files out of 18,859 selected, with four skipped files and 28 filename-matched hardware artifacts. The first fixture-backed stage reduced signals from 78 to 62: 19 high and 43 medium by rule-assigned severity. A later FUSE001 string-context filter reduced that snapshot from 62 to 61: 19 high and 42 medium. The change is limited to this qualitative corpus and does not measure precision.
 
 - FUSE001 fell from 49 to 41 in the first fixture-backed stage. It ignores the `Hello World` plaintext and hex vectors only when they occur in MD5/SHA1 builder examples, non-literal shell/build expressions, BitBake package metadata such as `SUMMARY`, and credentials nested inside XML account containers explicitly disabled with `enabled="no"`, `false`, or `0`. The later filter ignores credential assignment patterns that occur only inside source-code strings, such as a Telnet `Password:` prompt. The current main-corpus FUSE001 count is 40. Ordinary credential literals and enabled XML accounts remain detectable.
 - FUSE004 fell from 10 to 2. It now filters IANA-style reserved example domains, reserved/private addresses only inside `examples` paths, OpenEmbedded `oeqa` and `selftest` paths, and local requests that explicitly verify a 301 HTTPS redirect. Private IP endpoints outside example paths are still reported.
-- FUSE003 remains at 15. Vendored library calls and intentionally insecure examples remain visible because source-only evidence cannot establish whether the component is selected or a call is reachable. The rule reports the code indicator without claiming that the target product uses it.
+- FUSE003 had 15 signals in this snapshot. Vendored library calls and intentionally insecure examples remained visible because source-only evidence could not establish whether the component was selected or a call was reachable. One literal inactive branch was filtered in the later clean-source refinement; other build conditions remain unresolved.
 
-The 16-signal reduction from 78 to 62 is not a precision rate. The rule versions changed for FUSE001 and FUSE004, and the scan scope is a small pinned corpus rather than a representative benchmark. The latest report files, generated aggregate, and website plots reflect the 61-signal scan. Four target-suffixed ESP-IDF defaults files are now selected and included in coverage.
+The 16-signal reduction from 78 to 62 is not a precision rate. The rule versions changed for FUSE001 and FUSE004, and the scan scope is a small pinned corpus rather than a representative benchmark. Four target-suffixed ESP-IDF defaults files are now selected and included in coverage. The 61-signal snapshot is superseded by the later clean-source reports summarized above.

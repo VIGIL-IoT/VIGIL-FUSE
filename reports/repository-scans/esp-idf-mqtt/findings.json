@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "esp-idf",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T22:53:02Z",
-    "completed_at": "2026-10-30T22:53:03Z",
+    "started_at": "2026-10-30T23:22:32Z",
+    "completed_at": "2026-10-30T23:22:32Z",
     "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc"
   },
   "summary": {
@@ -126,7 +126,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "skipped",
-        "version": "1.6.0",
+        "version": "1.7.0",
         "detail": "No selected input matched this rule's supported input scope.",
         "findings": 0
       },
@@ -140,7 +140,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.3.0",
+        "version": "1.4.0",
         "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 7 inputs without the rule's required markers.",
         "findings": 0
       },

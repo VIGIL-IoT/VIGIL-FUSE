@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "embedded-linux",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T22:53:25Z",
-    "completed_at": "2026-10-30T22:53:33Z",
+    "started_at": "2026-10-30T23:22:42Z",
+    "completed_at": "2026-10-30T23:22:43Z",
     "input_manifest_sha256": "5f027ca78e90de016aaf8d26fcf5e6c47de03d75c8b0af2582b5cf375e5804df"
   },
   "summary": {
@@ -21,11 +21,11 @@
     "source_bytes_read": 2463235,
     "files_skipped": 0,
     "analysis_performed": true,
-    "finding_count": 1,
+    "finding_count": 0,
     "severity_counts": {
       "critical": 0,
       "high": 0,
-      "medium": 1,
+      "medium": 0,
       "low": 0,
       "info": 0,
       "unknown": 0
@@ -108,14 +108,14 @@
         "status": "completed",
         "version": "0.2.0",
         "detail": "Native rules completed.",
-        "findings": 1
+        "findings": 0
       },
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.6.0",
+        "version": "1.7.0",
         "detail": "Evaluated 60 selected input(s). The conservative prefilter excluded 308 inputs without the rule's required markers.",
-        "findings": 1
+        "findings": 0
       },
       {
         "name": "native-rule:FUSE002",
@@ -127,7 +127,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.3.0",
+        "version": "1.4.0",
         "detail": "Evaluated 24 selected input(s). The conservative prefilter excluded 344 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -306,39 +306,6 @@
     },
     "limitations": []
   },
-  "findings": [
-    {
-      "id": "FUSE001:package/network/services/ead/src/tinysrp/t_pwd.h:96",
-      "fingerprint": "cd3a1ecbd67b86dd24a230c515bef1787d966410b6722688160b21164baa4ca3",
-      "rule_id": "FUSE001",
-      "rule_version": "1.6.0",
-      "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
-      "severity": "medium",
-      "confidence": "high",
-      "category": "secrets",
-      "location": {
-        "file": "package/network/services/ead/src/tinysrp/t_pwd.h",
-        "start_line": 96,
-        "end_line": 96
-      },
-      "evidence": "#define DEFAULT_PASSWD \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
-      "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-      "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-      "references": [
-        "https://cwe.mitre.org/data/definitions/798.html"
-      ],
-      "applicability": "unknown",
-      "validation_method": "static",
-      "validation_status": "not-validated",
-      "severity_basis": "rule",
-      "severity_score": null,
-      "severity_vector": null,
-      "severity_version": null,
-      "component": null,
-      "vex_review": null
-    }
-  ],
+  "findings": [],
   "artifacts": []
 }

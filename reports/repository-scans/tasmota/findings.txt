@@ -11,7 +11,7 @@ Source bytes read: 104871164
 Files skipped: 2
 Files decoded with ISO-8859-1 fallback: 0
 Discovery complete: yes
-Findings: 15
+Findings: 14
 Hardware artifacts: 2
 PlatformIO: partial; 106 environment(s), 4 config file(s), selected: tasmota, tasmota-4M, tasmota-AD, tasmota-AF, tasmota-BG, tasmota-BR, tasmota-CN, tasmota-CZ, tasmota-DE, tasmota-display, tasmota-ES, tasmota-FR, tasmota-FY, tasmota-GR, tasmota-HE, tasmota-HU, tasmota-ir, tasmota-IT, tasmota-knx, tasmota-KO, tasmota-lite, tasmota-LT, tasmota-minimal, tasmota-NL, tasmota-PL, tasmota-PT, tasmota-RO, tasmota-RU, tasmota-SE, tasmota-sensors, tasmota-SK, tasmota-TR, tasmota-TW, tasmota-UK, tasmota-VN, tasmota-zbbridge, tasmota-zigbee, tasmota32, tasmota32-AD, tasmota32-AF, tasmota32-BG, tasmota32-bluetooth, tasmota32-BR, tasmota32-CN, tasmota32-CZ, tasmota32-DE, tasmota32-display, tasmota32-ES, tasmota32-FR, tasmota32-FY, tasmota32-GR, tasmota32-HE, tasmota32-HU, tasmota32-ir, tasmota32-IT, tasmota32-KO, tasmota32-LT, tasmota32-lvgl, tasmota32-NL, tasmota32-nspanel, tasmota32-PL, tasmota32-PT, tasmota32-RO, tasmota32-RU, tasmota32-safeboot, tasmota32-SE, tasmota32-SK, tasmota32-TR, tasmota32-TW, tasmota32-UK, tasmota32-VN, tasmota32-webcam, tasmota32-zbbrdgpro, tasmota32_base, tasmota32c2, tasmota32c2-safeboot, tasmota32c3, tasmota32c3-safeboot, tasmota32c3ser-safeboot, tasmota32c5, tasmota32c5-safeboot, tasmota32c5ser-safeboot, tasmota32c6, tasmota32c6-safeboot, tasmota32c61, tasmota32c61-safeboot, tasmota32c61ser-safeboot, tasmota32c6ser-safeboot, tasmota32p4, tasmota32p4-safeboot, tasmota32p4r3, tasmota32p4r3-safeboot, tasmota32p4r3ser-safeboot, tasmota32p4ser-safeboot, tasmota32s2, tasmota32s2-safeboot, tasmota32s2cdc, tasmota32s2cdc-safeboot, tasmota32s3, tasmota32s3-safeboot, tasmota32s31, tasmota32s31-safeboot, tasmota32s31ser-safeboot, tasmota32s3ser-safeboot, tasmota32solo1, tasmota32solo1-safeboot
   tasmota [${common.platform}, ${common.board}, ${common.framework}]
@@ -527,18 +527,6 @@ Skip reasons: too_large=2
   Applicability: unknown
   Validation: static (not-validated)
   Location: tasmota/include/Powerwall.h:291
-  Evidence: .setInsecure()
-  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
-  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
-  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
-  References: https://cwe.mitre.org/data/definitions/295.html
-
-[HIGH] FUSE003 - TLS peer verification appears disabled
-  Severity basis: rule
-  Confidence: high
-  Applicability: unknown
-  Validation: static (not-validated)
-  Location: tasmota/tasmota_xdrv_driver/xdrv_10_scripter.ino:14178
   Evidence: .setInsecure()
   Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
   Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.

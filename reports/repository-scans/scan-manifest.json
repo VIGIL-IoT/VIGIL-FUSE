@@ -1,9 +1,9 @@
 {
-  "scan_date": "2026-10-28",
+  "scan_date": "2026-10-31",
   "fuse": {
     "version": "0.2.0",
-    "commit": "2e50a6e53855f0bdbe664a66d0f3823acc68c914",
-    "source_tree_sha256": "e36ee3d2d2d703f17255923bcf1ec62402b7f59fcaecaa84da2a261d7c55cf1f",
+    "commit": "fe6dfd2a5353a50ba126ff49c3bf204904e090ca",
+    "source_tree_sha256": "96a92e141d2645edf6a24896f7a97a628a906c2c811fc2670f0f7adee0fb43b1",
     "source_tree_dirty": false,
     "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
     "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"

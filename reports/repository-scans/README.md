@@ -2,7 +2,7 @@
 
 ## Current snapshot
 
-On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at commit `2e50a6e`. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
+On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at clean source commit `fe6dfd2`. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
 
 These are raw static indicators, not confirmed vulnerabilities. Severity represents potential impact and confidence is a separate field on each finding. No repository was built, no project test suite was run, no firmware image or physical board was analyzed, and no external dependency or binary-analysis tools were invoked.
 
@@ -14,9 +14,9 @@ These are raw static indicators, not confirmed vulnerabilities. Severity represe
 | Files selected by scope | 18,859 |
 | Files scanned | 18,857 |
 | Files skipped after selection | 2 |
-| Raw FUSE signals | 38 |
-| High severity signals | 19 |
-| Medium severity signals | 17 |
+| Raw FUSE signals | 35 |
+| High severity signals | 18 |
+| Medium severity signals | 15 |
 | Informational GitHub Actions signals | 2 |
 | Hardware filename matches | 28 |
 
@@ -24,14 +24,14 @@ Two selected Tasmota files exceeded FUSE's 2 MiB per-file limit, so that report 
 
 | Repository | Profile | Files scanned | Signals | Status |
 | --- | --- | ---: | ---: | --- |
-| [OWASP/IoTGoat](https://github.com/OWASP/IoTGoat) | `embedded-linux` | 1,652 | 1 | Complete |
-| [arendst/Tasmota](https://github.com/arendst/Tasmota) | `generic` | 6,800 | 15 | Partial |
+| [OWASP/IoTGoat](https://github.com/OWASP/IoTGoat) | `embedded-linux` | 1,652 | 0 | Complete |
+| [arendst/Tasmota](https://github.com/arendst/Tasmota) | `generic` | 6,800 | 14 | Partial |
 | [espressif/esp-idf](https://github.com/espressif/esp-idf) | `esp-idf` | 73 | 0 | Complete, 2 scopes |
 | [esphome/devices.esphome.io](https://github.com/esphome/devices.esphome.io) | `generic` | 73 | 0 | Complete |
-| [arduino/arduino-examples](https://github.com/arduino/arduino-examples) | `generic` | 92 | 0 | Complete |
+| [arduino/arduino-examples](https://github.com/arduino/arduino-examples) | `generic` | 92 | 1 | Complete |
 | [raspberrypi/pico-examples](https://github.com/raspberrypi/pico-examples) | `generic` | 373 | 3 | Complete |
 | [zephyrproject-rtos/zephyr](https://github.com/zephyrproject-rtos/zephyr) | `zephyr` | 30 | 0 | Complete |
-| [openwrt/openwrt](https://github.com/openwrt/openwrt) | `embedded-linux` | 368 | 1 | Complete |
+| [openwrt/openwrt](https://github.com/openwrt/openwrt) | `embedded-linux` | 368 | 0 | Complete |
 | [raspberrypi/pico-sdk](https://github.com/raspberrypi/pico-sdk) | `generic` | 772 | 1 | Complete |
 | [espressif/arduino-esp32](https://github.com/espressif/arduino-esp32) | `generic` | 1,778 | 16 | Complete |
 | [buildroot/buildroot](https://github.com/buildroot/buildroot) | `embedded-linux` | 4,821 | 0 | Complete |
@@ -45,9 +45,9 @@ The Yocto layer scope is intentionally small and is not representative of the en
 
 | Rule | Signals | Interpretation |
 | --- | ---: | --- |
-| `FUSE001` | 15 | Credential-like literal assignments after filtering placeholders, tutorial hash inputs, computed values, BitBake metadata, disabled XML accounts, and filename or reserved-marker constants. |
+| `FUSE001` | 13 | Credential-like literal assignments after filtering placeholders, tutorial hash inputs, computed values, BitBake metadata, disabled XML accounts, filename and reserved-marker constants, and the TinySRP password-database filename. |
 | `FUSE002` | 4 | Private-key PEM markers. Some matches may be intentional sample keys. |
-| `FUSE003` | 15 | TLS peer verification appears disabled. Matches include library and example code; no build reachability is established. |
+| `FUSE003` | 14 | TLS peer verification appears disabled. Literal inactive C preprocessor branches are filtered; symbolic build conditions and product reachability are unresolved. |
 | `FUSE004` | 2 | Non-loopback HTTP endpoints retained in Tasmota build and OTA contexts. Reserved test hosts, QA paths, and explicit HTTPS redirect probes are filtered. |
 | `FUSE005` | 0 | No MQTT-related endpoint indicators matched in these scopes. |
 | `FUSE006` | 0 | No insecure Kconfig indicators matched in these scopes. |
@@ -57,7 +57,7 @@ Two additional `FUSE-GHA-002` informational signals identify GitHub Action refer
 
 ## Current source refresh, 2026-10-31
 
-The previous 61-signal summary was produced at commit `b88f235` with `source_tree_dirty=true`. The current 38-signal summary uses a clean FUSE source snapshot at `2e50a6e`. The 23-signal difference reflects code and input-handling changes made between those snapshots. It is not an accuracy or precision measurement. In particular, 25 earlier FUSE001 matches in Arduino and Tasmota examples are now filtered by the existing common-example-placeholder check. The new [`2026-10-31 transfer cohort`](fresh-validation-20261031/README.md) separately documents the narrow filename and reserved-marker refinement and its two-match regression comparison.
+The previous 61-signal summary was produced at commit `b88f235` with `source_tree_dirty=true`. A clean source refresh at `2e50a6e` produced 38 signals. Two fixture-backed refinements then removed three corpus-specific false-positive candidates: the duplicated TinySRP `DEFAULT_PASSWD` database filename in IoTGoat and OpenWrt, and a `.setInsecure()` call inside Tasmota's literal inactive `#else` branch under `#if 1`. The latest clean source snapshot at `fe6dfd2` reports 35 signals. These count changes are not an accuracy or precision measurement. The new [`2026-10-31 transfer cohort`](fresh-validation-20261031/README.md) separately documents the narrow filename and reserved-marker refinement and its two-match regression comparison.
 
 Hardware inventory found 28 filename-matched artifacts: 27 hardware project files and one netlist. The inventory reports file presence and category only. It does not parse schematics or PCB design content and does not make a hardware security assessment.
 
@@ -69,7 +69,7 @@ The separate [2026-10-31 fresh transfer cohort](fresh-validation-20261031/README
 
 ## Historical noise-reduction baseline
 
-The 2026-10-26 pilot covered the first eight repositories and nine scopes. Its 0.1.0 run reported 1,663 raw signals. FUSE 0.2.0 reduced that same initial corpus to 20 signals while adding 604 Tasmota Berry files. This is a useful rule-noise comparison, not a precision score. The expanded 14-repository corpus initially had 78 signals; fixture-backed refinements first reduced it to 62, and a later FUSE001 refinement brought the current snapshot to 61 without changing the pinned scope.
+The 2026-10-26 pilot covered the first eight repositories and nine scopes. Its 0.1.0 run reported 1,663 raw signals. FUSE 0.2.0 reduced that same initial corpus to 20 signals while adding 604 Tasmota Berry files. This is a useful rule-noise comparison, not a precision score. The expanded 14-repository corpus initially had 78 signals; fixture-backed refinements first reduced it to 62, and a later FUSE001 refinement brought that historical snapshot to 61 without changing the pinned scope.
 
 | Rule | FUSE 0.1.0 initial corpus | FUSE 0.2.0 initial corpus | Main refinement |
 | --- | ---: | ---: | --- |
@@ -87,7 +87,7 @@ An earlier refinement-stage snapshot of the same 14 pinned repositories and 15 s
 
 - FUSE001 now ignores `Hello World` and its hex encoding only in MD5/SHA1 builder examples, shell/build expressions, BitBake metadata assignments, and accounts inside XML containers explicitly disabled with `enabled="no"` or an equivalent value. Positive fixtures retain ordinary hard-coded credentials and enabled XML accounts.
 - FUSE004 ignores standard reserved example domains, reserved/private IPs only when used in example paths, recognized OpenEmbedded QA/self-test paths, and requests whose local code explicitly checks for an HTTPS redirect. Private network endpoints outside example paths and real non-test endpoints remain eligible.
-- FUSE003 remains at 15 signals. Matches in library and example code need target/build reachability context before FUSE can decide whether they apply to a product. The rule does not claim those paths are enabled or invoked.
+- FUSE003 had 15 signals in this historical snapshot. Matches in library and example code needed target/build reachability context before FUSE could decide whether they apply to a product. The latest clean-source snapshot has 14 signals after filtering one literal inactive branch. The remaining matches still do not establish product use.
 
 ## Artifacts and reproduction
 
