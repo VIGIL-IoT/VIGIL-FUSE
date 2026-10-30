@@ -1,0 +1,183 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "native-rule-fixtures",
+  "description": "Small synthetic positive and negative examples used by the native rule unit tests. This dataset measures fixture behavior only, not real-world accuracy.",
+  "cases": [
+    {
+      "id": "FUSE001-vulnerable",
+      "fixture": "FUSE001-vulnerable.fixture",
+      "source_path": "src/config.yaml",
+      "expected_rules": ["FUSE001"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample assigns non-placeholder literals to credential-like names."
+    },
+    {
+      "id": "FUSE001-secure",
+      "fixture": "FUSE001-secure.fixture",
+      "source_path": "src/config.yaml",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The value is an environment placeholder rather than an embedded credential."
+    },
+    {
+      "id": "FUSE002-vulnerable",
+      "fixture": "FUSE002-vulnerable.fixture",
+      "source_path": "src/private_key.pem",
+      "expected_rules": ["FUSE002"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample contains a private-key PEM boundary marker and material."
+    },
+    {
+      "id": "FUSE002-secure",
+      "fixture": "FUSE002-secure.fixture",
+      "source_path": "src/private_key.pem",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample contains a certificate marker, not a private-key marker."
+    },
+    {
+      "id": "FUSE003-vulnerable",
+      "fixture": "FUSE003-vulnerable.fixture",
+      "source_path": "src/client.py",
+      "expected_rules": ["FUSE003"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample disables certificate verification on an HTTPS request."
+    },
+    {
+      "id": "FUSE003-secure",
+      "fixture": "FUSE003-secure.fixture",
+      "source_path": "src/client.py",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample explicitly keeps TLS verification enabled."
+    },
+    {
+      "id": "FUSE003-python-ast-vulnerable",
+      "fixture": "FUSE003-python-ast-vulnerable.fixture",
+      "source_path": "src/client.py",
+      "expected_rules": ["FUSE003"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "A qualified requests call disables verification while the endpoint is supplied dynamically."
+    },
+    {
+      "id": "FUSE003-python-ast-secure",
+      "fixture": "FUSE003-python-ast-secure.fixture",
+      "source_path": "src/client.py",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The qualified requests call explicitly keeps verification enabled."
+    },
+    {
+      "id": "FUSE004-vulnerable",
+      "fixture": "FUSE004-vulnerable.fixture",
+      "source_path": "src/network.cpp",
+      "expected_rules": ["FUSE004"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample configures non-loopback plaintext HTTP endpoints."
+    },
+    {
+      "id": "FUSE004-secure",
+      "fixture": "FUSE004-secure.fixture",
+      "source_path": "src/network.cpp",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample uses HTTPS or loopback-only HTTP endpoints."
+    },
+    {
+      "id": "FUSE005-vulnerable",
+      "fixture": "FUSE005-vulnerable.fixture",
+      "source_path": "src/mqtt.cpp",
+      "expected_rules": ["FUSE005"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample configures a non-loopback broker with the plaintext MQTT scheme."
+    },
+    {
+      "id": "FUSE005-secure",
+      "fixture": "FUSE005-secure.fixture",
+      "source_path": "src/mqtt.cpp",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample uses the TLS-protected MQTT scheme."
+    },
+    {
+      "id": "FUSE006-vulnerable",
+      "fixture": "FUSE006-vulnerable.fixture",
+      "source_path": "sdkconfig.defaults",
+      "expected_rules": ["FUSE006"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample enables the ESP-IDF setting that skips normal image validation."
+    },
+    {
+      "id": "FUSE006-secure",
+      "fixture": "FUSE006-secure.fixture",
+      "source_path": "sdkconfig.defaults",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The risky setting is commented as unset."
+    },
+    {
+      "id": "FUSE007-vulnerable",
+      "fixture": "FUSE007-vulnerable.fixture",
+      "source_path": "sdkconfig.defaults",
+      "expected_rules": ["FUSE007"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The sample enables the deep-sleep image-validation skip setting."
+    },
+    {
+      "id": "FUSE007-secure",
+      "fixture": "FUSE007-secure.fixture",
+      "source_path": "sdkconfig.defaults",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The risky setting is commented as unset."
+    }
+  ]
+}

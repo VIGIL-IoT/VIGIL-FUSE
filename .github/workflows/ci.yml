@@ -7,6 +7,10 @@ on:
 
 permissions: {}
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tests:
     name: Tests on Python ${{ matrix.python-version }}
@@ -31,6 +35,69 @@ jobs:
           python -m pip install ".[test]"
       - name: Run test suite
         run: python -m pytest -q
+      - name: Check native rule fixture benchmark labels
+        run: python scripts/evaluate_rule_benchmark.py --check
+
+  quality:
+    name: Quality, self-scan, and coverage report
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install development tools and FUSE
+        run: python -m pip install ".[dev]"
+      - name: Run Ruff
+        run: python -m ruff check src tests scripts
+      - name: Validate local documentation links and Mermaid blocks
+        run: python scripts/validate_docs.py
+      - name: Check formatting for new or materially changed files
+        run: >-
+          python -m ruff format --check
+          src/vigil_fuse/analyzers.py
+          src/vigil_fuse/analyzer_runtime.py
+          src/vigil_fuse/dependency_analyzers.py
+          src/vigil_fuse/firmware_analyzer.py
+          src/vigil_fuse/hardware_netlist.py
+          src/vigil_fuse/history_analyzer.py
+          src/vigil_fuse/rules/tls.py
+          src/vigil_fuse/text_safety.py
+          scripts/evaluate_rule_benchmark.py
+          scripts/validate_docs.py
+          tests/test_extended_inventory.py
+          tests/test_docs_validation.py
+          tests/test_terminal.py
+      - name: Run FUSE security self-scan
+        run: |
+          vigil-fuse scan . --no-network --no-sbom --no-vulnerabilities --no-firmware --no-git-history --format json --output "$RUNNER_TEMP/fuse-self-scan.json"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path(os.environ["RUNNER_TEMP"]) / "fuse-self-scan.json"
+          report = json.loads(report_path.read_text(encoding="utf-8"))
+          assert report["summary"]["analysis_performed"] is True
+          assert report["coverage"]["discovery_complete"] is True
+          assert not any(
+              finding["severity"] in {"high", "critical"}
+              for finding in report["findings"]
+          )
+          print(
+              f"FUSE self-scan complete: {report['summary']['files_scanned']} files, "
+              f"{report['summary']['finding_count']} findings"
+          )
+          PY
+      - name: Run tests with branch coverage
+        run: |
+          python -m coverage run -m pytest -q
+          python -m coverage report -m --fail-under=70
 
   package-smoke:
     name: Build and install package
@@ -47,17 +114,31 @@ jobs:
           python-version: "3.12"
       - name: Build wheel and source distribution
         run: |
-          python -m pip install --upgrade pip build
+          python -m pip install --upgrade pip build twine
           python -m build
-      - name: Install wheel and exercise CLI
+          python -m twine check dist/*
+      - name: Install wheel in a clean virtual environment and exercise CLI
         run: |
-          python -m pip install --no-deps dist/*.whl
-          vigil-fuse --version
+          python -m venv .venv-smoke
+          .venv-smoke/bin/python -m pip install --no-deps dist/*.whl
+          .venv-smoke/bin/vigil-fuse --version
+          .venv-smoke/bin/vigil-fuse doctor
+          .venv-smoke/bin/vigil-fuse scan --help
+          .venv-smoke/bin/python - <<'PY'
+          import pathlib
+          import vigil_fuse
+
+          package = pathlib.Path(vigil_fuse.__file__).parent
+          assert (package / "support-matrix.json").is_file()
+          assert list((package / "schemas").glob("*.json"))
+          PY
           python - <<'PY'
           import json
           import pathlib
           import subprocess
           import tempfile
+
+          cli = pathlib.Path(".venv-smoke/bin/vigil-fuse").resolve()
 
           with tempfile.TemporaryDirectory() as temporary:
               target = pathlib.Path(temporary) / "embedded-project"
@@ -68,7 +149,15 @@ jobs:
               )
               report_path = pathlib.Path(temporary) / "findings.json"
               subprocess.run(
-                  ["vigil-fuse", "scan", str(target), "--format", "json", "--output", str(report_path)],
+                  [
+                      str(cli),
+                      "scan",
+                      str(target),
+                      "--format",
+                      "json",
+                      "--output",
+                      str(report_path),
+                  ],
                   check=True,
                   capture_output=True,
                   text=True,
