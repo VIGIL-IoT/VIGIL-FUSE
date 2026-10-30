@@ -177,6 +177,7 @@ def _severity_details(
         elif severity_type == "CVSS_V3":
             cvss_version = "3.x"
         score = item.get("score")
+        value: float | None
         if isinstance(score, (int, float)) and not isinstance(score, bool):
             value = float(score)
         elif isinstance(score, str) and re.fullmatch(r"\d+(?:\.\d+)?", score.strip()):
@@ -235,14 +236,14 @@ def _cvss_v3_score(vector: str) -> float | None:
     confidentiality = impact_value.get(metrics["C"])
     integrity = impact_value.get(metrics["I"])
     availability = impact_value.get(metrics["A"])
-    if None in {
-        attack_vector,
-        attack_complexity,
-        user_interaction,
-        confidentiality,
-        integrity,
-        availability,
-    }:
+    if (
+        attack_vector is None
+        or attack_complexity is None
+        or user_interaction is None
+        or confidentiality is None
+        or integrity is None
+        or availability is None
+    ):
         return None
 
     scope_changed = metrics["S"] == "C"
