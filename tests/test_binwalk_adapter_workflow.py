@@ -33,6 +33,9 @@ def test_binwalk_workflow_pins_upstream_source_and_actions() -> None:
     for use in action_uses:
         assert re.fullmatch(r".+@[0-9a-f]{40}(?:\s+#\s+v\S+)?", use)
 
+    rust_step = next(step for step in steps if "setup-rust-toolchain" in step.get("uses", ""))
+    assert rust_step["with"]["rustflags"] == ""
+
 
 def test_binwalk_workflow_builds_locked_source_and_runs_both_controls() -> None:
     workflow = yaml.load(WORKFLOW.read_text(encoding="utf-8"), Loader=yaml.BaseLoader)
