@@ -1,40 +1,40 @@
 {
-  "generated_at": "2026-10-27T21:09:57Z",
+  "generated_at": "2026-10-30T23:01:00Z",
   "scan_date": "2026-10-28",
   "fuse": {
     "version": "0.2.0",
-    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
-    "source_tree_sha256": "8bc132b4c4bc2595884cc9db269641b1a50ff5c15a539e6c0fa7e39a8afba069",
-    "source_tree_dirty": true,
+    "commit": "2e50a6e53855f0bdbe664a66d0f3823acc68c914",
+    "source_tree_sha256": "e36ee3d2d2d703f17255923bcf1ec62402b7f59fcaecaa84da2a261d7c55cf1f",
+    "source_tree_dirty": false,
     "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
     "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
   },
-  "latest_scan_completed_at": "2026-10-27T21:09:54Z",
+  "latest_scan_completed_at": "2026-10-30T22:57:05Z",
   "interpretation": "Raw static indicators from the listed source/configuration scopes. Findings are not confirmed vulnerabilities.",
   "totals": {
     "repository_count": 14,
     "scan_scope_count": 15,
     "files_discovered": 18999,
     "files_selected": 18859,
-    "files_scanned": 18855,
-    "files_skipped": 4,
+    "files_scanned": 18857,
+    "files_skipped": 2,
     "hardware_file_count": 28,
     "hardware_category_counts": {
       "hardware-project": 27,
       "netlist": 1
     },
     "hardware_inventory_complete": true,
-    "finding_count": 61,
+    "finding_count": 38,
     "severity_counts": {
       "critical": 0,
       "high": 19,
-      "medium": 42,
+      "medium": 17,
       "low": 0,
-      "info": 0,
+      "info": 2,
       "unknown": 0
     },
     "rule_counts": {
-      "FUSE001": 40,
+      "FUSE001": 15,
       "FUSE002": 4,
       "FUSE003": 15,
       "FUSE004": 2,
@@ -43,7 +43,6 @@
       "FUSE007": 0
     },
     "files_skipped_by_reason": {
-      "not_utf8": 2,
       "too_large": 2
     }
   },
@@ -61,14 +60,12 @@
           "scope": "OpenWrt/openwrt-18.06.2/config, files, package/base-files, package/network/services, package/system, target/linux",
           "files_discovered": 1652,
           "files_selected": 1652,
-          "files_scanned": 1651,
-          "files_skipped": 1,
-          "files_skipped_by_reason": {
-            "not_utf8": 1
-          },
+          "files_scanned": 1652,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
           "finding_count": 1,
           "analysis_performed": true,
-          "scan_status": "partial",
+          "scan_status": "completed",
           "support_label": "basic",
           "limits_reached": [],
           "hardware_file_count": 0,
@@ -80,7 +77,7 @@
             "complete": true
           },
           "hardware_inventory_complete": true,
-          "input_manifest_sha256": "3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c",
+          "input_manifest_sha256": "713ef0a8024a62859f28ed5a84cf268953fd38a6f2bc40ecc6394a60698d302d",
           "report_files": {
             "json": "reports/repository-scans/iotgoat/findings.json",
             "text": "reports/repository-scans/iotgoat/findings.txt",
@@ -93,8 +90,8 @@
       ],
       "files_discovered": 1652,
       "files_selected": 1652,
-      "files_scanned": 1651,
-      "files_skipped": 1,
+      "files_scanned": 1652,
+      "files_skipped": 0,
       "hardware_file_count": 0,
       "hardware_category_counts": {},
       "hardware_inventory_complete": true,
@@ -196,13 +193,13 @@
       "severity_counts": {
         "critical": 0,
         "high": 10,
-        "medium": 5,
+        "medium": 4,
         "low": 0,
-        "info": 0,
+        "info": 1,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 3,
+        "FUSE001": 2,
         "FUSE002": 0,
         "FUSE003": 10,
         "FUSE004": 2,
@@ -243,16 +240,11 @@
           "title": "Credential-like literal assigned in source",
           "severity": "medium",
           "category": "secrets",
-          "count": 3,
+          "count": 2,
           "confidence_counts": {
-            "high": 3
+            "high": 2
           },
           "examples": [
-            {
-              "scan_id": "tasmota",
-              "file": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
-              "line": 47
-            },
             {
               "scan_id": "tasmota",
               "file": "tasmota/berry/drivers/ftp.be",
@@ -284,6 +276,23 @@
               "scan_id": "tasmota",
               "file": "tasmota/berry/extensions/Partition_Wizard/partition_wizard.be",
               "line": 18
+            }
+          ]
+        },
+        {
+          "rule_id": "FUSE-GHA-002",
+          "title": "GitHub Action reference points to a floating branch",
+          "severity": "info",
+          "category": "ci-workflow-security",
+          "count": 1,
+          "confidence_counts": {
+            "high": 1
+          },
+          "examples": [
+            {
+              "scan_id": "tasmota",
+              "file": ".github/workflows/copy_change.yml",
+              "line": 25
             }
           ]
         }
@@ -474,7 +483,7 @@
           "files_scanned": 92,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 0,
+          "finding_count": 1,
           "analysis_performed": true,
           "scan_status": "completed",
           "support_label": "basic",
@@ -506,13 +515,13 @@
       "hardware_file_count": 0,
       "hardware_category_counts": {},
       "hardware_inventory_complete": true,
-      "finding_count": 0,
+      "finding_count": 1,
       "severity_counts": {
         "critical": 0,
         "high": 0,
         "medium": 0,
         "low": 0,
-        "info": 0,
+        "info": 1,
         "unknown": 0
       },
       "rule_counts": {
@@ -524,7 +533,25 @@
         "FUSE006": 0,
         "FUSE007": 0
       },
-      "finding_groups": []
+      "finding_groups": [
+        {
+          "rule_id": "FUSE-GHA-002",
+          "title": "GitHub Action reference points to a floating branch",
+          "severity": "info",
+          "category": "ci-workflow-security",
+          "count": 1,
+          "confidence_counts": {
+            "high": 1
+          },
+          "examples": [
+            {
+              "scan_id": "arduino-examples",
+              "file": ".github/workflows/spell-check.yml",
+              "line": 20
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "pico-examples",
@@ -884,7 +911,7 @@
           "files_scanned": 1778,
           "files_skipped": 0,
           "files_skipped_by_reason": {},
-          "finding_count": 40,
+          "finding_count": 16,
           "analysis_performed": true,
           "scan_status": "completed",
           "support_label": "basic",
@@ -916,17 +943,17 @@
       "hardware_file_count": 0,
       "hardware_category_counts": {},
       "hardware_inventory_complete": true,
-      "finding_count": 40,
+      "finding_count": 16,
       "severity_counts": {
         "critical": 0,
         "high": 5,
-        "medium": 35,
+        "medium": 11,
         "low": 0,
         "info": 0,
         "unknown": 0
       },
       "rule_counts": {
-        "FUSE001": 35,
+        "FUSE001": 11,
         "FUSE002": 0,
         "FUSE003": 5,
         "FUSE004": 0,
@@ -940,25 +967,25 @@
           "title": "Credential-like literal assigned in source",
           "severity": "medium",
           "category": "secrets",
-          "count": 35,
+          "count": 11,
           "confidence_counts": {
-            "high": 35
+            "high": 11
           },
           "examples": [
             {
               "scan_id": "arduino-esp32",
-              "file": "libraries/ArduinoOTA/examples/BasicOTA/BasicOTA.ino",
+              "file": "libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino",
               "line": 22
             },
             {
               "scan_id": "arduino-esp32",
-              "file": "libraries/ArduinoOTA/examples/SignedOTA/SignedOTA.ino",
-              "line": 49
+              "file": "libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino",
+              "line": 23
             },
             {
               "scan_id": "arduino-esp32",
-              "file": "libraries/ESPmDNS/examples/mDNS_Web_Server/mDNS_Web_Server.ino",
-              "line": 24
+              "file": "libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino",
+              "line": 19
             }
           ]
         },
@@ -1004,14 +1031,12 @@
           "scope": "Buildroot package recipes, board support, system configuration, and package tooling",
           "files_discovered": 4822,
           "files_selected": 4821,
-          "files_scanned": 4820,
-          "files_skipped": 1,
-          "files_skipped_by_reason": {
-            "not_utf8": 1
-          },
+          "files_scanned": 4821,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
           "finding_count": 0,
           "analysis_performed": true,
-          "scan_status": "partial",
+          "scan_status": "completed",
           "support_label": "basic",
           "limits_reached": [],
           "hardware_file_count": 0,
@@ -1023,7 +1048,7 @@
             "complete": true
           },
           "hardware_inventory_complete": true,
-          "input_manifest_sha256": "bc7dc42ba14a6e5a37ae4a77e1490698aedc389c9e022386354c8837b50102a9",
+          "input_manifest_sha256": "b88d6febfc730d69bfbf11b8e5d086331d35114e75458e4b4a6284ebafaf8845",
           "report_files": {
             "json": "reports/repository-scans/buildroot/findings.json",
             "text": "reports/repository-scans/buildroot/findings.txt",
@@ -1036,8 +1061,8 @@
       ],
       "files_discovered": 4822,
       "files_selected": 4821,
-      "files_scanned": 4820,
-      "files_skipped": 1,
+      "files_scanned": 4821,
+      "files_skipped": 0,
       "hardware_file_count": 0,
       "hardware_category_counts": {},
       "hardware_inventory_complete": true,

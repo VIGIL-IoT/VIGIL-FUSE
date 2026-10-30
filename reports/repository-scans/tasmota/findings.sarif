@@ -9,30 +9,30 @@
           "semanticVersion": "0.2.0",
           "rules": [
             {
-              "id": "FUSE001",
+              "id": "FUSE-GHA-002",
               "shortDescription": {
-                "text": "Credential-like literal assigned in source"
+                "text": "GitHub Action reference points to a floating branch"
               },
               "fullDescription": {
-                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+                "text": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check."
               },
               "defaultConfiguration": {
-                "level": "warning"
+                "level": "note"
               },
               "properties": {
-                "severity": "medium",
+                "severity": "info",
                 "severityBasis": "rule",
                 "severityScore": null,
                 "severityVector": null,
                 "severityVersion": null,
                 "confidence": "high",
-                "applicability": "unknown",
+                "applicability": "candidate",
                 "validationMethod": "static",
                 "validationStatus": "not-validated",
-                "category": "secrets",
-                "version": "1.4.0"
+                "category": "ci-workflow-security",
+                "version": "1.0.0"
               },
-              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
+              "helpUri": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
             },
             {
               "id": "FUSE003",
@@ -56,7 +56,7 @@
                 "validationMethod": "static",
                 "validationStatus": "not-validated",
                 "category": "transport-security",
-                "version": "1.2.0"
+                "version": "1.3.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/295.html"
             },
@@ -85,6 +85,32 @@
                 "version": "1.2.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/319.html"
+            },
+            {
+              "id": "FUSE001",
+              "shortDescription": {
+                "text": "Credential-like literal assigned in source"
+              },
+              "fullDescription": {
+                "text": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "medium",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "unknown",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "secrets",
+                "version": "1.6.0"
+              },
+              "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
             }
           ]
         }
@@ -97,41 +123,43 @@
       },
       "results": [
         {
-          "ruleId": "FUSE001",
-          "level": "warning",
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
           "message": {
-            "text": "Credential-like literal assigned in source. A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: const char* kPassword = \"[REDACTED]\";"
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: Jason2866/copy_file_to_another_repo_action@main"
           },
           "locations": [
             {
               "physicalLocation": {
                 "artifactLocation": {
-                  "uri": "lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino",
+                  "uri": ".github/workflows/copy_change.yml",
                   "uriBaseId": "%SRCROOT%"
                 },
                 "region": {
-                  "startLine": 47,
-                  "endLine": 47
+                  "startLine": 25,
+                  "endLine": 25
                 }
               }
             }
           ],
           "partialFingerprints": {
-            "primaryLocationLineHash": "30d7be562107331944982ed59c0deba77ca81fc2d2e6fd35f35eb2427e8383d0:1",
-            "vigilIoTFingerprint/v1": "349b152bb3bc6421cbe9489a4d24edcb3756e08e8b77f24e1aa5e1b0b14be15e"
+            "primaryLocationLineHash": "01c34661f9f1bdc7dd12614ea8062adc6d53fe1f8cf996c3a60e9f68a8a521e7:1",
+            "vigilIoTFingerprint/v1": "843a9d697c3a1b692db6e82f90e69509ee89f91baffed482562c449ee5743cd6"
           },
           "properties": {
-            "fuseId": "FUSE001:lib/lib_basic/IRremoteESP8266/IRremoteESP8266/examples/IRServer/IRServer.ino:47",
-            "severity": "medium",
+            "fuseId": "FUSE-GHA-002:.github/workflows/copy_change.yml:25",
+            "severity": "info",
             "confidence": "high",
-            "category": "secrets",
-            "analyzer": "fuse-native",
-            "potentialImpact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
-            "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
-            "evidence": "const char* kPassword = \"[REDACTED]\";",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: Jason2866/copy_file_to_another_repo_action@main",
             "references": [
-              "https://cwe.mitre.org/data/definitions/798.html"
-            ]
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -169,7 +197,9 @@
             "evidence": "verify = false",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -207,7 +237,9 @@
             "evidence": "verify = false",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -245,7 +277,9 @@
             "evidence": "verify = false",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -283,7 +317,9 @@
             "evidence": "verify = false",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -321,7 +357,9 @@
             "evidence": ".setInsecure()",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -359,7 +397,9 @@
             "evidence": ".setInsecure()",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -397,7 +437,9 @@
             "evidence": "http://ota.tasmota.com",
             "references": [
               "https://cwe.mitre.org/data/definitions/319.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -435,7 +477,9 @@
             "evidence": "static password = \"[REDACTED]\"",
             "references": [
               "https://cwe.mitre.org/data/definitions/798.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -473,7 +517,9 @@
             "evidence": "static password = \"[REDACTED]\"",
             "references": [
               "https://cwe.mitre.org/data/definitions/798.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -511,7 +557,9 @@
             "evidence": "http://ota.tasmota.com",
             "references": [
               "https://cwe.mitre.org/data/definitions/319.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -549,7 +597,9 @@
             "evidence": ".setInsecure()",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -587,7 +637,9 @@
             "evidence": ".setInsecure()",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -625,7 +677,9 @@
             "evidence": ".setInsecure()",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         },
         {
@@ -663,14 +717,16 @@
             "evidence": ".setInsecure()",
             "references": [
               "https://cwe.mitre.org/data/definitions/295.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         }
       ],
       "properties": {
         "target": "arendst/Tasmota",
         "profile": "generic",
-        "networkPolicy": "not-requested",
+        "networkPolicy": "no-network",
         "inputManifestSha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638",
         "analysisPerformed": true,
         "analyzers": [
@@ -682,7 +738,7 @@
           {
             "name": "native-rule:FUSE001",
             "status": "partial",
-            "version": "1.4.0"
+            "version": "1.6.0"
           },
           {
             "name": "native-rule:FUSE002",
@@ -692,7 +748,7 @@
           {
             "name": "native-rule:FUSE003",
             "status": "partial",
-            "version": "1.2.0"
+            "version": "1.3.0"
           },
           {
             "name": "native-rule:FUSE004",
@@ -713,6 +769,16 @@
             "name": "native-rule:FUSE007",
             "status": "skipped",
             "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          },
+          {
+            "name": "github-actions-static",
+            "status": "completed",
+            "version": null
           }
         ],
         "sarifExport": {

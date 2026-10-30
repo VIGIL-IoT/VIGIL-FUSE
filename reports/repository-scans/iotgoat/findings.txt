@@ -1,14 +1,15 @@
 FUSE scan: OWASP/IoTGoat, selected OpenWrt 18.06.2 source
 Target kind: directory
 Profile: embedded-linux
-Support: basic / partial
-Network policy: not-requested
-Scanned manifest SHA-256: 3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: 713ef0a8024a62859f28ed5a84cf268953fd38a6f2bc40ecc6394a60698d302d
 Files discovered/selected: 1652/1652
 Files filtered by path policy: 0
-Files scanned: 1651
+Files scanned: 1652
 Source bytes read: 6857505
-Files skipped: 1
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 1
 Discovery complete: yes
 Findings: 1
 Hardware artifacts: 0
@@ -53,16 +54,25 @@ Files not selected by the source profile: 2578
   .upgrade: 2
   <no-extension>: 283
 Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 5 / complete (extension and size only, contents not inspected)
+  .bin: 5
+  OpenWrt/openwrt-18.06.2/target/linux/imx6/files/firmware/imx/sdma/sdma-imx6q.bin [bin, 2196 bytes]
+  OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy11g_a14.bin [bin, 65536 bytes]
+  OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy11g_a22.bin [bin, 65536 bytes]
+  OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy22f_a14.bin [bin, 65536 bytes]
+  OpenWrt/openwrt-18.06.2/target/linux/lantiq/files/firmware/lantiq/xrx200_phy22f_a22.bin [bin, 65536 bytes]
 Analyzers:
-  fuse-native: partial (One or more selected files were skipped; review coverage details.)
-  native-rule:FUSE001: partial (Evaluated 48 selected input(s). The conservative prefilter excluded 1603 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 48 selected input(s). The conservative prefilter excluded 1604 inputs without the rule's required markers.)
   native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
-  native-rule:FUSE003: partial (Evaluated 23 selected input(s). The conservative prefilter excluded 1628 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
-  native-rule:FUSE004: partial (Evaluated 51 selected input(s). The conservative prefilter excluded 1600 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE003: completed (Evaluated 23 selected input(s). The conservative prefilter excluded 1629 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 51 selected input(s). The conservative prefilter excluded 1601 inputs without the rule's required markers.)
   native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
-  native-rule:FUSE006: partial (Evaluated 15 selected input(s). The conservative prefilter excluded 1636 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
-  native-rule:FUSE007: partial (Evaluated 15 selected input(s). The conservative prefilter excluded 1636 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
-Skip reasons: not_utf8=1
+  native-rule:FUSE006: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 1637 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 1637 inputs without the rule's required markers.)
+  firmware-candidate-inventory: completed (Recorded 5 filename and size candidate(s); no image contents were read or verified.)
+ISO-8859-1 fallback source files:
+  OpenWrt/openwrt-18.06.2/target/linux/at91/image/dfboot/src/init.c
 
 [MEDIUM] FUSE001 - Credential-like literal assigned in source
   Severity basis: rule

@@ -20,7 +20,7 @@
       "properties": {
         "target": "openembedded/openembedded-core",
         "profile": "embedded-linux",
-        "networkPolicy": "not-requested",
+        "networkPolicy": "no-network",
         "inputManifestSha256": "61e47efcef471d9b091281de20ce95fe24460f69062d9f1867808d81449c4e5c",
         "analysisPerformed": true,
         "analyzers": [
@@ -32,7 +32,7 @@
           {
             "name": "native-rule:FUSE001",
             "status": "completed",
-            "version": "1.4.0"
+            "version": "1.6.0"
           },
           {
             "name": "native-rule:FUSE002",
@@ -42,7 +42,7 @@
           {
             "name": "native-rule:FUSE003",
             "status": "completed",
-            "version": "1.2.0"
+            "version": "1.3.0"
           },
           {
             "name": "native-rule:FUSE004",
@@ -63,6 +63,11 @@
             "name": "native-rule:FUSE007",
             "status": "skipped",
             "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
           }
         ],
         "sarifExport": {

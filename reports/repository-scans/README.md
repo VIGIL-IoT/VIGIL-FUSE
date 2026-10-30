@@ -2,7 +2,7 @@
 
 ## Current snapshot
 
-On 2026-10-28, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
+On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at commit `2e50a6e`. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
 
 These are raw static indicators, not confirmed vulnerabilities. Severity represents potential impact and confidence is a separate field on each finding. No repository was built, no project test suite was run, no firmware image or physical board was analyzed, and no external dependency or binary-analysis tools were invoked.
 
@@ -12,18 +12,19 @@ These are raw static indicators, not confirmed vulnerabilities. Severity represe
 | Scan scopes | 15 |
 | Supported files discovered | 18,999 |
 | Files selected by scope | 18,859 |
-| Files scanned | 18,855 |
-| Files skipped after selection | 4 |
-| Raw FUSE signals | 61 |
+| Files scanned | 18,857 |
+| Files skipped after selection | 2 |
+| Raw FUSE signals | 38 |
 | High severity signals | 19 |
-| Medium severity signals | 42 |
+| Medium severity signals | 17 |
+| Informational GitHub Actions signals | 2 |
 | Hardware filename matches | 28 |
 
-The four skipped files were two non-UTF-8 files and two files above FUSE's 2 MiB limit. IoTGoat, Tasmota, and Buildroot reports are marked partial. A scan with zero signals means no enabled rule matched within the selected scope. It does not establish that the repository is secure.
+Two selected Tasmota files exceeded FUSE's 2 MiB per-file limit, so that report is partial. Other scopes completed. A scan with zero signals means no enabled rule matched within the selected scope. It does not establish that the repository is secure.
 
 | Repository | Profile | Files scanned | Signals | Status |
 | --- | --- | ---: | ---: | --- |
-| [OWASP/IoTGoat](https://github.com/OWASP/IoTGoat) | `embedded-linux` | 1,651 | 1 | Partial |
+| [OWASP/IoTGoat](https://github.com/OWASP/IoTGoat) | `embedded-linux` | 1,652 | 1 | Complete |
 | [arendst/Tasmota](https://github.com/arendst/Tasmota) | `generic` | 6,800 | 15 | Partial |
 | [espressif/esp-idf](https://github.com/espressif/esp-idf) | `esp-idf` | 73 | 0 | Complete, 2 scopes |
 | [esphome/devices.esphome.io](https://github.com/esphome/devices.esphome.io) | `generic` | 73 | 0 | Complete |
@@ -32,8 +33,8 @@ The four skipped files were two non-UTF-8 files and two files above FUSE's 2 MiB
 | [zephyrproject-rtos/zephyr](https://github.com/zephyrproject-rtos/zephyr) | `zephyr` | 30 | 0 | Complete |
 | [openwrt/openwrt](https://github.com/openwrt/openwrt) | `embedded-linux` | 368 | 1 | Complete |
 | [raspberrypi/pico-sdk](https://github.com/raspberrypi/pico-sdk) | `generic` | 772 | 1 | Complete |
-| [espressif/arduino-esp32](https://github.com/espressif/arduino-esp32) | `generic` | 1,778 | 40 | Complete |
-| [buildroot/buildroot](https://github.com/buildroot/buildroot) | `embedded-linux` | 4,820 | 0 | Partial |
+| [espressif/arduino-esp32](https://github.com/espressif/arduino-esp32) | `generic` | 1,778 | 16 | Complete |
+| [buildroot/buildroot](https://github.com/buildroot/buildroot) | `embedded-linux` | 4,821 | 0 | Complete |
 | [openembedded/openembedded-core](https://github.com/openembedded/openembedded-core) | `embedded-linux` | 819 | 0 | Complete |
 | [openembedded/meta-openembedded](https://github.com/openembedded/meta-openembedded) | `embedded-linux` | 1,183 | 0 | Complete |
 | [yoctoproject/meta-yocto](https://github.com/yoctoproject/meta-yocto) | `embedded-linux` | 19 | 0 | Complete |
@@ -44,13 +45,19 @@ The Yocto layer scope is intentionally small and is not representative of the en
 
 | Rule | Signals | Interpretation |
 | --- | ---: | --- |
-| `FUSE001` | 40 | Credential-like literal assignments after filtering tutorial hash inputs, computed values, BitBake metadata, and disabled XML accounts. |
+| `FUSE001` | 15 | Credential-like literal assignments after filtering placeholders, tutorial hash inputs, computed values, BitBake metadata, disabled XML accounts, and filename or reserved-marker constants. |
 | `FUSE002` | 4 | Private-key PEM markers. Some matches may be intentional sample keys. |
 | `FUSE003` | 15 | TLS peer verification appears disabled. Matches include library and example code; no build reachability is established. |
 | `FUSE004` | 2 | Non-loopback HTTP endpoints retained in Tasmota build and OTA contexts. Reserved test hosts, QA paths, and explicit HTTPS redirect probes are filtered. |
 | `FUSE005` | 0 | No MQTT-related endpoint indicators matched in these scopes. |
 | `FUSE006` | 0 | No insecure Kconfig indicators matched in these scopes. |
 | `FUSE007` | 0 | No debug Kconfig indicators matched in these scopes. |
+
+Two additional `FUSE-GHA-002` informational signals identify GitHub Action references that use floating branches. They are separate from the seven native rules above.
+
+## Current source refresh, 2026-10-31
+
+The previous 61-signal summary was produced at commit `b88f235` with `source_tree_dirty=true`. The current 38-signal summary uses a clean FUSE source snapshot at `2e50a6e`. The 23-signal difference reflects code and input-handling changes made between those snapshots. It is not an accuracy or precision measurement. In particular, 25 earlier FUSE001 matches in Arduino and Tasmota examples are now filtered by the existing common-example-placeholder check. The new [`2026-10-31 transfer cohort`](fresh-validation-20261031/README.md) separately documents the narrow filename and reserved-marker refinement and its two-match regression comparison.
 
 Hardware inventory found 28 filename-matched artifacts: 27 hardware project files and one netlist. The inventory reports file presence and category only. It does not parse schematics or PCB design content and does not make a hardware security assessment.
 
@@ -74,9 +81,9 @@ The 2026-10-26 pilot covered the first eight repositories and nine scopes. Its 0
 | `FUSE006` | 0 | 0 | Scoped matches to Kconfig-style input filenames and ignored comments and test-only paths |
 | `FUSE007` | 0 | 0 | Scoped matches to Kconfig-style input filenames and ignored comments and test-only paths |
 
-## Rule-noise refinement follow-up
+## Earlier refinement-stage snapshot
 
-The same 14 pinned repositories and 15 scopes were rescanned after targeted rule refinements. The latest rescan covers 18,855 files, with four skipped files and 28 hardware filename matches. Four target-suffixed ESP-IDF defaults files were added to selected coverage; the signal count remained 61. The first fixture-backed stage reduced signals from 78 to 62: FUSE001 decreased from 49 to 41 and FUSE004 from 10 to 2. A later FUSE001 string-context filter reduced that rule from 41 to 40 and the aggregate from 62 to 61, with 19 high and 42 medium signals. This before-and-after comparison measures only changed matches in this pinned snapshot, not precision or general detection accuracy.
+An earlier refinement-stage snapshot of the same 14 pinned repositories and 15 scopes covered 18,855 files, with four skipped files and 28 hardware filename matches. Four target-suffixed ESP-IDF defaults files were added to selected coverage; the signal count remained 61. The first fixture-backed stage reduced signals from 78 to 62: FUSE001 decreased from 49 to 41 and FUSE004 from 10 to 2. A later FUSE001 string-context filter reduced that rule from 41 to 40 and the aggregate from 62 to 61, with 19 high and 42 medium signals. That comparison measures changed matches in its pinned snapshot, not precision or general detection accuracy. The clean-source refresh above supersedes its summary counts.
 
 - FUSE001 now ignores `Hello World` and its hex encoding only in MD5/SHA1 builder examples, shell/build expressions, BitBake metadata assignments, and accounts inside XML containers explicitly disabled with `enabled="no"` or an equivalent value. Positive fixtures retain ordinary hard-coded credentials and enabled XML accounts.
 - FUSE004 ignores standard reserved example domains, reserved/private IPs only when used in example paths, recognized OpenEmbedded QA/self-test paths, and requests whose local code explicitly checks for an HTTPS redirect. Private network endpoints outside example paths and real non-test endpoints remain eligible.
@@ -100,4 +107,10 @@ Pass `--repository <id>` to scan one repository, and repeat the option for addit
 
 ```powershell
 py scripts\build_repository_scan_dashboard.py
+```
+
+To regenerate only the checked-in report summary and plots without changing generated website data or assets, run:
+
+```powershell
+py scripts\build_repository_scan_dashboard.py --report-only
 ```

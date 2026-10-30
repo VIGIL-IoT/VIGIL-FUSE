@@ -6,27 +6,27 @@
 <text x="0" y="45" class="axis">Log scale for bar length, exact count shown</text>
 <line x1="340.0" y1="50" x2="340.0" y2="348" class="grid"/>
 <text x="340.0" y="388" text-anchor="middle" class="axis">0</text>
-<line x1="455.7" y1="50" x2="455.7" y2="348" class="grid"/>
-<text x="455.7" y="388" text-anchor="middle" class="axis">1</text>
-<line x1="740.3" y1="50" x2="740.3" y2="348" class="grid"/>
-<text x="740.3" y="388" text-anchor="middle" class="axis">10</text>
+<line x1="495.0" y1="50" x2="495.0" y2="348" class="grid"/>
+<text x="495.0" y="388" text-anchor="middle" class="axis">1</text>
+<line x1="876.2" y1="50" x2="876.2" y2="348" class="grid"/>
+<text x="876.2" y="388" text-anchor="middle" class="axis">10</text>
 <line x1="960.0" y1="50" x2="960.0" y2="348" class="grid"/>
-<text x="960.0" y="388" text-anchor="middle" class="axis">40</text>
+<text x="960.0" y="388" text-anchor="middle" class="axis">15</text>
 <text x="0" y="79" class="label">FUSE001</text>
 <rect x="340" y="62" width="620" height="22" class="track"/>
 <rect x="340" y="62" width="620.0" height="22" class="bar"/>
-<text x="974" y="79" class="value">40</text>
+<text x="974" y="79" class="value">15</text>
 <text x="0" y="121" class="label">FUSE002</text>
 <rect x="340" y="104" width="620" height="22" class="track"/>
-<rect x="340" y="104" width="268.7" height="22" class="bar"/>
+<rect x="340" y="104" width="359.9" height="22" class="bar"/>
 <text x="974" y="121" class="value">4</text>
 <text x="0" y="163" class="label">FUSE003</text>
 <rect x="340" y="146" width="620" height="22" class="track"/>
-<rect x="340" y="146" width="462.9" height="22" class="bar"/>
+<rect x="340" y="146" width="620.0" height="22" class="bar"/>
 <text x="974" y="163" class="value">15</text>
 <text x="0" y="205" class="label">FUSE004</text>
 <rect x="340" y="188" width="620" height="22" class="track"/>
-<rect x="340" y="188" width="183.4" height="22" class="bar"/>
+<rect x="340" y="188" width="245.7" height="22" class="bar"/>
 <text x="974" y="205" class="value">2</text>
 <text x="0" y="247" class="label">FUSE005</text>
 <rect x="340" y="230" width="620" height="22" class="track"/>

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.7",
+  "schema_version": "1.10",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,9 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "generic",
-    "network_policy": "not-requested",
-    "started_at": "2026-10-27T21:09:20Z",
-    "completed_at": "2026-10-27T21:09:21Z",
+    "network_policy": "no-network",
+    "started_at": "2026-10-30T22:53:05Z",
+    "completed_at": "2026-10-30T22:53:09Z",
     "input_manifest_sha256": "b5c022ed006e8f5a46538c06acdb1ca497bf98a11ed5cf02fa70feef8a08b7db"
   },
   "summary": {
@@ -33,6 +33,12 @@
   },
   "coverage": {
     "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
     "discovery_complete": true,
     "limits_reached": [],
     "input_inventory": {
@@ -97,7 +103,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.4.0",
+        "version": "1.6.0",
         "detail": "Evaluated 14 selected input(s). The conservative prefilter excluded 59 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -111,7 +117,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 72 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -142,6 +148,20 @@
         "version": "1.2.0",
         "detail": "No selected input matched this rule's supported input scope.",
         "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 2 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions and non-SHA action references; no workflow code was executed.",
+        "findings": 0
       }
     ]
   },
@@ -152,6 +172,158 @@
     "file_count": 0,
     "category_counts": {},
     "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 2,
+    "extension_counts": {
+      ".bin": 1,
+      ".uf2": 1
+    },
+    "candidates": [
+      {
+        "path": "src/docs/devices/LSC-Battletron-Desk-Strip-3-meter-3206528/lsc-battlestron-desk-led-strip-3m-3206528.uf2",
+        "format": "uf2",
+        "byte_size": 3528192
+      },
+      {
+        "path": "src/docs/devices/Tapo-L900-5EU/L900_StockFW.bin",
+        "format": "bin",
+        "byte_size": 2097152
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 9,
+    "files": [
+      {
+        "path": ".github/workflows/ci.yaml",
+        "sha256": "a2260a4872299bda75dd3291f76820b35dbce2a0d61416c1e8df5bbf848ddde5",
+        "byte_size": 6197
+      },
+      {
+        "path": ".github/workflows/commit-date-published.yml",
+        "sha256": "b2a64f28c54ebed6135e834cca4b7bec1b7b3e2cf8b54d4e2942c340b67c4bff",
+        "byte_size": 7264
+      },
+      {
+        "path": ".github/workflows/label-pr-type.yml",
+        "sha256": "a270514cc48cb8496e8b7dcd5fda62276c4902ac551c2b8622c08ced1a987b72",
+        "byte_size": 1801
+      },
+      {
+        "path": ".github/workflows/made-for-esphome-pr.yml",
+        "sha256": "26b5f2594e89e436849b79c6490def168a5f72ef0aad8685f4f1779960fc6f2f",
+        "byte_size": 7998
+      },
+      {
+        "path": ".github/workflows/made-for-esphome-review-command.yml",
+        "sha256": "0e874473761204acfa59465ecdca8763d790f058270ac27ae673b2f8741fa93e",
+        "byte_size": 2009
+      },
+      {
+        "path": ".github/workflows/made-for-esphome-review.yml",
+        "sha256": "5466fa4210770a66d59fa3eb17f8c00cafd7a8663b9b0f9992227ea033211ed5",
+        "byte_size": 5830
+      },
+      {
+        "path": ".github/workflows/pr-validation-feedback.yml",
+        "sha256": "722037dbf48a867ccdbf05926f0b20e17752179957713ae65a38a7f4dcb68c0d",
+        "byte_size": 5425
+      },
+      {
+        "path": ".github/workflows/update-date-published.yml",
+        "sha256": "c180cb3f26d78215db3dbeef6c4b6cd5569d1d102d028dd277c83ec8f0fe229f",
+        "byte_size": 2954
+      },
+      {
+        "path": ".github/workflows/weekly-link-check.yml",
+        "sha256": "3272446f0e4711b94205fecb1f73c3eeff023e60069fb5604c4d76287dbe6d18",
+        "byte_size": 6186
+      }
+    ],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
   },
   "project_context": {
     "framework": null,

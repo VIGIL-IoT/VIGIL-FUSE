@@ -30,7 +30,7 @@
                 "validationMethod": "static",
                 "validationStatus": "not-validated",
                 "category": "secrets",
-                "version": "1.4.0"
+                "version": "1.6.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
             }
@@ -79,26 +79,28 @@
             "evidence": "#define DEFAULT_PASSWD \"[REDACTED]\"",
             "references": [
               "https://cwe.mitre.org/data/definitions/798.html"
-            ]
+            ],
+            "component": null,
+            "vexReview": null
           }
         }
       ],
       "properties": {
         "target": "OWASP/IoTGoat, selected OpenWrt 18.06.2 source",
         "profile": "embedded-linux",
-        "networkPolicy": "not-requested",
-        "inputManifestSha256": "3861b34d26de44836964e23c171b32b758f9a334983824c2ebaa111c8ed8b24c",
+        "networkPolicy": "no-network",
+        "inputManifestSha256": "713ef0a8024a62859f28ed5a84cf268953fd38a6f2bc40ecc6394a60698d302d",
         "analysisPerformed": true,
         "analyzers": [
           {
             "name": "fuse-native",
-            "status": "partial",
+            "status": "completed",
             "version": "0.2.0"
           },
           {
             "name": "native-rule:FUSE001",
-            "status": "partial",
-            "version": "1.4.0"
+            "status": "completed",
+            "version": "1.6.0"
           },
           {
             "name": "native-rule:FUSE002",
@@ -107,12 +109,12 @@
           },
           {
             "name": "native-rule:FUSE003",
-            "status": "partial",
-            "version": "1.2.0"
+            "status": "completed",
+            "version": "1.3.0"
           },
           {
             "name": "native-rule:FUSE004",
-            "status": "partial",
+            "status": "completed",
             "version": "1.2.0"
           },
           {
@@ -122,13 +124,18 @@
           },
           {
             "name": "native-rule:FUSE006",
-            "status": "partial",
+            "status": "completed",
             "version": "1.2.0"
           },
           {
             "name": "native-rule:FUSE007",
-            "status": "partial",
+            "status": "completed",
             "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
           }
         ],
         "sarifExport": {

@@ -1,14 +1,15 @@
 FUSE scan: buildroot/buildroot
 Target kind: directory
 Profile: embedded-linux
-Support: basic / partial
-Network policy: not-requested
-Scanned manifest SHA-256: bc7dc42ba14a6e5a37ae4a77e1490698aedc389c9e022386354c8837b50102a9
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: b88d6febfc730d69bfbf11b8e5d086331d35114e75458e4b4a6284ebafaf8845
 Files discovered/selected: 4822/4821
 Files filtered by path policy: 1
-Files scanned: 4820
+Files scanned: 4821
 Source bytes read: 6655434
-Files skipped: 1
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 1
 Discovery complete: yes
 Findings: 0
 Hardware artifacts: 0
@@ -99,14 +100,19 @@ Files not selected by the source profile: 10160
   .y: 1
   <no-extension>: 706
 Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 1 / complete (extension and size only, contents not inspected)
+  .bin: 1
+  support/testing/tests/package/test_file/rootfs-overlay/root/random-data.bin [bin, 512 bytes]
 Analyzers:
-  fuse-native: partial (One or more selected files were skipped; review coverage details.)
-  native-rule:FUSE001: partial (Evaluated 81 selected input(s). The conservative prefilter excluded 4739 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 81 selected input(s). The conservative prefilter excluded 4740 inputs without the rule's required markers.)
   native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
-  native-rule:FUSE003: partial (Evaluated 25 selected input(s). The conservative prefilter excluded 4795 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
-  native-rule:FUSE004: partial (Evaluated 428 selected input(s). The conservative prefilter excluded 4392 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE003: completed (Evaluated 25 selected input(s). The conservative prefilter excluded 4796 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 428 selected input(s). The conservative prefilter excluded 4393 inputs without the rule's required markers.)
   native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
-  native-rule:FUSE006: partial (Evaluated 122 selected input(s). The conservative prefilter excluded 4698 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
-  native-rule:FUSE007: partial (Evaluated 122 selected input(s). The conservative prefilter excluded 4698 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
-Skip reasons: not_utf8=1
+  native-rule:FUSE006: completed (Evaluated 122 selected input(s). The conservative prefilter excluded 4699 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 122 selected input(s). The conservative prefilter excluded 4699 inputs without the rule's required markers.)
+  firmware-candidate-inventory: completed (Recorded 1 filename and size candidate(s); no image contents were read or verified.)
+ISO-8859-1 fallback source files:
+  package/x11r7/mcookie/mcookie.c
 No findings from the enabled rules.

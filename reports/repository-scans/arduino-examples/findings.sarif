@@ -7,7 +7,34 @@
         "driver": {
           "name": "FUSE",
           "semanticVersion": "0.2.0",
-          "rules": []
+          "rules": [
+            {
+              "id": "FUSE-GHA-002",
+              "shortDescription": {
+                "text": "GitHub Action reference points to a floating branch"
+              },
+              "fullDescription": {
+                "text": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "ci-workflow-security",
+                "version": "1.0.0"
+              },
+              "helpUri": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            }
+          ]
         }
       },
       "artifacts": [],
@@ -16,11 +43,52 @@
           "uri": "./"
         }
       },
-      "results": [],
+      "results": [
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: codespell-project/actions-codespell@master"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/spell-check.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 20,
+                  "endLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "fb7042e12cf417132bf9634e2d6b9ad64fa7331eb8b29cff4b15b574a76e256f:1",
+            "vigilIoTFingerprint/v1": "445eb11bbfe8d6a64826640f792070eb4b39bbdfae9291a5f32e28827be74c94"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/spell-check.yml:20",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: codespell-project/actions-codespell@master",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        }
+      ],
       "properties": {
         "target": "arduino/arduino-examples",
         "profile": "generic",
-        "networkPolicy": "not-requested",
+        "networkPolicy": "no-network",
         "inputManifestSha256": "dcc341924a3880a908d3b2434d2aa16f29693c5672d7d8d601db9d534f3aa760",
         "analysisPerformed": true,
         "analyzers": [
@@ -32,7 +100,7 @@
           {
             "name": "native-rule:FUSE001",
             "status": "completed",
-            "version": "1.4.0"
+            "version": "1.6.0"
           },
           {
             "name": "native-rule:FUSE002",
@@ -42,7 +110,7 @@
           {
             "name": "native-rule:FUSE003",
             "status": "skipped",
-            "version": "1.2.0"
+            "version": "1.3.0"
           },
           {
             "name": "native-rule:FUSE004",
@@ -63,11 +131,21 @@
             "name": "native-rule:FUSE007",
             "status": "skipped",
             "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          },
+          {
+            "name": "github-actions-static",
+            "status": "completed",
+            "version": null
           }
         ],
         "sarifExport": {
-          "resultsAvailable": 0,
-          "resultsIncluded": 0,
+          "resultsAvailable": 1,
+          "resultsIncluded": 1,
           "resultsOmitted": 0,
           "maxBytes": 9437184
         }

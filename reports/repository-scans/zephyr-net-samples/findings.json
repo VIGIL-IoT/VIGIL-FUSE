@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.7",
+  "schema_version": "1.10",
   "tool": {
     "name": "FUSE",
     "version": "0.2.0"
@@ -8,9 +8,9 @@
   "scan": {
     "target_kind": "directory",
     "profile": "zephyr",
-    "network_policy": "not-requested",
-    "started_at": "2026-10-27T21:09:24Z",
-    "completed_at": "2026-10-27T21:09:25Z",
+    "network_policy": "no-network",
+    "started_at": "2026-10-30T22:53:23Z",
+    "completed_at": "2026-10-30T22:53:24Z",
     "input_manifest_sha256": "ce5784ac1cdb575cc7e1264554727902b0a96cb6dd72cc8e7194ad91c0aea93c"
   },
   "summary": {
@@ -33,6 +33,12 @@
   },
   "coverage": {
     "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
     "discovery_complete": true,
     "limits_reached": [],
     "input_inventory": {
@@ -89,7 +95,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.4.0",
+        "version": "1.6.0",
         "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -103,7 +109,7 @@
       {
         "name": "native-rule:FUSE003",
         "status": "completed",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
         "findings": 0
       },
@@ -134,6 +140,13 @@
         "version": "1.2.0",
         "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 28 inputs without the rule's required markers.",
         "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
       }
     ]
   },
@@ -144,6 +157,98 @@
     "file_count": 0,
     "category_counts": {},
     "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
   },
   "project_context": {
     "framework": "zephyr",
