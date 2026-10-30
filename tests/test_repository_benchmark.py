@@ -8,6 +8,7 @@ from scripts.benchmark_repository_cohort import (
     RepositoryBenchmarkError,
     _median_absolute_deviation,
     _scan_command,
+    _summary_signature,
     summarize_samples,
 )
 
@@ -63,8 +64,10 @@ class RepositoryBenchmarkTests(unittest.TestCase):
                     "files_scanned": 2,
                     "source_bytes_read": 256,
                     "files_skipped": 0,
+                    "files_skipped_by_reason": {},
                     "finding_count": 0,
                     "discovery_complete": True,
+                    "native_analysis_status": "completed",
                     "scan_return_code": 0,
                     "warmup_count": 1,
                     "warmup_seconds": [0.2],
@@ -87,6 +90,30 @@ class RepositoryBenchmarkTests(unittest.TestCase):
             Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(report)
         )
         self.assertEqual([], errors)
+
+    def test_repeatability_signature_includes_skip_reasons_and_native_status(self) -> None:
+        report = {
+            "summary": {
+                "files_discovered": 1,
+                "files_selected": 1,
+                "files_scanned": 1,
+                "source_bytes_read": 10,
+                "files_skipped": 0,
+                "finding_count": 0,
+            },
+            "coverage": {
+                "discovery_complete": True,
+                "files_skipped_by_reason": {},
+                "analyzers": [{"name": "fuse-native", "status": "completed"}],
+            },
+        }
+        signature = _summary_signature(report)
+
+        report["coverage"]["files_skipped_by_reason"] = {"too_large": 1}
+        self.assertNotEqual(signature, _summary_signature(report))
+        report["coverage"]["files_skipped_by_reason"] = {}
+        report["coverage"]["analyzers"][0]["status"] = "partial"
+        self.assertNotEqual(signature, _summary_signature(report))
 
     def test_median_absolute_deviation(self) -> None:
         self.assertEqual(1.0, _median_absolute_deviation([1.0, 2.0, 3.0]))

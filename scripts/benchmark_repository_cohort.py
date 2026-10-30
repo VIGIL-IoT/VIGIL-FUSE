@@ -163,6 +163,7 @@ def _run_once(
 def _summary_signature(report: dict[str, Any]) -> tuple[Any, ...]:
     summary = report["summary"]
     coverage = report["coverage"]
+    native_analysis_status, skipped_by_reason = _coverage_details(coverage)
     return (
         summary.get("files_discovered"),
         summary.get("files_selected"),
@@ -171,7 +172,40 @@ def _summary_signature(report: dict[str, Any]) -> tuple[Any, ...]:
         summary.get("files_skipped"),
         summary.get("finding_count"),
         coverage.get("discovery_complete"),
+        native_analysis_status,
+        tuple(sorted(skipped_by_reason.items())),
     )
+
+
+def _coverage_details(coverage: dict[str, Any]) -> tuple[str, dict[str, int]]:
+    raw_skipped_by_reason = coverage.get("files_skipped_by_reason", {})
+    if not isinstance(raw_skipped_by_reason, dict):
+        raise RepositoryBenchmarkError("FUSE report has invalid skipped-file reason counts")
+    skipped_by_reason: dict[str, int] = {}
+    for reason, count in raw_skipped_by_reason.items():
+        if (
+            not isinstance(reason, str)
+            or not isinstance(count, int)
+            or isinstance(count, bool)
+            or count < 0
+        ):
+            raise RepositoryBenchmarkError("FUSE report has invalid skipped-file reason counts")
+        skipped_by_reason[reason] = count
+    analyzers = coverage.get("analyzers")
+    if not isinstance(analyzers, list):
+        raise RepositoryBenchmarkError("FUSE report lacks analyzer coverage")
+    native = next(
+        (
+            analyzer
+            for analyzer in analyzers
+            if isinstance(analyzer, dict) and analyzer.get("name") == "fuse-native"
+        ),
+        None,
+    )
+    native_status = native.get("status") if isinstance(native, dict) else None
+    if not isinstance(native_status, str):
+        raise RepositoryBenchmarkError("FUSE report lacks native analysis status")
+    return native_status, skipped_by_reason
 
 
 def _scope_measurement(
@@ -215,6 +249,7 @@ def _scope_measurement(
     report = reports[-1]
     summary = report["summary"]
     coverage = report["coverage"]
+    native_analysis_status, skipped_by_reason = _coverage_details(coverage)
     files_scanned = summary["files_scanned"]
     source_bytes = summary["source_bytes_read"]
     measured = summarize_samples(
@@ -233,8 +268,10 @@ def _scope_measurement(
         "files_scanned": files_scanned,
         "source_bytes_read": source_bytes,
         "files_skipped": summary["files_skipped"],
+        "files_skipped_by_reason": skipped_by_reason,
         "finding_count": summary["finding_count"],
         "discovery_complete": coverage.get("discovery_complete"),
+        "native_analysis_status": native_analysis_status,
         "scan_return_code": return_codes[0],
         "warmup_count": warmups,
         "warmup_seconds": [round(value, 6) for value in warmup_timings],

@@ -110,8 +110,10 @@
           "files_scanned",
           "source_bytes_read",
           "files_skipped",
+          "files_skipped_by_reason",
           "finding_count",
           "discovery_complete",
+          "native_analysis_status",
           "scan_return_code",
           "warmup_count",
           "warmup_seconds",
@@ -133,8 +135,13 @@
           "files_scanned": { "type": "integer", "minimum": 0 },
           "source_bytes_read": { "type": "integer", "minimum": 0 },
           "files_skipped": { "type": "integer", "minimum": 0 },
+          "files_skipped_by_reason": {
+            "type": "object",
+            "additionalProperties": { "type": "integer", "minimum": 0 }
+          },
           "finding_count": { "type": "integer", "minimum": 0 },
           "discovery_complete": { "type": "boolean" },
+          "native_analysis_status": { "type": "string", "minLength": 1 },
           "scan_return_code": { "enum": [0, 2] },
           "warmup_count": { "type": "integer", "minimum": 0 },
           "warmup_seconds": {
