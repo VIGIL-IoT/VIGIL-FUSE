@@ -1,0 +1,29 @@
+{
+  "build": {
+    "configuration_origin_status": "selected",
+    "default_files": [],
+    "defaults_order_resolved": false,
+    "defaults_source": "conventional-candidate",
+    "idf_version_observed": "v5.5.6",
+    "selected_sdkconfig": "sdkconfig",
+    "selected_sdkconfig_source": "project-default",
+    "target_expected": "esp32",
+    "target_observed": "esp32"
+  },
+  "scan": {
+    "boot_validation_findings": [],
+    "files_discovered": 6,
+    "files_scanned": 6,
+    "input_manifest_sha256": "70af52ab3e85a21d540724e652c980ddfc1ae12066fd942a662dc38a482c8445",
+    "native_findings": 0
+  },
+  "schema_version": 1,
+  "source": {
+    "container_image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+    "idf_commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+    "idf_version": "v5.5.6",
+    "project": "examples/get-started/hello_world"
+  },
+  "verification_errors": [],
+  "verification_status": "passed"
+}

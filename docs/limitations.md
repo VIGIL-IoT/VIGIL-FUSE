@@ -21,6 +21,7 @@ FUSE is an alpha-stage static inspection tool. A clean report means only that en
 ## Platform and build context
 
 - PlatformIO, ESP-IDF, and Zephyr adapters inspect bounded selected metadata only. They do not execute build tools or fully resolve the effective compiled program.
+- A separate pinned workflow built the official ESP-IDF hello-world example on nine release and target combinations. This is evidence for those builds and the selected metadata adapter, not hardware-in-the-loop, runtime behavior, general framework coverage, or detector accuracy. The [experiment record](experiments/esp-idf-generated-build-matrix-2026-10-31.md) preserves the reports.
 - Compilation database support indexes metadata but does not invoke compiler-semantic analysis.
 - GitHub Actions checks cover a small set of workflow patterns, not all YAML structures, permission inheritance, or event-data flows.
 - VEX and provenance intake are review aids. They do not verify signatures, trust authorities, or establish builder identity.

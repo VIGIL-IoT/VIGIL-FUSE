@@ -1,0 +1,29 @@
+{
+  "build": {
+    "configuration_origin_status": "selected",
+    "default_files": [],
+    "defaults_order_resolved": false,
+    "defaults_source": "conventional-candidate",
+    "idf_version_observed": "v5.5.6",
+    "selected_sdkconfig": "sdkconfig",
+    "selected_sdkconfig_source": "project-default",
+    "target_expected": "esp32s3",
+    "target_observed": "esp32s3"
+  },
+  "scan": {
+    "boot_validation_findings": [],
+    "files_discovered": 6,
+    "files_scanned": 6,
+    "input_manifest_sha256": "b275ca11b370a0d75b9637123bee65143d2a972f76a39ea086732b67af0f4e9b",
+    "native_findings": 0
+  },
+  "schema_version": 1,
+  "source": {
+    "container_image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+    "idf_commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+    "idf_version": "v5.5.6",
+    "project": "examples/get-started/hello_world"
+  },
+  "verification_errors": [],
+  "verification_status": "passed"
+}
