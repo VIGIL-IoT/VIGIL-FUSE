@@ -8,6 +8,7 @@ import signal
 import shutil
 import select
 import subprocess
+import tempfile
 import threading
 import time
 from dataclasses import dataclass
@@ -128,6 +129,28 @@ def _analyzer_environment(command: list[str]) -> dict[str, str]:
         if name.casefold() != _ANALYZER_ENV_ALLOWLIST.casefold()
         and (not _SENSITIVE_ENVIRONMENT_NAME.search(name) or name.casefold() in allowlist)
     }
+
+
+def _isolated_analyzer_environment(command: list[str], root: Path) -> dict[str, str]:
+    """Use per-run user, config, cache, and temporary directories for a tool."""
+    home = root / "home"
+    directories = {
+        "HOME": home,
+        "USERPROFILE": home,
+        "APPDATA": root / "appdata",
+        "LOCALAPPDATA": root / "local-appdata",
+        "XDG_CONFIG_HOME": root / "config",
+        "XDG_CACHE_HOME": root / "cache",
+        "XDG_DATA_HOME": root / "data",
+        "TMPDIR": root / "tmp",
+        "TEMP": root / "tmp",
+        "TMP": root / "tmp",
+    }
+    for directory in set(directories.values()):
+        directory.mkdir(parents=True, exist_ok=True)
+    environment = _analyzer_environment(command)
+    environment.update({name: str(directory) for name, directory in directories.items()})
+    return environment
 
 
 def _windows_kernel32() -> Any:
@@ -333,7 +356,31 @@ def _artifact_destination(output_dir: Path, filename: str) -> Path:
 def _run(
     command: list[str], *, timeout: int = ANALYZER_TIMEOUT_SECONDS, cwd: Path | None = None
 ) -> subprocess.CompletedProcess[str]:
-    environment = _analyzer_environment(command)
+    """Run a trusted optional tool with isolated default user and scratch paths.
+
+    This keeps ordinary user-level tool configuration and caches out of the
+    child process's default lookup locations. It is not a filesystem sandbox.
+    """
+    with tempfile.TemporaryDirectory(
+        prefix="vigil-fuse-analyzer-", ignore_cleanup_errors=True
+    ) as temporary:
+        root = Path(temporary)
+        environment = _isolated_analyzer_environment(command, root)
+        return _run_with_environment(
+            command,
+            environment=environment,
+            timeout=timeout,
+            cwd=cwd if cwd is not None else root,
+        )
+
+
+def _run_with_environment(
+    command: list[str],
+    *,
+    environment: dict[str, str],
+    timeout: int = ANALYZER_TIMEOUT_SECONDS,
+    cwd: Path | None = None,
+) -> subprocess.CompletedProcess[str]:
     job_handle: int | None = None
     if os.name == "nt":
         job_handle = _create_windows_job()

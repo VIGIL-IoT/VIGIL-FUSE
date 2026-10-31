@@ -97,11 +97,11 @@ CLI
 - `model.py`: shared source, finding, component, build inventory, hardware inventory, product review, analyzer-status, and scan-result data structures.
 - `rules/`: one module per rule plus the explicit rule registry. Rule scanners receive source text in the isolated worker and emit common findings. FUSE003 uses the standard-library Python AST for qualified Requests and HTTPX verification arguments, while retaining bounded lexical checks for other inputs.
 - `reporting.py` and `sarif.py`: text, schema-versioned JSON with explicit input-inventory scope, component and VEX context, and SARIF serialization.
-- `analyzer_runtime.py`: shared bounded subprocess, best-effort process-tree cleanup, common credential-name environment filtering with exact tool-specific opt-in forwarding, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
+- `analyzer_runtime.py`: shared bounded subprocess, best-effort process-tree cleanup, common credential-name environment filtering with exact tool-specific opt-in forwarding, per-run temporary user/config/cache/data/temp paths, scratch working directories by default, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
 - `dependency_analyzers.py`: optional Syft inventory and OSV vulnerability matching.
 - `firmware_analyzer.py`: optional Binwalk signature identification only, with no extraction.
 - `history_analyzer.py`: optional redacted Gitleaks history scanning.
-- `analyzers.py`: backward-compatible adapter facade used by the CLI. Optional analyzers remain isolated from native rules and write artifact hashes into the report.
+- `analyzers.py`: backward-compatible adapter facade used by the CLI. Optional analyzers run as bounded subprocesses separate from native rules and write artifact hashes into the report.
 - `schemas/`: machine-readable report schema shipped with the Python package.
 - `tests/fixtures/rules/`: vulnerable and secure inputs for each enabled rule.
 
@@ -124,7 +124,7 @@ flowchart TD
     Model --> Baseline
 ```
 
-The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers run in isolated process groups on POSIX. On Windows, FUSE uses the system `taskkill` utility to request termination of the analyzer and its child processes. This is best-effort cleanup, not a sandbox. See the [threat model](threat-model.md) for trust boundaries and residual risks.
+The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers receive per-run temporary default user, configuration, cache, data, and temporary directories, and use a temporary working directory unless an adapter explicitly selects one. Gitleaks retains its selected repository working directory. POSIX process sessions and Windows Job Objects support best-effort cleanup. These controls do not restrict filesystem or network access, memory use, or privileges, and do not replace a sandbox. See the [threat model](threat-model.md) for trust boundaries and residual risks.
 
 ## Rule contract
 

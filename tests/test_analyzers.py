@@ -139,6 +139,49 @@ class OSVNormalizationTests(unittest.TestCase):
 
 
 class OptionalAnalyzerTests(unittest.TestCase):
+    def test_subprocess_uses_temporary_user_config_cache_and_working_directories(self) -> None:
+        keys = (
+            "HOME",
+            "USERPROFILE",
+            "APPDATA",
+            "LOCALAPPDATA",
+            "XDG_CONFIG_HOME",
+            "XDG_CACHE_HOME",
+            "XDG_DATA_HOME",
+            "TMPDIR",
+            "TEMP",
+            "TMP",
+        )
+        code = (
+            "import json, os; keys = "
+            + repr(keys)
+            + "; values = {key: os.getenv(key) for key in keys}; "
+            + "values['directories_exist'] = {key: os.path.isdir(values[key]) for key in keys}; "
+            + "values['cwd'] = os.getcwd(); print(json.dumps(values))"
+        )
+
+        completed = _run([sys.executable, "-c", code], timeout=5)
+
+        result = json.loads(completed.stdout)
+        root = Path(result["HOME"]).parent
+        self.assertTrue(root.name.startswith("vigil-fuse-analyzer-"))
+        self.assertEqual(str(root), result["cwd"])
+        for key in keys:
+            with self.subTest(key=key):
+                self.assertTrue(result["directories_exist"][key])
+        self.assertFalse(root.exists(), "per-run analyzer directories should be removed")
+
+    def test_explicit_analyzer_working_directory_is_preserved(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary)
+            completed = _run(
+                [sys.executable, "-c", "import os; print(os.getcwd())"],
+                timeout=5,
+                cwd=target,
+            )
+
+        self.assertEqual(str(target), completed.stdout.strip())
+
     def test_subprocess_environment_omits_common_credential_variables(self) -> None:
         keys = (
             "GITHUB_TOKEN",
