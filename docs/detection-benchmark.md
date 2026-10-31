@@ -24,7 +24,7 @@ The [NIST SARD case 2043 probe](experiments/credential-comparison-sard-case-2043
 
 The [FUSE001 wide-string cohort](experiments/fuse001-sard-wide-string-cohort-2026-10-31.md) is a second supplemental external check. FUSE001 1.8.0 matched the target source in 2 of 10 selected accepted C CWE-259 Juliet cases; version 1.9.0 matched all ten target files and emitted 12 findings across paired source variants. The sample specifically exercises C character-prefixed literals and does not estimate precision, recall, or field accuracy.
 
-The [complete accepted C CWE-259 SARD API result set](experiments/fuse001-sard-c-catalogue-2026-10-31.md) contains 76 mixed Juliet-derived cases. FUSE001 1.9.0 matched all 76 SARIF target source files and emitted 110 findings, including 34 observations on other files. Those additional observations cannot be labeled false positives from mixed-path file targets. This catalogue-wide rule regression includes the earlier 10-case sample and is not blind or field-accuracy evidence.
+The [complete accepted C CWE-259 SARD API result set](experiments/fuse001-sard-c-catalogue-2026-10-31.md) contains 76 mixed Juliet-derived cases. FUSE001 1.9.0 matched all 76 SARIF target source files and emitted 110 findings, including 34 observations on other files. The result now records each extra match's source basename and one-based line for review against the hash-pinned artifacts, without storing source text or credential values. Those additional observations remain unadjudicated and cannot be labeled false positives from mixed-path file targets alone. This catalogue-wide rule regression includes the earlier 10-case sample and is not blind or field-accuracy evidence.
 
 ## Labeling rules
 

@@ -14,7 +14,7 @@ The fixture set is authored and synthetic. It is useful for detecting regression
 
 ## Pinned NIST SARD CWE-259 regression
 
-The [FUSE001 SARD catalogue experiment](experiments/fuse001-sard-c-catalogue-2026-10-31.md) evaluates all 76 accepted C cases returned by the pinned NIST SARD API query for CWE-259. FUSE001 1.9.0 matched 76/76 SARIF target source files and emitted 110 findings, including 34 observations on other files in mixed-path cases. The [input manifest](../reports/benchmark/sard-fuse001-cwe259-c-catalogue-manifest-2026-10-31.json) and [machine-readable result](../reports/benchmark/sard-fuse001-cwe259-c-catalogue-results-2026-10-31.json) retain the hashes and per-case counts. These observations are a rule-specific regression result. The source labels do not support false-positive, precision, or recall estimates.
+The [FUSE001 SARD catalogue experiment](experiments/fuse001-sard-c-catalogue-2026-10-31.md) evaluates all 76 accepted C cases returned by the pinned NIST SARD API query for CWE-259. FUSE001 1.9.0 matched 76/76 SARIF target source files and emitted 110 findings, including 34 observations on other files in mixed-path cases. The regenerated result records a filename and one-based line for each extra observation without copying source text or credential values. The [input manifest](../reports/benchmark/sard-fuse001-cwe259-c-catalogue-manifest-2026-10-31.json) pins source and archive hashes, and the [machine-readable result](../reports/benchmark/sard-fuse001-cwe259-c-catalogue-results-2026-10-31.json) records per-case counts and locations. These observations are a rule-specific regression result. The source labels do not support false-positive, precision, or recall estimates.
 
 ## Pinned public repository scan
 
