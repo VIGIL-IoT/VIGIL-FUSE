@@ -11,7 +11,7 @@ import stat
 import subprocess
 import sys
 import tempfile
-from typing import IO
+from typing import Any, IO
 from urllib.request import Request, urlopen
 from zipfile import BadZipFile, ZipFile
 
@@ -31,10 +31,11 @@ class SardCase:
     archive_sha256: str
     target_filename: str
     expected_fuse_files: tuple[str, ...]
+    version: str = "1.0.0"
 
     @property
     def download_url(self) -> str:
-        return f"https://samate.nist.gov/SARD/downloads/versions/{self.case_id}-v1.0.0.zip"
+        return f"https://samate.nist.gov/SARD/downloads/versions/{self.case_id}-v{self.version}.zip"
 
 
 @dataclass(frozen=True)
@@ -231,7 +232,11 @@ def _safe_extract_zip(
     return total_bytes
 
 
-def _scan_case(case: SardCase, target: Path, report_path: Path) -> CohortResult:
+def _run_scan(
+    case_id: str,
+    target: Path,
+    report_path: Path,
+) -> tuple[list[dict[str, Any]], int]:
     environment = os.environ.copy()
     source_path = str(ROOT / "src")
     existing_pythonpath = environment.get("PYTHONPATH")
@@ -249,7 +254,7 @@ def _scan_case(case: SardCase, target: Path, report_path: Path) -> CohortResult:
         "--profile",
         "generic",
         "--target-label",
-        f"NIST SARD case {case.case_id}",
+        f"NIST SARD case {case_id}",
         "--no-sbom",
         "--no-vulnerabilities",
         "--no-firmware",
@@ -270,17 +275,26 @@ def _scan_case(case: SardCase, target: Path, report_path: Path) -> CohortResult:
             timeout=SCAN_TIMEOUT_SECONDS,
         )
     except (OSError, subprocess.SubprocessError) as error:
-        raise RuntimeError(f"FUSE scan failed for SARD case {case.case_id}") from error
+        raise RuntimeError(f"FUSE scan failed for SARD case {case_id}") from error
 
     report = json.loads(report_path.read_text(encoding="utf-8"))
     findings = report.get("findings")
     if not isinstance(findings, list):
-        raise ValueError(f"FUSE report for SARD case {case.case_id} is malformed")
+        raise ValueError(f"FUSE report for SARD case {case_id} is malformed")
     fuse_findings = [
         finding
         for finding in findings
         if isinstance(finding, dict) and finding.get("rule_id") == "FUSE001"
     ]
+    summary = report.get("summary")
+    scanned_files = summary.get("files_scanned") if isinstance(summary, dict) else None
+    if not isinstance(scanned_files, int):
+        raise ValueError(f"FUSE file count is missing for SARD case {case_id}")
+    return fuse_findings, scanned_files
+
+
+def _scan_case(case: SardCase, target: Path, report_path: Path) -> CohortResult:
+    fuse_findings, scanned_files = _run_scan(case.case_id, target, report_path)
     matched_files = {
         str(finding.get("location", {}).get("file", "")).replace("\\", "/").rsplit("/", 1)[-1]
         for finding in fuse_findings
@@ -298,10 +312,6 @@ def _scan_case(case: SardCase, target: Path, report_path: Path) -> CohortResult:
     rule_version = next(iter(versions)) if len(versions) == 1 else None
     if not isinstance(rule_version, str):
         raise ValueError(f"FUSE001 version is missing or inconsistent for {case.case_id}")
-    summary = report.get("summary")
-    scanned_files = summary.get("files_scanned") if isinstance(summary, dict) else None
-    if not isinstance(scanned_files, int):
-        raise ValueError(f"FUSE file count is missing for SARD case {case.case_id}")
     return CohortResult(
         case_id=case.case_id,
         flow_variant=case.flow_variant,

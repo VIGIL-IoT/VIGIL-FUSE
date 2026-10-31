@@ -1,0 +1,1871 @@
+{
+  "manifest_version": 1,
+  "dataset": "NIST Software Assurance Reference Dataset (SARD)",
+  "selection": {
+    "query_url": "https://samate.nist.gov/SARD/api/test-cases/search?flaw%5B%5D=CWE-259&language%5B%5D=c&status%5B%5D=accepted&limit=100&page=1",
+    "retrieved_at": "2026-10-31T06:14:22Z",
+    "criteria": {
+      "flaw": "CWE-259",
+      "language": "c",
+      "status": "accepted"
+    },
+    "observed_state": "mixed",
+    "api_total": 76,
+    "case_count": 76,
+    "note": "Complete result set from one paginated API query. The listed cases contain mixed good and bad paths and are a rule-specific regression cohort, not a representative firmware accuracy sample."
+  },
+  "cases": [
+    {
+      "case_id": "93498",
+      "version": "1.0.0",
+      "flow_variant": "01",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93498/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93498-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_01.c",
+          "sha256": "509fc0708a82d6a94f5ce3fb1d8ae19e1027d6035c410355aa0804ed3342d71d",
+          "length": 3784
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_01.c"
+      ],
+      "archive_sha256": "eb565270918c60192bb7c5a69e91381e0af1792edb2b41927167b1a520bd17b1",
+      "archive_bytes": 8043
+    },
+    {
+      "case_id": "93499",
+      "version": "1.0.0",
+      "flow_variant": "02",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93499/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93499-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_02.c",
+          "sha256": "991417e884615aefec071f969de314ca5a4822eecbb26afd2350e9504128c865",
+          "length": 5594
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_02.c"
+      ],
+      "archive_sha256": "2cb5e01a7e6050846e7d73556e64fb1061f50de9fb61368b4679d12dc938e153",
+      "archive_bytes": 8238
+    },
+    {
+      "case_id": "93500",
+      "version": "1.0.0",
+      "flow_variant": "03",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93500/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93500-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_03.c",
+          "sha256": "fba108ad6cabacd054d4e173d84ce7814ffd43da29edc5c08a598a885b36e743",
+          "length": 5615
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_03.c"
+      ],
+      "archive_sha256": "b11b8ecbbae7c77ea9c69148698ffacad3a31ffc0c7e61ba549f1f0887e32890",
+      "archive_bytes": 8252
+    },
+    {
+      "case_id": "93501",
+      "version": "1.0.0",
+      "flow_variant": "04",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93501/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93501-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_04.c",
+          "sha256": "fd84dc59ac9f233fb86320d982dcd6785a793c0a6345254b76ecd973a801d0dd",
+          "length": 5982
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_04.c"
+      ],
+      "archive_sha256": "f28ecd1fcba6b417462a29ce012740e006db8d273e1f308ce83c41b5c7a511d9",
+      "archive_bytes": 8408
+    },
+    {
+      "case_id": "93502",
+      "version": "1.0.0",
+      "flow_variant": "05",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93502/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93502-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_05.c",
+          "sha256": "98a8877f6a248197b4d55a6792916a721a947257f748e041117284e5e0a82e49",
+          "length": 5953
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_05.c"
+      ],
+      "archive_sha256": "b2e98afbed142a5ac012421b4a4363f8cdf17f9db3c4e024c808ec3672681b5a",
+      "archive_bytes": 8402
+    },
+    {
+      "case_id": "93503",
+      "version": "1.0.0",
+      "flow_variant": "06",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93503/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93503-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_06.c",
+          "sha256": "1ffcfbc9a9bb6d5be2d6bb5b1f58100b36a4d03feb86a9a675c07df617723095",
+          "length": 5917
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_06.c"
+      ],
+      "archive_sha256": "044f1aaf77e25cd3bf9d68b525164527d02fd2fba342336d45c6c8ee9582101a",
+      "archive_bytes": 8385
+    },
+    {
+      "case_id": "93504",
+      "version": "1.0.0",
+      "flow_variant": "07",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93504/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93504-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_07.c",
+          "sha256": "f9b3134ef89d53808115c29a9b479aa5f5c3effb8ee743af1f1b043f1eff2023",
+          "length": 5903
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_07.c"
+      ],
+      "archive_sha256": "ca95046e1473f7bf403e3e1842d337eae1c3e2fe01dfbd225314c642ca81a1f7",
+      "archive_bytes": 8382
+    },
+    {
+      "case_id": "93505",
+      "version": "1.0.0",
+      "flow_variant": "08",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93505/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93505-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_08.c",
+          "sha256": "b1f11ddbb7aea08caf3b8bba1b3597f6fab96dd6be32b8fc427a0b48cdd6d6ec",
+          "length": 6003
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_08.c"
+      ],
+      "archive_sha256": "51d03bca832a13349bff9d9a408966cbd7062250f005a032c37d01ed60ca9c6e",
+      "archive_bytes": 8381
+    },
+    {
+      "case_id": "93506",
+      "version": "1.0.0",
+      "flow_variant": "09",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93506/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93506-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_09.c",
+          "sha256": "aaac5404db473eeea93f361c8a7ec203079902effe18e0380cecfac5d9f651c3",
+          "length": 5709
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_09.c"
+      ],
+      "archive_sha256": "926ffa95f43a0776ecaf702e15536df7b5917423b38a962546c1897d81d3a167",
+      "archive_bytes": 8282
+    },
+    {
+      "case_id": "93507",
+      "version": "1.0.0",
+      "flow_variant": "10",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93507/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93507-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_10.c",
+          "sha256": "4b902e3aef0b231ee54341e56eaf503ed6d7425f014eb1015bb757afe4e85f7f",
+          "length": 5660
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_10.c"
+      ],
+      "archive_sha256": "890e04ebe7588c52ec8d2a90fb0bfdc156ccea7d89fdef5e132e06c41cc1a26e",
+      "archive_bytes": 8263
+    },
+    {
+      "case_id": "93508",
+      "version": "1.0.0",
+      "flow_variant": "11",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93508/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93508-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_11.c",
+          "sha256": "0c27d03a29568de687efa1506f20ce5f24e194f0a8050cce043419657bc41d54",
+          "length": 5723
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_11.c"
+      ],
+      "archive_sha256": "7b599aa085662971f745fafcb00f74465e45ee3f81019c3d79bd59341b3d1323",
+      "archive_bytes": 8280
+    },
+    {
+      "case_id": "93509",
+      "version": "1.0.0",
+      "flow_variant": "12",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93509/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93509-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_12.c",
+          "sha256": "e05e9b10a08782b4160ad9b8f2f8982343e50c8f731c321e85f173b1b5c6ea15",
+          "length": 5288
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_12.c"
+      ],
+      "archive_sha256": "7279cead48cd3baf46ce6d9cd9b49f2bb38df73c0e5ff039dab226ca7a62dafb",
+      "archive_bytes": 8184
+    },
+    {
+      "case_id": "93510",
+      "version": "1.0.0",
+      "flow_variant": "13",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93510/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93510-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_13.c",
+          "sha256": "2433db2a27c1dc9f979e20120c7cf6105959a82cd4b781f59873f78313f69a85",
+          "length": 5727
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_13.c"
+      ],
+      "archive_sha256": "303fc6901e219537346d756a7deb13a389deb5d0d1ce93ba3e45d929380b8414",
+      "archive_bytes": 8287
+    },
+    {
+      "case_id": "93511",
+      "version": "1.0.0",
+      "flow_variant": "14",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93511/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93511-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_14.c",
+          "sha256": "db30d8dc391f361e9ad92306a0eb1d2f0a4d41e29bb07c4f30d45273b9fff10c",
+          "length": 5678
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_14.c"
+      ],
+      "archive_sha256": "81f8bb03e70095707cb012d4e073da1eba038feb9423f69a489906b0184d100a",
+      "archive_bytes": 8268
+    },
+    {
+      "case_id": "93512",
+      "version": "1.0.0",
+      "flow_variant": "15",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93512/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93512-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_15.c",
+          "sha256": "619ec6c325f786fa8c1cfd8ac7e198eac9f8298019cf3cfcb2d6e10171281bbe",
+          "length": 5864
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_15.c"
+      ],
+      "archive_sha256": "99b1be4cdf4fe60cbc452c43c9977fd34bc12894c3541c822a82ff94eb4671cb",
+      "archive_bytes": 8243
+    },
+    {
+      "case_id": "93513",
+      "version": "1.0.0",
+      "flow_variant": "16",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93513/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93513-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_16.c",
+          "sha256": "6fe8cf6031286f764705e8e7d91bfc209e0ffed55f9c36f02b2822751f686de4",
+          "length": 4003
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_16.c"
+      ],
+      "archive_sha256": "2c5178fca8d2427e2461075e24a2d439c66eee04dcccbe7bafd61cef488b9577",
+      "archive_bytes": 8121
+    },
+    {
+      "case_id": "93514",
+      "version": "1.0.0",
+      "flow_variant": "17",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93514/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93514-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_17.c",
+          "sha256": "1098a1ca99a81f5b05034622c8c3d211848c1a9409c0cefb6c2bf432f072f935",
+          "length": 4022
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_17.c"
+      ],
+      "archive_sha256": "fcf6bd314468e68c53d6f03d5d3f77f895cd2976973fac31053b6c36706036be",
+      "archive_bytes": 8145
+    },
+    {
+      "case_id": "93515",
+      "version": "1.0.0",
+      "flow_variant": "18",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93515/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93515-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_18.c",
+          "sha256": "c823b19c49ad1bcae27fb31f7c7fee1914b91a1ba062ed39060b921988919e1c",
+          "length": 3899
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_18.c"
+      ],
+      "archive_sha256": "39b864855b92cbb4eb402617059b370befb3cd251d169cd3690ed9c3cadf87ab",
+      "archive_bytes": 8105
+    },
+    {
+      "case_id": "93516",
+      "version": "1.0.0",
+      "flow_variant": "21",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93516/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93516-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_21.c",
+          "sha256": "66ef5258d21038cb77af694f31a951cec41c9ba10d5ac03a2ae1f35efda6e773",
+          "length": 6471
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_21.c"
+      ],
+      "archive_sha256": "0d769a191c656b0b7afa5c165c3a37e5cd1b5f7d5a381f59cd0f2bd691c9ebd2",
+      "archive_bytes": 8474
+    },
+    {
+      "case_id": "93517",
+      "version": "1.0.0",
+      "flow_variant": "22",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93517/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93517-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_22a.c",
+          "sha256": "752613c5f6dcb1440df216437bfac9e71407ab897dd3def791564b558e51f7ed",
+          "length": 5282
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_22b.c",
+          "sha256": "49ad8598748783c9c930fa4f72fce3a3d50d6eac096bf2bcf607d24dba3c622b",
+          "length": 3293
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_22b.c"
+      ],
+      "archive_sha256": "9307e7a87ffedce56321490cfa0e912a5577fa7cc4ad24924775ff493c77f4a4",
+      "archive_bytes": 9441
+    },
+    {
+      "case_id": "93518",
+      "version": "1.0.0",
+      "flow_variant": "31",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93518/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93518-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_31.c",
+          "sha256": "5374b32fcde305fbd100dea40a4078afbed69122e0df0979ca9d9a4cf3e6c5c6",
+          "length": 4192
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_31.c"
+      ],
+      "archive_sha256": "8ef16b5160b5d7b7164f29ad1909cf81c1ad77ce0f67f36f13007d04e7afdf0f",
+      "archive_bytes": 8130
+    },
+    {
+      "case_id": "93519",
+      "version": "1.0.0",
+      "flow_variant": "32",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93519/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93519-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_32.c",
+          "sha256": "fa7c3ce85cbfa28068d095ee3acab8e55467abafa47e992038932e463a4f2d6f",
+          "length": 4537
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_32.c"
+      ],
+      "archive_sha256": "58b6e7421721c8c360956f822c512e018b19781e62ff30143b7f8b008bf11cff",
+      "archive_bytes": 8160
+    },
+    {
+      "case_id": "93521",
+      "version": "1.0.0",
+      "flow_variant": "34",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93521/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93521-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_34.c",
+          "sha256": "a922432a936df13bb6c2b8677bfe5a06e1a0d4a7993d66174968d6cc450a32b0",
+          "length": 4494
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_34.c"
+      ],
+      "archive_sha256": "40a76a13594f377c3e806137b6b56900d061eeaf8fb50d66bc3c99e313fc4b7d",
+      "archive_bytes": 8233
+    },
+    {
+      "case_id": "93522",
+      "version": "1.0.0",
+      "flow_variant": "41",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93522/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93522-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_41.c",
+          "sha256": "91f1b73177d18da8535f252066aa2626d53c14f683e9c9e96ff9657f199fdff3",
+          "length": 4160
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_41.c"
+      ],
+      "archive_sha256": "4e0581cfe88a5f869cc170be370288cc46bac09c9bb449e30bba64f8405bdf26",
+      "archive_bytes": 8161
+    },
+    {
+      "case_id": "93523",
+      "version": "1.0.0",
+      "flow_variant": "42",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93523/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93523-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_42.c",
+          "sha256": "53d212532cc5642eb8847ee43b7eb5149be0673ca1a7b3873d3a51ef46719dcd",
+          "length": 4079
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_42.c"
+      ],
+      "archive_sha256": "f5f6992636ba3a8335eef7a3a1cd1d446c1dadf5fa7514f48d6cedd01492da4c",
+      "archive_bytes": 8153
+    },
+    {
+      "case_id": "93525",
+      "version": "1.0.0",
+      "flow_variant": "44",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93525/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93525-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_44.c",
+          "sha256": "3feeb5351d95238c96d2419c8559f67238f9e7bb69b06cce95eb487943f8fadc",
+          "length": 4211
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_44.c"
+      ],
+      "archive_sha256": "4473027821368164b7e977630f3d90b32e5a4234e1393ae3f78cc552606a8060",
+      "archive_bytes": 8237
+    },
+    {
+      "case_id": "93526",
+      "version": "1.0.0",
+      "flow_variant": "45",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93526/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93526-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_45.c",
+          "sha256": "b403259b3fa0b9f5addb04a23b956778ea144f4fdf0d06e9ad79ab517f086569",
+          "length": 4398
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_45.c"
+      ],
+      "archive_sha256": "5ee3cd822725cc43ba75773b55f7cbe8a04fd9746de221987755eb569f3ca47c",
+      "archive_bytes": 8218
+    },
+    {
+      "case_id": "93527",
+      "version": "1.0.0",
+      "flow_variant": "51",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93527/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93527-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_51a.c",
+          "sha256": "25fff34c045700634ad910e173242b842b13f24f0fcd227c597ea48fbde1bb41",
+          "length": 2916
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_51b.c",
+          "sha256": "93b068796f47c8e947cb69970816ce73d42c3816bdd55287688eb18d2fb2b761",
+          "length": 2407
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_51a.c"
+      ],
+      "archive_sha256": "aa96f9b48980d6977cfa48fe1c82ee8ec4657ab429de2cd81232355e557efbb0",
+      "archive_bytes": 9090
+    },
+    {
+      "case_id": "93528",
+      "version": "1.0.0",
+      "flow_variant": "52",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93528/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93528-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_52a.c",
+          "sha256": "b9519a092dceacc94694c9546b94e583a0c204e17b6462bb59111d9c4e143b78",
+          "length": 2932
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_52b.c",
+          "sha256": "0647346595f0586814f003020822d2fbde596ff77fe5a180ab4db8bd01c2bb7f",
+          "length": 1469
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_52c.c",
+          "sha256": "7a916c40f7ad92db890f4e2173aad76e78230dab97c74d0fdb4286384c16b699",
+          "length": 2424
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_52a.c"
+      ],
+      "archive_sha256": "cc40bd93d7e1fa23ff228b0040882aa60fef75640209d140dd3a3c0ba0440817",
+      "archive_bytes": 10027
+    },
+    {
+      "case_id": "93529",
+      "version": "1.0.0",
+      "flow_variant": "53",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93529/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93529-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_53a.c",
+          "sha256": "bb4be89c0db4954ac0e8604339cf3c0d672965f5ad54b6289b4bd0c794004f7d",
+          "length": 2959
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_53b.c",
+          "sha256": "ffd8b271e757c35c53e901f41871148e8dccd41a93eb8cd215d7bc36b24cdf6f",
+          "length": 1496
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_53c.c",
+          "sha256": "9f9c12a7540ed43a969f435d28465f118368dd13e2d8e7897c00074fb32706ea",
+          "length": 1496
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_53d.c",
+          "sha256": "f9115c742f3ca524d98a9fd8b3b833d9665fa05dc63584cf43f02c2f833caf09",
+          "length": 2451
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_53a.c"
+      ],
+      "archive_sha256": "89ecfdba7c15e0bd28c06b9aedc8df6a4b3e246c9de08a3f683f71cc872f39d9",
+      "archive_bytes": 11035
+    },
+    {
+      "case_id": "93530",
+      "version": "1.0.0",
+      "flow_variant": "54",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93530/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93530-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_54a.c",
+          "sha256": "43175f9050ec8f520f813c962c16febbdd547605af43c1ee77d84599b91dff9b",
+          "length": 2960
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_54b.c",
+          "sha256": "784e77d8aaf74332ce53f046e5fc6d23db305ab96ca5d17d5c110c8239163871",
+          "length": 1497
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_54c.c",
+          "sha256": "78bcfefce2e732aeff07f5a43de02e416e08ef1743dba87db9fa511b85f8a966",
+          "length": 1497
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_54d.c",
+          "sha256": "6c7106fed545e223f900c4a9fbc1d0df7666eda818e3d065e706d878959a6661",
+          "length": 1497
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_54e.c",
+          "sha256": "866f205e8c97f7eb5c5c97fb7465c9ca3ceaf314dd518a502fb8bb481644e584",
+          "length": 2452
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_54a.c"
+      ],
+      "archive_sha256": "43f7c618204fedf5b01b093a5934fdb40519b27f97db5fab7addb65630254cb1",
+      "archive_bytes": 11970
+    },
+    {
+      "case_id": "93531",
+      "version": "1.0.0",
+      "flow_variant": "61",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93531/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93531-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_61a.c",
+          "sha256": "f254b566da3964a1b9d9944f59f9c191260cd67856b6eefbbfbf889e390b1dff",
+          "length": 3607
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_61b.c",
+          "sha256": "d31170b2f05711aa71648f6d8411f91001486852cf999b2b82efe2876f77c560",
+          "length": 1643
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_61b.c"
+      ],
+      "archive_sha256": "7a0fe5f25b8bd9fa726d2763e6de4c737f1498a84709ce67a95e9fba160a9c82",
+      "archive_bytes": 9034
+    },
+    {
+      "case_id": "93533",
+      "version": "1.0.0",
+      "flow_variant": "63",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93533/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93533-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_63a.c",
+          "sha256": "62c50986be6c48d92c050be4392d44c14fffa1de8b11213e349a4406e0702461",
+          "length": 2888
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_63b.c",
+          "sha256": "a652af933184136db55f4f854d8131cad960e0001baa1ecc3666c9626b18cf46",
+          "length": 2385
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_63a.c"
+      ],
+      "archive_sha256": "c4d123c2b63002e3dad8134838646c263afd74cdcbec0de997ac7ee852a88969",
+      "archive_bytes": 9043
+    },
+    {
+      "case_id": "93534",
+      "version": "1.0.0",
+      "flow_variant": "64",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93534/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93534-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_64a.c",
+          "sha256": "dacc2604aeefd7fb2792ea6b12b2b17ab6e39c23ba3f47fdde9765e5ed869fdc",
+          "length": 2900
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_64b.c",
+          "sha256": "c90e557d9ee649a6245f10bf3c0bf126272e40a63abcfb1b053396ec65979090",
+          "length": 2738
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_64a.c"
+      ],
+      "archive_sha256": "c380a99cf129bdc51e649425f5ef0d727261d9096deaeb05516c395d5b69c9b0",
+      "archive_bytes": 9114
+    },
+    {
+      "case_id": "93535",
+      "version": "1.0.0",
+      "flow_variant": "65",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93535/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93535-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_65a.c",
+          "sha256": "bc344c5c1de98b2ec695c26109159a194fbe857f11544f14113c60cb52f107b2",
+          "length": 3080
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_65b.c",
+          "sha256": "cd6115374e6c30770ad22d776625ad6261b01d6d2c282407416baced42d0a555",
+          "length": 2347
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_65a.c"
+      ],
+      "archive_sha256": "7d9d6fce24cfde31be7a1b2a39deeafc86e365d579dff8c619961e905103da0b",
+      "archive_bytes": 9120
+    },
+    {
+      "case_id": "93536",
+      "version": "1.0.0",
+      "flow_variant": "66",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93536/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93536-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_66a.c",
+          "sha256": "81e363d5bede6e9d8f578d0c36b77f2d38af3945447c5a2ff07f4e60da00bf0e",
+          "length": 3065
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_66b.c",
+          "sha256": "032d5db49e825f7d681378c954cacd364b12e1b7c727e639c24ce059ecae42c5",
+          "length": 2444
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_66a.c"
+      ],
+      "archive_sha256": "e3c924b99ee154e8ff2b2db064c628bbf62602d49a9d73f581c41940531cf724",
+      "archive_bytes": 9093
+    },
+    {
+      "case_id": "93537",
+      "version": "1.0.0",
+      "flow_variant": "67",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93537/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93537-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_67a.c",
+          "sha256": "c3ef3e45fcda13651daa3e2b01fa78cfbbe70e6f1f5b4187774e408033684867",
+          "length": 3329
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_67b.c",
+          "sha256": "f4be810a8431510e963772d0767e70abeb00ed3faad5a2dd9705625bceec6497",
+          "length": 2633
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_67a.c"
+      ],
+      "archive_sha256": "5374f2a32be8fcbf042bb177dbc623e008e8ffad79409493f24561e6cf8b41aa",
+      "archive_bytes": 9134
+    },
+    {
+      "case_id": "93538",
+      "version": "1.0.0",
+      "flow_variant": "68",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93538/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93538-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_68a.c",
+          "sha256": "c68f8b455952bcd1aaf4d6351b12c1723821b49d275466a992817d8a5a1b1b4a",
+          "length": 3130
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_68b.c",
+          "sha256": "ffebc3931d5557dcd57371f0e3cea93c221f7458ff0a48af5eb00a240bc10279",
+          "length": 2665
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_char_68a.c"
+      ],
+      "archive_sha256": "c9be2d014fd5db0bf9ff0c37d88a8bafce27b75ea2ad6bc1de712ec293407931",
+      "archive_bytes": 9172
+    },
+    {
+      "case_id": "93546",
+      "version": "1.0.0",
+      "flow_variant": "01",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93546/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93546-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_01.c",
+          "sha256": "f223b804d958646d881d60e2ae52c4d9a3bd543f30da17172dcd520594ac1bb4",
+          "length": 3836
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_01.c"
+      ],
+      "archive_sha256": "80d60ee85907bfc43eb8d9467bfcf401d6bfc1b091d0e23fc06d1efa1b82cf3f",
+      "archive_bytes": 8060
+    },
+    {
+      "case_id": "93547",
+      "version": "1.0.0",
+      "flow_variant": "02",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93547/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93547-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_02.c",
+          "sha256": "e88026d37a9ae93c04f295c8eff8cd6c87a39fde8d0ffaa7ece4b49fbfb50d8a",
+          "length": 5667
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_02.c"
+      ],
+      "archive_sha256": "b8c1c3bd2971ec90a4b25bf78edf6c1ccc1211e51772c29390b6eb86a5dd7350",
+      "archive_bytes": 8255
+    },
+    {
+      "case_id": "93548",
+      "version": "1.0.0",
+      "flow_variant": "03",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93548/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93548-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_03.c",
+          "sha256": "0a5f27a39c2bb50d9694974443d8e1cce03c9a8c0de223da05b84697d45bdbcb",
+          "length": 5688
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_03.c"
+      ],
+      "archive_sha256": "d90d1fa24761af824ddf32e0f243e3ce916036d2b26891a0ef2ffdc2780a92e6",
+      "archive_bytes": 8268
+    },
+    {
+      "case_id": "93549",
+      "version": "1.0.0",
+      "flow_variant": "04",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93549/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93549-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_04.c",
+          "sha256": "7671bcc3dbfb33cd1fb3166c6784b8c71466723ef6babfaafc355d5544427b2b",
+          "length": 6055
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_04.c"
+      ],
+      "archive_sha256": "2e3b283f941b0e5479e355a7fb855eda63b80b15d527ce18f0f77e78218706f7",
+      "archive_bytes": 8431
+    },
+    {
+      "case_id": "93550",
+      "version": "1.0.0",
+      "flow_variant": "05",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93550/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93550-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_05.c",
+          "sha256": "cf039290bedccd36eca7de78098b78286ccef43cb10376497e791a387f784881",
+          "length": 6026
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_05.c"
+      ],
+      "archive_sha256": "05432462499434163597e608b1627ca68c2c7c32db08b2be4b4f38a8f6052cdc",
+      "archive_bytes": 8421
+    },
+    {
+      "case_id": "93551",
+      "version": "1.0.0",
+      "flow_variant": "06",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93551/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93551-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_06.c",
+          "sha256": "257cfe8cdbc27aa6fbe6547f58a2e93d82bad1b3a1ffeb24b4630462c579acd5",
+          "length": 5990
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_06.c"
+      ],
+      "archive_sha256": "c50659f8fc99affc45c05cc07542d2d59604b5062beb4855a26048d32a921dcb",
+      "archive_bytes": 8406
+    },
+    {
+      "case_id": "93552",
+      "version": "1.0.0",
+      "flow_variant": "07",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93552/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93552-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_07.c",
+          "sha256": "927dcd5dce82e39e1b2ff6ad2bedf0d2c66b2a7a4b745efb78d7e375760744af",
+          "length": 5976
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_07.c"
+      ],
+      "archive_sha256": "3d5ea9cbbc661a71b39e62c2a2b97d90d22e38e4345a214dcefa9f3192eef881",
+      "archive_bytes": 8404
+    },
+    {
+      "case_id": "93553",
+      "version": "1.0.0",
+      "flow_variant": "08",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93553/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93553-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_08.c",
+          "sha256": "4a3a33518d8f8f2a79b5c4c304efd21f08cd923694e592fba5d4b3d7f8538171",
+          "length": 6076
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_08.c"
+      ],
+      "archive_sha256": "e8fe04d77361ccf4e23a414cb369cf09260d6a0d2f73ec8e1342c9b9eb10f866",
+      "archive_bytes": 8405
+    },
+    {
+      "case_id": "93554",
+      "version": "1.0.0",
+      "flow_variant": "09",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93554/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93554-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_09.c",
+          "sha256": "f03395485ad2bc9305d602c3a6eadf408d174e2397cffc6c058633cc7a5852ef",
+          "length": 5782
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_09.c"
+      ],
+      "archive_sha256": "507eb5895310a53f8cd55912a96a359fac3aae7405081ed03266a2e703ba94ab",
+      "archive_bytes": 8304
+    },
+    {
+      "case_id": "93555",
+      "version": "1.0.0",
+      "flow_variant": "10",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93555/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93555-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_10.c",
+          "sha256": "616b56c1f4b9a24330206c0a4143f5ffe84f130602186261cec1e894a6d9c12c",
+          "length": 5733
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_10.c"
+      ],
+      "archive_sha256": "fb13986ec56b27be13d412078d88f2bb90ab156536b39dd7e5f2cc60b6a5fd19",
+      "archive_bytes": 8281
+    },
+    {
+      "case_id": "93556",
+      "version": "1.0.0",
+      "flow_variant": "11",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93556/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93556-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_11.c",
+          "sha256": "e7b772b163f45b9f9c66a944860f7f67a2fe571445ea7650a25cb53592399001",
+          "length": 5796
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_11.c"
+      ],
+      "archive_sha256": "127876f3dbe17792b59a550e142beb1f9230a9c3a53b2e184857bed4bdbbf39c",
+      "archive_bytes": 8300
+    },
+    {
+      "case_id": "93557",
+      "version": "1.0.0",
+      "flow_variant": "12",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93557/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93557-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_12.c",
+          "sha256": "9a652e88c8a36e7d412376d77b0d088aec6d70a5d6c8747ba9b0c94ea06394ff",
+          "length": 5352
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_12.c"
+      ],
+      "archive_sha256": "6bfe1f5f595468ff76d31846d6315152c853a111cfd32f79dd1ad155c0fa0c79",
+      "archive_bytes": 8203
+    },
+    {
+      "case_id": "93558",
+      "version": "1.0.0",
+      "flow_variant": "13",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93558/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93558-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_13.c",
+          "sha256": "dc24d99467e5f31757f1103fd1c623de45f18f28d2ecd1ece3d08752b7515399",
+          "length": 5800
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_13.c"
+      ],
+      "archive_sha256": "1333b164c1128a15629769670a46400da4632869d330268764e72a6238795f03",
+      "archive_bytes": 8308
+    },
+    {
+      "case_id": "93559",
+      "version": "1.0.0",
+      "flow_variant": "14",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93559/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93559-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_14.c",
+          "sha256": "35ee67f0bbc7580d609a7ac22262cf36a37f457a3fbb13b3b41c8d304b83100e",
+          "length": 5751
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_14.c"
+      ],
+      "archive_sha256": "4df9e053ebaeea4a78ad74794c4a4bd4dbd5d72ed582fb1eaa7073e91cf659c4",
+      "archive_bytes": 8288
+    },
+    {
+      "case_id": "93560",
+      "version": "1.0.0",
+      "flow_variant": "15",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93560/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93560-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_15.c",
+          "sha256": "a80501c2a9142bb4916726bcec7cfdbfd12ba8e651de0c4f0c2e76807bd93a95",
+          "length": 5937
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_15.c"
+      ],
+      "archive_sha256": "77afd9d961ef419cd7674016dc45fccd9965ba56299ecb2f2b82daf8480ec539",
+      "archive_bytes": 8262
+    },
+    {
+      "case_id": "93561",
+      "version": "1.0.0",
+      "flow_variant": "16",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93561/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93561-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_16.c",
+          "sha256": "d2bc754f890055a44c0b2ccc371e44ae605fead57efa614f400ff9ec79b6f8a4",
+          "length": 4055
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_16.c"
+      ],
+      "archive_sha256": "f89ef3bf85dcf1fc07a6bc3a33c27b80d93a1b7b18b7e2e0a553330c5b59a239",
+      "archive_bytes": 8141
+    },
+    {
+      "case_id": "93562",
+      "version": "1.0.0",
+      "flow_variant": "17",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93562/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93562-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_17.c",
+          "sha256": "93b5139c1ffd58491dd88ae3d373e78c861f3ac0e93930efe2794576b1108d95",
+          "length": 4074
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_17.c"
+      ],
+      "archive_sha256": "3e7d55811890d27a2604eeb679c7f59c9dd1e510c57d723c8df1a1c7f4104156",
+      "archive_bytes": 8164
+    },
+    {
+      "case_id": "93563",
+      "version": "1.0.0",
+      "flow_variant": "18",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93563/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93563-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_18.c",
+          "sha256": "5d24df6549531a18f8cccb4d93a5b8cc3de550d4af16584bad7f5bd58f2ec339",
+          "length": 3951
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_18.c"
+      ],
+      "archive_sha256": "9016f45af3317f5019a6298cb8d52ec31e5c9558d4259b32a27f10877bb7ef7e",
+      "archive_bytes": 8121
+    },
+    {
+      "case_id": "93564",
+      "version": "1.0.0",
+      "flow_variant": "21",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93564/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93564-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_21.c",
+          "sha256": "ddc4ca933e451c85c8e2457d31d46c94cdda18f456df8956f479031a9384f002",
+          "length": 6562
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_21.c"
+      ],
+      "archive_sha256": "a3bd76c97ccf98c126074fa1e61bdf85e1f916dc6d09adc583a11892fd063203",
+      "archive_bytes": 8494
+    },
+    {
+      "case_id": "93565",
+      "version": "1.0.0",
+      "flow_variant": "22",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93565/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93565-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_22a.c",
+          "sha256": "1a96d511278da2b1fbb29f3e0347b868b412d493843156ab97723c8ca5a5d7a5",
+          "length": 5396
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_22b.c",
+          "sha256": "7393cf357bd05a14a66c5667ea3906d37ae686f353c7c15c8bdc2396f36a1107",
+          "length": 3354
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_22b.c"
+      ],
+      "archive_sha256": "5e40115a8a8211ee90e49ad4932ddb216a59c514a2a017cb00a3994869a96463",
+      "archive_bytes": 9470
+    },
+    {
+      "case_id": "93566",
+      "version": "1.0.0",
+      "flow_variant": "31",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93566/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93566-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_31.c",
+          "sha256": "6023110c9cab390b96edccf594be29535081d3a1f4e1082c1946dcad4975cf03",
+          "length": 4256
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_31.c"
+      ],
+      "archive_sha256": "30aea80c628716fa710391f19eb6693a24ed6cfaddb7c8c15639359c74a4893e",
+      "archive_bytes": 8146
+    },
+    {
+      "case_id": "93567",
+      "version": "1.0.0",
+      "flow_variant": "32",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93567/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93567-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_32.c",
+          "sha256": "9135deffebefcbbb40c39391207d020b69f086c0bf69a82bfdce02512bc50e86",
+          "length": 4613
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_32.c"
+      ],
+      "archive_sha256": "1bd2eed908a5d5bcff341bd1bc8b35d0bc66b210164d716e0685e4707d1fbbe2",
+      "archive_bytes": 8177
+    },
+    {
+      "case_id": "93569",
+      "version": "1.0.0",
+      "flow_variant": "34",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93569/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93569-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_34.c",
+          "sha256": "d6bb19b8c78150405e06f6d4c0e96d1ac0658e71a0093ba831c3040eb50c4a50",
+          "length": 4567
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_34.c"
+      ],
+      "archive_sha256": "294b24f9b659214a573e05233743fd69b2dafeb283771d280739947a80adaed8",
+      "archive_bytes": 8247
+    },
+    {
+      "case_id": "93570",
+      "version": "1.0.0",
+      "flow_variant": "41",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93570/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93570-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_41.c",
+          "sha256": "5b096f4ea4cebd9af8f1db66677b5b68ba18a5373cf5215af07d2ff19749523a",
+          "length": 4230
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_41.c"
+      ],
+      "archive_sha256": "9532273951c12201553b61e26caa4ab7333abb8dc6f894fd4f86c53257fb062e",
+      "archive_bytes": 8179
+    },
+    {
+      "case_id": "93571",
+      "version": "1.0.0",
+      "flow_variant": "42",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93571/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93571-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_42.c",
+          "sha256": "bb27f89f162d91a50b86f80f36a9d96a3888d9edfb96e700b347d066c6594ad1",
+          "length": 4143
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_42.c"
+      ],
+      "archive_sha256": "6d83269245a38cf8226bd27b8c9e62a527f0c5bd811a601ee83bc066f0dbbad3",
+      "archive_bytes": 8173
+    },
+    {
+      "case_id": "93573",
+      "version": "1.0.0",
+      "flow_variant": "44",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93573/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93573-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_44.c",
+          "sha256": "46fa6f4ad1084fe6660136b7236f48c208daa95142a12c4cd9db82cf9e4983c0",
+          "length": 4275
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_44.c"
+      ],
+      "archive_sha256": "cefcbd1f522886a751c321d99c223af1f9b983ad88ba1c1f5f71cb35bb251ffe",
+      "archive_bytes": 8255
+    },
+    {
+      "case_id": "93574",
+      "version": "1.0.0",
+      "flow_variant": "45",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93574/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93574-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_45.c",
+          "sha256": "0e409ae5946f36173fd236ccd0821e573a995bbcaa1d3529665c6c1a89a578df",
+          "length": 4480
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_45.c"
+      ],
+      "archive_sha256": "4b31f3472491a900419c3510588c302f7393ba624a93c2ab46e16f6bd76b11c8",
+      "archive_bytes": 8236
+    },
+    {
+      "case_id": "93575",
+      "version": "1.0.0",
+      "flow_variant": "51",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93575/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93575-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_51a.c",
+          "sha256": "105e86ddf38702c5866ea83a59fa32943e5bbc9793b477b5c62ea1b55bfdb1c0",
+          "length": 2970
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_51b.c",
+          "sha256": "2422e0e23dc2eb10f4c9653cbbbce86d65f52a5c25792594de65edc394ae18b7",
+          "length": 2439
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_51a.c"
+      ],
+      "archive_sha256": "2372af582b88d05e8c850610fa817d89efed6f1ee5ba717f28847c000cfeca34",
+      "archive_bytes": 9116
+    },
+    {
+      "case_id": "93576",
+      "version": "1.0.0",
+      "flow_variant": "52",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93576/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93576-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_52a.c",
+          "sha256": "56b8b438a470d29a0963e1773d594ee1eef5ae00be00ef94af63c6eb9929e834",
+          "length": 2986
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_52b.c",
+          "sha256": "3e17ddc4e551bc709dd3e7774688205d3d655dd46aac97c1c8253f3354b099f2",
+          "length": 1503
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_52c.c",
+          "sha256": "d68a84f0863e08e766d04d4fd462a569b048b7a1efd044445f9fa81f89141bdd",
+          "length": 2456
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_52a.c"
+      ],
+      "archive_sha256": "d90af09c46edc45e76d80ee23e105a81ff8a801ab6cc9f8fdaeb59ad8ea28a41",
+      "archive_bytes": 10061
+    },
+    {
+      "case_id": "93577",
+      "version": "1.0.0",
+      "flow_variant": "53",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93577/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93577-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_53a.c",
+          "sha256": "411635005e515919e284ad76566548fce459eb64dac9e95baa6d762d4b793db3",
+          "length": 3013
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_53b.c",
+          "sha256": "123c29c8e44f1df0a207762a5434224cec9c1647c0cb9f22d112c0854f5c6be5",
+          "length": 1530
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_53c.c",
+          "sha256": "e315912931161842a0a0d556863b14b7ae5db14c782d235ae662313b64c4a0a9",
+          "length": 1530
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_53d.c",
+          "sha256": "186a618df037f9e0b564c15fdbe33680844a6e40ca1b8bffbf9929e081b03377",
+          "length": 2483
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_53a.c"
+      ],
+      "archive_sha256": "485956afa277eb16de0eaa7ab3541e89f9b4ab2a06e7f082328b068812bc49f2",
+      "archive_bytes": 11083
+    },
+    {
+      "case_id": "93578",
+      "version": "1.0.0",
+      "flow_variant": "54",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93578/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93578-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_54a.c",
+          "sha256": "fd83c7f7ac84f58d599ed8cb84c94af19650f7729f2f1e13cbb2f4e70c4655d5",
+          "length": 3014
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_54b.c",
+          "sha256": "1fbe1d0a16d392acca1b9c9d812c3e72743bde83aad7c51fdd1c6f497e0fd01e",
+          "length": 1531
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_54c.c",
+          "sha256": "5bced34b9d4b6096d4cf23ce9bc0c04c9e8803f53ebb17c06e14fafccfb8ac85",
+          "length": 1531
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_54d.c",
+          "sha256": "16c83d34284102dbb0a8a31870a2cf48c3d0ccb01f0f46164a1e2f8c85cec055",
+          "length": 1531
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_54e.c",
+          "sha256": "d02f3839f758fab43d3e6914abee8da245f8478f26ad12af308b59daf7fbdbd8",
+          "length": 2484
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_54a.c"
+      ],
+      "archive_sha256": "c9b57c497fb2b4e0459e6b6c7e47f2d0b70130c9f505109a37dc0ad4fe9b9b17",
+      "archive_bytes": 12025
+    },
+    {
+      "case_id": "93579",
+      "version": "1.0.0",
+      "flow_variant": "61",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93579/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93579-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_61a.c",
+          "sha256": "0a77d781e5784955f0db9fd46271eeb7e9933c677e355e40e31f214d5ff96729",
+          "length": 3677
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_61b.c",
+          "sha256": "1674b9fe0664a620084e6f2b3ae4d37b98c71eab2c23e4c43df12de1d70b28e2",
+          "length": 1671
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_61b.c"
+      ],
+      "archive_sha256": "629a3fef228a2e4b96b7b33ab5a9efd7cfd0f385d02da4236b6177c0123cc1ac",
+      "archive_bytes": 9058
+    },
+    {
+      "case_id": "93581",
+      "version": "1.0.0",
+      "flow_variant": "63",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93581/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93581-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_63a.c",
+          "sha256": "6b236c811c5f2565fde56f94c8cf444a1d3cb16d15bdce8321e63e8053112503",
+          "length": 2942
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_63b.c",
+          "sha256": "a74b4f1289a1ce8a7859ccfe535a7cae81ab3d637d7eeca3290258e80bc5ddee",
+          "length": 2423
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_63a.c"
+      ],
+      "archive_sha256": "163ec8842f27a981bd5ad5018050d86e73f4fc1e7fd136efadcf20c2c8793db3",
+      "archive_bytes": 9063
+    },
+    {
+      "case_id": "93582",
+      "version": "1.0.0",
+      "flow_variant": "64",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93582/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93582-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_64a.c",
+          "sha256": "508414d8b3a14f067d3b4a05baf9cc0e2fb798a0c87a64276b04d5a47fa5e561",
+          "length": 2948
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_64b.c",
+          "sha256": "1655f7df2aafa8de4648eb26c4570e3d0cde799ac2a4966eac26a5e74e3becee",
+          "length": 2782
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_64a.c"
+      ],
+      "archive_sha256": "b1c85a67b9dbae873cea160e328c151ba4b0a9db2a38ed0a7acb39a5291c79ea",
+      "archive_bytes": 9143
+    },
+    {
+      "case_id": "93583",
+      "version": "1.0.0",
+      "flow_variant": "65",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93583/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93583-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_65a.c",
+          "sha256": "8938a7b754aa97c348332339f7973a7619ed96652835739770c8eceac1a2cfa6",
+          "length": 3140
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_65b.c",
+          "sha256": "990acce2cbe174593ec8cf15bd2710f0ba5000341ab45faa39a55d2fc390556b",
+          "length": 2379
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_65a.c"
+      ],
+      "archive_sha256": "d8ac8804284a57c8dccd1fa6fbce8584add72d23d42a76018d475d66159404ec",
+      "archive_bytes": 9148
+    },
+    {
+      "case_id": "93584",
+      "version": "1.0.0",
+      "flow_variant": "66",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93584/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93584-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_66a.c",
+          "sha256": "64696b3dc40d9a8009ee09919b6b53f40ed8d950b51a86884a2de1fc9b0e02f3",
+          "length": 3125
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_66b.c",
+          "sha256": "f603cd402f34df9b2fccca76fd7aa4c9dd81a546303fbc2f6d8d6cba3163dcf8",
+          "length": 2482
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_66a.c"
+      ],
+      "archive_sha256": "1a51a5453f0a353408ede6fc674dc38282bb35f52bfb07aa7a585af85fc78406",
+      "archive_bytes": 9123
+    },
+    {
+      "case_id": "93585",
+      "version": "1.0.0",
+      "flow_variant": "67",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93585/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93585-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_67a.c",
+          "sha256": "8d72799113c5027f4c8d9f1a4a9618fcca944979685c5ddea4c5655bf1f34e18",
+          "length": 3398
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_67b.c",
+          "sha256": "bdd15c269d32efbde0f4c93abd22a0ab57e8b39300c9b62ee746701b4e9f68e1",
+          "length": 2680
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_67a.c"
+      ],
+      "archive_sha256": "16b4a66f253919052578fb134038519ed5f5a73cf87290047af143e69354e408",
+      "archive_bytes": 9164
+    },
+    {
+      "case_id": "93586",
+      "version": "1.0.0",
+      "flow_variant": "68",
+      "state": "mixed",
+      "language": "c",
+      "author": "NSA/Center for Assured Software",
+      "case_url": "https://samate.nist.gov/SARD/test-cases/93586/versions/1.0.0",
+      "archive_url": "https://samate.nist.gov/SARD/downloads/versions/93586-v1.0.0.zip",
+      "target_files": [
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_68a.c",
+          "sha256": "9ba3939cc93567a62da2e3ee208750396504fcabede6a7c992d3344ba0ef5ca3",
+          "length": 3196
+        },
+        {
+          "path": "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_68b.c",
+          "sha256": "1349d11d3461b7fcc546ed04f688e085e960fa52c40ced5f6071087d979d31ab",
+          "length": 2715
+        }
+      ],
+      "sarif_targets": [
+        "src/testcases/CWE259_Hard_Coded_Password/CWE259_Hard_Coded_Password__w32_wchar_t_68a.c"
+      ],
+      "archive_sha256": "1c0742080e180406fdb1d551c76d6f41ccc02a69345b014e3563172e99d99485",
+      "archive_bytes": 9198
+    }
+  ]
+}
