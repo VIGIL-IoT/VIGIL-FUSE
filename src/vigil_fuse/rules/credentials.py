@@ -13,20 +13,27 @@ from .base import (
 )
 
 _SECRET_NAME = r"(?:password|passwd|pwd|user[_-]?pass|secret|token|api[_-]?key|access[_-]?token|auth[_-]?token)"
+_C_STRING_PREFIX = r"(?:u8|u|U|L)?"
 _ASSIGNMENT = re.compile(
     r"(?i)\b(?P<name>[\w.-]*"
     + _SECRET_NAME
-    + r"[\w.-]*)\b\s*(?:=|:)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    + r"[\w.-]*)\b\s*(?:=|:)\s*"
+    + _C_STRING_PREFIX
+    + r"(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _C_DEFINE = re.compile(
     r"(?i)^\s*#\s*define\s+(?P<name>[\w]*"
     + _SECRET_NAME
-    + r"[\w]*)\s+(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    + r"[\w]*)\s+"
+    + _C_STRING_PREFIX
+    + r"(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _SECRET_COMPARISON = re.compile(
     r"(?i)\b(?P<name>[\w.-]*(?:"
     + _SECRET_NAME
-    + r")[\w.-]*)\b\s*(?:==|!=)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+    + r")[\w.-]*)\b\s*(?:==|!=)\s*"
+    + _C_STRING_PREFIX
+    + r"(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _ENV_ASSIGNMENT = re.compile(
     r"(?i)^\s*(?:export\s+)?(?P<name>[\w.-]*"
@@ -205,8 +212,8 @@ RULE = RuleDefinition(
     category="secrets",
     explanation=(
         "A credential-related name is assigned a literal or compared with one. Quoted "
-        "assignments and comparisons are checked in source/configuration, and plain values "
-        "are also checked in .env files. "
+        "assignments and comparisons include C and C++ character-prefixed string literals. "
+        "Plain values are also checked in .env files. "
         "FUSE cannot determine whether the value is valid or used."
     ),
     potential_impact=(
@@ -218,7 +225,7 @@ RULE = RuleDefinition(
         "through a deployment-specific secret store or protected device provisioning flow."
     ),
     scanner=_scan,
-    version="1.8.0",
+    version="1.9.0",
     references=("https://cwe.mitre.org/data/definitions/798.html",),
     prefilter=_may_contain_secret_assignment,
 )

@@ -17,7 +17,7 @@ Native rules are small, evidence-oriented checks over selected source or configu
 ### FUSE001: Credential-like literal in source
 
 - **Category:** secrets
-- **Evidence:** A credential-related identifier such as `password`, `secret`, `token`, or `api_key` is assigned a literal, or a password-like input is compared with a literal. Plain assignments are also checked in `.env` files. Evidence replaces matched values with `[REDACTED]`.
+- **Evidence:** A credential-related identifier such as `password`, `secret`, `token`, or `api_key` is assigned a literal, or a password-like input is compared with a literal. C and C++ string prefixes `u8`, `u`, `U`, and `L` are recognized for assignments, macros, and comparisons. Plain assignments are also checked in `.env` files. Evidence replaces matched values with `[REDACTED]`.
 - **False-positive considerations:** UI labels, comments, tests, localization, placeholders, prompts, computed values, filename and reserved-marker constants, selected BitBake metadata, disabled XML accounts, and TinySRP's `DEFAULT_PASSWD` database filename are filtered using narrow context checks. Ordinary literals in examples remain review signals when they look credential-like.
 - **Limitations:** FUSE cannot validate the credential, determine if it is used, or establish whether the file is built or deployed. It does not scan binary data for secrets.
 - **Remediation:** Remove committed secrets, rotate any exposed value, and provision credentials through a protected deployment or device-provisioning process.

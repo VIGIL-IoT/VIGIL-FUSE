@@ -57,6 +57,20 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertNotIn("fixed-demo-password", findings[0].evidence)
         self.assertIn("[REDACTED]", findings[0].evidence)
 
+    def test_credentials_detect_prefixed_c_string_literals_and_redact_them(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        source = SourceFile(
+            "src/auth.cpp",
+            (FIXTURES / "FUSE001-wide-vulnerable.fixture").read_text(encoding="utf-8"),
+        )
+
+        findings = list(rule.scan(source))
+
+        self.assertEqual(3, len(findings))
+        self.assertTrue(all("[REDACTED]" in finding.evidence for finding in findings))
+        for value in ("wide-assignment-secret", "wide-define-secret", "wide-compare-secret"):
+            self.assertNotIn(value, " ".join(finding.evidence for finding in findings))
+
     def test_credentials_ignore_comparison_against_runtime_password_value(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
         source = SourceFile(

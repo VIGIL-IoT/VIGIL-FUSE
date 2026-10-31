@@ -1,5 +1,5 @@
 {
-  "case_count": 16,
+  "case_count": 24,
   "cases": [
     {
       "case_id": "FUSE001-vulnerable",
@@ -31,6 +31,102 @@
       "pinned_commit": null,
       "rationale": "The value is an environment placeholder rather than an embedded credential.",
       "source_path": "src/config.yaml",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE001-hardcoded-comparison-vulnerable",
+      "category": "synthetic-vulnerable",
+      "expected_disposition": "finding",
+      "expected_rules": [
+        "FUSE001"
+      ],
+      "findings_by_rule": {
+        "FUSE001": 1
+      },
+      "fixture": "FUSE001-compare-vulnerable.fixture",
+      "observed_rules": [
+        "FUSE001"
+      ],
+      "pinned_commit": null,
+      "rationale": "A password-like input is compared directly with a non-placeholder string literal.",
+      "source_path": "src/auth.cpp",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE001-hardcoded-comparison-secure",
+      "category": "synthetic-secure",
+      "expected_disposition": "no-finding",
+      "expected_rules": [],
+      "findings_by_rule": {},
+      "fixture": "FUSE001-compare-secure.fixture",
+      "observed_rules": [],
+      "pinned_commit": null,
+      "rationale": "The entered password is compared with a value read from a runtime provisioning interface.",
+      "source_path": "src/auth.cpp",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE001-c-prefixed-literals-vulnerable",
+      "category": "synthetic-vulnerable",
+      "expected_disposition": "finding",
+      "expected_rules": [
+        "FUSE001"
+      ],
+      "findings_by_rule": {
+        "FUSE001": 3
+      },
+      "fixture": "FUSE001-wide-vulnerable.fixture",
+      "observed_rules": [
+        "FUSE001"
+      ],
+      "pinned_commit": null,
+      "rationale": "C and C++ character-prefixed string literals encode hard-coded credentials in a macro, assignment, and comparison.",
+      "source_path": "src/auth.cpp",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE001-c-prefixed-literals-secure",
+      "category": "synthetic-secure",
+      "expected_disposition": "no-finding",
+      "expected_rules": [],
+      "findings_by_rule": {},
+      "fixture": "FUSE001-wide-secure.fixture",
+      "observed_rules": [],
+      "pinned_commit": null,
+      "rationale": "The wide string contains a runtime provisioning placeholder rather than a hard-coded value.",
+      "source_path": "src/auth.cpp",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE001-tinysrp-passwd-file-secure",
+      "category": "synthetic-secure",
+      "expected_disposition": "no-finding",
+      "expected_rules": [],
+      "findings_by_rule": {},
+      "fixture": "FUSE001-tinysrp-passwd-file-secure.fixture",
+      "observed_rules": [],
+      "pinned_commit": null,
+      "rationale": "TinySRP uses DEFAULT_PASSWD for its password database filename in this header.",
+      "source_path": "package/network/services/ead/src/tinysrp/t_pwd.h",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE001-tinysrp-password-positive",
+      "category": "synthetic-vulnerable",
+      "expected_disposition": "finding",
+      "expected_rules": [
+        "FUSE001"
+      ],
+      "findings_by_rule": {
+        "FUSE001": 1
+      },
+      "fixture": "FUSE001-tinysrp-password-positive.fixture",
+      "observed_rules": [
+        "FUSE001"
+      ],
+      "pinned_commit": null,
+      "rationale": "A non-placeholder password literal in the same macro remains detectable.",
+      "source_path": "package/network/services/ead/src/tinysrp/t_pwd.h",
       "split": "development"
     },
     {
@@ -95,6 +191,38 @@
       "pinned_commit": null,
       "rationale": "The sample explicitly keeps TLS verification enabled.",
       "source_path": "src/client.py",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE003-c-dead-branch-secure",
+      "category": "synthetic-secure",
+      "expected_disposition": "no-finding",
+      "expected_rules": [],
+      "findings_by_rule": {},
+      "fixture": "FUSE003-c-dead-branch-secure.fixture",
+      "observed_rules": [],
+      "pinned_commit": null,
+      "rationale": "The insecure call exists only in literal inactive C preprocessor branches.",
+      "source_path": "src/tls_client.cpp",
+      "split": "development"
+    },
+    {
+      "case_id": "FUSE003-c-unknown-branch-positive",
+      "category": "synthetic-vulnerable",
+      "expected_disposition": "finding",
+      "expected_rules": [
+        "FUSE003"
+      ],
+      "findings_by_rule": {
+        "FUSE003": 1
+      },
+      "fixture": "FUSE003-c-unknown-branch-positive.fixture",
+      "observed_rules": [
+        "FUSE003"
+      ],
+      "pinned_commit": null,
+      "rationale": "A symbolic preprocessor condition is unresolved and remains a review signal.",
+      "source_path": "src/tls_client.cpp",
       "split": "development"
     },
     {
@@ -259,27 +387,27 @@
     }
   ],
   "dataset_id": "native-rule-fixtures",
-  "dataset_sha256": "46b3ccd754aa9c2df523506fd92b453e986e4beb58c0c2d7a6d909837ce389b6",
+  "dataset_sha256": "5efa37df913b1062504f855d506d53d1fd06ee0fa2610f290527a92bea94fd06",
   "errors": [],
   "evaluation_unit": "case-rule pair; a rule is positive for a case when it emits one or more findings",
-  "fixture_content_sha256": "aff67f5320ef4148fa2a63c9fb913a754a862f18871b984cbed4e8cdfb2644c1",
+  "fixture_content_sha256": "5da39e6fbf3901f2f626b56e848aea3a01024e469b05c8667c44f82ce38e55ff",
   "interpretation": "Small synthetic positive and negative examples used by the native rule unit tests. This dataset measures fixture behavior only, not real-world accuracy.",
   "metrics": [
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
-      "positive_cases": 1,
+      "positive_cases": 4,
       "precision": 1.0,
       "recall": 1.0,
       "rule_id": "FUSE001",
       "specificity": 1.0,
-      "tn": 15,
-      "tp": 1
+      "tn": 20,
+      "tp": 4
     },
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -288,24 +416,24 @@
       "recall": 1.0,
       "rule_id": "FUSE002",
       "specificity": 1.0,
-      "tn": 15,
+      "tn": 23,
       "tp": 1
     },
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
-      "positive_cases": 2,
+      "positive_cases": 3,
       "precision": 1.0,
       "recall": 1.0,
       "rule_id": "FUSE003",
       "specificity": 1.0,
-      "tn": 14,
-      "tp": 2
+      "tn": 21,
+      "tp": 3
     },
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -314,11 +442,11 @@
       "recall": 1.0,
       "rule_id": "FUSE004",
       "specificity": 1.0,
-      "tn": 15,
+      "tn": 23,
       "tp": 1
     },
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -327,11 +455,11 @@
       "recall": 1.0,
       "rule_id": "FUSE005",
       "specificity": 1.0,
-      "tn": 15,
+      "tn": 23,
       "tp": 1
     },
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -340,11 +468,11 @@
       "recall": 1.0,
       "rule_id": "FUSE006",
       "specificity": 1.0,
-      "tn": 15,
+      "tn": 23,
       "tp": 1
     },
     {
-      "cases": 16,
+      "cases": 24,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -353,7 +481,7 @@
       "recall": 1.0,
       "rule_id": "FUSE007",
       "specificity": 1.0,
-      "tn": 15,
+      "tn": 23,
       "tp": 1
     }
   ],
@@ -362,7 +490,7 @@
   "rules": [
     {
       "rule_id": "FUSE001",
-      "rule_version": "1.5.0"
+      "rule_version": "1.9.0"
     },
     {
       "rule_id": "FUSE002",
@@ -370,7 +498,7 @@
     },
     {
       "rule_id": "FUSE003",
-      "rule_version": "1.3.0"
+      "rule_version": "1.4.0"
     },
     {
       "rule_id": "FUSE004",
