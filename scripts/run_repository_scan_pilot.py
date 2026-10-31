@@ -40,7 +40,11 @@ def git_status(repository: Path, pathspecs: tuple[str, ...] = ()) -> str:
     return result.stdout.strip()
 
 
-def update_scanner_provenance(manifest_path: Path = MANIFEST) -> dict:
+def update_scanner_provenance(
+    manifest_path: Path = MANIFEST,
+    *,
+    require_clean: bool = False,
+) -> dict:
     source_root = ROOT / "src" / "vigil_fuse"
     files = sorted(
         (*source_root.rglob("*.py"), *source_root.rglob("*.json"), ROOT / "pyproject.toml"),
@@ -54,14 +58,20 @@ def update_scanner_provenance(manifest_path: Path = MANIFEST) -> dict:
         digest.update(b"\0")
 
     project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
+    source_tree_dirty = bool(git_status(ROOT, ("src/vigil_fuse", "pyproject.toml")))
     provenance = {
         "version": project["version"],
         "commit": git_head(ROOT),
         "source_tree_sha256": digest.hexdigest(),
-        "source_tree_dirty": bool(git_status(ROOT, ("src/vigil_fuse", "pyproject.toml"))),
+        "source_tree_dirty": source_tree_dirty,
         "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
         "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL",
     }
+    if require_clean and source_tree_dirty:
+        raise RuntimeError(
+            "Refusing to scan with a dirty FUSE source tree. Commit scanner changes first; "
+            "--provenance-only can record the current state without scanning."
+        )
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest["fuse"] = provenance
     manifest_path.write_text(
@@ -170,7 +180,7 @@ def run(
 ) -> None:
     manifest_path = manifest_path.resolve()
     report_root = report_root.resolve()
-    provenance = update_scanner_provenance(manifest_path)
+    provenance = update_scanner_provenance(manifest_path, require_clean=True)
     print(
         f"Scanner provenance: {provenance['version']} at {provenance['commit'][:12]}, "
         f"source SHA-256 {provenance['source_tree_sha256'][:12]}, "

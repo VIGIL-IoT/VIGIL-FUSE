@@ -5,6 +5,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest import mock
 
 from scripts.run_repository_scan_pilot import (
     build_scan_command,
@@ -26,6 +27,21 @@ class RepositoryScanRunnerTests(unittest.TestCase):
 
         self.assertEqual("holdout", manifest["cohort"])
         self.assertEqual(provenance, manifest["fuse"])
+
+    def test_runner_refuses_dirty_scanner_before_updating_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest_path = Path(temporary) / "holdout-manifest.json"
+            original = {"cohort": "holdout", "repositories": []}
+            manifest_path.write_text(json.dumps(original), encoding="utf-8")
+
+            with mock.patch(
+                "scripts.run_repository_scan_pilot.git_status",
+                return_value=" M src/vigil_fuse/rules.py",
+            ):
+                with self.assertRaisesRegex(RuntimeError, "dirty FUSE source tree"):
+                    update_scanner_provenance(manifest_path, require_clean=True)
+
+            self.assertEqual(original, json.loads(manifest_path.read_text(encoding="utf-8")))
 
     def test_runner_passes_manifest_target_label_to_fuse(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
