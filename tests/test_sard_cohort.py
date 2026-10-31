@@ -5,9 +5,15 @@ from pathlib import Path
 import stat
 import tempfile
 import unittest
+from unittest.mock import MagicMock, patch
 from zipfile import ZipInfo, ZipFile
 
-from scripts.evaluate_sard_fuse001_cohort import CASES, _safe_extract_zip
+from scripts.evaluate_sard_fuse001_cohort import (
+    CASES,
+    SardCase,
+    _safe_extract_zip,
+    download_case,
+)
 from scripts.evaluate_sard_fuse001_catalogue import (
     DEFAULT_MANIFEST,
     _safe_manifest_path,
@@ -95,6 +101,28 @@ class SardCohortInputTests(unittest.TestCase):
             case["target_files"][0]["sha256"] = "0" * 64
             with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
                 _verify_source_targets(case, root)
+
+    def test_sard_download_retries_connection_reset_and_checks_digest(self) -> None:
+        content = b"pinned archive bytes"
+        response = MagicMock()
+        stream = response.__enter__.return_value
+        stream.headers.get.return_value = str(len(content))
+        stream.read.side_effect = [content, b""]
+        case = SardCase("12345", "01", hashlib.sha256(content).hexdigest(), "target.c", ())
+
+        with tempfile.TemporaryDirectory() as temporary:
+            destination = Path(temporary) / "case.zip"
+            with (
+                patch(
+                    "scripts.evaluate_sard_fuse001_cohort.urlopen",
+                    side_effect=[ConnectionResetError("temporary reset"), response],
+                ) as open_url,
+                patch("scripts.evaluate_sard_fuse001_cohort.time.sleep"),
+            ):
+                download_case(case, destination)
+
+            self.assertEqual(2, open_url.call_count)
+            self.assertEqual(content, destination.read_bytes())
 
     def test_safe_extraction_accepts_regular_files(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

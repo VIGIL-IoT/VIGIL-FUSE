@@ -11,6 +11,7 @@ import stat
 import subprocess
 import sys
 import tempfile
+import time
 from typing import Any, IO
 from urllib.request import Request, urlopen
 from zipfile import BadZipFile, ZipFile
@@ -20,6 +21,8 @@ MAX_ARCHIVE_BYTES = 1_000_000
 MAX_EXTRACTED_BYTES = 2_000_000
 MAX_ARCHIVE_ENTRIES = 64
 DOWNLOAD_TIMEOUT_SECONDS = 30
+DOWNLOAD_RETRIES = 3
+DOWNLOAD_RETRY_DELAY_SECONDS = 1
 SCAN_TIMEOUT_SECONDS = 120
 READ_CHUNK_BYTES = 64 * 1024
 
@@ -144,20 +147,31 @@ def download_case(case: SardCase, destination: Path) -> None:
         case.download_url,
         headers={"User-Agent": "VIGIL-FUSE-SARD-validation/1.0"},
     )
-    try:
-        with urlopen(request, timeout=DOWNLOAD_TIMEOUT_SECONDS) as response:
-            content_length = response.headers.get("Content-Length")
-            if content_length is not None and int(content_length) > MAX_ARCHIVE_BYTES:
-                raise ValueError("NIST archive exceeds the configured download limit")
-            _write_limited(response, destination, MAX_ARCHIVE_BYTES)
-    except (OSError, ValueError) as error:
+    for attempt in range(DOWNLOAD_RETRIES):
         destination.unlink(missing_ok=True)
-        raise RuntimeError(f"could not download SARD case {case.case_id}") from error
+        try:
+            with urlopen(request, timeout=DOWNLOAD_TIMEOUT_SECONDS) as response:
+                content_length = response.headers.get("Content-Length")
+                if content_length is not None and int(content_length) > MAX_ARCHIVE_BYTES:
+                    raise ValueError("NIST archive exceeds the configured download limit")
+                _write_limited(response, destination, MAX_ARCHIVE_BYTES)
+        except OSError as error:
+            destination.unlink(missing_ok=True)
+            if attempt + 1 == DOWNLOAD_RETRIES:
+                raise RuntimeError(f"could not download SARD case {case.case_id}") from error
+            time.sleep(DOWNLOAD_RETRY_DELAY_SECONDS * (attempt + 1))
+            continue
+        except ValueError as error:
+            destination.unlink(missing_ok=True)
+            raise RuntimeError(f"could not download SARD case {case.case_id}") from error
 
-    digest = hashlib.sha256(destination.read_bytes()).hexdigest()
-    if digest != case.archive_sha256:
-        destination.unlink(missing_ok=True)
-        raise RuntimeError(f"SHA-256 mismatch for SARD case {case.case_id}")
+        digest = hashlib.sha256(destination.read_bytes()).hexdigest()
+        if digest != case.archive_sha256:
+            destination.unlink(missing_ok=True)
+            raise RuntimeError(f"SHA-256 mismatch for SARD case {case.case_id}")
+        return
+
+    raise AssertionError("SARD download retry loop exited unexpectedly")
 
 
 def _safe_extract_zip(
