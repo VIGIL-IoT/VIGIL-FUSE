@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from pathlib import Path
 import stat
 import tempfile
@@ -87,6 +88,80 @@ class SardCohortInputTests(unittest.TestCase):
         self.assertEqual(
             [{"file": "support.c", "line": 27}],
             result["additional_fuse001_locations"],
+        )
+
+    def test_catalogue_compares_macro_literals_without_recording_secret_values(self) -> None:
+        secret = "sensitive-fixture-value-123"
+        source_lines = {
+            "target.c": f'#define DEVICE_PASSWORD "{secret}"\n'.encode("utf-8"),
+            "same.c": f'#define DEVICE_PASSWORD "{secret}"\n'.encode("utf-8"),
+            "different.c": b'#define DEVICE_PASSWORD "another-fixture-value"\n',
+        }
+        findings = []
+        target_files = []
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for name, content in source_lines.items():
+                (root / name).write_bytes(content)
+                target_files.append(
+                    {
+                        "path": name,
+                        "length": len(content),
+                        "sha256": hashlib.sha256(content).hexdigest(),
+                    }
+                )
+                findings.append({"location": {"file": name, "start_line": 1}})
+
+            result = summarize_findings(
+                {
+                    "sarif_targets": ["target.c"],
+                    "target_files": target_files,
+                },
+                findings,
+                root,
+            )
+
+        self.assertEqual(1, result["additional_same_named_macro_literal_matches"])
+        self.assertEqual(2, result["additional_macro_literal_comparisons"])
+        locations = {item["file"]: item for item in result["additional_fuse001_locations"]}
+        self.assertIs(True, locations["same.c"]["same_named_macro_literal_as_sarif_target"])
+        self.assertIs(
+            False,
+            locations["different.c"]["same_named_macro_literal_as_sarif_target"],
+        )
+        self.assertNotIn(secret, json.dumps(result))
+
+    def test_catalogue_marks_unparsed_or_unverified_macro_comparisons_unresolved(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            sources = {
+                "target.c": b'#define DEVICE_PASSWORD "fixture-password-123"\n',
+                "support.c": b"const char *password = derive_secret();\n",
+            }
+            target_files = []
+            for name, content in sources.items():
+                (root / name).write_bytes(content)
+                target_files.append(
+                    {
+                        "path": name,
+                        "length": len(content),
+                        "sha256": hashlib.sha256(content).hexdigest(),
+                    }
+                )
+            result = summarize_findings(
+                {"sarif_targets": ["target.c"], "target_files": target_files},
+                [
+                    {"location": {"file": "target.c", "start_line": 1}},
+                    {"location": {"file": "support.c", "start_line": 1}},
+                ],
+                root,
+            )
+
+        self.assertEqual(0, result["additional_same_named_macro_literal_matches"])
+        self.assertEqual(0, result["additional_macro_literal_comparisons"])
+        self.assertEqual(1, result["additional_macro_literal_comparisons_unresolved"])
+        self.assertIsNone(
+            result["additional_fuse001_locations"][0]["same_named_macro_literal_as_sarif_target"]
         )
 
     def test_catalogue_target_verification_checks_length_and_digest(self) -> None:

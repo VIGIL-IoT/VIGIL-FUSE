@@ -29,6 +29,11 @@ DEFAULT_MANIFEST = (
 DEFAULT_OUTPUT = ROOT / "reports/benchmark/sard-fuse001-cwe259-c-catalogue-results-2026-10-31.json"
 _SHA256_PATTERN = re.compile(r"[0-9a-f]{64}\Z")
 _VERSION_PATTERN = re.compile(r"[0-9]+(?:\.[0-9]+){1,2}\Z")
+_C_DEFINE_LITERAL = re.compile(
+    r"^\s*#\s*define\s+(?P<name>[A-Za-z_]\w*)\s+"
+    r"(?P<prefix>u8|u|U|L)?(?P<quote>['\"])(?P<value>[^\"'\r\n]{4,})(?P=quote)",
+    re.IGNORECASE,
+)
 
 
 def _safe_manifest_path(value: Any) -> str:
@@ -144,9 +149,84 @@ def _finding_file(finding: dict[str, Any]) -> str:
     return value.replace("\\", "/").rsplit("/", 1)[-1]
 
 
-def summarize_findings(case: dict[str, Any], findings: list[dict[str, Any]]) -> dict[str, Any]:
+def _finding_relative_path(finding: dict[str, Any]) -> str | None:
+    location = finding.get("location")
+    value = location.get("file") if isinstance(location, dict) else None
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        return _safe_manifest_path(value.replace("\\", "/"))
+    except ValueError:
+        return None
+
+
+def _finding_macro_literal_signature(
+    finding: dict[str, Any],
+    source_root: Path,
+    source_targets: dict[str, dict[str, Any]],
+) -> tuple[str, str] | None:
+    relative_path = _finding_relative_path(finding)
+    target = source_targets.get(relative_path) if relative_path is not None else None
+    location = finding.get("location")
+    line_number = location.get("start_line") if isinstance(location, dict) else None
+    if (
+        relative_path is None
+        or target is None
+        or not isinstance(line_number, int)
+        or isinstance(line_number, bool)
+        or line_number < 1
+    ):
+        return None
+
+    relative = PurePosixPath(relative_path)
+    source_path = source_root.joinpath(*relative.parts)
+    resolved_root = source_root.resolve()
+    if not source_path.resolve(strict=True).is_relative_to(resolved_root):
+        raise ValueError("SARD finding source escapes its case archive")
+    content = source_path.read_bytes()
+    if len(content) != target["length"]:
+        raise ValueError("SARD finding source length does not match the manifest")
+    if hashlib.sha256(content).hexdigest() != target["sha256"]:
+        raise ValueError("SARD finding source digest does not match the manifest")
+
+    try:
+        text = content.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        text = content.decode("iso-8859-1")
+    lines = text.splitlines()
+    if line_number > len(lines):
+        return None
+    match = _C_DEFINE_LITERAL.match(lines[line_number - 1])
+    if match is None:
+        return None
+    prefix = match.group("prefix") or ""
+    token = f"{prefix}{match.group('quote')}{match.group('value')}{match.group('quote')}"
+    return match.group("name").casefold(), token
+
+
+def summarize_findings(
+    case: dict[str, Any],
+    findings: list[dict[str, Any]],
+    source_root: Path | None = None,
+) -> dict[str, Any]:
     counts = Counter(_finding_file(finding) for finding in findings)
     targets = [PurePosixPath(path).name for path in case["sarif_targets"]]
+    source_target_metadata = {
+        _safe_manifest_path(target["path"]): target for target in case.get("target_files", [])
+    }
+    sarif_target_paths = {_safe_manifest_path(path) for path in case["sarif_targets"]}
+    target_signatures: set[tuple[str, str]] = set()
+    if source_root is not None:
+        for finding in findings:
+            if _finding_relative_path(finding) not in sarif_target_paths:
+                continue
+            signature = _finding_macro_literal_signature(
+                finding,
+                source_root,
+                source_target_metadata,
+            )
+            if signature is not None:
+                target_signatures.add(signature)
     target_results = [
         {"file": target, "detected": counts[target] > 0, "finding_count": counts[target]}
         for target in targets
@@ -159,12 +239,22 @@ def summarize_findings(case: dict[str, Any], findings: list[dict[str, Any]]) -> 
             continue
         location = finding.get("location")
         line = location.get("start_line") if isinstance(location, dict) else None
-        additional_locations.append(
-            {
-                "file": filename,
-                "line": line if isinstance(line, int) and not isinstance(line, bool) else None,
-            }
-        )
+        additional: dict[str, Any] = {
+            "file": filename,
+            "line": line if isinstance(line, int) and not isinstance(line, bool) else None,
+        }
+        if source_root is not None:
+            signature = _finding_macro_literal_signature(
+                finding,
+                source_root,
+                source_target_metadata,
+            )
+            additional["same_named_macro_literal_as_sarif_target"] = (
+                signature in target_signatures
+                if signature is not None and target_signatures
+                else None
+            )
+        additional_locations.append(additional)
     additional_locations.sort(
         key=lambda item: (
             item["file"],
@@ -179,7 +269,7 @@ def summarize_findings(case: dict[str, Any], findings: list[dict[str, Any]]) -> 
             if isinstance((version := finding.get("rule_version")), str)
         }
     )
-    return {
+    result = {
         "finding_count": len(findings),
         "files_with_findings": dict(sorted(counts.items())),
         "nist_sarif_targets": target_results,
@@ -187,6 +277,24 @@ def summarize_findings(case: dict[str, Any], findings: list[dict[str, Any]]) -> 
         "additional_fuse001_locations": additional_locations,
         "rule_versions": versions,
     }
+    if source_root is not None:
+        comparisons = [
+            item["same_named_macro_literal_as_sarif_target"] for item in additional_locations
+        ]
+        result.update(
+            {
+                "additional_same_named_macro_literal_matches": sum(
+                    item is True for item in comparisons
+                ),
+                "additional_macro_literal_comparisons": sum(
+                    item is not None for item in comparisons
+                ),
+                "additional_macro_literal_comparisons_unresolved": sum(
+                    item is None for item in comparisons
+                ),
+            }
+        )
+    return result
 
 
 def _git_revision() -> str | None:
@@ -235,7 +343,7 @@ def evaluate(manifest_path: Path, case_limit: int | None = None) -> dict[str, An
             cohort._safe_extract_zip(archive_path, source_root)
             _verify_source_targets(case_data, source_root)
             findings, files_scanned = cohort._run_scan(case_id, source_root, report_path)
-            case_result = summarize_findings(case_data, findings)
+            case_result = summarize_findings(case_data, findings, source_root)
             case_result.update(
                 {
                     "case_id": case_id,
@@ -302,11 +410,23 @@ def evaluate(manifest_path: Path, case_limit: int | None = None) -> dict[str, An
             "additional_fuse001_file_observations": sum(
                 len(case["additional_fuse001_files"]) for case in result_cases
             ),
+            "additional_same_named_macro_literal_matches": sum(
+                case.get("additional_same_named_macro_literal_matches", 0) for case in result_cases
+            ),
+            "additional_macro_literal_comparisons": sum(
+                case.get("additional_macro_literal_comparisons", 0) for case in result_cases
+            ),
+            "additional_macro_literal_comparisons_unresolved": sum(
+                case.get("additional_macro_literal_comparisons_unresolved", 0)
+                for case in result_cases
+            ),
             "accuracy_metrics": "not-computed",
             "accuracy_metric_limit": (
                 "The catalogue's SARIF source targets label weakness flows, while each mixed case "
-                "also contains good paths. File-level matches outside the SARIF target cannot be "
-                "classified as false positives from these labels alone."
+                "also contains good paths. A matching macro name and source literal token only "
+                "establish exact text duplication, not credential validity or flow. File-level "
+                "matches outside the SARIF target cannot be classified as false positives from "
+                "these labels alone."
             ),
         },
         "cases": result_cases,
