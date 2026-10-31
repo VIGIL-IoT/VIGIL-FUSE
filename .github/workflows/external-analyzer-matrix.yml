@@ -1,0 +1,74 @@
+name: External analyzer cross-platform smoke
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/external-analyzer-matrix.yml
+      - pyproject.toml
+      - scripts/install_ci_analyzers.py
+      - scripts/verify_dependency_adapters.py
+      - scripts/verify_gitleaks_adapter.py
+      - src/vigil_fuse/analyzer_runtime.py
+      - src/vigil_fuse/dependency_analyzers.py
+      - src/vigil_fuse/history_analyzer.py
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/external-analyzer-matrix.yml
+      - pyproject.toml
+      - scripts/install_ci_analyzers.py
+      - scripts/verify_dependency_adapters.py
+      - scripts/verify_gitleaks_adapter.py
+      - src/vigil_fuse/analyzer_runtime.py
+      - src/vigil_fuse/dependency_analyzers.py
+      - src/vigil_fuse/history_analyzer.py
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: external-analyzer-matrix-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    name: Syft, OSV-Scanner, and Gitleaks on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - name: Check out FUSE
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install FUSE
+        run: python -m pip install .
+
+      - name: Install SHA-256-pinned analyzer releases
+        run: python scripts/install_ci_analyzers.py --directory "${{ runner.temp }}/fuse-analyzers"
+
+      - name: Verify Syft and OSV-Scanner integration
+        run: >-
+          python scripts/verify_dependency_adapters.py
+          --expected-syft-version 1.55.0
+          --expected-osv-version 2.7.0
+
+      - name: Verify Gitleaks integration and report redaction
+        run: >-
+          python scripts/verify_gitleaks_adapter.py
+          --expected-version 8.30.0

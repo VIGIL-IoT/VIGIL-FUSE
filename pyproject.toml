@@ -75,6 +75,7 @@ files = [
   "scripts/prepare_repository_benchmark_cohort.py",
   "scripts/benchmark_process.py",
   "scripts/build_repository_scan_dashboard.py",
+  "scripts/install_ci_analyzers.py",
   "scripts/verify_binwalk_adapter.py",
   "scripts/verify_esp_idf_build_context.py",
   "scripts/evaluate_sard_fuse001_cohort.py",
