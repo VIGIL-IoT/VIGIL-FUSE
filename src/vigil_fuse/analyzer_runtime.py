@@ -6,11 +6,14 @@ import os
 import re
 import signal
 import shutil
+import select
 import subprocess
 import threading
+import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import IO
+from typing import IO, Any
+from ctypes import wintypes
 
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
 
@@ -25,6 +28,59 @@ _SENSITIVE_ENVIRONMENT_NAME = re.compile(
     re.IGNORECASE,
 )
 _ANALYZER_ENV_ALLOWLIST = "FUSE_ANALYZER_ENV_ALLOWLIST"
+_WINDOWS_JOB_OBJECT_EXTENDED_LIMIT_INFORMATION = 9
+_WINDOWS_JOB_OBJECT_LIMIT_KILL_ON_CLOSE = 0x00002000
+_WINDOWS_THREAD_SNAPSHOT_FLAG = 0x00000004
+_WINDOWS_THREAD_SUSPEND_RESUME = 0x0002
+_WINDOWS_RESUME_THREAD_FAILED = 0xFFFFFFFF
+
+
+class _WindowsBasicLimitInformation(ctypes.Structure):
+    _fields_ = [
+        ("PerProcessUserTimeLimit", ctypes.c_longlong),
+        ("PerJobUserTimeLimit", ctypes.c_longlong),
+        ("LimitFlags", wintypes.DWORD),
+        ("MinimumWorkingSetSize", ctypes.c_size_t),
+        ("MaximumWorkingSetSize", ctypes.c_size_t),
+        ("ActiveProcessLimit", wintypes.DWORD),
+        ("Affinity", ctypes.c_size_t),
+        ("PriorityClass", wintypes.DWORD),
+        ("SchedulingClass", wintypes.DWORD),
+    ]
+
+
+class _WindowsIoCounters(ctypes.Structure):
+    _fields_ = [
+        ("ReadOperationCount", ctypes.c_ulonglong),
+        ("WriteOperationCount", ctypes.c_ulonglong),
+        ("OtherOperationCount", ctypes.c_ulonglong),
+        ("ReadTransferCount", ctypes.c_ulonglong),
+        ("WriteTransferCount", ctypes.c_ulonglong),
+        ("OtherTransferCount", ctypes.c_ulonglong),
+    ]
+
+
+class _WindowsExtendedLimitInformation(ctypes.Structure):
+    _fields_ = [
+        ("BasicLimitInformation", _WindowsBasicLimitInformation),
+        ("IoInfo", _WindowsIoCounters),
+        ("ProcessMemoryLimit", ctypes.c_size_t),
+        ("JobMemoryLimit", ctypes.c_size_t),
+        ("PeakProcessMemoryUsed", ctypes.c_size_t),
+        ("PeakJobMemoryUsed", ctypes.c_size_t),
+    ]
+
+
+class _WindowsThreadEntry32(ctypes.Structure):
+    _fields_ = [
+        ("dwSize", wintypes.DWORD),
+        ("cntUsage", wintypes.DWORD),
+        ("th32ThreadID", wintypes.DWORD),
+        ("th32OwnerProcessID", wintypes.DWORD),
+        ("tpBasePri", wintypes.LONG),
+        ("tpDeltaPri", wintypes.LONG),
+        ("dwFlags", wintypes.DWORD),
+    ]
 
 
 @dataclass(frozen=True)
@@ -74,6 +130,113 @@ def _analyzer_environment(command: list[str]) -> dict[str, str]:
     }
 
 
+def _windows_kernel32() -> Any:
+    win_dll = getattr(ctypes, "WinDLL", None)
+    if win_dll is None:
+        raise OSError("Windows process containment APIs are unavailable")
+    kernel32 = win_dll("kernel32", use_last_error=True)
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+    return kernel32
+
+
+def _create_windows_job() -> int:
+    """Create a kill-on-close job for one optional analyzer process tree."""
+    kernel32 = _windows_kernel32()
+    create_job = kernel32.CreateJobObjectW
+    create_job.argtypes = [ctypes.c_void_p, wintypes.LPCWSTR]
+    create_job.restype = wintypes.HANDLE
+    job_handle = create_job(None, None)
+    if not job_handle:
+        raise OSError(ctypes.get_last_error(), "Could not create analyzer job object")
+
+    limits = _WindowsExtendedLimitInformation()
+    limits.BasicLimitInformation.LimitFlags = _WINDOWS_JOB_OBJECT_LIMIT_KILL_ON_CLOSE
+    set_information = kernel32.SetInformationJobObject
+    set_information.argtypes = [
+        wintypes.HANDLE,
+        ctypes.c_int,
+        ctypes.c_void_p,
+        wintypes.DWORD,
+    ]
+    set_information.restype = wintypes.BOOL
+    if not set_information(
+        job_handle,
+        _WINDOWS_JOB_OBJECT_EXTENDED_LIMIT_INFORMATION,
+        ctypes.byref(limits),
+        ctypes.sizeof(limits),
+    ):
+        error = ctypes.get_last_error()
+        kernel32.CloseHandle(job_handle)
+        raise OSError(error, "Could not configure analyzer job object")
+    return int(job_handle)
+
+
+def _resume_suspended_windows_process(process: subprocess.Popen[bytes]) -> None:
+    """Resume the suspended process's initial thread after assigning its job."""
+    kernel32 = _windows_kernel32()
+    kernel32.CreateToolhelp32Snapshot.argtypes = [wintypes.DWORD, wintypes.DWORD]
+    kernel32.CreateToolhelp32Snapshot.restype = wintypes.HANDLE
+    snapshot = kernel32.CreateToolhelp32Snapshot(_WINDOWS_THREAD_SNAPSHOT_FLAG, 0)
+    invalid_handle = ctypes.c_void_p(-1).value
+    if not snapshot or snapshot == invalid_handle:
+        raise OSError(ctypes.get_last_error(), "Could not inspect analyzer process threads")
+
+    try:
+        entry = _WindowsThreadEntry32()
+        entry.dwSize = ctypes.sizeof(entry)
+        thread32_first = kernel32.Thread32First
+        thread32_first.argtypes = [wintypes.HANDLE, ctypes.POINTER(_WindowsThreadEntry32)]
+        thread32_first.restype = wintypes.BOOL
+        thread32_next = kernel32.Thread32Next
+        thread32_next.argtypes = [wintypes.HANDLE, ctypes.POINTER(_WindowsThreadEntry32)]
+        thread32_next.restype = wintypes.BOOL
+        open_thread = kernel32.OpenThread
+        open_thread.argtypes = [wintypes.DWORD, wintypes.BOOL, wintypes.DWORD]
+        open_thread.restype = wintypes.HANDLE
+        resume_thread = kernel32.ResumeThread
+        resume_thread.argtypes = [wintypes.HANDLE]
+        resume_thread.restype = wintypes.DWORD
+
+        has_entry = thread32_first(snapshot, ctypes.byref(entry))
+        while has_entry:
+            if entry.th32OwnerProcessID == process.pid:
+                thread_handle = open_thread(
+                    _WINDOWS_THREAD_SUSPEND_RESUME, False, entry.th32ThreadID
+                )
+                if not thread_handle:
+                    raise OSError(ctypes.get_last_error(), "Could not open analyzer start thread")
+                try:
+                    if resume_thread(thread_handle) == _WINDOWS_RESUME_THREAD_FAILED:
+                        raise OSError(ctypes.get_last_error(), "Could not resume analyzer process")
+                    return
+                finally:
+                    kernel32.CloseHandle(thread_handle)
+            has_entry = thread32_next(snapshot, ctypes.byref(entry))
+        raise OSError("Could not find the suspended analyzer start thread")
+    finally:
+        kernel32.CloseHandle(snapshot)
+
+
+def _assign_windows_job(process: subprocess.Popen[bytes], job_handle: int) -> None:
+    """Assign a suspended analyzer before it can create descendant processes."""
+    kernel32 = _windows_kernel32()
+    assign = kernel32.AssignProcessToJobObject
+    assign.argtypes = [wintypes.HANDLE, wintypes.HANDLE]
+    assign.restype = wintypes.BOOL
+    process_handle = getattr(process, "_handle", None)
+    if process_handle is None or not assign(job_handle, int(process_handle)):
+        raise OSError(ctypes.get_last_error(), "Could not assign analyzer to its job object")
+    _resume_suspended_windows_process(process)
+
+
+def _close_windows_job(job_handle: int) -> None:
+    kernel32 = _windows_kernel32()
+    kernel32.CloseHandle.argtypes = [wintypes.HANDLE]
+    kernel32.CloseHandle.restype = wintypes.BOOL
+    kernel32.CloseHandle(job_handle)
+
+
 def _windows_system_directory() -> Path | None:
     """Resolve the actual Windows system directory without consulting PATH."""
     if os.name != "nt":
@@ -93,9 +256,18 @@ def _windows_system_directory() -> Path | None:
     return Path(buffer.value)
 
 
-def _terminate_process_tree(process: subprocess.Popen[bytes]) -> None:
+def _terminate_process_tree(
+    process: subprocess.Popen[bytes], job_handle: int | None = None
+) -> None:
     """Best-effort termination of an analyzer and descendants it started."""
     if os.name == "nt":
+        if job_handle is not None:
+            kernel32 = _windows_kernel32()
+            terminate_job = kernel32.TerminateJobObject
+            terminate_job.argtypes = [wintypes.HANDLE, wintypes.UINT]
+            terminate_job.restype = wintypes.BOOL
+            if terminate_job(job_handle, 1):
+                return
         system_directory = _windows_system_directory()
         taskkill = system_directory / "taskkill.exe" if system_directory is not None else None
         if taskkill is not None and taskkill.is_file():
@@ -156,15 +328,31 @@ def _run(
     command: list[str], *, timeout: int = ANALYZER_TIMEOUT_SECONDS, cwd: Path | None = None
 ) -> subprocess.CompletedProcess[str]:
     environment = _analyzer_environment(command)
+    job_handle: int | None = None
     if os.name == "nt":
-        process = subprocess.Popen(
-            command,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            cwd=cwd,
-            env=environment,
-        )
+        job_handle = _create_windows_job()
+        process: subprocess.Popen[bytes] | None = None
+        try:
+            process = subprocess.Popen(
+                command,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                cwd=cwd,
+                env=environment,
+                creationflags=getattr(subprocess, "CREATE_SUSPENDED", 0x00000004),
+            )
+            _assign_windows_job(process, job_handle)
+        except BaseException:
+            if process is not None:
+                try:
+                    process.kill()
+                    process.wait(timeout=5)
+                except (OSError, subprocess.TimeoutExpired):
+                    pass
+            _close_windows_job(job_handle)
+            raise
+        assert process is not None
     else:
         process = subprocess.Popen(
             command,
@@ -175,15 +363,34 @@ def _run(
             env=environment,
             start_new_session=True,
         )
+    deadline = time.monotonic() + timeout
     captured = {"stdout": bytearray(), "stderr": bytearray()}
     total = 0
     lock = threading.Lock()
     exceeded = threading.Event()
+    drain_timed_out = threading.Event()
 
     def drain(name: str, stream: IO[bytes]) -> None:
         nonlocal total
+        if os.name != "nt":
+            descriptor = stream.fileno()
+            set_blocking = getattr(os, "set_blocking", None)
+            if set_blocking is None:
+                raise OSError("Nonblocking pipe reads are unavailable")
+            set_blocking(descriptor, False)
         while True:
-            chunk = stream.read(64 * 1024)
+            if os.name != "nt":
+                remaining_time = deadline - time.monotonic()
+                if remaining_time <= 0:
+                    drain_timed_out.set()
+                    return
+                try:
+                    chunk = os.read(descriptor, 64 * 1024)
+                except BlockingIOError:
+                    select.select([descriptor], [], [], min(0.05, remaining_time))
+                    continue
+            else:
+                chunk = stream.read(64 * 1024)
             if not chunk:
                 return
             terminate_tree = False
@@ -196,7 +403,7 @@ def _run(
                     exceeded.set()
                     terminate_tree = True
             if terminate_tree:
-                _terminate_process_tree(process)
+                _terminate_process_tree(process, job_handle)
 
     assert process.stdout is not None and process.stderr is not None
     readers = [
@@ -205,22 +412,35 @@ def _run(
     ]
     for reader in readers:
         reader.start()
+    timed_out = False
     try:
-        returncode = process.wait(timeout=timeout)
+        returncode = process.wait(timeout=max(0, deadline - time.monotonic()))
     except subprocess.TimeoutExpired:
-        _terminate_process_tree(process)
+        timed_out = True
+        _terminate_process_tree(process, job_handle)
         process.wait()
+        returncode = process.returncode if process.returncode is not None else -1
+
+    if job_handle is not None:
+        _close_windows_job(job_handle)
+        job_handle = None
+    elif any(reader.is_alive() for reader in readers):
+        _terminate_process_tree(process)
+
+    for reader in readers:
+        reader.join(timeout=max(0, deadline - time.monotonic()))
+    if any(reader.is_alive() for reader in readers):
+        timed_out = True
+        _terminate_process_tree(process, job_handle)
         for reader in readers:
-            reader.join()
+            reader.join(timeout=0.25)
+    if not any(reader.is_alive() for reader in readers):
         process.stdout.close()
         process.stderr.close()
-        raise
-    for reader in readers:
-        reader.join()
-    process.stdout.close()
-    process.stderr.close()
     if exceeded.is_set():
         raise AnalyzerOutputLimitError("Analyzer output exceeded the configured limit")
+    if timed_out or drain_timed_out.is_set():
+        raise subprocess.TimeoutExpired(command, timeout)
     return subprocess.CompletedProcess(
         command,
         returncode,

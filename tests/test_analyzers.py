@@ -222,6 +222,27 @@ class OptionalAnalyzerTests(unittest.TestCase):
         self.assertEqual(0, completed.returncode)
         self.assertEqual("", completed.stdout.strip())
 
+    def test_finished_process_does_not_wait_for_child_that_inherited_output_pipes(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            marker = Path(temporary) / "descendant-survived.txt"
+            child_code = (
+                "import time; from pathlib import Path; time.sleep(1.5); "
+                f"Path({str(marker)!r}).write_text('survived', encoding='utf-8')"
+            )
+            parent_code = (
+                "import subprocess, sys; "
+                f"subprocess.Popen([sys.executable, '-c', {child_code!r}], "
+                "stdout=sys.stdout, stderr=sys.stderr)"
+            )
+            started = time.monotonic()
+            completed = _run([sys.executable, "-c", parent_code], timeout=0.5)
+            elapsed = time.monotonic() - started
+
+            self.assertEqual(0, completed.returncode)
+            self.assertLess(elapsed, 1.2, "output capture exceeded the analyzer deadline")
+            time.sleep(1.7)
+            self.assertFalse(marker.exists(), "analyzer descendant survived process cleanup")
+
     def test_timeout_terminates_descendant_processes(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             marker = Path(temporary) / "descendant-survived.txt"
