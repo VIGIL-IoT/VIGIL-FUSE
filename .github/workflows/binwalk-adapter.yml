@@ -14,6 +14,8 @@ env:
   CARGO_TERM_COLOR: always
   TASMOTA_FIRMWARE_URL: https://github.com/arendst/Tasmota/releases/download/v16.0.0/tasmota-4M.bin.gz
   TASMOTA_FIRMWARE_SHA256: 15a8e568af5096c9f43efd636da534214f2d170faf6551b4a9e9b6182117766c
+  OPENWRT_SQUASHFS_URL: https://downloads.openwrt.org/releases/25.12.6/targets/x86/64/openwrt-25.12.6-x86-64-generic-squashfs-rootfs.img.gz
+  OPENWRT_SQUASHFS_SHA256: c6fe3bdf61c231ba8680b948c4ea0226a4901b3a76bfd58e67a3623bd8e2bf08
 
 jobs:
   adapter-smoke:
@@ -56,24 +58,31 @@ jobs:
         run: |
           source_dir="$RUNNER_TEMP/binwalk-source"
           firmware_sample="$RUNNER_TEMP/tasmota-4M.bin.gz"
+          filesystem_archive="$RUNNER_TEMP/openwrt-squashfs-rootfs.img.gz"
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git "$source_dir"
           git -C "$source_dir" checkout --detach "$BINWALK_SOURCE_COMMIT"
           test "$(git -C "$source_dir" rev-parse HEAD)" = "$BINWALK_SOURCE_COMMIT"
           cargo build --release --locked --manifest-path "$source_dir/Cargo.toml"
           curl --fail --location --silent --show-error \
             "$TASMOTA_FIRMWARE_URL" --output "$firmware_sample"
+          curl --fail --location --silent --show-error \
+            "$OPENWRT_SQUASHFS_URL" --output "$filesystem_archive"
           python scripts/verify_binwalk_adapter.py \
             --expected-version 3.1.0 \
             --binwalk-executable "$source_dir/target/release/binwalk" \
             --real-firmware "$firmware_sample" \
             --real-firmware-sha256 "$TASMOTA_FIRMWARE_SHA256" \
-            --real-firmware-marker gzip
+            --real-firmware-marker gzip \
+            --real-filesystem-archive "$filesystem_archive" \
+            --real-filesystem-sha256 "$OPENWRT_SQUASHFS_SHA256" \
+            --real-filesystem-marker "SquashFS file system"
       - name: Build pinned Binwalk and scan synthetic plus real firmware on Windows
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
           $sourceDir = Join-Path $env:RUNNER_TEMP 'binwalk-source'
           $firmwareSample = Join-Path $env:RUNNER_TEMP 'tasmota-4M.bin.gz'
+          $filesystemArchive = Join-Path $env:RUNNER_TEMP 'openwrt-squashfs-rootfs.img.gz'
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git $sourceDir
           if ($LASTEXITCODE -ne 0) { throw 'Could not clone pinned Binwalk source.' }
           git -C $sourceDir checkout --detach $env:BINWALK_SOURCE_COMMIT
@@ -85,10 +94,15 @@ jobs:
           $binwalk = Join-Path $sourceDir 'target\release\binwalk.exe'
           Invoke-WebRequest -Uri $env:TASMOTA_FIRMWARE_URL -OutFile $firmwareSample
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned Tasmota firmware sample.' }
+          Invoke-WebRequest -Uri $env:OPENWRT_SQUASHFS_URL -OutFile $filesystemArchive
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt filesystem sample.' }
           python scripts/verify_binwalk_adapter.py `
             --expected-version 3.1.0 `
             --binwalk-executable $binwalk `
             --real-firmware $firmwareSample `
             --real-firmware-sha256 $env:TASMOTA_FIRMWARE_SHA256 `
-            --real-firmware-marker gzip
+            --real-firmware-marker gzip `
+            --real-filesystem-archive $filesystemArchive `
+            --real-filesystem-sha256 $env:OPENWRT_SQUASHFS_SHA256 `
+            --real-filesystem-marker 'SquashFS file system'
           if ($LASTEXITCODE -ne 0) { throw 'Binwalk adapter verification failed.' }
