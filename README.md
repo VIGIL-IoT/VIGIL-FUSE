@@ -28,18 +28,9 @@ A normal scan writes `findings.json`, `findings.txt`, and `findings.sarif` to `.
 
 ## How a scan works
 
-```mermaid
-flowchart LR
-    Target["Project tree or selected artifact"] --> Discovery["Bounded input discovery"]
-    CLI["Local CLI"] --> Discovery
-    Discovery --> Rules["Native rules in worker process"]
-    Discovery --> Inventory["Hardware, firmware, and build metadata"]
-    Discovery --> Optional["Optional analyzers, only when selected"]
-    Rules --> Result["Findings and coverage"]
-    Inventory --> Result
-    Optional --> Result
-    Result --> Reports["Text, JSON, SARIF, and inventory artifacts"]
-```
+![FUSE scan flow from a selected local project through bounded discovery, native checks, context inventory, optional analyzers, normalized findings, and local reports](docs/figures/fuse-scan-flow.svg)
+
+[Open the standalone diagram source](site/diagrams/fuse-scan-flow.html).
 
 Native rules analyze selected text without importing or executing project code. FUSE does not flash devices, contact device services, or prove that a static signal is reachable in a deployed product. Optional external analyzers are separate tools and are not sandboxed by FUSE.
 

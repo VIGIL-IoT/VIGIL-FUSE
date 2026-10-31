@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="fuse-flow" width="1280" height="720" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fuse-scan-flow-title fuse-scan-flow-desc" id="fuse-scan-flow-root">
+        <title id="fuse-scan-flow-title">FUSE scan flow</title>
+        <desc id="fuse-scan-flow-desc">A local project or firmware input passes through bounded discovery, native rules and context inventory. Optional external analyzers run separately when requested. FUSE combines evidence and coverage into local text, JSON and SARIF reports.</desc>
+        <defs>
+      <style>#fuse-scan-flow-root { color-scheme: light;
+      --paper: #ffffff;
+      --surface: #f2f2f2;
+      --ink: #0a0a0a;
+      --muted: #4a4a4a;
+      --signal: #d92b21;
+      --font: "Schibsted Grotesk", Arial, sans-serif;
+      --mono: monospace; }
+      @media (prefers-color-scheme: dark) {
+#fuse-scan-flow-root { color-scheme: dark;
+        --paper: #111417;
+        --surface: #1d2328;
+        --ink: #f1f4f6;
+        --muted: #b6c0c7;
+        --signal: #ff8a83; }
+}
+      #fuse-scan-flow-root { color: var(--ink); font-family: var(--font); }
+      #fuse-scan-flow-root .intro { max-width: 760px;
+      margin: 14px 0 26px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55; }
+      #fuse-scan-flow-root .diagram-container { width: 100%;
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-color: var(--muted) var(--surface);
+      scrollbar-width: thin; }
+      #fuse-scan-flow-root .figure-note { max-width: 1040px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55; }
+      @media (max-width: 680px) {
+#fuse-scan-flow-root .intro { font-size: 15px; }
+}
+      @media print {
+#fuse-scan-flow-root .diagram-container { overflow-x: visible; }
+}
+      #fuse-scan-flow-root .fuse-flow { --paper: #ffffff;
+            --surface: #f2f2f2;
+            --ink: #0a0a0a;
+            --muted: #4a4a4a;
+            --signal: #d92b21;
+            --rule: rgba(10, 10, 10, 0.20);
+            --hairline: rgba(10, 10, 10, 0.12);
+            --focus-fill: rgba(217, 43, 33, 0.06);
+            --font-sans: "Schibsted Grotesk", Arial, sans-serif;
+            --font-mono: monospace; }
+      @media (prefers-color-scheme: dark) {
+#fuse-scan-flow-root .fuse-flow { --paper: #111417;
+              --surface: #1d2328;
+              --ink: #f1f4f6;
+              --muted: #b6c0c7;
+              --signal: #ff8a83;
+              --rule: rgba(241, 244, 246, 0.25);
+              --hairline: rgba(241, 244, 246, 0.16);
+              --focus-fill: rgba(255, 138, 131, 0.08); }
+}
+      #fuse-scan-flow-root .canvas { fill: var(--paper); }
+      #fuse-scan-flow-root .host-zone { fill: none; stroke: var(--rule); stroke-width: 1.2; }
+      #fuse-scan-flow-root .process-zone { fill: var(--surface); stroke: var(--rule); stroke-width: 1.2; }
+      #fuse-scan-flow-root .label-mask { fill: var(--paper); }
+      #fuse-scan-flow-root .process-label-mask { fill: var(--surface); }
+      #fuse-scan-flow-root .zone-title { fill: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.12em; }
+      #fuse-scan-flow-root .zone-note { fill: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 10px; }
+      #fuse-scan-flow-root .flow-path { fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+            marker-end: url(#fuse-scan-flow-fuse-scan-flow-arrow); }
+      #fuse-scan-flow-root .optional-path { fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+            stroke-dasharray: 6 5;
+            marker-end: url(#fuse-scan-flow-fuse-scan-flow-arrow); }
+      #fuse-scan-flow-root .arrow-head { fill: var(--muted); }
+      #fuse-scan-flow-root .node-box { fill: var(--paper);
+            stroke: var(--hairline);
+            stroke-width: 1.2; }
+      #fuse-scan-flow-root .input .node-box { fill: var(--surface); }
+      #fuse-scan-flow-root .focal .node-box { fill: var(--focus-fill);
+            stroke: var(--signal);
+            stroke-width: 2; }
+      #fuse-scan-flow-root .optional .node-box { fill: var(--paper);
+            stroke: var(--muted);
+            stroke-width: 1.2;
+            stroke-dasharray: 6 5; }
+      #fuse-scan-flow-root .node-tag { fill: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 0.08em; }
+      #fuse-scan-flow-root .node-title { fill: var(--ink);
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 600; }
+      #fuse-scan-flow-root .node-detail { fill: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 9px; }
+      #fuse-scan-flow-root .legend-label { fill: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 10px; }
+      #fuse-scan-flow-root .legend-line { fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5; }
+      #fuse-scan-flow-root .legend-dash { fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+            stroke-dasharray: 6 5; }
+      #fuse-scan-flow-root .legend-focus { fill: var(--focus-fill);
+            stroke: var(--signal);
+            stroke-width: 1.5; }</style>
+          <marker id="fuse-scan-flow-fuse-scan-flow-arrow" markerWidth="8" markerHeight="8" viewBox="0 0 8 8" refX="7" refY="4" orient="auto">
+            <path class="arrow-head" d="M0 0 L8 4 L0 8 Z"/>
+          </marker>
+        </defs>
+        <style>
+          .fuse-flow {
+            --paper: #ffffff;
+            --surface: #f2f2f2;
+            --ink: #0a0a0a;
+            --muted: #4a4a4a;
+            --signal: #d92b21;
+            --rule: rgba(10, 10, 10, 0.20);
+            --hairline: rgba(10, 10, 10, 0.12);
+            --focus-fill: rgba(217, 43, 33, 0.06);
+            --font-sans: "Schibsted Grotesk", Arial, sans-serif;
+            --font-mono: monospace;
+          }
+          @media (prefers-color-scheme: dark) {
+            .fuse-flow {
+              --paper: #111417;
+              --surface: #1d2328;
+              --ink: #f1f4f6;
+              --muted: #b6c0c7;
+              --signal: #ff8a83;
+              --rule: rgba(241, 244, 246, 0.25);
+              --hairline: rgba(241, 244, 246, 0.16);
+              --focus-fill: rgba(255, 138, 131, 0.08);
+            }
+          }
+          .canvas { fill: var(--paper); }
+          .host-zone { fill: none; stroke: var(--rule); stroke-width: 1.2; }
+          .process-zone { fill: var(--surface); stroke: var(--rule); stroke-width: 1.2; }
+          .label-mask { fill: var(--paper); }
+          .process-label-mask { fill: var(--surface); }
+          .zone-title {
+            fill: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+          }
+          .zone-note {
+            fill: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 10px;
+          }
+          .flow-path {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+            marker-end: url(#fuse-scan-flow-fuse-scan-flow-arrow);
+          }
+          .optional-path {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+            stroke-dasharray: 6 5;
+            marker-end: url(#fuse-scan-flow-fuse-scan-flow-arrow);
+          }
+          .arrow-head { fill: var(--muted); }
+          .node-box {
+            fill: var(--paper);
+            stroke: var(--hairline);
+            stroke-width: 1.2;
+          }
+          .input .node-box { fill: var(--surface); }
+          .focal .node-box {
+            fill: var(--focus-fill);
+            stroke: var(--signal);
+            stroke-width: 2;
+          }
+          .optional .node-box {
+            fill: var(--paper);
+            stroke: var(--muted);
+            stroke-width: 1.2;
+            stroke-dasharray: 6 5;
+          }
+          .node-tag {
+            fill: var(--muted);
+            font-family: var(--font-mono);
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+          }
+          .node-title {
+            fill: var(--ink);
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 600;
+          }
+          .node-detail {
+            fill: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 9px;
+          }
+          .legend-label {
+            fill: var(--muted);
+            font-family: var(--font-sans);
+            font-size: 10px;
+          }
+          .legend-line {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+          }
+          .legend-dash {
+            fill: none;
+            stroke: var(--muted);
+            stroke-width: 1.5;
+            stroke-dasharray: 6 5;
+          }
+          .legend-focus {
+            fill: var(--focus-fill);
+            stroke: var(--signal);
+            stroke-width: 1.5;
+          }
+        </style>
+
+        <rect class="canvas" width="1280" height="720"/>
+
+        <!-- Boundaries are drawn before connectors and nodes. -->
+        <rect class="host-zone" x="40" y="40" width="1200" height="560" rx="8"/>
+        <rect class="process-zone" x="260" y="108" width="720" height="360" rx="8"/>
+
+        <!-- Connectors are drawn before boxes so their endpoints stop at the node edges. -->
+        <path class="flow-path" d="M228 344 H304"/>
+        <path class="flow-path" d="M484 316 H508 Q516 316 516 308 V220 Q516 212 524 212 H540"/>
+        <path class="flow-path" d="M484 368 H540"/>
+        <path class="flow-path" d="M720 212 H736 Q744 212 744 220 V288 Q744 296 752 296 H776"/>
+        <path class="flow-path" d="M720 368 H776"/>
+        <path class="flow-path" d="M960 328 H1000"/>
+        <path class="optional-path" d="M394 396 V472 Q394 480 402 480 H622 Q630 480 630 488 V512"/>
+        <path class="optional-path" d="M800 552 H816 Q824 552 824 544 V432 Q824 424 832 424 H860 Q868 424 868 416 V392"/>
+
+        <!-- Boundary labels use paper masks so their strokes remain readable. -->
+        <rect class="label-mask" x="56" y="48" width="132" height="20" rx="2"/>
+        <text class="zone-title" x="60" y="64">LOCAL MACHINE</text>
+        <text class="zone-note" x="60" y="88">CLI, selected files and report output stay on the user's machine.</text>
+
+        <rect class="process-label-mask" x="276" y="116" width="140" height="20" rx="2"/>
+        <text class="zone-title" x="280" y="132">FUSE PROCESS</text>
+        <text class="zone-note" x="280" y="152">Plan, discover, analyze and assemble the report.</text>
+
+        <text class="zone-title" x="476" y="500">OPTIONAL EXTERNAL TOOL · RUNS ONLY WHEN REQUESTED</text>
+
+        <!-- Nodes -->
+        <g class="node input">
+          <rect class="node-box" x="64" y="292" width="164" height="104" rx="6"/>
+          <text class="node-tag" x="80" y="316">INPUT</text>
+          <text class="node-title" x="80" y="344">Project or firmware</text>
+          <text class="node-detail" x="80" y="364">Operator-selected path</text>
+        </g>
+
+        <g class="node">
+          <rect class="node-box" x="304" y="284" width="180" height="112" rx="6"/>
+          <text class="node-tag" x="320" y="308">SCAN PLAN</text>
+          <text class="node-title" x="320" y="336">Bounded discovery</text>
+          <text class="node-detail" x="320" y="356">Limits · filters · selected files</text>
+          <text class="node-detail" x="320" y="376">Plan mode previews the scope</text>
+        </g>
+
+        <g class="node">
+          <rect class="node-box" x="540" y="168" width="180" height="88" rx="6"/>
+          <text class="node-tag" x="556" y="192">NATIVE CHECKS</text>
+          <text class="node-title" x="556" y="220">Text rules</text>
+          <text class="node-detail" x="556" y="240">Selected source and config</text>
+        </g>
+
+        <g class="node">
+          <rect class="node-box" x="540" y="324" width="180" height="88" rx="6"/>
+          <text class="node-tag" x="556" y="348">CONTEXT</text>
+          <text class="node-title" x="556" y="376">Hardware + build</text>
+          <text class="node-detail" x="556" y="396">Firmware candidates · inventory</text>
+        </g>
+
+        <g class="node focal">
+          <rect class="node-box" x="776" y="264" width="184" height="128" rx="6"/>
+          <text class="node-tag" x="792" y="292">REPORT MODEL</text>
+          <text class="node-title" x="792" y="324">Findings + coverage</text>
+          <text class="node-detail" x="792" y="344">Evidence · severity · confidence</text>
+          <text class="node-detail" x="792" y="364">Severity and confidence stay separate</text>
+        </g>
+
+        <g class="node">
+          <rect class="node-box" x="1000" y="274" width="216" height="108" rx="6"/>
+          <text class="node-tag" x="1016" y="298">LOCAL ARTIFACTS</text>
+          <text class="node-title" x="1016" y="326">Reports</text>
+          <text class="node-detail" x="1016" y="346">Text · JSON · SARIF</text>
+          <text class="node-detail" x="1016" y="366">Coverage and inventories</text>
+        </g>
+
+        <g class="node optional">
+          <rect class="node-box" x="460" y="512" width="340" height="80" rx="6"/>
+          <text class="node-tag" x="476" y="536">SEPARATE PROCESS</text>
+          <text class="node-title" x="476" y="556">Optional analyzers</text>
+          <text class="node-detail" x="476" y="576">Syft · OSV-Scanner · Binwalk · Gitleaks · not sandboxed by FUSE</text>
+        </g>
+
+        <!-- Horizontal legend strip -->
+        <line class="legend-line" x1="64" y1="648" x2="100" y2="648"/>
+        <text class="legend-label" x="112" y="652">FUSE analysis path</text>
+
+        <line class="legend-dash" x1="300" y1="648" x2="336" y2="648"/>
+        <text class="legend-label" x="348" y="652">Optional tool path</text>
+
+        <rect class="legend-focus" x="548" y="640" width="20" height="16" rx="3"/>
+        <text class="legend-label" x="580" y="652">Normalized finding model</text>
+
+        <text class="legend-label" x="900" y="652">No device flashing or service probing</text>
+      </svg>
