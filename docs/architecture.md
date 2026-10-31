@@ -81,7 +81,7 @@ CLI
 - `input_types.py`: recognized existing CycloneDX/SPDX documents and routes them to the inventory/advisory stage.
 - `scanner.py`: deterministic text discovery, path filtering, generated-directory exclusions, unsupported file-type counts, input hashes, symlink and special-file policy, size limits, and text decoding. Its bounded path preview powers `scan --plan` without opening project source files.
 - `firmware_inventory.py`: bounded filename and size inventory across source and common build-output directories. It never reads candidate image bytes.
-- `github_actions.py`: bounded, line-oriented checks for workflow-level `write-all` permissions, inventory of non-SHA action references, and findings on obvious floating branch refs. Findings remain repository workflow candidates.
+- `github_actions.py`: bounded, line-oriented checks for exact workflow-level and job-level `write-all` permission scalars, inventory of non-SHA action references, and findings on obvious floating branch refs. Findings remain repository workflow candidates.
 - `hardware_netlist.py`: UTF-8 and DTD checks, streaming XML depth and element preflight, then bounded parsing of selected or uniquely detected KiCad netlists for named debug nets attached to connector candidates. It does not infer physical exposure.
 - `hardware.py`: filename-only recognition for hardware design, CAD, BOM, HDL, and fabrication artifacts.
 - `build_context.py`: bounded PlatformIO `extra_configs` include resolution, environment and source-filter metadata, and compilation-database indexing. It records metadata only and never invokes PlatformIO, a compiler, or a build command.

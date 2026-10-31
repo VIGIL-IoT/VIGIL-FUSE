@@ -159,8 +159,18 @@ class GitHubActionsTests(unittest.TestCase):
         self.assertEqual(2, inventory.workflow_count)
         self.assertEqual(1, inventory.non_sha_action_reference_count)
         self.assertEqual(1, inventory.floating_branch_reference_count)
-        self.assertEqual(2, len(findings))
+        self.assertEqual(3, len(findings))
         self.assertEqual({"FUSE-GHA-001", "FUSE-GHA-002"}, {item.rule_id for item in findings})
+        broad_permission_findings = [item for item in findings if item.rule_id == "FUSE-GHA-001"]
+        self.assertEqual(2, len(broad_permission_findings))
+        self.assertEqual({"1.1.0"}, {item.rule_version for item in broad_permission_findings})
+        self.assertEqual(
+            {
+                "Workflow-level permissions grant write access to every supported permission",
+                "Job-level permissions grant write access to every supported permission",
+            },
+            {item.title for item in broad_permission_findings},
+        )
         self.assertTrue(all(item.applicability == "candidate" for item in findings))
         self.assertTrue(all(item.validation_status == "not-validated" for item in findings))
         self.assertTrue(all(item.file.endswith("vulnerable.yml") for item in findings))
@@ -202,6 +212,30 @@ class GitHubActionsTests(unittest.TestCase):
 
         self.assertEqual("completed", inventory.status)
         self.assertFalse(findings)
+
+    def test_job_permission_pattern_does_not_match_step_text_or_comments(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workflows = root / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "ci.yml").write_text(
+                "jobs:\n"
+                "  scan:\n"
+                "    runs-on: ubuntu-latest\n"
+                "    permissions: write-all # explicit job scope\n"
+                "    steps:\n"
+                "      - run: |\n"
+                "          echo 'permissions: write-all'\n"
+                "# permissions: write-all\n",
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_github_actions(root)
+
+        self.assertEqual("completed", inventory.status)
+        self.assertEqual(1, len(findings))
+        self.assertEqual("FUSE-GHA-001", findings[0].rule_id)
+        self.assertEqual(4, findings[0].start_line)
+        self.assertIn("Job-level", findings[0].title)
 
 
 class KiCadNetlistTests(unittest.TestCase):

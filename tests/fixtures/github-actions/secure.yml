@@ -5,5 +5,7 @@ permissions:
 jobs:
   scan:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@0123456789abcdef0123456789abcdef01234567

@@ -12,14 +12,15 @@ MAX_WORKFLOW_FILE_BYTES = 1024 * 1024
 MAX_WORKFLOW_TOTAL_BYTES = 10 * 1024 * 1024
 MAX_WORKFLOW_FINDINGS = 500
 _FLOATING_BRANCH_REFS = frozenset({"dev", "develop", "latest", "main", "master", "trunk"})
-_PERMISSIONS_WRITE_ALL = re.compile(r"^permissions[ \t]*:[ \t]*write-all[ \t]*$", re.IGNORECASE)
+_PERMISSIONS_WRITE_ALL = re.compile(
+    r"^(?P<indent> *)permissions[ \t]*:[ \t]*write-all[ \t]*$", re.IGNORECASE
+)
+_JOB_KEY = re.compile(r"^[A-Za-z0-9_-]+[ \t]*:[ \t]*$")
 _ACTION_USE = re.compile(
     r"^[ \t]*(?:-[ \t]+)?uses[ \t]*:[ \t]*(?P<target>(?:[A-Za-z0-9_.-]+/){1,2}[A-Za-z0-9_./-]+)@(?P<ref>[A-Za-z0-9_./-]+)[ \t]*$"
 )
 _FULL_SHA = re.compile(r"^[a-fA-F0-9]{40}$")
-_WRITE_ALL_URL = (
-    "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#permissions"
-)
+_WRITE_ALL_URL = "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idpermissions"
 _PIN_ACTION_URL = "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
 
 
@@ -64,7 +65,7 @@ def _finding(
         id=f"{rule_id}:{file}:{line}",
         fingerprint=fingerprint,
         rule_id=rule_id,
-        rule_version="1.0.0",
+        rule_version="1.1.0" if rule_id == "FUSE-GHA-001" else "1.0.0",
         analyzer="github-actions-static",
         title=title,
         severity="medium" if rule_id == "FUSE-GHA-001" else "info",
@@ -160,20 +161,66 @@ def inspect_github_actions(
             limitations.append(f"{relative} is not UTF-8 text and was skipped.")
             continue
 
+        in_jobs_section = False
+        job_indent: int | None = None
+        job_property_indent: int | None = None
+
         for line_number, original in enumerate(text.splitlines(), 1):
             line = _strip_yaml_comment(original)
-            if _PERMISSIONS_WRITE_ALL.fullmatch(line):
+            if not line.strip():
+                continue
+
+            indent = len(line) - len(line.lstrip(" "))
+            content = line[indent:]
+            if indent == 0:
+                in_jobs_section = content == "jobs:"
+                job_indent = None
+                job_property_indent = None
+            elif in_jobs_section:
+                if job_indent is None and _JOB_KEY.fullmatch(content):
+                    job_indent = indent
+                elif (
+                    job_indent is not None and indent == job_indent and _JOB_KEY.fullmatch(content)
+                ):
+                    job_property_indent = None
+                elif job_indent is not None and indent > job_indent and job_property_indent is None:
+                    job_property_indent = indent
+
+            permission = _PERMISSIONS_WRITE_ALL.fullmatch(line)
+            permission_scope: str | None = None
+            if permission:
+                permission_indent = len(permission.group("indent"))
+                if permission_indent == 0:
+                    permission_scope = "workflow"
+                elif (
+                    in_jobs_section
+                    and job_indent is not None
+                    and permission_indent == job_property_indent
+                ):
+                    permission_scope = "job"
+
+            if permission_scope is not None:
+                if permission_scope == "workflow":
+                    title = "Workflow-level permissions grant write access to every supported permission"
+                    explanation = (
+                        "At workflow scope, this file explicitly uses the broad write-all permission setting. "
+                        "FUSE does not infer whether every permission is needed or whether an untrusted event can reach this job."
+                    )
+                else:
+                    title = "Job-level permissions grant write access to every supported permission"
+                    explanation = (
+                        "At job scope, this file explicitly uses the broad write-all permission setting. "
+                        "Actions and run commands in that job can use all supported GITHUB_TOKEN permission levels. "
+                        "FUSE does not infer whether every permission is needed or whether untrusted input can reach the job."
+                    )
                 findings.append(
                     _finding(
                         rule_id="FUSE-GHA-001",
                         file=relative,
                         line=line_number,
                         evidence=original,
-                        title="Workflow-level permissions grant write access to every supported permission",
-                        explanation=(
-                            "At workflow scope, this file explicitly uses the broad write-all permission setting. "
-                            "FUSE does not infer whether every permission is needed or whether an untrusted event can reach this job."
-                        ),
+                        title=title,
+                        explanation=explanation,
                         impact=(
                             "A compromised action or unsafe workflow path may receive a larger repository token capability than required."
                         ),
