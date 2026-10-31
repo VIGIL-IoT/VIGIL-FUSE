@@ -603,7 +603,7 @@ def _scan_plan(
                     "status": "planned"
                     if (target / ".github" / "workflows").is_dir()
                     else "skipped",
-                    "reason": "checks exact workflow- and job-level write-all permission scalars plus mutable non-SHA action references without executing workflows",
+                    "reason": "checks exact write-all permissions, mutable non-SHA action refs, and explicit pull_request_target checkout of pull request head code without executing workflows",
                 },
                 {
                     "name": "kicad-netlist-static",

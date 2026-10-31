@@ -9,6 +9,8 @@
 
 **Implementation update, 28 October 2026:** schema 1.10 adds explicit reporting when legacy text files are decoded with an ISO-8859-1 fallback. Schema 1.9 added bounded PlatformIO `extra_configs` provenance and source-filter metadata, a firmware-like extension/size inventory across common output folders, narrow GitHub Actions checks for workflow-level `write-all` and recognized action references, and informational KiCad debug-net candidates from a bounded XML netlist. Non-SHA action references are counted, but only obvious floating branches produce findings. These checks do not resolve effective source compilation, inspect firmware candidate bytes, model workflow event data flow, or prove physical debug access.
 
+**Implementation update, 31 October 2026:** `FUSE-GHA-003` adds a high-confidence review candidate for an exact `pull_request_target` trigger combined with `actions/checkout` of the pull request head SHA or ref. Paired fixtures cover the risky combination, metadata-only handling, and head checkout under the ordinary `pull_request` event. FUSE does not infer whether subsequent steps execute the checked-out code.
+
 ## Summary
 
 FUSE already has a useful local scanning foundation: a CLI, seven tested static rules, severity and confidence as separate fields, redacted evidence, text/JSON/SARIF reports, scan coverage metadata, optional Syft and OSV-Scanner adapters, Binwalk signature identification, and opt-in redacted Git-history scanning through Gitleaks. The highest-value next step is to make FUSE more context-aware and easier to use in a normal development workflow, not to add a large number of unvalidated pattern rules.

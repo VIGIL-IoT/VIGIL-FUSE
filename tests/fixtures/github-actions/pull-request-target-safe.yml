@@ -1,0 +1,11 @@
+name: label-pull-request
+on: pull_request_target
+permissions:
+  pull-requests: write
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@0123456789abcdef0123456789abcdef01234567
+        with:
+          script: "github.rest.issues.addLabels({issue_number: context.issue.number})"

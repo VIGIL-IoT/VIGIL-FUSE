@@ -213,6 +213,101 @@ class GitHubActionsTests(unittest.TestCase):
         self.assertEqual("completed", inventory.status)
         self.assertFalse(findings)
 
+    def test_pull_request_target_checkout_of_head_is_a_review_candidate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workflows = root / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "review.yml").write_text(
+                (FIXTURES / "github-actions" / "pull-request-target-head.yml").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_github_actions(root)
+
+        self.assertEqual("completed", inventory.status)
+        self.assertEqual(1, inventory.finding_count)
+        self.assertEqual(1, len(findings))
+        finding = findings[0]
+        self.assertEqual("FUSE-GHA-003", finding.rule_id)
+        self.assertEqual("medium", finding.severity)
+        self.assertEqual("high", finding.confidence)
+        self.assertEqual("candidate", finding.applicability)
+        self.assertEqual("not-validated", finding.validation_status)
+        self.assertIn("does not determine whether a later step executes", finding.explanation)
+        self.assertEqual(14, finding.start_line)
+
+    def test_pull_request_target_inline_trigger_and_quoted_head_ref_are_recognized(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workflows = root / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "review.yml").write_text(
+                (FIXTURES / "github-actions" / "pull-request-target-inline.yml").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_github_actions(root)
+
+        self.assertEqual("completed", inventory.status)
+        self.assertEqual(1, len(findings))
+        self.assertEqual("FUSE-GHA-003", findings[0].rule_id)
+        self.assertEqual(9, findings[0].start_line)
+
+    def test_pull_request_target_metadata_and_pull_request_head_checkout_are_not_reported(
+        self,
+    ) -> None:
+        safe_workflow = (FIXTURES / "github-actions" / "pull-request-target-safe.yml").read_text(
+            encoding="utf-8"
+        )
+        ordinary_pull_request = (
+            "name: test-untrusted-code\n"
+            "on: pull_request\n"
+            "jobs:\n"
+            "  test:\n"
+            "    runs-on: ubuntu-latest\n"
+            "    steps:\n"
+            "      - uses: actions/checkout@0123456789abcdef0123456789abcdef01234567\n"
+            "        with:\n"
+            "          ref: ${{ github.event.pull_request.head.sha }}\n"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workflows = root / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "safe-target.yml").write_text(safe_workflow, encoding="utf-8")
+            (workflows / "ordinary-pr.yml").write_text(ordinary_pull_request, encoding="utf-8")
+            inventory, findings = inspect_github_actions(root)
+
+        self.assertEqual("completed", inventory.status)
+        self.assertFalse(findings)
+
+    def test_pull_request_target_checkout_finding_is_included_in_scan_report(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
+            workflow_dir = root / ".github" / "workflows"
+            workflow_dir.mkdir(parents=True)
+            (workflow_dir / "review.yml").write_text(
+                (FIXTURES / "github-actions" / "pull-request-target-head.yml").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+            report = json.loads(to_json(scan(root)))
+
+        self.assertEqual(1, report["github_actions"]["finding_count"])
+        self.assertEqual(
+            ["FUSE-GHA-003"],
+            [
+                item["rule_id"]
+                for item in report["findings"]
+                if item["rule_id"].startswith("FUSE-GHA-")
+            ],
+        )
+
     def test_job_permission_pattern_does_not_match_step_text_or_comments(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

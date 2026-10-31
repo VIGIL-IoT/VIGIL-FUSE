@@ -20,8 +20,17 @@ _ACTION_USE = re.compile(
     r"^[ \t]*(?:-[ \t]+)?uses[ \t]*:[ \t]*(?P<target>(?:[A-Za-z0-9_.-]+/){1,2}[A-Za-z0-9_./-]+)@(?P<ref>[A-Za-z0-9_./-]+)[ \t]*$"
 )
 _FULL_SHA = re.compile(r"^[a-fA-F0-9]{40}$")
+_PULL_REQUEST_HEAD_REFS = frozenset(
+    {
+        "github.event.pull_request.head.sha",
+        "github.event.pull_request.head.ref",
+    }
+)
 _WRITE_ALL_URL = "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idpermissions"
 _PIN_ACTION_URL = "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+_PULL_REQUEST_TARGET_URL = (
+    "https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target"
+)
 
 
 def _strip_yaml_comment(line: str) -> str:
@@ -65,10 +74,10 @@ def _finding(
         id=f"{rule_id}:{file}:{line}",
         fingerprint=fingerprint,
         rule_id=rule_id,
-        rule_version="1.1.0" if rule_id == "FUSE-GHA-001" else "1.0.0",
+        rule_version={"FUSE-GHA-001": "1.1.0"}.get(rule_id, "1.0.0"),
         analyzer="github-actions-static",
         title=title,
-        severity="medium" if rule_id == "FUSE-GHA-001" else "info",
+        severity="medium" if rule_id in {"FUSE-GHA-001", "FUSE-GHA-003"} else "info",
         confidence="high",
         category="ci-workflow-security",
         file=file,
@@ -85,12 +94,95 @@ def _finding(
     )
 
 
+def _yaml_key_value(content: str) -> tuple[str, str] | None:
+    key, separator, value = content.partition(":")
+    if not separator:
+        return None
+    return key.strip().strip("\"'"), value.strip()
+
+
+def _has_pull_request_target_event(lines: list[str]) -> bool:
+    """Recognize common line-oriented forms of the privileged event trigger."""
+    in_events_mapping = False
+    event_indent: int | None = None
+    for original in lines:
+        line = _strip_yaml_comment(original)
+        if not line.strip():
+            continue
+        indent = len(line) - len(line.lstrip(" "))
+        content = line[indent:]
+        if indent == 0:
+            pair = _yaml_key_value(content)
+            in_events_mapping = pair is not None and pair[0] == "on"
+            event_indent = None
+            if (
+                in_events_mapping
+                and pair is not None
+                and re.search(r"(?<![A-Za-z0-9_-])pull_request_target(?![A-Za-z0-9_-])", pair[1])
+            ):
+                return True
+            continue
+        if not in_events_mapping:
+            continue
+        if event_indent is None:
+            event_indent = indent
+        if indent == event_indent:
+            pair = _yaml_key_value(content)
+            if pair is not None and pair[0] == "pull_request_target":
+                return True
+    return False
+
+
+def _pull_request_head_checkout_lines(lines: list[str]) -> tuple[int, ...]:
+    """Return checkout ref lines that exactly use a pull request head expression."""
+    matches: list[int] = []
+    for index, original in enumerate(lines):
+        line = _strip_yaml_comment(original)
+        action = _ACTION_USE.fullmatch(line)
+        if action is None or action.group("target").casefold() != "actions/checkout":
+            continue
+        action_indent = len(line) - len(line.lstrip(" "))
+        with_indent: int | None = None
+        input_indent: int | None = None
+        for following_index in range(index + 1, len(lines)):
+            following = _strip_yaml_comment(lines[following_index])
+            if not following.strip():
+                continue
+            indent = len(following) - len(following.lstrip(" "))
+            content = following[indent:]
+            if indent <= action_indent:
+                break
+            pair = _yaml_key_value(content)
+            if pair is None:
+                continue
+            key, value = pair
+            if with_indent is None:
+                if key.casefold() == "with" and not value:
+                    with_indent = indent
+                continue
+            if indent <= with_indent:
+                with_indent = None
+                input_indent = None
+                continue
+            if input_indent is None:
+                input_indent = indent
+            if indent != input_indent or key.casefold() != "ref":
+                continue
+            expression = value.strip().strip("\"'").strip()
+            if expression.startswith("${{") and expression.endswith("}}"):
+                expression = expression[3:-2].strip()
+            if expression in _PULL_REQUEST_HEAD_REFS:
+                matches.append(following_index + 1)
+                break
+    return tuple(matches)
+
+
 def inspect_github_actions(
     root: Path,
     *,
     exclude: tuple[str, ...] = (),
 ) -> tuple[GitHubActionsInventory, tuple[Finding, ...]]:
-    """Inspect bounded workflow text for explicit broad permissions and floating action refs."""
+    """Inspect bounded workflow text for a few explicit supply-chain risk patterns."""
     if not root.is_dir():
         return GitHubActionsInventory(), ()
     root_path = root.resolve(strict=True)
@@ -161,11 +253,17 @@ def inspect_github_actions(
             limitations.append(f"{relative} is not UTF-8 text and was skipped.")
             continue
 
+        workflow_lines = text.splitlines()
+        pull_request_target_checkouts = (
+            set(_pull_request_head_checkout_lines(workflow_lines))
+            if _has_pull_request_target_event(workflow_lines)
+            else set()
+        )
         in_jobs_section = False
         job_indent: int | None = None
         job_property_indent: int | None = None
 
-        for line_number, original in enumerate(text.splitlines(), 1):
+        for line_number, original in enumerate(workflow_lines, 1):
             line = _strip_yaml_comment(original)
             if not line.strip():
                 continue
@@ -253,6 +351,31 @@ def inspect_github_actions(
                             "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates."
                         ),
                         reference=_PIN_ACTION_URL,
+                    )
+                )
+            if line_number in pull_request_target_checkouts:
+                findings.append(
+                    _finding(
+                        rule_id="FUSE-GHA-003",
+                        file=relative,
+                        line=line_number,
+                        evidence=original,
+                        title="Privileged pull_request_target workflow checks out pull request code",
+                        explanation=(
+                            "This workflow combines the privileged pull_request_target event with an actions/checkout ref "
+                            "that selects the pull request head. GitHub warns against building or running untrusted pull "
+                            "request code in this context. FUSE does not determine whether a later step executes the "
+                            "checked-out code, so this is a review candidate rather than a confirmed vulnerability."
+                        ),
+                        impact=(
+                            "If a later step builds or executes the checked-out code, attacker-controlled content may run "
+                            "with the workflow's available secrets, token permissions, or cache access."
+                        ),
+                        remediation=(
+                            "Avoid checking out pull request head code in a pull_request_target workflow. Use pull_request "
+                            "for build and test jobs, or separate privileged metadata handling from untrusted-code jobs."
+                        ),
+                        reference=_PULL_REQUEST_TARGET_URL,
                     )
                 )
             if len(findings) >= MAX_WORKFLOW_FINDINGS:
