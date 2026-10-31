@@ -20,6 +20,8 @@ This is a synthetic regression benchmark with 22 small examples. The fixture aut
 
 The repository scans and manual triage under `reports/pilot-validation/` and [`reports/repository-scans/fresh-validation-next/triage.md`](../reports/repository-scans/fresh-validation-next/triage.md) remain separate evidence. They provide pinned examples and source-context dispositions, but they do not enumerate all true conditions in each repository. The 23-signal review is not independent adjudication and cannot establish recall. A future field benchmark needs independently selected snapshots, whole-scope labels or a documented sampling method, reviewer adjudication, and explicit unresolved or partial coverage accounting.
 
+The [NIST SARD case 2043 probe](experiments/credential-comparison-sard-case-2043-2026-10-31.md) is a separate, single-case external smoke check. It found one previously missed hard-coded password comparison after a rule update. It is not part of the 22 synthetic examples and does not estimate accuracy.
+
 ## Labeling rules
 
 - A positive case contains the specific static condition described by its expected native rule, in a source path that rule supports.
