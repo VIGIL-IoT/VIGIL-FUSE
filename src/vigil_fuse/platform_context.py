@@ -590,7 +590,9 @@ def inspect_project_context(
                 warnings.append("project_description.json is not valid JSON")
             else:
                 target_value = target_value or _safe_string(document, "target", "idf_target")
-                version_value = _safe_string(document, "idf_ver", "idf_version")
+                # ESP-IDF's project_description.json template uses `git_revision`.
+                # Keep the older aliases for existing generated metadata variants.
+                version_value = _safe_string(document, "git_revision", "idf_ver", "idf_version")
 
     if framework == "esp-idf":
         target_value = target_value or (

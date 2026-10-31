@@ -26,7 +26,7 @@ def _build_fixture(root: Path, *, target: str = "esp32s3", version: str = "v5.5.
         f'#define CONFIG_IDF_TARGET "{target}"\n', encoding="utf-8"
     )
     (build / "project_description.json").write_text(
-        json.dumps({"target": target, "idf_ver": version}), encoding="utf-8"
+        json.dumps({"target": target, "git_revision": version}), encoding="utf-8"
     )
     (build / "CMakeCache.txt").write_text(
         f"SDKCONFIG:FILEPATH={root / 'sdkconfig'}\n"

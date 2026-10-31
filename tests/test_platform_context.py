@@ -36,7 +36,7 @@ def _esp_idf_project(
         encoding="utf-8",
     )
     (build / "project_description.json").write_text(
-        json.dumps({"target": target, "idf_ver": version}),
+        json.dumps({"target": target, "git_revision": version}),
         encoding="utf-8",
     )
     if lock_target is not None:
@@ -107,6 +107,21 @@ class PlatformContextTests(unittest.TestCase):
         self.assertTrue(
             all(not Path(artifact.path).is_absolute() for artifact in context.configuration_files)
         )
+
+    def test_esp_idf_context_accepts_legacy_version_metadata_aliases(self) -> None:
+        for version_key in ("idf_ver", "idf_version"):
+            with self.subTest(version_key=version_key):
+                with tempfile.TemporaryDirectory() as temporary:
+                    root = Path(temporary) / "project"
+                    build = _esp_idf_project(root)
+                    (build / "project_description.json").write_text(
+                        json.dumps({"target": "esp32", version_key: "v5.2.1"}),
+                        encoding="utf-8",
+                    )
+                    context, _, warnings, _ = inspect_project_context(root, "esp-idf", "build")
+
+                self.assertEqual("v5.2.1", context.framework_version)
+                self.assertEqual((), warnings)
 
     def test_esp_idf_context_records_selected_sdkconfig_and_defaults_order(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
