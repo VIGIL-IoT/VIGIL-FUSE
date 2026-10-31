@@ -157,6 +157,8 @@ class OptionalAnalyzerTests(unittest.TestCase):
             + repr(keys)
             + "; values = {key: os.getenv(key) for key in keys}; "
             + "values['directories_exist'] = {key: os.path.isdir(values[key]) for key in keys}; "
+            + "values['HOMEDRIVE'] = os.getenv('HOMEDRIVE'); "
+            + "values['HOMEPATH'] = os.getenv('HOMEPATH'); "
             + "values['cwd'] = os.getcwd(); print(json.dumps(values))"
         )
 
@@ -166,6 +168,9 @@ class OptionalAnalyzerTests(unittest.TestCase):
         root = Path(result["HOME"]).parent
         self.assertTrue(root.name.startswith("vigil-fuse-analyzer-"))
         self.assertEqual(root.resolve(), Path(result["cwd"]).resolve())
+        if os.name == "nt":
+            windows_home = Path(result["HOMEDRIVE"] + result["HOMEPATH"])
+            self.assertEqual(Path(result["HOME"]).resolve(), windows_home.resolve())
         for key in keys:
             with self.subTest(key=key):
                 self.assertTrue(result["directories_exist"][key])

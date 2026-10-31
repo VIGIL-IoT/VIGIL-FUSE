@@ -150,6 +150,10 @@ def _isolated_analyzer_environment(command: list[str], root: Path) -> dict[str, 
         directory.mkdir(parents=True, exist_ok=True)
     environment = _analyzer_environment(command)
     environment.update({name: str(directory) for name, directory in directories.items()})
+    if os.name == "nt":
+        home_drive, home_path = os.path.splitdrive(str(home))
+        environment["HOMEDRIVE"] = home_drive
+        environment["HOMEPATH"] = home_path
     return environment
 
 
