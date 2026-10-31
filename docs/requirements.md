@@ -34,6 +34,7 @@ This is an engineering gap statement, not a claim that existing tools lack all e
 | O-5 | Preserve useful embedded project context | Hardware inventory and selected platform/build adapters emit scoped metadata with explicit limits |
 | O-6 | Keep routine use reproducible | Documented install, scan, test, fixture benchmark, performance benchmark, and package-build commands work in CI or a clean local environment |
 | O-7 | Evaluate signals without overstating accuracy | Pinned manifests, scan reports, manual triage records, and synthetic fixture limits are disclosed |
+| O-8 | Monitor repository code, dependencies, and provider-secret exposure | CodeQL, Dependabot alerts and security updates, secret scanning, and push protection are enabled; current alerts are reviewed |
 
 These criteria assess engineering behavior. They do not establish that FUSE finds every vulnerability or that a scanned product is secure.
 
@@ -89,6 +90,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 - **Maintainability:** Keep rules, analyzers, report models, adapters, and CLI boundaries modular; preserve the `vigil_fuse.analyzers` compatibility facade.
 - **Reproducibility:** Pin repository scan inputs and scopes, keep fixtures in version control, and document environment and commands.
 - **Privacy:** Write reports locally by default, redact secret-like evidence, and avoid exposing absolute target paths by default.
+- **Repository security:** Run source and dependency alerting, detect supported leaked credentials, and prevent supported secrets from entering the public repository.
 - **Interoperability:** Maintain versioned JSON and emit SARIF and CycloneDX artifacts where implemented.
 
 ## Technology and constraints
@@ -102,7 +104,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 | Test and development dependencies | Build, coverage, jsonschema, Mypy, pip-audit, psutil, PyYAML, pytest, pytest-cov, Ruff, Twine, and psutil type stubs, with ranges in `pyproject.toml` |
 | Optional system analyzers | Syft, OSV-Scanner, Binwalk, and Gitleaks, invoked only when requested |
 | Reports | Text, JSON Schema 2020-12, SARIF, and selected CycloneDX outputs |
-| CI | GitHub Actions on Ubuntu with Python 3.11 to 3.14, plus Windows and macOS jobs on Python 3.11; includes native-rule type checking, the optional YAML parser, and a scheduled Python dependency audit |
+| CI | GitHub Actions on Ubuntu with Python 3.11 to 3.14, plus Windows and macOS jobs on Python 3.11; includes native-rule type checking, the optional YAML parser, a scheduled Python dependency audit, and a pinned CodeQL workflow for Python |
 | Site | Static files in `site/`, configured by `vercel.json`; independent of the analyzer runtime |
 
 ## Assumptions and constraints
