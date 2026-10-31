@@ -23,7 +23,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 RUN_TIMEOUT_SECONDS = 240
 MAX_REAL_FIRMWARE_BYTES = 16 * 1024 * 1024
-MAX_DECOMPRESSED_FILESYSTEM_BYTES = 64 * 1024 * 1024
+MAX_DECOMPRESSED_FILESYSTEM_BYTES = 128 * 1024 * 1024
 FIRMWARE_PREFIX = b"FUSE synthetic container\x00"
 PAYLOAD = b"FUSE synthetic firmware signature fixture"
 
