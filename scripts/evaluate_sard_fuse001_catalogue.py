@@ -152,6 +152,26 @@ def summarize_findings(case: dict[str, Any], findings: list[dict[str, Any]]) -> 
         for target in targets
     ]
     additional_files = sorted(set(counts) - set(targets))
+    additional_locations: list[dict[str, Any]] = []
+    for finding in findings:
+        filename = _finding_file(finding)
+        if filename in targets:
+            continue
+        location = finding.get("location")
+        line = location.get("start_line") if isinstance(location, dict) else None
+        additional_locations.append(
+            {
+                "file": filename,
+                "line": line if isinstance(line, int) and not isinstance(line, bool) else None,
+            }
+        )
+    additional_locations.sort(
+        key=lambda item: (
+            item["file"],
+            item["line"] is None,
+            item["line"] if isinstance(item["line"], int) else 0,
+        )
+    )
     versions = sorted(
         {
             version
@@ -164,6 +184,7 @@ def summarize_findings(case: dict[str, Any], findings: list[dict[str, Any]]) -> 
         "files_with_findings": dict(sorted(counts.items())),
         "nist_sarif_targets": target_results,
         "additional_fuse001_files": additional_files,
+        "additional_fuse001_locations": additional_locations,
         "rule_versions": versions,
     }
 

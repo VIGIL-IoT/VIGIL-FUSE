@@ -4,6 +4,7 @@ import hashlib
 from pathlib import Path
 import stat
 import tempfile
+from typing import Any
 import unittest
 from unittest.mock import MagicMock, patch
 from zipfile import ZipInfo, ZipFile
@@ -63,10 +64,16 @@ class SardCohortInputTests(unittest.TestCase):
         case = {"sarif_targets": ["src/testcases/target.c"]}
         findings = [
             {
-                "location": {"file": r"C:\temp\case\src\testcases\target.c"},
+                "location": {
+                    "file": r"C:\temp\case\src\testcases\target.c",
+                    "start_line": 12,
+                },
                 "rule_version": "1.9.0",
             },
-            {"location": {"file": "support.c"}, "rule_version": "1.9.0"},
+            {
+                "location": {"file": "support.c", "start_line": 27},
+                "rule_version": "1.9.0",
+            },
         ]
 
         result = summarize_findings(case, findings)
@@ -77,6 +84,10 @@ class SardCohortInputTests(unittest.TestCase):
             result["nist_sarif_targets"],
         )
         self.assertEqual(["support.c"], result["additional_fuse001_files"])
+        self.assertEqual(
+            [{"file": "support.c", "line": 27}],
+            result["additional_fuse001_locations"],
+        )
 
     def test_catalogue_target_verification_checks_length_and_digest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -86,7 +97,7 @@ class SardCohortInputTests(unittest.TestCase):
             target_path = root / relative_path
             target_path.parent.mkdir(parents=True)
             target_path.write_bytes(content)
-            case = {
+            case: dict[str, Any] = {
                 "case_id": "sample",
                 "target_files": [
                     {
