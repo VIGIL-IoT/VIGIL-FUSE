@@ -13,7 +13,7 @@
   --page-gutter: clamp(20px, 5.6vw, 84px);
   --section-space: clamp(40px, 5vw, 72px);
   --radius: 4px;
-  --step-small: 14px;
+  --step-small: 16px;
   --step-body: 17px;
   --step-lead: 20px;
   --step-heading: clamp(2rem, 3.2vw, 3.35rem);
@@ -360,7 +360,7 @@ p {
   font-size: var(--step-small);
 }
 
-.hero-note span {
+.hero-note-separator {
   padding-inline: 5px;
   color: var(--signal);
 }
@@ -948,6 +948,19 @@ p {
   font-size: var(--step-small);
 }
 
+.scan-report-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin: -12px 0 30px;
+}
+
+.scan-report-actions a {
+  font-size: var(--step-body);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
 .scan-chart-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
@@ -1083,7 +1096,7 @@ p {
 }
 
 .scan-repository {
-  border-bottom: 1px solid var(--surface); /* taste-skill-ignore: expandable repository row boundary */
+  margin-bottom: 12px;
 }
 
 .scan-repository > summary {
@@ -1154,6 +1167,11 @@ p {
   padding: 6px 0 25px;
 }
 
+.scan-repository[open] {
+  padding-inline: 14px;
+  background: var(--surface);
+}
+
 .scan-repo-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1168,7 +1186,6 @@ p {
   font-weight: 600;
 }
 
-.scan-repo-links,
 .scan-report-links {
   display: flex;
   flex-wrap: wrap;
@@ -1176,10 +1193,9 @@ p {
   margin-top: 16px;
 }
 
-.scan-repo-links a,
 .scan-report-links a {
   color: var(--ink);
-  font-size: var(--step-small);
+  font-size: var(--step-body);
   font-weight: 600;
   text-underline-offset: 4px;
 }
@@ -1641,7 +1657,7 @@ p {
 }
 
 .support-entry {
-  border-bottom: 1px solid var(--surface); /* taste-skill-ignore: expandable capability row boundary */
+  margin-bottom: 10px;
 }
 
 .support-entry-summary {
@@ -1652,6 +1668,11 @@ p {
   padding: 17px 0;
   cursor: pointer;
   list-style: none;
+}
+
+.support-entry[open] {
+  padding-inline: 14px;
+  background: var(--surface);
 }
 
 .support-entry-summary::-webkit-details-marker {
@@ -2156,7 +2177,24 @@ p {
   }
 
   .hero-note {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 10px;
     margin-top: 20px;
+  }
+
+  .hero-note-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .hero-note-separator {
+    padding: 0;
+  }
+
+  .hero-note-item:last-child .hero-note-separator {
+    display: none;
   }
 
   .hero-stage {

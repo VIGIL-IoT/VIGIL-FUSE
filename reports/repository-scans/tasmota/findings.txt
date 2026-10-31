@@ -354,7 +354,7 @@ Firmware-like file candidates: 30 / complete (extension and size only, contents 
 GitHub Actions workflows: 5 / completed; 66 non-SHA action reference(s), 1 floating-branch candidate(s)
 Analyzers:
   fuse-native: partial (One or more selected files were skipped; review coverage details.)
-  native-rule:FUSE001: partial (Evaluated 410 selected input(s). The conservative prefilter excluded 6390 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE001: partial (Evaluated 411 selected input(s). The conservative prefilter excluded 6389 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
   native-rule:FUSE002: partial (Evaluated 11 selected input(s). The conservative prefilter excluded 6789 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
   native-rule:FUSE003: partial (Evaluated 309 selected input(s). The conservative prefilter excluded 6491 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
   native-rule:FUSE004: partial (Evaluated 1671 selected input(s). The conservative prefilter excluded 5129 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
@@ -461,26 +461,26 @@ Skip reasons: too_large=2
   Remediation: Use HTTPS with certificate verification for the service and confirm that the device rejects invalid certificates.
   References: https://cwe.mitre.org/data/definitions/319.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: tasmota/berry/drivers/ftp.be:60
   Evidence: static password = "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: tasmota/berry/drivers/ssh.be:871
   Evidence: static password = "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html

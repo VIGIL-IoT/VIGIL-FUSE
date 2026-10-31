@@ -61,7 +61,11 @@
             <a class="button button-dark" href="#install">Run a first scan <span aria-hidden="true">↓</span></a>
             <a class="text-link" href="#rules">See the current rules</a>
           </div>
-          <p class="hero-note">Python 3.11+ <span aria-hidden="true">·</span> no runtime dependencies <span aria-hidden="true">·</span> local reports</p>
+          <p class="hero-note">
+            <span class="hero-note-item">Python 3.11+</span>
+            <span class="hero-note-item"><span class="hero-note-separator" aria-hidden="true">·</span> no runtime dependencies</span>
+            <span class="hero-note-item"><span class="hero-note-separator" aria-hidden="true">·</span> local reports</span>
+          </p>
         </div>
         <div class="hero-stage reveal" role="group" aria-label="Interactive FUSE finding example">
           <article class="finding-demo" data-ui="finding-record" aria-labelledby="demo-title" aria-live="polite" aria-atomic="true">
@@ -170,11 +174,13 @@
         </div>
         <div class="regression-poc-callout reveal">
           <p><strong>Pinned repository results / 31 Oct 2026</strong><span>Fourteen repositories across 15 scopes, with separate four-repository validation cohorts.</span></p>
-          <a href="regression/">Open regression report</a>
-          <a href="fresh-validation/">Open independent report</a>
         </div>
         <div class="scan-metrics" id="scan-metrics" aria-label="Scan coverage summary"></div>
         <p class="scan-severity-summary"><strong>Severity labels</strong><span id="scan-severity-counts"></span><small>Severity describes potential impact. Confidence describes evidence strength and is recorded separately.</small></p>
+        <nav class="scan-report-actions" aria-label="Additional scan evidence">
+          <a href="regression/">Review rule regression</a>
+          <a href="fresh-validation/">Review transfer cohort</a>
+        </nav>
         <div class="scan-chart-grid">
           <figure class="scan-chart-panel scan-chart-wide">
             <figcaption><span>Repository coverage</span><strong>Raw signals by snapshot</strong></figcaption>
@@ -240,7 +246,7 @@
             <div class="output-panel" data-ui="output-folder">
               <p class="output-title"><span class="folder-mark" aria-hidden="true"></span><code>.fuse-results/</code></p>
               <ul>
-                <li><code>findings.json</code><small>schema 1.7</small></li>
+                <li><code>findings.json</code><small>schema 1.10</small></li>
                 <li><code>findings.txt</code><small>human readable</small></li>
                 <li><code>findings.sarif</code><small>tool interchange</small></li>
               </ul>
@@ -288,7 +294,7 @@
           <table class="rule-table">
             <thead><tr><th scope="col">Rule</th><th scope="col">Signal reported</th><th scope="col">Severity</th><th scope="col">Confidence</th></tr></thead>
             <tbody>
-              <tr><th scope="row"><code>FUSE001</code><small>Secrets</small></th><td>Credential-like non-placeholder literal assignment</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
+              <tr><th scope="row"><code>FUSE001</code><small>Secrets</small></th><td>Credential-like literal assignment or password comparison</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
               <tr><th scope="row"><code>FUSE002</code><small>Secrets</small></th><td>PEM private-key block marker</td><td data-label="Severity"><span class="rating rating-high">High</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
               <tr><th scope="row"><code>FUSE003</code><small>Transport security</small></th><td>TLS peer verification appears disabled</td><td data-label="Severity"><span class="rating rating-high">High</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>
               <tr><th scope="row"><code>FUSE004</code><small>Transport security</small></th><td>Non-loopback HTTP endpoint in endpoint context</td><td data-label="Severity"><span class="rating">Medium</span></td><td data-label="Confidence"><span class="rating rating-plain">High</span></td></tr>

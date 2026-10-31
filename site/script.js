@@ -321,20 +321,13 @@ function renderRepositoryDetails(data) {
       body.append(element("p", "scan-empty", "No rule matches in the scanned sample. This result describes only the listed files and enabled rules."));
     }
 
-    const links = element("div", "scan-repo-links");
-    links.append(
-      externalLink("Source repository ↗", repo.url),
-      externalLink(`Pinned source commit ${repo.commit.slice(0, 10)} ↗`, `${repo.url}/commit/${repo.commit}`)
-    );
-    body.append(links);
-
     const reportLinks = element("div", "scan-report-links");
     repo.scopes.forEach((scope) => {
       const prefix = repo.scopes.length > 1 ? `${scope.id}: ` : "";
       reportLinks.append(
-        externalLink(`${prefix}JSON report ↗`, scope.report_files.github_json),
-        externalLink(`${prefix}text report ↗`, scope.report_files.github_text),
-        externalLink(`${prefix}SARIF report ↗`, scope.report_files.github_sarif)
+        externalLink(`${prefix}Open JSON scan report ↗`, scope.report_files.github_json),
+        externalLink(`${prefix}Open text scan report ↗`, scope.report_files.github_text),
+        externalLink(`${prefix}Open SARIF scan report ↗`, scope.report_files.github_sarif)
       );
     });
     body.append(reportLinks);

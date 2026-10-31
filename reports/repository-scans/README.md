@@ -2,7 +2,7 @@
 
 ## Current snapshot
 
-On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at clean source commit `fe6dfd2`. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
+On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at clean source commit `9f2e5a6` with FUSE001 1.8.0. This refreshed the same pinned inputs and scopes previously scanned at `fe6dfd2`. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
 
 These are raw static indicators, not confirmed vulnerabilities. Severity represents potential impact and confidence is a separate field on each finding. No repository was built, no project test suite was run, no firmware image or physical board was analyzed, and no external dependency or binary-analysis tools were invoked.
 
@@ -21,6 +21,8 @@ These are raw static indicators, not confirmed vulnerabilities. Severity represe
 | Hardware filename matches | 28 |
 
 Two selected Tasmota files exceeded FUSE's 2 MiB per-file limit, so that report is partial. Other scopes completed. A scan with zero signals means no enabled rule matched within the selected scope. It does not establish that the repository is secure.
+
+Compared with the reports at `fe6dfd2`, the refreshed corpus preserves all 35 finding identities and aggregate coverage counts. FUSE001 remains at 13 signals, with no new match from the password-comparison refinement in these pinned scopes. This is a regression check for this corpus, not an accuracy estimate. The manifest, raw scope reports, aggregate summary, charts, and website data are refreshed from the current scanner source.
 
 | Repository | Profile | Files scanned | Signals | Status |
 | --- | --- | ---: | ---: | --- |
@@ -57,7 +59,7 @@ Two additional `FUSE-GHA-002` informational signals identify GitHub Action refer
 
 ## Current source refresh, 2026-10-31
 
-The previous 61-signal summary was produced at commit `b88f235` with `source_tree_dirty=true`. A clean source refresh at `2e50a6e` produced 38 signals. Two fixture-backed refinements then removed three corpus-specific false-positive candidates: the duplicated TinySRP `DEFAULT_PASSWD` database filename in IoTGoat and OpenWrt, and a `.setInsecure()` call inside Tasmota's literal inactive `#else` branch under `#if 1`. The latest clean source snapshot at `fe6dfd2` reports 35 signals. These count changes are not an accuracy or precision measurement. The new [`2026-10-31 transfer cohort`](fresh-validation-20261031/README.md) separately documents the narrow filename and reserved-marker refinement and its two-match regression comparison.
+The previous 61-signal summary was produced at commit `b88f235` with `source_tree_dirty=true`. A clean source refresh at `2e50a6e` produced 38 signals. Two fixture-backed refinements then removed three corpus-specific false-positive candidates: the duplicated TinySRP `DEFAULT_PASSWD` database filename in IoTGoat and OpenWrt, and a `.setInsecure()` call inside Tasmota's literal inactive `#else` branch under `#if 1`. The clean source snapshot at `fe6dfd2` reported 35 signals. A later refresh at `9f2e5a6`, which added FUSE001 password-comparison detection, retained the same 35 finding identities on these pinned scopes. The [NIST SARD case 2043 probe](../../docs/experiments/credential-comparison-sard-case-2043-2026-10-31.md) records the separate known-case result. These count changes are not an accuracy or precision measurement. The new [`2026-10-31 transfer cohort`](fresh-validation-20261031/README.md) separately documents the narrow filename and reserved-marker refinement and its two-match regression comparison.
 
 Hardware inventory found 28 filename-matched artifacts: 27 hardware project files and one netlist. The inventory reports file presence and category only. It does not parse schematics or PCB design content and does not make a hardware security assessment.
 

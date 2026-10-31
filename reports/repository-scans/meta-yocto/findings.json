@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "embedded-linux",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T23:23:16Z",
-    "completed_at": "2026-10-30T23:23:17Z",
+    "started_at": "2026-10-31T02:01:39Z",
+    "completed_at": "2026-10-31T02:01:40Z",
     "input_manifest_sha256": "d4a457fe449675df2331bfb6847ad4b14e15d0bcd084592be395a777e1fa929b"
   },
   "summary": {
@@ -90,7 +90,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "skipped",
-        "version": "1.7.0",
+        "version": "1.8.0",
         "detail": "No selected input matched this rule's supported input scope.",
         "findings": 0
       },

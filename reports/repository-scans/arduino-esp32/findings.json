@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "generic",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T23:22:48Z",
-    "completed_at": "2026-10-30T23:22:53Z",
+    "started_at": "2026-10-31T01:58:01Z",
+    "completed_at": "2026-10-31T01:58:39Z",
     "input_manifest_sha256": "1045c5f3cafe0b358a3bafc755e821bedb3f07ed0d1fc3ca1e6c5dffa71aba5b"
   },
   "summary": {
@@ -100,7 +100,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.7.0",
+        "version": "1.8.0",
         "detail": "Evaluated 182 selected input(s). The conservative prefilter excluded 1596 inputs without the rule's required markers.",
         "findings": 11
       },
@@ -730,9 +730,9 @@
       "id": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino:22",
       "fingerprint": "e684dfd4b553920fbd7b8295aa950b8bab17206e4fe4767164a63c14dca43ef1",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -742,7 +742,7 @@
         "end_line": 22
       },
       "evidence": "const char *password = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -794,9 +794,9 @@
       "id": "FUSE001:libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino:23",
       "fingerprint": "3de306894d3c91033fd906dd567b5bb1db90ac28b70af8238bb3c4d7a69b10b0",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -806,7 +806,7 @@
         "end_line": 23
       },
       "evidence": "#define WIFI_PASSWD \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -890,9 +890,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:19",
       "fingerprint": "f6deee41cb53da809af05151622e4abd6e7498a6db3df526820a26c389826ad3",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -902,7 +902,7 @@
         "end_line": 19
       },
       "evidence": "const char *www_password = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -922,9 +922,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:13",
       "fingerprint": "0229badfdf8bbc2af47ada108cb7139c690801d3ed129bed8bcf1f840c69715c",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -934,7 +934,7 @@
         "end_line": 13
       },
       "evidence": "const char *www_password = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -954,9 +954,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:20",
       "fingerprint": "82f189e5c4f9bd23a7b4997b319d0b4357f8620b31b9faaee868f3da0e7fe87b",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -966,7 +966,7 @@
         "end_line": 20
       },
       "evidence": "const char *www_password = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -986,9 +986,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:26",
       "fingerprint": "6be6401495e3794b72c83134d92900f44fd11143e9bf4eb6b895bda6fda55fcd",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -998,7 +998,7 @@
         "end_line": 26
       },
       "evidence": "const char *www_password_hex = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -1018,9 +1018,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:31",
       "fingerprint": "156f4e40b0b6c260af8fb65b6ad564abd2ac251fc6debf0492323d3c105a10c0",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -1030,7 +1030,7 @@
         "end_line": 31
       },
       "evidence": "const char *www_password_base64 = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -1050,9 +1050,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:22",
       "fingerprint": "53103489650bd9c5f4bd4747eab1dc7b0927793f6f063ea336abe5430a6faa1f",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -1062,7 +1062,7 @@
         "end_line": 22
       },
       "evidence": "String secret_token_hex = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -1082,9 +1082,9 @@
       "id": "FUSE001:libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:40",
       "fingerprint": "c93fa274c408f11b98667b18918f1e726c9c4cc4bd1f8aac6871ba38eb262c44",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -1094,7 +1094,7 @@
         "end_line": 40
       },
       "evidence": "const char *www_password_hex = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -1114,9 +1114,9 @@
       "id": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:26",
       "fingerprint": "be925fc47b7b4d73b816f24bf1e0518d15c428287449dd46e6560b2dae4b8484",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -1126,7 +1126,7 @@
         "end_line": 26
       },
       "evidence": "const String writeApiKey = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -1146,9 +1146,9 @@
       "id": "FUSE001:libraries/WiFi/examples/WiFiClient/WiFiClient.ino:27",
       "fingerprint": "f0a0346749cbd406c160ebab59bca3dbbbca56febd7be437783d98f6cce2d5d5",
       "rule_id": "FUSE001",
-      "rule_version": "1.7.0",
+      "rule_version": "1.8.0",
       "analyzer": "fuse-native",
-      "title": "Credential-like literal assigned in source",
+      "title": "Credential-like literal in source",
       "severity": "medium",
       "confidence": "high",
       "category": "secrets",
@@ -1158,7 +1158,7 @@
         "end_line": 27
       },
       "evidence": "const String readApiKey = \"[REDACTED]\";",
-      "explanation": "A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [

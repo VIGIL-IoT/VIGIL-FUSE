@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "embedded-linux",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T23:23:12Z",
-    "completed_at": "2026-10-30T23:23:15Z",
+    "started_at": "2026-10-31T02:01:06Z",
+    "completed_at": "2026-10-31T02:01:39Z",
     "input_manifest_sha256": "164282ede4646a44f291ec117a6cc18c88917a738f00283c6de8d2877a52094c"
   },
   "summary": {
@@ -116,7 +116,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.7.0",
+        "version": "1.8.0",
         "detail": "Evaluated 46 selected input(s). The conservative prefilter excluded 1137 inputs without the rule's required markers.",
         "findings": 0
       },

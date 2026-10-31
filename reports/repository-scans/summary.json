@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-30T23:34:52Z",
+  "generated_at": "2026-10-31T02:04:07Z",
   "scan_date": "2026-10-31",
   "fuse": {
     "version": "0.2.0",
-    "commit": "fe6dfd2a5353a50ba126ff49c3bf204904e090ca",
-    "source_tree_sha256": "96a92e141d2645edf6a24896f7a97a628a906c2c811fc2670f0f7adee0fb43b1",
+    "commit": "9f2e5a65ce29f4d86d89511c447990defe66e06a",
+    "source_tree_sha256": "684e8b152d2d3f6bf271c5cc72cd0d8ffc0a286d19b54500b2bb5952d15582b1",
     "source_tree_dirty": false,
     "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
     "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
   },
-  "latest_scan_completed_at": "2026-10-30T23:23:17Z",
+  "latest_scan_completed_at": "2026-10-31T02:01:40Z",
   "interpretation": "Raw static indicators from the listed source/configuration scopes. Findings are not confirmed vulnerabilities.",
   "totals": {
     "repository_count": 14,
@@ -219,7 +219,7 @@
         },
         {
           "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
+          "title": "Credential-like literal in source",
           "severity": "medium",
           "category": "secrets",
           "count": 2,
@@ -928,7 +928,7 @@
       "finding_groups": [
         {
           "rule_id": "FUSE001",
-          "title": "Credential-like literal assigned in source",
+          "title": "Credential-like literal in source",
           "severity": "medium",
           "category": "secrets",
           "count": 11,

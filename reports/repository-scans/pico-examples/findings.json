@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "generic",
     "network_policy": "no-network",
-    "started_at": "2026-10-30T23:22:38Z",
-    "completed_at": "2026-10-30T23:22:39Z",
+    "started_at": "2026-10-31T01:57:21Z",
+    "completed_at": "2026-10-31T01:57:29Z",
     "input_manifest_sha256": "ab4f95f5386f1d858a411d184cafeec5de6e37a3b85e2b560ec1a61c9c3f9c42"
   },
   "summary": {
@@ -105,7 +105,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "completed",
-        "version": "1.7.0",
+        "version": "1.8.0",
         "detail": "Evaluated 32 selected input(s). The conservative prefilter excluded 341 inputs without the rule's required markers.",
         "findings": 0
       },

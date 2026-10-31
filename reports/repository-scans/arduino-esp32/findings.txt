@@ -138,14 +138,14 @@ Analyzers:
   Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
   References: https://cwe.mitre.org/data/definitions/295.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/NetworkClientSecure/examples/WiFiClientPSK/WiFiClientPSK.ino:22
   Evidence: const char *password = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
@@ -162,14 +162,14 @@ Analyzers:
   Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
   References: https://cwe.mitre.org/data/definitions/295.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/NetworkClientSecure/examples/WiFiClientShowPeerCredentials/WiFiClientShowPeerCredentials.ino:23
   Evidence: #define WIFI_PASSWD "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
@@ -198,110 +198,110 @@ Analyzers:
   Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
   References: https://cwe.mitre.org/data/definitions/295.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpAdvancedAuth/HttpAdvancedAuth.ino:19
   Evidence: const char *www_password = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpBasicAuth/HttpBasicAuth.ino:13
   Evidence: const char *www_password = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:20
   Evidence: const char *www_password = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:26
   Evidence: const char *www_password_hex = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpBasicAuthSHA1/HttpBasicAuthSHA1.ino:31
   Evidence: const char *www_password_base64 = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:22
   Evidence: String secret_token_hex = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WebServer/examples/HttpBasicAuthSHA1orBearerToken/HttpBasicAuthSHA1orBearerToken.ino:40
   Evidence: const char *www_password_hex = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WiFi/examples/WiFiClient/WiFiClient.ino:26
   Evidence: const String writeApiKey = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
 
-[MEDIUM] FUSE001 - Credential-like literal assigned in source
+[MEDIUM] FUSE001 - Credential-like literal in source
   Severity basis: rule
   Confidence: high
   Applicability: unknown
   Validation: static (not-validated)
   Location: libraries/WiFi/examples/WiFiClient/WiFiClient.ino:27
   Evidence: const String readApiKey = "[REDACTED]";
-  Explanation: A credential-related name is assigned a literal value. Quoted assignments are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
