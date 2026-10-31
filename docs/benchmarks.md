@@ -8,9 +8,13 @@ The current local engineering validation ran on Windows 11 with Python 3.14.7. T
 
 ## Synthetic native-rule fixtures
 
-`python scripts/evaluate_rule_benchmark.py --check` evaluated 16 labeled fixtures across seven native rules. All expected fixture outcomes matched the current implementation. FUSE003 includes two Python AST cases; each other rule has one vulnerable and one secure case, with additional true-negative coverage from other rule fixtures as represented by the benchmark script.
+`python scripts/evaluate_rule_benchmark.py --check` evaluates 24 labeled fixtures across seven native rules. All expected fixture outcomes matched the current implementation. FUSE003 includes Python AST cases, and the set includes additional vulnerable, secure, and true-negative examples as represented by the benchmark script.
 
 The fixture set is authored and synthetic. It is useful for detecting regressions in known examples, not for measuring field accuracy, general precision, recall, F1, or comparative performance. See [detection benchmark method](detection-benchmark.md) and `reports/benchmark/native-rule-fixtures.json`.
+
+## Pinned NIST SARD CWE-259 regression
+
+The [FUSE001 SARD catalogue experiment](experiments/fuse001-sard-c-catalogue-2026-10-31.md) evaluates all 76 accepted C cases returned by the pinned NIST SARD API query for CWE-259. FUSE001 1.9.0 matched 76/76 SARIF target source files and emitted 110 findings, including 34 observations on other files in mixed-path cases. The [input manifest](../reports/benchmark/sard-fuse001-cwe259-c-catalogue-manifest-2026-10-31.json) and [machine-readable result](../reports/benchmark/sard-fuse001-cwe259-c-catalogue-results-2026-10-31.json) retain the hashes and per-case counts. These observations are a rule-specific regression result. The source labels do not support false-positive, precision, or recall estimates.
 
 ## Pinned public repository scan
 

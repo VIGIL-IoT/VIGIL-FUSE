@@ -1,0 +1,1802 @@
+{
+  "cases": [
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93498",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_01.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "01",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_01.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93499",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_02.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "02",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_02.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93500",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_03.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "03",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_03.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93501",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_04.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "04",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_04.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93502",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_05.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "05",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_05.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93503",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_06.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "06",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_06.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93504",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_07.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "07",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_07.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93505",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_08.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "08",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_08.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93506",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_09.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "09",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_09.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93507",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_10.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "10",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_10.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93508",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_11.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "11",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_11.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93509",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_12.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "12",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_12.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93510",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_13.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "13",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_13.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93511",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_14.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "14",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_14.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93512",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_15.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "15",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_15.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93513",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_16.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "16",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_16.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93514",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_17.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "17",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_17.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93515",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_18.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "18",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_18.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93516",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_21.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "21",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_21.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93517",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_22b.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "22",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_22b.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93518",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_31.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "31",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_31.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93519",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_32.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "32",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_32.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93521",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_34.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "34",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_34.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93522",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_41.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "41",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_41.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93523",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_42.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "42",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_42.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93525",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_44.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "44",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_44.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93526",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_45.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "45",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_45.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_51b.c"
+      ],
+      "case_id": "93527",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_51a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_51b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "51",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_51a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_52b.c",
+        "CWE259_Hard_Coded_Password__w32_char_52c.c"
+      ],
+      "case_id": "93528",
+      "files_scanned": 8,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_52a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_52b.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_52c.c": 1
+      },
+      "finding_count": 3,
+      "flow_variant": "52",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_52a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 3
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_53b.c",
+        "CWE259_Hard_Coded_Password__w32_char_53c.c",
+        "CWE259_Hard_Coded_Password__w32_char_53d.c"
+      ],
+      "case_id": "93529",
+      "files_scanned": 9,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_53a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_53b.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_53c.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_53d.c": 1
+      },
+      "finding_count": 4,
+      "flow_variant": "53",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_53a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 4
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_54b.c",
+        "CWE259_Hard_Coded_Password__w32_char_54c.c",
+        "CWE259_Hard_Coded_Password__w32_char_54d.c",
+        "CWE259_Hard_Coded_Password__w32_char_54e.c"
+      ],
+      "case_id": "93530",
+      "files_scanned": 10,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_54a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_54b.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_54c.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_54d.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_54e.c": 1
+      },
+      "finding_count": 5,
+      "flow_variant": "54",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_54a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 5
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_61a.c"
+      ],
+      "case_id": "93531",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_61a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_61b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "61",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_61b.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_63b.c"
+      ],
+      "case_id": "93533",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_63a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_63b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "63",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_63a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_64b.c"
+      ],
+      "case_id": "93534",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_64a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_64b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "64",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_64a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_65b.c"
+      ],
+      "case_id": "93535",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_65a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_65b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "65",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_65a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_66b.c"
+      ],
+      "case_id": "93536",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_66a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_66b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "66",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_66a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_67b.c"
+      ],
+      "case_id": "93537",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_67a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_67b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "67",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_67a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_char_68b.c"
+      ],
+      "case_id": "93538",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_char_68a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_char_68b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "68",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_char_68a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93546",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_01.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "01",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_01.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93547",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_02.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "02",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_02.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93548",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_03.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "03",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_03.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93549",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_04.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "04",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_04.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93550",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_05.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "05",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_05.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93551",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_06.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "06",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_06.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93552",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_07.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "07",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_07.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93553",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_08.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "08",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_08.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93554",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_09.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "09",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_09.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93555",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_10.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "10",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_10.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93556",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_11.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "11",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_11.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93557",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_12.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "12",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_12.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93558",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_13.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "13",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_13.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93559",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_14.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "14",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_14.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93560",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_15.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "15",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_15.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93561",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_16.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "16",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_16.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93562",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_17.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "17",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_17.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93563",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_18.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "18",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_18.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93564",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_21.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "21",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_21.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93565",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_22b.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "22",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_22b.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93566",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_31.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "31",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_31.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93567",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_32.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "32",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_32.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93569",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_34.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "34",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_34.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93570",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_41.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "41",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_41.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93571",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_42.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "42",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_42.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93573",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_44.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "44",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_44.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [],
+      "case_id": "93574",
+      "files_scanned": 6,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_45.c": 1
+      },
+      "finding_count": 1,
+      "flow_variant": "45",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_45.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 1
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_51b.c"
+      ],
+      "case_id": "93575",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_51a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_51b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "51",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_51a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_52b.c",
+        "CWE259_Hard_Coded_Password__w32_wchar_t_52c.c"
+      ],
+      "case_id": "93576",
+      "files_scanned": 8,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_52a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_52b.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_52c.c": 1
+      },
+      "finding_count": 3,
+      "flow_variant": "52",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_52a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 3
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53b.c",
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53c.c",
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53d.c"
+      ],
+      "case_id": "93577",
+      "files_scanned": 9,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53b.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53c.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_53d.c": 1
+      },
+      "finding_count": 4,
+      "flow_variant": "53",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_53a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 4
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54b.c",
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54c.c",
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54d.c",
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54e.c"
+      ],
+      "case_id": "93578",
+      "files_scanned": 10,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54b.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54c.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54d.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_54e.c": 1
+      },
+      "finding_count": 5,
+      "flow_variant": "54",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_54a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 5
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_61a.c"
+      ],
+      "case_id": "93579",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_61a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_61b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "61",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_61b.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_63b.c"
+      ],
+      "case_id": "93581",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_63a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_63b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "63",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_63a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_64b.c"
+      ],
+      "case_id": "93582",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_64a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_64b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "64",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_64a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_65b.c"
+      ],
+      "case_id": "93583",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_65a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_65b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "65",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_65a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_66b.c"
+      ],
+      "case_id": "93584",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_66a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_66b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "66",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_66a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_67b.c"
+      ],
+      "case_id": "93585",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_67a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_67b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "67",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_67a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    },
+    {
+      "additional_fuse001_files": [
+        "CWE259_Hard_Coded_Password__w32_wchar_t_68b.c"
+      ],
+      "case_id": "93586",
+      "files_scanned": 7,
+      "files_with_findings": {
+        "CWE259_Hard_Coded_Password__w32_wchar_t_68a.c": 1,
+        "CWE259_Hard_Coded_Password__w32_wchar_t_68b.c": 1
+      },
+      "finding_count": 2,
+      "flow_variant": "68",
+      "nist_sarif_targets": [
+        {
+          "detected": true,
+          "file": "CWE259_Hard_Coded_Password__w32_wchar_t_68a.c",
+          "finding_count": 1
+        }
+      ],
+      "rule_versions": [
+        "1.9.0"
+      ],
+      "status": "completed",
+      "target_source_files": 2
+    }
+  ],
+  "experiment": {
+    "dataset": "NIST Software Assurance Reference Dataset (SARD)",
+    "generated_at_utc": "2026-10-31T06:49:32+00:00",
+    "manifest_sha256": "a532dd302f47126b67d867ccaee319e1590f2cd5861d6db30531aecd0d435ef4",
+    "name": "FUSE001 NIST SARD CWE-259 C catalogue regression",
+    "reproduction": "python scripts/evaluate_sard_fuse001_catalogue.py",
+    "scope_limit": "Rule-specific regression only. SARD Juliet cases are synthetic mixed-path inputs. This result is not a precision, recall, field-accuracy, or firmware-coverage estimate.",
+    "selection": {
+      "api_total": 76,
+      "case_count": 76,
+      "criteria": {
+        "flaw": "CWE-259",
+        "language": "c",
+        "status": "accepted"
+      },
+      "note": "Complete result set from one paginated API query. The listed cases contain mixed good and bad paths and are a rule-specific regression cohort, not a representative firmware accuracy sample.",
+      "observed_state": "mixed",
+      "query_url": "https://samate.nist.gov/SARD/api/test-cases/search?flaw%5B%5D=CWE-259&language%5B%5D=c&status%5B%5D=accepted&limit=100&page=1",
+      "retrieved_at": "2026-10-31T06:14:22Z"
+    },
+    "source_revision": "de2628a58af481579ec3d7a954e77658127cc3fc",
+    "source_working_tree_clean": true
+  },
+  "schema_version": 1,
+  "summary": {
+    "accuracy_metric_limit": "The catalogue's SARIF source targets label weakness flows, while each mixed case also contains good paths. File-level matches outside the SARIF target cannot be classified as false positives from these labels alone.",
+    "accuracy_metrics": "not-computed",
+    "additional_fuse001_file_observations": 34,
+    "cases_evaluated": 76,
+    "catalogue_case_count": 76,
+    "complete_catalogue_evaluated": true,
+    "fuse001_findings": 110,
+    "nist_sarif_target_files": 76,
+    "nist_sarif_target_files_detected": 76,
+    "nist_sarif_target_findings": 76
+  }
+}
