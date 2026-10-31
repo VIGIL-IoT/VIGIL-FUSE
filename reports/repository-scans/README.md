@@ -2,7 +2,7 @@
 
 ## Current snapshot
 
-On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at clean source commit `9f2e5a6` with FUSE001 1.8.0. This refreshed the same pinned inputs and scopes previously scanned at `fe6dfd2`. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
+On 2026-10-31, FUSE 0.2.0 scanned 14 pinned public repositories across 15 configured scopes at clean source commit `1aaccb4` with FUSE001 1.9.0. This refreshed the same pinned inputs and scopes previously scanned at `fe6dfd2` and `9f2e5a6`. Aggregate signal and coverage counts are unchanged from the previous run. The corpus includes selected component and example scopes as well as broad source/configuration scans. Each input commit and scope is recorded in [`scan-manifest.json`](scan-manifest.json).
 
 These are raw static indicators, not confirmed vulnerabilities. Severity represents potential impact and confidence is a separate field on each finding. No repository was built, no project test suite was run, no firmware image or physical board was analyzed, and no external dependency or binary-analysis tools were invoked.
 

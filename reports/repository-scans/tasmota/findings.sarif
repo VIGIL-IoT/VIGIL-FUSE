@@ -92,7 +92,7 @@
                 "text": "Credential-like literal in source"
               },
               "fullDescription": {
-                "text": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
+                "text": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used."
               },
               "defaultConfiguration": {
                 "level": "warning"
@@ -108,7 +108,7 @@
                 "validationMethod": "static",
                 "validationStatus": "not-validated",
                 "category": "secrets",
-                "version": "1.8.0"
+                "version": "1.9.0"
               },
               "helpUri": "https://cwe.mitre.org/data/definitions/798.html"
             }
@@ -446,7 +446,7 @@
           "ruleId": "FUSE001",
           "level": "warning",
           "message": {
-            "text": "Credential-like literal in source. A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static password = \"[REDACTED]\""
+            "text": "Credential-like literal in source. A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static password = \"[REDACTED]\""
           },
           "locations": [
             {
@@ -486,7 +486,7 @@
           "ruleId": "FUSE001",
           "level": "warning",
           "message": {
-            "text": "Credential-like literal in source. A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static password = \"[REDACTED]\""
+            "text": "Credential-like literal in source. A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used. Evidence: static password = \"[REDACTED]\""
           },
           "locations": [
             {
@@ -698,7 +698,7 @@
           {
             "name": "native-rule:FUSE001",
             "status": "partial",
-            "version": "1.8.0"
+            "version": "1.9.0"
           },
           {
             "name": "native-rule:FUSE002",

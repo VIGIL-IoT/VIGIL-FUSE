@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "esp-idf",
     "network_policy": "no-network",
-    "started_at": "2026-10-31T01:57:09Z",
-    "completed_at": "2026-10-31T01:57:10Z",
+    "started_at": "2026-10-31T02:29:40Z",
+    "completed_at": "2026-10-31T02:29:41Z",
     "input_manifest_sha256": "92eb8b487f8ec3b7cd99c145053483bd6177b5ce085528587e2fdb5e702109fc"
   },
   "summary": {
@@ -126,7 +126,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "skipped",
-        "version": "1.8.0",
+        "version": "1.9.0",
         "detail": "No selected input matched this rule's supported input scope.",
         "findings": 0
       },

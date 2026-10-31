@@ -9,8 +9,8 @@
     "target_kind": "directory",
     "profile": "generic",
     "network_policy": "no-network",
-    "started_at": "2026-10-31T01:54:10Z",
-    "completed_at": "2026-10-31T01:57:09Z",
+    "started_at": "2026-10-31T02:29:10Z",
+    "completed_at": "2026-10-31T02:29:39Z",
     "input_manifest_sha256": "cc76c02188cf671f2ec377cd0f7f742c4eefb820c2b22a3cfa1f3425ddfb4638"
   },
   "summary": {
@@ -169,7 +169,7 @@
       {
         "name": "native-rule:FUSE001",
         "status": "partial",
-        "version": "1.8.0",
+        "version": "1.9.0",
         "detail": "Evaluated 411 selected input(s). The conservative prefilter excluded 6389 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
         "findings": 2
       },
@@ -2440,7 +2440,7 @@
       "id": "FUSE001:tasmota/berry/drivers/ftp.be:60",
       "fingerprint": "600d59d7a1fec60e54e8c3091291fc3f08a45853b3448b8089f990c3a66af562",
       "rule_id": "FUSE001",
-      "rule_version": "1.8.0",
+      "rule_version": "1.9.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal in source",
       "severity": "medium",
@@ -2452,7 +2452,7 @@
         "end_line": 60
       },
       "evidence": "static password = \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [
@@ -2472,7 +2472,7 @@
       "id": "FUSE001:tasmota/berry/drivers/ssh.be:871",
       "fingerprint": "6679bb855d5d8d48a2756e807f0d04d3a77ef6889d6ff309d8e7cd821dfef29b",
       "rule_id": "FUSE001",
-      "rule_version": "1.8.0",
+      "rule_version": "1.9.0",
       "analyzer": "fuse-native",
       "title": "Credential-like literal in source",
       "severity": "medium",
@@ -2484,7 +2484,7 @@
         "end_line": 871
       },
       "evidence": "static password = \"[REDACTED]\"",
-      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
+      "explanation": "A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.",
       "potential_impact": "If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.",
       "remediation": "Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.",
       "references": [

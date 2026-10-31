@@ -468,7 +468,7 @@ Skip reasons: too_large=2
   Validation: static (not-validated)
   Location: tasmota/berry/drivers/ftp.be:60
   Evidence: static password = "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
@@ -480,7 +480,7 @@ Skip reasons: too_large=2
   Validation: static (not-validated)
   Location: tasmota/berry/drivers/ssh.be:871
   Evidence: static password = "[REDACTED]"
-  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons are checked in source/configuration, and plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
   Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
   Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
   References: https://cwe.mitre.org/data/definitions/798.html
