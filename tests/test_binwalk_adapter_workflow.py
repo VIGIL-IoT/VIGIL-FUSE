@@ -29,9 +29,7 @@ def test_binwalk_workflow_pins_upstream_source_and_actions() -> None:
     steps = job["steps"]
 
     assert workflow["env"]["BINWALK_SOURCE_COMMIT"] == BINWALK_SOURCE_COMMIT
-    assert workflow["env"]["TASMOTA_FIRMWARE_URL"].endswith(
-        "/v16.0.0/tasmota-4M.bin.gz"
-    )
+    assert workflow["env"]["TASMOTA_FIRMWARE_URL"].endswith("/v16.0.0/tasmota-4M.bin.gz")
     assert workflow["env"]["TASMOTA_FIRMWARE_SHA256"] == TASMOTA_FIRMWARE_SHA256
     action_uses = [step["uses"] for step in steps if "uses" in step]
     assert len(action_uses) == 3
