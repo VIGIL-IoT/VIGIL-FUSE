@@ -26,6 +26,28 @@
       "rationale": "The value is an environment placeholder rather than an embedded credential."
     },
     {
+      "id": "FUSE001-hardcoded-comparison-vulnerable",
+      "fixture": "FUSE001-compare-vulnerable.fixture",
+      "source_path": "src/auth.cpp",
+      "expected_rules": ["FUSE001"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "A password-like input is compared directly with a non-placeholder string literal."
+    },
+    {
+      "id": "FUSE001-hardcoded-comparison-secure",
+      "fixture": "FUSE001-compare-secure.fixture",
+      "source_path": "src/auth.cpp",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The entered password is compared with a value read from a runtime provisioning interface."
+    },
+    {
       "id": "FUSE001-tinysrp-passwd-file-secure",
       "fixture": "FUSE001-tinysrp-passwd-file-secure.fixture",
       "source_path": "package/network/services/ead/src/tinysrp/t_pwd.h",

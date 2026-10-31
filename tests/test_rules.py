@@ -40,6 +40,44 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertNotIn("S0me-realistic-secret", finding.evidence)
         self.assertIn("[REDACTED]", finding.evidence)
 
+    def test_credentials_detect_inline_password_comparison_and_redact_it(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        source = SourceFile(
+            "src/auth.cpp",
+            (FIXTURES / "FUSE001-compare-vulnerable.fixture").read_text(encoding="utf-8"),
+        )
+
+        self.assertTrue(rule.may_scan(source))
+        findings = list(rule.scan(source))
+
+        self.assertEqual(1, len(findings))
+        self.assertEqual("FUSE001", findings[0].rule_id)
+        self.assertEqual("medium", findings[0].severity)
+        self.assertEqual("high", findings[0].confidence)
+        self.assertNotIn("fixed-demo-password", findings[0].evidence)
+        self.assertIn("[REDACTED]", findings[0].evidence)
+
+    def test_credentials_ignore_comparison_against_runtime_password_value(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        source = SourceFile(
+            "src/auth.cpp",
+            (FIXTURES / "FUSE001-compare-secure.fixture").read_text(encoding="utf-8"),
+        )
+
+        self.assertTrue(rule.may_scan(source))
+        self.assertEqual([], list(rule.scan(source)))
+
+    def test_credentials_ignore_comparison_placeholders_and_prompt_names(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        sources = (
+            SourceFile("src/auth.cpp", 'if (userpass == "your-password") return false;'),
+            SourceFile("src/auth.cpp", 'if (password_prompt == "Enter password") return false;'),
+        )
+
+        for source in sources:
+            with self.subTest(text=source.text):
+                self.assertEqual([], list(rule.scan(source)))
+
     def test_private_key_contents_are_not_in_evidence(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE002")
         source = self.fixture_source("FUSE002", "vulnerable")

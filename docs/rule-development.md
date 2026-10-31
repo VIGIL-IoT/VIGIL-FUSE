@@ -6,7 +6,7 @@ Native rules are small, evidence-oriented checks over selected source or configu
 
 | ID | Platform | Severity | Confidence | Evidence |
 | --- | --- | --- | --- | --- |
-| FUSE001 | Generic embedded source and environment files | medium | high | Credential-like name assigned a non-placeholder literal |
+| FUSE001 | Generic embedded source and environment files | medium | high | Credential-like literal assigned or compared with a password-like input |
 | FUSE002 | Generic text source | high | high | PEM private-key boundary marker |
 | FUSE003 | Generic source | high | high | Explicit TLS bypass patterns, with Python AST support for qualified Requests and HTTPX calls |
 | FUSE004 | Generic source and configuration | medium | high | Non-loopback plaintext HTTP endpoint in endpoint context |
@@ -14,10 +14,10 @@ Native rules are small, evidence-oriented checks over selected source or configu
 | FUSE006 | ESP-IDF Kconfig inputs and selected generated config | medium | high | `CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y` |
 | FUSE007 | ESP-IDF Kconfig inputs and selected generated config | medium | high | `CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y` |
 
-### FUSE001: Credential-like literal assigned in source
+### FUSE001: Credential-like literal in source
 
 - **Category:** secrets
-- **Evidence:** A credential-related identifier such as `password`, `secret`, `token`, or `api_key` is assigned a literal. Plain assignments are also checked in `.env` files. Evidence replaces matched values with `[REDACTED]`.
+- **Evidence:** A credential-related identifier such as `password`, `secret`, `token`, or `api_key` is assigned a literal, or a password-like input is compared with a literal. Plain assignments are also checked in `.env` files. Evidence replaces matched values with `[REDACTED]`.
 - **False-positive considerations:** UI labels, comments, tests, localization, placeholders, prompts, computed values, filename and reserved-marker constants, selected BitBake metadata, disabled XML accounts, and TinySRP's `DEFAULT_PASSWD` database filename are filtered using narrow context checks. Ordinary literals in examples remain review signals when they look credential-like.
 - **Limitations:** FUSE cannot validate the credential, determine if it is used, or establish whether the file is built or deployed. It does not scan binary data for secrets.
 - **Remediation:** Remove committed secrets, rotate any exposed value, and provision credentials through a protected deployment or device-provisioning process.

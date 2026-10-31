@@ -12,7 +12,7 @@ from .base import (
     iter_code_lines,
 )
 
-_SECRET_NAME = r"(?:password|passwd|pwd|secret|token|api[_-]?key|access[_-]?token|auth[_-]?token)"
+_SECRET_NAME = r"(?:password|passwd|pwd|user[_-]?pass|secret|token|api[_-]?key|access[_-]?token|auth[_-]?token)"
 _ASSIGNMENT = re.compile(
     r"(?i)\b(?P<name>[\w.-]*"
     + _SECRET_NAME
@@ -22,6 +22,11 @@ _C_DEFINE = re.compile(
     r"(?i)^\s*#\s*define\s+(?P<name>[\w]*"
     + _SECRET_NAME
     + r"[\w]*)\s+(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
+)
+_SECRET_COMPARISON = re.compile(
+    r"(?i)\b(?P<name>[\w.-]*(?:"
+    + _SECRET_NAME
+    + r")[\w.-]*)\b\s*(?:==|!=)\s*(?P<quote>[\"'])(?P<value>[^\"'\r\n]{4,})(?P=quote)"
 )
 _ENV_ASSIGNMENT = re.compile(
     r"(?i)^\s*(?:export\s+)?(?P<name>[\w.-]*"
@@ -68,6 +73,9 @@ _SECRET_PREFILTER_TOKENS = (
     "password",
     "passwd",
     "pwd",
+    "userpass",
+    "user_pass",
+    "user-pass",
     "secret",
     "token",
     "api_key",
@@ -164,7 +172,11 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
                 continue
         if is_bitbake_metadata and _BITBAKE_METADATA_ASSIGNMENT.match(line):
             continue
-        matches = list(_ASSIGNMENT.finditer(line)) + list(_C_DEFINE.finditer(line))
+        matches = (
+            list(_ASSIGNMENT.finditer(line))
+            + list(_C_DEFINE.finditer(line))
+            + list(_SECRET_COMPARISON.finditer(line))
+        )
         if is_env_file:
             matches.extend(_ENV_ASSIGNMENT.finditer(line))
         code_line = code_without_string_literals(line)
@@ -187,13 +199,14 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
 
 RULE = RuleDefinition(
     id="FUSE001",
-    title="Credential-like literal assigned in source",
+    title="Credential-like literal in source",
     severity="medium",
     confidence="high",
     category="secrets",
     explanation=(
-        "A credential-related name is assigned a literal value. Quoted assignments are "
-        "checked in source/configuration, and plain values are also checked in .env files. "
+        "A credential-related name is assigned a literal or compared with one. Quoted "
+        "assignments and comparisons are checked in source/configuration, and plain values "
+        "are also checked in .env files. "
         "FUSE cannot determine whether the value is valid or used."
     ),
     potential_impact=(
@@ -205,7 +218,7 @@ RULE = RuleDefinition(
         "through a deployment-specific secret store or protected device provisioning flow."
     ),
     scanner=_scan,
-    version="1.7.0",
+    version="1.8.0",
     references=("https://cwe.mitre.org/data/definitions/798.html",),
     prefilter=_may_contain_secret_assignment,
 )

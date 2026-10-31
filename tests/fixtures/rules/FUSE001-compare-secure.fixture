@@ -1,0 +1,9 @@
+#include <iostream>
+#include <string>
+
+int authenticate() {
+    std::string userpass;
+    std::string configuredPassword = readProvisionedPassword();
+    std::cin >> userpass;
+    return userpass == configuredPassword;
+}
