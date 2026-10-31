@@ -6,7 +6,7 @@ This review covers the 23 raw signals in the pinned 2026-10-28 snapshot for Myne
 
 The review inspected the source context at each reported location. It did not build the projects, test configuration selection, verify credential validity, verify certificate use, or examine deployed firmware. Secret values and key material remain redacted in the scan reports and are not reproduced here. A no-finding repository is not evidence that it is secure.
 
-This is a single manual source-context review, not independent adjudication or a benchmark. The cohort was selected before the scan, but it has now informed FUSE development and must not be described as an untouched holdout for later changes.
+This is a single manual source-context review, not independent adjudication or a benchmark. The cohort was selected before the scan, but it has since informed FUSE development and must not be described as an untouched holdout for changes guided by this review. The saved baseline and post-refinement reports are compared in the [artifact comparison record](../../../docs/experiments/validation-snapshot-artifact-comparison-2026-10-31.md). Both manifests mark the FUSE source tree dirty, and the exact source snapshots were not retained, so the reports cannot be reproduced as exact scans.
 
 ## Triage summary
 

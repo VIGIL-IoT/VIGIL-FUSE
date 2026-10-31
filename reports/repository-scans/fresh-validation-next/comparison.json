@@ -1,0 +1,149 @@
+{
+  "schema_version": "1",
+  "comparison_type": "stored-report-artifact-diff",
+  "baseline_cohort": "independent-holdout",
+  "candidate_cohort": "regression-validation",
+  "same_repository_targets_and_scopes": true,
+  "baseline_fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "12b2ccde23b0aad57104aabae8fe01deeecfcbbc0789256611aaaf8636b26176",
+    "source_tree_dirty": true
+  },
+  "candidate_fuse": {
+    "version": "0.2.0",
+    "commit": "b88f23565d3c6a9cb8d38b136c55813cd2aa2aa0",
+    "source_tree_sha256": "671a4f26f3b070363be749e8958bc56c76f0221d28ef2f28aa2014bfe2ff69bf",
+    "source_tree_dirty": true
+  },
+  "totals": {
+    "baseline_findings": 23,
+    "candidate_findings": 23,
+    "retained": 23,
+    "added": 0,
+    "removed": 0,
+    "changed": 8,
+    "changed_fields": {
+      "rule_version": 8
+    }
+  },
+  "scans": [
+    {
+      "repository_id": "mynewt-core",
+      "scan_id": "mynewt-core",
+      "schema_version": "1.6",
+      "baseline_findings": 0,
+      "candidate_findings": 0,
+      "retained": 0,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "changed_fields": {},
+      "rules": {}
+    },
+    {
+      "repository_id": "mbedtls",
+      "scan_id": "mbedtls",
+      "schema_version": "1.6",
+      "baseline_findings": 0,
+      "candidate_findings": 0,
+      "retained": 0,
+      "added": 0,
+      "removed": 0,
+      "changed": 0,
+      "changed_fields": {},
+      "rules": {}
+    },
+    {
+      "repository_id": "openthread",
+      "scan_id": "openthread",
+      "schema_version": "1.6",
+      "baseline_findings": 5,
+      "candidate_findings": 5,
+      "retained": 5,
+      "added": 0,
+      "removed": 0,
+      "changed": 1,
+      "changed_fields": {
+        "rule_version": 1
+      },
+      "rules": {
+        "FUSE001": {
+          "baseline_findings": 1,
+          "candidate_findings": 1,
+          "retained": 1,
+          "added": 0,
+          "removed": 0,
+          "changed": 1,
+          "changed_fields": {
+            "rule_version": 1
+          }
+        },
+        "FUSE002": {
+          "baseline_findings": 4,
+          "candidate_findings": 4,
+          "retained": 4,
+          "added": 0,
+          "removed": 0,
+          "changed": 0,
+          "changed_fields": {}
+        }
+      }
+    },
+    {
+      "repository_id": "esp-iot-solution",
+      "scan_id": "esp-iot-solution",
+      "schema_version": "1.6",
+      "baseline_findings": 18,
+      "candidate_findings": 18,
+      "retained": 18,
+      "added": 0,
+      "removed": 0,
+      "changed": 7,
+      "changed_fields": {
+        "rule_version": 7
+      },
+      "rules": {
+        "FUSE001": {
+          "baseline_findings": 7,
+          "candidate_findings": 7,
+          "retained": 7,
+          "added": 0,
+          "removed": 0,
+          "changed": 7,
+          "changed_fields": {
+            "rule_version": 7
+          }
+        },
+        "FUSE002": {
+          "baseline_findings": 1,
+          "candidate_findings": 1,
+          "retained": 1,
+          "added": 0,
+          "removed": 0,
+          "changed": 0,
+          "changed_fields": {}
+        },
+        "FUSE006": {
+          "baseline_findings": 6,
+          "candidate_findings": 6,
+          "retained": 6,
+          "added": 0,
+          "removed": 0,
+          "changed": 0,
+          "changed_fields": {}
+        },
+        "FUSE007": {
+          "baseline_findings": 4,
+          "candidate_findings": 4,
+          "retained": 4,
+          "added": 0,
+          "removed": 0,
+          "changed": 0,
+          "changed_fields": {}
+        }
+      }
+    }
+  ],
+  "interpretation": "Compares saved finding objects by stable finding ID. It does not rerun FUSE, adjudicate findings, or measure detection accuracy. Field names and counts are reported without copying finding evidence or field values."
+}

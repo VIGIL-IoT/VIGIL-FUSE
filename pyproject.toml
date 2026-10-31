@@ -80,6 +80,7 @@ files = [
   "scripts/verify_esp_idf_build_context.py",
   "scripts/evaluate_sard_fuse001_cohort.py",
   "scripts/evaluate_sard_fuse001_catalogue.py",
+  "scripts/compare_repository_scan_snapshots.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true
