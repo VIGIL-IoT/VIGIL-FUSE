@@ -165,7 +165,7 @@ class OptionalAnalyzerTests(unittest.TestCase):
         result = json.loads(completed.stdout)
         root = Path(result["HOME"]).parent
         self.assertTrue(root.name.startswith("vigil-fuse-analyzer-"))
-        self.assertEqual(str(root), result["cwd"])
+        self.assertEqual(root.resolve(), Path(result["cwd"]).resolve())
         for key in keys:
             with self.subTest(key=key):
                 self.assertTrue(result["directories_exist"][key])
@@ -180,7 +180,7 @@ class OptionalAnalyzerTests(unittest.TestCase):
                 cwd=target,
             )
 
-        self.assertEqual(str(target), completed.stdout.strip())
+        self.assertEqual(target.resolve(), Path(completed.stdout.strip()).resolve())
 
     def test_subprocess_environment_omits_common_credential_variables(self) -> None:
         keys = (
