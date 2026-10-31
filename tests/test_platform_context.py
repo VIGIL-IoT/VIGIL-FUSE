@@ -15,7 +15,11 @@ from vigil_fuse.esp_idf_lock import lock_parser_available
 
 
 def _esp_idf_project(
-    root: Path, *, version: str = "v5.2.1", lock_target: str | None = None
+    root: Path,
+    *,
+    version: str = "v5.2.1",
+    lock_target: str | None = None,
+    target: str = "esp32",
 ) -> Path:
     root.mkdir(parents=True, exist_ok=True)
     (root / "CMakeLists.txt").write_text(
@@ -26,13 +30,13 @@ def _esp_idf_project(
     generated = build / "config"
     generated.mkdir(parents=True)
     (generated / "sdkconfig.h").write_text(
-        '#define CONFIG_IDF_TARGET "esp32"\n'
+        f'#define CONFIG_IDF_TARGET "{target}"\n'
         "#define CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS 1\n"
         "#define CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP 1\n",
         encoding="utf-8",
     )
     (build / "project_description.json").write_text(
-        json.dumps({"target": "esp32", "idf_ver": version}),
+        json.dumps({"target": target, "idf_ver": version}),
         encoding="utf-8",
     )
     if lock_target is not None:
@@ -46,7 +50,7 @@ def _esp_idf_project(
             "    version: 2.1.0\n"
             "    source:\n"
             "      type: registry\n"
-            "    targets: [esp32]\n"
+            f"    targets: [{target}]\n"
             "    dependencies: {}\n",
             encoding="utf-8",
         )
@@ -175,6 +179,43 @@ class PlatformContextTests(unittest.TestCase):
             ],
         )
         self.assertNotIn(str(root), to_json(result))
+
+    def test_esp_idf_target_specific_defaults_follow_selected_build_target(self) -> None:
+        for target, other_target in (("esp32s3", "esp32"), ("esp32c6", "esp32s3")):
+            with self.subTest(target=target), tempfile.TemporaryDirectory() as temporary:
+                root = Path(temporary) / "project"
+                build = _esp_idf_project(root, target=target)
+                (root / "sdkconfig").write_text("CONFIG_LOG_DEFAULT_LEVEL=3\n", encoding="utf-8")
+                (root / "sdkconfig.defaults").write_text(
+                    "CONFIG_LOG_DEFAULT_LEVEL=3\n", encoding="utf-8"
+                )
+                (root / f"sdkconfig.defaults.{target}").write_text(
+                    "CONFIG_LOG_DEFAULT_LEVEL=4\n", encoding="utf-8"
+                )
+                (root / f"sdkconfig.defaults.{other_target}").write_text(
+                    "CONFIG_LOG_DEFAULT_LEVEL=5\n", encoding="utf-8"
+                )
+                (build / "CMakeCache.txt").write_text(
+                    f"SDKCONFIG:FILEPATH={root / 'sdkconfig'}\n"
+                    "SDKCONFIG_DEFAULTS:STRING=sdkconfig.defaults\n"
+                    f"IDF_TARGET:STRING={target}\n",
+                    encoding="utf-8",
+                )
+
+                context, _, warnings, _ = inspect_project_context(root, "esp-idf", "build")
+
+                self.assertEqual(target, context.target)
+                self.assertEqual((), warnings)
+                origin = context.configuration_origin
+                self.assertEqual("selected", origin.status)
+                self.assertTrue(origin.defaults_order_resolved)
+                self.assertEqual(
+                    ["sdkconfig.defaults", f"sdkconfig.defaults.{target}"],
+                    [item.path for item in origin.default_files],
+                )
+                self.assertEqual(
+                    [False, True], [item.target_specific for item in origin.default_files]
+                )
 
     def test_esp_idf_cache_path_accepts_an_os_alias_to_the_project(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
