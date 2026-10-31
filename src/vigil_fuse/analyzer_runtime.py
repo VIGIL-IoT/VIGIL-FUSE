@@ -140,6 +140,12 @@ def _windows_kernel32() -> Any:
     return kernel32
 
 
+def _windows_last_error() -> int:
+    """Return ctypes' saved Windows error code when running on Windows."""
+    get_last_error: Any = getattr(ctypes, "get_last_error", None)
+    return int(get_last_error()) if callable(get_last_error) else 0
+
+
 def _create_windows_job() -> int:
     """Create a kill-on-close job for one optional analyzer process tree."""
     kernel32 = _windows_kernel32()
@@ -148,7 +154,7 @@ def _create_windows_job() -> int:
     create_job.restype = wintypes.HANDLE
     job_handle = create_job(None, None)
     if not job_handle:
-        raise OSError(ctypes.get_last_error(), "Could not create analyzer job object")
+        raise OSError(_windows_last_error(), "Could not create analyzer job object")
 
     limits = _WindowsExtendedLimitInformation()
     limits.BasicLimitInformation.LimitFlags = _WINDOWS_JOB_OBJECT_LIMIT_KILL_ON_CLOSE
@@ -166,7 +172,7 @@ def _create_windows_job() -> int:
         ctypes.byref(limits),
         ctypes.sizeof(limits),
     ):
-        error = ctypes.get_last_error()
+        error = _windows_last_error()
         kernel32.CloseHandle(job_handle)
         raise OSError(error, "Could not configure analyzer job object")
     return int(job_handle)
@@ -180,7 +186,7 @@ def _resume_suspended_windows_process(process: subprocess.Popen[bytes]) -> None:
     snapshot = kernel32.CreateToolhelp32Snapshot(_WINDOWS_THREAD_SNAPSHOT_FLAG, 0)
     invalid_handle = ctypes.c_void_p(-1).value
     if not snapshot or snapshot == invalid_handle:
-        raise OSError(ctypes.get_last_error(), "Could not inspect analyzer process threads")
+        raise OSError(_windows_last_error(), "Could not inspect analyzer process threads")
 
     try:
         entry = _WindowsThreadEntry32()
@@ -205,10 +211,10 @@ def _resume_suspended_windows_process(process: subprocess.Popen[bytes]) -> None:
                     _WINDOWS_THREAD_SUSPEND_RESUME, False, entry.th32ThreadID
                 )
                 if not thread_handle:
-                    raise OSError(ctypes.get_last_error(), "Could not open analyzer start thread")
+                    raise OSError(_windows_last_error(), "Could not open analyzer start thread")
                 try:
                     if resume_thread(thread_handle) == _WINDOWS_RESUME_THREAD_FAILED:
-                        raise OSError(ctypes.get_last_error(), "Could not resume analyzer process")
+                        raise OSError(_windows_last_error(), "Could not resume analyzer process")
                     return
                 finally:
                     kernel32.CloseHandle(thread_handle)
@@ -226,7 +232,7 @@ def _assign_windows_job(process: subprocess.Popen[bytes], job_handle: int) -> No
     assign.restype = wintypes.BOOL
     process_handle = getattr(process, "_handle", None)
     if process_handle is None or not assign(job_handle, int(process_handle)):
-        raise OSError(ctypes.get_last_error(), "Could not assign analyzer to its job object")
+        raise OSError(_windows_last_error(), "Could not assign analyzer to its job object")
     _resume_suspended_windows_process(process)
 
 
