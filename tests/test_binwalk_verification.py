@@ -16,6 +16,7 @@ from scripts.verify_binwalk_adapter import (
     PAYLOAD,
     configure_binwalk_environment,
     real_firmware_case,
+    real_filesystem_cases,
     signature_marker_found,
     signature_cases,
 )
@@ -138,6 +139,28 @@ def test_real_firmware_case_decompresses_hash_pinned_filesystem_sample(
     assert case.data == rootfs
     assert case.source_name == sample.name
     assert case.source_sha256 == digest
+
+
+def test_real_filesystem_cases_load_multiple_pinned_samples(tmp_path: Path) -> None:
+    expected_payloads = (
+        ("openwrt-squashfs.img.gz", b"OpenWrt SquashFS image", "SquashFS file system"),
+        ("openwrt-ext4.img.gz", b"OpenWrt ext4 image", "EXT filesystem"),
+    )
+    samples = []
+    for name, payload, marker in expected_payloads:
+        archive = tmp_path / name
+        compressed = gzip.compress(payload, mtime=0)
+        archive.write_bytes(compressed)
+        samples.append((archive, hashlib.sha256(compressed).hexdigest(), marker))
+
+    cases = real_filesystem_cases(samples)
+
+    assert [case.label for case in cases] == [
+        "upstream-real-filesystem-1",
+        "upstream-real-filesystem-2",
+    ]
+    assert [case.data for case in cases] == [payload for _, payload, _ in expected_payloads]
+    assert [case.marker for case in cases] == [marker for _, _, marker in expected_payloads]
 
 
 def test_real_firmware_case_enforces_decompressed_filesystem_limit(

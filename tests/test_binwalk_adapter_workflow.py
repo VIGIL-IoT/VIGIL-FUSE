@@ -11,6 +11,7 @@ WORKFLOW = ROOT / ".github" / "workflows" / "binwalk-adapter.yml"
 BINWALK_SOURCE_COMMIT = "4fdab3d464d97b68e0af9088df3f9e2e1545b21c"
 TASMOTA_FIRMWARE_SHA256 = "15a8e568af5096c9f43efd636da534214f2d170faf6551b4a9e9b6182117766c"
 OPENWRT_SQUASHFS_SHA256 = "b285ce3b64377db55507ccce276881252e125039794f953d0f4d0f054775aafa"
+OPENWRT_EXT4_SHA256 = "8e6979b0024018e31fe5a8fe71be2a253c2cc2b6ae9991071e6fadcabfd91044"
 
 
 def test_binwalk_workflow_is_manual_and_uses_windows_and_ubuntu() -> None:
@@ -36,6 +37,10 @@ def test_binwalk_workflow_pins_upstream_source_and_actions() -> None:
         "/openwrt-25.12.6-malta-be-rootfs-squashfs.img.gz"
     )
     assert workflow["env"]["OPENWRT_SQUASHFS_SHA256"] == OPENWRT_SQUASHFS_SHA256
+    assert workflow["env"]["OPENWRT_EXT4_URL"].endswith(
+        "/openwrt-25.12.6-malta-be-rootfs-ext4.img.gz"
+    )
+    assert workflow["env"]["OPENWRT_EXT4_SHA256"] == OPENWRT_EXT4_SHA256
     action_uses = [step["uses"] for step in steps if "uses" in step]
     assert len(action_uses) == 3
     for use in action_uses:
@@ -59,11 +64,10 @@ def test_binwalk_workflow_builds_locked_source_and_scans_pinned_real_firmware() 
     assert all("--real-firmware" in step["run"] for step in build_steps)
     assert all("--real-firmware-sha256" in step["run"] for step in build_steps)
     assert all("--real-firmware-marker gzip" in step["run"] for step in build_steps)
-    assert all("--real-filesystem-archive" in step["run"] for step in build_steps)
-    assert all("--real-filesystem-sha256" in step["run"] for step in build_steps)
-    assert all(
-        "--real-filesystem-marker" in step["run"] and "SquashFS file system" in step["run"]
-        for step in build_steps
-    )
-    assert build_steps[0]["run"].count("curl --fail --location") == 2
-    assert build_steps[1]["run"].count("Invoke-WebRequest") == 2
+    assert all(step["run"].count("--real-filesystem ") == 2 for step in build_steps)
+    assert all("OPENWRT_SQUASHFS_SHA256" in step["run"] for step in build_steps)
+    assert all("OPENWRT_EXT4_SHA256" in step["run"] for step in build_steps)
+    assert all("SquashFS file system" in step["run"] for step in build_steps)
+    assert all("EXT filesystem" in step["run"] for step in build_steps)
+    assert build_steps[0]["run"].count("curl --fail --location") == 3
+    assert build_steps[1]["run"].count("Invoke-WebRequest") == 3

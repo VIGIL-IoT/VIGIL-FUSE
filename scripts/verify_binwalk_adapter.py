@@ -138,6 +138,22 @@ def real_firmware_case(
     return SignatureCase(label, scan_data, marker, True, path.name, actual_sha256)
 
 
+def real_filesystem_cases(
+    samples: list[tuple[Path, str, str]],
+) -> tuple[SignatureCase, ...]:
+    """Load multiple hash-pinned, bounded gzip filesystem samples."""
+    return tuple(
+        real_firmware_case(
+            archive,
+            expected_sha256,
+            marker,
+            label=f"upstream-real-filesystem-{index}",
+            decompress_gzip_payload=True,
+        )
+        for index, (archive, expected_sha256, marker) in enumerate(samples, start=1)
+    )
+
+
 def run(
     command: list[str],
     *,
@@ -282,17 +298,14 @@ def main() -> int:
         help="require this Binwalk signature text in the real firmware report",
     )
     parser.add_argument(
-        "--real-filesystem-archive",
-        type=Path,
-        help="also scan a bounded gzip-compressed upstream filesystem image",
-    )
-    parser.add_argument(
-        "--real-filesystem-sha256",
-        help="require this SHA-256 for the compressed upstream filesystem image",
-    )
-    parser.add_argument(
-        "--real-filesystem-marker",
-        help="require this Binwalk signature text in the filesystem image report",
+        "--real-filesystem",
+        action="append",
+        nargs=3,
+        metavar=("ARCHIVE", "SHA256", "MARKER"),
+        help=(
+            "scan a bounded gzip-compressed upstream filesystem image; repeat with "
+            "its pinned SHA-256 and expected Binwalk marker"
+        ),
     )
     args = parser.parse_args()
     real_firmware_arguments = (
@@ -306,18 +319,6 @@ def main() -> int:
         parser.error(
             "--real-firmware, --real-firmware-sha256, and "
             "--real-firmware-marker must be provided together"
-        )
-    real_filesystem_arguments = (
-        args.real_filesystem_archive,
-        args.real_filesystem_sha256,
-        args.real_filesystem_marker,
-    )
-    if any(value is not None for value in real_filesystem_arguments) and not all(
-        value is not None for value in real_filesystem_arguments
-    ):
-        parser.error(
-            "--real-filesystem-archive, --real-filesystem-sha256, and "
-            "--real-filesystem-marker must be provided together"
         )
     env = os.environ.copy()
     try:
@@ -346,21 +347,20 @@ def main() -> int:
         except (OSError, ValueError) as error:
             parser.error(str(error))
         cases = (*cases, real_case)
-    filesystem_case: SignatureCase | None = None
-    if args.real_filesystem_archive is not None:
-        assert args.real_filesystem_sha256 is not None
-        assert args.real_filesystem_marker is not None
+    filesystem_cases: list[SignatureCase] = []
+    if args.real_filesystem:
         try:
-            filesystem_case = real_firmware_case(
-                args.real_filesystem_archive,
-                args.real_filesystem_sha256,
-                args.real_filesystem_marker,
-                label="upstream-real-filesystem",
-                decompress_gzip_payload=True,
+            filesystem_cases.extend(
+                real_filesystem_cases(
+                    [
+                        (Path(archive), expected_sha256, marker)
+                        for archive, expected_sha256, marker in args.real_filesystem
+                    ]
+                )
             )
         except (OSError, ValueError) as error:
-            parser.error(str(error))
-        cases = (*cases, filesystem_case)
+            parser.error(f"Invalid real filesystem sample: {error}")
+        cases = (*cases, *filesystem_cases)
 
     with tempfile.TemporaryDirectory(prefix="fuse-binwalk-adapter-e2e-") as temporary:
         root = Path(temporary)
@@ -383,7 +383,7 @@ def main() -> int:
         "gzip, XZ, and U-Boot uImage signatures detected; clean and invalid-uImage "
         "controls clear; no extraction."
     )
-    for case in (real_case, filesystem_case):
+    for case in (real_case, *filesystem_cases):
         if case is not None:
             assert case.source_name is not None
             assert case.source_sha256 is not None

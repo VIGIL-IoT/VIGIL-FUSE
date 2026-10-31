@@ -16,6 +16,8 @@ env:
   TASMOTA_FIRMWARE_SHA256: 15a8e568af5096c9f43efd636da534214f2d170faf6551b4a9e9b6182117766c
   OPENWRT_SQUASHFS_URL: https://downloads.openwrt.org/releases/25.12.6/targets/malta/be/openwrt-25.12.6-malta-be-rootfs-squashfs.img.gz
   OPENWRT_SQUASHFS_SHA256: b285ce3b64377db55507ccce276881252e125039794f953d0f4d0f054775aafa
+  OPENWRT_EXT4_URL: https://downloads.openwrt.org/releases/25.12.6/targets/malta/be/openwrt-25.12.6-malta-be-rootfs-ext4.img.gz
+  OPENWRT_EXT4_SHA256: 8e6979b0024018e31fe5a8fe71be2a253c2cc2b6ae9991071e6fadcabfd91044
 
 jobs:
   adapter-smoke:
@@ -59,6 +61,7 @@ jobs:
           source_dir="$RUNNER_TEMP/binwalk-source"
           firmware_sample="$RUNNER_TEMP/tasmota-4M.bin.gz"
           filesystem_archive="$RUNNER_TEMP/openwrt-malta-rootfs-squashfs.img.gz"
+          ext4_archive="$RUNNER_TEMP/openwrt-malta-rootfs-ext4.img.gz"
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git "$source_dir"
           git -C "$source_dir" checkout --detach "$BINWALK_SOURCE_COMMIT"
           test "$(git -C "$source_dir" rev-parse HEAD)" = "$BINWALK_SOURCE_COMMIT"
@@ -67,15 +70,16 @@ jobs:
             "$TASMOTA_FIRMWARE_URL" --output "$firmware_sample"
           curl --fail --location --silent --show-error \
             "$OPENWRT_SQUASHFS_URL" --output "$filesystem_archive"
+          curl --fail --location --silent --show-error \
+            "$OPENWRT_EXT4_URL" --output "$ext4_archive"
           python scripts/verify_binwalk_adapter.py \
             --expected-version 3.1.0 \
             --binwalk-executable "$source_dir/target/release/binwalk" \
             --real-firmware "$firmware_sample" \
             --real-firmware-sha256 "$TASMOTA_FIRMWARE_SHA256" \
             --real-firmware-marker gzip \
-            --real-filesystem-archive "$filesystem_archive" \
-            --real-filesystem-sha256 "$OPENWRT_SQUASHFS_SHA256" \
-            --real-filesystem-marker "SquashFS file system"
+            --real-filesystem "$filesystem_archive" "$OPENWRT_SQUASHFS_SHA256" "SquashFS file system" \
+            --real-filesystem "$ext4_archive" "$OPENWRT_EXT4_SHA256" "EXT filesystem"
       - name: Build pinned Binwalk and scan synthetic plus real firmware on Windows
         if: runner.os == 'Windows'
         shell: pwsh
@@ -83,6 +87,7 @@ jobs:
           $sourceDir = Join-Path $env:RUNNER_TEMP 'binwalk-source'
           $firmwareSample = Join-Path $env:RUNNER_TEMP 'tasmota-4M.bin.gz'
           $filesystemArchive = Join-Path $env:RUNNER_TEMP 'openwrt-malta-rootfs-squashfs.img.gz'
+          $ext4Archive = Join-Path $env:RUNNER_TEMP 'openwrt-malta-rootfs-ext4.img.gz'
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git $sourceDir
           if ($LASTEXITCODE -ne 0) { throw 'Could not clone pinned Binwalk source.' }
           git -C $sourceDir checkout --detach $env:BINWALK_SOURCE_COMMIT
@@ -96,13 +101,14 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned Tasmota firmware sample.' }
           Invoke-WebRequest -Uri $env:OPENWRT_SQUASHFS_URL -OutFile $filesystemArchive
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt filesystem sample.' }
+          Invoke-WebRequest -Uri $env:OPENWRT_EXT4_URL -OutFile $ext4Archive
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt ext4 filesystem sample.' }
           python scripts/verify_binwalk_adapter.py `
             --expected-version 3.1.0 `
             --binwalk-executable $binwalk `
             --real-firmware $firmwareSample `
             --real-firmware-sha256 $env:TASMOTA_FIRMWARE_SHA256 `
             --real-firmware-marker gzip `
-            --real-filesystem-archive $filesystemArchive `
-            --real-filesystem-sha256 $env:OPENWRT_SQUASHFS_SHA256 `
-            --real-filesystem-marker 'SquashFS file system'
+            --real-filesystem $filesystemArchive $env:OPENWRT_SQUASHFS_SHA256 'SquashFS file system' `
+            --real-filesystem $ext4Archive $env:OPENWRT_EXT4_SHA256 'EXT filesystem'
           if ($LASTEXITCODE -ne 0) { throw 'Binwalk adapter verification failed.' }
