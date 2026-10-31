@@ -105,7 +105,7 @@ jobs:
       - name: Run tests with branch coverage
         run: |
           python -m coverage run -m pytest -q
-          python -m coverage report -m --fail-under=70
+          python -m coverage report -m --fail-under=75
 
   package-smoke:
     name: Build and install package
