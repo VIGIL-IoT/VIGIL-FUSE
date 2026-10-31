@@ -95,7 +95,7 @@ CLI
 - `model.py`: shared source, finding, component, build inventory, hardware inventory, product review, analyzer-status, and scan-result data structures.
 - `rules/`: one module per rule plus the explicit rule registry. Rule scanners receive source text in the isolated worker and emit common findings. FUSE003 uses the standard-library Python AST for qualified Requests and HTTPX verification arguments, while retaining bounded lexical checks for other inputs.
 - `reporting.py` and `sarif.py`: text, schema-versioned JSON with explicit input-inventory scope, component and VEX context, and SARIF serialization.
-- `analyzer_runtime.py`: shared bounded subprocess, best-effort process-tree cleanup, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
+- `analyzer_runtime.py`: shared bounded subprocess, best-effort process-tree cleanup, common credential-name environment filtering with exact tool-specific opt-in forwarding, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
 - `dependency_analyzers.py`: optional Syft inventory and OSV vulnerability matching.
 - `firmware_analyzer.py`: optional Binwalk signature identification only, with no extraction.
 - `history_analyzer.py`: optional redacted Gitleaks history scanning.
