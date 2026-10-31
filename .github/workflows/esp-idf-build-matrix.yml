@@ -1,0 +1,85 @@
+name: ESP-IDF generated build context
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/esp-idf-build-matrix.yml
+      - pyproject.toml
+      - scripts/verify_esp_idf_build_context.py
+      - src/vigil_fuse/platform_context.py
+      - src/vigil_fuse/rules/esp_idf_*.py
+      - tests/test_esp_idf_build_verifier.py
+      - tests/test_platform_context.py
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-check:
+    name: ${{ matrix.version }} selected-build context
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - version: v5.3.6
+            idf_commit: 79e3454c68248bd7d881721c9b2e94561378a8ce
+            image: espressif/idf@sha256:cee52f0c4fdaf088992a7a739f5993154e95cf1d3ab61c24f5b40e6d56a3a070
+          - version: v5.5.6
+            idf_commit: 880a203ae603d08a94d06aa01e0d6761958e5e9e
+            image: espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84
+          - version: v6.1
+            idf_commit: fff9895c82d744c7237be8847347bdd1b07c6643
+            image: espressif/idf@sha256:81893c71bb5e570088901f21def8684c25cd2a9020281bd01b843a7655edb18c
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+
+      - name: Build official example and verify FUSE context for each target
+        env:
+          IDF_VERSION: ${{ matrix.version }}
+          IDF_COMMIT: ${{ matrix.idf_commit }}
+          IDF_IMAGE: ${{ matrix.image }}
+        run: |
+          set -euo pipefail
+          results_dir="$RUNNER_TEMP/fuse-idf-matrix"
+          mkdir -p "$results_dir"
+          for target in esp32 esp32s3 esp32c6; do
+            project_dir="$RUNNER_TEMP/esp-idf-${IDF_VERSION}-${target}"
+            mkdir -p "$project_dir"
+            docker run --rm \
+              --env EXPECTED_IDF_COMMIT="$IDF_COMMIT" \
+              --env IDF_TARGET="$target" \
+              --volume "$project_dir:/project" \
+              --workdir /project \
+              "$IDF_IMAGE" \
+              bash -c 'test "$(git -C "$IDF_PATH" rev-parse HEAD)" = "$EXPECTED_IDF_COMMIT" && cp -a "$IDF_PATH/examples/get-started/hello_world/." /project/ && idf.py set-target "$IDF_TARGET" && idf.py build'
+            PYTHONPATH="$GITHUB_WORKSPACE/src" python "$GITHUB_WORKSPACE/scripts/verify_esp_idf_build_context.py" \
+              "$project_dir" \
+              --expected-target "$target" \
+              --expected-version "$IDF_VERSION" \
+              --idf-commit "$IDF_COMMIT" \
+              --image-digest "${IDF_IMAGE#espressif/idf@}" \
+              --source-project examples/get-started/hello_world \
+              --report "$results_dir/${IDF_VERSION}-${target}.json"
+          done
+
+      - name: Preserve build-context verification reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: esp-idf-context-${{ matrix.version }}
+          path: ${{ runner.temp }}/fuse-idf-matrix/
+          if-no-files-found: ignore
+          retention-days: 30

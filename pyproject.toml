@@ -76,6 +76,7 @@ files = [
   "scripts/benchmark_process.py",
   "scripts/build_repository_scan_dashboard.py",
   "scripts/verify_binwalk_adapter.py",
+  "scripts/verify_esp_idf_build_context.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true
