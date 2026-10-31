@@ -4,7 +4,7 @@ FUSE is security analysis software and may process proprietary source, configura
 
 ## Reporting a vulnerability in FUSE
 
-Please do not publish exploit details or sensitive reproduction files in a public issue. Use [GitHub's private vulnerability reporting page](https://github.com/VIGIL-IoT/VIGIL-FUSE/security/advisories/new) when private reporting is enabled for this repository. The repository owner must enable and monitor that feature in GitHub settings. If GitHub does not offer the private report form, do not post sensitive details publicly; ask the VIGIL-IoT repository maintainers to provide a private disclosure channel.
+Please do not publish exploit details or sensitive reproduction files in a public issue. [GitHub's private vulnerability reporting page](https://github.com/VIGIL-IoT/VIGIL-FUSE/security/advisories/new) is enabled for this repository. Repository maintainers should monitor incoming reports and coordinate remediation and disclosure. If GitHub does not offer the private report form, do not post sensitive details publicly; ask the VIGIL-IoT repository maintainers to provide a private disclosure channel.
 
 Include the affected FUSE version or commit, the relevant command and configuration, a minimal reproduction, and the observed impact. Remove credentials, private keys, and unrelated proprietary files from the report.
 
