@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -138,6 +139,80 @@ class OSVNormalizationTests(unittest.TestCase):
 
 
 class OptionalAnalyzerTests(unittest.TestCase):
+    def test_subprocess_environment_omits_common_credential_variables(self) -> None:
+        keys = (
+            "GITHUB_TOKEN",
+            "AWS_SECRET_ACCESS_KEY",
+            "AWS_ACCESS_KEY_ID",
+            "DB_PASSWORD",
+            "GOOGLE_APPLICATION_CREDENTIALS",
+            "SSH_AUTH_SOCK",
+            "FUSE_ANALYZER_ENV_ALLOWLIST",
+            "FUSE_TEST_SAFE_SETTING",
+        )
+        code = (
+            "import json, os; print(json.dumps({key: os.getenv(key) for key in "
+            + repr(keys)
+            + "}))"
+        )
+        injected = {
+            "GITHUB_TOKEN": "test-token",
+            "AWS_SECRET_ACCESS_KEY": "test-secret",
+            "AWS_ACCESS_KEY_ID": "test-access-key",
+            "DB_PASSWORD": "test-password",
+            "GOOGLE_APPLICATION_CREDENTIALS": "test-credentials-path",
+            "SSH_AUTH_SOCK": "test-agent-socket",
+            "FUSE_ANALYZER_ENV_ALLOWLIST": "",
+            "FUSE_TEST_SAFE_SETTING": "preserved",
+        }
+
+        with patch.dict(os.environ, injected, clear=False):
+            completed = _run([sys.executable, "-c", code], timeout=5)
+
+        result = json.loads(completed.stdout)
+        for key in keys[:-2]:
+            with self.subTest(key=key):
+                self.assertIsNone(result[key])
+        self.assertIsNone(result["FUSE_ANALYZER_ENV_ALLOWLIST"])
+        self.assertEqual("preserved", result["FUSE_TEST_SAFE_SETTING"])
+
+    def test_subprocess_credential_allowlist_is_explicit_and_not_forwarded(self) -> None:
+        code = (
+            "import json, os; print(json.dumps({"
+            "'GITHUB_TOKEN': os.getenv('GITHUB_TOKEN'), "
+            "'FUSE_ANALYZER_ENV_ALLOWLIST': os.getenv('FUSE_ANALYZER_ENV_ALLOWLIST')}))"
+        )
+
+        with patch.dict(
+            os.environ,
+            {
+                "GITHUB_TOKEN": "explicit-test-token",
+                "FUSE_ANALYZER_ENV_ALLOWLIST": f"{Path(sys.executable).stem}:GITHUB_TOKEN",
+            },
+            clear=False,
+        ):
+            completed = _run([sys.executable, "-c", code], timeout=5)
+
+        self.assertEqual(
+            {"GITHUB_TOKEN": "explicit-test-token", "FUSE_ANALYZER_ENV_ALLOWLIST": None},
+            json.loads(completed.stdout),
+        )
+
+    def test_subprocess_allowlist_does_not_forward_credentials_to_other_tools(self) -> None:
+        code = "import os; print(os.getenv('GITHUB_TOKEN', 'missing'))"
+
+        with patch.dict(
+            os.environ,
+            {
+                "GITHUB_TOKEN": "explicit-test-token",
+                "FUSE_ANALYZER_ENV_ALLOWLIST": "syft:GITHUB_TOKEN",
+            },
+            clear=False,
+        ):
+            completed = _run([sys.executable, "-c", code], timeout=5)
+
+        self.assertEqual("missing", completed.stdout.strip())
+
     def test_subprocess_input_is_closed_to_prevent_interactive_waits(self) -> None:
         completed = _run(
             [sys.executable, "-c", "import sys; print(sys.stdin.read())"],

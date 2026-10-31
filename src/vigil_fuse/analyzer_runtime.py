@@ -3,6 +3,7 @@ from __future__ import annotations
 import ctypes
 import hashlib
 import os
+import re
 import signal
 import shutil
 import subprocess
@@ -18,6 +19,12 @@ TOOL_VERSION_TIMEOUT_SECONDS = 5
 MAX_ANALYZER_OUTPUT_BYTES = 10 * 1024 * 1024
 MAX_SBOM_BYTES = 50 * 1024 * 1024
 MAX_BINWALK_REPORT_BYTES = 1024 * 1024
+_SENSITIVE_ENVIRONMENT_NAME = re.compile(
+    r"(?:^|_)(?:ACCESS[_-]?KEY(?:_ID)?|API[_-]?KEY|AUTH(?:ORIZATION)?|BEARER|"
+    r"CREDENTIALS?|KUBECONFIG|NETRC|PASS(?:WORD|WD)?|PRIVATE[_-]?KEY|SECRET|TOKEN)(?:_|$)",
+    re.IGNORECASE,
+)
+_ANALYZER_ENV_ALLOWLIST = "FUSE_ANALYZER_ENV_ALLOWLIST"
 
 
 @dataclass(frozen=True)
@@ -44,6 +51,27 @@ def inspect_tools() -> tuple[tuple[str, str | None, str | None], ...]:
 
 class AnalyzerOutputLimitError(RuntimeError):
     """Raised when a child process exceeds FUSE's combined diagnostic limit."""
+
+
+def _analyzer_environment(command: list[str]) -> dict[str, str]:
+    """Drop common credential-named variables from optional analyzer children.
+
+    Trusted tools can receive exact variables listed as tool-name:VARIABLE
+    pairs in FUSE_ANALYZER_ENV_ALLOWLIST, separated by commas. The allowlist
+    setting itself is never forwarded. This is defense in depth, not isolation.
+    """
+    tool_name = Path(command[0]).stem.casefold() if command else ""
+    allowlist: set[str] = set()
+    for entry in os.environ.get(_ANALYZER_ENV_ALLOWLIST, "").split(","):
+        tool, separator, variable = entry.strip().partition(":")
+        if separator and tool.casefold() == tool_name and variable.strip():
+            allowlist.add(variable.strip().casefold())
+    return {
+        name: value
+        for name, value in os.environ.items()
+        if name.casefold() != _ANALYZER_ENV_ALLOWLIST.casefold()
+        and (not _SENSITIVE_ENVIRONMENT_NAME.search(name) or name.casefold() in allowlist)
+    }
 
 
 def _windows_system_directory() -> Path | None:
@@ -127,6 +155,7 @@ def _artifact_destination(output_dir: Path, filename: str) -> Path:
 def _run(
     command: list[str], *, timeout: int = ANALYZER_TIMEOUT_SECONDS, cwd: Path | None = None
 ) -> subprocess.CompletedProcess[str]:
+    environment = _analyzer_environment(command)
     if os.name == "nt":
         process = subprocess.Popen(
             command,
@@ -134,6 +163,7 @@ def _run(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             cwd=cwd,
+            env=environment,
         )
     else:
         process = subprocess.Popen(
@@ -142,6 +172,7 @@ def _run(
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             cwd=cwd,
+            env=environment,
             start_new_session=True,
         )
     captured = {"stdout": bytearray(), "stderr": bytearray()}
