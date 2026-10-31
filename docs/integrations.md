@@ -44,6 +44,8 @@ The harness expects at least one advisory for `urllib3==1.25.2`, no advisory for
 
 The [Binwalk adapter harness](../scripts/verify_binwalk_adapter.py) checks `--firmware` against a synthetic gzip image and a clean byte-string control. It confirms that FUSE records the tool version and identification output, detects the gzip signature only in the positive control, and does not create an extraction directory. It does not extract or execute firmware.
 
+The manually dispatched [Binwalk v3.1.0 workflow](../.github/workflows/binwalk-adapter.yml) also verifies SHA-256-pinned upstream artifacts before scanning. Its latest [Ubuntu and Windows run](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41180343853) detected expected signatures in two OpenWrt MT7621 images. The [experiment record](experiments/binwalk-openwrt-mt7621-2026-10-31.md) includes artifact provenance, hashes, results, and limits. The workflow stores downloads only in runner temporary storage and does not enable extraction.
+
 Install Binwalk in a Linux or Windows environment, make it available on `PATH`, then run from the FUSE repository root:
 
 ```powershell
