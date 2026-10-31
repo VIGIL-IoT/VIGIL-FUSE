@@ -20,6 +20,10 @@ env:
   OPENWRT_SQUASHFS_SHA256: b285ce3b64377db55507ccce276881252e125039794f953d0f4d0f054775aafa
   OPENWRT_EXT4_URL: https://downloads.openwrt.org/releases/25.12.6/targets/malta/be/openwrt-25.12.6-malta-be-rootfs-ext4.img.gz
   OPENWRT_EXT4_SHA256: 8e6979b0024018e31fe5a8fe71be2a253c2cc2b6ae9991071e6fadcabfd91044
+  OPENWRT_MT7621_INITRAMFS_URL: https://downloads.openwrt.org/releases/25.12.6/targets/ramips/mt7621/openwrt-25.12.6-ramips-mt7621-mediatek_mt7621-eval-board-initramfs-kernel.bin
+  OPENWRT_MT7621_INITRAMFS_SHA256: 503bf12e6b8dce51102ada7219ba38f85cfe75dcc6b50610a4b434b412eae3ee
+  OPENWRT_MT7621_SYSUPGRADE_URL: https://downloads.openwrt.org/releases/25.12.6/targets/ramips/mt7621/openwrt-25.12.6-ramips-mt7621-mediatek_mt7621-eval-board-squashfs-sysupgrade.bin
+  OPENWRT_MT7621_SYSUPGRADE_SHA256: 20cbe57eb177b1eda050e470fe4bc0fc2ee744f523b99f09fbe34dd7bd42ba1d
 
 jobs:
   adapter-smoke:
@@ -65,6 +69,8 @@ jobs:
           uimage_sample="$RUNNER_TEMP/openwrt-malta-be-uImage-gzip"
           filesystem_archive="$RUNNER_TEMP/openwrt-malta-rootfs-squashfs.img.gz"
           ext4_archive="$RUNNER_TEMP/openwrt-malta-rootfs-ext4.img.gz"
+          mt7621_kernel="$RUNNER_TEMP/openwrt-mt7621-initramfs-kernel.bin"
+          mt7621_sysupgrade="$RUNNER_TEMP/openwrt-mt7621-squashfs-sysupgrade.bin"
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git "$source_dir"
           git -C "$source_dir" checkout --detach "$BINWALK_SOURCE_COMMIT"
           test "$(git -C "$source_dir" rev-parse HEAD)" = "$BINWALK_SOURCE_COMMIT"
@@ -77,13 +83,19 @@ jobs:
             "$OPENWRT_SQUASHFS_URL" --output "$filesystem_archive"
           curl --fail --location --silent --show-error \
             "$OPENWRT_EXT4_URL" --output "$ext4_archive"
+          curl --fail --location --silent --show-error \
+            "$OPENWRT_MT7621_INITRAMFS_URL" --output "$mt7621_kernel"
+          curl --fail --location --silent --show-error \
+            "$OPENWRT_MT7621_SYSUPGRADE_URL" --output "$mt7621_sysupgrade"
           python scripts/verify_binwalk_adapter.py \
             --expected-version 3.1.0 \
             --binwalk-executable "$source_dir/target/release/binwalk" \
             --real-firmware "$firmware_sample" "$TASMOTA_FIRMWARE_SHA256" gzip \
             --real-firmware "$uimage_sample" "$OPENWRT_UIMAGE_SHA256" "uImage firmware image" \
             --real-filesystem "$filesystem_archive" "$OPENWRT_SQUASHFS_SHA256" "SquashFS file system" \
-            --real-filesystem "$ext4_archive" "$OPENWRT_EXT4_SHA256" "EXT filesystem"
+            --real-filesystem "$ext4_archive" "$OPENWRT_EXT4_SHA256" "EXT filesystem" \
+            --real-firmware "$mt7621_kernel" "$OPENWRT_MT7621_INITRAMFS_SHA256" "uImage firmware image" \
+            --real-firmware "$mt7621_sysupgrade" "$OPENWRT_MT7621_SYSUPGRADE_SHA256" "SquashFS file system"
       - name: Build pinned Binwalk and scan synthetic plus real firmware on Windows
         if: runner.os == 'Windows'
         shell: pwsh
@@ -93,6 +105,8 @@ jobs:
           $uimageSample = Join-Path $env:RUNNER_TEMP 'openwrt-malta-be-uImage-gzip'
           $filesystemArchive = Join-Path $env:RUNNER_TEMP 'openwrt-malta-rootfs-squashfs.img.gz'
           $ext4Archive = Join-Path $env:RUNNER_TEMP 'openwrt-malta-rootfs-ext4.img.gz'
+          $mt7621Kernel = Join-Path $env:RUNNER_TEMP 'openwrt-mt7621-initramfs-kernel.bin'
+          $mt7621Sysupgrade = Join-Path $env:RUNNER_TEMP 'openwrt-mt7621-squashfs-sysupgrade.bin'
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git $sourceDir
           if ($LASTEXITCODE -ne 0) { throw 'Could not clone pinned Binwalk source.' }
           git -C $sourceDir checkout --detach $env:BINWALK_SOURCE_COMMIT
@@ -110,11 +124,17 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt filesystem sample.' }
           Invoke-WebRequest -Uri $env:OPENWRT_EXT4_URL -OutFile $ext4Archive
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt ext4 filesystem sample.' }
+          Invoke-WebRequest -Uri $env:OPENWRT_MT7621_INITRAMFS_URL -OutFile $mt7621Kernel
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt MT7621 initramfs kernel sample.' }
+          Invoke-WebRequest -Uri $env:OPENWRT_MT7621_SYSUPGRADE_URL -OutFile $mt7621Sysupgrade
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt MT7621 sysupgrade sample.' }
           python scripts/verify_binwalk_adapter.py `
             --expected-version 3.1.0 `
             --binwalk-executable $binwalk `
             --real-firmware $firmwareSample $env:TASMOTA_FIRMWARE_SHA256 gzip `
             --real-firmware $uimageSample $env:OPENWRT_UIMAGE_SHA256 'uImage firmware image' `
             --real-filesystem $filesystemArchive $env:OPENWRT_SQUASHFS_SHA256 'SquashFS file system' `
-            --real-filesystem $ext4Archive $env:OPENWRT_EXT4_SHA256 'EXT filesystem'
+            --real-filesystem $ext4Archive $env:OPENWRT_EXT4_SHA256 'EXT filesystem' `
+            --real-firmware $mt7621Kernel $env:OPENWRT_MT7621_INITRAMFS_SHA256 'uImage firmware image' `
+            --real-firmware $mt7621Sysupgrade $env:OPENWRT_MT7621_SYSUPGRADE_SHA256 'SquashFS file system'
           if ($LASTEXITCODE -ne 0) { throw 'Binwalk adapter verification failed.' }
