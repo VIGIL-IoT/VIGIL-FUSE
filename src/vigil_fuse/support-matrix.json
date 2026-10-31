@@ -71,8 +71,8 @@
       "input": "GitHub Actions workflow YAML",
       "profile": null,
       "label": "basic",
-      "scope": "Checks exact workflow-level and job-level write-all permission scalars, counts recognized non-SHA action references, reports obvious floating branch refs, and flags an exact pull_request_target plus actions/checkout pull-request-head-ref pattern.",
-      "limitations": ["Only simple write-all and pull-request-head-ref YAML forms are checked", "Version-tag refs are counted but are not findings", "The pull_request_target check does not infer whether later steps build or execute checked-out content", "Not a general YAML, expression, permission-inheritance, or event-taint analyzer", "Findings describe workflow supply-chain candidates, not device vulnerabilities"]
+      "scope": "Checks exact workflow-level and job-level write-all permission scalars, counts recognized non-SHA action references, reports obvious floating branch refs, flags an exact pull_request_target plus actions/checkout pull-request-head-ref pattern, and detects selected untrusted GitHub event fields interpolated directly into step run scripts.",
+      "limitations": ["Only simple write-all, pull-request-head-ref, and step run-script YAML forms are checked", "The script check covers a documented allowlist of issue, pull request, review, comment, commit-message, and head-ref expressions", "Environment-mediated values and action inputs are not treated as direct shell interpolation", "Version-tag refs are counted but are not findings", "The pull_request_target check does not infer whether later steps build or execute checked-out content", "Not a general YAML, shell, expression, sanitization, permission-inheritance, or event-taint analyzer", "Findings describe workflow supply-chain candidates, not device vulnerabilities"]
     },
     {
       "id": "hardware.kicad-netlist-debug-candidates",

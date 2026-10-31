@@ -9,7 +9,7 @@
 
 **Implementation update, 28 October 2026:** schema 1.10 adds explicit reporting when legacy text files are decoded with an ISO-8859-1 fallback. Schema 1.9 added bounded PlatformIO `extra_configs` provenance and source-filter metadata, a firmware-like extension/size inventory across common output folders, narrow GitHub Actions checks for workflow-level `write-all` and recognized action references, and informational KiCad debug-net candidates from a bounded XML netlist. Non-SHA action references are counted, but only obvious floating branches produce findings. These checks do not resolve effective source compilation, inspect firmware candidate bytes, model workflow event data flow, or prove physical debug access.
 
-**Implementation update, 31 October 2026:** `FUSE-GHA-003` adds a high-confidence review candidate for an exact `pull_request_target` trigger combined with `actions/checkout` of the pull request head SHA or ref. Paired fixtures cover the risky combination, metadata-only handling, and head checkout under the ordinary `pull_request` event. FUSE does not infer whether subsequent steps execute the checked-out code.
+**Implementation update, 31 October 2026:** `FUSE-GHA-003` adds a high-confidence review candidate for an exact `pull_request_target` trigger combined with `actions/checkout` of the pull request head SHA or ref. `FUSE-GHA-004` adds a bounded allowlist check for selected untrusted event fields directly interpolated into step run scripts. Fixtures cover direct inline and block interpolation, environment-mediated values, action inputs, and a trusted context control. FUSE does not infer whether subsequent steps execute checked-out code or whether a script interpolation is exploitable.
 
 ## Summary
 

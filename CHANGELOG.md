@@ -12,6 +12,7 @@
 
 ### Added
 
+- Added `FUSE-GHA-004` for a bounded allowlist of untrusted GitHub event expressions directly interpolated into step run scripts, with environment-variable and action-input controls.
 - Added `FUSE-GHA-003` for an exact `pull_request_target` trigger combined with `actions/checkout` of the pull request head SHA or ref. It is a review candidate and does not claim that later steps execute the checked-out code.
 - Deterministic synthetic scan-performance harness with a versioned JSON report schema and a clearly scoped local baseline. The benchmark is descriptive and has no timing gate.
 - Pinned repository scans now capture sampled process-tree RSS for each measured run in report schema 1.1, with the sampling interval and completeness recorded separately from scan findings.

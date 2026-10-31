@@ -124,3 +124,18 @@ The scan step writes reports before returning a severity-based or incomplete-sca
 The GitHub Actions inventory reports `FUSE-GHA-003` when a workflow uses the `pull_request_target` event and an `actions/checkout` step sets `with.ref` to the exact expression `github.event.pull_request.head.sha` or `github.event.pull_request.head.ref`. This privileged-event plus untrusted-head checkout combination deserves review. GitHub warns against building or running untrusted pull request code in this context.
 
 The finding has medium severity and high confidence in the detected configuration pattern. Applicability remains `candidate` and validation remains `not-validated`: FUSE does not determine whether a later step builds or executes the checked-out content, and it does not model effective token permissions or all YAML forms. A `pull_request_target` workflow that only handles metadata and checks out no pull request head is not reported by this rule. See [GitHub's secure `pull_request_target` guidance](https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target).
+
+## Review direct event interpolation in shell scripts
+
+`FUSE-GHA-004` reports selected untrusted GitHub context expressions that appear directly inside a workflow step's `run` scalar or block script. The initial allowlist covers issue, pull request, comment, and review titles or bodies; pull request head refs and labels; commit messages; and `github.head_ref`. For example, embedding `${{ github.event.pull_request.title }}` in a `run: |` shell script is a review candidate because GitHub substitutes the expression before the runner shell executes the script.
+
+The rule reports medium severity, high confidence in the observed interpolation, `candidate` applicability, and `not-validated` validation status. It does not prove an attacker can trigger the workflow, that the value reaches an executable shell position, that the script is exploitable, or that secrets or write permissions are available. It does not parse general expression data flow, shell semantics, sanitization, or complex YAML. The allowlist is intentionally incomplete, and absence of this finding does not establish that a workflow is safe. GitHub's guidance describes the expression-expansion risk and recommends passing untrusted values through an intermediate step environment variable or using an action input. See [script injections](https://docs.github.com/en/actions/concepts/security/script-injections) and [secure use guidance](https://docs.github.com/en/actions/reference/security/secure-use).
+
+Environment variables and `with:` action inputs are outside this direct-interpolation rule. For shell scripts, pass the expression as a step environment value, then quote the shell variable when using it:
+
+```yaml
+- name: Check pull request title
+  env:
+    PR_TITLE: ${{ github.event.pull_request.title }}
+  run: printf '%s\n' "$PR_TITLE"
+```

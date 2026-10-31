@@ -26,11 +26,20 @@ _PULL_REQUEST_HEAD_REFS = frozenset(
         "github.event.pull_request.head.ref",
     }
 )
+_DIRECT_UNTRUSTED_CONTEXT = re.compile(
+    r"\$\{\{\s*(?:"
+    r"github\.event\.(?:pull_request|issue|comment|review)\.(?:title|body)|"
+    r"github\.event\.pull_request\.head\.(?:ref|label)|"
+    r"github\.event\.head_commit\.message|github\.head_ref"
+    r")\s*\}\}",
+    re.IGNORECASE,
+)
 _WRITE_ALL_URL = "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idpermissions"
 _PIN_ACTION_URL = "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
 _PULL_REQUEST_TARGET_URL = (
     "https://docs.github.com/en/actions/reference/security/securely-using-pull_request_target"
 )
+_SCRIPT_INJECTION_URL = "https://docs.github.com/en/actions/concepts/security/script-injections"
 
 
 def _strip_yaml_comment(line: str) -> str:
@@ -77,7 +86,9 @@ def _finding(
         rule_version={"FUSE-GHA-001": "1.1.0"}.get(rule_id, "1.0.0"),
         analyzer="github-actions-static",
         title=title,
-        severity="medium" if rule_id in {"FUSE-GHA-001", "FUSE-GHA-003"} else "info",
+        severity="medium"
+        if rule_id in {"FUSE-GHA-001", "FUSE-GHA-003", "FUSE-GHA-004"}
+        else "info",
         confidence="high",
         category="ci-workflow-security",
         file=file,
@@ -177,6 +188,112 @@ def _pull_request_head_checkout_lines(lines: list[str]) -> tuple[int, ...]:
     return tuple(matches)
 
 
+def _direct_untrusted_run_lines(lines: list[str]) -> tuple[int, ...]:
+    """Find untrusted GitHub expressions interpolated directly into step scripts."""
+    matches: list[int] = []
+    in_jobs_section = False
+    job_indent: int | None = None
+    job_property_indent: int | None = None
+    index = 0
+    while index < len(lines):
+        line = _strip_yaml_comment(lines[index])
+        if not line.strip():
+            index += 1
+            continue
+        indent = len(line) - len(line.lstrip(" "))
+        content = line[indent:]
+        if indent == 0:
+            in_jobs_section = content == "jobs:"
+            job_indent = None
+            job_property_indent = None
+            index += 1
+            continue
+        if not in_jobs_section:
+            index += 1
+            continue
+        if job_indent is None and _JOB_KEY.fullmatch(content):
+            job_indent = indent
+            job_property_indent = None
+            index += 1
+            continue
+        if job_indent is not None and indent == job_indent and _JOB_KEY.fullmatch(content):
+            job_property_indent = None
+            index += 1
+            continue
+        if job_indent is not None and indent > job_indent and job_property_indent is None:
+            job_property_indent = indent
+
+        pair = _yaml_key_value(content)
+        if (
+            job_indent is not None
+            and indent == job_property_indent
+            and pair is not None
+            and pair[0].casefold() == "steps"
+            and not pair[1]
+        ):
+            steps_indent = indent
+            section_end = index + 1
+            while section_end < len(lines):
+                following = _strip_yaml_comment(lines[section_end])
+                if following.strip():
+                    following_indent = len(following) - len(following.lstrip(" "))
+                    if following_indent <= steps_indent:
+                        break
+                section_end += 1
+
+            step_indent: int | None = None
+            step_starts: list[int] = []
+            for step_line_index in range(index + 1, section_end):
+                step_line = _strip_yaml_comment(lines[step_line_index])
+                if not step_line.strip():
+                    continue
+                step_line_indent = len(step_line) - len(step_line.lstrip(" "))
+                step_content = step_line[step_line_indent:]
+                if not step_content.startswith("- "):
+                    continue
+                if step_indent is None:
+                    step_indent = step_line_indent
+                if step_line_indent == step_indent:
+                    step_starts.append(step_line_index)
+
+            for step_start_index, step_end_index in zip(
+                step_starts,
+                (*step_starts[1:], section_end),
+            ):
+                run_block_indent: int | None = None
+                for step_line_index in range(step_start_index, step_end_index):
+                    original = lines[step_line_index]
+                    if run_block_indent is not None:
+                        if not original.strip():
+                            continue
+                        original_indent = len(original) - len(original.lstrip(" "))
+                        if original_indent > run_block_indent:
+                            if _DIRECT_UNTRUSTED_CONTEXT.search(original):
+                                matches.append(step_line_index + 1)
+                            continue
+                        run_block_indent = None
+
+                    step_line = _strip_yaml_comment(original)
+                    if not step_line.strip():
+                        continue
+                    step_line_indent = len(step_line) - len(step_line.lstrip(" "))
+                    step_content = step_line[step_line_indent:]
+                    if step_content.startswith("- "):
+                        step_content = step_content[2:]
+                    step_pair = _yaml_key_value(step_content)
+                    if step_pair is None or step_pair[0].casefold() != "run":
+                        continue
+                    if _DIRECT_UNTRUSTED_CONTEXT.search(step_pair[1]):
+                        matches.append(step_line_index + 1)
+                    if step_pair[1].lstrip().startswith(("|", ">")):
+                        run_block_indent = step_line_indent
+
+            index = section_end
+            continue
+        index += 1
+    return tuple(matches)
+
+
 def inspect_github_actions(
     root: Path,
     *,
@@ -259,12 +376,17 @@ def inspect_github_actions(
             if _has_pull_request_target_event(workflow_lines)
             else set()
         )
+        direct_untrusted_run_lines = set(_direct_untrusted_run_lines(workflow_lines))
         in_jobs_section = False
         job_indent: int | None = None
         job_property_indent: int | None = None
 
         for line_number, original in enumerate(workflow_lines, 1):
-            line = _strip_yaml_comment(original)
+            line = (
+                original
+                if line_number in direct_untrusted_run_lines
+                else _strip_yaml_comment(original)
+            )
             if not line.strip():
                 continue
 
@@ -376,6 +498,32 @@ def inspect_github_actions(
                             "for build and test jobs, or separate privileged metadata handling from untrusted-code jobs."
                         ),
                         reference=_PULL_REQUEST_TARGET_URL,
+                    )
+                )
+            if line_number in direct_untrusted_run_lines:
+                findings.append(
+                    _finding(
+                        rule_id="FUSE-GHA-004",
+                        file=relative,
+                        line=line_number,
+                        evidence=original,
+                        title="Workflow shell script directly interpolates untrusted event data",
+                        explanation=(
+                            "A recognized event-derived value is interpolated directly into a workflow run script. "
+                            "GitHub evaluates expressions before the shell runs, so attacker-controlled text may be "
+                            "interpreted as shell syntax. FUSE does not determine event reachability, sanitization, "
+                            "shell semantics, or the runner permissions available to this step; this is a review candidate, "
+                            "not a confirmed exploit."
+                        ),
+                        impact=(
+                            "If an attacker can control the value and the expression reaches an executable shell position, "
+                            "injected commands may run with the permissions and accessible secrets of the job."
+                        ),
+                        remediation=(
+                            "Pass the expression through a step-level env variable and use a quoted shell variable, "
+                            "or pass it as an input to a reviewed action instead of embedding it in run script text."
+                        ),
+                        reference=_SCRIPT_INJECTION_URL,
                     )
                 )
             if len(findings) >= MAX_WORKFLOW_FINDINGS:

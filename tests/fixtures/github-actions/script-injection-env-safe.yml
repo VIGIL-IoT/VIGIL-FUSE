@@ -1,0 +1,20 @@
+# run: echo "${{ github.event.issue.title }}"
+name: environment mediated value
+on: pull_request
+permissions:
+  contents: read
+jobs:
+  title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check pull request title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          printf '%s\n' "$PR_TITLE"
+      - name: Use reviewed action input
+        uses: example/check-title@v1
+        with:
+          title: ${{ github.event.issue.title }}
+      - name: Use trusted context
+        run: echo "${{ github.sha }}"

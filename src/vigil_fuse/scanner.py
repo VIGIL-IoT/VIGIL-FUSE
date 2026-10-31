@@ -843,7 +843,7 @@ def scan(
                 name="github-actions-static",
                 status="partial" if github_actions.status == "partial" else "completed",
                 detail=(
-                    "Checked explicit write-all permissions, non-SHA action references, and the exact privileged pull_request_target plus pull request head checkout pattern; no workflow code was executed."
+                    "Checked explicit write-all permissions, non-SHA action references, the privileged pull_request_target checkout pattern, and direct interpolation of selected untrusted event fields in step run scripts; no workflow code was executed."
                     if github_actions.status == "completed"
                     else "; ".join(github_actions.limitations)
                 ),

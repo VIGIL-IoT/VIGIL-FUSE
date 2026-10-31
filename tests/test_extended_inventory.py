@@ -308,6 +308,70 @@ class GitHubActionsTests(unittest.TestCase):
             ],
         )
 
+    def test_direct_untrusted_expression_in_run_is_a_review_candidate(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workflows = root / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "script-injection.yml").write_text(
+                (FIXTURES / "github-actions" / "script-injection-candidate.yml").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_github_actions(root)
+
+        self.assertEqual("completed", inventory.status)
+        self.assertEqual(3, inventory.finding_count)
+        self.assertEqual([10, 13, 17], [finding.start_line for finding in findings])
+        self.assertEqual({"FUSE-GHA-004"}, {finding.rule_id for finding in findings})
+        self.assertTrue(all(finding.severity == "medium" for finding in findings))
+        self.assertTrue(all(finding.confidence == "high" for finding in findings))
+        self.assertTrue(all(finding.applicability == "candidate" for finding in findings))
+        self.assertTrue(all(finding.validation_status == "not-validated" for finding in findings))
+        self.assertTrue(
+            all("not a confirmed exploit" in finding.explanation for finding in findings)
+        )
+        self.assertTrue(all("script-injection" in finding.references[0] for finding in findings))
+
+    def test_environment_action_inputs_and_yaml_comments_are_not_direct_run_interpolation(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            workflows = root / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "safe.yml").write_text(
+                (FIXTURES / "github-actions" / "script-injection-env-safe.yml").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+            inventory, findings = inspect_github_actions(root)
+
+        self.assertEqual("completed", inventory.status)
+        self.assertFalse(any(finding.rule_id == "FUSE-GHA-004" for finding in findings))
+
+    def test_direct_untrusted_expression_finding_is_serialized_in_scan_report(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
+            workflow_dir = root / ".github" / "workflows"
+            workflow_dir.mkdir(parents=True)
+            (workflow_dir / "script-injection.yml").write_text(
+                (FIXTURES / "github-actions" / "script-injection-candidate.yml").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+            report = json.loads(to_json(scan(root)))
+
+        self.assertEqual(3, report["github_actions"]["finding_count"])
+        self.assertEqual(
+            ["FUSE-GHA-004", "FUSE-GHA-004", "FUSE-GHA-004"],
+            [item["rule_id"] for item in report["findings"] if item["rule_id"] == "FUSE-GHA-004"],
+        )
+
     def test_job_permission_pattern_does_not_match_step_text_or_comments(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
