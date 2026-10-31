@@ -48,6 +48,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 - Separate severity, confidence, applicability, and validation status fields.
 - Filename-based hardware and firmware candidate inventories.
 - Selected, bounded KiCad netlist parsing, BOM import, platform/build metadata, GitHub Actions checks, and Zephyr hardening report intake.
+- Limited GitHub Actions workflow checks for broad permissions, mutable refs, privileged pull request head checkout, and selected direct event interpolation in step scripts. Workflows are never executed.
 - Opt-in integrations for Syft, OSV-Scanner, Binwalk, and Gitleaks.
 - Local baseline review and suppression workflow.
 - Deterministic synthetic and pinned-project scan performance measurement with revision, input hash, environment, options, timing, coverage, and sampled process-tree RSS recorded separately from detection evidence.
@@ -58,6 +59,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 - ESP-IDF, Zephyr, PlatformIO, compilation-database, hardware-netlist, BOM, VEX, provenance, and Git-history stages inspect limited formats and do not verify deployment or authenticity.
 - Binwalk performs optional signature identification only. It does not extract or semantically analyze firmware.
 - Public repository studies provide qualitative regression and holdout evidence, not representative field accuracy.
+- Workflow inspection uses a line-oriented YAML subset and selected event fields. It is not complete YAML parsing, shell analysis, or event-data-flow analysis.
 
 ### Out of scope for the current implementation
 
@@ -81,6 +83,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 | FR-8 | Provide rule-level regression fixtures and automated checks | Implemented for the seven native rules; benchmark is synthetic |
 | FR-9 | Build, install, and smoke-check package artifacts | Implemented in the package workflow; distribution remains subject to the license gate |
 | FR-10 | Provide a repeatable performance measurement path without claiming field speed | Implemented as synthetic and pinned-cohort CLI benchmarks with versioned schemas, cross-platform reports, and sampled process-tree RSS; thresholds, controlled platform comparisons, and field accuracy estimates are not provided |
+| FR-11 | Inspect selected GitHub Actions security patterns without executing workflows | Implemented for documented line-oriented workflow forms with positive, negative, and report-serialization tests; full YAML and shell analysis remain outside scope |
 
 ## Nonfunctional requirements
 
