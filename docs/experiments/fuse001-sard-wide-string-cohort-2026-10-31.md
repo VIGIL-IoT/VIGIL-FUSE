@@ -1,8 +1,11 @@
 # FUSE001 NIST SARD wide-string cohort
 
-**Date:** 2026-10-31  
-**FUSE revision:** `1aaccb4999b0ddf562302e5eba7ee7113a17aaf8`  
-**Rule:** FUSE001 1.9.0  
+**Date:** 2026-10-31
+
+**FUSE revision:** `1aaccb4999b0ddf562302e5eba7ee7113a17aaf8`
+
+**Rule:** FUSE001 1.9.0
+
 **Result type:** supplemental known-case regression check
 
 ## Question
@@ -14,6 +17,8 @@ Does FUSE001 recognize credential literals written with C character-prefixed str
 The sample contains ten NIST Software Assurance Reference Dataset (SARD) cases selected from the Juliet C/C++ suite. Each selected case is an accepted, mixed-state C case for CWE-259, Use of Hard-coded Password. The cases cover the listed Juliet flow variants and include narrow-character and wide-character examples. The [NIST SARD case page](https://samate.nist.gov/SARD/test-cases/93521/versions/1.0.0) shows the case metadata for case 93521. The [SARD dataset overview](https://samate.nist.gov/SARD/) and [suite catalogue](https://samate.nist.gov/SARD/test-suites) describe the broader dataset.
 
 Archives were downloaded for this check, their SHA-256 digests were verified, and extraction was bounded and checked for unsafe paths. The sources and generated reports stayed in a temporary directory and are not redistributed here. The table records each archive digest so the inputs can be checked again.
+
+The cohort can be rerun from the repository root with `python scripts/evaluate_sard_fuse001_cohort.py`. The script uses the official NIST versioned ZIP endpoint described by the [NIST SARD manual](https://www.nist.gov/itl/csd/secure-systems-and-applications/software-assurance-reference-dataset-sard-manual), verifies every pinned digest, enforces download, entry-count, expanded-size, and path-safety limits, scans in a temporary directory with optional analyzers disabled, and removes the downloaded inputs and reports when it exits. This network-dependent research script is run manually and is not part of pull-request CI.
 
 | SARD case | Flow variant | NIST SARIF target | Archive SHA-256 | FUSE001 1.9.0 source hit |
 | --- | ---: | --- | --- | --- |
