@@ -18,6 +18,7 @@ from scripts.evaluate_sard_fuse001_cohort import (
 )
 from scripts.evaluate_sard_fuse001_catalogue import (
     DEFAULT_MANIFEST,
+    DEFAULT_OUTPUT,
     _safe_manifest_path,
     _verify_source_targets,
     load_manifest,
@@ -130,6 +131,26 @@ class SardCohortInputTests(unittest.TestCase):
             locations["different.c"]["same_named_macro_literal_as_sarif_target"],
         )
         self.assertNotIn(secret, json.dumps(result))
+
+    def test_checked_in_catalogue_result_preserves_complete_secret_safe_comparison(self) -> None:
+        report = json.loads(DEFAULT_OUTPUT.read_text(encoding="utf-8"))
+        summary = report["summary"]
+
+        self.assertTrue(report["experiment"]["source_working_tree_clean"])
+        self.assertEqual(76, summary["nist_sarif_target_files_detected"])
+        self.assertEqual(76, summary["nist_sarif_target_files"])
+        self.assertEqual(110, summary["fuse001_findings"])
+        self.assertEqual(34, summary["additional_fuse001_file_observations"])
+        self.assertEqual(34, summary["additional_macro_literal_comparisons"])
+        self.assertEqual(34, summary["additional_same_named_macro_literal_matches"])
+        self.assertEqual(0, summary["additional_macro_literal_comparisons_unresolved"])
+        for case in report["cases"]:
+            for location in case["additional_fuse001_locations"]:
+                self.assertIs(True, location["same_named_macro_literal_as_sarif_target"])
+                self.assertEqual(
+                    {"file", "line", "same_named_macro_literal_as_sarif_target"},
+                    set(location),
+                )
 
     def test_catalogue_marks_unparsed_or_unverified_macro_comparisons_unresolved(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
