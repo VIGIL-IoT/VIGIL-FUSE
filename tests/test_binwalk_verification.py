@@ -16,6 +16,7 @@ from scripts.verify_binwalk_adapter import (
     PAYLOAD,
     configure_binwalk_environment,
     real_firmware_case,
+    signature_marker_found,
     signature_cases,
 )
 
@@ -114,3 +115,54 @@ def test_real_firmware_case_rejects_a_changed_sample(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="SHA-256 did not match"):
         real_firmware_case(sample, "0" * 64, "gzip")
+
+
+def test_real_firmware_case_decompresses_hash_pinned_filesystem_sample(
+    tmp_path: Path,
+) -> None:
+    sample = tmp_path / "openwrt-rootfs.img.gz"
+    rootfs = b"hash-pinned SquashFS test payload"
+    compressed = gzip.compress(rootfs, mtime=0)
+    sample.write_bytes(compressed)
+    digest = hashlib.sha256(compressed).hexdigest()
+
+    case = real_firmware_case(
+        sample,
+        digest,
+        "SquashFS file system",
+        label="upstream-real-filesystem",
+        decompress_gzip_payload=True,
+    )
+
+    assert case.label == "upstream-real-filesystem"
+    assert case.data == rootfs
+    assert case.source_name == sample.name
+    assert case.source_sha256 == digest
+
+
+def test_real_firmware_case_enforces_decompressed_filesystem_limit(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sample = tmp_path / "oversized-rootfs.img.gz"
+    compressed = gzip.compress(b"more than the configured cap", mtime=0)
+    sample.write_bytes(compressed)
+    digest = hashlib.sha256(compressed).hexdigest()
+    monkeypatch.setattr(
+        "scripts.verify_binwalk_adapter.MAX_DECOMPRESSED_FILESYSTEM_BYTES",
+        8,
+    )
+
+    with pytest.raises(ValueError, match="configured size limit"):
+        real_firmware_case(
+            sample,
+            digest,
+            "SquashFS file system",
+            label="upstream-real-filesystem",
+            decompress_gzip_payload=True,
+        )
+
+
+def test_signature_marker_matching_ignores_capitalization() -> None:
+    assert signature_marker_found("SquashFS file system", "squashfs file system")
+    assert not signature_marker_found("SquashFS file system", "ext4 filesystem")

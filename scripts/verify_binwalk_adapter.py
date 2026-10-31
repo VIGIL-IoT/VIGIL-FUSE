@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import hashlib
+import io
 import json
 import lzma
 import os
@@ -22,6 +23,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 RUN_TIMEOUT_SECONDS = 240
 MAX_REAL_FIRMWARE_BYTES = 16 * 1024 * 1024
+MAX_DECOMPRESSED_FILESYSTEM_BYTES = 64 * 1024 * 1024
 FIRMWARE_PREFIX = b"FUSE synthetic container\x00"
 PAYLOAD = b"FUSE synthetic firmware signature fixture"
 
@@ -32,6 +34,8 @@ class SignatureCase:
     data: bytes
     marker: str
     detected: bool
+    source_name: str | None = None
+    source_sha256: str | None = None
 
 
 def _make_uimage(payload: bytes) -> bytes:
@@ -91,8 +95,15 @@ def signature_cases() -> tuple[SignatureCase, ...]:
     )
 
 
-def real_firmware_case(path: Path, expected_sha256: str, marker: str) -> SignatureCase:
-    """Load a small, externally sourced firmware sample after checking its digest."""
+def real_firmware_case(
+    path: Path,
+    expected_sha256: str,
+    marker: str,
+    *,
+    label: str = "upstream-real-firmware",
+    decompress_gzip_payload: bool = False,
+) -> SignatureCase:
+    """Load a hash-pinned upstream sample and optionally bound gzip decompression."""
     if len(expected_sha256) != 64 or any(
         character not in "0123456789abcdefABCDEF" for character in expected_sha256
     ):
@@ -109,7 +120,22 @@ def real_firmware_case(path: Path, expected_sha256: str, marker: str) -> Signatu
     actual_sha256 = hashlib.sha256(data).hexdigest()
     if actual_sha256.casefold() != expected_sha256.casefold():
         raise ValueError("The real firmware sample SHA-256 did not match the pinned value.")
-    return SignatureCase("upstream-real-firmware", data, marker, True)
+    scan_data = data
+    if decompress_gzip_payload:
+        try:
+            with gzip.GzipFile(fileobj=io.BytesIO(data), mode="rb") as compressed:
+                scan_data = compressed.read(MAX_DECOMPRESSED_FILESYSTEM_BYTES + 1)
+                if len(scan_data) > MAX_DECOMPRESSED_FILESYSTEM_BYTES:
+                    raise ValueError(
+                        "The decompressed filesystem image exceeds the configured size limit."
+                    )
+                if compressed.read(1):
+                    raise ValueError(
+                        "The decompressed filesystem image exceeds the configured size limit."
+                    )
+        except (OSError, EOFError, zlib.error) as error:
+            raise ValueError("The pinned filesystem archive is not a valid gzip stream.") from error
+    return SignatureCase(label, scan_data, marker, True, path.name, actual_sha256)
 
 
 def run(
@@ -141,6 +167,11 @@ def analyzer_status(report: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(status, dict):
         raise RuntimeError("FUSE report did not contain Binwalk coverage status.")
     return status
+
+
+def signature_marker_found(marker: str, identification: str) -> bool:
+    """Match signature descriptions without depending on upstream capitalization."""
+    return marker.casefold() in identification.casefold()
 
 
 def configure_binwalk_environment(
@@ -214,7 +245,7 @@ def scan_case(
     if expected_version and expected_version not in version:
         raise RuntimeError("FUSE reported a Binwalk version different from the expected value.")
 
-    marker_found = case.marker in identification.casefold()
+    marker_found = signature_marker_found(case.marker, identification)
     if marker_found != case.detected:
         expectation = "present" if case.detected else "absent"
         raise RuntimeError(
@@ -250,6 +281,19 @@ def main() -> int:
         "--real-firmware-marker",
         help="require this Binwalk signature text in the real firmware report",
     )
+    parser.add_argument(
+        "--real-filesystem-archive",
+        type=Path,
+        help="also scan a bounded gzip-compressed upstream filesystem image",
+    )
+    parser.add_argument(
+        "--real-filesystem-sha256",
+        help="require this SHA-256 for the compressed upstream filesystem image",
+    )
+    parser.add_argument(
+        "--real-filesystem-marker",
+        help="require this Binwalk signature text in the filesystem image report",
+    )
     args = parser.parse_args()
     real_firmware_arguments = (
         args.real_firmware,
@@ -262,6 +306,18 @@ def main() -> int:
         parser.error(
             "--real-firmware, --real-firmware-sha256, and "
             "--real-firmware-marker must be provided together"
+        )
+    real_filesystem_arguments = (
+        args.real_filesystem_archive,
+        args.real_filesystem_sha256,
+        args.real_filesystem_marker,
+    )
+    if any(value is not None for value in real_filesystem_arguments) and not all(
+        value is not None for value in real_filesystem_arguments
+    ):
+        parser.error(
+            "--real-filesystem-archive, --real-filesystem-sha256, and "
+            "--real-filesystem-marker must be provided together"
         )
     env = os.environ.copy()
     try:
@@ -290,6 +346,21 @@ def main() -> int:
         except (OSError, ValueError) as error:
             parser.error(str(error))
         cases = (*cases, real_case)
+    filesystem_case: SignatureCase | None = None
+    if args.real_filesystem_archive is not None:
+        assert args.real_filesystem_sha256 is not None
+        assert args.real_filesystem_marker is not None
+        try:
+            filesystem_case = real_firmware_case(
+                args.real_filesystem_archive,
+                args.real_filesystem_sha256,
+                args.real_filesystem_marker,
+                label="upstream-real-filesystem",
+                decompress_gzip_payload=True,
+            )
+        except (OSError, ValueError) as error:
+            parser.error(str(error))
+        cases = (*cases, filesystem_case)
 
     with tempfile.TemporaryDirectory(prefix="fuse-binwalk-adapter-e2e-") as temporary:
         root = Path(temporary)
@@ -312,13 +383,14 @@ def main() -> int:
         "gzip, XZ, and U-Boot uImage signatures detected; clean and invalid-uImage "
         "controls clear; no extraction."
     )
-    if real_case is not None:
-        assert args.real_firmware is not None
-        real_sha256 = hashlib.sha256(real_case.data).hexdigest()
-        summary += (
-            f" Upstream real firmware signature detected ({args.real_firmware.name}, "
-            f"sha256 {real_sha256})."
-        )
+    for case in (real_case, filesystem_case):
+        if case is not None:
+            assert case.source_name is not None
+            assert case.source_sha256 is not None
+            summary += (
+                f" Pinned sample passed ({case.source_name}, SHA-256 {case.source_sha256}, "
+                f"signature {case.marker})."
+            )
     print(summary)
     return 0
 
