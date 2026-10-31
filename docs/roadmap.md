@@ -59,6 +59,7 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 - Accept project lockfiles/manifests and detect supplied CycloneDX/SPDX inputs; direct SBOM advisory matching is implemented.
 - ESP-IDF lock inventory reads a root `dependencies.lock` without running the component manager; a lock entry is not proof of inclusion in a released image.
 - Optional Syft and OSV-Scanner subprocess adapters emit CycloneDX, normalize advisory findings, and record tool status/version/artifacts.
+- A SHA-256-pinned smoke workflow verified Syft 1.55.0, OSV-Scanner 2.7.0, and Gitleaks 8.30.0 on Linux x86_64, macOS arm64, and Windows x86_64. Positive, clean, no-source, and secret-redaction controls passed. This is adapter integration evidence, not a detector accuracy result; see the [cross-platform experiment](experiments/external-analyzers-cross-platform-2026-10-31.md).
 - Optional CycloneDX VEX import annotates exact component and advisory matches. The original finding and threshold behavior remain unchanged.
 - Distinguish declared dependencies from components actually present in a firmware filesystem.
 - Preserve package identifiers, versions, data source, and matching evidence.
