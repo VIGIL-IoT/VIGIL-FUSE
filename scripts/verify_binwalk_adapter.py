@@ -154,6 +154,21 @@ def real_filesystem_cases(
     )
 
 
+def real_firmware_cases(
+    samples: list[tuple[Path, str, str]],
+) -> tuple[SignatureCase, ...]:
+    """Load multiple externally sourced firmware images with pinned digests."""
+    return tuple(
+        real_firmware_case(
+            image,
+            expected_sha256,
+            marker,
+            label=f"upstream-real-firmware-{index}",
+        )
+        for index, (image, expected_sha256, marker) in enumerate(samples, start=1)
+    )
+
+
 def run(
     command: list[str],
     *,
@@ -286,16 +301,12 @@ def main() -> int:
     )
     parser.add_argument(
         "--real-firmware",
-        type=Path,
-        help="also scan a small externally sourced firmware sample",
-    )
-    parser.add_argument(
-        "--real-firmware-sha256",
-        help="require this SHA-256 before scanning the real firmware sample",
-    )
-    parser.add_argument(
-        "--real-firmware-marker",
-        help="require this Binwalk signature text in the real firmware report",
+        action="append",
+        nargs=3,
+        metavar=("IMAGE", "SHA256", "MARKER"),
+        help=(
+            "scan a hash-pinned upstream firmware image; repeat with its expected Binwalk marker"
+        ),
     )
     parser.add_argument(
         "--real-filesystem",
@@ -308,18 +319,6 @@ def main() -> int:
         ),
     )
     args = parser.parse_args()
-    real_firmware_arguments = (
-        args.real_firmware,
-        args.real_firmware_sha256,
-        args.real_firmware_marker,
-    )
-    if any(value is not None for value in real_firmware_arguments) and not all(
-        value is not None for value in real_firmware_arguments
-    ):
-        parser.error(
-            "--real-firmware, --real-firmware-sha256, and "
-            "--real-firmware-marker must be provided together"
-        )
     env = os.environ.copy()
     try:
         executable = configure_binwalk_environment(args.binwalk_executable, env)
@@ -334,19 +333,20 @@ def main() -> int:
     )
 
     cases = signature_cases()
-    real_case: SignatureCase | None = None
-    if args.real_firmware is not None:
-        assert args.real_firmware_sha256 is not None
-        assert args.real_firmware_marker is not None
+    firmware_samples: list[SignatureCase] = []
+    if args.real_firmware:
         try:
-            real_case = real_firmware_case(
-                args.real_firmware,
-                args.real_firmware_sha256,
-                args.real_firmware_marker,
+            firmware_samples.extend(
+                real_firmware_cases(
+                    [
+                        (Path(image), expected_sha256, marker)
+                        for image, expected_sha256, marker in args.real_firmware
+                    ]
+                )
             )
         except (OSError, ValueError) as error:
-            parser.error(str(error))
-        cases = (*cases, real_case)
+            parser.error(f"Invalid real firmware sample: {error}")
+        cases = (*cases, *firmware_samples)
     filesystem_cases: list[SignatureCase] = []
     if args.real_filesystem:
         try:
@@ -383,14 +383,13 @@ def main() -> int:
         "gzip, XZ, and U-Boot uImage signatures detected; clean and invalid-uImage "
         "controls clear; no extraction."
     )
-    for case in (real_case, *filesystem_cases):
-        if case is not None:
-            assert case.source_name is not None
-            assert case.source_sha256 is not None
-            summary += (
-                f" Pinned sample passed ({case.source_name}, SHA-256 {case.source_sha256}, "
-                f"signature {case.marker})."
-            )
+    for case in (*firmware_samples, *filesystem_cases):
+        assert case.source_name is not None
+        assert case.source_sha256 is not None
+        summary += (
+            f" Pinned sample passed ({case.source_name}, SHA-256 {case.source_sha256}, "
+            f"signature {case.marker})."
+        )
     print(summary)
     return 0
 

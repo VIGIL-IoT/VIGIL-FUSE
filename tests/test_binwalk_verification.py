@@ -16,6 +16,7 @@ from scripts.verify_binwalk_adapter import (
     PAYLOAD,
     configure_binwalk_environment,
     real_firmware_case,
+    real_firmware_cases,
     real_filesystem_cases,
     signature_marker_found,
     signature_cases,
@@ -116,6 +117,27 @@ def test_real_firmware_case_rejects_a_changed_sample(tmp_path: Path) -> None:
 
     with pytest.raises(ValueError, match="SHA-256 did not match"):
         real_firmware_case(sample, "0" * 64, "gzip")
+
+
+def test_real_firmware_cases_load_multiple_pinned_samples(tmp_path: Path) -> None:
+    expected_samples = (
+        ("tasmota.bin.gz", b"Tasmota compressed firmware", "gzip"),
+        ("openwrt-uimage", b"OpenWrt uImage firmware", "uImage firmware image"),
+    )
+    samples = []
+    for name, data, marker in expected_samples:
+        image = tmp_path / name
+        image.write_bytes(data)
+        samples.append((image, hashlib.sha256(data).hexdigest(), marker))
+
+    cases = real_firmware_cases(samples)
+
+    assert [case.label for case in cases] == [
+        "upstream-real-firmware-1",
+        "upstream-real-firmware-2",
+    ]
+    assert [case.data for case in cases] == [data for _, data, _ in expected_samples]
+    assert [case.marker for case in cases] == [marker for _, _, marker in expected_samples]
 
 
 def test_real_firmware_case_decompresses_hash_pinned_filesystem_sample(

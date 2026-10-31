@@ -14,6 +14,8 @@ env:
   CARGO_TERM_COLOR: always
   TASMOTA_FIRMWARE_URL: https://github.com/arendst/Tasmota/releases/download/v16.0.0/tasmota-4M.bin.gz
   TASMOTA_FIRMWARE_SHA256: 15a8e568af5096c9f43efd636da534214f2d170faf6551b4a9e9b6182117766c
+  OPENWRT_UIMAGE_URL: https://downloads.openwrt.org/releases/25.12.6/targets/malta/be/openwrt-25.12.6-malta-be-uImage-gzip
+  OPENWRT_UIMAGE_SHA256: 561db5bcecc5ff73d7fb2c18fe1b1d95708ea813ccdb3559db7634133bc9d1cf
   OPENWRT_SQUASHFS_URL: https://downloads.openwrt.org/releases/25.12.6/targets/malta/be/openwrt-25.12.6-malta-be-rootfs-squashfs.img.gz
   OPENWRT_SQUASHFS_SHA256: b285ce3b64377db55507ccce276881252e125039794f953d0f4d0f054775aafa
   OPENWRT_EXT4_URL: https://downloads.openwrt.org/releases/25.12.6/targets/malta/be/openwrt-25.12.6-malta-be-rootfs-ext4.img.gz
@@ -60,6 +62,7 @@ jobs:
         run: |
           source_dir="$RUNNER_TEMP/binwalk-source"
           firmware_sample="$RUNNER_TEMP/tasmota-4M.bin.gz"
+          uimage_sample="$RUNNER_TEMP/openwrt-malta-be-uImage-gzip"
           filesystem_archive="$RUNNER_TEMP/openwrt-malta-rootfs-squashfs.img.gz"
           ext4_archive="$RUNNER_TEMP/openwrt-malta-rootfs-ext4.img.gz"
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git "$source_dir"
@@ -69,15 +72,16 @@ jobs:
           curl --fail --location --silent --show-error \
             "$TASMOTA_FIRMWARE_URL" --output "$firmware_sample"
           curl --fail --location --silent --show-error \
+            "$OPENWRT_UIMAGE_URL" --output "$uimage_sample"
+          curl --fail --location --silent --show-error \
             "$OPENWRT_SQUASHFS_URL" --output "$filesystem_archive"
           curl --fail --location --silent --show-error \
             "$OPENWRT_EXT4_URL" --output "$ext4_archive"
           python scripts/verify_binwalk_adapter.py \
             --expected-version 3.1.0 \
             --binwalk-executable "$source_dir/target/release/binwalk" \
-            --real-firmware "$firmware_sample" \
-            --real-firmware-sha256 "$TASMOTA_FIRMWARE_SHA256" \
-            --real-firmware-marker gzip \
+            --real-firmware "$firmware_sample" "$TASMOTA_FIRMWARE_SHA256" gzip \
+            --real-firmware "$uimage_sample" "$OPENWRT_UIMAGE_SHA256" "uImage firmware image" \
             --real-filesystem "$filesystem_archive" "$OPENWRT_SQUASHFS_SHA256" "SquashFS file system" \
             --real-filesystem "$ext4_archive" "$OPENWRT_EXT4_SHA256" "EXT filesystem"
       - name: Build pinned Binwalk and scan synthetic plus real firmware on Windows
@@ -86,6 +90,7 @@ jobs:
         run: |
           $sourceDir = Join-Path $env:RUNNER_TEMP 'binwalk-source'
           $firmwareSample = Join-Path $env:RUNNER_TEMP 'tasmota-4M.bin.gz'
+          $uimageSample = Join-Path $env:RUNNER_TEMP 'openwrt-malta-be-uImage-gzip'
           $filesystemArchive = Join-Path $env:RUNNER_TEMP 'openwrt-malta-rootfs-squashfs.img.gz'
           $ext4Archive = Join-Path $env:RUNNER_TEMP 'openwrt-malta-rootfs-ext4.img.gz'
           git clone --no-checkout https://github.com/ReFirmLabs/binwalk.git $sourceDir
@@ -99,6 +104,8 @@ jobs:
           $binwalk = Join-Path $sourceDir 'target\release\binwalk.exe'
           Invoke-WebRequest -Uri $env:TASMOTA_FIRMWARE_URL -OutFile $firmwareSample
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned Tasmota firmware sample.' }
+          Invoke-WebRequest -Uri $env:OPENWRT_UIMAGE_URL -OutFile $uimageSample
+          if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt uImage sample.' }
           Invoke-WebRequest -Uri $env:OPENWRT_SQUASHFS_URL -OutFile $filesystemArchive
           if ($LASTEXITCODE -ne 0) { throw 'Could not download the pinned OpenWrt filesystem sample.' }
           Invoke-WebRequest -Uri $env:OPENWRT_EXT4_URL -OutFile $ext4Archive
@@ -106,9 +113,8 @@ jobs:
           python scripts/verify_binwalk_adapter.py `
             --expected-version 3.1.0 `
             --binwalk-executable $binwalk `
-            --real-firmware $firmwareSample `
-            --real-firmware-sha256 $env:TASMOTA_FIRMWARE_SHA256 `
-            --real-firmware-marker gzip `
+            --real-firmware $firmwareSample $env:TASMOTA_FIRMWARE_SHA256 gzip `
+            --real-firmware $uimageSample $env:OPENWRT_UIMAGE_SHA256 'uImage firmware image' `
             --real-filesystem $filesystemArchive $env:OPENWRT_SQUASHFS_SHA256 'SquashFS file system' `
             --real-filesystem $ext4Archive $env:OPENWRT_EXT4_SHA256 'EXT filesystem'
           if ($LASTEXITCODE -ne 0) { throw 'Binwalk adapter verification failed.' }
