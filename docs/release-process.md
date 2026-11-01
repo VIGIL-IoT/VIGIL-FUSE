@@ -42,10 +42,12 @@ There is no automatic release or package upload workflow. Keep local release art
 
 The current custom source-available license permits commercial use but restricts redistribution. Section 3 specifically bars uploading or mirroring the Software to public or private package registries, source repositories, container registries, and download services without written permission. A successful wheel build or metadata check does not grant that permission.
 
+GitHub Packages does not currently provide a Python package registry. Its documented registries include Container, npm, RubyGems, Apache Maven, Gradle, and NuGet, so it cannot serve as a standard `pip`, `pipx`, or `uv` index for FUSE. See GitHub's [package registry list](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages). A GitHub Release can host wheel or source archive assets, but those are downloads and remain covered by the current license restriction. See GitHub's [release asset documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
+
 Before choosing a channel, the owner should resolve these options with qualified legal review:
 
 - Keep installation limited to downloading or cloning the canonical source for the installer's own use, after checking how the repository host's public-fork and content terms interact with the license.
-- Obtain a written, channel-specific permission for a GitHub Release asset, GitHub Packages, a private index, or another controlled download service. Do not assume that a private registry avoids the restriction.
+- Obtain a written, channel-specific permission for GitHub Release assets, a private index, or another controlled download service. Do not assume that a private registry avoids the restriction. GitHub Packages is not a Python package index.
 - Approve revised distribution terms before using a public package registry. PyPI's upload and package terms need separate review against both the license and the project's intended defensive use.
 
 Until that review is documented, build and test artifacts locally only. Do not upload to PyPI, GitHub Packages, a release page, or another registry or download service. This checklist is an engineering gate, not legal advice.
