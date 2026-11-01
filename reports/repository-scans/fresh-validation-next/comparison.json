@@ -3,6 +3,7 @@
   "comparison_type": "stored-report-artifact-diff",
   "baseline_cohort": "independent-holdout",
   "candidate_cohort": "regression-validation",
+  "allow_schema_mismatch": false,
   "same_repository_targets_and_scopes": true,
   "baseline_fuse": {
     "version": "0.2.0",
@@ -31,7 +32,10 @@
     {
       "repository_id": "mynewt-core",
       "scan_id": "mynewt-core",
-      "schema_version": "1.6",
+      "baseline_schema_version": "1.6",
+      "candidate_schema_version": "1.6",
+      "schemas_match": true,
+      "field_comparison_mode": "all-fields",
       "baseline_findings": 0,
       "candidate_findings": 0,
       "retained": 0,
@@ -44,7 +48,10 @@
     {
       "repository_id": "mbedtls",
       "scan_id": "mbedtls",
-      "schema_version": "1.6",
+      "baseline_schema_version": "1.6",
+      "candidate_schema_version": "1.6",
+      "schemas_match": true,
+      "field_comparison_mode": "all-fields",
       "baseline_findings": 0,
       "candidate_findings": 0,
       "retained": 0,
@@ -57,7 +64,10 @@
     {
       "repository_id": "openthread",
       "scan_id": "openthread",
-      "schema_version": "1.6",
+      "baseline_schema_version": "1.6",
+      "candidate_schema_version": "1.6",
+      "schemas_match": true,
+      "field_comparison_mode": "all-fields",
       "baseline_findings": 5,
       "candidate_findings": 5,
       "retained": 5,
@@ -93,7 +103,10 @@
     {
       "repository_id": "esp-iot-solution",
       "scan_id": "esp-iot-solution",
-      "schema_version": "1.6",
+      "baseline_schema_version": "1.6",
+      "candidate_schema_version": "1.6",
+      "schemas_match": true,
+      "field_comparison_mode": "all-fields",
       "baseline_findings": 18,
       "candidate_findings": 18,
       "retained": 18,
@@ -145,5 +158,5 @@
       }
     }
   ],
-  "interpretation": "Compares saved finding objects by stable finding ID. It does not rerun FUSE, adjudicate findings, or measure detection accuracy. Field names and counts are reported without copying finding evidence or field values."
+  "interpretation": "Compares saved finding objects by stable finding ID. It does not rerun FUSE, adjudicate findings, or measure detection accuracy. Field names and counts are reported without copying finding evidence or field values. When report schemas differ, only fields present in both finding objects are compared."
 }

@@ -169,6 +169,73 @@ class CompareRepositoryScanSnapshotsTests(unittest.TestCase):
                     root / "candidate-reports",
                 )
 
+    def test_cross_schema_comparison_uses_only_shared_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            baseline_manifest = root / "baseline.json"
+            candidate_manifest = root / "candidate.json"
+            manifest = {
+                "cohort": "baseline",
+                "repositories": [
+                    {
+                        "id": "example",
+                        "commit": "a" * 40,
+                        "scans": [{"id": "example"}],
+                    }
+                ],
+            }
+            self._write_json(baseline_manifest, manifest)
+            self._write_json(candidate_manifest, {**manifest, "cohort": "candidate"})
+            self._write_json(
+                root / "baseline-reports" / "example" / "findings.json",
+                {
+                    "schema_version": "1.6",
+                    "findings": [
+                        {
+                            "id": "FUSE001:src/a.c:2",
+                            "rule_id": "FUSE001",
+                            "rule_version": "1.0.0",
+                            "severity": "medium",
+                            "old_only": "baseline-private-value",
+                        }
+                    ],
+                },
+            )
+            self._write_json(
+                root / "candidate-reports" / "example" / "findings.json",
+                {
+                    "schema_version": "1.10",
+                    "findings": [
+                        {
+                            "id": "FUSE001:src/a.c:2",
+                            "rule_id": "FUSE001",
+                            "rule_version": "1.1.0",
+                            "severity": "medium",
+                            "new_only": "candidate-private-value",
+                        },
+                        {"id": "FUSE-GHA-002:wf.yml:5", "rule_id": "FUSE-GHA-002"},
+                    ],
+                },
+            )
+
+            result = compare_snapshots(
+                baseline_manifest,
+                root / "baseline-reports",
+                candidate_manifest,
+                root / "candidate-reports",
+                allow_schema_mismatch=True,
+            )
+            serialized = json.dumps(result)
+
+        scan = result["scans"][0]
+        self.assertFalse(scan["schemas_match"])
+        self.assertEqual("shared-fields", scan["field_comparison_mode"])
+        self.assertEqual(1, scan["added"])
+        self.assertEqual(0, scan["removed"])
+        self.assertEqual({"rule_version": 1}, scan["changed_fields"])
+        self.assertNotIn("baseline-private-value", serialized)
+        self.assertNotIn("candidate-private-value", serialized)
+
 
 if __name__ == "__main__":
     unittest.main()

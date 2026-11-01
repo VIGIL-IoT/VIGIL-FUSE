@@ -79,11 +79,17 @@ def _rule_id(finding: dict[str, Any]) -> str:
     return value if isinstance(value, str) and value else "unknown"
 
 
-def _changed_fields(baseline: dict[str, Any], candidate: dict[str, Any]) -> list[str]:
+def _changed_fields(
+    baseline: dict[str, Any],
+    candidate: dict[str, Any],
+    *,
+    shared_only: bool,
+) -> list[str]:
     missing = object()
+    keys = baseline.keys() & candidate.keys() if shared_only else baseline.keys() | candidate.keys()
     return sorted(
         key
-        for key in baseline.keys() | candidate.keys()
+        for key in keys
         if key != "id" and baseline.get(key, missing) != candidate.get(key, missing)
     )
 
@@ -110,6 +116,8 @@ def compare_snapshots(
     baseline_report_root: Path,
     candidate_manifest_path: Path,
     candidate_report_root: Path,
+    *,
+    allow_schema_mismatch: bool = False,
 ) -> dict[str, Any]:
     baseline_manifest = _read_object(baseline_manifest_path)
     candidate_manifest = _read_object(candidate_manifest_path)
@@ -135,7 +143,8 @@ def compare_snapshots(
     for repository_id, scan_id in baseline_specs:
         baseline_schema, baseline = _read_findings(baseline_report_root, scan_id)
         candidate_schema, candidate = _read_findings(candidate_report_root, scan_id)
-        if baseline_schema != candidate_schema:
+        schemas_match = baseline_schema == candidate_schema
+        if not schemas_match and not allow_schema_mismatch:
             raise ValueError(
                 f"Report schemas differ for scan {scan_id!r}: "
                 f"{baseline_schema!r} versus {candidate_schema!r}"
@@ -178,7 +187,7 @@ def compare_snapshots(
             rule = _rule_id(old)
             bucket = rule_bucket(rule)
             bucket["retained"] += 1
-            changes = _changed_fields(old, new)
+            changes = _changed_fields(old, new, shared_only=not schemas_match)
             if changes:
                 scan_changed += 1
                 bucket["changed"] += 1
@@ -201,7 +210,10 @@ def compare_snapshots(
             {
                 "repository_id": repository_id,
                 "scan_id": scan_id,
-                "schema_version": baseline_schema,
+                "baseline_schema_version": baseline_schema,
+                "candidate_schema_version": candidate_schema,
+                "schemas_match": schemas_match,
+                "field_comparison_mode": "all-fields" if schemas_match else "shared-fields",
                 "baseline_findings": baseline_count,
                 "candidate_findings": candidate_count,
                 "retained": retained_count,
@@ -224,6 +236,7 @@ def compare_snapshots(
         "comparison_type": "stored-report-artifact-diff",
         "baseline_cohort": baseline_manifest.get("cohort"),
         "candidate_cohort": candidate_manifest.get("cohort"),
+        "allow_schema_mismatch": allow_schema_mismatch,
         "same_repository_targets_and_scopes": True,
         "baseline_fuse": _provenance(baseline_manifest),
         "candidate_fuse": _provenance(candidate_manifest),
@@ -240,7 +253,8 @@ def compare_snapshots(
         "interpretation": (
             "Compares saved finding objects by stable finding ID. It does not rerun FUSE, "
             "adjudicate findings, or measure detection accuracy. Field names and counts are "
-            "reported without copying finding evidence or field values."
+            "reported without copying finding evidence or field values. When report schemas "
+            "differ, only fields present in both finding objects are compared."
         ),
     }
 
@@ -253,6 +267,11 @@ def main() -> None:
     parser.add_argument("--baseline-report-root", type=Path, required=True)
     parser.add_argument("--candidate-manifest", type=Path, required=True)
     parser.add_argument("--candidate-report-root", type=Path, required=True)
+    parser.add_argument(
+        "--allow-schema-mismatch",
+        action="store_true",
+        help="compare finding IDs and common fields when report schemas differ",
+    )
     parser.add_argument("--output", type=Path, help="write JSON to this path instead of stdout")
     args = parser.parse_args()
 
@@ -262,6 +281,7 @@ def main() -> None:
             args.baseline_report_root,
             args.candidate_manifest,
             args.candidate_report_root,
+            allow_schema_mismatch=args.allow_schema_mismatch,
         )
     except (OSError, json.JSONDecodeError, ValueError) as error:
         parser.error(str(error))
