@@ -9,6 +9,7 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 - Seven explicit static rules with redacted evidence, including two ESP-IDF boot-integrity configuration checks.
 - Presence-only hardware artifact inventory in JSON and text reports, separate from security findings.
 - Vulnerable and secure fixtures plus automated tests for each rule.
+- Automated architecture contracts and a paired CLI integration fixture cover the current ESP-IDF source, generated-config, hardware inventory, netlist, BOM, and report path. These checks prove the selected software path only, not physical board behavior or field accuracy.
 - Clear source/configuration file limits and no runtime-validation claim.
 
 ## 1. Contracts and source-project profiles - implemented baseline
