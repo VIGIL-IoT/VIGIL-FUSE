@@ -1,0 +1,677 @@
+{
+  "generated_at": "2026-10-31T10:04:28Z",
+  "scan_date": "2026-10-31",
+  "cohort": "regression-validation",
+  "training_manifest": "../../scan-manifest.json",
+  "selection_protocol": {
+    "purpose": "Repeat the same four pinned project scopes using a clean, committed FUSE source tree after the historical scan artifacts were found to have dirty provenance.",
+    "rule_tuning_during_holdout": false,
+    "pinned_before_scan": true,
+    "builds_or_tests_run": false,
+    "interpretation": "A repeat validation snapshot on previously reviewed repositories. It is not an untouched holdout, representative accuracy benchmark, or independent adjudication."
+  },
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "fa5cb3457d0ec20b059496996174999f2b962ec9",
+    "source_tree_sha256": "8aa509331627698a61462d3aceac331542bcb5845f6c2d97463008729b446287",
+    "source_tree_dirty": false,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "interpretation": "Regression validation against patterns observed in the initial holdout snapshot. The corpus informed these refinements and is not an untouched blind holdout; findings remain static signals, not confirmed vulnerabilities.",
+  "totals": {
+    "files_discovered": 10762,
+    "files_selected": 8273,
+    "files_scanned": 8269,
+    "files_skipped": 4,
+    "repository_count": 4,
+    "scan_scope_count": 4,
+    "finding_count": 26,
+    "rule_counts": {
+      "FUSE001": 8,
+      "FUSE002": 5,
+      "FUSE003": 0,
+      "FUSE004": 0,
+      "FUSE005": 0,
+      "FUSE006": 7,
+      "FUSE007": 4,
+      "FUSE-GHA-002": 2
+    },
+    "severity_counts": {
+      "critical": 0,
+      "high": 5,
+      "medium": 19,
+      "low": 0,
+      "info": 2,
+      "unknown": 0
+    },
+    "files_skipped_by_reason": {
+      "too_large": 4
+    },
+    "hardware_file_count": 0,
+    "hardware_category_counts": {},
+    "hardware_inventory_complete": true,
+    "module_coverage": {
+      "source_decoding": {
+        "fallback_encoding": "iso-8859-1",
+        "fallback_file_count": 1,
+        "fallback_files": [
+          "apps/lora_app_shell/src/las_cmd.c"
+        ],
+        "omitted_count": 0
+      },
+      "platformio": {
+        "environment_count": 0,
+        "selected_environment_count": 0,
+        "configuration_count": 0,
+        "partial_scope_count": 0
+      },
+      "firmware_candidates": {
+        "candidate_count": 10,
+        "extension_counts": {
+          ".bin": 3,
+          ".dfu": 1,
+          ".elf": 6
+        }
+      },
+      "github_actions": {
+        "workflow_count": 33,
+        "non_sha_action_reference_count": 41,
+        "floating_branch_reference_count": 2,
+        "finding_count": 2
+      },
+      "hardware_netlist": {
+        "scope_count": 0,
+        "component_count": 0,
+        "net_count": 0,
+        "debug_net_candidate_count": 0
+      }
+    }
+  },
+  "repositories": [
+    {
+      "id": "mynewt-core",
+      "name": "apache/mynewt-core",
+      "url": "https://github.com/apache/mynewt-core",
+      "commit": "73c201517aae919ce521f73177d8a91099f6a539",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 4344,
+      "files_selected": 3355,
+      "files_scanned": 3354,
+      "files_skipped": 1,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 1,
+          "fallback_files": [
+            "apps/lora_app_shell/src/las_cmd.c"
+          ],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "selected_environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 8,
+          "non_sha_action_reference_count": 29,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "too_large": 1
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "mynewt-core",
+          "scope": "Mynewt kernel, system, hardware, targets, networking, and NimBLE source",
+          "profile": "generic",
+          "files_discovered": 4344,
+          "files_selected": 3355,
+          "files_scanned": 3354,
+          "files_skipped": 1,
+          "files_skipped_by_reason": {
+            "too_large": 1
+          },
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 1,
+              "fallback_files": [
+                "apps/lora_app_shell/src/las_cmd.c"
+              ],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "selected_environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 8,
+              "non_sha_action_reference_count": 29,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/mynewt-core/findings.json",
+            "text": "reports/mynewt-core/findings.txt",
+            "sarif": "reports/mynewt-core/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mbedtls",
+      "name": "Mbed-TLS/mbedtls",
+      "url": "https://github.com/Mbed-TLS/mbedtls",
+      "commit": "03e1438089654fb884ac48e0f3cd0049cfe2c102",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 196,
+      "files_selected": 121,
+      "files_scanned": 121,
+      "files_skipped": 0,
+      "finding_count": 0,
+      "rule_counts": {
+        "FUSE001": 0,
+        "FUSE002": 0,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 0,
+        "medium": 0,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "selected_environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 0,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "mbedtls",
+          "scope": "Mbed TLS library, public headers, configuration, programs, and examples",
+          "profile": "generic",
+          "files_discovered": 196,
+          "files_selected": 121,
+          "files_scanned": 121,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 0,
+          "rule_counts": {
+            "FUSE001": 0,
+            "FUSE002": 0,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 0,
+            "medium": 0,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 0,
+              "fallback_files": [],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "selected_environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "not-detected",
+              "workflow_count": 0,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/mbedtls/findings.json",
+            "text": "reports/mbedtls/findings.txt",
+            "sarif": "reports/mbedtls/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "openthread",
+      "name": "openthread/openthread",
+      "url": "https://github.com/openthread/openthread",
+      "commit": "1f6c3ad43306f037dda60cd3e39998772016be10",
+      "profile": "generic",
+      "scan_count": 1,
+      "files_discovered": 2231,
+      "files_selected": 909,
+      "files_scanned": 909,
+      "files_skipped": 0,
+      "finding_count": 5,
+      "rule_counts": {
+        "FUSE001": 1,
+        "FUSE002": 4,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 0,
+        "FUSE007": 0,
+        "FUSE-GHA-002": 0
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 4,
+        "medium": 1,
+        "low": 0,
+        "info": 0,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "selected_environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 0,
+          "extension_counts": {}
+        },
+        "github_actions": {
+          "workflow_count": 19,
+          "non_sha_action_reference_count": 0,
+          "floating_branch_reference_count": 0,
+          "finding_count": 0
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {},
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "openthread",
+          "scope": "OpenThread source, examples, public headers, and root build configuration",
+          "profile": "generic",
+          "files_discovered": 2231,
+          "files_selected": 909,
+          "files_scanned": 909,
+          "files_skipped": 0,
+          "files_skipped_by_reason": {},
+          "finding_count": 5,
+          "rule_counts": {
+            "FUSE001": 1,
+            "FUSE002": 4,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 0,
+            "FUSE007": 0,
+            "FUSE-GHA-002": 0
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 4,
+            "medium": 1,
+            "low": 0,
+            "info": 0,
+            "unknown": 0
+          },
+          "scan_status": "completed",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 0,
+              "fallback_files": [],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "selected_environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 0,
+              "extension_counts": {}
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 19,
+              "non_sha_action_reference_count": 0,
+              "floating_branch_reference_count": 0,
+              "finding_count": 0
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/openthread/findings.json",
+            "text": "reports/openthread/findings.txt",
+            "sarif": "reports/openthread/findings.sarif"
+          }
+        }
+      ]
+    },
+    {
+      "id": "esp-iot-solution",
+      "name": "espressif/esp-iot-solution",
+      "url": "https://github.com/espressif/esp-iot-solution",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "profile": "esp-idf",
+      "scan_count": 1,
+      "files_discovered": 3991,
+      "files_selected": 3888,
+      "files_scanned": 3885,
+      "files_skipped": 3,
+      "finding_count": 21,
+      "rule_counts": {
+        "FUSE001": 7,
+        "FUSE002": 1,
+        "FUSE003": 0,
+        "FUSE004": 0,
+        "FUSE005": 0,
+        "FUSE006": 7,
+        "FUSE007": 4,
+        "FUSE-GHA-002": 2
+      },
+      "severity_counts": {
+        "critical": 0,
+        "high": 1,
+        "medium": 18,
+        "low": 0,
+        "info": 2,
+        "unknown": 0
+      },
+      "module_coverage": {
+        "source_decoding": {
+          "fallback_encoding": "iso-8859-1",
+          "fallback_file_count": 0,
+          "fallback_files": [],
+          "omitted_count": 0
+        },
+        "platformio": {
+          "environment_count": 0,
+          "selected_environment_count": 0,
+          "configuration_count": 0,
+          "partial_scope_count": 0
+        },
+        "firmware_candidates": {
+          "candidate_count": 10,
+          "extension_counts": {
+            ".bin": 3,
+            ".dfu": 1,
+            ".elf": 6
+          }
+        },
+        "github_actions": {
+          "workflow_count": 6,
+          "non_sha_action_reference_count": 12,
+          "floating_branch_reference_count": 2,
+          "finding_count": 2
+        },
+        "hardware_netlist": {
+          "scope_count": 0,
+          "component_count": 0,
+          "net_count": 0,
+          "debug_net_candidate_count": 0
+        }
+      },
+      "files_skipped_by_reason": {
+        "too_large": 3
+      },
+      "hardware_file_count": 0,
+      "hardware_category_counts": {},
+      "scopes": [
+        {
+          "id": "esp-iot-solution",
+          "scope": "ESP-IoT-Solution components, examples, sdkconfig defaults, and component manifests",
+          "profile": "esp-idf",
+          "files_discovered": 3991,
+          "files_selected": 3888,
+          "files_scanned": 3885,
+          "files_skipped": 3,
+          "files_skipped_by_reason": {
+            "too_large": 3
+          },
+          "finding_count": 21,
+          "rule_counts": {
+            "FUSE001": 7,
+            "FUSE002": 1,
+            "FUSE003": 0,
+            "FUSE004": 0,
+            "FUSE005": 0,
+            "FUSE006": 7,
+            "FUSE007": 4,
+            "FUSE-GHA-002": 2
+          },
+          "severity_counts": {
+            "critical": 0,
+            "high": 1,
+            "medium": 18,
+            "low": 0,
+            "info": 2,
+            "unknown": 0
+          },
+          "scan_status": "partial",
+          "support_label": "basic",
+          "limits_reached": [],
+          "hardware_inventory": {
+            "present": false,
+            "file_count": 0,
+            "category_counts": {},
+            "complete": true
+          },
+          "module_coverage": {
+            "source_decoding": {
+              "fallback_encoding": "iso-8859-1",
+              "fallback_file_count": 0,
+              "fallback_files": [],
+              "omitted_count": 0
+            },
+            "platformio": {
+              "status": "not-detected",
+              "environment_count": 0,
+              "selected_environment_count": 0,
+              "configuration_count": 0
+            },
+            "firmware_candidates": {
+              "status": "complete",
+              "candidate_count": 10,
+              "extension_counts": {
+                ".bin": 3,
+                ".dfu": 1,
+                ".elf": 6
+              }
+            },
+            "github_actions": {
+              "status": "completed",
+              "workflow_count": 6,
+              "non_sha_action_reference_count": 12,
+              "floating_branch_reference_count": 2,
+              "finding_count": 2
+            },
+            "hardware_netlist": {
+              "status": "not-detected",
+              "component_count": 0,
+              "net_count": 0,
+              "debug_net_candidate_count": 0
+            }
+          },
+          "report_files": {
+            "json": "reports/esp-iot-solution/findings.json",
+            "text": "reports/esp-iot-solution/findings.txt",
+            "sarif": "reports/esp-iot-solution/findings.sarif"
+          }
+        }
+      ]
+    }
+  ]
+}

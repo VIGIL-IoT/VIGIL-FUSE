@@ -1,0 +1,53 @@
+FUSE scan: apache/mynewt-core, selected embedded source
+Target kind: directory
+Profile: generic
+Support: basic / partial
+Network policy: no-network
+Scanned manifest SHA-256: c75a67c2e651e051f24efe98eb72bde2df399e491068d6c78b26cc812a374595
+Files discovered/selected: 4344/3355
+Files filtered by path policy: 989
+Files scanned: 3354
+Source bytes read: 23149934
+Files skipped: 1
+Files decoded with ISO-8859-1 fallback: 1
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 430
+  .donotcompile: 2
+  .errlog: 1
+  .ewd: 2
+  .ewp: 2
+  .eww: 2
+  .gdb: 11
+  .ld: 191
+  .log: 1
+  .md: 36
+  .png: 5
+  .prefs: 3
+  .rst: 93
+  .s: 46
+  .template: 2
+  .txt: 9
+  .uvoptx: 2
+  .uvprojx: 2
+  .xsl: 1
+  <no-extension>: 19
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 8 / completed; 29 non-SHA action reference(s), 0 floating-branch candidate(s)
+Analyzers:
+  fuse-native: partial (One or more selected files were skipped; review coverage details.)
+  native-rule:FUSE001: partial (Evaluated 42 selected input(s). The conservative prefilter excluded 3312 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: partial (Evaluated 70 selected input(s). The conservative prefilter excluded 3284 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE004: partial (Evaluated 2949 selected input(s). The conservative prefilter excluded 405 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE005: partial (Evaluated 1 selected input(s). The conservative prefilter excluded 3353 inputs without the rule's required markers. Other selected inputs were skipped or limited.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions, non-SHA action references, the privileged pull_request_target checkout pattern, and direct interpolation of selected untrusted event fields in step run scripts; no workflow code was executed.)
+Skip reasons: too_large=1
+ISO-8859-1 fallback source files:
+  apps/lora_app_shell/src/las_cmd.c
+No findings from the enabled rules.
