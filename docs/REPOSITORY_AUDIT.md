@@ -207,6 +207,8 @@ The architecture and documentation scores increased after adding enforceable mod
 
 ## Recommended next actions
 
+The exact seven-point breakdown, acceptance evidence, source-available versus open-source decision, and ordered closure flow are documented in the [maturity 100-point closure plan](research/maturity-100-closure-plan-2026-11-02.md).
+
 1. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
 2. Continue adding appropriately licensed real firmware and filesystem-image samples to Binwalk evaluation. Current v3.1.0 evidence covers three synthetic formats, one compressed Tasmota artifact at the gzip-signature level, one official OpenWrt Malta BE uImage artifact, two official Malta BE rootfs images (SquashFS and ext4), and two official MT7621 images (initramfs kernel and SquashFS sysupgrade). The ext4 input produced Binwalk's generic EXT-family marker. Keep positive and clean controls for Gitleaks, Syft, and OSV-Scanner reproducible.
 3. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.
