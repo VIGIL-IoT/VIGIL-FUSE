@@ -105,6 +105,22 @@ CLI
 - `schemas/`: machine-readable report schema shipped with the Python package.
 - `tests/fixtures/rules/`: vulnerable and secure inputs for each enabled rule.
 
+## Enforced dependency boundaries
+
+The package follows inward dependency direction. The CLI is the composition root. Lower-level data, rule, reporting, and process-boundary modules do not import the CLI or scanner to obtain behavior. These boundaries are checked by `tests/test_architecture_contracts.py` so a future feature cannot silently turn the package into a cyclic module graph.
+
+| Layer | Modules | Allowed dependency direction |
+| --- | --- | --- |
+| Foundation | `model.py`, `input_types.py`, `limits.py`, `path_safety.py`, `profiles.py`, `target_labels.py`, `text_safety.py` | Python standard library only |
+| Rule contract and implementations | `rules/base.py`, individual `rules/*.py` modules | Rule implementations use the shared model and rule contract; they do not import scanner, CLI, reporter, analyzer, or worker modules |
+| Rule composition | `rules/registry.py` | Imports the rule contract and concrete rule definitions to build the registry |
+| Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
+| Execution boundaries | `rule_execution.py`, `rule_worker.py`, `analyzer_runtime.py` | Rule execution uses the model; the worker uses the model and registry; analyzer runtime uses the model and process primitives |
+| Reporting | `reporting.py`, `sarif.py` | Consumes normalized results and presentation helpers; it does not run scans, rules, or analyzers |
+| Composition | `scanner.py`, `analyzers.py`, `cli.py` | May connect lower layers to expose a complete scan and command interface |
+
+Architecture tests verify that internal imports remain acyclic, foundation modules stay independent, native rules depend only on the shared contract, the registry includes every rule module, and reporters stay independent from scan and analyzer orchestration. A separate CLI integration test runs both vulnerable and secure ESP-IDF project controls through source scanning, generated build context, hardware inventory, selected KiCad netlist parsing, BOM export, and report serialization. The positive fixture proves that the data path is wired together. The secure fixture prevents these four scoped signals from leaking into the paired control. Neither fixture validates a physical board or estimates field accuracy.
+
 ```mermaid
 flowchart TD
     CLI[cli.py] --> Scanner[scanner.py]
@@ -131,6 +147,8 @@ The native-rule worker receives decoded source text and relative paths over a pr
 Each rule has a stable ID, title, severity, confidence, category, explanation, potential impact, remediation, optional references, and a scanner function. Rules should match explicit evidence and avoid extrapolating exploitability. A finding's evidence must be useful and must not disclose literal credentials or private-key material.
 
 Every rule change should include a vulnerable fixture that produces the intended finding and a secure fixture that produces no finding for that rule. The automated tests load fixtures and exercise the rule directly. Scanner and reporter tests cover end-to-end path handling and output shape.
+
+The package-level integration test complements the per-rule tests. It protects composition and report provenance across modules. It does not replace individual rule fixtures, schema validation, cross-platform CI, or independent evaluation.
 
 ## Deliberate boundaries
 
