@@ -4,7 +4,7 @@
 **Current score:** 95/100
 **Method:** Crawl4AI 0.9.5 browser retrieval of official NIST, Docker, Open Source Initiative, GitHub, Python Software Foundation, and Semgrep documentation.
 
-**License status update:** At the repository owner's request, the root `LICENSE` file and project license metadata were removed on 2026-11-02. The current checkout has no declared project license. This does not change prior commits or releases, including commits that contained different license text. The score below gives one point for completed analyzer conformance evidence and one point for the documented no-public-code-contributions policy. Removing the license file itself earns no point.
+**License status update:** This plan was drafted before the owner restored the root `LICENSE` file and project metadata on 2026-11-02. The current checkout declares the custom VIGIL-FUSE Restricted Use License. It permits commercial use while restricting redistribution and shared modifications. It does not change earlier license grants. The score below gives one point for completed analyzer conformance evidence and one point for the documented no-public-code-contributions policy. Adding a license does not by itself close the remaining governance evidence gaps.
 
 ## The remaining five points
 
@@ -19,9 +19,9 @@ The current audit assigns the remaining points to four evidence gaps. A point is
 
 ## License status and governance constraints
 
-The repository currently declares no project license. Removing the root `LICENSE` file does not grant permission to use, redistribute, modify, or publish the project, and it does not erase license text or grants recorded in earlier commits and releases. The repository history includes more than one license state, so the rights holder should review that history with qualified counsel before deciding how to distribute future copies.
+The repository currently declares the custom VIGIL-FUSE Restricted Use License. The repository history includes more than one license state, including earlier MIT text, and the current license does not erase permissions granted for copies under prior terms. The rights holder should review ownership, history, contribution terms, and future distribution channels with qualified counsel.
 
-Future distribution needs an explicit rights decision. An OSI-approved open-source license would permit copying and redistribution under its terms. A source-available license could impose different terms but would not qualify as open source. No new license or rights grant is selected by this plan.
+Future distribution still needs channel-specific review. The current source-available license is not an OSI-approved open-source license and does not allow redistribution by licensees without written permission. An OSI-approved open-source license would permit copying and redistribution under its terms, which differs from the owner's stated restriction.
 
 The owner should confirm the rights holders for the code and included assets, decide whether outside code contributions will be accepted, and document terms before reopening public code contributions. `CONTRIBUTING.md` currently pauses code submissions while those terms are unresolved. An issue report and a code contribution grant different rights.
 
