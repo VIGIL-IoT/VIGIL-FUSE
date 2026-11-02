@@ -5,6 +5,7 @@ import hashlib
 import lzma
 import os
 import struct
+import subprocess
 import zlib
 from pathlib import Path
 from unittest.mock import patch
@@ -18,6 +19,7 @@ from scripts.verify_binwalk_adapter import (
     real_firmware_case,
     real_firmware_cases,
     real_filesystem_cases,
+    scan_case,
     signature_marker_found,
     signature_cases,
 )
@@ -93,6 +95,26 @@ def test_configure_binwalk_environment_uses_path_when_no_override_is_given() -> 
         resolved = configure_binwalk_environment(None, {"PATH": "/tools"})
 
     assert resolved == Path("/tools/binwalk")
+
+
+def test_binwalk_verification_rejects_mutated_firmware_input(tmp_path: Path) -> None:
+    case = signature_cases()[0]
+
+    def mutate_input(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        target = tmp_path / f"{case.label}-firmware.bin"
+        target.write_bytes(b"changed by a simulated analyzer")
+        return subprocess.CompletedProcess(command, 0, "", "")
+
+    with (
+        patch("scripts.verify_binwalk_adapter.run", side_effect=mutate_input),
+        pytest.raises(RuntimeError, match="modified the selected firmware input"),
+    ):
+        scan_case(
+            case,
+            expected_version=None,
+            root=tmp_path,
+            env={"PATH": ""},
+        )
 
 
 def test_real_firmware_case_requires_and_preserves_the_pinned_sample(
