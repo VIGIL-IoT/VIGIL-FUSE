@@ -281,7 +281,11 @@ def _find_java(environ: Mapping[str, str], which: Callable[[str], str | None]) -
 
 
 def _headless_launcher(install_dir: Path) -> Path | None:
-    names = ("analyzeHeadless.bat", "analyzeHeadless")
+    names = (
+        ("analyzeHeadless.bat", "analyzeHeadless")
+        if os.name == "nt"
+        else ("analyzeHeadless", "analyzeHeadless.bat")
+    )
     for name in names:
         path = install_dir / "support" / name
         if path.is_file():

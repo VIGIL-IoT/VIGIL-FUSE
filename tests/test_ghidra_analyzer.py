@@ -211,6 +211,25 @@ class GhidraDiscoveryTests(unittest.TestCase):
         self.assertEqual("unavailable", probe.status)
         self.assertIn("launcher is missing", probe.detail)
 
+    def test_prefers_launcher_for_current_host_when_archive_has_both(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            support = Path(temporary) / "ghidra" / "support"
+            support.mkdir(parents=True)
+            windows_launcher = support / "analyzeHeadless.bat"
+            unix_launcher = support / "analyzeHeadless"
+            windows_launcher.write_text("@echo off\n", encoding="utf-8")
+            unix_launcher.write_text("#!/bin/sh\n", encoding="utf-8")
+
+            for host_name, expected in (
+                ("nt", windows_launcher),
+                ("posix", unix_launcher),
+            ):
+                with (
+                    self.subTest(host=host_name),
+                    patch.object(ghidra_analyzer.os, "name", host_name),
+                ):
+                    self.assertEqual(expected, ghidra_analyzer._headless_launcher(support.parent))
+
     def test_unsupported_ghidra_release_is_incompatible(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             install = Path(temporary) / "ghidra"
