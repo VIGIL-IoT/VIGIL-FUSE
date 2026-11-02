@@ -52,11 +52,12 @@ The figure starts from the illustrative `FUSE001` record in the [finding format]
 
 - Seven conservative native rules for credential-like literals, private-key markers, TLS verification bypasses, plaintext HTTP and MQTT endpoints, and two ESP-IDF image-validation settings.
 - Hardware and firmware candidate inventories. These report recognized files and metadata, not hardware or firmware security assessments.
+- Optional Ghidra 12.2 Headless Analyzer support for selected ELF, PE, Mach-O, or explicitly mapped raw binaries. It writes bounded evidence and keeps static endpoint references as unvalidated candidates.
 - Selected ESP-IDF, Zephyr, PlatformIO, compilation database, and GitHub Actions metadata checks.
 - Optional Syft and OSV-Scanner dependency analysis, Binwalk firmware signature identification, and Gitleaks history checks.
 - Text, schema-versioned JSON, SARIF, CycloneDX inventory, scan coverage, evidence, and remediation guidance.
 
-See [supported inputs and limits](src/vigil_fuse/support-matrix.json), [firmware analysis](docs/firmware-analysis.md), [hardware analysis](docs/hardware-analysis.md), and [known limitations](docs/limitations.md) for exact boundaries. FUSE does not provide compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
+See [supported inputs and limits](src/vigil_fuse/support-matrix.json), [firmware analysis](docs/firmware-analysis.md), [optional Ghidra analysis](docs/ghidra-analysis.md), [hardware analysis](docs/hardware-analysis.md), and [known limitations](docs/limitations.md) for exact boundaries. FUSE does not provide compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 
 ## Measured scan sample
 
@@ -82,6 +83,8 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Finding fields and JSON schema](docs/finding-schema.md)
 - [Rules and fixture requirements](docs/rule-development.md)
 - [Configuration and integrations](docs/integrations.md)
+- [Ghidra analysis and its limits](docs/ghidra-analysis.md) · [Third-party credits](docs/THIRD_PARTY_CREDITS.md)
+- [Ghidra pipeline figure](site/diagrams/fuse-ghidra-pipeline.html) · [Controlled Ghidra benchmark](docs/experiments/ghidra-adapter-2026-11-03.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
 - [Methodology](docs/methodology.md) · [Traceability](docs/traceability.md)
 - [Benchmark method and evidence](docs/benchmarks.md) · [Synthetic scan baseline](reports/benchmark/scan-performance.json) · [Pinned repository performance report](reports/benchmark/repository-scan-performance.json) · [Cross-platform report set](docs/experiments/repository-scan-performance-matrix-2026-10-31.md)

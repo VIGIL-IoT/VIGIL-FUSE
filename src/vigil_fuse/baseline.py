@@ -298,6 +298,7 @@ def _validate_report(report: dict[str, Any]) -> None:
         "1.8",
         "1.9",
         "1.10",
+        "1.11",
     }:
         raise ValueError("Unsupported FUSE report schema version")
     _project(report)

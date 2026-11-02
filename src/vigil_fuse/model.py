@@ -28,7 +28,16 @@ class SourceFile:
 @dataclass(frozen=True)
 class AnalyzerStatus:
     name: str
-    status: Literal["completed", "partial", "unavailable", "skipped", "failed"]
+    status: Literal[
+        "completed",
+        "partial",
+        "unavailable",
+        "incompatible",
+        "timeout",
+        "unsupported",
+        "skipped",
+        "failed",
+    ]
     version: str | None = None
     detail: str | None = None
     findings: int = 0

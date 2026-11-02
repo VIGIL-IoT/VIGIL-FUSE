@@ -10,6 +10,8 @@ Repository scans recognize common firmware-like file extensions across the proje
 
 When a user selects one firmware image and enables `--firmware`, FUSE records a digest and can invoke the optional Binwalk executable for signature identification. The image size is checked against the configured firmware limit before hashing or analyzer execution. Binwalk runs without extraction. A signature match is not a complete filesystem inventory or proof that a particular device runs the image.
 
+When the user separately enables `--ghidra`, FUSE can invoke the optional Ghidra Headless Analyzer for one executable or firmware file. Binwalk and Ghidra remain separate stages: Binwalk identifies signatures, while Ghidra exports bounded static program metadata and cross references. Ghidra does not replace Binwalk, and neither stage extracts or executes firmware. See [Ghidra analysis](ghidra-analysis.md) for requirements and exact limits.
+
 An optional in-toto/SLSA statement can be compared with the selected image digest using `--provenance`. A subject digest match means only that the statement names that digest. FUSE does not authenticate an envelope, verify a trusted builder, or evaluate a build policy.
 
 ## Safety boundary

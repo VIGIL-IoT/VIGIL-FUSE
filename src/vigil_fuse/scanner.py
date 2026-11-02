@@ -75,7 +75,16 @@ SKIPPED_DIRECTORIES = {
     "fuse-results",
 }
 _KCONFIG_RULE_IDS = frozenset({"FUSE006", "FUSE007"})
-_AnalyzerStatusValue = Literal["completed", "partial", "unavailable", "skipped", "failed"]
+_AnalyzerStatusValue = Literal[
+    "completed",
+    "partial",
+    "unavailable",
+    "incompatible",
+    "timeout",
+    "unsupported",
+    "skipped",
+    "failed",
+]
 
 
 class DiscoveryPreview(TypedDict):

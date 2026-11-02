@@ -72,7 +72,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             result = scan(root)
             payload = json.loads(to_json(result))
 
-        self.assertEqual("1.10", payload["schema_version"])
+        self.assertEqual("1.11", payload["schema_version"])
         self.assertEqual(root.name, payload["target"])
         self.assertNotIn(str(root), to_json(result))
         self.assertEqual(1, payload["summary"]["files_discovered"])
@@ -660,7 +660,10 @@ class ScannerAndReporterTests(unittest.TestCase):
             config = Path(temporary) / "fuse.toml"
             config.write_text(
                 "[analysis]\nsbom = true\nvulnerabilities = true\n"
-                "firmware = false\noffline_vulnerabilities = true\ngit_history = true\n",
+                "firmware = false\nghidra = true\n"
+                'ghidra_install_dir = "tools/ghidra"\n'
+                "ghidra_timeout_seconds = 420\n"
+                "offline_vulnerabilities = true\ngit_history = true\n",
                 encoding="utf-8",
             )
             loaded = load_config(config)
@@ -674,6 +677,9 @@ class ScannerAndReporterTests(unittest.TestCase):
         self.assertTrue(loaded.vulnerabilities)
         self.assertTrue(loaded.offline_vulnerabilities)
         self.assertTrue(loaded.git_history)
+        self.assertTrue(loaded.ghidra)
+        self.assertEqual("tools/ghidra", loaded.ghidra_install_dir)
+        self.assertEqual(420, loaded.ghidra_timeout_seconds)
 
     def test_single_report_output_overrides_configured_output_directory(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -700,7 +706,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
             output_dir_created = (root / "scan-results").exists()
         self.assertEqual(0, exit_code)
-        self.assertEqual("1.10", report["schema_version"])
+        self.assertEqual("1.11", report["schema_version"])
         self.assertFalse(output_dir_created)
 
     def test_firmware_target_is_hashed_without_claiming_native_content_scan(self) -> None:

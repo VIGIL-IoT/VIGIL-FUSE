@@ -1,7 +1,13 @@
 from __future__ import annotations
 
 from vigil_fuse import analyzers
-from vigil_fuse import analyzer_runtime, dependency_analyzers, firmware_analyzer, history_analyzer
+from vigil_fuse import (
+    analyzer_runtime,
+    dependency_analyzers,
+    firmware_analyzer,
+    ghidra_analyzer,
+    history_analyzer,
+)
 
 
 def test_analyzer_facade_preserves_explicit_public_adapter_exports() -> None:
@@ -9,7 +15,9 @@ def test_analyzer_facade_preserves_explicit_public_adapter_exports() -> None:
         "AdapterResult": analyzer_runtime.AdapterResult,
         "AnalyzerOutputLimitError": analyzer_runtime.AnalyzerOutputLimitError,
         "generate_sbom": dependency_analyzers.generate_sbom,
+        "analyze_ghidra": ghidra_analyzer.analyze_ghidra,
         "identify_firmware": firmware_analyzer.identify_firmware,
+        "inspect_ghidra": ghidra_analyzer.inspect_ghidra,
         "inspect_tools": analyzer_runtime.inspect_tools,
         "osv_findings": dependency_analyzers.osv_findings,
         "scan_git_history": history_analyzer.scan_git_history,

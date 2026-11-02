@@ -21,6 +21,9 @@ from .target_labels import validate_target_label
 
 DEFAULT_MAX_FILE_BYTES = 2 * 1024 * 1024
 MAX_CONFIGURABLE_FILE_BYTES = 100 * 1024 * 1024
+DEFAULT_GHIDRA_TIMEOUT_SECONDS = 300
+MIN_GHIDRA_TIMEOUT_SECONDS = 15
+MAX_GHIDRA_TIMEOUT_SECONDS = 3600
 
 
 @dataclass(frozen=True)
@@ -40,6 +43,9 @@ class ScanConfig:
     sbom: bool = False
     vulnerabilities: bool = False
     firmware: bool = False
+    ghidra: bool = False
+    ghidra_install_dir: str | None = None
+    ghidra_timeout_seconds: int = DEFAULT_GHIDRA_TIMEOUT_SECONDS
     offline_vulnerabilities: bool = False
     git_history: bool = False
 
@@ -92,6 +98,9 @@ def load_config(path: str | Path) -> ScanConfig:
         "sbom",
         "vulnerabilities",
         "firmware",
+        "ghidra",
+        "ghidra_install_dir",
+        "ghidra_timeout_seconds",
         "offline_vulnerabilities",
         "git_history",
     }
@@ -142,11 +151,31 @@ def load_config(path: str | Path) -> ScanConfig:
         raise ValueError("Config 'report.output_dir' must be a string")
 
     analysis_options: dict[str, bool] = {}
-    for key in ("sbom", "vulnerabilities", "firmware", "offline_vulnerabilities", "git_history"):
+    for key in (
+        "sbom",
+        "vulnerabilities",
+        "firmware",
+        "ghidra",
+        "offline_vulnerabilities",
+        "git_history",
+    ):
         value = analysis_data.get(key, False)
         if not isinstance(value, bool):
             raise ValueError(f"Config 'analysis.{key}' must be true or false")
         analysis_options[key] = value
+    ghidra_install_dir = analysis_data.get("ghidra_install_dir")
+    if ghidra_install_dir is not None and not isinstance(ghidra_install_dir, str):
+        raise ValueError("Config 'analysis.ghidra_install_dir' must be a string")
+    ghidra_timeout_seconds = analysis_data.get(
+        "ghidra_timeout_seconds", DEFAULT_GHIDRA_TIMEOUT_SECONDS
+    )
+    if not isinstance(ghidra_timeout_seconds, int) or isinstance(ghidra_timeout_seconds, bool):
+        raise ValueError("Config 'analysis.ghidra_timeout_seconds' must be an integer")
+    if not MIN_GHIDRA_TIMEOUT_SECONDS <= ghidra_timeout_seconds <= MAX_GHIDRA_TIMEOUT_SECONDS:
+        raise ValueError(
+            "Config 'analysis.ghidra_timeout_seconds' must be between "
+            f"{MIN_GHIDRA_TIMEOUT_SECONDS} and {MAX_GHIDRA_TIMEOUT_SECONDS}"
+        )
     if analysis_options["offline_vulnerabilities"] and not analysis_options["vulnerabilities"]:
         raise ValueError(
             "Config 'analysis.offline_vulnerabilities' requires analysis.vulnerabilities = true"
@@ -165,5 +194,7 @@ def load_config(path: str | Path) -> ScanConfig:
         max_scan_seconds=configured_source_limits["max_scan_seconds"],
         max_firmware_bytes=max_firmware_bytes,
         output_dir=output_dir,
+        ghidra_install_dir=ghidra_install_dir,
+        ghidra_timeout_seconds=ghidra_timeout_seconds,
         **analysis_options,
     )

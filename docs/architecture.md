@@ -8,6 +8,8 @@ The [scan-flow figure](figures/fuse-scan-flow.svg) gives a compact overview; its
 
 The separate [trust-boundaries figure](figures/fuse-trust-boundaries.svg) focuses on untrusted project input and optional analyzer execution. It distinguishes the default unsandboxed host mode from explicit Docker isolation. Its [editable Diagram Design source](diagrams/fuse-trust-boundaries.html) complements the Mermaid implementation diagrams below.
 
+The [Ghidra pipeline diagram](../site/diagrams/fuse-ghidra-pipeline.html) shows the optional compiled-binary path beside Binwalk. It uses the FUSE site palette and preserves the distinction between the external tools, FUSE normalization, and local report output. [ADR-0006](decisions/ADR-0006-optional-ghidra-headless-adapter.md) records the integration boundary. The separate [benchmark record](experiments/ghidra-adapter-2026-11-03.md) describes one controlled local run and its measurement limits.
+
 The diagrams below describe implemented behavior. A stage marked optional runs only when requested and when its external executable or input is available.
 
 ```mermaid
@@ -70,10 +72,10 @@ CLI
  ├─ optional hardware BOM adapter imports CSV/TSV components and exports CycloneDX HBOM
  ├─ scanner hashes and decodes bounded source inputs with disclosed legacy-encoding fallback
  ├─ isolated rule worker runs each native check under a per-input timeout
- ├─ optional Syft / OSV-Scanner / Binwalk / Gitleaks adapters run as bounded subprocesses
+ ├─ optional Syft / OSV-Scanner / Binwalk / Gitleaks / Ghidra adapters run as bounded subprocesses
  ├─ product-context adapter correlates exact CycloneDX VEX identities and SLSA subject digests
  ├─ common Finding model carries severity, confidence, evidence, component identity, and review context
- ├─ reporters emit text, schema 1.10 JSON, SARIF, inventories, coverage, and artifact hashes
+ ├─ reporters emit text, schema 1.11 JSON, SARIF, inventories, coverage, and artifact hashes
  └─ baseline review consumes canonical JSON reports to compare changes and apply reasoned suppressions
 ```
 
@@ -102,6 +104,7 @@ CLI
 - `analyzer_runtime.py`: shared bounded subprocess, best-effort process-tree cleanup, common credential-name environment filtering with exact tool-specific opt-in forwarding, per-run temporary user/config/cache/data/temp paths including Windows home variables, scratch working directories by default, tool-version, artifact-path, and artifact-hash helpers for optional analyzers.
 - `dependency_analyzers.py`: optional Syft inventory and OSV vulnerability matching.
 - `firmware_analyzer.py`: optional Binwalk signature identification only, with no extraction.
+- `ghidra_analyzer.py`: optional Ghidra 12.2 Headless Analyzer discovery, process invocation, bounded artifact validation, and static reference normalization. The Ghidra application is external and is never bundled.
 - `history_analyzer.py`: optional redacted Gitleaks history scanning.
 - `analyzers.py`: backward-compatible adapter facade used by the CLI. Optional analyzers run as bounded subprocesses separate from native rules and write artifact hashes into the report.
 - `schemas/`: machine-readable report schema shipped with the Python package.

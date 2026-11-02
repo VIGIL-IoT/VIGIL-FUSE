@@ -13,6 +13,8 @@
 
 ### Added
 
+- Optional Ghidra 12.2 Headless analysis for one selected ELF, PE, Mach-O, or explicitly mapped raw binary, with bounded FUSE-owned evidence export, schema validation, candidate endpoint cross-reference findings, and an isolated pinned integration workflow.
+- A self-contained FUSE-themed Ghidra pipeline figure, integration and attribution guidance, and a controlled local benchmark record with explicit timing and memory measurement limits.
 - Added architecture fitness checks for acyclic module dependencies, rule and reporter boundaries, and a paired end-to-end ESP-IDF CLI scan spanning source findings, generated build context, hardware inventory, KiCad netlist parsing, BOM export, and schema-validated reports.
 - Added `FUSE-GHA-004` for a bounded allowlist of untrusted GitHub event expressions directly interpolated into step run scripts, with environment-variable and action-input controls.
 - Added `FUSE-GHA-003` for an exact `pull_request_target` trigger combined with `actions/checkout` of the pull request head SHA or ref. It is a review candidate and does not claim that later steps execute the checked-out code.

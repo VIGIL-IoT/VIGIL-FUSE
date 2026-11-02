@@ -483,6 +483,7 @@ def _run(
     cwd: Path | None = None,
     readonly_mounts: Sequence[Path] = (),
     output_limit_bytes: int = MAX_ANALYZER_OUTPUT_BYTES,
+    environment_exclude: Sequence[str] = (),
 ) -> subprocess.CompletedProcess[str]:
     """Run an optional tool with isolated user paths or an explicit Docker sandbox.
 
@@ -494,6 +495,13 @@ def _run(
     ) as temporary:
         root = Path(temporary)
         environment = _isolated_analyzer_environment(command, root)
+        excluded_names = {name.casefold() for name in environment_exclude}
+        if excluded_names:
+            environment = {
+                name: value
+                for name, value in environment.items()
+                if name.casefold() not in excluded_names
+            }
         active = _ACTIVE_ANALYZER_SANDBOX.get()
         if active is not None:
             sandbox, context_mounts = active

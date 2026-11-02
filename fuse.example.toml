@@ -24,6 +24,11 @@ sbom = false
 vulnerabilities = false
 # Binwalk performs signature identification only; FUSE does not extract images.
 firmware = false
+# Ghidra is a separately installed, optional Headless Analyzer backend.
+ghidra = false
+# Optional explicit installation path. GHIDRA_INSTALL_DIR is used when unset.
+# ghidra_install_dir = "path/to/ghidra_12.2_PUBLIC"
+ghidra_timeout_seconds = 300
 # Uses OSV-Scanner's locally cached vulnerability database when enabled.
 offline_vulnerabilities = false
 # Opt-in scan of commits reachable from HEAD. Requires Git and Gitleaks.

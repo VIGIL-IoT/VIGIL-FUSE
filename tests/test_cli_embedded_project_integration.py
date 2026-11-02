@@ -98,7 +98,7 @@ class EmbeddedProjectCliIntegrationTests(unittest.TestCase):
                 / "src"
                 / "vigil_fuse"
                 / "schemas"
-                / "fuse-report-1.10.schema.json"
+                / "fuse-report-1.11.schema.json"
             )
             schema = json.loads(schema_path.read_text(encoding="utf-8"))
             Draft202012Validator(schema).validate(report)

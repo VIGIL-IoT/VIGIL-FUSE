@@ -131,6 +131,14 @@
       "limitations": ["No extraction, filesystem analysis, or execution", "Default 512 MiB input cap is configurable up to 2 GiB"]
     },
     {
+      "id": "firmware.compiled-binary-analysis",
+      "input": "One executable or firmware binary with Ghidra Headless Analyzer",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Bounded static metadata, functions, symbols, imports, exports, strings, cross references, and selected API references.",
+      "limitations": ["Ghidra is an optional external installation and is never bundled", "Only Ghidra 12.2 with Java 25 or later is currently validated", "Static references do not prove runtime reachability or exploitability", "No symbolic execution, taint analysis, or full data-flow analysis is performed", "Raw binary analysis requires an explicit language ID and base address", "Host execution is process-bounded but is not an OS-level sandbox"]
+    },
+    {
       "id": "history.git-secrets",
       "input": "Git commits reachable from HEAD",
       "profile": null,

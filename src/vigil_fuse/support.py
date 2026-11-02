@@ -62,6 +62,7 @@ def source_capability(profile: str) -> CapabilityDefinition:
 def capability_for_scan(result: ScanResult) -> CapabilitySummary:
     capability: CapabilityDefinition
     if result.target_kind == "firmware-image":
+        ghidra = next((item for item in result.analyzers if item.name == "ghidra"), None)
         input_status = next(
             (item for item in result.analyzers if item.name == "firmware-input"), None
         )
@@ -75,6 +76,9 @@ def capability_for_scan(result: ScanResult) -> CapabilitySummary:
                 ],
             }
             status = "unsupported"
+        elif ghidra is not None:
+            capability = _capability("firmware.compiled-binary-analysis")
+            status = ghidra.status
         else:
             capability = _capability("firmware.signature-identification")
             analyzer = next((item for item in result.analyzers if item.name == "binwalk"), None)
@@ -125,6 +129,8 @@ def capability_for_plan(
     *,
     sbom_input: bool,
     firmware: bool,
+    ghidra: bool = False,
+    ghidra_status: str | None = None,
     oversized_sbom: bool,
     oversized_firmware: bool = False,
     unsupported_input: bool = False,
@@ -145,7 +151,10 @@ def capability_for_plan(
             "scope": "The SBOM exceeds the configured parse and hash limit.",
             "limitations": ["No SBOM parsing or advisory lookup will run"],
         }
-    if firmware:
+    if ghidra:
+        capability = _capability("firmware.compiled-binary-analysis")
+        status = ghidra_status or "planned"
+    elif firmware:
         capability = _capability("firmware.signature-identification")
         status = "planned"
     elif sbom_input:

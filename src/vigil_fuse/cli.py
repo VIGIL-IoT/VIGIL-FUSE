@@ -16,8 +16,11 @@ from . import __version__
 from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
 from .analyzer_runtime import analyzer_execution_detail, analyzer_sandbox_context
 from .analyzers import (
+    AdapterResult,
+    analyze_ghidra,
     generate_sbom,
     identify_firmware,
+    inspect_ghidra,
     inspect_tools,
     scan_git_history,
     scan_vulnerabilities,
@@ -25,6 +28,13 @@ from .analyzers import (
 from .baseline import create_baseline, diff_baseline, suppress_finding, unsuppress_finding
 from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
+from .ghidra_analyzer import (
+    GHIDRA_DEFAULT_TIMEOUT_SECONDS,
+    GHIDRA_MAXIMUM_INPUT_BYTES,
+    GHIDRA_MAXIMUM_TIMEOUT_SECONDS,
+    GHIDRA_MINIMUM_TIMEOUT_SECONDS,
+    detect_binary_input,
+)
 from .esp_idf_lock import lock_parser_available
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
@@ -59,7 +69,9 @@ from .target_labels import report_target_label
 from .zephyr_hardening import resolve_hardening_report_path
 
 _SEVERITY_ORDER = {"unknown": -1, "info": 0, "low": 1, "medium": 2, "high": 3, "critical": 4}
-_PlanStageStatus = Literal["planned", "skipped", "unavailable", "unsupported", "partial"]
+_PlanStageStatus = Literal[
+    "planned", "skipped", "unavailable", "incompatible", "unsupported", "partial"
+]
 
 
 class _FrameworkHint(TypedDict):
@@ -132,7 +144,15 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--version", action="version", version=f"FUSE {__version__}")
     commands = parser.add_subparsers(dest="command")
-    commands.add_parser("doctor", help="show runtime and optional analyzer availability")
+    doctor_parser = commands.add_parser(
+        "doctor", help="show runtime and optional analyzer availability"
+    )
+    doctor_parser.add_argument("--config", type=Path, help="load analyzer settings from TOML")
+    doctor_parser.add_argument(
+        "--ghidra-install-dir",
+        type=Path,
+        help="override GHIDRA_INSTALL_DIR for installation discovery",
+    )
     baseline_parser = commands.add_parser(
         "baseline", help="compare findings and manage reasoned suppressions"
     )
@@ -327,6 +347,37 @@ def _parser() -> argparse.ArgumentParser:
         help="identify signatures in a firmware image with Binwalk; no extraction",
     )
     scan_parser.add_argument(
+        "--ghidra",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="analyze one executable with the optional Ghidra Headless Analyzer",
+    )
+    scan_parser.add_argument(
+        "--ghidra-install-dir",
+        type=Path,
+        help="override configured Ghidra installation path and GHIDRA_INSTALL_DIR",
+    )
+    scan_parser.add_argument(
+        "--ghidra-timeout-seconds",
+        type=int,
+        help=(
+            f"Ghidra wall-time limit ({GHIDRA_MINIMUM_TIMEOUT_SECONDS} to "
+            f"{GHIDRA_MAXIMUM_TIMEOUT_SECONDS} seconds; default {GHIDRA_DEFAULT_TIMEOUT_SECONDS})"
+        ),
+    )
+    scan_parser.add_argument(
+        "--ghidra-language",
+        help="explicit Ghidra language ID for raw firmware, such as ARM:LE:32:v8",
+    )
+    scan_parser.add_argument(
+        "--ghidra-base-address",
+        help="explicit hexadecimal or decimal load address for raw firmware",
+    )
+    scan_parser.add_argument(
+        "--ghidra-compiler-spec",
+        help="optional Ghidra compiler specification for raw firmware with a language ID",
+    )
+    scan_parser.add_argument(
         "--git-history",
         action=argparse.BooleanOptionalAction,
         default=None,
@@ -446,7 +497,27 @@ def _write_reports(result: ScanResult, output_dir: Path) -> None:
         path.write_text(content, encoding="utf-8")
 
 
-def _doctor() -> int:
+def _resolve_ghidra_install_dir(
+    cli_path: Path | None,
+    configured_path: str | None,
+    config_path: Path | None,
+) -> Path | None:
+    if cli_path is not None:
+        return cli_path.expanduser()
+    if configured_path is None or not configured_path.strip():
+        return None
+    path = Path(configured_path).expanduser()
+    if path.is_absolute() or config_path is None:
+        return path
+    return config_path.expanduser().parent / path
+
+
+def _doctor(
+    *,
+    config: ScanConfig | None = None,
+    config_path: Path | None = None,
+    ghidra_install_dir: Path | None = None,
+) -> int:
     _safe_print(f"FUSE {__version__}")
     _safe_print(f"Python: {platform.python_version()} ({sys.executable})")
     _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
@@ -457,6 +528,26 @@ def _doctor() -> int:
         else:
             detail = version or "version unavailable"
             _safe_print(f"  {name}: {detail} [{executable}]")
+    selected_install = _resolve_ghidra_install_dir(
+        ghidra_install_dir,
+        config.ghidra_install_dir if config is not None else None,
+        config_path,
+    )
+    ghidra = inspect_ghidra(selected_install)
+    _safe_print(f"  Ghidra: {ghidra.status}")
+    _safe_print(f"  Ghidra version: {ghidra.version or 'not detected'}")
+    _safe_print(
+        "  Headless Analyzer: " + ("available" if ghidra.launcher is not None else "not available")
+    )
+    _safe_print(
+        "  Java: "
+        + (
+            f"{ghidra.java_version} [{ghidra.java_executable}]"
+            if ghidra.java_version
+            else "not available"
+        )
+    )
+    _safe_print(f"  Ghidra detail: {ghidra.detail}")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (
@@ -493,6 +584,13 @@ def _scan_plan(
     sbom: bool,
     vulnerabilities: bool,
     firmware: bool,
+    binwalk: bool,
+    ghidra: bool,
+    ghidra_install_dir: Path | None,
+    ghidra_timeout_seconds: int,
+    ghidra_language: str | None,
+    ghidra_base_address: str | None,
+    ghidra_compiler_spec: str | None,
     max_firmware_bytes: int,
     max_discovered_paths: int,
     max_discovered_directories: int,
@@ -834,14 +932,19 @@ def _scan_plan(
             {
                 "name": "firmware-input",
                 "requested": True,
-                "status": "unsupported" if firmware_too_large else "planned",
+                "status": "unsupported"
+                if firmware_too_large or not target.is_file()
+                else "planned",
                 "reason": (
                     f"image is {target.stat().st_size} bytes, above the configured {max_firmware_bytes}-byte limit; it will not be hashed"
                     if firmware_too_large
+                    else "Ghidra and Binwalk require one regular file input"
+                    if not target.is_file()
                     else f"input size is capped at {max_firmware_bytes} bytes before hashing"
                 ),
             }
         )
+    if binwalk:
         stages.append(
             {
                 "name": "binwalk",
@@ -860,6 +963,52 @@ def _scan_plan(
                 ),
             }
         )
+    ghidra_probe = inspect_ghidra(ghidra_install_dir) if ghidra else None
+    ghidra_stage_status: _PlanStageStatus = "skipped"
+    ghidra_stage_reason = "optional; select one executable with --ghidra"
+    if ghidra:
+        if analyzer_sandbox is not None:
+            ghidra_stage_status = "unsupported"
+            ghidra_stage_reason = (
+                "Docker sandbox mode has no Ghidra image adapter; host fallback is disabled"
+            )
+        elif not target.is_file():
+            ghidra_stage_status = "unsupported"
+            ghidra_stage_reason = "Ghidra accepts one executable or firmware file, not a directory"
+        elif firmware_too_large:
+            ghidra_stage_status = "unsupported"
+            ghidra_stage_reason = "input exceeds the active firmware input size cap"
+        elif ghidra_probe is not None and ghidra_probe.status != "available":
+            ghidra_stage_status = ghidra_probe.status
+            ghidra_stage_reason = ghidra_probe.detail
+        else:
+            binary_input = detect_binary_input(target)
+            if binary_input is None and not (ghidra_language and ghidra_base_address):
+                ghidra_stage_status = "unsupported"
+                ghidra_stage_reason = (
+                    "input is not ELF, PE, or Mach-O; raw firmware needs --ghidra-language "
+                    "and --ghidra-base-address"
+                )
+            elif binary_input is not None and any(
+                value is not None
+                for value in (ghidra_language, ghidra_base_address, ghidra_compiler_spec)
+            ):
+                ghidra_stage_status = "unsupported"
+                ghidra_stage_reason = "raw-binary options only apply to an unrecognized raw input"
+            else:
+                ghidra_stage_status = "planned"
+                ghidra_stage_reason = (
+                    f"Ghidra {ghidra_probe.version if ghidra_probe else '12.2'} with a "
+                    f"{ghidra_timeout_seconds}-second wall-time cap; no analysis runs in plan mode"
+                )
+    stages.append(
+        {
+            "name": "ghidra",
+            "requested": ghidra,
+            "status": ghidra_stage_status,
+            "reason": ghidra_stage_reason,
+        }
+    )
     if git_history:
         repository_root = False
         git_available = shutil.which("git") is not None
@@ -942,6 +1091,8 @@ def _scan_plan(
             profile,
             sbom_input=sbom_input,
             firmware=firmware,
+            ghidra=ghidra,
+            ghidra_status=ghidra_stage_status if ghidra else None,
             oversized_sbom=sbom_too_large,
             oversized_firmware=firmware_too_large,
             unsupported_input=(
@@ -1064,6 +1215,13 @@ def _analyze_with_optional_tools(
     sbom: bool,
     vulnerabilities: bool,
     firmware: bool,
+    firmware_image: bool,
+    ghidra: bool,
+    ghidra_install_dir: Path | None,
+    ghidra_timeout_seconds: int,
+    ghidra_language: str | None,
+    ghidra_base_address: str | None,
+    ghidra_compiler_spec: str | None,
     offline_vulnerabilities: bool,
     git_history: bool = False,
     no_network: bool = False,
@@ -1114,7 +1272,7 @@ def _analyze_with_optional_tools(
     if vulnerabilities:
         if sbom_too_large:
             osv_result = None
-        elif firmware and sbom_path is None:
+        elif firmware_image and sbom_path is None:
             osv_result = None
             analyzers.append(
                 AnalyzerStatus(
@@ -1154,6 +1312,33 @@ def _analyze_with_optional_tools(
             analyzers.append(binwalk_result.status)
             findings.extend(binwalk_result.findings)
             artifacts.extend(binwalk_result.artifacts)
+
+    if ghidra:
+        firmware_input = next(
+            (item for item in analyzers if item.name == "firmware-input"),
+            None,
+        )
+        if firmware_input is not None:
+            ghidra_result = AdapterResult(
+                AnalyzerStatus(
+                    "ghidra",
+                    "skipped",
+                    detail="Firmware input exceeded its configured size limit; Ghidra was not run.",
+                )
+            )
+        else:
+            ghidra_result = analyze_ghidra(
+                target,
+                output_dir,
+                configured_install_dir=ghidra_install_dir,
+                timeout_seconds=ghidra_timeout_seconds,
+                language=ghidra_language,
+                base_address=ghidra_base_address,
+                compiler_spec=ghidra_compiler_spec,
+            )
+        analyzers.append(ghidra_result.status)
+        findings.extend(ghidra_result.findings)
+        artifacts.extend(ghidra_result.artifacts)
 
     if git_history:
         history_result = scan_git_history(target, output_dir)
@@ -1199,7 +1384,22 @@ def main(argv: list[str] | None = None) -> int:
         parser.print_help()
         return 0
     if args.command == "doctor":
-        return _doctor()
+        try:
+            config_path = args.config.expanduser() if args.config else None
+            config = load_config(config_path) if config_path else ScanConfig()
+            install_dir = _resolve_ghidra_install_dir(
+                args.ghidra_install_dir,
+                config.ghidra_install_dir,
+                config_path,
+            )
+            return _doctor(
+                config=config,
+                config_path=config_path,
+                ghidra_install_dir=install_dir,
+            )
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
     if args.command == "baseline":
         try:
             if args.baseline_action == "create":
@@ -1238,6 +1438,32 @@ def main(argv: list[str] | None = None) -> int:
             config.vulnerabilities if args.vulnerabilities is None else args.vulnerabilities
         )
         firmware = config.firmware if args.firmware is None else args.firmware
+        ghidra = config.ghidra if args.ghidra is None else args.ghidra
+        firmware_input = firmware or ghidra
+        ghidra_install_dir = _resolve_ghidra_install_dir(
+            args.ghidra_install_dir,
+            config.ghidra_install_dir,
+            config_path,
+        )
+        ghidra_timeout_seconds = (
+            args.ghidra_timeout_seconds
+            if args.ghidra_timeout_seconds is not None
+            else config.ghidra_timeout_seconds
+        )
+        if (
+            not GHIDRA_MINIMUM_TIMEOUT_SECONDS
+            <= ghidra_timeout_seconds
+            <= GHIDRA_MAXIMUM_TIMEOUT_SECONDS
+        ):
+            raise ValueError(
+                "--ghidra-timeout-seconds must be between "
+                f"{GHIDRA_MINIMUM_TIMEOUT_SECONDS} and {GHIDRA_MAXIMUM_TIMEOUT_SECONDS}"
+            )
+        if not ghidra and any(
+            value is not None
+            for value in (args.ghidra_language, args.ghidra_base_address, args.ghidra_compiler_spec)
+        ):
+            raise ValueError("Raw-binary Ghidra options require --ghidra")
         git_history = config.git_history if args.git_history is None else args.git_history
         offline_vulnerabilities = (
             config.offline_vulnerabilities
@@ -1253,12 +1479,14 @@ def main(argv: list[str] | None = None) -> int:
             )
         if firmware and not analyzer_target.is_file():
             raise ValueError("--firmware requires a single firmware image file")
+        if ghidra and not analyzer_target.is_file() and not args.plan:
+            raise ValueError("--ghidra requires one executable or firmware file")
         sbom_candidate = analyzer_target.is_file() and is_sbom_candidate(analyzer_target)
         sbom_input = analyzer_target.is_file() and (
             (sbom_candidate and analyzer_target.stat().st_size > MAX_SBOM_DETECTION_BYTES)
             or is_sbom_file(analyzer_target)
         )
-        if firmware and sbom_input:
+        if firmware_input and sbom_input:
             raise ValueError("The target is recognized as an SBOM, not a firmware image")
         if args.vex and not args.product_purl:
             raise ValueError(
@@ -1270,8 +1498,8 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError(
                 "--vex requires --vulnerabilities so review records can match advisory findings"
             )
-        if args.provenance and not firmware:
-            raise ValueError("--provenance requires --firmware")
+        if args.provenance and not firmware_input:
+            raise ValueError("--provenance requires --firmware or --ghidra")
         if args.hardware_bom and not analyzer_target.is_dir():
             raise ValueError("--hardware-bom requires a project directory target")
         if args.hardware_netlist and not analyzer_target.is_dir():
@@ -1314,6 +1542,8 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError(
                 f"--max-firmware-bytes must be between 1 and {MAX_CONFIGURABLE_FIRMWARE_BYTES}"
             )
+        if ghidra:
+            max_firmware_bytes = min(max_firmware_bytes, GHIDRA_MAXIMUM_INPUT_BYTES)
         for name, value, maximum in (
             ("--max-discovered-paths", max_discovered_paths, MAX_CONFIGURABLE_DISCOVERED_PATHS),
             (
@@ -1337,7 +1567,7 @@ def main(argv: list[str] | None = None) -> int:
             raise ValueError("Report output directory must not be a symbolic link")
         if output_dir is not None:
             output_dir = output_dir.resolve()
-        optional_analysis = sbom or vulnerabilities or firmware or git_history
+        optional_analysis = sbom or vulnerabilities or firmware or ghidra or git_history
         sandbox_images = parse_image_assignments(args.sandbox_image)
         if args.analyzer_sandbox == "host" and (sandbox_images or args.sandbox_allow_osv_network):
             raise ValueError(
@@ -1390,7 +1620,14 @@ def main(argv: list[str] | None = None) -> int:
                 provenance=args.provenance,
                 sbom=sbom,
                 vulnerabilities=vulnerabilities,
-                firmware=firmware,
+                firmware=firmware_input,
+                binwalk=firmware,
+                ghidra=ghidra,
+                ghidra_install_dir=ghidra_install_dir,
+                ghidra_timeout_seconds=ghidra_timeout_seconds,
+                ghidra_language=args.ghidra_language,
+                ghidra_base_address=args.ghidra_base_address,
+                ghidra_compiler_spec=args.ghidra_compiler_spec,
                 max_firmware_bytes=max_firmware_bytes,
                 max_discovered_paths=max_discovered_paths,
                 max_discovered_directories=max_discovered_directories,
@@ -1423,7 +1660,7 @@ def main(argv: list[str] | None = None) -> int:
             max_source_bytes=max_source_bytes,
             max_scan_seconds=max_scan_seconds,
             rule_timeout_seconds=args.rule_timeout,
-            firmware_image=firmware,
+            firmware_image=firmware_input,
             sbom_input=sbom_input,
             build_dir=args.build_dir,
             zephyr_hardening_report=args.zephyr_hardening_report,
@@ -1461,6 +1698,13 @@ def main(argv: list[str] | None = None) -> int:
                     sbom=sbom,
                     vulnerabilities=vulnerabilities,
                     firmware=firmware,
+                    firmware_image=firmware_input,
+                    ghidra=ghidra,
+                    ghidra_install_dir=ghidra_install_dir,
+                    ghidra_timeout_seconds=ghidra_timeout_seconds,
+                    ghidra_language=args.ghidra_language,
+                    ghidra_base_address=args.ghidra_base_address,
+                    ghidra_compiler_spec=args.ghidra_compiler_spec,
                     git_history=git_history,
                     offline_vulnerabilities=offline_vulnerabilities,
                     no_network=args.no_network,
@@ -1548,10 +1792,12 @@ def main(argv: list[str] | None = None) -> int:
         "syft": sbom and not sbom_input,
         "osv-scanner": vulnerabilities,
         "binwalk": firmware,
+        "ghidra": ghidra,
         "gitleaks-history": git_history,
     }
     if any(
-        analyzer.status in {"partial", "unavailable", "skipped", "failed"}
+        analyzer.status
+        in {"partial", "unavailable", "incompatible", "timeout", "unsupported", "skipped", "failed"}
         for analyzer in result.analyzers
         if required_analyzers.get(analyzer.name, False)
     ):

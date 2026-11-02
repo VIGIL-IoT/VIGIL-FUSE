@@ -1,6 +1,6 @@
 # FUSE finding format
 
-FUSE JSON reports use `schema_version: "1.10"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.10.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan.
+FUSE JSON reports use `schema_version: "1.11"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.11.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan. Schema 1.11 also reports the optional Ghidra compiled-binary capability and analyzer coverage status.
 
 The top-level `target` value is a shareable label. By default, it is the target basename. Pass `--target-label organization/repository` or set `scan.target_label` in TOML to give reports and baselines a stable identity when different repositories have the same folder name. Labels cannot be absolute paths or contain traversal segments. Local target paths are not included in reports.
 
@@ -79,7 +79,7 @@ Severity, its source, confidence, applicability, and validation are separate dim
 
 ```json
 {
-  "schema_version": "1.10",
+  "schema_version": "1.11",
   "tool": {"name": "FUSE", "version": "0.2.0"},
   "target": "device-project",
   "scan": {

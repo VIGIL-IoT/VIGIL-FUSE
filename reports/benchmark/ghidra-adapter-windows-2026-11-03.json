@@ -1,0 +1,50 @@
+{
+  "benchmark": "fuse-ghidra-controlled-input",
+  "environment": {
+    "architecture": "AMD64",
+    "ghidra": "12.2",
+    "java": "25",
+    "os": "Windows",
+    "os_release": "11",
+    "python": "3.14.7"
+  },
+  "generated_at_utc": "2026-11-02T20:33:40+00:00",
+  "input": {
+    "byte_size": 15944,
+    "format": "ELF",
+    "kind": "controlled local executable",
+    "sha256": "250cf9e565009b1e89ab5aa46a6af7903138de35a04008b65082a51d1e35f45c"
+  },
+  "measurement_notes": [
+    "The cold startup probe launches Ghidra Headless Analyzer with -help and records its class-loading and usage response.",
+    "The headless process wall time includes import, automatic analysis, trusted script export, and Java shutdown. Ghidra does not expose a stable internal analysis timer through this adapter.",
+    "Adapter wall time includes installation discovery, input staging and hashing, headless execution, validation, normalization, and artifact writing.",
+    "Sampled RSS sums the benchmark Python process and visible descendants. It can miss short peaks and may double-count shared pages.",
+    "This is one controlled sample on one environment. It has no performance threshold and does not change default FUSE scan timing claims."
+  ],
+  "measurements": {
+    "adapter_wall_seconds": 18.175529,
+    "artifact_bytes": 38011,
+    "cold_headless_startup_seconds": 0.892325,
+    "ghidra_discovery_seconds": 0.279337,
+    "headless_process_wall_seconds": 17.547925,
+    "sample_interval_seconds": 0.02,
+    "sampled_process_tree_inaccessible_samples": 0,
+    "sampled_process_tree_peak_rss_bytes": 684269568,
+    "sampled_process_tree_sample_count": 405
+  },
+  "method": "single controlled input; a fresh headless JVM process per measured run",
+  "result": {
+    "finding_count": 2,
+    "rule_ids": [
+      "FUSE-BIN-001",
+      "FUSE-BIN-002"
+    ],
+    "status": "completed"
+  },
+  "schema_version": "1.0",
+  "source_revision": {
+    "commit": "4ee725af1dbb65a4b303dde9c4ba3d5985169726",
+    "working_tree_dirty": true
+  }
+}

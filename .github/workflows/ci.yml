@@ -139,6 +139,8 @@ jobs:
           package = pathlib.Path(vigil_fuse.__file__).parent
           assert (package / "support-matrix.json").is_file()
           assert list((package / "schemas").glob("*.json"))
+          assert (package / "schemas/ghidra-analysis.schema.json").is_file()
+          assert (package / "resources/ghidra/FuseExport.java").is_file()
           PY
           python - <<'PY'
           import json

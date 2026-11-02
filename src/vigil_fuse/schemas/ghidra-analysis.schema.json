@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/src/vigil_fuse/schemas/ghidra-analysis.schema.json",
+  "title": "FUSE Ghidra Analysis Artifact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tool",
+    "input",
+    "analysis",
+    "memory_blocks",
+    "functions",
+    "symbols",
+    "imports",
+    "exports",
+    "strings",
+    "cross_references",
+    "api_references",
+    "limits",
+    "truncation"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "Ghidra" },
+        "version": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha256", "format", "byte_size"],
+      "properties": {
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "format": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "byte_size": { "type": "integer", "minimum": 0, "maximum": 134217728 }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "timeout_occurred",
+        "loader",
+        "processor",
+        "language_id",
+        "compiler_spec",
+        "endianness",
+        "pointer_size_bytes",
+        "image_base",
+        "entry_points",
+        "warnings",
+        "errors"
+      ],
+      "properties": {
+        "status": { "enum": ["completed", "partial"] },
+        "timeout_occurred": { "type": "boolean" },
+        "loader": { "type": "string", "maxLength": 128 },
+        "processor": { "type": "string", "maxLength": 128 },
+        "language_id": { "type": "string", "maxLength": 128 },
+        "compiler_spec": { "type": "string", "maxLength": 128 },
+        "endianness": { "enum": ["little", "big"] },
+        "pointer_size_bytes": { "type": "integer", "minimum": 1, "maximum": 16 },
+        "image_base": { "type": "string", "maxLength": 128 },
+        "entry_points": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": { "type": "string", "maxLength": 128 }
+        },
+        "warnings": {
+          "type": "array",
+          "maxItems": 64,
+          "items": { "type": "string", "maxLength": 512 }
+        },
+        "errors": {
+          "type": "array",
+          "maxItems": 64,
+          "items": { "type": "string", "maxLength": 512 }
+        }
+      }
+    },
+    "memory_blocks": { "$ref": "#/$defs/memoryBlocks" },
+    "functions": { "$ref": "#/$defs/functions" },
+    "symbols": { "$ref": "#/$defs/symbols" },
+    "imports": { "$ref": "#/$defs/symbols" },
+    "exports": { "$ref": "#/$defs/symbols" },
+    "strings": { "$ref": "#/$defs/strings" },
+    "cross_references": { "$ref": "#/$defs/crossReferences" },
+    "api_references": { "$ref": "#/$defs/apiReferences" },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_functions",
+        "max_symbols",
+        "max_imports",
+        "max_exports",
+        "max_strings",
+        "max_string_scan_items",
+        "max_cross_references",
+        "max_api_references",
+        "max_memory_blocks",
+        "max_name_chars",
+        "max_string_chars",
+        "max_output_bytes"
+      ],
+      "properties": {
+        "max_functions": { "type": "integer", "minimum": 1 },
+        "max_symbols": { "type": "integer", "minimum": 1 },
+        "max_imports": { "type": "integer", "minimum": 1 },
+        "max_exports": { "type": "integer", "minimum": 1 },
+        "max_strings": { "type": "integer", "minimum": 1 },
+        "max_string_scan_items": { "type": "integer", "minimum": 1 },
+        "max_cross_references": { "type": "integer", "minimum": 1 },
+        "max_api_references": { "type": "integer", "minimum": 1 },
+        "max_memory_blocks": { "type": "integer", "minimum": 1 },
+        "max_name_chars": { "type": "integer", "minimum": 1 },
+        "max_string_chars": { "type": "integer", "minimum": 1 },
+        "max_output_bytes": { "type": "integer", "minimum": 1024, "maximum": 8388608 }
+      }
+    },
+    "truncation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "memory_blocks",
+        "functions",
+        "symbols",
+        "imports",
+        "exports",
+        "strings",
+        "cross_references",
+        "api_references"
+      ],
+      "properties": {
+        "memory_blocks": { "type": "boolean" },
+        "functions": { "type": "boolean" },
+        "symbols": { "type": "boolean" },
+        "imports": { "type": "boolean" },
+        "exports": { "type": "boolean" },
+        "strings": { "type": "boolean" },
+        "cross_references": { "type": "boolean" },
+        "api_references": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "bounded": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["records", "observed", "reported", "truncated", "observed_is_lower_bound"],
+      "properties": {
+        "records": { "type": "array", "items": { "type": "object" } },
+        "observed": { "type": "integer", "minimum": 0 },
+        "reported": { "type": "integer", "minimum": 0 },
+        "truncated": { "type": "boolean" },
+        "observed_is_lower_bound": { "type": "boolean" }
+      }
+    },
+    "memoryBlocks": {
+      "allOf": [
+        { "$ref": "#/$defs/bounded" },
+        {
+          "properties": {
+            "records": {
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "start", "end", "byte_size", "initialized", "read", "write", "execute"],
+                "properties": {
+                  "name": { "type": "string", "maxLength": 128 },
+                  "start": { "type": "string", "maxLength": 128 },
+                  "end": { "type": "string", "maxLength": 128 },
+                  "byte_size": { "type": "integer", "minimum": 0 },
+                  "initialized": { "type": "boolean" },
+                  "read": { "type": "boolean" },
+                  "write": { "type": "boolean" },
+                  "execute": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "functions": {
+      "allOf": [
+        { "$ref": "#/$defs/bounded" },
+        {
+          "properties": {
+            "records": {
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "entry_address", "external", "thunk"],
+                "properties": {
+                  "name": { "type": "string", "maxLength": 128 },
+                  "entry_address": { "type": "string", "maxLength": 128 },
+                  "external": { "type": "boolean" },
+                  "thunk": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "symbols": {
+      "allOf": [
+        { "$ref": "#/$defs/bounded" },
+        {
+          "properties": {
+            "records": {
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "address", "type", "external", "entry_point"],
+                "properties": {
+                  "name": { "type": "string", "maxLength": 128 },
+                  "address": { "type": "string", "maxLength": 128 },
+                  "type": { "type": "string", "maxLength": 64 },
+                  "external": { "type": "boolean" },
+                  "entry_point": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "strings": {
+      "allOf": [
+        { "$ref": "#/$defs/bounded" },
+        {
+          "properties": {
+            "records": {
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["address", "value", "redacted"],
+                "properties": {
+                  "address": { "type": "string", "maxLength": 128 },
+                  "value": { "type": "string", "maxLength": 256 },
+                  "redacted": { "type": "boolean" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "crossReferences": {
+      "allOf": [
+        { "$ref": "#/$defs/bounded" },
+        {
+          "properties": {
+            "records": {
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["string_address", "from_address", "function", "function_entry_address", "reference_type"],
+                "properties": {
+                  "string_address": { "type": "string", "maxLength": 128 },
+                  "from_address": { "type": "string", "maxLength": 128 },
+                  "function": { "type": "string", "maxLength": 128 },
+                  "function_entry_address": { "type": "string", "maxLength": 128 },
+                  "reference_type": { "type": "string", "maxLength": 64 }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "apiReferences": {
+      "allOf": [
+        { "$ref": "#/$defs/bounded" },
+        {
+          "properties": {
+            "records": {
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["symbol", "address", "function", "function_entry_address"],
+                "properties": {
+                  "symbol": { "type": "string", "maxLength": 128 },
+                  "address": { "type": "string", "maxLength": 128 },
+                  "function": { "type": "string", "maxLength": 128 },
+                  "function_entry_address": { "type": "string", "maxLength": 128 }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

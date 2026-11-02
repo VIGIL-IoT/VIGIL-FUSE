@@ -14,6 +14,8 @@ FUSE is an alpha-stage static inspection tool. A clean report means only that en
 
 - Directory firmware discovery is based on names, extensions, and size. It does not verify file format or inspect firmware bytes.
 - Optional Binwalk use identifies signatures only. FUSE does not extract firmware, emulate it, disassemble it, or prove that it is safe.
+- Optional Ghidra analysis currently validates Ghidra 12.2 with JDK 25 or newer. Local integration evidence covers controlled ELF x86-64, PE x86, and PE x64 samples. ELF, PE, and Mach-O magic are recognized by the adapter, but recognition is not proof that every loader or processor combination completes. Raw input requires an explicit Ghidra language ID and base address. Xtensa support in upstream Ghidra does not establish complete ESP32 firmware support.
+- Ghidra runs on the host, not in FUSE's Docker analyzer sandbox. It parses hostile binary formats with the current user's permissions. FUSE bounds input, time, diagnostics, export size, and record counts, but does not provide OS-level process isolation, symbolic execution, taint analysis, general data-flow analysis, or firmware execution.
 - Hardware discovery is filename-based. KiCad netlist analysis reports selected connectivity candidates, not physical routing, device population, enclosure access, or debug-port state.
 - BOM import records supplied component data. It does not verify part authenticity, component lifecycle, circuit function, or design correctness.
 - FUSE has no hardware-in-the-loop test suite and does not interact with a physical device.

@@ -57,7 +57,7 @@ vigil-fuse = "vigil_fuse.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-vigil_fuse = ["schemas/*.json", "support-matrix.json"]
+vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "support-matrix.json"]
 
 [tool.ruff]
 target-version = "py311"
@@ -81,6 +81,7 @@ files = [
   "scripts/evaluate_sard_fuse001_cohort.py",
   "scripts/evaluate_sard_fuse001_catalogue.py",
   "scripts/compare_repository_scan_snapshots.py",
+  "scripts/benchmark_ghidra_adapter.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true

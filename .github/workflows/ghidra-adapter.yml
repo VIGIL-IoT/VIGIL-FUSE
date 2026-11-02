@@ -1,0 +1,228 @@
+name: Ghidra adapter integration
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/ghidra-adapter.yml"
+      - "pyproject.toml"
+      - "src/vigil_fuse/ghidra_analyzer.py"
+      - "src/vigil_fuse/resources/ghidra/**"
+      - "src/vigil_fuse/schemas/ghidra-*.schema.json"
+      - "src/vigil_fuse/analyzer_runtime.py"
+      - "src/vigil_fuse/analyzers.py"
+      - "src/vigil_fuse/config.py"
+      - "src/vigil_fuse/cli.py"
+      - "src/vigil_fuse/model.py"
+      - "src/vigil_fuse/reporting.py"
+      - "src/vigil_fuse/scanner.py"
+      - "src/vigil_fuse/support.py"
+      - "src/vigil_fuse/support-matrix.json"
+      - "scripts/benchmark_ghidra_adapter.py"
+      - "tests/test_ghidra_analyzer.py"
+      - "tests/test_ghidra_benchmark_schema.py"
+  pull_request:
+    paths:
+      - ".github/workflows/ghidra-adapter.yml"
+      - "pyproject.toml"
+      - "src/vigil_fuse/ghidra_analyzer.py"
+      - "src/vigil_fuse/resources/ghidra/**"
+      - "src/vigil_fuse/schemas/ghidra-*.schema.json"
+      - "src/vigil_fuse/analyzer_runtime.py"
+      - "src/vigil_fuse/analyzers.py"
+      - "src/vigil_fuse/config.py"
+      - "src/vigil_fuse/cli.py"
+      - "src/vigil_fuse/model.py"
+      - "src/vigil_fuse/reporting.py"
+      - "src/vigil_fuse/scanner.py"
+      - "src/vigil_fuse/support.py"
+      - "src/vigil_fuse/support-matrix.json"
+      - "scripts/benchmark_ghidra_adapter.py"
+      - "tests/test_ghidra_analyzer.py"
+      - "tests/test_ghidra_benchmark_schema.py"
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ghidra-integration:
+    name: Ghidra 12.2 on Ubuntu
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Set up Java
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: "25"
+
+      - name: Install FUSE test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install ".[test]"
+
+      - name: Download and verify the official Ghidra release
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/ghidra_12.2_PUBLIC_20261016.zip"
+          url="https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip"
+          curl --fail --location --retry 3 "$url" --output "$archive"
+          printf '%s  %s\n' "2c2cd776db3c1f6a097ba418922378ac3649cadd5e844a6f5f088ae628a7be67" "$archive" | sha256sum --check
+          mkdir -p "$RUNNER_TEMP/ghidra-install"
+          unzip -q "$archive" -d "$RUNNER_TEMP/ghidra-install"
+          install_dir="$RUNNER_TEMP/ghidra-install/ghidra_12.2_PUBLIC"
+          test -f "$install_dir/Ghidra/application.properties"
+          echo "GHIDRA_INSTALL_DIR=$install_dir" >> "$GITHUB_ENV"
+          java -version
+
+      - name: Build a small controlled ELF sample
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fuse-ghidra-validation"
+          mkdir -p "$work/sample" "$work/output-positive" "$work/output-secure" "$work/tmp"
+          cat > "$work/sample/fixture.c" <<'EOF'
+          #include <stdio.h>
+
+          __attribute__((noinline)) void use_http(void) {
+              puts("http://device.example/update?token=sample-secret");
+          }
+
+          __attribute__((noinline)) void use_mqtt(void) {
+              puts("mqtt://broker.example:1883");
+          }
+
+          __attribute__((noinline)) void use_password(void) {
+              puts("password=do-not-export-this-value");
+          }
+
+          int main(void) {
+              use_http();
+              use_mqtt();
+              use_password();
+              return 0;
+          }
+          EOF
+          gcc -O0 -fno-pie -no-pie -Wl,--build-id=none \
+            "$work/sample/fixture.c" -o "$work/sample/fixture.elf"
+          cat > "$work/sample/secure.c" <<'EOF'
+          #include <stdio.h>
+
+          __attribute__((noinline)) void use_https(void) {
+              puts("https://device.example/update");
+          }
+
+          __attribute__((noinline)) void use_mqtts(void) {
+              puts("mqtts://broker.example:8883");
+          }
+
+          int main(void) {
+              use_https();
+              use_mqtts();
+              return 0;
+          }
+          EOF
+          gcc -O0 -fno-pie -no-pie -Wl,--build-id=none \
+            "$work/sample/secure.c" -o "$work/sample/secure.elf"
+
+      - name: Run Ghidra and validate FUSE evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          work="$RUNNER_TEMP/fuse-ghidra-validation"
+          TMPDIR="$work/tmp" vigil-fuse scan "$work/sample/fixture.elf" \
+            --ghidra \
+            --ghidra-install-dir "$GHIDRA_INSTALL_DIR" \
+            --ghidra-timeout-seconds 300 \
+            --output-dir "$work/output-positive" \
+            --format json
+          TMPDIR="$work/tmp" vigil-fuse scan "$work/sample/secure.elf" \
+            --ghidra \
+            --ghidra-install-dir "$GHIDRA_INSTALL_DIR" \
+            --ghidra-timeout-seconds 300 \
+            --output-dir "$work/output-secure" \
+            --format json
+          python - "$work" <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          from jsonschema import Draft202012Validator
+
+          work = Path(sys.argv[1])
+          output = work / "output-positive"
+          secure_output = work / "output-secure"
+          package = Path("src/vigil_fuse/schemas")
+          report = json.loads((output / "findings.json").read_text(encoding="utf-8"))
+          secure_report = json.loads(
+              (secure_output / "findings.json").read_text(encoding="utf-8")
+          )
+          artifact_path = output / "ghidra-analysis.json"
+          artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+          report_schema = json.loads(
+              (package / "fuse-report-1.11.schema.json").read_text(encoding="utf-8")
+          )
+          artifact_schema = json.loads(
+              (package / "ghidra-analysis.schema.json").read_text(encoding="utf-8")
+          )
+          Draft202012Validator.check_schema(report_schema)
+          Draft202012Validator(report_schema).validate(report)
+          Draft202012Validator(report_schema).validate(secure_report)
+          Draft202012Validator.check_schema(artifact_schema)
+          Draft202012Validator(artifact_schema).validate(artifact)
+
+          analyzers = {item["name"]: item for item in report["coverage"]["analyzers"]}
+          secure_analyzers = {
+              item["name"]: item for item in secure_report["coverage"]["analyzers"]
+          }
+          assert analyzers["ghidra"]["status"] == "completed", analyzers["ghidra"]
+          assert secure_analyzers["ghidra"]["status"] == "completed", secure_analyzers["ghidra"]
+          assert artifact["tool"]["version"] == "12.2"
+          assert artifact["analysis"]["language_id"]
+          assert artifact["functions"]["reported"] > 0
+          assert artifact["strings"]["reported"] > 0
+          assert artifact["cross_references"]["reported"] > 0
+          rule_ids = {item["rule_id"] for item in report["findings"]}
+          assert {"FUSE-BIN-001", "FUSE-BIN-002"} <= rule_ids, rule_ids
+          secure_rule_ids = {item["rule_id"] for item in secure_report["findings"]}
+          assert not {"FUSE-BIN-001", "FUSE-BIN-002"} & secure_rule_ids, secure_rule_ids
+
+          serialized = "\n".join(
+              path.read_text(encoding="utf-8")
+              for report_dir in (output, secure_output)
+              for path in report_dir.iterdir()
+              if path.is_file()
+          )
+          assert "sample-secret" not in serialized
+          assert "do-not-export-this-value" not in serialized
+          expected_artifacts = {
+              "findings.json",
+              "findings.txt",
+              "findings.sarif",
+              "ghidra-analysis.json",
+          }
+          assert {path.name for path in output.iterdir()} == expected_artifacts
+          assert {path.name for path in secure_output.iterdir()} == expected_artifacts
+          assert list((work / "tmp").iterdir()) == [], "Ghidra temporary workspace was not removed"
+          print(
+              "Ghidra integration passed: positive ELF references, secure HTTPS/MQTTS "
+              "control, FUSE script, bounded artifacts, redaction, schemas, and cleanup."
+          )
+          PY
