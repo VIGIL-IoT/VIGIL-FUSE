@@ -9,6 +9,7 @@
 - `FUSE003` ignores bypass calls in literal inactive C preprocessor branches while retaining findings in unresolved symbolic branches.
 - `FUSE001` ignores credential-named filename and reserved-marker constants, including camelCase names, while continuing to report credential-like default literals.
 - Separate repository-scan summaries distinguish detected PlatformIO environments from selected environments, and generated plots now describe the metric they display.
+- Removed the unresolved root project license file and package license declaration. Current reuse and distribution terms remain pending.
 
 ### Added
 
