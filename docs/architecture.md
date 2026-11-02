@@ -6,6 +6,8 @@ FUSE is a [VIGIL](https://github.com/VIGIL-IoT) Project in the [VIGIL-IoT suite]
 
 The [scan-flow figure](figures/fuse-scan-flow.svg) gives a compact overview; its [self-contained HTML source](../site/diagrams/fuse-scan-flow.html) is also available. The figure describes current behavior, while the diagrams below show the implementation detail.
 
+The separate [trust-boundaries figure](figures/fuse-trust-boundaries.svg) focuses on untrusted project input and optional analyzer execution. It distinguishes the default unsandboxed host mode from explicit Docker isolation. Its [editable Diagram Design source](diagrams/fuse-trust-boundaries.html) complements the Mermaid implementation diagrams below.
+
 The diagrams below describe implemented behavior. A stage marked optional runs only when requested and when its external executable or input is available.
 
 ```mermaid

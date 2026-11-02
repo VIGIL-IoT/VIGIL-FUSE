@@ -36,6 +36,10 @@ See the [usage guide](docs/usage.md) for setup, scan options, optional analyzers
 
 Native rules analyze selected text without importing or executing project code. FUSE does not flash devices, contact device services, or prove that a static signal is reachable in a deployed product. Optional external analyzers run on the host by default. Explicit Docker mode uses local digest-pinned images, read-only inputs, bounded output capture, no network by default, and resource limits. The report directory is never bind-mounted, and nested report paths are hidden behind bounded temporary storage. Host mode remains unsandboxed.
 
+![FUSE trust boundaries: untrusted project input, local analysis, and optional analyzers running on the host or in explicit Docker isolation](docs/figures/fuse-trust-boundaries.svg)
+
+The diagram shows the difference between default host execution and the explicitly configured Docker option. [Open its editable source](docs/diagrams/fuse-trust-boundaries.html).
+
 ## Understand a finding
 
 Severity describes potential impact. Confidence describes the strength of the evidence. Applicability and validation are separate fields. FUSE does not combine these into a single risk score.

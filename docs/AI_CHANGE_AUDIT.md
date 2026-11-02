@@ -14,6 +14,7 @@
 | Optional analyzer Docker mode | Add digest-pinned, local-image execution with read-only inputs, bounded stdout capture, isolated runtime settings, default no-network behavior, configuration inspection, and no host fallback | `src/vigil_fuse/analyzer_sandbox.py`, `src/vigil_fuse/analyzer_runtime.py`, CLI adapters, and sandbox tests |
 | Rights review packet | Organize ownership, earlier license history, third-party notices, contribution policy, and distribution questions for owner and qualified legal review | `docs/governance/rights-review-packet.md`; no legal conclusion or license change |
 | Independent evaluation protocol | Make the frozen holdout, dual-review, no-finding sample, comparator, and metrics process operational | `docs/research/independent-evaluation-protocol.md`; independent reviewers have not yet completed a review |
+| Trust-boundary architecture figure | Show untrusted project input, the local FUSE path, and the distinct host and explicit Docker analyzer modes | `docs/diagrams/fuse-trust-boundaries.html`, exported to `docs/figures/fuse-trust-boundaries.svg` and linked from `README.md` and `docs/architecture.md` |
 | Diagram punctuation cleanup | Honor the repository-wide instruction to avoid em dashes without changing embedded diagram behavior | Comment and descriptive text changes in `site/diagrams/fuse-scan.html` |
 | Assumption register and failure-mode table | Make target authorization, static-evidence limits, analyzer trust, scan consistency, and operational recovery explicit | `docs/requirements.md` and `docs/threat-model.md` |
 | Compatibility matrix | Separate tested OS and Python combinations from package metadata and unverified environments | `docs/compatibility.md` |
@@ -31,6 +32,7 @@ The maturity closure research in `docs/research/maturity-100-closure-plan-2026-1
 - Editable installation, `doctor`, scan help, and a JSON scan from the usage guide passed in a temporary Windows virtual environment.
 - Wheel and source distribution builds, Twine metadata checks, and a clean temporary Windows virtual-environment install passed with current license metadata. The installed CLI completed `doctor`; a source self-scan covered 335 files with complete discovery and zero findings.
 - The website dark and light themes were reviewed at desktop, tablet, and mobile widths in the prior visual pass.
+- The Diagram Design HTML passed the installed skill self-check. Its exported SVG parsed as XML, and Playwright renders were inspected in light and dark themes. Figure claims were checked against `docs/threat-model.md`, `analyzer_sandbox.py`, and `analyzer_runtime.py`.
 - Sandbox unit tests passed. A fixture-image integration test passed on Windows Docker Desktop Linux engine 28.5.1, verifying denied input writes, hidden prior reports, bounded report-path storage, CycloneDX output capture, and container cleanup. The official Syft v1.55.0 image at digest `sha256:4cc92b64ca74ffca4c94d4c8fcc01f217731375300be14d0b6eeb2e82eaa110a` also completed a FUSE SBOM scan with two components. A dedicated Linux CI integration job is defined in this increment; its hosted result is pending.
 
 ## Limits and unresolved work
