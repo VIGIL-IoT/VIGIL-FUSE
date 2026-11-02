@@ -27,7 +27,7 @@ The local CLI matches the package metadata and lets users inspect proprietary pr
 - Core use does not require an account, server, or runtime dependency.
 - Users manage local installation and optional executables.
 - A local CLI has no shared report database or team dashboard.
-- Package redistribution terms are unresolved because no project license is currently declared. CLI-first design does not grant publication rights.
+- The custom VIGIL-FUSE Restricted Use License permits installation, execution, commercial use, and private modification, while restricting redistribution and publication of modifications. CLI-first design does not grant additional publication rights. Review the terms of any distribution channel before publishing packages or release assets.
 
 ## Evidence
 
