@@ -5,11 +5,13 @@
 **Code baseline before this increment:** `953b786`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
+**Current status update, 2026-11-02:** The repository owner requested removal of the root license file. The current tree and package metadata declare no project license. This does not alter earlier commits or releases. The 93/100 score below is the last reviewed baseline and is not a score for this post-removal state.
+
 ## Repository overview
 
 FUSE is a CLI-first Python tool for bounded static inspection of embedded and IoT project source, configuration, selected build metadata, hardware artifacts, dependency inventories, and firmware candidates. It is part of VIGIL-IoT and complements SPECTRA-32's controlled lab experiments. FUSE does not itself build projects, execute scanned source or firmware, contact devices, or validate physical hardware.
 
-The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`, under a custom source-available restricted-use license. It is not OSI-approved open-source software.
+The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`. No project license is currently declared, and distribution terms remain unresolved.
 
 ## Initial condition
 
@@ -199,17 +201,17 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 | Testing | 15 | 15 | Local suite passed 307 tests and 148 subtests with 78% branch coverage, above the 75% CI floor. The 24 synthetic rule fixtures cover seven native rules; the pinned NIST SARD catalogue regression matched 76/76 CWE-259 C SARIF targets. New paired CLI integration and architecture fitness tests protect the current wired paths. Detector field accuracy is scored under research rigor |
 | Security | 10 | 9 | Parser and output hardening retained; repository-level CodeQL, Dependabot, secret-scanning, and push-protection controls are enabled. Gitleaks, Syft, OSV-Scanner, and Binwalk have bounded real-tool smoke checks, and optional analyzer timeouts attempt process-tree cleanup. External tools remain unsandboxed |
 | Reproducibility | 10 | 10 | Pinned repository and NIST SARD manifests, archive and source hash verification, bounded download retry, package build/install checks, repeatable analyzer harnesses, and repeated schema-checked cross-platform measurements for four pinned scopes. Same-revision runs show substantial wall-time variation across hosted runner instances; broader accuracy remains unverified |
-| Open Source Governance | 10 | 6 | Citation, contribution boundaries, issue forms, PR checklist, and release gates added; custom license and enforcement policy remain unresolved |
+| Open Source Governance | 10 | 6 | Citation, paused contribution policy, issue forms, PR checklist, and release gates exist; rights, distribution, and enforcement policy remain unresolved |
 | Research Rigor & Traceability | 10 | 9 | Evidence types, limitations, cohort method, source-context triage, and a complete one-CWE NIST SARD catalogue regression are documented. The synthetic mixed-path SARD set and repository triage are not independent adjudication; no representative accuracy estimate or product comparison exists |
 | **Total** | **100** | **93** | |
 
-The architecture and documentation scores increased after adding enforceable module contracts, a paired user-facing CLI integration test, the ADR, and the Crawl4AI source review. The maturity score remains below 100 because legal distribution terms, external analyzer isolation, and independent field-accuracy review need evidence outside this local code change.
+The architecture and documentation scores increased after adding enforceable module contracts, a paired user-facing CLI integration test, the ADR, and the Crawl4AI source review. The maturity score remains below 100 because rights and distribution terms, external analyzer isolation, and independent field-accuracy review need additional evidence. The current status update above records the later license-file removal without silently rescoring this historical assessment.
 
 ## Recommended next actions
 
 The exact seven-point breakdown, acceptance evidence, source-available versus open-source decision, and ordered closure flow are documented in the [maturity 100-point closure plan](research/maturity-100-closure-plan-2026-11-02.md).
 
-1. Resolve the license and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
+1. Resolve rights and allowed distribution channels with the owner and qualified legal review before publishing a release or package.
 2. Continue adding appropriately licensed real firmware and filesystem-image samples to Binwalk evaluation. Current v3.1.0 evidence covers three synthetic formats, one compressed Tasmota artifact at the gzip-signature level, one official OpenWrt Malta BE uImage artifact, two official Malta BE rootfs images (SquashFS and ext4), and two official MT7621 images (initramfs kernel and SquashFS sysupgrade). The ext4 input produced Binwalk's generic EXT-family marker. Keep positive and clean controls for Gitleaks, Syft, and OSV-Scanner reproducible.
 3. Extend independent, manually reviewed fixtures and retain difficult negatives before claiming field accuracy.
 4. Repeat cross-platform performance and memory measurements using the same FUSE source revision on additional dates and runner generations. Keep timing thresholds deferred until results from controlled, repeatable measurements support them.
