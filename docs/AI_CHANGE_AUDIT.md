@@ -1,6 +1,6 @@
 # AI change audit
 
-**Audit date:** 2026-11-02
+**Audit date:** 2026-11-03
 **Repository:** VIGIL-IoT/VIGIL-FUSE
 **Purpose:** Record material automated changes and validation for the repository engineering pass requested with the Research-Grade Repository Architecture and Engineering Standard.
 
@@ -19,6 +19,7 @@
 | Assumption register and failure-mode table | Make target authorization, static-evidence limits, analyzer trust, scan consistency, and operational recovery explicit | `docs/requirements.md` and `docs/threat-model.md` |
 | Compatibility matrix | Separate tested OS and Python combinations from package metadata and unverified environments | `docs/compatibility.md` |
 | Specialist tool registry and source ledger | Record which prompt-referenced skills are installed, used, not applicable, or unverified, and preserve research sources that informed documented decisions | `docs/AI_SKILLS_REFERENCE.md` and `docs/research-sources.md` |
+| Optional Ghidra binary-analysis adapter | Add separately installed Ghidra 12.2 Headless support with bounded evidence, normalized static candidates, positive and secure controls, and no execution of the input program | `src/vigil_fuse/ghidra_analyzer.py`, `src/vigil_fuse/resources/ghidra/FuseExport.java`, schema 1.11, `.github/workflows/ghidra-adapter.yml`, and ADR-0006 |
 
 ## External research
 
@@ -43,3 +44,11 @@ The maturity closure research in `docs/research/maturity-100-closure-plan-2026-1
 - Legal rights and distribution decisions require the owner and qualified counsel. This audit does not change the license or publish a package.
 - Independent field-accuracy review still requires permission-cleared holdout data, two reviewers, and disagreement adjudication. Preparing a protocol does not supply that evidence.
 - GitHub Actions and Vercel outcomes are external checks and must be reported from their actual run state, not inferred from local validation.
+
+## Ghidra and documentation follow-up, 2026-11-03
+
+The pinned Ghidra Ubuntu integration passed on code commit `cfda76c` in [run 41523725688](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41523725688). Its first run exposed an operating-system launcher preference defect. The fix selects the native launcher first and has regression subtests for both POSIX and Windows. The follow-up FUSE CI and CodeQL runs on `4286b9d` passed in [run 41524611090](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41524611090) and [run 41524610818](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41524610818).
+
+Local validation passed 348 tests, 1 environment-gated skip, 157 subtests, 78% branch coverage, Ruff, formatting, strict Mypy, documentation validation, package installation checks, and the native-rule fixture benchmark. The controlled Windows Ghidra benchmark was rerun against clean source commit `cfda76c`; its [schema-validated record](../reports/benchmark/ghidra-adapter-windows-2026-11-03.json) contains no local filesystem path. The tested input remains a single controlled sample, so this record is not a general performance result.
+
+Diagram Design was used for the software pipeline figure. Anatomy was considered and retained for the separate finding-model visual, while no hardware-shaped metaphor was added for this software-only path. ManimGX was not used because animation would not clarify behavior beyond the existing static pipeline. The token-efficient stack was applied using the available Lean Coding Agent skill and documented fallbacks for unavailable tools in `docs/AI_SKILLS_REFERENCE.md`. No package, release asset, or legal conclusion was created.

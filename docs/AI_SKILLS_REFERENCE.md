@@ -1,5 +1,7 @@
 # AI skills and specialist tools reference
 
+**Updated:** 2026-11-03
+
 This register records the specialist tools named by the repository engineering prompt, whether they are available in this Codex session, and whether they were used for FUSE. Availability here does not mean a tool is a FUSE runtime dependency. Local repository code remains the source of truth for claims about FUSE behavior.
 
 ## Used for FUSE
@@ -55,3 +57,17 @@ These page checks were performed with Crawl4AI 0.9.5 on 2026-11-02. A successful
 - Crawl4AI 0.9.5 successfully retrieved the Anatomy, Diagram Design, Taste Skill, and ManimGX GitHub pages. Other prompt-listed GitHub pages timed out during this pass. Their references are retained from the prompt and their contents are marked unverified.
 - Tools named by the prompt are not automatically adopted. They are used when they add a concrete capability to FUSE and have a verifiable validation path.
 - No third-party skill source code was copied into FUSE as part of this audit. The existing vendored Anatomy kit retains its notice and license under `scripts/vendor/anatomy/`.
+
+## Token-efficient coding stack
+
+The second supplied prompt named these tools for retrieval, implementation minimization, semantic navigation, skill discovery, and large-output handling. Availability below reflects this Codex session. The repository links are references from the prompt; they were not independently reviewed or configured during this documentation follow-up.
+
+| Tool | Upstream reference | Session availability | Use in this task |
+| --- | --- | --- | --- |
+| Lean Coding Agent | [JeremyFaubert/lean-coding-agent-skill](https://github.com/JeremyFaubert/lean-coding-agent-skill) | Local Codex skill available and read | Used focused retrieval, bounded outputs, root-cause diagnosis, and a risk-based verification ladder |
+| Ponytail | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) | No executable or MCP tool detected | Applied the minimal-change checklist manually. No installation or integration was needed |
+| Serena | [oraios/serena](https://github.com/oraios/serena) | Serena MCP tools were not available | Used targeted symbol and exact-text search with `rg`, then read only affected file sections |
+| skill-search | [sowhan/skill-search](https://github.com/sowhan/skill-search) | No skill-search tool or command detected | Used native Codex skill discovery because only the directly relevant repository skills were needed |
+| Token Optimizer MCP | [ooples/token-optimizer-mcp](https://github.com/ooples/token-optimizer-mcp) | No Token Optimizer MCP tool was connected | Filtered workflow logs to failing steps and requested bounded output instead of loading full logs |
+
+These fallbacks preserve the requested optimization goals without adding dependencies or changing FUSE runtime behavior.
