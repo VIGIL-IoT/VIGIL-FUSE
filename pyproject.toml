@@ -9,8 +9,7 @@ description = "FUSE, the Firmware & Unified Security Engine, a VIGIL Project"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
-license = "LicenseRef-VIGIL-FUSE-Restricted-Use-1.0"
-license-files = ["LICENSE"]
+license-files = []
 keywords = ["embedded security", "firmware analysis", "IoT", "static analysis"]
 classifiers = [
   "Development Status :: 3 - Alpha",
