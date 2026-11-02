@@ -9,7 +9,6 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
-[![License: Custom Restricted Use](https://img.shields.io/badge/license-Custom%20Restricted%20Use-lightgrey)](LICENSE)
 
 **Alpha · 0.2.0**
 
@@ -94,9 +93,9 @@ python scripts/validate_docs.py
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for repository setup and [rule development](docs/rule-development.md) for the vulnerable fixture, secure fixture, and expected-result workflow.
 
-## License
+## License status
 
-FUSE uses the custom [VIGIL-FUSE Restricted Use License](LICENSE). Personal and commercial use is permitted. Redistribution and publishing modified copies require written permission. It is source-available software, not OSI-approved open-source software.
+FUSE currently has no project license declared. Reuse, redistribution, and package publication terms are unresolved. Do not assume that repository visibility grants permission to republish the software. A license decision is pending.
 
 ---
 
