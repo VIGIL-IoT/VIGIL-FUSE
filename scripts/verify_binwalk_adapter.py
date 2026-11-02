@@ -233,6 +233,7 @@ def scan_case(
     target = root / f"{case.label}-firmware.bin"
     output = root / f"{case.label}-reports"
     target.write_bytes(case.data)
+    input_digest = hashlib.sha256(target.read_bytes()).digest()
 
     result = run(
         [
@@ -252,6 +253,8 @@ def scan_case(
         cwd=target.parent,
         env=env,
     )
+    if hashlib.sha256(target.read_bytes()).digest() != input_digest:
+        raise RuntimeError(f"FUSE {case.label} scan modified the selected firmware input.")
     if result.returncode != 0:
         raise RuntimeError(f"FUSE {case.label} scan failed with exit status {result.returncode}.")
 
