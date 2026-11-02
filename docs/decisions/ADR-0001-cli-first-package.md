@@ -27,7 +27,7 @@ The local CLI matches the package metadata and lets users inspect proprietary pr
 - Core use does not require an account, server, or runtime dependency.
 - Users manage local installation and optional executables.
 - A local CLI has no shared report database or team dashboard.
-- Package redistribution remains governed by `LICENSE`; CLI-first design does not grant publication rights.
+- Package redistribution terms are unresolved because no project license is currently declared. CLI-first design does not grant publication rights.
 
 ## Evidence
 
