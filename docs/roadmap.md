@@ -54,7 +54,7 @@ FUSE is the inspection and evidence-orchestration tool in the [VIGIL-IoT suite](
 - Implemented: the pinned NIST SARD accepted C CWE-259 API result set now runs as a 76-case FUSE001 catalogue regression. FUSE001 1.9.0 matched 76/76 SARIF target files and emitted 110 findings. The regenerated result records filenames and one-based lines for all 34 additional file observations, whose mixed-path labels do not establish false positives or precision. See the [experiment record](experiments/fuse001-sard-c-catalogue-2026-10-31.md). This does not close independent field-accuracy work.
 - Implemented: the public repository has Dependabot alerts and security update PRs, standard secret scanning, and push protection enabled. The pinned Python CodeQL workflow runs `security-extended` on pushes, pull requests, weekly, and manual dispatch. These repository controls had zero current alerts at the last API review; non-provider secret patterns remain disabled.
 - Implemented: Vercel skips deployments for commits that change neither `site/` nor `vercel.json`. This avoids site builds for package, test, documentation, and CI-only commits. Vercel's current rate limit still requires a later site-triggered deployment to verify a fresh published build.
-- Release gate: resolve the restrictive license against PyPI's Terms of Service and Acceptable Use Policy before any package upload.
+- Release gate: establish and document the project license and permitted distribution terms before publishing a package or release asset.
 
 ## 2. Component inventory and vulnerability matching - first adapters implemented
 
