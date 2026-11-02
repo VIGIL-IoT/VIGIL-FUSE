@@ -723,7 +723,10 @@ p {
 }
 
 .showcase-track {
-  display: flex;
+  display: grid;
+  grid-auto-columns: min(350px, max(285px, 29vw));
+  grid-auto-flow: column;
+  grid-template-rows: auto;
   align-items: stretch;
   gap: 22px;
   overflow-x: auto;
@@ -736,8 +739,6 @@ p {
 .showcase-slide {
   display: flex;
   flex-direction: column;
-  flex: 0 0 min(29vw, 350px);
-  min-width: 285px;
   scroll-snap-align: start;
 }
 
@@ -2437,8 +2438,11 @@ p {
   }
 
   .showcase-slide {
-    flex-basis: 82vw;
-    min-width: min(82vw, 340px);
+    min-width: 0;
+  }
+
+  .showcase-track {
+    grid-auto-columns: min(82vw, 340px);
   }
 
   .showcase-slide h3 {
