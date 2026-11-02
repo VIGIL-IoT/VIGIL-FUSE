@@ -4,6 +4,8 @@
 **Current score:** 93/100
 **Method:** Crawl4AI 0.9.5 browser retrieval of official NIST, Docker, Open Source Initiative, GitHub, Python Software Foundation, and Semgrep documentation.
 
+**License status update:** At the repository owner's request, the root `LICENSE` file and project license metadata were removed on 2026-11-02. The current checkout has no declared project license. This does not change prior commits or releases, including commits that contained different license text. The 93/100 score below is the last scored baseline and has not been recalculated after this change.
+
 ## The remaining seven points
 
 The current audit assigns the remaining points to four evidence gaps. A point is earned only after its stated evidence exists and the audit is updated. Adding a feature without verification does not close a point.
@@ -12,21 +14,18 @@ The current audit assigns the remaining points to four evidence gaps. A point is
 | --- | ---: | ---: | --- |
 | Code quality | 14/15 | Optional analyzer behavior is supported by bounded smoke runs, not a complete versioned conformance matrix | Pinned tool/version manifest; positive, clean, malformed, missing-tool, timeout, output-limit, and redaction controls; cross-platform job evidence and explicit partial/failure statuses |
 | Security | 9/10 | Optional analyzer processes can access files and operating-system resources available to the FUSE user | Enforced sandbox policy, negative escape and network tests, resource-limit checks, supported-platform results, fail-closed behavior when isolation is required but unavailable, and updated threat model |
-| Governance | 6/10 | Four licensing, contribution, distribution, and release-policy questions remain unresolved | Owner decision plus qualified legal review; matching license, contributor, and release policies; documented channel-specific permission and approval gates |
+| Governance | 6/10 | Rights, distribution, and release policy remain unresolved. Code contributions are paused while terms are absent. | Owner decision plus qualified legal review; consistent rights and contribution policies; documented channel-specific permission and approval gates |
 | Research rigor | 9/10 | Existing tests and NIST SARD results do not provide independent, representative field-accuracy adjudication | Frozen, permission-cleared holdout corpus; independent reviewers; disagreement adjudication; per-rule metrics with uncertainty and coverage limitations |
 
-## The license decision comes first
+## License status and governance constraints
 
-FUSE's current license allows commercial use but restricts redistribution and publication of modifications. The Open Source Initiative definition requires free redistribution and permission to distribute derived works. GitHub's licensing guidance likewise says an open-source license must allow people to use, change, and distribute the software. These positions conflict. The current license is source-available, not OSI-approved open source.
+The repository currently declares no project license. Removing the root `LICENSE` file does not grant permission to use, redistribute, modify, or publish the project, and it does not erase license text or grants recorded in earlier commits and releases. The repository history includes more than one license state, so the rights holder should review that history with qualified counsel before deciding how to distribute future copies.
 
-There are two honest paths:
+Future distribution needs an explicit rights decision. An OSI-approved open-source license would permit copying and redistribution under its terms. A source-available license could impose different terms but would not qualify as open source. No new license or rights grant is selected by this plan.
 
-1. **Keep the no-redistribution intent.** Retain a source-available license, confirm its terms with qualified counsel, and describe the maturity dimension as project governance or source-available governance. Do not call the package open source. Do not publish a wheel, source archive, container, or PyPI package until channel-specific written permission and legal review are complete.
-2. **Choose an open-source license.** Select an OSI-approved license with qualified guidance and accept the required rights to redistribute the source and modified versions. This changes the owner's stated no-copy restriction.
+The owner should confirm the rights holders for the code and included assets, decide whether outside code contributions will be accepted, and document terms before reopening public code contributions. `CONTRIBUTING.md` currently pauses code submissions while those terms are unresolved. An issue report and a code contribution grant different rights.
 
-The owner should also confirm that the named copyright holder in `LICENSE` is the legal rights holder, decide whether outside code contributions are accepted, and set a contribution agreement or a clear no-public-contributions policy. An issue report and a code contribution grant different rights.
-
-The current PyPI Terms of Service include ownership, right-to-post, and license-grant terms. The PyPI Acceptable Use Policy also prohibits infringing intellectual-property rights. These pages support reviewing the uploader's rights and package terms before publication. They do not determine whether this custom license is enforceable or suitable. The older PyPI Terms of Use URL redirects to a page marked superseded; use the current Terms of Service for any future review.
+The current PyPI Terms of Service include ownership, right-to-post, and license-grant terms. The PyPI Acceptable Use Policy also prohibits infringing intellectual-property rights. Review the current terms and rights history before any registry upload. These pages do not determine FUSE's ownership or distribution permissions. The older PyPI Terms of Use URL redirects to a page marked superseded; use the current Terms of Service for any future review.
 
 ## Closure gates by score
 
@@ -66,14 +65,14 @@ These are four separate one-point gates. They must follow the owner's licensing 
 
 | Gate | Decision and deliverable | Blocking dependency |
 | --- | --- | --- |
-| G1. Rights and license | Confirm rights holder, commercial and hosted use, private modification, redistribution, derivative works, reports, and trademark boundaries. Publish a counsel-reviewed license decision record. | Owner and qualified counsel |
-| G2. Contributions | Decide whether outside code contributions are accepted. If yes, adopt counsel-reviewed contributor terms compatible with the license. If no, state that issues are welcome but public code patches require written permission. | G1 |
-| G3. Distribution | Select source-only, GitHub Release assets, private distribution, or PyPI. Obtain written rights for that channel, review current registry terms, and make `pyproject.toml` metadata agree with the selected license. | G1 and current PyPI or host terms review |
-| G4. Release and enforcement | Document who can approve a release or exception, how a user requests permission, how third-party notices are checked, and who receives license and security questions. Keep upload workflows disabled until G1 through G3 are complete. | G1, G2, and G3 |
+| G1. Rights and license | Confirm rights holders and terms for use, modification, redistribution, derivatives, reports, and trademarks. Record a reviewed decision. | Owner and qualified counsel |
+| G2. Contributions | Decide whether outside code contributions are accepted. Until rights and terms are defined, keep the current pause documented in `CONTRIBUTING.md`. | Owner; G1 before accepting code |
+| G3. Distribution | Select a permitted channel, review its current terms, and align package metadata with the rights decision. Do not publish while permissions are unresolved. | G1 and channel terms review |
+| G4. Release and enforcement | Document release approvers, permission requests, third-party notice checks, and monitored contact routes. Keep upload workflows disabled until G1 through G3 are complete. | Owner; G1, G2, and G3 |
 
-**Close the four points when:** the selected path is written down, consistent across `LICENSE`, contribution guidance, package metadata, and release documentation, and reviewed by the qualified person identified by the owner. A GitHub Release or PyPI upload is not itself required if the chosen policy is source-only.
+**Close the four points when:** the selected path is written down, consistent across the repository, contribution guidance, package metadata, and release documentation, and reviewed by the qualified person identified by the owner. A GitHub Release or PyPI upload is not itself required if the chosen policy is source-only.
 
-**Important ceiling:** if the owner keeps the no-redistribution restriction, the project remains source-available and cannot receive a truthful 10/10 under a criterion specifically named “Open Source Governance.” Either retain the 6/10 ceiling under that rubric or transparently rename the category and explain the changed rubric. Do not raise the score by changing labels without preserving comparability.
+**Important ceiling:** without a declared rights decision and the associated review, the governance points remain open. Do not count removal of a license file as permission, legal review, or a completed distribution policy. Keep the existing rubric unchanged so the score remains comparable.
 
 ### Research rigor, 9 to 10
 
@@ -98,8 +97,8 @@ Proposed independent evaluation:
 
 ```mermaid
 flowchart TD
-    START[Current audit 93/100] --> OWNER[Owner confirms source-available or open-source intent]
-    OWNER --> LEGAL[Qualified review of ownership and license terms]
+    START[Last scored audit 93/100] --> OWNER[Owner confirms rights and distribution intent]
+    OWNER --> LEGAL[Qualified review of ownership and history]
     LEGAL --> CONTRIB[Set contribution rights and policy]
     LEGAL --> DIST[Choose allowed distribution channel and update metadata]
     CONTRIB --> RELEASE[Document release approvals and permission handling]
@@ -116,11 +115,11 @@ flowchart TD
 
 Order of work:
 
-1. Owner and counsel settle the license path first. Sandbox and analyzer conformance engineering can proceed in parallel with this review.
+1. Owner and counsel settle the rights and distribution path. Sandbox and analyzer conformance engineering can proceed in parallel with this review.
 2. Complete the analyzer conformance matrix, then implement the sandbox. Do not tune detectors against the future holdout.
 3. Freeze the candidate and its report schema after CI passes across the declared platforms.
-4. Select the licensed holdout and independent reviewers, run the protocol, adjudicate results, and publish the report.
-5. Update the maturity table from the evidence. If the no-copy license remains, preserve the Open Source Governance ceiling unless the rubric is transparently revised.
+4. Select a permission-cleared holdout and independent reviewers, run the protocol, adjudicate results, and publish the report.
+5. Update the maturity table from the evidence. Do not change rubric labels to make the score higher.
 
 ## Crawl4AI sources
 
