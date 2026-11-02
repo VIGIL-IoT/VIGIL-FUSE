@@ -1,0 +1,1344 @@
+{
+  "schema_version": "1.10",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "lvgl/lvgl selected source and example scopes",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "no-network",
+    "started_at": "2026-11-02T18:26:51Z",
+    "completed_at": "2026-11-02T18:27:53Z",
+    "input_manifest_sha256": "28b9c5da31565e447efd9484e33a12f913d61c4e7dabb89f30ebaa91ff2c2d18"
+  },
+  "summary": {
+    "files_discovered": 2635,
+    "files_selected": 1780,
+    "files_filtered": 855,
+    "files_scanned": 1777,
+    "source_bytes_read": 46208240,
+    "files_skipped": 3,
+    "analysis_performed": true,
+    "finding_count": 7,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 7,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {
+      "too_large": 3
+    },
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 3714,
+      "unsupported_file_types": {
+        ".a": 16,
+        ".bin": 121,
+        ".bmp": 4,
+        ".build": 1,
+        ".c__": 1,
+        ".compiler": 1,
+        ".css": 4,
+        ".defaults": 5,
+        ".defconfig": 34,
+        ".erb": 1,
+        ".fnt": 12,
+        ".gif": 12,
+        ".glb": 3,
+        ".html": 3,
+        ".in": 3,
+        ".jpg": 15,
+        ".json__": 2,
+        ".kconfig": 4,
+        ".ld": 1,
+        ".md": 102,
+        ".mdx": 296,
+        ".mp4": 2,
+        ".mpk": 9,
+        ".ogv": 1,
+        ".otf": 1,
+        ".pack": 1,
+        ".pdsc": 1,
+        ".pidx": 1,
+        ".png": 2864,
+        ".s": 1,
+        ".sh__": 1,
+        ".svg": 26,
+        ".template": 1,
+        ".ttc": 1,
+        ".ttf": 13,
+        ".txt": 43,
+        ".txt__": 1,
+        ".webp": 6,
+        ".woff": 2,
+        ".woff2": 1,
+        "<no-extension>": 97
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "partial",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "partial",
+        "version": "0.2.0",
+        "detail": "One or more selected files were skipped; review coverage details.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "partial",
+        "version": "1.9.0",
+        "detail": "Evaluated 37 selected input(s). The conservative prefilter excluded 1740 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "partial",
+        "version": "1.4.0",
+        "detail": "Evaluated 12 selected input(s). The conservative prefilter excluded 1765 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "partial",
+        "version": "1.2.0",
+        "detail": "Evaluated 68 selected input(s). The conservative prefilter excluded 1709 inputs without the rule's required markers. Other selected inputs were skipped or limited.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 121 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions, non-SHA action references, the privileged pull_request_target checkout pattern, and direct interpolation of selected untrusted event fields in step run scripts; no workflow code was executed.",
+        "findings": 7
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 121,
+    "extension_counts": {
+      ".bin": 121
+    },
+    "candidates": [
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.A8.bin",
+        "format": "bin",
+        "byte_size": 10012
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 40012
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.I1.bin",
+        "format": "bin",
+        "byte_size": 1320
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.I2.bin",
+        "format": "bin",
+        "byte_size": 2528
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.I4.bin",
+        "format": "bin",
+        "byte_size": 5076
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.I8.bin",
+        "format": "bin",
+        "byte_size": 11036
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.L8.bin",
+        "format": "bin",
+        "byte_size": 10012
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.RGB565.bin",
+        "format": "bin",
+        "byte_size": 20012
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 30012
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.RGB888.bin",
+        "format": "bin",
+        "byte_size": 30012
+      },
+      {
+        "path": "tests/src/test_files/binimages/cogwheel.XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 40012
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.A1.bin",
+        "format": "bin",
+        "byte_size": 863
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.A2.bin",
+        "format": "bin",
+        "byte_size": 1353
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.A4.bin",
+        "format": "bin",
+        "byte_size": 2079
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.A8.bin",
+        "format": "bin",
+        "byte_size": 3768
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 18971
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.I1.bin",
+        "format": "bin",
+        "byte_size": 849
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.I2.bin",
+        "format": "bin",
+        "byte_size": 1845
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.I4.bin",
+        "format": "bin",
+        "byte_size": 3511
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.I8.bin",
+        "format": "bin",
+        "byte_size": 7486
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.RGB565.bin",
+        "format": "bin",
+        "byte_size": 8174
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 11734
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.RGB888.bin",
+        "format": "bin",
+        "byte_size": 16000
+      },
+      {
+        "path": "tests/src/test_files/lz4_compressed/cogwheel.XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 17977
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.A1.bin",
+        "format": "bin",
+        "byte_size": 1615
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.A2.bin",
+        "format": "bin",
+        "byte_size": 2776
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.A4.bin",
+        "format": "bin",
+        "byte_size": 3538
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.A8.bin",
+        "format": "bin",
+        "byte_size": 6233
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 30596
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.I1.bin",
+        "format": "bin",
+        "byte_size": 1646
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.I2.bin",
+        "format": "bin",
+        "byte_size": 3246
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.I4.bin",
+        "format": "bin",
+        "byte_size": 4374
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.I8.bin",
+        "format": "bin",
+        "byte_size": 8834
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.RGB565.bin",
+        "format": "bin",
+        "byte_size": 17132
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 25298
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.RGB888.bin",
+        "format": "bin",
+        "byte_size": 25851
+      },
+      {
+        "path": "tests/src/test_files/rle_compressed/cogwheel.XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 29876
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_A1.bin",
+        "format": "bin",
+        "byte_size": 359
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_A2.bin",
+        "format": "bin",
+        "byte_size": 561
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_A4.bin",
+        "format": "bin",
+        "byte_size": 887
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_A8.bin",
+        "format": "bin",
+        "byte_size": 1414
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 2909
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_I1.bin",
+        "format": "bin",
+        "byte_size": 427
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_I2.bin",
+        "format": "bin",
+        "byte_size": 639
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_I4.bin",
+        "format": "bin",
+        "byte_size": 1097
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_I8.bin",
+        "format": "bin",
+        "byte_size": 2543
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_L8.bin",
+        "format": "bin",
+        "byte_size": 1184
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_RGB565.bin",
+        "format": "bin",
+        "byte_size": 1597
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 2069
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_RGB888.bin",
+        "format": "bin",
+        "byte_size": 2809
+      },
+      {
+        "path": "tests/test_images/stride_align1/LZ4/test_XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 3098
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_A1.bin",
+        "format": "bin",
+        "byte_size": 992
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_A2.bin",
+        "format": "bin",
+        "byte_size": 1944
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_A4.bin",
+        "format": "bin",
+        "byte_size": 2494
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_A8.bin",
+        "format": "bin",
+        "byte_size": 3233
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 12360
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_I1.bin",
+        "format": "bin",
+        "byte_size": 980
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_I2.bin",
+        "format": "bin",
+        "byte_size": 1961
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_I4.bin",
+        "format": "bin",
+        "byte_size": 2560
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_I8.bin",
+        "format": "bin",
+        "byte_size": 4681
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_L8.bin",
+        "format": "bin",
+        "byte_size": 3639
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_RGB565.bin",
+        "format": "bin",
+        "byte_size": 6210
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 7252
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_RGB888.bin",
+        "format": "bin",
+        "byte_size": 9801
+      },
+      {
+        "path": "tests/test_images/stride_align1/RLE/test_XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 12328
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_A1.bin",
+        "format": "bin",
+        "byte_size": 972
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_A2.bin",
+        "format": "bin",
+        "byte_size": 1932
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_A4.bin",
+        "format": "bin",
+        "byte_size": 2892
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_A8.bin",
+        "format": "bin",
+        "byte_size": 4812
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 17292
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_I1.bin",
+        "format": "bin",
+        "byte_size": 980
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_I2.bin",
+        "format": "bin",
+        "byte_size": 1948
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_I4.bin",
+        "format": "bin",
+        "byte_size": 2956
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_I8.bin",
+        "format": "bin",
+        "byte_size": 5836
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_L8.bin",
+        "format": "bin",
+        "byte_size": 4812
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_RGB565.bin",
+        "format": "bin",
+        "byte_size": 8652
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 12972
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_RGB888.bin",
+        "format": "bin",
+        "byte_size": 13452
+      },
+      {
+        "path": "tests/test_images/stride_align1/UNCOMPRESSED/test_XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 17292
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_A1.bin",
+        "format": "bin",
+        "byte_size": 359
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_A2.bin",
+        "format": "bin",
+        "byte_size": 561
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_A4.bin",
+        "format": "bin",
+        "byte_size": 887
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_A8.bin",
+        "format": "bin",
+        "byte_size": 1414
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 2909
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_I1.bin",
+        "format": "bin",
+        "byte_size": 427
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_I2.bin",
+        "format": "bin",
+        "byte_size": 639
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_I4.bin",
+        "format": "bin",
+        "byte_size": 1097
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_I8.bin",
+        "format": "bin",
+        "byte_size": 2543
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_L8.bin",
+        "format": "bin",
+        "byte_size": 1184
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_RGB565.bin",
+        "format": "bin",
+        "byte_size": 1597
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 2069
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_RGB888.bin",
+        "format": "bin",
+        "byte_size": 2809
+      },
+      {
+        "path": "tests/test_images/stride_align64/LZ4/test_XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 3098
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_A1.bin",
+        "format": "bin",
+        "byte_size": 992
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_A2.bin",
+        "format": "bin",
+        "byte_size": 1944
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_A4.bin",
+        "format": "bin",
+        "byte_size": 2494
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_A8.bin",
+        "format": "bin",
+        "byte_size": 3233
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 12360
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_I1.bin",
+        "format": "bin",
+        "byte_size": 980
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_I2.bin",
+        "format": "bin",
+        "byte_size": 1961
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_I4.bin",
+        "format": "bin",
+        "byte_size": 2560
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_I8.bin",
+        "format": "bin",
+        "byte_size": 4681
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_L8.bin",
+        "format": "bin",
+        "byte_size": 3639
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_RGB565.bin",
+        "format": "bin",
+        "byte_size": 6210
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 7252
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_RGB888.bin",
+        "format": "bin",
+        "byte_size": 9801
+      },
+      {
+        "path": "tests/test_images/stride_align64/RLE/test_XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 12328
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_A1.bin",
+        "format": "bin",
+        "byte_size": 972
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_A2.bin",
+        "format": "bin",
+        "byte_size": 1932
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_A4.bin",
+        "format": "bin",
+        "byte_size": 2892
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_A8.bin",
+        "format": "bin",
+        "byte_size": 4812
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_ARGB8888.bin",
+        "format": "bin",
+        "byte_size": 17292
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_I1.bin",
+        "format": "bin",
+        "byte_size": 980
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_I2.bin",
+        "format": "bin",
+        "byte_size": 1948
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_I4.bin",
+        "format": "bin",
+        "byte_size": 2956
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_I8.bin",
+        "format": "bin",
+        "byte_size": 5836
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_L8.bin",
+        "format": "bin",
+        "byte_size": 4812
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_RGB565.bin",
+        "format": "bin",
+        "byte_size": 8652
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_RGB565A8.bin",
+        "format": "bin",
+        "byte_size": 12972
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_RGB888.bin",
+        "format": "bin",
+        "byte_size": 13452
+      },
+      {
+        "path": "tests/test_images/stride_align64/UNCOMPRESSED/test_XRGB8888.bin",
+        "format": "bin",
+        "byte_size": 17292
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 35,
+    "files": [
+      {
+        "path": ".github/workflows/arduino.yml",
+        "sha256": "d944ed01569a0cad38b3c9d222479816174bb5fe3a5028b9f7be33e008dc0e25",
+        "byte_size": 714
+      },
+      {
+        "path": ".github/workflows/build_examples_with_cxx_compiler.yml",
+        "sha256": "f40c0b581302cdae7b6e059300805d895da1f7ecfd9cbb2de63833660f8f755e",
+        "byte_size": 749
+      },
+      {
+        "path": ".github/workflows/build_hardware.yml",
+        "sha256": "41f32f96196bad519b62372750031ea6098b2e98a8f1d64276626d73f0fc67b7",
+        "byte_size": 1164
+      },
+      {
+        "path": ".github/workflows/build_micropython.yml",
+        "sha256": "8a8e62e68167600304f7c0bb6233a010a6d9e81ee3d35078de38f5628a6e96d3",
+        "byte_size": 4183
+      },
+      {
+        "path": ".github/workflows/ccpp.yml",
+        "sha256": "0f1e27181a87afae49812a9a54170795a67cc3ab82b40b34998ab026f8a68a52",
+        "byte_size": 9258
+      },
+      {
+        "path": ".github/workflows/check_bom.yml",
+        "sha256": "48845ce9a73ddc09e36d254e32cc3728916d6c8ec53cf3562e49666d94f511dd",
+        "byte_size": 1883
+      },
+      {
+        "path": ".github/workflows/check_cppcheck.yml",
+        "sha256": "113ab04074fb08f29c04337d61af8fe5a45af4756deac574bbf9ea08fd25cc69",
+        "byte_size": 1008
+      },
+      {
+        "path": ".github/workflows/check_pr_title.yml",
+        "sha256": "cb5f5a29e7dbcc8c8fc03d00bfbe4e850c3bae5e499468006cdd1b9179c28287",
+        "byte_size": 968
+      },
+      {
+        "path": ".github/workflows/check_properties.yml",
+        "sha256": "29849a093e79865c075dd15d90567f8b35f262f109ce8aa213ec7716611c351d",
+        "byte_size": 1113
+      },
+      {
+        "path": ".github/workflows/check_style.yml",
+        "sha256": "921c0a17efd671e5a53e2f8d7e830884e4d230f12ecf356970e64238159e98d1",
+        "byte_size": 1406
+      },
+      {
+        "path": ".github/workflows/code_generation.yml",
+        "sha256": "8373d3b43eb3d48483a7983caddcd73fde5c75e2f671cc9102f71d401bc0fc20",
+        "byte_size": 8981
+      },
+      {
+        "path": ".github/workflows/compile_docs.yml",
+        "sha256": "8058197f73f4565a56161c0252e364ee8cd2291c4b80f09c0d0c4bd579eb2609",
+        "byte_size": 7647
+      },
+      {
+        "path": ".github/workflows/debian.yml",
+        "sha256": "b4207c7a44cb226af5c6a0c40c8ca8d606286fc93567c2528a42338c3ba8af0f",
+        "byte_size": 1879
+      },
+      {
+        "path": ".github/workflows/distribution.yml",
+        "sha256": "ed3f4d324db72ae756b6b68bf4e93a35abf134bc174618f3ebf3f237fe8cf50c",
+        "byte_size": 3505
+      },
+      {
+        "path": ".github/workflows/esp_upload_component.yml",
+        "sha256": "177d079c235a9585a1e538af259911bf5d3fe78a8171d006cf99330327f5699f",
+        "byte_size": 901
+      },
+      {
+        "path": ".github/workflows/gen_json.yml",
+        "sha256": "95c2954bad04f7f511218804ef4a4863a6abea8975a10950637e3f0c9564209c",
+        "byte_size": 1024
+      },
+      {
+        "path": ".github/workflows/install.yml",
+        "sha256": "ea91e25261dfbb2e5eb2a4caa7849a1156034a0130589f3f7ea420d0b57c7356",
+        "byte_size": 2384
+      },
+      {
+        "path": ".github/workflows/labeler.yml",
+        "sha256": "9ff86d4bbd7def4d0545316d68109e1a0a38e3df603e95b7e72f192b075bf7eb",
+        "byte_size": 584
+      },
+      {
+        "path": ".github/workflows/main.yml",
+        "sha256": "45ce94f4e9e0565189f48c0f79bbbd76eba3dacd83b3cbaf9c071b69a7300539",
+        "byte_size": 600
+      },
+      {
+        "path": ".github/workflows/makefiles.yml",
+        "sha256": "92fc3de3ef0afbc6427d022188a78b04a6e46f8a8f1a1268ae9975429f96fa04",
+        "byte_size": 982
+      },
+      {
+        "path": ".github/workflows/makefiles_uefi.yml",
+        "sha256": "ce7903607af3a07474f792ddde53673df0db0df7e91ad2aece742d260f870958",
+        "byte_size": 1040
+      },
+      {
+        "path": ".github/workflows/memory_usage.yml",
+        "sha256": "1ebd71274b19c8be4e72b1aafa06e940bff28d95f0f9499b63c717aede147795",
+        "byte_size": 5769
+      },
+      {
+        "path": ".github/workflows/perf_emulation.yml",
+        "sha256": "293f791b8c55dc95a52742fa3029f93039e13332f5748e3ae172a4ba9a3a0c07",
+        "byte_size": 6058
+      },
+      {
+        "path": ".github/workflows/perf_emulation_handle_results.yml",
+        "sha256": "d0e664ed7c9abb85ec3e760f041b6698c9b965b4bf0a4d99ab64654d0d3a2446",
+        "byte_size": 2616
+      },
+      {
+        "path": ".github/workflows/perf_hardware.yml",
+        "sha256": "94da3b3a8ad60ef5a800fe16a9d704cb32193f504551e107ecc627d1795aebe2",
+        "byte_size": 1977
+      },
+      {
+        "path": ".github/workflows/perf_hardware_comment_pr.yml",
+        "sha256": "d918a6b1543767e621495f5e51cb15b6a16d4eb7de364d282ea72f62c30941f4",
+        "byte_size": 3115
+      },
+      {
+        "path": ".github/workflows/perf_tests.yml",
+        "sha256": "25fcbc1c6fd7811aa12455d123fb4a05f6b0503ee4d84327b7e354ed2e19fcf3",
+        "byte_size": 1083
+      },
+      {
+        "path": ".github/workflows/platformio_publish.yaml",
+        "sha256": "9495a9082d6e80d74b828bea0b39e229f3f3d1dba5c50f441e1f518a7aabc185",
+        "byte_size": 700
+      },
+      {
+        "path": ".github/workflows/pr_comment.yml",
+        "sha256": "df9dd28e914c3b909b601cc45e749de014cad1a7e29c754856aa6c03210bc6ac",
+        "byte_size": 4753
+      },
+      {
+        "path": ".github/workflows/release.yml",
+        "sha256": "135232319758ab5d454b440eb1c5e2f3888f44bba21d50b710e78e59aa0c39d3",
+        "byte_size": 2467
+      },
+      {
+        "path": ".github/workflows/release_branch_updater.yml",
+        "sha256": "b376d546d3ba090b46ea1a0ac549391da32c8a903eda9cb3a4b8b264899c16f2",
+        "byte_size": 1680
+      },
+      {
+        "path": ".github/workflows/stale_bot.yml",
+        "sha256": "f14f763323f95350c555953b4923585f488b11fd34ed9bb5f91619d2890f8936",
+        "byte_size": 1112
+      },
+      {
+        "path": ".github/workflows/static_checks.yml",
+        "sha256": "b5d8178623a92f117dd252811249ea23bad9e73c2a321f10292cbccf953efcd7",
+        "byte_size": 9540
+      },
+      {
+        "path": ".github/workflows/verify_font_license.yml",
+        "sha256": "5b3900e5928ebcc0b7bfd4759ebf9091951425a07a564fc541be512ccdee7696",
+        "byte_size": 981
+      },
+      {
+        "path": ".github/workflows/verify_kconfig.yml",
+        "sha256": "c28aa90e465778384dcc05ada96a79697a279d6b4ebeebd243bb3590a27d0927",
+        "byte_size": 1178
+      }
+    ],
+    "non_sha_action_reference_count": 104,
+    "floating_branch_reference_count": 7,
+    "finding_count": 7,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE-GHA-002:.github/workflows/build_micropython.yml:23",
+      "fingerprint": "f08b17ef5dff28725307b38537c6c35ba34bd5b0eee8a8b4af55961b3fd8d0f9",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/build_micropython.yml",
+        "start_line": 23,
+        "end_line": 23
+      },
+      "evidence": "- uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ccpp.yml:32",
+      "fingerprint": "fa94c2f4b6dc45f818b3f1f5a9c26f8796ab388794aee5084e79df93467af51b",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ccpp.yml",
+        "start_line": 32,
+        "end_line": 32
+      },
+      "evidence": "- uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ccpp.yml:68",
+      "fingerprint": "ff5e31de652800286f41c7859198a096dde77c41abc5bdfee16c88af2f3c2a01",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ccpp.yml",
+        "start_line": 68,
+        "end_line": 68
+      },
+      "evidence": "uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ccpp.yml:120",
+      "fingerprint": "7f5cedf151dc4b44bbb84474996ff58a846c9b3f90daafd7eb2f1ed1c1ded60c",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ccpp.yml",
+        "start_line": 120,
+        "end_line": 120
+      },
+      "evidence": "- uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/makefiles.yml:22",
+      "fingerprint": "9fc761de5bcb812cf52268c0859bee81a3011718b6622dc7a384ae399828055f",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/makefiles.yml",
+        "start_line": 22,
+        "end_line": 22
+      },
+      "evidence": "- uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/makefiles_uefi.yml:22",
+      "fingerprint": "969d48dfcd6ea350abba4d36459d8b63aa94b733c79182519e20102ea512fcf7",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/makefiles_uefi.yml",
+        "start_line": 22,
+        "end_line": 22
+      },
+      "evidence": "- uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/perf_tests.yml:29",
+      "fingerprint": "efc75a995c6d78c0c1510cc05ea5fbf0a83ea2190c3d014b96d47763fc6f77f0",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/perf_tests.yml",
+        "start_line": 29,
+        "end_line": 29
+      },
+      "evidence": "- uses: ammaraskar/gcc-problem-matcher@master",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}

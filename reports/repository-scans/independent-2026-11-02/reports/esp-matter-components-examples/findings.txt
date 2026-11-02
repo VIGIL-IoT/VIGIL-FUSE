@@ -1,0 +1,78 @@
+FUSE scan: espressif/esp-matter selected component and example scopes
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: ebecea449874576b7901faf6b3344b9db6817100e0f3a05b10ef3c1853027004
+Files discovered/selected: 1452/1349
+Files filtered by path policy: 103
+Files scanned: 1349
+Source bytes read: 7358427
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 424
+  .0: 7
+  .1: 7
+  .2: 7
+  .4: 7
+  .5: 7
+  .c5_thread: 3
+  .c5_wifi_thread: 1
+  .c6_thread: 5
+  .c6_wifi_thread: 1
+  .csv: 42
+  .defaults: 24
+  .der: 5
+  .esp32c2: 8
+  .esp32c3: 6
+  .esp32c5: 3
+  .esp32c6: 9
+  .esp32c61: 3
+  .esp32h2: 11
+  .esp32h21: 3
+  .esp32h4: 3
+  .esp32p4: 9
+  .esp32s3: 10
+  .esp32s31: 3
+  .ext_plat: 2
+  .ext_plat_ci: 5
+  .firmware: 1
+  .gn: 2
+  .groovy: 1
+  .in: 1
+  .jinja: 22
+  .jpeg: 2
+  .jpg: 1
+  .lf: 3
+  .lit: 1
+  .md: 51
+  .nanoc6_aliro_nfc: 1
+  .nanoh2_aliro_nfc: 1
+  .otbr: 3
+  .png: 17
+  .projbuild: 10
+  .rst: 23
+  .svg: 2
+  .thread_commission: 1
+  .txt: 70
+  .wifi_thread: 1
+  .zb_gw_board: 1
+  <no-extension>: 18
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 8 / completed; 31 non-SHA action reference(s), 0 floating-branch candidate(s)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 17 selected input(s). The conservative prefilter excluded 1332 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 373 selected input(s). The conservative prefilter excluded 976 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 953 selected input(s). The conservative prefilter excluded 396 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions, non-SHA action references, the privileged pull_request_target checkout pattern, and direct interpolation of selected untrusted event fields in step run scripts; no workflow code was executed.)
+No findings from the enabled rules.

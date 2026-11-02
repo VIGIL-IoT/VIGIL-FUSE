@@ -22,7 +22,7 @@
         }
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=20261102-noema-ui">
+    <link rel="stylesheet" href="styles.css?v=20261103-independent-cohort">
     <script src="script.js" defer></script>
   </head>
   <body>
@@ -188,6 +188,20 @@
           <a href="regression/">Review rule regression</a>
           <a href="fresh-validation/">Review transfer cohort</a>
         </nav>
+        <article class="independent-transfer reveal" aria-labelledby="independent-transfer-title">
+          <div class="independent-transfer-copy">
+            <h3 id="independent-transfer-title">A new four-repository check.</h3>
+            <p>FUSE scanned 3,425 files across littlefs, LVGL, FreeRTOS-Plus-TCP, and ESP-Matter. Sixteen informational GitHub Actions branch-reference signals appeared in LVGL and FreeRTOS-Plus-TCP. LVGL is partial because three selected files exceeded the scan size limit. No native rule signal appeared in these scopes.</p>
+            <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/reports/repository-scans/independent-2026-11-02/README.md" target="_blank" rel="noreferrer">Read scope, triage, and limits ↗</a>
+          </div>
+          <figure class="independent-transfer-chart">
+            <figcaption>Informational FUSE-GHA-002 matches</figcaption>
+            <picture>
+              <source media="(max-width: 760px)" srcset="assets/independent-transfer-signals-mobile.svg">
+              <img src="assets/independent-transfer-signals.svg" alt="Sixteen informational GitHub Actions branch-reference matches: nine in FreeRTOS-Plus-TCP, seven in LVGL, and none in littlefs or ESP-Matter. These are static review signals, not confirmed vulnerabilities.">
+            </picture>
+          </figure>
+        </article>
         <div class="scan-chart-grid">
           <figure class="scan-chart-panel scan-chart-wide">
             <figcaption><span>Repository coverage</span><strong>Raw signals by snapshot</strong></figcaption>

@@ -1,0 +1,145 @@
+FUSE scan: FreeRTOS/FreeRTOS-Plus-TCP source
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: a5e6605dc9abf2c16ea49388fea11dac4c65dd7d0d77b280d4cdfcc6f73f1ae9
+Files discovered/selected: 762/236
+Files filtered by path policy: 526
+Files scanned: 236
+Source bytes read: 6673011
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 9
+Hardware artifacts: 0
+Files not selected by the source profile: 114
+  .css: 1
+  .doxyfile: 1
+  .md: 54
+  .template: 1
+  .txt: 49
+  .url: 1
+  <no-extension>: 7
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+GitHub Actions workflows: 3 / completed; 20 non-SHA action reference(s), 9 floating-branch candidate(s)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 235 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 7 selected input(s). The conservative prefilter excluded 229 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 140 selected input(s). The conservative prefilter excluded 96 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+  github-actions-static: completed (Checked explicit write-all permissions, non-SHA action references, the privileged pull_request_target checkout pattern, and direct interpolation of selected untrusted event fields in step run scripts; no workflow code was executed.)
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:114
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/coverage-cop@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:126
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/spellings@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:136
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/formatting@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:146
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/doxygen@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:166
+  Evidence: uses: FreeRTOS/CI-CD-GitHub-Actions/manifest-verifier@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:178
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/link-verifier@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:449
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/set_up_cbmc_runner@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/ci.yml:469
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/run_cbmc@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions
+
+[INFO] FUSE-GHA-002 - GitHub Action reference points to a floating branch
+  Severity basis: rule
+  Confidence: high
+  Applicability: candidate
+  Validation: static (not-validated)
+  Location: .github/workflows/release.yml:24
+  Evidence: uses: FreeRTOS/CI-CD-Github-Actions/release@main
+  Explanation: The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.
+  Potential impact: The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.
+  Remediation: Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.
+  References: https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 360" role="img" aria-labelledby="title desc">
+  <title id="title">Informational branch-reference matches by repository</title>
+  <desc id="desc">Nine matches in FreeRTOS Plus TCP, seven in LVGL, zero in littlefs, and zero in ESP-Matter. These are review signals, not vulnerability counts.</desc>
+  <text x="18" y="31" fill="#a0aaa5" font-family="DM Sans, Segoe UI, sans-serif" font-size="18">Pinned source revisions · raw match counts</text>
+  <g font-family="DM Sans, Segoe UI, sans-serif" font-size="18" fill="#f2f4f1">
+    <text x="18" y="77">FreeRTOS-Plus-TCP</text>
+    <text x="18" y="143">LVGL</text>
+    <text x="18" y="209">littlefs</text>
+    <text x="18" y="275">ESP-Matter</text>
+  </g>
+  <g fill="#a0aaa5" font-family="DM Mono, Consolas, monospace" font-size="18" text-anchor="end">
+    <text x="412" y="77">9</text>
+    <text x="412" y="143">7</text>
+    <text x="412" y="209">0</text>
+    <text x="412" y="275">0</text>
+  </g>
+  <g fill="#202725">
+    <rect x="18" y="89" width="394" height="16" rx="2"/>
+    <rect x="18" y="155" width="394" height="16" rx="2"/>
+    <rect x="18" y="221" width="394" height="16" rx="2"/>
+    <rect x="18" y="287" width="394" height="16" rx="2"/>
+  </g>
+  <g fill="#d92b21">
+    <rect x="18" y="89" width="394" height="16" rx="2"/>
+    <rect x="18" y="155" width="306" height="16" rx="2"/>
+  </g>
+  <text x="18" y="334" fill="#a0aaa5" font-family="DM Sans, Segoe UI, sans-serif" font-size="16">Informational only. No native rule signals.</text>
+  <text x="18" y="355" fill="#a0aaa5" font-family="DM Sans, Segoe UI, sans-serif" font-size="16">Not vulnerability counts.</text>
+</svg>

@@ -1,0 +1,604 @@
+{
+  "schema_version": "1.10",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.2.0"
+  },
+  "target": "FreeRTOS/FreeRTOS-Plus-TCP source",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "no-network",
+    "started_at": "2026-11-02T18:27:54Z",
+    "completed_at": "2026-11-02T18:28:01Z",
+    "input_manifest_sha256": "a5e6605dc9abf2c16ea49388fea11dac4c65dd7d0d77b280d4cdfcc6f73f1ae9"
+  },
+  "summary": {
+    "files_discovered": 762,
+    "files_selected": 236,
+    "files_filtered": 526,
+    "files_scanned": 236,
+    "source_bytes_read": 6673011,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 9,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 9,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 114,
+      "unsupported_file_types": {
+        ".css": 1,
+        ".doxyfile": 1,
+        ".md": 54,
+        ".template": 1,
+        ".txt": 49,
+        ".url": 1,
+        "<no-extension>": 7
+      }
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Seven native rules over selected source and configuration files.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.2.0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "completed",
+        "version": "1.9.0",
+        "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 235 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "completed",
+        "version": "1.4.0",
+        "detail": "Evaluated 7 selected input(s). The conservative prefilter excluded 229 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "completed",
+        "version": "1.2.0",
+        "detail": "Evaluated 140 selected input(s). The conservative prefilter excluded 96 inputs without the rule's required markers.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "github-actions-static",
+        "status": "completed",
+        "version": null,
+        "detail": "Checked explicit write-all permissions, non-SHA action references, the privileged pull_request_target checkout pattern, and direct interpolation of selected untrusted event fields in step run scripts; no workflow code was executed.",
+        "findings": 9
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "completed",
+    "workflow_count": 3,
+    "files": [
+      {
+        "path": ".github/workflows/ci.yml",
+        "sha256": "0bbc77d4e84808b5ae6d6b0d6963901a3e0e8a2b180667c405cdd4ad24226a85",
+        "byte_size": 17752
+      },
+      {
+        "path": ".github/workflows/release-candidate.yml",
+        "sha256": "6687db39c9051bba329bea56eb9f0d7a6151553052ff6d521e64f8696fbdc873",
+        "byte_size": 1413
+      },
+      {
+        "path": ".github/workflows/release.yml",
+        "sha256": "69d96bc4c4110da187ea4668b369160e2987c49051ea58ff0f98f03f17b04cf5",
+        "byte_size": 1238
+      }
+    ],
+    "non_sha_action_reference_count": 20,
+    "floating_branch_reference_count": 9,
+    "finding_count": 9,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:114",
+      "fingerprint": "c91b711ea94825781604f6e3ae8ac2668f5c5730ae3617d1274e0062d1b96497",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 114,
+        "end_line": 114
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/coverage-cop@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:126",
+      "fingerprint": "939fc1543abfcebf6096482a9b744447d1a618ed1ebfc3ee73f9266e26c5a86a",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 126,
+        "end_line": 126
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/spellings@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:136",
+      "fingerprint": "ff5441699f2f018463c53f7c0435933a6037d740ddcc01a33cc5a6bc950ccba8",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 136,
+        "end_line": 136
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/formatting@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:146",
+      "fingerprint": "37d20d3ffcc2dc22ab03077dce84775d18b3f32df562152c6d0302bfe8bde794",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 146,
+        "end_line": 146
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/doxygen@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:166",
+      "fingerprint": "04d9fb6d934e10957675b5e42718efd8d4371228d86f2812a51f17c336a2ee2f",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 166,
+        "end_line": 166
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-GitHub-Actions/manifest-verifier@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:178",
+      "fingerprint": "fb48e1219dc4b35c20854f973e03e8eb9fd2fc3fa677fc623f1444ea40406d56",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 178,
+        "end_line": 178
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/link-verifier@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:449",
+      "fingerprint": "7caa11b9db01e582b40df4c292cc7bf9af6f37b27983fde8f1c1f844da36c401",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 449,
+        "end_line": 449
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/set_up_cbmc_runner@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/ci.yml:469",
+      "fingerprint": "028de95a74f7c0a236902efe54d1ff32fe060102b562dddd73e60ab44a34dc14",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/ci.yml",
+        "start_line": 469,
+        "end_line": 469
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/run_cbmc@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    },
+    {
+      "id": "FUSE-GHA-002:.github/workflows/release.yml:24",
+      "fingerprint": "86373783fb9847668d07081d3ef2697891059958567299bb559618883439475d",
+      "rule_id": "FUSE-GHA-002",
+      "rule_version": "1.0.0",
+      "analyzer": "github-actions-static",
+      "title": "GitHub Action reference points to a floating branch",
+      "severity": "info",
+      "confidence": "high",
+      "category": "ci-workflow-security",
+      "location": {
+        "file": ".github/workflows/release.yml",
+        "start_line": 24,
+        "end_line": 24
+      },
+      "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/release@main",
+      "explanation": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check.",
+      "potential_impact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+      "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+      "references": [
+        "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+      ],
+      "applicability": "candidate",
+      "validation_method": "static",
+      "validation_status": "not-validated",
+      "severity_basis": "rule",
+      "severity_score": null,
+      "severity_vector": null,
+      "severity_version": null,
+      "component": null,
+      "vex_review": null
+    }
+  ],
+  "artifacts": []
+}

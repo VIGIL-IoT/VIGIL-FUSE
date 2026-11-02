@@ -1,0 +1,108 @@
+{
+  "cohort": "independent-transfer-2026-11-02",
+  "scan_date": "2026-11-02",
+  "training_manifest": "../scan-manifest.json",
+  "fuse": {
+    "version": "0.2.0",
+    "commit": "2bff2e4df97d38f2aff103a3061dc850dabf8b7a",
+    "source_tree_sha256": "33cef04292cbc37bca76c7917bb765e216f86d63890285e4be115ee861fd0012",
+    "source_tree_dirty": false,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "selection_protocol": {
+    "purpose": "Describe how the existing FUSE rules transfer to four pinned embedded and IoT repositories that do not appear in prior scan manifests.",
+    "pinned_before_scan": true,
+    "rule_tuning_during_scan": false,
+    "builds_or_tests_run": false,
+    "interpretation": "A purposive source-only transfer cohort. It is not representative, independently adjudicated, or an accuracy benchmark. Candidate signals do not establish a shipped-product weakness or exploitability."
+  },
+  "repositories": [
+    {
+      "id": "littlefs",
+      "name": "littlefs-project/littlefs",
+      "url": "https://github.com/littlefs-project/littlefs",
+      "commit": "6cb4e86540eca0d9ba62500a298385c9d863c8be",
+      "license": "BSD-3-Clause",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "littlefs-full",
+          "scope": "Full pinned upstream repository, within FUSE supported source and configuration formats",
+          "target_label": "littlefs-project/littlefs"
+        }
+      ]
+    },
+    {
+      "id": "lvgl",
+      "name": "lvgl/lvgl",
+      "url": "https://github.com/lvgl/lvgl",
+      "commit": "1918a999d700ef195a53a73f8765a353e74dc07e",
+      "license": "MIT",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "lvgl-core-examples",
+          "scope": "Core source and headers, demos, examples, and selected project configuration templates",
+          "target_label": "lvgl/lvgl selected source and example scopes",
+          "includes": [
+            "src/**",
+            "include/**",
+            "demos/**",
+            "examples/**",
+            "CMakeLists.txt",
+            "component.mk",
+            "Kconfig",
+            "lv_conf_template.h",
+            "lv_version.h.in",
+            "lvgl.h"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "freertos-plus-tcp",
+      "name": "FreeRTOS/FreeRTOS-Plus-TCP",
+      "url": "https://github.com/FreeRTOS/FreeRTOS-Plus-TCP",
+      "commit": "b86ad086e9870099bb0ac18a75dcb7f6dd508cc7",
+      "license": "MIT",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "freertos-plus-tcp-source",
+          "scope": "TCP source, public headers within source, root CMake metadata, and component manifest",
+          "target_label": "FreeRTOS/FreeRTOS-Plus-TCP source",
+          "includes": [
+            "source/**",
+            "CMakeLists.txt",
+            "manifest.yml"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "esp-matter",
+      "name": "espressif/esp-matter",
+      "url": "https://github.com/espressif/esp-matter",
+      "commit": "b9fc662976fc0af745a0e311cfd109bd0b7be413",
+      "license": "Apache-2.0",
+      "profile": "generic",
+      "scans": [
+        {
+          "id": "esp-matter-components-examples",
+          "scope": "ESP-Matter components, device HAL, examples, and selected ESP-IDF project metadata; connectedhomeip submodule excluded",
+          "target_label": "espressif/esp-matter selected component and example scopes",
+          "includes": [
+            "components/**",
+            "device_hal/**",
+            "examples/**",
+            "CMakeLists.txt",
+            "Kconfig",
+            "idf_component.yml",
+            "sdkconfig.defaults*"
+          ]
+        }
+      ]
+    }
+  ]
+}

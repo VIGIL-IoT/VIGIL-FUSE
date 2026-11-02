@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 310" role="img" aria-labelledby="title desc">
+  <title id="title">Informational floating GitHub Actions branch references</title>
+  <desc id="desc">Sixteen static FUSE-GHA-002 matches across four pinned repositories: nine in FreeRTOS Plus TCP, seven in LVGL, and zero in littlefs and ESP-Matter. These are not vulnerability counts.</desc>
+  <rect width="700" height="310" fill="#111615"/>
+  <text x="28" y="40" fill="#f2f4f1" font-family="DM Sans, Segoe UI, sans-serif" font-size="23" font-weight="700">Floating action branch references</text>
+  <text x="28" y="67" fill="#a0aaa5" font-family="DM Sans, Segoe UI, sans-serif" font-size="16">FUSE-GHA-002, informational matches at pinned revisions</text>
+  <g font-family="DM Sans, Segoe UI, sans-serif" font-size="16">
+    <text x="28" y="120" fill="#f2f4f1">FreeRTOS-Plus-TCP</text>
+    <text x="28" y="168" fill="#f2f4f1">LVGL</text>
+    <text x="28" y="216" fill="#f2f4f1">littlefs</text>
+    <text x="28" y="264" fill="#f2f4f1">ESP-Matter</text>
+  </g>
+  <g fill="#202725">
+    <rect x="250" y="103" width="400" height="18"/>
+    <rect x="250" y="151" width="400" height="18"/>
+    <rect x="250" y="199" width="400" height="18"/>
+    <rect x="250" y="247" width="400" height="18"/>
+  </g>
+  <g fill="#d92b21">
+    <rect x="250" y="103" width="400" height="18"/>
+    <rect x="250" y="151" width="311" height="18"/>
+  </g>
+  <g fill="#f2f4f1" font-family="DM Mono, Consolas, monospace" font-size="16" text-anchor="end">
+    <text x="675" y="118">9</text>
+    <text x="675" y="166">7</text>
+    <text x="675" y="214">0</text>
+    <text x="675" y="262">0</text>
+  </g>
+  <text x="28" y="294" fill="#a0aaa5" font-family="DM Sans, Segoe UI, sans-serif" font-size="15">Raw static matches only. Informational severity. No native rule signals in these scopes.</text>
+</svg>

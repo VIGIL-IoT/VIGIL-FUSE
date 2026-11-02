@@ -1,0 +1,475 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.2.0",
+          "rules": [
+            {
+              "id": "FUSE-GHA-002",
+              "shortDescription": {
+                "text": "GitHub Action reference points to a floating branch"
+              },
+              "fullDescription": {
+                "text": "The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check."
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "severity": "info",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "ci-workflow-security",
+                "version": "1.0.0"
+              },
+              "helpUri": "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            }
+          ]
+        }
+      },
+      "artifacts": [],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/coverage-cop@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 114,
+                  "endLine": 114
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "958960bf2261af4159be873abf6b363240ee3019e255918d7505530d81f50ab8:1",
+            "vigilIoTFingerprint/v1": "c91b711ea94825781604f6e3ae8ac2668f5c5730ae3617d1274e0062d1b96497"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:114",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/coverage-cop@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/spellings@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 126,
+                  "endLine": 126
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "2c63d3233e489f886b08164bca73b89625ec16f3b59669594274168a734c11a5:1",
+            "vigilIoTFingerprint/v1": "939fc1543abfcebf6096482a9b744447d1a618ed1ebfc3ee73f9266e26c5a86a"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:126",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/spellings@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/formatting@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 136,
+                  "endLine": 136
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "b72bd2caa57d55cd0e70b3ff56abd7285de465e192cab9e35f95f1f8cf92ec24:1",
+            "vigilIoTFingerprint/v1": "ff5441699f2f018463c53f7c0435933a6037d740ddcc01a33cc5a6bc950ccba8"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:136",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/formatting@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/doxygen@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 146,
+                  "endLine": 146
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "ddf1242bd619baa01f337f999a5c8b9d7f163c6f4c54ffe82c865b7573c29962:1",
+            "vigilIoTFingerprint/v1": "37d20d3ffcc2dc22ab03077dce84775d18b3f32df562152c6d0302bfe8bde794"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:146",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/doxygen@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-GitHub-Actions/manifest-verifier@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 166,
+                  "endLine": 166
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "bb6a1affc7dc6bfc22e70944e1c738f59db6b7da31b9a05526787ebda08801f5:1",
+            "vigilIoTFingerprint/v1": "04d9fb6d934e10957675b5e42718efd8d4371228d86f2812a51f17c336a2ee2f"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:166",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-GitHub-Actions/manifest-verifier@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/link-verifier@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 178,
+                  "endLine": 178
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "625498b72f2225df80348bfcae199a377d262793de4357533f7b4816c6072cab:1",
+            "vigilIoTFingerprint/v1": "fb48e1219dc4b35c20854f973e03e8eb9fd2fc3fa677fc623f1444ea40406d56"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:178",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/link-verifier@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/set_up_cbmc_runner@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 449,
+                  "endLine": 449
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "a6c85a063abe2d7f1b7ad24164b06591eadd479b37bcd36ac42a06e9a2b82484:1",
+            "vigilIoTFingerprint/v1": "7caa11b9db01e582b40df4c292cc7bf9af6f37b27983fde8f1c1f844da36c401"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:449",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/set_up_cbmc_runner@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/run_cbmc@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/ci.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 469,
+                  "endLine": 469
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "e623d979491fad95c524dec1b36e11d90451c1797f5cf1dc49e7fc8807cc5054:1",
+            "vigilIoTFingerprint/v1": "028de95a74f7c0a236902efe54d1ff32fe060102b562dddd73e60ab44a34dc14"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/ci.yml:469",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/run_cbmc@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-GHA-002",
+          "level": "note",
+          "message": {
+            "text": "GitHub Action reference points to a floating branch. The workflow selects an action by a branch-like reference that can move without a workflow change. Other non-SHA version references are counted in inventory but are not findings in this conservative check. Evidence: uses: FreeRTOS/CI-CD-Github-Actions/release@main"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".github/workflows/release.yml",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 24,
+                  "endLine": 24
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "8ddc606610832014e4310920d3b1f046df4a446dbdab557a65d4488d22ae3da5:1",
+            "vigilIoTFingerprint/v1": "86373783fb9847668d07081d3ef2697891059958567299bb559618883439475d"
+          },
+          "properties": {
+            "fuseId": "FUSE-GHA-002:.github/workflows/release.yml:24",
+            "severity": "info",
+            "confidence": "high",
+            "category": "ci-workflow-security",
+            "analyzer": "github-actions-static",
+            "potentialImpact": "The referenced code may change while the workflow text remains unchanged, weakening review and reproducibility.",
+            "remediation": "Pin the action to a verified full commit SHA and use comments or Dependabot to track reviewed updates.",
+            "evidence": "uses: FreeRTOS/CI-CD-Github-Actions/release@main",
+            "references": [
+              "https://docs.github.com/en/actions/security-for-github-actions/security-guides/security-hardening-for-github-actions#using-third-party-actions"
+            ],
+            "component": null,
+            "vexReview": null
+          }
+        }
+      ],
+      "properties": {
+        "target": "FreeRTOS/FreeRTOS-Plus-TCP source",
+        "profile": "generic",
+        "networkPolicy": "no-network",
+        "inputManifestSha256": "a5e6605dc9abf2c16ea49388fea11dac4c65dd7d0d77b280d4cdfcc6f73f1ae9",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.2.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.9.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          },
+          {
+            "name": "github-actions-static",
+            "status": "completed",
+            "version": null
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 9,
+          "resultsIncluded": 9,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

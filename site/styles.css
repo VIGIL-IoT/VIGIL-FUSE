@@ -1003,6 +1003,59 @@ p {
   text-underline-offset: 4px;
 }
 
+.independent-transfer {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: center;
+  gap: clamp(20px, 4vw, 48px);
+  margin: 0 0 30px;
+  padding: clamp(18px, 3vw, 28px);
+  border-left: 3px solid var(--signal);
+  background: var(--surface);
+}
+
+.independent-transfer-copy h3 {
+  max-width: 24ch;
+  margin: 0 0 10px;
+  font-size: var(--step-lead);
+  line-height: 1.25;
+}
+
+.independent-transfer-copy p {
+  max-width: 58ch;
+  margin: 0 0 14px;
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.independent-transfer-copy a {
+  color: var(--signal-bright);
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-underline-offset: 4px;
+}
+
+.independent-transfer-chart {
+  min-width: 0;
+  margin: 0;
+}
+
+.independent-transfer-chart figcaption {
+  margin: 0 0 9px;
+  font-size: var(--step-small);
+  font-weight: 600;
+}
+
+.independent-transfer-chart picture {
+  display: block;
+}
+
+.independent-transfer-chart img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .scan-metrics {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2217,6 +2270,10 @@ p {
 @media (max-width: 900px) {
   .scan-metrics {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .independent-transfer {
+    grid-template-columns: 1fr;
   }
 }
 
