@@ -5,13 +5,13 @@
 **Code baseline before this increment:** `953b786`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
-**Current status update and score, 2026-11-02:** The repository owner requested removal of the root license file. The current tree and package metadata declare no project license. This does not alter earlier commits or releases. The current score below is 95/100 after closing the analyzer-conformance point and documenting that public code patches require written owner permission.
+**Current status update and score, 2026-11-02:** The repository owner restored the custom VIGIL-FUSE Restricted Use License and PEP 639 package metadata after previously requesting its removal. The license permits commercial use while restricting redistribution and shared modifications. It does not alter earlier license grants. The current score below remains 95/100 after closing the analyzer-conformance point and documenting that public code patches require written owner permission. The license decision does not close the remaining legal and distribution-channel review.
 
 ## Repository overview
 
 FUSE is a CLI-first Python tool for bounded static inspection of embedded and IoT project source, configuration, selected build metadata, hardware artifacts, dependency inventories, and firmware candidates. It is part of VIGIL-IoT and complements SPECTRA-32's controlled lab experiments. FUSE does not itself build projects, execute scanned source or firmware, contact devices, or validate physical hardware.
 
-The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`. No project license is currently declared, and distribution terms remain unresolved.
+The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`, and is source-available under the custom VIGIL-FUSE Restricted Use License. Distribution-channel and rights-history review remain open.
 
 ## Initial condition
 
@@ -207,7 +207,7 @@ Scores use the weights from the master prompt. The initial assessment is the wor
 
 The maturity score remains below 100 because analyzer sandboxing, rights and distribution review, and independent field-accuracy adjudication still need evidence outside this code change. Removing the root license file did not earn a score point.
 
-The 2026-11-02 score update is backed by FUSE CI [run 41378841057](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41378841057), CodeQL [run 41378840999](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41378840999), the three-platform optional analyzer run [41377700744](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377700744), and the Ubuntu and Windows Binwalk run [41377931313](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377931313). Local validation passed 313 tests, 148 subtests, Ruff, strict Mypy, documentation and path checks, and the 24-case native-rule benchmark. Package build and Twine checks passed; the generated wheel and source archive contain no project license metadata. Docker Desktop's service could not be started from the unprivileged workstation session, so no sandbox implementation or runtime test is claimed.
+The 2026-11-02 score update is backed by FUSE CI [run 41378841057](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41378841057), CodeQL [run 41378840999](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41378840999), the three-platform optional analyzer run [41377700744](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377700744), and the Ubuntu and Windows Binwalk run [41377931313](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377931313). Local validation passed 313 tests, 148 subtests, Ruff, strict Mypy, documentation and path checks, and the 24-case native-rule benchmark. Package build and Twine checks passed on the pre-restoration revision; those artifacts did not contain project license metadata. Docker Desktop was unavailable during that earlier validation, so no sandbox implementation or runtime test is claimed.
 
 ## Recommended next actions
 
