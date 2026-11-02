@@ -26,6 +26,8 @@ vigil-fuse scan path/to/embedded-project --output-dir .fuse-results
 
 A normal scan writes `findings.json`, `findings.txt`, and `findings.sarif` to `.fuse-results/`. Start with `--plan` to review selected inputs, supported stages, limits, and available tools before scanning.
 
+See the [usage guide](docs/usage.md) for setup, scan options, optional analyzers, and report review.
+
 ## How a scan works
 
 ![FUSE scan flow from a selected local project through bounded discovery, native checks, context inventory, optional analyzers, normalized findings, and local reports](docs/figures/fuse-scan-flow.svg)
