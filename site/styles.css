@@ -724,6 +724,7 @@ p {
 
 .showcase-track {
   display: flex;
+  align-items: stretch;
   gap: 22px;
   overflow-x: auto;
   padding: 4px 2px 18px;
@@ -733,12 +734,15 @@ p {
 }
 
 .showcase-slide {
+  display: flex;
+  flex-direction: column;
   flex: 0 0 min(29vw, 350px);
   min-width: 285px;
   scroll-snap-align: start;
 }
 
 .showcase-slide h3 {
+  flex: 0 0 54px;
   min-height: 54px;
   margin: 0 0 12px;
   font-size: var(--step-lead);
@@ -748,6 +752,9 @@ p {
 }
 
 .fragment {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
   min-height: 252px;
   padding: 21px;
   background: var(--surface);
