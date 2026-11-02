@@ -1688,13 +1688,6 @@ p {
   font-size: var(--step-small);
 }
 
-.workflow-boundary {
-  max-width: 60ch;
-  margin: 26px 0 0 auto;
-  color: var(--muted);
-  font-size: var(--step-body);
-}
-
 .rules {
   padding-block: var(--section-space);
 }
@@ -1939,15 +1932,20 @@ p {
 
 .boundary-columns {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(24px, 4.5vw, 64px);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 28px);
 }
 
 .boundary-columns p {
   display: grid;
   align-content: start;
   gap: 11px;
+  height: 100%;
   margin: 0;
+  padding: clamp(18px, 2vw, 24px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-raised);
 }
 
 .boundary-columns strong {
@@ -2242,6 +2240,10 @@ p {
 
   .workflow-layout {
     grid-template-columns: 1fr;
+  }
+
+  .boundary-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .command-stack {

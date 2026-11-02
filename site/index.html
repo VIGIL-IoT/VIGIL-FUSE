@@ -275,7 +275,6 @@
             </div>
           </div>
         </div>
-        <p class="workflow-boundary reveal">Native rules inspect selected text and configuration files. Optional Syft and OSV-Scanner adapters add component inventory and advisory matching. Baseline review tracks new, persistent and resolved findings; reasoned suppressions remain counted, and incomplete scans never mark missing findings resolved. Optional Binwalk identifies firmware signatures only; FUSE does not extract or execute firmware.</p>
       </section>
 
       <section class="archify-section page-wrap" id="architecture" aria-labelledby="architecture-title">
@@ -330,11 +329,12 @@
 
       <section class="boundaries" aria-labelledby="boundaries-title">
         <div class="boundary-inner page-wrap">
-          <h2 id="boundaries-title" class="reveal">Signals stay inside their evidence.</h2>
+          <h2 id="boundaries-title" class="reveal">What FUSE checks and where it stops.</h2>
           <div class="boundary-columns">
-            <p><strong>Source inspection</strong><span>FUSE does not validate credentials, contact endpoints or claim that a flagged code path is reachable.</span></p>
-            <p><strong>Firmware intake</strong><span>Binwalk signature identification is partial coverage. Firmware extraction and execution are outside the current workflow.</span></p>
-            <p><strong>Advisories</strong><span>Dependency matching uses optional system tools and reports missing tools or partial coverage explicitly.</span></p>
+            <p><strong>Source rules</strong><span>Native rules inspect selected source and configuration text. A match does not establish credential validity, code reachability, or endpoint contact.</span></p>
+            <p><strong>Dependencies</strong><span>Optional Syft inventories components. OSV-Scanner matches component versions against known advisories. Missing tools and incomplete analysis stay visible.</span></p>
+            <p><strong>Baseline review</strong><span>Tracks findings as new, persistent, or resolved. Reasoned suppressions remain counted. Incomplete scans do not resolve findings they could not assess.</span></p>
+            <p><strong>Firmware intake</strong><span>Optional Binwalk identifies firmware signatures only. FUSE does not extract or execute firmware.</span></p>
           </div>
         </div>
       </section>
