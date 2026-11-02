@@ -112,9 +112,16 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 
 ## Assumptions and constraints
 
-- The user has authorization to inspect the selected repository and artifacts.
-- Filename, textual, and metadata indicators are evidence for review, not proof of behavior.
-- Optional analyzer tools have their own versions, parsers, network behavior, and residual risks.
+| ID | Assumption | Basis | Impact if false | Validation status |
+| --- | --- | --- | --- | --- |
+| A-1 | The operator is authorized to inspect the selected target and artifacts | FUSE accepts local paths and does not establish ownership | Scanning without authorization can violate policy or law | Not technically verified by FUSE. The usage guide and threat model require authorization |
+| A-2 | A source, filename, or metadata match is only evidence for review | Static analysis does not observe deployed behavior or prove reachability | Treating a candidate as a confirmed vulnerability can mislead remediation or reporting | Reflected in the finding model, report schema, rule guidance, and limitations |
+| A-3 | A selected external analyzer is trusted by the operator | Optional tools are launched as subprocesses with the current user's accessible filesystem and system resources | A vulnerable or malicious analyzer can affect the host or access readable data | Timeouts, output caps, environment filtering, and cleanup are tested. Operating-system isolation is not implemented |
+| A-4 | A normal repository scan may observe a target that changes while scanning | FUSE reads files individually and does not create a transactional filesystem snapshot | A report can combine evidence from different target states | Input digests describe the files actually read. Reproducible cohort scans require clean, pinned revisions |
+| A-5 | The optional analyzer and advisory data are suitable for the requested check | Tool versions and stage status are recorded, but external tool behavior and advisory freshness are independent | Results may be unavailable, stale, or incomplete | Missing tools and stage failures are reported. Offline advisory database freshness is not established by FUSE |
+
+The following constraints also apply:
+
 - The Python dependency audit reports known advisories for the resolved development environment. It does not audit operating system packages, arbitrary external executables, malicious package behavior, or every optional configuration.
 - The current restricted-use license is not an OSI-approved open-source license and limits redistribution and registry uploads. No license change is implied by this engineering document.
 - No physical board or controlled lab is required to run FUSE, and none was used for the repository scan studies.

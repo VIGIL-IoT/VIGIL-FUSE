@@ -64,6 +64,19 @@ Report paths are target relative where applicable. Fixed artifact names are writ
 | Output overwrite or symlink target | Output directory and fixed artifact destinations are checked; symlink report destinations are refused | Existing regular files can be replaced; concurrent filesystem changes can create races |
 | Misleading vulnerability claims | Severity, confidence, applicability, validation, and coverage are separate; static findings remain unvalidated by default | Users can still misinterpret findings if they ignore these fields and limitations |
 
+## FMEA-lite: operational failure modes
+
+This table focuses on failures that can change scan coverage or report durability. It complements the security threat table and does not add guarantees beyond the implementation.
+
+| Failure mode | Likely cause | Effect | Detection | Mitigation and recovery | Residual risk |
+| --- | --- | --- | --- | --- | --- |
+| Discovery or scan budget is exhausted | Large tree, oversized files, or slow storage | Some files are skipped or analysis stops before the full target is checked | Coverage fields and skipped-file reasons identify partial analysis | Narrow the profile or path scope, then rerun against a stable target. Change limits only within hard ceilings | A partial report can still be mistaken for a complete review if coverage is ignored |
+| Structured input is malformed or unsupported | Truncated, adversarial, newer, or unrecognized file format | The relevant context or analyzer stage may fail or be skipped | Parse and stage status appear in the report | Validate the input with its producer, export a supported format, or disable the affected optional stage | Unsupported semantics can remain outside FUSE's observations |
+| Optional analyzer is missing or returns an error | Tool not installed, version mismatch, network failure, or invalid input | Dependency, firmware, or history results are missing | `doctor` reports availability; scan report records unavailable or failed status | Install a trusted compatible tool, repair the input, or rerun without the optional stage and review coverage | A report from other stages does not replace the missing analysis |
+| Optional analyzer times out or exceeds output limits | Large or hostile input, slow tool, or excessive diagnostics | The stage is terminated and results may be incomplete | Timeout or output-limit status is reported | Reduce the target scope and rerun in an independently isolated environment | Process-tree cleanup is best effort and FUSE does not sandbox the analyzer |
+| Report output cannot be written | Unwritable directory, insufficient disk space, unsafe path, or filesystem error | One or more reports or analyzer artifacts may be absent | CLI error, missing artifact, or incomplete artifact list | Use a dedicated writable output directory with adequate space and verify the artifact list before sharing | Existing regular files in the chosen output directory may be replaced |
+| Target changes during a scan | Concurrent edits, generated files, or branch movement | The result can contain observations from more than one target state | Per-file digests record observed content, but a normal scan does not identify a transactional snapshot | Pin a revision and use a clean checkout for repeatable evaluation; rerun after changes settle | A local scan can still mix file states without detecting the change |
+
 ## Safe operating guidance
 
 1. Scan only targets you own or have permission to assess.
