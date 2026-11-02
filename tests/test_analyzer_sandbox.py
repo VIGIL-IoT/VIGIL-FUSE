@@ -193,13 +193,14 @@ class SandboxCommandTests(unittest.TestCase):
                 container_name="vigil-fuse-analyzer-test",
                 extra_readonly_mounts=(sbom,),
             )
+            resolved_sbom = sbom.resolve()
+            resolved_reports = reports.resolve()
 
         joined = "\n".join(command)
         self.assertIn("/fuse/readonly-0", command)
-        self.assertIn(f"source={sbom},target=/fuse/readonly-0,readonly", joined)
-        self.assertNotIn(
-            str(reports), joined.replace(f"source={sbom},target=/fuse/readonly-0,readonly", "")
-        )
+        readonly_sbom_mount = f"source={resolved_sbom},target=/fuse/readonly-0,readonly"
+        self.assertIn(readonly_sbom_mount, joined)
+        self.assertNotIn(str(resolved_reports), joined.replace(readonly_sbom_mount, ""))
         self.assertNotIn("/fuse/output", joined)
 
 
