@@ -297,9 +297,9 @@
 
         <g class="node optional">
           <rect class="node-box" x="460" y="512" width="340" height="80" rx="6"/>
-          <text class="node-tag" x="476" y="536">SEPARATE PROCESS</text>
+          <text class="node-tag" x="476" y="536">HOST DEFAULT · DOCKER OPT-IN</text>
           <text class="node-title" x="476" y="556">Optional analyzers</text>
-          <text class="node-detail" x="476" y="576">Syft · OSV-Scanner · Binwalk · Gitleaks · not sandboxed by FUSE</text>
+          <text class="node-detail" x="476" y="576">Host by default · Docker sandbox opt-in</text>
         </g>
 
         <!-- Horizontal legend strip -->
@@ -316,7 +316,7 @@
       </svg>
     </div>
 
-    <p class="figure-note">Native rules inspect selected text without executing project code. Hardware and firmware inventories identify recognized files and metadata; they do not assess a physical board. Optional analyzers are separate processes and are not sandboxed by FUSE. OSV-Scanner can use the network unless configured for offline operation.</p>
+    <p class="figure-note">Native rules inspect selected text without executing project code. Hardware and firmware inventories identify recognized files and metadata; they do not assess a physical board. Optional analyzers run on the host by default. Explicit Docker mode uses a local SHA-256-pinned image, read-only inputs, and bounded resources. The host report directory is not mounted into the container. Online OSV lookup requires an explicit option.</p>
   </main>
 </body>
 </html>

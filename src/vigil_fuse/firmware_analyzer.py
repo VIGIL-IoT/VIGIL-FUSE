@@ -13,6 +13,8 @@ from .analyzer_runtime import (
     _artifact_destination,
     _run,
     _tool_version,
+    analyzer_unavailable_detail,
+    resolve_analyzer_executable,
     TOOL_VERSION_TIMEOUT_SECONDS,
 )
 from .model import AnalyzerStatus
@@ -41,13 +43,16 @@ def _binwalk_version(executable: str) -> str | None:
 
 def identify_firmware(target: Path, output_dir: Path) -> AdapterResult:
     """Run Binwalk signature identification only. No extraction option is invoked."""
-    executable = shutil.which("binwalk")
+    executable = resolve_analyzer_executable("binwalk", host_lookup=shutil.which)
     if executable is None:
         return AdapterResult(
             AnalyzerStatus(
                 "binwalk",
                 "unavailable",
-                detail="Install Binwalk and rerun with --firmware; extraction is not performed.",
+                detail=analyzer_unavailable_detail(
+                    "binwalk",
+                    "Install Binwalk and rerun with --firmware; extraction is not performed.",
+                ),
             )
         )
     version = _binwalk_version(executable)

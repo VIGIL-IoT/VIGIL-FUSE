@@ -34,7 +34,7 @@ See the [usage guide](docs/usage.md) for setup, scan options, optional analyzers
 
 [Open the standalone diagram source](site/diagrams/fuse-scan-flow.html).
 
-Native rules analyze selected text without importing or executing project code. FUSE does not flash devices, contact device services, or prove that a static signal is reachable in a deployed product. Optional external analyzers are separate tools and are not sandboxed by FUSE.
+Native rules analyze selected text without importing or executing project code. FUSE does not flash devices, contact device services, or prove that a static signal is reachable in a deployed product. Optional external analyzers run on the host by default. Explicit Docker mode uses local digest-pinned images, read-only inputs, bounded output capture, no network by default, and resource limits. The report directory is never bind-mounted, and nested report paths are hidden behind bounded temporary storage. Host mode remains unsandboxed.
 
 ## Understand a finding
 

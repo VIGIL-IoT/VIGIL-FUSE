@@ -82,6 +82,38 @@ Optional analyzers run only when requested. Install and trust the relevant tools
 | `--git-history` | Gitleaks | Checks commits reachable from the target's `HEAD` and records redacted finding metadata. |
 | `--firmware` | Binwalk | Identifies signatures in one selected firmware image. FUSE does not extract the image. |
 
+### Run optional analyzers in Docker
+
+Host execution is the default. For hostile or untrusted inputs, Docker mode runs each requested analyzer from a separate local image identified by a SHA-256 digest. The image must expose the analyzer as a matching entrypoint or on `PATH`. FUSE uses `--pull=never`, so fetch and inspect images before scanning. A missing image or Docker runtime produces an unavailable analyzer status. FUSE does not fall back to a host executable.
+
+```sh
+docker pull anchore/syft:v1.55.0
+docker image inspect --format '{{index .RepoDigests 0}}' anchore/syft:v1.55.0
+
+vigil-fuse scan path/to/embedded-project \
+  --sbom \
+  --analyzer-sandbox docker \
+  --sandbox-image syft=anchore/syft@sha256:<64-hex-digest> \
+  --output-dir .fuse-results
+```
+
+Repeat `--sandbox-image` for each requested tool: `syft`, `osv-scanner`, `binwalk`, and `gitleaks`. A local image can be pinned by its `sha256:<64-hex-digest>` image ID. Only use images you trust. The report records the image reference and the isolation settings used for each completed or failed analyzer stage.
+
+Docker mode sets a non-root user, read-only container root and input mounts, dropped Linux capabilities, `no-new-privileges`, the Docker daemon's seccomp policy, a private PID namespace, private IPC and cgroup namespaces, no devices, no network, one CPU, 1 GiB memory, 64 processes, and a bounded 64 MiB scratch filesystem. The host report directory is never bind-mounted. If it is nested in the scanned directory, FUSE masks that path inside the container with bounded temporary storage. Syft writes CycloneDX JSON to stdout, which FUSE captures under a 50 MiB limit and writes to the report directory only after the container exits. When OSV-Scanner consumes that generated inventory, FUSE mounts only the SBOM file read-only. Other analyzer diagnostics share a 10 MiB capture limit. FUSE rejects a container configured with seccomp unconfined and checks the other created settings before starting the analyzer. The Docker engine and the selected analyzer image remain part of the trusted computing base. On Linux rootless Docker, resource limits require cgroup v2 with the systemd cgroup driver.
+
+Online OSV advisory lookup needs explicit network access for that container:
+
+```sh
+vigil-fuse scan path/to/embedded-project \
+  --vulnerabilities \
+  --analyzer-sandbox docker \
+  --sandbox-allow-osv-network \
+  --sandbox-image osv-scanner=ghcr.io/google/osv-scanner@sha256:<64-hex-digest> \
+  --output-dir .fuse-results
+```
+
+This gives bridge networking only to OSV-Scanner. Other analyzer containers remain offline. Do not combine the flag with `--no-network`. Offline vulnerability checks need an OSV database available inside the selected image.
+
 For an offline dependency check, use `--no-network` with the vulnerability stage and a suitable local OSV database:
 
 ```sh

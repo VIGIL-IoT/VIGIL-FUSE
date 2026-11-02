@@ -18,6 +18,8 @@ from .analyzer_runtime import (
     _artifact_destination,
     _run,
     _tool_version,
+    analyzer_unavailable_detail,
+    resolve_analyzer_executable,
 )
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
 
@@ -163,13 +165,15 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
                 detail="Install Git to inspect repository history.",
             )
         )
-    executable = shutil.which("gitleaks")
+    executable = resolve_analyzer_executable("gitleaks", host_lookup=shutil.which)
     if executable is None:
         return AdapterResult(
             AnalyzerStatus(
                 "gitleaks-history",
                 "unavailable",
-                detail="Install Gitleaks and rerun with --git-history.",
+                detail=analyzer_unavailable_detail(
+                    "gitleaks", "Install Gitleaks and rerun with --git-history."
+                ),
             )
         )
     version = _tool_version(executable)
@@ -267,7 +271,12 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
                 str(temporary_dir),
                 str(selected_target),
             ]
-            completed = _run(command, timeout=ANALYZER_TIMEOUT_SECONDS + 5, cwd=selected_target)
+            completed = _run(
+                command,
+                timeout=ANALYZER_TIMEOUT_SECONDS + 5,
+                cwd=selected_target,
+                readonly_mounts=(temporary_dir,),
+            )
     except subprocess.TimeoutExpired:
         return AdapterResult(
             AnalyzerStatus(

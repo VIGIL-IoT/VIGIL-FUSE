@@ -370,9 +370,12 @@ class OptionalAnalyzerTests(unittest.TestCase):
                 f"subprocess.Popen([sys.executable, '-c', {child_code!r}]); "
                 "sys.stdout.write('x' * 131072); sys.stdout.flush(); time.sleep(30)"
             )
-            with patch("vigil_fuse.analyzer_runtime.MAX_ANALYZER_OUTPUT_BYTES", 1024):
-                with self.assertRaises(AnalyzerOutputLimitError):
-                    _run([sys.executable, "-c", parent_code], timeout=10)
+            with self.assertRaises(AnalyzerOutputLimitError):
+                _run(
+                    [sys.executable, "-c", parent_code],
+                    timeout=10,
+                    output_limit_bytes=1024,
+                )
             time.sleep(2.3)
 
             self.assertFalse(marker.exists(), "analyzer descendant survived the output limit")
@@ -384,7 +387,7 @@ class OptionalAnalyzerTests(unittest.TestCase):
             target.mkdir()
             output = target / "reports"
 
-            def run(command: list[str]) -> subprocess.CompletedProcess[str]:
+            def run(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
                 path = Path(command[-1].split("=", 1)[1])
                 path.write_text(
                     json.dumps({"bomFormat": "CycloneDX", "components": [{"name": "x"}]}),
@@ -408,6 +411,7 @@ class OptionalAnalyzerTests(unittest.TestCase):
         self.assertEqual(artifact_hash, result.artifacts[0].sha256)
         self.assertIn(f"dir:{target.resolve()}", mocked_run.call_args.args[0])
         self.assertIn("--exclude", mocked_run.call_args.args[0])
+        self.assertIn("./reports/**", mocked_run.call_args.args[0])
 
     def test_osv_exit_code_one_is_valid_when_findings_are_returned(self) -> None:
         document = {

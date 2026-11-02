@@ -313,9 +313,9 @@
 
         <g class="node optional">
           <rect class="node-box" x="460" y="512" width="340" height="80" rx="6"/>
-          <text class="node-tag" x="476" y="536">SEPARATE PROCESS</text>
+          <text class="node-tag" x="476" y="536">HOST DEFAULT · DOCKER OPT-IN</text>
           <text class="node-title" x="476" y="556">Optional analyzers</text>
-          <text class="node-detail" x="476" y="576">Syft · OSV-Scanner · Binwalk · Gitleaks · not sandboxed by FUSE</text>
+          <text class="node-detail" x="476" y="576">Host by default · Docker sandbox opt-in</text>
         </g>
 
         <!-- Horizontal legend strip -->

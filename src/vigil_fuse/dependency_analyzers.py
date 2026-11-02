@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .analyzer_runtime import (
+    MAX_ANALYZER_OUTPUT_BYTES,
     MAX_SBOM_BYTES,
     AdapterResult,
     AnalyzerOutputLimitError,
@@ -18,6 +19,9 @@ from .analyzer_runtime import (
     _output_exclude_pattern,
     _run,
     _tool_version,
+    analyzer_sandbox_active,
+    analyzer_unavailable_detail,
+    resolve_analyzer_executable,
 )
 from .model import AnalyzerStatus, Finding
 from .product_context import dependency_component
@@ -25,13 +29,15 @@ from .product_context import dependency_component
 
 def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
     """Generate a local CycloneDX inventory with Syft; never resolve image names."""
-    executable = shutil.which("syft")
+    executable = resolve_analyzer_executable("syft", host_lookup=shutil.which)
     if executable is None:
         return AdapterResult(
             AnalyzerStatus(
                 "syft",
                 "unavailable",
-                detail="Install Syft and rerun with --sbom or --vulnerabilities.",
+                detail=analyzer_unavailable_detail(
+                    "syft", "Install Syft and rerun with --sbom or --vulnerabilities."
+                ),
             )
         )
 
@@ -42,13 +48,26 @@ def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
     except OSError as error:
         return AdapterResult(AnalyzerStatus("syft", "failed", version=version, detail=str(error)))
     source = f"{'dir' if target.is_dir() else 'file'}:{target.resolve()}"
+    sandboxed = analyzer_sandbox_active()
+    if sandboxed and sbom_path.exists():
+        try:
+            sbom_path.unlink()
+        except OSError as error:
+            return AdapterResult(
+                AnalyzerStatus("syft", "failed", version=version, detail=str(error))
+            )
     command = [executable, "scan", source]
     exclude_pattern = _output_exclude_pattern(target, output_dir)
     if exclude_pattern:
-        command.extend(["--exclude", exclude_pattern])
-    command.extend(["--output", f"cyclonedx-json={sbom_path}"])
+        command.extend(["--exclude", f"./{exclude_pattern}"])
+    command.extend(
+        ["--output", "cyclonedx-json"] if sandboxed else ["--output", f"cyclonedx-json={sbom_path}"]
+    )
     try:
-        completed = _run(command)
+        completed = _run(
+            command,
+            output_limit_bytes=MAX_SBOM_BYTES if sandboxed else MAX_ANALYZER_OUTPUT_BYTES,
+        )
     except subprocess.TimeoutExpired:
         return AdapterResult(
             AnalyzerStatus("syft", "failed", version=version, detail="Timed out after 180 seconds.")
@@ -65,9 +84,24 @@ def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
     except AnalyzerOutputLimitError:
         return AdapterResult(
             AnalyzerStatus(
-                "syft", "failed", version=version, detail="Syft diagnostics exceeded 10 MiB limit."
+                "syft",
+                "failed",
+                version=version,
+                detail=(
+                    "Syft output exceeded the 50 MiB SBOM limit."
+                    if sandboxed
+                    else "Syft diagnostics exceeded the 10 MiB limit."
+                ),
             )
         )
+
+    if sandboxed and completed.returncode == 0 and completed.stdout:
+        try:
+            sbom_path.write_text(completed.stdout, encoding="utf-8")
+        except OSError as error:
+            return AdapterResult(
+                AnalyzerStatus("syft", "failed", version=version, detail=str(error))
+            )
 
     if completed.returncode != 0 or not sbom_path.is_file():
         return AdapterResult(
@@ -410,13 +444,15 @@ def scan_vulnerabilities(
     offline: bool = False,
     no_network: bool = False,
 ) -> AdapterResult:
-    executable = shutil.which("osv-scanner")
+    executable = resolve_analyzer_executable("osv-scanner", host_lookup=shutil.which)
     if executable is None:
         return AdapterResult(
             AnalyzerStatus(
                 "osv-scanner",
                 "unavailable",
-                detail="Install OSV-Scanner and rerun with --vulnerabilities.",
+                detail=analyzer_unavailable_detail(
+                    "osv-scanner", "Install OSV-Scanner and rerun with --vulnerabilities."
+                ),
             )
         )
 
@@ -439,7 +475,16 @@ def scan_vulnerabilities(
         command.extend(["-L", str(target.resolve())])
 
     try:
-        completed = _run(command)
+        readonly_mounts = (
+            (inventory_path,)
+            if analyzer_sandbox_active()
+            and inventory_path is not None
+            and inventory_path.resolve() != target.resolve()
+            else ()
+        )
+        completed = (
+            _run(command, readonly_mounts=readonly_mounts) if readonly_mounts else _run(command)
+        )
     except subprocess.TimeoutExpired:
         return AdapterResult(
             AnalyzerStatus(

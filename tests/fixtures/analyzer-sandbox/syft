@@ -1,0 +1,40 @@
+#!/bin/sh
+set -eu
+
+if [ "${1-}" = "--version" ]; then
+    printf '%s\n' 'syft 1.55.0 sandbox-smoke'
+    exit 0
+fi
+
+if touch /fuse/input/.fuse-sandbox-write-test 2>/dev/null; then
+    rm -f /fuse/input/.fuse-sandbox-write-test
+    printf '%s\n' 'Sandbox input was writable' >&2
+    exit 5
+fi
+
+if [ -d /fuse/input/.fuse-results ]; then
+    if [ -e /fuse/input/.fuse-results/previous-report.json ]; then
+        printf '%s\n' 'A previous report was visible inside the analyzer container' >&2
+        exit 6
+    fi
+    if ! touch /fuse/input/.fuse-results/.fuse-sandbox-overlay-test; then
+        printf '%s\n' 'The bounded report-path overlay was not writable' >&2
+        exit 7
+    fi
+    rm -f /fuse/input/.fuse-results/.fuse-sandbox-overlay-test
+fi
+
+for argument in "$@"; do
+    case "$argument" in
+        cyclonedx-json=*)
+            printf '%s\n' '{"bomFormat":"CycloneDX","specVersion":"1.6","version":1,"components":[]}' > "${argument#cyclonedx-json=}"
+            exit 0
+            ;;
+    esac
+done
+if [ "${1-}" = "scan" ] && [ "${2-}" = "dir:/fuse/input" ]; then
+    printf '%s\n' '{"bomFormat":"CycloneDX","specVersion":"1.6","version":1,"components":[]}'
+    exit 0
+fi
+printf '%s\n' 'CycloneDX output format was not supplied' >&2
+exit 4

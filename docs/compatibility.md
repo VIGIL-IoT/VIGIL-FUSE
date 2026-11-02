@@ -28,7 +28,7 @@ See the [experiment records](experiments/) and [firmware analysis limits](firmwa
 
 ## Container isolation
 
-FUSE does not currently run optional analyzers in a container or operating-system sandbox. The Docker smoke test recorded in the [maturity closure plan](research/maturity-100-closure-plan-2026-11-02.md) verified selected flags against one local Linux engine and image. It is not a FUSE feature or a supported platform claim.
+The opt-in Docker analyzer path has a dedicated Linux CI job using a pinned fixture base image. Its hosted result is pending. A separate local Windows Docker Desktop smoke check used the official SHA-256-pinned Syft v1.55.0 image and verified two CycloneDX components on a nested report path. Docker mode has not been verified on macOS, Linux rootless Docker, or other daemon versions. Host mode remains the default and has the broader core package compatibility matrix above. See the [maturity closure plan](research/maturity-100-closure-plan-2026-11-02.md) for the security evidence and residual limits.
 
 ## Hardware and target projects
 

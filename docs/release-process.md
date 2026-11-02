@@ -42,6 +42,8 @@ There is no automatic release or package upload workflow. Keep local release art
 
 The root `LICENSE` and Python package metadata declare the custom VIGIL-FUSE Restricted Use License. A successful wheel build or metadata check does not establish that a distribution channel's terms are compatible with its restrictions. The current license also does not revoke permissions already granted for copies provided under earlier license text. Review the repository's rights history, ownership, and selected channel terms with qualified counsel before publishing.
 
+Use the [rights and distribution review packet](governance/rights-review-packet.md) to collect ownership, prior-license, third-party asset, contribution, channel, and release-approval evidence. It is a checklist, not legal advice or a substitute for qualified review.
+
 GitHub Packages does not currently provide a Python package registry. Its documented registries include Container, npm, RubyGems, Apache Maven, Gradle, and NuGet, so it cannot serve as a standard `pip`, `pipx`, or `uv` index for FUSE. See GitHub's [package registry list](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages). A GitHub Release can host wheel or source archive assets, but publishing those assets still needs a documented rights decision. See GitHub's [release asset documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
 
 Before publishing through a channel, the owner should resolve these options with qualified legal review:

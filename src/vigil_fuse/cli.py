@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 import hashlib
 import json
 import platform
@@ -12,6 +13,8 @@ from pathlib import Path
 from typing import Literal, TextIO, TypedDict
 
 from . import __version__
+from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
+from .analyzer_runtime import analyzer_execution_detail, analyzer_sandbox_context
 from .analyzers import (
     generate_sbom,
     identify_firmware,
@@ -75,6 +78,7 @@ class _ScanPlan(TypedDict):
     target: str
     target_kind: str
     profile: str
+    analyzer_execution: str
     selected_build_dir: str | None
     selected_zephyr_hardening_report: str | None
     detected_frameworks: list[_FrameworkHint]
@@ -99,6 +103,26 @@ def _safe_print(
 ) -> None:
     rendered = sep.join(safe_terminal_text(str(value)) for value in values)
     print(rendered, end=end, file=file, flush=flush)
+
+
+def _optional_analyzer_available(name: str, sandbox: AnalyzerSandbox | None) -> bool:
+    if sandbox is None:
+        return shutil.which(name) is not None
+    image = sandbox.image_for(name)
+    if sandbox.runtime is None or image is None:
+        return False
+    try:
+        inspected = subprocess.run(
+            [sandbox.runtime, "image", "inspect", "--format", "{{.Id}}", image],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+            timeout=10,
+        )
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+    return inspected.returncode == 0
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -320,6 +344,24 @@ def _parser() -> argparse.ArgumentParser:
         help="require OSV-Scanner's strict offline mode when checking vulnerabilities",
     )
     scan_parser.add_argument(
+        "--analyzer-sandbox",
+        choices=("host", "docker"),
+        default="host",
+        help="run optional external analyzers on the host or inside Docker; no automatic fallback",
+    )
+    scan_parser.add_argument(
+        "--sandbox-image",
+        action="append",
+        default=[],
+        metavar="TOOL=IMAGE@sha256:DIGEST",
+        help="local digest-pinned analyzer image; repeat for syft, osv-scanner, binwalk, or gitleaks",
+    )
+    scan_parser.add_argument(
+        "--sandbox-allow-osv-network",
+        action="store_true",
+        help="allow the OSV-Scanner container to use bridge networking for online advisory lookup",
+    )
+    scan_parser.add_argument(
         "--plan", action="store_true", help="show selected analysis stages without running scanners"
     )
     scan_parser.add_argument(
@@ -462,6 +504,7 @@ def _scan_plan(
     output_dir: Path,
     output_file: Path | None,
     sbom_input: bool,
+    analyzer_sandbox: AnalyzerSandbox | None,
     output_format: str,
     include: tuple[str, ...],
     exclude: tuple[str, ...],
@@ -542,14 +585,15 @@ def _scan_plan(
             max_discovered_directories=max_discovered_directories,
         )
     available = {
-        name.casefold(): executable is not None
-        for name, executable, _ in (
-            ("Syft", shutil.which("syft"), None),
-            ("OSV-Scanner", shutil.which("osv-scanner"), None),
-            ("Binwalk", shutil.which("binwalk"), None),
-            ("Gitleaks", shutil.which("gitleaks"), None),
-        )
+        name: _optional_analyzer_available(name, analyzer_sandbox)
+        for name in ("syft", "osv-scanner", "binwalk", "gitleaks")
     }
+
+    def unavailable_reason(name: str, host_message: str) -> str:
+        return (
+            host_message if analyzer_sandbox is None else analyzer_sandbox.unavailable_reason(name)
+        )
+
     native_supported = (
         bool(discovery_preview["files_selected"])
         or not bool(discovery_preview["discovery_complete"])
@@ -757,7 +801,11 @@ def _scan_plan(
                 if sbom_too_large
                 else "local component inventory; not needed for a supplied SBOM"
                 if sbom_input
-                else "optional local component inventory",
+                else "optional local component inventory"
+                if available["syft"]
+                else unavailable_reason(
+                    "syft", "Install Syft to generate a local component inventory."
+                ),
             }
         )
     if vulnerabilities:
@@ -776,7 +824,9 @@ def _scan_plan(
                 if no_network
                 else "offline database mode"
                 if offline_vulnerabilities
-                else "network lookup may occur",
+                else "network lookup may occur"
+                if available["osv-scanner"]
+                else unavailable_reason("osv-scanner", "Install OSV-Scanner to match advisories."),
             }
         )
     if firmware:
@@ -803,7 +853,11 @@ def _scan_plan(
                 else "unavailable",
                 "reason": "firmware input exceeded its size limit"
                 if firmware_too_large
-                else "signature identification only; extraction is not run",
+                else "signature identification only; extraction is not run"
+                if available["binwalk"]
+                else unavailable_reason(
+                    "binwalk", "Install Binwalk to identify firmware signatures."
+                ),
             }
         )
     if git_history:
@@ -841,7 +895,9 @@ def _scan_plan(
                     else "skipped"
                 ),
                 "reason": (
-                    "install Gitleaks to run the requested history scan"
+                    unavailable_reason(
+                        "gitleaks", "Install Gitleaks to run the requested history scan"
+                    )
                     if not available["gitleaks"]
                     else "install Git to inspect repository history"
                     if not git_available
@@ -856,6 +912,11 @@ def _scan_plan(
         "target": shareable_target,
         "target_kind": kind,
         "profile": profile,
+        "analyzer_execution": (
+            "host tools run with the current user's permissions; external analyzers are unsandboxed"
+            if analyzer_sandbox is None
+            else "Docker images are digest-pinned and local-only; containers have no network by default and do not fall back to host tools"
+        ),
         "selected_build_dir": selected_build_dir,
         "selected_zephyr_hardening_report": selected_hardening_report,
         "detected_frameworks": framework_hints,
@@ -918,6 +979,7 @@ def _scan_plan(
     else:
         _safe_print(f"FUSE scan plan for {plan['target']} ({kind}, profile: {profile})")
         _safe_print("No analyzer ran; this is a bounded path and metadata preview.")
+        _safe_print(f"Optional analyzer execution: {plan['analyzer_execution']}")
         _safe_print(
             "Framework hints: "
             + (
@@ -1100,6 +1162,27 @@ def _analyze_with_optional_tools(
         artifacts.extend(history_result.artifacts)
 
     findings.sort(key=lambda item: (item.file.casefold(), item.start_line or 0, item.rule_id))
+    analyzer_names = {
+        "syft": "syft",
+        "osv-scanner": "osv-scanner",
+        "binwalk": "binwalk",
+        "gitleaks-history": "gitleaks",
+    }
+    execution_annotated: list[AnalyzerStatus] = []
+    for analyzer in analyzers:
+        tool = analyzer_names.get(analyzer.name)
+        execution_detail = (
+            analyzer_execution_detail(tool)
+            if tool is not None and analyzer.status in {"completed", "partial", "failed"}
+            else None
+        )
+        if execution_detail is not None:
+            analyzer = replace(
+                analyzer,
+                detail=f"{analyzer.detail or ''} {execution_detail}".strip(),
+            )
+        execution_annotated.append(analyzer)
+    analyzers = execution_annotated
     return replace(
         result,
         analyzers=tuple(analyzers),
@@ -1252,7 +1335,37 @@ def main(argv: list[str] | None = None) -> int:
             output_dir = _default_output_dir(analyzer_target)
         if output_dir is not None and output_dir.is_symlink():
             raise ValueError("Report output directory must not be a symbolic link")
+        if output_dir is not None:
+            output_dir = output_dir.resolve()
         optional_analysis = sbom or vulnerabilities or firmware or git_history
+        sandbox_images = parse_image_assignments(args.sandbox_image)
+        if args.analyzer_sandbox == "host" and (sandbox_images or args.sandbox_allow_osv_network):
+            raise ValueError(
+                "--sandbox-image and --sandbox-allow-osv-network require --analyzer-sandbox docker"
+            )
+        if args.sandbox_allow_osv_network and (
+            not vulnerabilities or offline_vulnerabilities or args.no_network
+        ):
+            raise ValueError(
+                "--sandbox-allow-osv-network requires online --vulnerabilities and cannot be used with offline options"
+            )
+        if (
+            args.analyzer_sandbox == "docker"
+            and vulnerabilities
+            and not offline_vulnerabilities
+            and not args.no_network
+            and not args.sandbox_allow_osv_network
+        ):
+            raise ValueError(
+                "Online OSV matching in Docker mode requires explicit --sandbox-allow-osv-network"
+            )
+        analyzer_sandbox = AnalyzerSandbox(
+            runtime=shutil.which("docker") if args.analyzer_sandbox == "docker" else None,
+            images=sandbox_images,
+            target=analyzer_target,
+            output_dir=output_dir,
+            allow_osv_network=args.sandbox_allow_osv_network,
+        )
         if optional_analysis and args.output is not None:
             raise ValueError("Use --output-dir when enabling external analyzers")
         if args.hardware_bom and args.output is not None:
@@ -1289,6 +1402,7 @@ def main(argv: list[str] | None = None) -> int:
                 output_dir=output_dir or Path(".fuse-results"),
                 output_file=args.output,
                 sbom_input=sbom_input,
+                analyzer_sandbox=(analyzer_sandbox if args.analyzer_sandbox == "docker" else None),
                 output_format=args.format,
                 include=include,
                 exclude=exclude,
@@ -1331,18 +1445,27 @@ def main(argv: list[str] | None = None) -> int:
         result = replace(result, network_policy=network_policy)
         if optional_analysis and output_dir is not None:
             output_dir.mkdir(parents=True, exist_ok=True)
-            result = _analyze_with_optional_tools(
-                result,
-                analyzer_target,
-                output_dir,
-                sbom=sbom,
-                vulnerabilities=vulnerabilities,
-                firmware=firmware,
-                git_history=git_history,
-                offline_vulnerabilities=offline_vulnerabilities,
-                no_network=args.no_network,
-                sbom_input=sbom_input,
+            sandbox_scope = (
+                analyzer_sandbox_context(
+                    analyzer_sandbox,
+                    target=analyzer_target,
+                )
+                if args.analyzer_sandbox == "docker"
+                else nullcontext()
             )
+            with sandbox_scope:
+                result = _analyze_with_optional_tools(
+                    result,
+                    analyzer_target,
+                    output_dir,
+                    sbom=sbom,
+                    vulnerabilities=vulnerabilities,
+                    firmware=firmware,
+                    git_history=git_history,
+                    offline_vulnerabilities=offline_vulnerabilities,
+                    no_network=args.no_network,
+                    sbom_input=sbom_input,
+                )
         if args.product_purl:
             result = replace(result, product_purl=args.product_purl)
         if args.vex:
