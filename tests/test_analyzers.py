@@ -139,6 +139,47 @@ class OSVNormalizationTests(unittest.TestCase):
 
 
 class OptionalAnalyzerTests(unittest.TestCase):
+    def test_missing_syft_is_reported_as_unavailable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with (
+                patch("vigil_fuse.dependency_analyzers.shutil.which", return_value=None),
+                patch("vigil_fuse.dependency_analyzers._run") as run,
+            ):
+                result = generate_sbom(root, root / "reports")
+
+        self.assertEqual("unavailable", result.status.status)
+        self.assertIn("Syft", result.status.detail)
+        run.assert_not_called()
+
+    def test_missing_osv_scanner_is_reported_as_unavailable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with (
+                patch("vigil_fuse.dependency_analyzers.shutil.which", return_value=None),
+                patch("vigil_fuse.dependency_analyzers._run") as run,
+            ):
+                result = scan_vulnerabilities(root, root / "reports")
+
+        self.assertEqual("unavailable", result.status.status)
+        self.assertIn("OSV-Scanner", result.status.detail)
+        run.assert_not_called()
+
+    def test_missing_binwalk_is_reported_as_unavailable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            firmware = root / "firmware.bin"
+            firmware.write_bytes(b"firmware")
+            with (
+                patch("vigil_fuse.firmware_analyzer.shutil.which", return_value=None),
+                patch("vigil_fuse.firmware_analyzer._run") as run,
+            ):
+                result = identify_firmware(firmware, root / "reports")
+
+        self.assertEqual("unavailable", result.status.status)
+        self.assertIn("Binwalk", result.status.detail)
+        run.assert_not_called()
+
     def test_subprocess_uses_temporary_user_config_cache_and_working_directories(self) -> None:
         keys = (
             "HOME",
