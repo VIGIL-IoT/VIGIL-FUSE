@@ -10,7 +10,7 @@ function syncThemeControl() {
   themeToggle?.setAttribute("aria-label", action);
   themeToggle?.setAttribute("title", action);
   if (label) label.textContent = isDark ? "Light mode" : "Dark mode";
-  if (themeMeta) themeMeta.content = isDark ? "#111417" : "#ffffff";
+  if (themeMeta) themeMeta.content = isDark ? "#0d1111" : "#ffffff";
 }
 
 syncThemeControl();
@@ -24,6 +24,35 @@ themeToggle?.addEventListener("click", () => {
   }
   syncThemeControl();
 });
+
+const navLinks = [...document.querySelectorAll(".main-nav a[href^='#']")];
+const navTargets = navLinks
+  .map((link) => ({ link, target: document.querySelector(link.getAttribute("href")) }))
+  .filter((item) => item.target);
+
+function setCurrentNavLink(link) {
+  navLinks.forEach((item) => {
+    if (item === link) item.setAttribute("aria-current", "location");
+    else item.removeAttribute("aria-current");
+  });
+}
+
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => setCurrentNavLink(link));
+});
+
+if (navTargets.length) {
+  setCurrentNavLink(navTargets[0].link);
+  const navObserver = new IntersectionObserver((entries) => {
+    const visible = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    if (!visible) return;
+    const current = navTargets.find((item) => item.target === visible.target);
+    if (current) setCurrentNavLink(current.link);
+  }, { rootMargin: "-24% 0px -58% 0px", threshold: [0, 0.2, 0.5] });
+  navTargets.forEach(({ target }) => navObserver.observe(target));
+}
 
 const examples = {
   tls: {
@@ -325,9 +354,9 @@ function renderRepositoryDetails(data) {
     repo.scopes.forEach((scope) => {
       const prefix = repo.scopes.length > 1 ? `${scope.id}: ` : "";
       reportLinks.append(
-        externalLink(`${prefix}Open JSON scan report ↗`, scope.report_files.github_json),
-        externalLink(`${prefix}Open text scan report ↗`, scope.report_files.github_text),
-        externalLink(`${prefix}Open SARIF scan report ↗`, scope.report_files.github_sarif)
+        externalLink(`${prefix}JSON report ↗`, scope.report_files.github_json),
+        externalLink(`${prefix}Text report ↗`, scope.report_files.github_text),
+        externalLink(`${prefix}SARIF report ↗`, scope.report_files.github_sarif)
       );
     });
     body.append(reportLinks);

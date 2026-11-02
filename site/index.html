@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#0d1111">
     <meta name="description" content="FUSE is a VIGIL Project for CLI-first embedded security inspection. Scan source, configuration and firmware artifacts with evidence-led findings.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="FUSE - Firmware &amp; Unified Security Engine">
@@ -12,28 +12,33 @@
     <link rel="icon" href="assets/fuse-mark.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
       (() => {
         try {
-          document.documentElement.dataset.theme = localStorage.getItem("vigil-fuse-theme") === "dark" ? "dark" : "light";
+          document.documentElement.dataset.theme = localStorage.getItem("vigil-fuse-theme") === "light" ? "light" : "dark";
         } catch {
-          document.documentElement.dataset.theme = "light";
+          document.documentElement.dataset.theme = "dark";
         }
       })();
     </script>
-    <link rel="stylesheet" href="styles.css?v=20261027-coverage">
+    <link rel="stylesheet" href="styles.css?v=20261102-noema-ui">
     <script src="script.js" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
-      <a class="brand-lockup" href="#top" aria-label="FUSE, Firmware and Unified Security Engine, a VIGIL Project">
-        <span class="brand-name">FUSE</span>
-        <span class="brand-subtitle">Firmware &amp; Unified Security Engine</span>
-      </a>
-      <p class="project-tag">A <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL</a> Project</p>
-      <nav class="main-nav" aria-label="Main navigation">
+      <div class="brand-cluster">
+        <a class="brand-lockup" href="#top" aria-label="FUSE, Firmware and Unified Security Engine, a VIGIL Project">
+          <img class="brand-mark" src="assets/fuse-mark.svg" alt="">
+          <span class="brand-copy">
+            <span class="brand-name">FUSE</span>
+            <span class="brand-subtitle">Firmware &amp; Unified Security Engine</span>
+          </span>
+        </a>
+        <p class="project-tag">A <a class="vigil-link" href="https://github.com/VIGIL-IoT">VIGIL</a> Project</p>
+      </div>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
         <a href="#workflow">Workflow</a>
         <a href="#architecture">Architecture</a>
         <a href="#rules">Rules</a>
@@ -41,15 +46,17 @@
         <a href="#coverage">Coverage</a>
         <a href="#research">Project scope</a>
       </nav>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode" aria-pressed="false" title="Toggle dark mode">
+      <div class="header-controls">
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light mode" aria-pressed="true" title="Toggle light mode">
         <svg class="theme-toggle-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path class="icon-moon" d="M20.2 15.3A8.5 8.5 0 0 1 8.7 3.8 8.5 8.5 0 1 0 20.2 15.3Z"></path>
           <circle class="icon-sun" cx="12" cy="12" r="4"></circle>
           <path class="icon-sun" d="M12 2v2m0 16v2m10-10h-2M4 12H2m17.07-7.07-1.42 1.42M6.35 17.65l-1.42 1.42m14.14 0-1.42-1.42M6.35 6.35 4.93 4.93"></path>
         </svg>
-        <span class="theme-toggle-label">Dark mode</span>
+        <span class="theme-toggle-label">Light mode</span>
       </button>
       <a class="header-action" href="#install">Get FUSE <span aria-hidden="true">↗</span></a>
+      </div>
     </header>
 
     <main id="main">
