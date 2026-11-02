@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import secrets
@@ -80,6 +81,8 @@ def scan_fixture(
     positive: bool,
     expected_version: str | None,
 ) -> int:
+    source_path = repository / ".env"
+    source_digest = hashlib.sha256(source_path.read_bytes()).digest()
     result = run(
         [
             sys.executable,
@@ -100,6 +103,8 @@ def scan_fixture(
         env=env,
     )
     require_success(result, "FUSE scan")
+    if hashlib.sha256(source_path.read_bytes()).digest() != source_digest:
+        raise RuntimeError("FUSE Gitleaks scan modified the selected working-tree input.")
 
     report_path = output / "findings.json"
     artifact_path = output / "git-history-findings.json"
