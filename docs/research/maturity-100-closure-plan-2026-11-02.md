@@ -45,7 +45,7 @@ This evidence is limited to the named versions, fixture cases, and runner platfo
 
 Use defense in depth for external tools that parse user-selected projects, histories, SBOMs, or firmware. Docker documents rootless operation, a read-only root filesystem, capability drops, security options including `no-new-privileges`, a default seccomp profile, network selection, and CPU, memory, and PID constraints. These controls reduce exposure but do not prove a container is invulnerable or make all host/runtime combinations equivalent.
 
-**Current status:** sandbox enforcement has not been implemented. The workstation has Docker CLI 28.5.1, but Docker Desktop's service is stopped and this unprivileged session could not start it. The Linux engine pipe is unavailable, so no local container behavior has been tested. Do not award this point until FUSE actually invokes a supported isolated runtime and its behavior passes the required tests.
+**Current status:** sandbox enforcement has not been implemented. At the initial review, Docker Desktop was stopped. During the 2026-11-02 follow-up, Docker Desktop's Linux engine 28.5.1 was available. A local smoke check with the cached Ubuntu image exercised a non-root UID, a read-only root filesystem, no network route, dropped capabilities, PID, memory, and CPU limits, plus a writable bounded temporary filesystem. These results verify that the local runtime accepts and enforces those flags for this image. FUSE still launches optional analyzers as host processes. No sandbox code, fail-closed behavior, analyzer image pinning, or FUSE integration tests exist. Do not award this point until FUSE invokes a supported isolated runtime and its behavior passes the required tests.
 
 Proposed baseline for a supported sandbox mode:
 

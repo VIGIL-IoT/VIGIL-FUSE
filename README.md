@@ -74,6 +74,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 ## Documentation
 
 - [Architecture and data flow](docs/architecture.md)
+- [Compatibility and CI evidence](docs/compatibility.md)
 - [Finding fields and JSON schema](docs/finding-schema.md)
 - [Rules and fixture requirements](docs/rule-development.md)
 - [Configuration and integrations](docs/integrations.md)
@@ -82,6 +83,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Benchmark method and evidence](docs/benchmarks.md) · [Synthetic scan baseline](reports/benchmark/scan-performance.json) · [Pinned repository performance report](reports/benchmark/repository-scan-performance.json) · [Cross-platform report set](docs/experiments/repository-scan-performance-matrix-2026-10-31.md)
 - [Repository scan reports](reports/repository-scans/README.md) · [Evaluation notes](docs/experiments/pilot-scan-2026-10.md)
 - [Development roadmap](docs/roadmap.md) · [Release process](docs/release-process.md)
+- [Repository audit and maturity evidence](docs/REPOSITORY_AUDIT.md) · [AI skills and specialist tools reference](docs/AI_SKILLS_REFERENCE.md) · [Research source ledger](docs/research-sources.md)
 - [Project site](site/) · [Website maintenance notes](docs/website.md)
 
 ## Develop
