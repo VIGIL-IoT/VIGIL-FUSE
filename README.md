@@ -9,6 +9,7 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![License: VIGIL-FUSE Restricted Use](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use-7c3aed)](LICENSE)
 
 **Alpha · 0.2.0**
 
@@ -95,7 +96,11 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for repository setup and [rule developmen
 
 ## License status
 
-FUSE currently has no project license declared. Reuse, redistribution, and package publication terms are unresolved. Do not assume that repository visibility grants permission to republish the software. A license decision is pending.
+FUSE is source-available under the [VIGIL-FUSE Restricted Use License, version 1.0](LICENSE). It permits personal and commercial use, including downloading, installing, running, and privately modifying FUSE. You may share analysis outputs. You may not redistribute FUSE, upload it to a package registry, or publish or share modifications without written permission from VIGIL-IoT. This is a custom license, not an OSI-approved open-source license.
+
+An earlier public snapshot included MIT terms at [commit `ec91524`](https://github.com/VIGIL-IoT/VIGIL-FUSE/commit/ec91524). This license does not revoke permissions already granted for copies made available under those earlier terms. Review the license attached to the specific version you use.
+
+Because this repository is public on GitHub, GitHub's [Terms of Service](https://docs.github.com/en/site-policy/github-terms/github-terms-of-service) allow users to view and fork it within the service. This license does not disable GitHub's fork feature.
 
 ---
 
