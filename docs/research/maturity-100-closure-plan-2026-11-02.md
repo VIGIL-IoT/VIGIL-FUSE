@@ -1,20 +1,20 @@
 # FUSE maturity 100-point closure plan
 
 **Research date:** 2026-11-02
-**Current score:** 93/100
+**Current score:** 95/100
 **Method:** Crawl4AI 0.9.5 browser retrieval of official NIST, Docker, Open Source Initiative, GitHub, Python Software Foundation, and Semgrep documentation.
 
-**License status update:** At the repository owner's request, the root `LICENSE` file and project license metadata were removed on 2026-11-02. The current checkout has no declared project license. This does not change prior commits or releases, including commits that contained different license text. The 93/100 score below is the last scored baseline and has not been recalculated after this change.
+**License status update:** At the repository owner's request, the root `LICENSE` file and project license metadata were removed on 2026-11-02. The current checkout has no declared project license. This does not change prior commits or releases, including commits that contained different license text. The score below gives one point for completed analyzer conformance evidence and one point for the documented no-public-code-contributions policy. Removing the license file itself earns no point.
 
-## The remaining seven points
+## The remaining five points
 
 The current audit assigns the remaining points to four evidence gaps. A point is earned only after its stated evidence exists and the audit is updated. Adding a feature without verification does not close a point.
 
 | Area | Current | Gap | Closure evidence |
 | --- | ---: | ---: | --- |
-| Code quality | 14/15 | Optional analyzer behavior is supported by bounded smoke runs, not a complete versioned conformance matrix | Pinned tool/version manifest; positive, clean, malformed, missing-tool, timeout, output-limit, and redaction controls; cross-platform job evidence and explicit partial/failure statuses |
+| Code quality | 15/15 | Closed on 2026-11-02. Four optional analyzers have a pinned conformance scope, positive and negative controls, missing-tool handling, input-immutability checks, and cross-platform CI evidence | See the completed code-quality gate and its linked GitHub Actions runs below |
 | Security | 9/10 | Optional analyzer processes can access files and operating-system resources available to the FUSE user | Enforced sandbox policy, negative escape and network tests, resource-limit checks, supported-platform results, fail-closed behavior when isolation is required but unavailable, and updated threat model |
-| Governance | 6/10 | Rights, distribution, and release policy remain unresolved. Code contributions are paused while terms are absent. | Owner decision plus qualified legal review; consistent rights and contribution policies; documented channel-specific permission and approval gates |
+| Governance | 7/10 | Three rights, distribution, and release-policy decisions remain unresolved. Code contributions are paused and require written owner permission. | Owner decision plus qualified legal review; consistent rights and contribution policies; documented channel-specific permission and approval gates |
 | Research rigor | 9/10 | Existing tests and NIST SARD results do not provide independent, representative field-accuracy adjudication | Frozen, permission-cleared holdout corpus; independent reviewers; disagreement adjudication; per-rule metrics with uncertainty and coverage limitations |
 
 ## License status and governance constraints
@@ -29,21 +29,23 @@ The current PyPI Terms of Service include ownership, right-to-post, and license-
 
 ## Closure gates by score
 
-### Code quality, 14 to 15
+### Code quality, completed at 15/15
 
-Build one analyzer conformance matrix for Syft, OSV-Scanner, Binwalk, and Gitleaks. Keep this gate separate from the security sandbox gate. It answers whether each adapter behaves predictably for the inputs and tool versions it claims to support.
+This gate is closed for the declared integration scope. The tests answer whether each adapter behaves predictably for the inputs and tool versions it claims to support. This is separate from the open security sandbox gate.
 
-1. Pin tool versions and immutable download digests in one checked-in manifest.
-2. For each adapter, run an expected-positive control, a clean control, malformed or unsupported input, missing executable, timeout, output-limit, and secret-redaction case.
-3. Assert normalized findings, exit status, coverage status, tool version, artifact digest, and that the selected input was not modified.
-4. Run the supported matrix on the operating systems that FUSE claims to support. Unsupported combinations must report unavailable or partial, not clean.
-5. Store schema-checked reports and update the integration documentation with the exact version and platform scope.
+1. Syft 1.55.0, OSV-Scanner 2.7.0, and Gitleaks 8.30.0 use SHA-256-pinned releases. Their Linux, macOS, and Windows integration run [41377700744](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377700744) passed. The dependency harness change also passed run [41377646976](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377646976).
+2. Binwalk 3.1.0 is built from a pinned upstream commit and checked against positive, clean, malformed, and hash-pinned firmware controls. The Ubuntu and Windows run [41377931313](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41377931313) passed.
+3. Missing Syft, OSV-Scanner, Binwalk, and Gitleaks are reported as unavailable. Shared subprocess tests cover timeout, output caps, descendant cleanup, and explicit failure states. Gitleaks integration verifies that secret-shaped values are not retained.
+4. The Syft/OSV, Gitleaks, and Binwalk end-to-end harnesses hash selected inputs before and after scanning and fail if an analyzer modifies them. Mutation-control tests cover the guards.
+5. Latest FUSE CI [41378841057](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41378841057) and CodeQL [41378840999](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41378840999) passed. Local validation passed 313 tests and 148 subtests, Ruff, strict Mypy, documentation validation, and the native-rule fixture benchmark.
 
-**Close the point when:** the pinned matrix passes in CI and each adapter's unsupported, failed, timed-out, and clean states are distinguishable in reports.
+This evidence is limited to the named versions, fixture cases, and runner platforms. It is not detector accuracy evidence, and it does not prove that the tools are safe on hostile input.
 
 ### Security, 9 to 10
 
 Use defense in depth for external tools that parse user-selected projects, histories, SBOMs, or firmware. Docker documents rootless operation, a read-only root filesystem, capability drops, security options including `no-new-privileges`, a default seccomp profile, network selection, and CPU, memory, and PID constraints. These controls reduce exposure but do not prove a container is invulnerable or make all host/runtime combinations equivalent.
+
+**Current status:** sandbox enforcement has not been implemented. The workstation has Docker CLI 28.5.1, but Docker Desktop's service is stopped and this unprivileged session could not start it. The Linux engine pipe is unavailable, so no local container behavior has been tested. Do not award this point until FUSE actually invokes a supported isolated runtime and its behavior passes the required tests.
 
 Proposed baseline for a supported sandbox mode:
 
@@ -59,20 +61,20 @@ Tests should cover the actual runtime command, read-only input, writable-output 
 
 **Close the point when:** the supported sandbox path is enforced by code, tested on its declared platforms, and unavailable isolation is visible and fail-closed according to policy. Merely documenting the Docker flags is not enough.
 
-### Governance, 6 to 10
+### Governance, 7 to 10
 
-These are four separate one-point gates. They must follow the owner's licensing intent and qualified legal review.
+Three of the four governance points remain open. These gates must follow the owner's rights decision and qualified legal review.
 
 | Gate | Decision and deliverable | Blocking dependency |
 | --- | --- | --- |
-| G1. Rights and license | Confirm rights holders and terms for use, modification, redistribution, derivatives, reports, and trademarks. Record a reviewed decision. | Owner and qualified counsel |
-| G2. Contributions | Decide whether outside code contributions are accepted. Until rights and terms are defined, keep the current pause documented in `CONTRIBUTING.md`. | Owner; G1 before accepting code |
-| G3. Distribution | Select a permitted channel, review its current terms, and align package metadata with the rights decision. Do not publish while permissions are unresolved. | G1 and channel terms review |
-| G4. Release and enforcement | Document release approvers, permission requests, third-party notice checks, and monitored contact routes. Keep upload workflows disabled until G1 through G3 are complete. | Owner; G1, G2, and G3 |
+| G1. Rights and license | Open. Confirm rights holders and terms for use, modification, redistribution, derivatives, reports, and trademarks. Record a reviewed decision. | Owner and qualified counsel |
+| G2. Contributions | **Closed for current policy.** Issues are welcome, public code patches require written owner permission, and code is not accepted while terms are absent. | Reopen only if G1 changes |
+| G3. Distribution | Open. Select a permitted channel, review its current terms, and align package metadata with the rights decision. Do not publish while permissions are unresolved. | G1 and channel terms review |
+| G4. Release and enforcement | Open. Document release approvers, permission requests, third-party notice checks, and monitored contact routes. Keep upload workflows disabled until G1 through G3 are complete. | Owner; G1, G2, and G3 |
 
-**Close the four points when:** the selected path is written down, consistent across the repository, contribution guidance, package metadata, and release documentation, and reviewed by the qualified person identified by the owner. A GitHub Release or PyPI upload is not itself required if the chosen policy is source-only.
+**Close the remaining three points when:** the selected path is written down, consistent across the repository, contribution guidance, package metadata, and release documentation, and reviewed by the qualified person identified by the owner. A GitHub Release or PyPI upload is not itself required if the chosen policy is source-only.
 
-**Important ceiling:** without a declared rights decision and the associated review, the governance points remain open. Do not count removal of a license file as permission, legal review, or a completed distribution policy. Keep the existing rubric unchanged so the score remains comparable.
+**Important ceiling:** without a declared rights decision and the associated review, G1, G3, and G4 remain open. Do not count removal of a license file as permission, legal review, or a completed distribution policy. Keep the existing rubric unchanged so the score remains comparable.
 
 ### Research rigor, 9 to 10
 
@@ -97,29 +99,26 @@ Proposed independent evaluation:
 
 ```mermaid
 flowchart TD
-    START[Last scored audit 93/100] --> OWNER[Owner confirms rights and distribution intent]
+    START[Current audit 95/100] --> OWNER[Owner confirms rights and distribution intent]
     OWNER --> LEGAL[Qualified review of ownership and history]
-    LEGAL --> CONTRIB[Set contribution rights and policy]
-    LEGAL --> DIST[Choose allowed distribution channel and update metadata]
-    CONTRIB --> RELEASE[Document release approvals and permission handling]
-    DIST --> RELEASE
-    START --> MATRIX[Pin analyzer versions and build conformance matrix]
-    MATRIX --> SANDBOX[Implement and test sandbox policy]
-    SANDBOX --> FREEZE[Freeze FUSE version, config, and report schema]
-    RELEASE --> FREEZE
+    LEGAL --> DIST[Choose permitted distribution channel]
+    DIST --> RELEASE[Document release approvals and permission requests]
+    START --> SANDBOX[Implement and test analyzer sandbox]
+    START --> FREEZE[Freeze FUSE version, config, and report schema]
     FREEZE --> HOLDOUT[Select permission-cleared holdout corpus]
     HOLDOUT --> REVIEW[Independent dual review and disagreement adjudication]
     REVIEW --> REPORT[Publish per-rule results, uncertainty, and coverage limits]
-    REPORT --> RESCORE[Re-score only gates with complete evidence]
+    SANDBOX --> RESCORE[Re-score only gates with complete evidence]
+    RELEASE --> RESCORE
+    REPORT --> RESCORE
 ```
 
 Order of work:
 
-1. Owner and counsel settle the rights and distribution path. Sandbox and analyzer conformance engineering can proceed in parallel with this review.
-2. Complete the analyzer conformance matrix, then implement the sandbox. Do not tune detectors against the future holdout.
-3. Freeze the candidate and its report schema after CI passes across the declared platforms.
-4. Select a permission-cleared holdout and independent reviewers, run the protocol, adjudicate results, and publish the report.
-5. Update the maturity table from the evidence. Do not change rubric labels to make the score higher.
+1. Analyzer conformance is complete. Implement and verify the sandbox while the owner and counsel settle rights and distribution terms.
+2. Freeze a FUSE candidate and report schema before choosing or scanning the holdout. Do not tune detectors against that holdout.
+3. Select a permission-cleared holdout and independent reviewers, run the protocol, adjudicate results, and publish the report.
+4. Update the maturity table from evidence. Do not change rubric labels to make the score higher.
 
 ## Crawl4AI sources
 
