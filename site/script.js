@@ -350,7 +350,8 @@ function renderRepositoryDetails(data) {
       body.append(element("p", "scan-empty", "No rule matches in the scanned sample. This result describes only the listed files and enabled rules."));
     }
 
-    const reportLinks = element("div", "scan-report-links");
+    const reportLinks = element("nav", "scan-report-links");
+    reportLinks.setAttribute("aria-label", `Report files for ${repo.name}`);
     repo.scopes.forEach((scope) => {
       const prefix = repo.scopes.length > 1 ? `${scope.id}: ` : "";
       reportLinks.append(
@@ -398,6 +399,7 @@ function renderSupportMatrix(data) {
     details.append(summary);
 
     const body = element("div", "support-entry-details");
+    body.setAttribute("data-ui", "support-limitations");
     const limitations = Array.isArray(capability.limitations) ? capability.limitations : [];
     body.append(element("strong", "", "Limits"));
     if (limitations.length) {
