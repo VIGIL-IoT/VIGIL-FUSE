@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import shutil
@@ -66,6 +67,19 @@ def analyzer_status(report: dict[str, Any], name: str) -> dict[str, Any]:
     return status
 
 
+def tree_digest(root: Path) -> str:
+    digest = hashlib.sha256()
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.is_symlink():
+            continue
+        relative = path.relative_to(root).as_posix().encode("utf-8")
+        content_digest = hashlib.sha256(path.read_bytes()).digest()
+        digest.update(len(relative).to_bytes(8, "big"))
+        digest.update(relative)
+        digest.update(content_digest)
+    return digest.hexdigest()
+
+
 def scan_case(
     *,
     label: str,
@@ -84,6 +98,7 @@ def scan_case(
         )
     else:
         (target / "requirements.txt").write_text(requirement + "\n", encoding="utf-8")
+    input_digest = tree_digest(target)
 
     result = run(
         [
@@ -102,6 +117,8 @@ def scan_case(
         cwd=ROOT,
         env=env,
     )
+    if tree_digest(target) != input_digest:
+        raise RuntimeError(f"FUSE {label} scan modified the selected project input.")
     expected_exit = 2 if label == "no-sources" else 0
     if result.returncode != expected_exit:
         raise RuntimeError(
