@@ -1,6 +1,6 @@
 # AI change audit
 
-**Audit date:** 2026-11-03
+**Audit date:** 2026-11-04
 **Repository:** VIGIL-IoT/VIGIL-FUSE
 **Purpose:** Record material automated changes and validation for the repository engineering pass requested with the Research-Grade Repository Architecture and Engineering Standard.
 
@@ -12,7 +12,8 @@
 | Report fragment card sizing | Give each report example card a shared heading height and equal card height across the horizontal gallery | `site/styles.css`; checked in the local browser across all five cards |
 | Usage guide | Give operators a tested, CLI-first path covering planning, scanning, optional analyzers, hardware inputs, reports, and scope limits | `docs/usage.md` and its README link |
 | Optional analyzer Docker mode | Add digest-pinned, local-image execution with read-only inputs, bounded stdout capture, isolated runtime settings, default no-network behavior, configuration inspection, and no host fallback | `src/vigil_fuse/analyzer_sandbox.py`, `src/vigil_fuse/analyzer_runtime.py`, CLI adapters, and sandbox tests |
-| Rights review packet | Organize ownership, earlier license history, third-party notices, contribution policy, and distribution questions for owner and qualified legal review | `docs/governance/rights-review-packet.md`; no legal conclusion or license change |
+| Rights review packet and PyPI policy check | Record ownership, earlier license history, third-party notices, contribution policy, PyPI terms, and PyPI Acceptable Use Policy questions for owner and qualified legal review | `docs/governance/rights-review-packet.md`; no legal conclusion |
+| PyPI-specific license permission | Preserve commercial use and private modification while allowing unmodified official distributions through PyPI and compatible mirrors | `LICENSE` version 1.1, `pyproject.toml`, README, and release guidance; legal and PyPI policy review remain open |
 | Independent evaluation protocol | Make the frozen holdout, dual-review, no-finding sample, comparator, and metrics process operational | `docs/research/independent-evaluation-protocol.md`; independent reviewers have not yet completed a review |
 | Trust-boundary architecture figure | Show untrusted project input, the local FUSE path, and the distinct host and explicit Docker analyzer modes | `docs/diagrams/fuse-trust-boundaries.html`, exported to `docs/figures/fuse-trust-boundaries.svg` and linked from `README.md` and `docs/architecture.md` |
 | Diagram punctuation cleanup | Honor the repository-wide instruction to avoid em dashes without changing embedded diagram behavior | Comment and descriptive text changes in `site/diagrams/fuse-scan.html` |
@@ -41,9 +42,13 @@ The maturity closure research in `docs/research/maturity-100-closure-plan-2026-1
 - No physical hardware was available or needed for FUSE's software tests. This audit makes no hardware validation claim.
 - Host execution remains the default for optional analyzers. Docker mode is opt-in. Local integration is verified on Windows Docker Desktop; the new Linux CI result is pending. Linux rootless, macOS, other daemon versions, and cleanup under daemon failure still need evidence.
 - Local `pip-audit` could not reach its advisory service, and local Mermaid rendering could not pull its pinned GHCR image. Remote GitHub checks must be read from their workflow runs.
-- Legal rights and distribution decisions require the owner and qualified counsel. This audit does not change the license or publish a package.
+- Legal rights and distribution decisions require the owner and qualified counsel. The 2026-11-03 follow-up below did not change the license or publish a package. The 2026-11-04 license revision is recorded separately.
 - Independent field-accuracy review still requires permission-cleared holdout data, two reviewers, and disagreement adjudication. Preparing a protocol does not supply that evidence.
 - GitHub Actions and Vercel outcomes are external checks and must be reported from their actual run state, not inferred from local validation.
+
+## License revision follow-up, 2026-11-04
+
+License version 1.1 adds a custom grant for PyPI hosting, mirrors, and redistribution of unmodified official package copies. The matching package metadata and current license guidance were updated. This draft is not reviewed by qualified counsel. PyPI's Acceptable Use Policy specifically discusses dual-use vulnerability research, so the project's fit remains unresolved. No package was uploaded, and no tests were run for this legal-text and documentation change.
 
 ## Ghidra and documentation follow-up, 2026-11-03
 

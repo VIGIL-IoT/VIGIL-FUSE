@@ -38,5 +38,5 @@ The repository also runs this check in a separate GitHub Actions workflow when P
 - Record the FUSE commit or source archive digest, Syft version, operating system, and command alongside an SBOM used for an evaluation or release review.
 - Regenerate the SBOM when dependencies or package contents change. A checked-in SBOM can become stale.
 - Inspect the output before sharing because package paths and versions may reveal implementation details.
-- Do not upload or distribute the FUSE package or its artifacts through a registry or download service without resolving the current license restrictions and obtaining any required written permission.
+- The current license permits unmodified official package distributions through PyPI and compatible mirrors. Do not distribute FUSE or its artifacts through any other registry or download service without resolving the applicable license restrictions and obtaining any required written permission.
 - The core runtime dependency list is empty. Development and optional dependencies are declared in `pyproject.toml`; generated inventories may include environment packages depending on the scan target.

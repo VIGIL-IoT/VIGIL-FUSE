@@ -1,19 +1,21 @@
 # Repository audit
 
-**Audit date:** 2026-11-03
+**Audit date:** 2026-11-04
 **Repository:** VIGIL-IoT/VIGIL-FUSE
-**Code baseline before this increment:** `953b786`
+**Code baseline before this increment:** `34a55d0`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
 **Current status update and score, 2026-11-02:** The repository owner restored the custom VIGIL-FUSE Restricted Use License and PEP 639 package metadata after previously requesting its removal. The license permits commercial use while restricting redistribution and shared modifications. It does not alter earlier license grants. The current score below remains 95/100 after closing the analyzer-conformance point and documenting that public code patches require written owner permission. The license decision does not close the remaining legal and distribution-channel review.
 
 **Current status update and score, 2026-11-03:** The optional Ghidra 12.2 adapter now has local controlled ELF and PE evidence plus a passing hosted Ubuntu integration workflow. A Linux launcher-selection defect found by that workflow was fixed and covered on both POSIX and Windows. FUSE CI and CodeQL pass on the benchmark-record commit. The score remains 95/100 because the Docker security point still has untested runtime configurations, while rights review and independent field-accuracy evaluation remain open.
 
+**Current status update and score, 2026-11-04:** The custom license and package metadata now include a narrow permission for unmodified official distributions through PyPI and compatible mirrors. This does not close the rights gate. Ownership and prior-license history still need qualified review, and PyPI's policy fit for a defensive vulnerability-analysis tool remains unconfirmed. No package was uploaded. The score remains 95/100.
+
 ## Repository overview
 
 FUSE is a CLI-first Python tool for bounded static inspection of embedded and IoT project source, configuration, selected build metadata, hardware artifacts, dependency inventories, and firmware candidates. It is part of VIGIL-IoT and complements SPECTRA-32's controlled lab experiments. FUSE does not itself build projects, execute scanned source or firmware, contact devices, or validate physical hardware.
 
-The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`, and is source-available under the custom VIGIL-FUSE Restricted Use License. Distribution-channel and rights-history review remain open.
+The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`, and is source-available under the custom VIGIL-FUSE Restricted Use License, version 1.1. Distribution-channel and rights-history review remain open.
 
 ## Initial condition
 
@@ -28,7 +30,7 @@ Remaining gaps at the start of this pass were primarily project-level traceabili
 - There was no consolidated limitations page or experiment-style record for the repository scan cohort.
 - Mermaid diagrams and local Markdown links had no repository validation gate.
 - Citation metadata and GitHub issue/PR templates were absent.
-- The current license restricts redistribution and package-registry uploads without written permission. This is a substantive release blocker, not a code defect.
+- The custom license now allows a narrow PyPI distribution of unmodified official packages, but the rights history, PyPI terms, and PyPI Acceptable Use Policy fit remain unresolved. This is a substantive release blocker, not a code defect.
 - The public latest release endpoint reports `v0.2.0`, matching the local tag.
 
 ## Architecture findings
@@ -142,7 +144,7 @@ FUSE CI run [41133270780](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/4
 - KiCad XML parsing rejects DTD/entity declarations and enforces size, element, and depth limits. Terminal output escapes control and bidi characters. Optional analyzer subprocesses receive no inherited interactive stdin.
 - The rule and scan reports are candidate evidence. They do not prove exploitability, reachability, or deployed-product applicability.
 - External analyzers parse their own inputs and retain parser risk. Host invocation remains unsandboxed. The opt-in Docker path now has local Windows Docker Desktop integration evidence with a fixture image and official Syft v1.55.0; its Linux CI result is pending. Gitleaks 8.30.0, Syft 1.55.0, OSV-Scanner 2.7.0, and Binwalk v2.3.3 passed bounded local smoke checks with synthetic fixtures. The v2.3.3 check covered WSL2 Ubuntu. Pinned Binwalk v3.1.0 passed gzip, XZ, and U-Boot uImage synthetic cases plus clean and invalid-header controls on hosted Ubuntu and native Windows. SHA-256-pinned Tasmota v16.0.0 and OpenWrt Malta BE images also passed their expected gzip and SquashFS signature checks on both operating systems. These checks do not establish detector accuracy, general firmware or filesystem compatibility, credential validity, exploitability, or reachability.
-- The custom license permits commercial use but restricts sharing and redistribution, including package registry uploads without written permission. Do not treat the successful package build as distribution authorization.
+- The custom license permits commercial use and PyPI distribution of unmodified official packages through PyPI and compatible mirrors. Other distribution remains restricted. Do not treat the license text or a successful package build as PyPI eligibility or legal approval.
 
 ## Dependency findings
 

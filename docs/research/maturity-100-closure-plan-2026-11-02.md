@@ -6,7 +6,9 @@
 
 **Status update, 2026-11-03:** The hosted Ubuntu Docker analyzer integration passed in FUSE CI [run 41524611090](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41524611090). This closes the earlier pending Linux-job result. Rootless Docker, macOS, and other daemon configurations remain unverified. Host-mode analyzers remain outside this Docker isolation path, so the security score stays 9/10 and the total remains 95/100.
 
-**License status update:** This plan was drafted before the owner restored the root `LICENSE` file and project metadata on 2026-11-02. The current checkout declares the custom VIGIL-FUSE Restricted Use License. It permits commercial use while restricting redistribution and shared modifications. It does not change earlier license grants. The score below gives one point for completed analyzer conformance evidence and one point for the documented no-public-code-contributions policy. Adding a license does not by itself close the remaining governance evidence gaps.
+**License status update, 2026-11-02:** This plan was drafted before the owner restored the root `LICENSE` file and project metadata. At that time, the custom VIGIL-FUSE Restricted Use License permitted commercial use while restricting redistribution and shared modifications. It did not change earlier license grants. The score below gives one point for completed analyzer conformance evidence and one point for the documented no-public-code-contributions policy. Adding a license does not by itself close the remaining governance evidence gaps.
+
+**License status update, 2026-11-04:** License version 1.1 adds a narrow permission for unmodified official packages distributed through PyPI and compatible mirrors. Ownership and earlier license history remain unreviewed, and PyPI's Acceptable Use Policy fit for a defensive vulnerability-analysis tool remains unconfirmed. The distribution and governance points remain open.
 
 ## The remaining five points
 

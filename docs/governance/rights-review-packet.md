@@ -1,17 +1,17 @@
 # FUSE rights and distribution review packet
 
-**Prepared:** 2026-11-02
+**Prepared:** 2026-11-04
 
-**Status:** Open. This packet organizes questions and evidence for the rights holder and qualified counsel. It is not legal advice or a legal determination.
+**Status:** Open. License version 1.1 and matching package metadata were drafted on 2026-11-04 to permit unmodified official package distribution through PyPI and compatible mirrors. The text has not been reviewed by qualified counsel, PyPI has not confirmed that FUSE fits its Acceptable Use Policy, and this packet is not a legal determination.
 
 ## Current repository facts
 
-- The root `LICENSE` declares the custom VIGIL-FUSE Restricted Use License, version 1.0, with VIGIL-IoT named as copyright holder.
-- The license permits personal, research, internal, and commercial use. It permits private modification and use of scan outputs. It restricts redistribution, public package publication, forks, patches, and shared modifications without written permission.
-- `pyproject.toml` declares `LicenseRef-VIGIL-FUSE-Restricted-Use` and includes the root license in built artifacts.
+- The root `LICENSE` declares the custom VIGIL-FUSE Restricted Use License, version 1.1, with VIGIL-IoT named as copyright holder.
+- The license permits personal, research, internal, and commercial use. It permits private modification and use of scan outputs. It grants a narrow exception for unmodified official packages distributed through PyPI and compatible mirrors. Other registry distribution and public sharing of modifications remain restricted.
+- `pyproject.toml` declares `LicenseRef-VIGIL-FUSE-PyPI-Restricted-Use` and includes the root license in built artifacts.
 - Repository history includes earlier MIT license text. The current license does not revoke permissions already granted to copies received under the earlier terms.
 - `CONTRIBUTING.md` pauses public code contributions while ownership and contribution terms are unresolved.
-- The release process blocks public package or release asset distribution until the rights and channel terms are reviewed.
+- The release process blocks public package or release asset distribution until the rights and channel terms are reviewed. PyPI's current Acceptable Use Policy also needs a project-specific fit check because it discusses dual-use vulnerability research.
 - The project owner stated a preference for allowing commercial use while restricting copying and redistribution. That preference is recorded here for review. The repository's listed copyright holder, authorship, and legal authority to grant permissions still need confirmation.
 
 ## Questions for the rights holder and counsel
@@ -42,7 +42,7 @@
 - Review the current terms for every proposed distribution method, including GitHub Release assets, package registries, container registries, source archives, and hosted installation instructions.
 - Confirm whether a channel's mirror, cache, install, and user-copy terms are compatible with the current redistribution restriction.
 - Confirm whether package metadata accurately communicates the custom terms and whether a channel accepts those terms.
-- Keep PyPI and public package publication blocked until its current service terms and use policy have been reviewed for this specific project.
+- The license now contains a PyPI-specific grant, but keep PyPI and public package publication blocked until its current service terms and use policy have been reviewed for this specific project.
 
 ## Evidence to collect
 
@@ -54,7 +54,8 @@
 | Third-party code and asset inventory with notices | Project maintainer | No | No |
 | Channel terms and intended distribution methods | Project owner and counsel | Partial, see release process | No |
 | Written decision on contributions and derivatives | Project owner and counsel | No | No |
-| Reviewed license text and matching package metadata | Qualified counsel and maintainer | No | No |
+| Reviewed license text and matching package metadata | Qualified counsel and maintainer | Draft v1.1 and metadata updated on 2026-11-04 | No |
+| PyPI Acceptable Use Policy decision for a defensive vulnerability-analysis CLI | PyPI support and project owner | No | No |
 | Release approver and permission request route | Project owner | No | No |
 
 ## Release decision record

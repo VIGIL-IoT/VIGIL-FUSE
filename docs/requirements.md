@@ -123,7 +123,7 @@ These criteria assess engineering behavior. They do not establish that FUSE find
 The following constraints also apply:
 
 - The Python dependency audit reports known advisories for the resolved development environment. It does not audit operating system packages, arbitrary external executables, malicious package behavior, or every optional configuration.
-- The current restricted-use license is not an OSI-approved open-source license and limits redistribution and registry uploads. No license change is implied by this engineering document.
+- The current restricted-use license is not an OSI-approved open-source license. It permits unmodified official package distribution through PyPI and compatible mirrors, while limiting other redistribution and public modifications. No broader rights decision is implied by this engineering document, and PyPI policy eligibility remains unverified.
 - No physical board or controlled lab is required to run FUSE, and none was used for the repository scan studies.
 - External package publication and GitHub releases require separate owner and license review.
 

@@ -107,7 +107,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for repository setup and [rule developmen
 
 ## License status
 
-FUSE is source-available under the [VIGIL-FUSE Restricted Use License, version 1.0](LICENSE). It permits personal and commercial use, including downloading, installing, running, and privately modifying FUSE. You may share analysis outputs. You may not redistribute FUSE, upload it to a package registry, or publish or share modifications without written permission from VIGIL-IoT. This is a custom license, not an OSI-approved open-source license.
+FUSE is source-available under the [VIGIL-FUSE Restricted Use License, version 1.1](LICENSE). It permits personal and commercial use, private modifications, and redistribution of unmodified official packages through PyPI and its compatible mirrors for installation and use. It does not permit rehosting through other registries or publishing modified versions without written permission from VIGIL-IoT. This is a custom license, not an OSI-approved open-source license. PyPI publication is not complete, and channel and rights review remain open.
 
 An earlier public snapshot included MIT terms at [commit `ec91524`](https://github.com/VIGIL-IoT/VIGIL-FUSE/commit/ec91524). This license does not revoke permissions already granted for copies made available under those earlier terms. Review the license attached to the specific version you use.
 

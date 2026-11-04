@@ -5,6 +5,8 @@
 - **Project:** Firmware and IoT security analysis module
 **Identity:** A [VIGIL](https://github.com/VIGIL-IoT) Project
 
+**Distribution update, 2026-11-04:** License version 1.1 now grants a narrow permission for unmodified official package distributions through PyPI and compatible mirrors. This does not change the historical research notes below about the prior license. The project still needs qualified review of rights history and a PyPI-specific Acceptable Use Policy decision before upload.
+
 **Implementation update - 27 October 2026:** FUSE now accepts an explicitly selected Zephyr `HARDENCONFIG_JSON` report through `--zephyr-hardening-report`. It keeps Zephyr's recommendation database upstream, bounds and validates the report, and maps failed checks into candidate findings with unknown severity. FUSE does not run `west` or the build. See the [roadmap](../roadmap.md) for current implementation status.
 
 **Implementation update - 28 October 2026:** SARIF now includes a `primaryLocationLineHash` derived from normalized redacted evidence, with an occurrence counter for duplicate matches. Regression coverage confirms it remains stable after harmless line insertion. The JSON report fingerprint remains location-sensitive, and baseline comparison retains its separate identity. Baseline suppressions now use stable per-occurrence identities so repeated identical findings can be reviewed independently; older baseline and suppression files remain readable.
