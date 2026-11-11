@@ -8,7 +8,8 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-import tomllib
+
+from vigil_fuse import __version__
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,10 +58,9 @@ def update_scanner_provenance(
         digest.update(path.read_bytes())
         digest.update(b"\0")
 
-    project = tomllib.loads((ROOT / "pyproject.toml").read_text(encoding="utf-8"))["project"]
     source_tree_dirty = bool(git_status(ROOT, ("src/vigil_fuse", "pyproject.toml")))
     provenance = {
-        "version": project["version"],
+        "version": __version__,
         "commit": git_head(ROOT),
         "source_tree_sha256": digest.hexdigest(),
         "source_tree_dirty": source_tree_dirty,

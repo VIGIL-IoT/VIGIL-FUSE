@@ -7,6 +7,7 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
+from vigil_fuse import __version__
 from scripts.run_repository_scan_pilot import (
     build_scan_command,
     report_has_incomplete_coverage,
@@ -27,6 +28,7 @@ class RepositoryScanRunnerTests(unittest.TestCase):
 
         self.assertEqual("holdout", manifest["cohort"])
         self.assertEqual(provenance, manifest["fuse"])
+        self.assertEqual(__version__, provenance["version"])
 
     def test_runner_refuses_dirty_scanner_before_updating_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
