@@ -42,7 +42,7 @@
 - Review the current terms for every proposed distribution method, including GitHub Release assets, package registries, container registries, source archives, and hosted installation instructions.
 - Confirm whether a channel's mirror, cache, install, and user-copy terms are compatible with the current redistribution restriction.
 - Confirm whether package metadata accurately communicates the custom terms and whether a channel accepts those terms.
-- The license now contains a PyPI-specific grant, but keep PyPI and public package publication blocked until its current service terms and use policy have been reviewed for this specific project.
+- The license contains a PyPI-specific grant. The owner authorized the first 0.3.0 publication attempt before project-specific PyPI Support and qualified legal review were complete. Record the outcome, and do not treat a successful upload as PyPI policy clearance or legal review.
 
 ## Evidence to collect
 
