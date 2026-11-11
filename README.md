@@ -11,14 +11,14 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: VIGIL-FUSE Restricted Use](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use-7c3aed)](LICENSE)
 
-**Alpha · 0.2.0**
+**Alpha · 0.3.0**
 
 ## Start here
 
 Requires Python 3.11 or newer. The native scanner has no runtime dependencies.
 
 ```sh
-python -m pip install -e .
+pipx install vigil-fuse==0.3.0
 vigil-fuse doctor
 vigil-fuse scan path/to/embedded-project --plan
 vigil-fuse scan path/to/embedded-project --output-dir .fuse-results

@@ -1,8 +1,8 @@
 # FUSE rights and distribution review packet
 
-**Prepared:** 2026-11-04
+**Prepared:** 2026-11-11
 
-**Status:** Open. License version 1.1 and matching package metadata were drafted on 2026-11-04 to permit unmodified official package distribution through PyPI and compatible mirrors. The text has not been reviewed by qualified counsel, PyPI has not confirmed that FUSE fits its Acceptable Use Policy, and this packet is not a legal determination.
+**Status:** Open. License version 1.1 and matching package metadata were drafted on 2026-11-04 to permit unmodified official package distribution through PyPI and compatible mirrors. The text has not been reviewed by qualified counsel, and PyPI has not confirmed that FUSE fits its Acceptable Use Policy. The repository owner authorized a first PyPI publication attempt for version 0.3.0 on 2026-11-11 while those reviews remain open. This packet is not a legal determination.
 
 ## Current repository facts
 
@@ -11,7 +11,7 @@
 - `pyproject.toml` declares `LicenseRef-VIGIL-FUSE-PyPI-Restricted-Use` and includes the root license in built artifacts.
 - Repository history includes earlier MIT license text. The current license does not revoke permissions already granted to copies received under the earlier terms.
 - `CONTRIBUTING.md` pauses public code contributions while ownership and contribution terms are unresolved.
-- The release process blocks public package or release asset distribution until the rights and channel terms are reviewed. PyPI's current Acceptable Use Policy also needs a project-specific fit check because it discusses dual-use vulnerability research.
+- PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) requests project-specific policy and license-term guidance. It had only an automated acknowledgement as of 2026-11-11. The owner authorized the initial 0.3.0 PyPI attempt before a staff response. This is not PyPI approval.
 - The project owner stated a preference for allowing commercial use while restricting copying and redistribution. That preference is recorded here for review. The repository's listed copyright holder, authorship, and legal authority to grant permissions still need confirmation.
 
 ## Questions for the rights holder and counsel
@@ -55,7 +55,7 @@
 | Channel terms and intended distribution methods | Project owner and counsel | Partial, see release process | No |
 | Written decision on contributions and derivatives | Project owner and counsel | No | No |
 | Reviewed license text and matching package metadata | Qualified counsel and maintainer | Draft v1.1 and metadata updated on 2026-11-04 | No |
-| PyPI Acceptable Use Policy decision for a defensive vulnerability-analysis CLI | PyPI support and project owner | No | No |
+| PyPI Acceptable Use Policy decision for a defensive vulnerability-analysis CLI | PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) and project owner | Open, no staff response as of 2026-11-11 | No |
 | Release approver and permission request route | Project owner | No | No |
 
 ## Release decision record
@@ -74,4 +74,4 @@ Complete this section after review. Do not infer approval from a successful buil
 
 ## Current release gate
 
-Until the review is recorded, keep public package and release-asset uploads disabled. Local development, tests, and private use may continue under the current license terms. No score point is awarded for preparing this packet; governance remains at 7/10 until the rights, channel, and enforcement decisions are reviewed and documented.
+The owner authorized only the first PyPI publication attempt for version 0.3.0 while the policy and legal reviews remain open. This does not mark the review complete or award a maturity point. Future releases and other distribution channels require a separate recorded decision. Governance remains at 7/10 until the rights, channel, and enforcement decisions are reviewed and documented.

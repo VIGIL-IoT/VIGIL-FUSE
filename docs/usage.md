@@ -2,6 +2,14 @@
 
 FUSE is a local command-line tool for reviewing embedded and IoT project sources, configuration, hardware inventories, dependency inputs, and selected firmware images. It gathers evidence for review. A finding is not proof that a deployed device is vulnerable.
 
+## Install from PyPI
+
+Install the command-line tool with pipx:
+
+```sh
+pipx install vigil-fuse==0.3.0
+```
+
 ## Install from the repository
 
 FUSE requires Python 3.11 or newer. From the repository root, create and activate a virtual environment, then install the project in editable mode.
