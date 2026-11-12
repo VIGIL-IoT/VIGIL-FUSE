@@ -1,0 +1,39 @@
+FUSE scan: openbmc/openbmc, selected phosphor and IBM recipes
+Target kind: directory
+Profile: embedded-linux
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: 4a4c89e45454cd59372fc1723ab24111fe7f51a5131b05995c66bcf4776abb8a
+Files discovered/selected: 231/230
+Files filtered by path policy: 1
+Files scanned: 230
+Source bytes read: 353005
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Files not selected by the source profile: 107
+  .0: 2
+  .inc: 45
+  .md: 3
+  .mit: 2
+  .modes: 1
+  .patch: 1
+  .priv: 1
+  .sample: 2
+  .txt: 3
+  <no-extension>: 47
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 2 selected input(s). The conservative prefilter excluded 228 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 6 selected input(s). The conservative prefilter excluded 224 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 25 selected input(s). The conservative prefilter excluded 205 inputs without the rule's required markers.)
+  native-rule:FUSE005: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE006: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE007: skipped (No selected input matched this rule's supported input scope.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+No findings from the enabled rules.
