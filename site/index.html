@@ -268,14 +268,20 @@
             <div class="command-panel" data-ui="terminal-command">
               <div class="command-heading"><span>Published PyPI package</span><span>Python 3.11+</span></div>
               <p class="command-label">Recommended install with pipx</p>
-              <pre><code>pipx install vigil-fuse==0.3.0</code></pre>
+              <div class="copy-command-row">
+                <pre><code>pipx install vigil-fuse==0.3.0</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the pipx install command">Copy</button>
+              </div>
               <p class="install-links"><a href="https://pypi.org/project/vigil-fuse/" target="_blank" rel="noreferrer">PyPI package page ↗</a><a href="https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/docs/usage.md" target="_blank" rel="noreferrer">Full installation and usage guide ↗</a></p>
               <p class="command-label command-label-scan">Preview from the project directory</p>
-              <pre><code>vigil-fuse scan . --plan</code></pre>
+              <div class="copy-command-row">
+                <pre><code>vigil-fuse scan . --plan</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the scan preview command">Copy</button>
+              </div>
               <p class="command-label command-label-scan">Run a generic project scan</p>
               <div class="copy-command-row">
-                <pre><code id="scan-command">vigil-fuse scan . --profile generic --output-dir .fuse-results</code></pre>
-                <button type="button" class="copy-button" id="copy-command" aria-label="Copy the generic scan command">Copy</button>
+                <pre><code>vigil-fuse scan . --profile generic --output-dir .fuse-results</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the generic scan command">Copy</button>
               </div>
             </div>
             <div class="output-panel" data-ui="output-folder">
@@ -297,27 +303,39 @@
           <div class="install-reference-grid">
             <details class="install-detail">
               <summary>Windows PowerShell</summary>
-              <pre><code>py -m venv .venv
+              <div class="copy-command-row">
+                <pre><code>py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install vigil-fuse==0.3.0</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the Windows install commands">Copy</button>
+              </div>
             </details>
             <details class="install-detail">
               <summary>Linux or macOS</summary>
-              <pre><code>python3 -m venv .venv
+              <div class="copy-command-row">
+                <pre><code>python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install vigil-fuse==0.3.0</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the Linux or macOS install commands">Copy</button>
+              </div>
             </details>
             <details class="install-detail">
               <summary>Install from source for development</summary>
-              <pre><code>git clone https://github.com/VIGIL-IoT/VIGIL-FUSE.git
+              <div class="copy-command-row">
+                <pre><code>git clone https://github.com/VIGIL-IoT/VIGIL-FUSE.git
 cd VIGIL-FUSE
 python -m pip install -e ".[dev]"</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the source install commands">Copy</button>
+              </div>
             </details>
             <details class="install-detail">
               <summary>Choose an embedded profile</summary>
-              <pre><code>vigil-fuse scan . --profile esp-idf --plan
+              <div class="copy-command-row">
+                <pre><code>vigil-fuse scan . --profile esp-idf --plan
 vigil-fuse scan . --profile zephyr --plan
 vigil-fuse scan . --profile embedded-linux --plan</code></pre>
+                <button type="button" class="copy-button" aria-label="Copy the embedded profile commands">Copy</button>
+              </div>
             </details>
           </div>
           <p class="install-reference-note">Need optional analyzers, baseline commands, JSON formats, or hardware and firmware input details? Read the <a href="https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/docs/usage.md" target="_blank" rel="noreferrer">complete FUSE usage guide ↗</a>. Use <code>vigil-fuse doctor</code> to check the CLI and optional tools.</p>

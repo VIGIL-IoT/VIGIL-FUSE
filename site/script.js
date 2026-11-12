@@ -131,23 +131,31 @@ demoButtons.forEach((button) => {
   button.addEventListener("click", () => selectExample(button.dataset.example, button));
 });
 
-const copyButton = document.querySelector("#copy-command");
-const commandNode = document.querySelector("#scan-command");
+document.querySelectorAll(".copy-button").forEach((copyButton) => {
+  const commandNode = copyButton.closest(".copy-command-row")?.querySelector("code");
+  if (!commandNode) return;
+  const originalLabel = copyButton.textContent;
+  const originalAriaLabel = copyButton.getAttribute("aria-label");
 
-copyButton?.addEventListener("click", async () => {
-  const originalLabel = "Copy";
-  try {
-    await navigator.clipboard.writeText(commandNode.textContent.trim());
-    copyButton.textContent = "Copied";
-    copyButton.setAttribute("aria-label", "Scan command copied");
-  } catch {
-    copyButton.textContent = "Select command";
-    copyButton.setAttribute("aria-label", "Select and copy the scan command");
-  }
-  window.setTimeout(() => {
-    copyButton.textContent = originalLabel;
-    copyButton.setAttribute("aria-label", "Copy the generic scan command");
-  }, 1800);
+  copyButton.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(commandNode.textContent.trim());
+      copyButton.textContent = "Copied";
+      copyButton.setAttribute("aria-label", "Command copied");
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(commandNode);
+      const selection = window.getSelection();
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+      copyButton.textContent = "Select command";
+      copyButton.setAttribute("aria-label", "Command selected, copy it manually");
+    }
+    window.setTimeout(() => {
+      copyButton.textContent = originalLabel;
+      if (originalAriaLabel) copyButton.setAttribute("aria-label", originalAriaLabel);
+    }, 1800);
+  });
 });
 
 const showcase = document.querySelector("#showcase-track");

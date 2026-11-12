@@ -8,7 +8,7 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
-[![PyPI version](https://img.shields.io/pypi/v/vigil-fuse)](https://pypi.org/project/vigil-fuse/)
+[![PyPI version](https://img.shields.io/pypi/v/vigil-fuse.svg?logo=pypi&label=PyPI)](https://pypi.org/project/vigil-fuse/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: VIGIL-FUSE Restricted Use](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use-7c3aed)](LICENSE)
 
