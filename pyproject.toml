@@ -47,6 +47,8 @@ dev = [
 ]
 
 [project.urls]
+Homepage = "https://vigil-fuse.vercel.app/"
+Documentation = "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/docs/usage.md"
 Repository = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 Issues = "https://github.com/VIGIL-IoT/VIGIL-FUSE/issues"
 
