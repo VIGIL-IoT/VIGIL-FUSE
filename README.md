@@ -8,6 +8,7 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
+[![PyPI version](https://img.shields.io/pypi/v/vigil-fuse)](https://pypi.org/project/vigil-fuse/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: VIGIL-FUSE Restricted Use](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use-7c3aed)](LICENSE)
 
@@ -27,6 +28,8 @@ vigil-fuse scan path/to/embedded-project --output-dir .fuse-results
 A normal scan writes `findings.json`, `findings.txt`, and `findings.sarif` to `.fuse-results/`. Start with `--plan` to review selected inputs, supported stages, limits, and available tools before scanning.
 
 See the [usage guide](docs/usage.md) for setup, scan options, optional analyzers, and report review.
+
+Install the published [PyPI package](https://pypi.org/project/vigil-fuse/) or browse the [GitHub releases](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases).
 
 ## How a scan works
 
@@ -88,7 +91,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
 - [Methodology](docs/methodology.md) · [Traceability](docs/traceability.md)
 - [Benchmark method and evidence](docs/benchmarks.md) · [Synthetic scan baseline](reports/benchmark/scan-performance.json) · [Pinned repository performance report](reports/benchmark/repository-scan-performance.json) · [Cross-platform report set](docs/experiments/repository-scan-performance-matrix-2026-10-31.md)
-- [Repository scan reports](reports/repository-scans/README.md) · [Evaluation notes](docs/experiments/pilot-scan-2026-10.md)
+- [Repository scan reports](reports/repository-scans/README.md) · [FUSE 0.3.0 transfer replay](reports/repository-scans/release-0.3.0-transfer-2026-11-12/README.md) · [Evaluation notes](docs/experiments/pilot-scan-2026-10.md)
 - [Development roadmap](docs/roadmap.md) · [Release process](docs/release-process.md)
 - [Repository audit and maturity evidence](docs/REPOSITORY_AUDIT.md) · [AI skills and specialist tools reference](docs/AI_SKILLS_REFERENCE.md) · [Research source ledger](docs/research-sources.md)
 - [Project site](site/) · [Website maintenance notes](docs/website.md)
@@ -107,7 +110,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for repository setup and [rule developmen
 
 ## License status
 
-FUSE is source-available under the [VIGIL-FUSE Restricted Use License, version 1.1](LICENSE). It permits personal and commercial use, private modifications, and redistribution of unmodified official packages through PyPI and its compatible mirrors for installation and use. It does not permit rehosting through other registries or publishing modified versions without written permission from VIGIL-IoT. This is a custom license, not an OSI-approved open-source license. PyPI publication is not complete, and channel and rights review remain open.
+FUSE is source-available under the [VIGIL-FUSE Restricted Use License, version 1.1](LICENSE). It permits personal and commercial use, private modifications, and redistribution of unmodified official packages through PyPI and its compatible mirrors for installation and use. It does not permit rehosting through other registries or publishing modified versions without written permission from VIGIL-IoT. This is a custom license, not an OSI-approved open-source license. Version 0.3.0 is published on PyPI. Channel and rights review remain open.
 
 An earlier public snapshot included MIT terms at [commit `ec91524`](https://github.com/VIGIL-IoT/VIGIL-FUSE/commit/ec91524). This license does not revoke permissions already granted for copies made available under those earlier terms. Review the license attached to the specific version you use.
 

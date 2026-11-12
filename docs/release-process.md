@@ -1,6 +1,6 @@
 # Release process
 
-FUSE remains in the 0.x alpha series. The repository owner authorized a first PyPI publication attempt for version 0.3.0 on 2026-11-11 while legal review and PyPI policy confirmation remain unresolved. This is an owner release decision, not legal advice or PyPI approval, and applies to this release only.
+FUSE remains in the 0.x alpha series. The repository owner authorized the first PyPI publication attempt for version 0.3.0 on 2026-11-11, and the package is now published at [pypi.org/project/vigil-fuse](https://pypi.org/project/vigil-fuse/). Legal review and PyPI policy confirmation remain unresolved. Publication is an owner release decision, not legal advice or PyPI approval, and applies to this release only.
 
 ## Local release candidate checks
 
@@ -54,4 +54,4 @@ For later releases or distribution channels, the owner should resolve these opti
 - Select a distribution channel and review its current terms. GitHub Packages is not a Python package index.
 - Confirm that `pyproject.toml` metadata and release documentation match the approved rights decision before creating public assets.
 
-The owner decision authorizes only the first PyPI publication attempt for version 0.3.0. Other registries and future releases remain gated on a separate documented owner decision and rights review. The license-history, ownership, and PyPI policy questions remain open. This checklist is an engineering record, not legal advice.
+The owner decision authorized the first PyPI publication attempt for version 0.3.0, which completed successfully. Other registries and future releases remain gated on a separate documented owner decision and rights review. The license-history, ownership, and PyPI policy questions remain open. This checklist is an engineering record, not legal advice.

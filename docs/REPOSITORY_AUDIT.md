@@ -5,6 +5,8 @@
 **Code baseline before this increment:** `34a55d0`
 **Scope:** Source, package metadata, tests, CI, documentation, reports, static site, figures, tags, license, badges, and locally available validation tools.
 
+**Current status update, 2026-11-12:** FUSE 0.3.0 is published on [PyPI](https://pypi.org/project/vigil-fuse/) and linked from the repository and project site. Publication completed the initial package availability milestone. It does not indicate PyPI policy approval or close the open ownership, license-history, and qualified-review questions. The 95/100 score below is the dated 2026-11-04 estimate and has not been recalculated for this release.
+
 **Current status update and score, 2026-11-02:** The repository owner restored the custom VIGIL-FUSE Restricted Use License and PEP 639 package metadata after previously requesting its removal. The license permits commercial use while restricting redistribution and shared modifications. It does not alter earlier license grants. The current score below remains 95/100 after closing the analyzer-conformance point and documenting that public code patches require written owner permission. The license decision does not close the remaining legal and distribution-channel review.
 
 **Current status update and score, 2026-11-03:** The optional Ghidra 12.2 adapter now has local controlled ELF and PE evidence plus a passing hosted Ubuntu integration workflow. A Linux launcher-selection defect found by that workflow was fixed and covered on both POSIX and Windows. FUSE CI and CodeQL pass on the benchmark-record commit. The score remains 95/100 because the Docker security point still has untested runtime configurations, while rights review and independent field-accuracy evaluation remain open.
@@ -15,7 +17,7 @@
 
 FUSE is a CLI-first Python tool for bounded static inspection of embedded and IoT project source, configuration, selected build metadata, hardware artifacts, dependency inventories, and firmware candidates. It is part of VIGIL-IoT and complements SPECTRA-32's controlled lab experiments. FUSE does not itself build projects, execute scanned source or firmware, contact devices, or validate physical hardware.
 
-The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.2.0`, and is source-available under the custom VIGIL-FUSE Restricted Use License, version 1.1. Distribution-channel and rights-history review remain open.
+The package has no required runtime dependencies, seven native rules, schema-versioned reports, optional external analyzer adapters, a static project site, and pinned repository scan evidence. The project is alpha software, version `0.3.0`, published on PyPI and under the custom VIGIL-FUSE Restricted Use License, version 1.1. Distribution-channel and rights-history review remain open.
 
 ## Initial condition
 

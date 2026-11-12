@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-11-11
 
-**Status:** Open. License version 1.1 and matching package metadata were drafted on 2026-11-04 to permit unmodified official package distribution through PyPI and compatible mirrors. The text has not been reviewed by qualified counsel, and PyPI has not confirmed that FUSE fits its Acceptable Use Policy. The repository owner authorized a first PyPI publication attempt for version 0.3.0 on 2026-11-11 while those reviews remain open. This packet is not a legal determination.
+**Status:** Open. License version 1.1 and matching package metadata were drafted on 2026-11-04 to permit unmodified official package distribution through PyPI and compatible mirrors. FUSE 0.3.0 has since been published on [PyPI](https://pypi.org/project/vigil-fuse/), following the owner's 2026-11-11 release decision. The text has not been reviewed by qualified counsel, and PyPI has not confirmed that FUSE fits its Acceptable Use Policy. This packet is not a legal determination.
 
 ## Current repository facts
 
@@ -74,4 +74,4 @@ Complete this section after review. Do not infer approval from a successful buil
 
 ## Current release gate
 
-The owner authorized only the first PyPI publication attempt for version 0.3.0 while the policy and legal reviews remain open. This does not mark the review complete or award a maturity point. Future releases and other distribution channels require a separate recorded decision. Governance remains at 7/10 until the rights, channel, and enforcement decisions are reviewed and documented.
+The owner's first PyPI publication attempt for version 0.3.0 succeeded while policy and legal reviews remained open. This does not mark the review complete or award a maturity point. Future releases and other distribution channels require a separate recorded decision. Governance remains at 7/10 until the rights, channel, and enforcement decisions are reviewed and documented.
