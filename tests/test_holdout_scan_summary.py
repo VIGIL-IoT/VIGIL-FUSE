@@ -5,10 +5,24 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.build_holdout_scan_summary import build_charts, build_summary
+from scripts.build_holdout_scan_summary import _read_report, build_charts, build_summary
 
 
 class HoldoutScanSummaryTests(unittest.TestCase):
+    def test_summary_accepts_current_report_schema(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            report_root = Path(temporary) / "reports"
+            report_path = report_root / "example" / "findings.json"
+            report_path.parent.mkdir(parents=True)
+            report_path.write_text(
+                json.dumps({"schema_version": "1.11", "summary": {}, "coverage": {}}),
+                encoding="utf-8",
+            )
+
+            report = _read_report(report_root, "example")
+
+        self.assertEqual("1.11", report["schema_version"])
+
     def test_summary_keeps_an_independent_cohort_and_aggregates_coverage(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
