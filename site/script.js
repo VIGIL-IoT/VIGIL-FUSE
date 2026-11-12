@@ -132,7 +132,8 @@ demoButtons.forEach((button) => {
 });
 
 document.querySelectorAll(".copy-button").forEach((copyButton) => {
-  const commandNode = copyButton.closest(".copy-command-row")?.querySelector("code");
+  const commandNode = copyButton.closest(".copy-command-row")?.querySelector("code")
+    ?? copyButton.closest(".install-detail")?.querySelector("code");
   if (!commandNode) return;
   const originalLabel = copyButton.textContent;
   const originalAriaLabel = copyButton.getAttribute("aria-label");
@@ -143,6 +144,8 @@ document.querySelectorAll(".copy-button").forEach((copyButton) => {
       copyButton.textContent = "Copied";
       copyButton.setAttribute("aria-label", "Command copied");
     } catch {
+      const details = copyButton.closest(".install-detail")?.querySelector("details");
+      if (details) details.open = true;
       const range = document.createRange();
       range.selectNodeContents(commandNode);
       const selection = window.getSelection();

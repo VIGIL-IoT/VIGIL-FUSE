@@ -1756,8 +1756,16 @@ p {
 }
 
 .install-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 10px;
   min-width: 0;
   padding: 8px 0;
+}
+
+.install-detail details {
+  min-width: 0;
 }
 
 .install-detail summary {
@@ -1768,8 +1776,12 @@ p {
   font-weight: 650;
 }
 
-.install-detail[open] summary {
+.install-detail details[open] summary {
   margin-bottom: 12px;
+}
+
+.install-detail > .copy-button {
+  margin-top: 2px;
 }
 
 .install-detail pre {
