@@ -8,6 +8,7 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
+[![Evaluation report](https://img.shields.io/badge/evaluation-PDF%20report-C84335?logo=adobeacrobatreader&logoColor=white)](https://vigil-iot.github.io/VIGIL-FUSE/)
 [![PyPI version](https://img.shields.io/pypi/v/vigil-fuse.svg?logo=pypi&label=PyPI)](https://pypi.org/project/vigil-fuse/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: VIGIL-FUSE Restricted Use](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use-7c3aed)](LICENSE)
@@ -20,10 +21,13 @@ Requires Python 3.11 or newer. The native scanner has no runtime dependencies.
 
 ```sh
 pipx install vigil-fuse==0.3.0
+vigil-fuse
 vigil-fuse doctor
 vigil-fuse scan path/to/embedded-project --plan
 vigil-fuse scan path/to/embedded-project --output-dir .fuse-results
 ```
+
+Run `vigil-fuse` from the project folder for an interactive scan. It shows the resolved folder and asks before scanning. After the scan, you can request an aesthetic PDF report. PDF compilation needs `pdflatex`; FUSE keeps the `.tex` source if it is unavailable.
 
 A normal scan writes `findings.json`, `findings.txt`, and `findings.sarif` to `.fuse-results/`. Start with `--plan` to review selected inputs, supported stages, limits, and available tools before scanning.
 
