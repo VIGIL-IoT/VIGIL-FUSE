@@ -1,0 +1,159 @@
+{
+  "cases": [
+    {
+      "case_id": "0c910c51d9252eff",
+      "commit": "70319024b218adc5df3d98a931feb1c6ff3539b4",
+      "file": "examples/device/midi_test/src/usb_descriptors.c",
+      "input_sha256": "248a7687ce2e70bcce3fcccbb14c817e2ca87df4f2759f9f17418d8aaeb194ba",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "hathach/tinyusb",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/hathach/tinyusb/blob/70319024b218adc5df3d98a931feb1c6ff3539b4/examples/device/midi_test/src/usb_descriptors.c"
+    },
+    {
+      "case_id": "2945b0b27bde99b1",
+      "commit": "70319024b218adc5df3d98a931feb1c6ff3539b4",
+      "file": "test/fuzz/host/usbh_enum/fuzz.c",
+      "input_sha256": "ad2f1f793d6d8d54b0e37b771f6997d95ef4cc037488b45e5bd159267afb79e5",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "hathach/tinyusb",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/hathach/tinyusb/blob/70319024b218adc5df3d98a931feb1c6ff3539b4/test/fuzz/host/usbh_enum/fuzz.c"
+    },
+    {
+      "case_id": "316f7557d8f2f12c",
+      "commit": "c690f59f9a5195c465153e90ef56b865337a8a62",
+      "file": "test/regression/tahi_test/tahi_02_132.c",
+      "input_sha256": "f93397c5496622724c86b797cd9c2d0c835751fa3b27501a161adf2400334614",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "eclipse-threadx/netxduo",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/eclipse-threadx/netxduo/blob/c690f59f9a5195c465153e90ef56b865337a8a62/test/regression/tahi_test/tahi_02_132.c"
+    },
+    {
+      "case_id": "4a363ca05d0c6a29",
+      "commit": "c690f59f9a5195c465153e90ef56b865337a8a62",
+      "file": "test/regression/tahi_test/tahi_03_013.c",
+      "input_sha256": "f7930f105f85b18fd6a8fe9e32636cc3671705e61c4fc778ded759f606029892",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "eclipse-threadx/netxduo",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/eclipse-threadx/netxduo/blob/c690f59f9a5195c465153e90ef56b865337a8a62/test/regression/tahi_test/tahi_03_013.c"
+    },
+    {
+      "case_id": "501439cce07bad9b",
+      "commit": "c690f59f9a5195c465153e90ef56b865337a8a62",
+      "file": "test/regression/dhcp_test/netx_dhcp_server_improper_term_test.c",
+      "input_sha256": "b5b5d860a49a92d59f60fe7be5c5dbede17066f40fb46fb66f3a5586bc6bd116",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "eclipse-threadx/netxduo",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/eclipse-threadx/netxduo/blob/c690f59f9a5195c465153e90ef56b865337a8a62/test/regression/dhcp_test/netx_dhcp_server_improper_term_test.c"
+    },
+    {
+      "case_id": "a17078e2084a13d8",
+      "commit": "70319024b218adc5df3d98a931feb1c6ff3539b4",
+      "file": "hw/bsp/imxrt/boards/metro_m7_1011/board/clock_config.h",
+      "input_sha256": "a7d7c416073bfb17af74d5530d83e05d724a80f52a38c6cbf3246baf62ff78b3",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "hathach/tinyusb",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/hathach/tinyusb/blob/70319024b218adc5df3d98a931feb1c6ff3539b4/hw/bsp/imxrt/boards/metro_m7_1011/board/clock_config.h"
+    },
+    {
+      "case_id": "cd9553085de46394",
+      "commit": "70319024b218adc5df3d98a931feb1c6ff3539b4",
+      "file": "hw/bsp/stm32u0/boards/stm32u083cdk/board.h",
+      "input_sha256": "34c480cf9dc0597f6278a5d82b40adca39d6c221c812b398d01cc480335c2753",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "hathach/tinyusb",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/hathach/tinyusb/blob/70319024b218adc5df3d98a931feb1c6ff3539b4/hw/bsp/stm32u0/boards/stm32u083cdk/board.h"
+    },
+    {
+      "case_id": "d9e4669c40840ded",
+      "commit": "c690f59f9a5195c465153e90ef56b865337a8a62",
+      "file": "test/regression/interoperability_test/nx_secure_test/dtls_openssl_echo_server_entry.c",
+      "input_sha256": "983cb20bd9a3a47ff4371e0997fb9b6906c14c6148d715e5a0bfded773d0fda2",
+      "instructions": "Review the complete linked file for each native rule. Record presence of the rule's narrowly defined condition, separately from deployment applicability. Do not infer that an example key is a deployed secret.",
+      "license": "MIT",
+      "project": "eclipse-threadx/netxduo",
+      "scope": [
+        "FUSE001",
+        "FUSE002",
+        "FUSE003",
+        "FUSE004",
+        "FUSE005",
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/eclipse-threadx/netxduo/blob/c690f59f9a5195c465153e90ef56b865337a8a62/test/regression/interoperability_test/nx_secure_test/dtls_openssl_echo_server_entry.c"
+    }
+  ],
+  "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+  "review_status": "not_started",
+  "source_text": "not redistributed; pinned URLs and hashes only"
+}

@@ -1,0 +1,490 @@
+{
+  "labels": "unopened; review pending",
+  "projects": [
+    {
+      "commit": "c690f59f9a5195c465153e90ef56b865337a8a62",
+      "coverage": {
+        "analyzers": [
+          {
+            "detail": "Native rules completed.",
+            "findings": 0,
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.3.0"
+          },
+          {
+            "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 16 inputs without the rule's required markers.",
+            "findings": 0,
+            "name": "native-rule:FUSE001",
+            "status": "completed",
+            "version": "1.9.0"
+          },
+          {
+            "detail": "Evaluated 1 selected input(s). The conservative prefilter excluded 16 inputs without the rule's required markers.",
+            "findings": 0,
+            "name": "native-rule:FUSE002",
+            "status": "completed",
+            "version": "1.1.0"
+          },
+          {
+            "detail": "Evaluated 5 selected input(s). The conservative prefilter excluded 12 inputs without the rule's required markers.",
+            "findings": 0,
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE004",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+            "findings": 0,
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          }
+        ],
+        "discovery_complete": true,
+        "encoding_fallback": {
+          "count": 0,
+          "encoding": "iso-8859-1",
+          "files": [],
+          "omitted_count": 0
+        },
+        "files_skipped_by_reason": {},
+        "input_inventory": {
+          "complete": true,
+          "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+          "unsupported_file_count": 7,
+          "unsupported_file_types": {
+            ".key": 7
+          }
+        },
+        "limits_reached": [],
+        "rules_available": [
+          "FUSE001",
+          "FUSE002",
+          "FUSE003",
+          "FUSE004",
+          "FUSE005",
+          "FUSE006",
+          "FUSE007"
+        ],
+        "rules_enabled": [
+          "FUSE001",
+          "FUSE002",
+          "FUSE003",
+          "FUSE004",
+          "FUSE005",
+          "FUSE006",
+          "FUSE007"
+        ],
+        "support": {
+          "capability_id": "source.generic",
+          "label": "basic",
+          "limitations": [
+            "No build resolution",
+            "No runtime or device validation"
+          ],
+          "scope": "Seven native rules over selected source and configuration files.",
+          "status": "completed"
+        }
+      },
+      "files_discovered": 17,
+      "files_scanned": 17,
+      "license": "MIT",
+      "license_path": "LICENSE.txt",
+      "repository": "eclipse-threadx/netxduo",
+      "sample_count": 4,
+      "selected_sources": [
+        {
+          "bytes": 8704,
+          "git_blob": "b6b563ac0a4f3185d21bb887c888e4027e569f16",
+          "path": "test/regression/tahi_test/tahi_03_013.c",
+          "sha256": "f7930f105f85b18fd6a8fe9e32636cc3671705e61c4fc778ded759f606029892"
+        },
+        {
+          "bytes": 4383,
+          "git_blob": "7c5cff8d90c6e51b4516cf88cb380163b8540e4c",
+          "path": "test/regression/tahi_test/tahi_02_132.c",
+          "sha256": "f93397c5496622724c86b797cd9c2d0c835751fa3b27501a161adf2400334614"
+        },
+        {
+          "bytes": 17499,
+          "git_blob": "af6e1e7fa1907debd7684e4790a3ffaaf7fcbf28",
+          "path": "test/regression/dhcp_test/netx_dhcp_server_improper_term_test.c",
+          "sha256": "b5b5d860a49a92d59f60fe7be5c5dbede17066f40fb46fb66f3a5586bc6bd116"
+        },
+        {
+          "bytes": 2179,
+          "git_blob": "fcfe4aee1a5af89fcbb5c2f6f18232b3097327b6",
+          "path": "test/regression/interoperability_test/nx_secure_test/dtls_openssl_echo_server_entry.c",
+          "sha256": "983cb20bd9a3a47ff4371e0997fb9b6906c14c6148d715e5a0bfded773d0fda2"
+        },
+        {
+          "bytes": 15830,
+          "git_blob": "08d21d13a4731d85780de06214fa2501eebd4b55",
+          "path": "test/regression/tahi_test/tahi_05_005.c",
+          "sha256": "570abf8749ab96a7424a66394dff17f4430bde2710aeb30ba1a76a18f16f01c4"
+        },
+        {
+          "bytes": 7902,
+          "git_blob": "335a2629baeddc3a88c5f89d8520dfcd4f91db58",
+          "path": "nx_secure/src/nx_secure_tls_remote_certificate_verify.c",
+          "sha256": "1fa701f711cee7a5c64a699b6b1e8941e850a7e5257229d15ca2cc18f05e7c02"
+        },
+        {
+          "bytes": 37482,
+          "git_blob": "cee1dfaefdbefd63071c52f7b470f0cb4fc6254a",
+          "path": "test/regression/netxduo_test/netx_ipv6_branch_test.c",
+          "sha256": "d21454c831a726bbcba4d14ed6daa3676466142bc9ec999f79c57893cafe49ff"
+        },
+        {
+          "bytes": 7829,
+          "git_blob": "8bfe94a503964b2fcf7039840c8855a8eebae7d9",
+          "path": "test/regression/interoperability_test/nx_secure_test/tls_ecc_server_curves_test.c",
+          "sha256": "8d62f7d3d79c9a54866744e19c5d8821a7904fe64e91fb6540fd82b966e6c73b"
+        },
+        {
+          "bytes": 11952,
+          "git_blob": "c9bc7cb1145f4a3b91d9647abd49ee7b7e692063",
+          "path": "nx_secure/src/nx_secure_crypto_table_self_test.c",
+          "sha256": "fc790a1484b3a4cfa99638e7eea60a67d67633cd907d44c766fd5b86af3d25c2"
+        },
+        {
+          "bytes": 20056,
+          "git_blob": "bc9e0c9a26fa72eaa26fb8bdb9c6a005ae8d40d0",
+          "path": "common/src/nx_tcp_socket_packet_process.c",
+          "sha256": "dce8cca30c493d44fc7c76afdc74755f77e7d1f6add021c11e6265cbb2c8fb26"
+        },
+        {
+          "bytes": 10403,
+          "git_blob": "258cac94405c875e807a7abb05e3957117723ba4",
+          "path": "test/regression/tahi_test/tahi_dhcpv6_01_082.c",
+          "sha256": "83b41c2e33b032c0b8560b97402ded72c487d81e67ec546d2cfec7a5109b29a0"
+        },
+        {
+          "bytes": 19227,
+          "git_blob": "f4e5eb09bc6260eb36732459f9fc95833d3faf13",
+          "path": "test/regression/snmp_test/netx_snmp_setget_integers_test.c",
+          "sha256": "e2c752b18ace451f4a00fac8b3382e765ae8fecc40424eb1d3fbf7864a0fdf10"
+        },
+        {
+          "bytes": 8770,
+          "git_blob": "36dde309fcd61b0df39e74cddeb44605a06dbfd7",
+          "path": "common/src/nxde_udp_socket_send.c",
+          "sha256": "39749fb47533d05491774a274de4257bebbd6cd43db63e5dbc87c753fe84bf5b"
+        },
+        {
+          "bytes": 10753,
+          "git_blob": "4b084fe0ae2d1edf062803bd09192327802d54a7",
+          "path": "test/regression/interoperability_test/nx_secure_test/nx_secure_echo_client_aes128_gcm_entry.c",
+          "sha256": "26769dd2f12f73e7bb9e0b655507e17d8ef618c982188bb27e4d4dce312ffba7"
+        },
+        {
+          "bytes": 6879,
+          "git_blob": "9f933923e553f66d3335f11b227b2d53c8f0f61b",
+          "path": "test/regression/netxduo_test/netx_icmpv6_ra_address_full_test.c",
+          "sha256": "6476f13f2b1e7b3c1b7600d808de2d07163260f0c0a07fd637ef2dcd52136d4a"
+        },
+        {
+          "bytes": 6907,
+          "git_blob": "23d0709b47aae82eb25e431d896f5961899606b6",
+          "path": "nx_secure/src/nx_secure_tls_record_hash_calculate.c",
+          "sha256": "baa31d9b92d30fb07a25fb657e6a69b9d27adcff9dab8b328b3d7325d802b2cf"
+        },
+        {
+          "bytes": 359,
+          "git_blob": "ea64011ac7933671b679cb8f5039360c33f2e651",
+          "path": "test/regression/interoperability_test/ecc_certificates/ECTestServer4.key",
+          "sha256": "e803a8b38c88a9cf74939bc6f3b56db5b045990020112c70a8ac71158a377ee9"
+        },
+        {
+          "bytes": 1708,
+          "git_blob": "7d0a93826aebd96e412152af2cb5cd2bdb5f04a2",
+          "path": "test/regression/interoperability_test/certificates/test_client.key",
+          "sha256": "16bd095d9a3abc33a4c4253a49950a39deae3be1da4d169c4d153c82cab81930"
+        },
+        {
+          "bytes": 3272,
+          "git_blob": "56d55727219827e843ba368a8f3a10ab452a6a1f",
+          "path": "test/regression/interoperability_test/certificates/test.key",
+          "sha256": "f9a19e4537697e817fac1c6050139a410129aa4c33190b46b67562113b7e3d5e"
+        },
+        {
+          "bytes": 302,
+          "git_blob": "66b4c12fe8ec9722a1293100986e4f3e4406ef57",
+          "path": "test/regression/interoperability_test/ecc_certificates/ECRevoked2.key",
+          "sha256": "5f1a849fda7b8d6e8000b14928c73c06d7128a309542741db8cf15cb9e806d2f"
+        },
+        {
+          "bytes": 302,
+          "git_blob": "0ab025d19331395c7720df01542dc53582b21434",
+          "path": "test/regression/interoperability_test/ecc_certificates/ECIntm.key",
+          "sha256": "a1f2ae0a0a13672c5a15c846c225f48d3da79033a94a03578716c69c1339e1e1"
+        },
+        {
+          "bytes": 302,
+          "git_blob": "4e28f0c15c0778d98aedabce16cadb1fb93277b9",
+          "path": "test/regression/interoperability_test/ecc_certificates/ECCA2.key",
+          "sha256": "1fcf460084b76e307c44d89e50e58311469c116fbf771cf85eaa464a6adcfda4"
+        },
+        {
+          "bytes": 1411,
+          "git_blob": "7a9a960b30944b5056c2c219422b16345ff8cecc",
+          "path": "test/regression/interoperability_test/nx_secure_test/cert.pem",
+          "sha256": "36ac83014fa4922183dc818ff008805db92ea82e47cb704189e9c1c6c6f1cfb7"
+        },
+        {
+          "bytes": 241,
+          "git_blob": "f716af1c28b83786dc65c3eb13000766ef90ae45",
+          "path": "test/regression/interoperability_test/ecc_certificates/ECTest.key",
+          "sha256": "d7ec3644c4d0585aa00a2e422b7752b8297caf6362e2a526f529830bb6880984"
+        }
+      ]
+    },
+    {
+      "commit": "70319024b218adc5df3d98a931feb1c6ff3539b4",
+      "coverage": {
+        "analyzers": [
+          {
+            "detail": "Native rules completed.",
+            "findings": 0,
+            "name": "fuse-native",
+            "status": "completed",
+            "version": "0.3.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE001",
+            "status": "skipped",
+            "version": "1.9.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 14 inputs without the rule's required markers.",
+            "findings": 0,
+            "name": "native-rule:FUSE003",
+            "status": "completed",
+            "version": "1.4.0"
+          },
+          {
+            "detail": "Evaluated 2 selected input(s). The conservative prefilter excluded 14 inputs without the rule's required markers.",
+            "findings": 0,
+            "name": "native-rule:FUSE004",
+            "status": "completed",
+            "version": "1.2.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "detail": "No selected input matched this rule's supported input scope.",
+            "findings": 0,
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+            "findings": 0,
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          }
+        ],
+        "discovery_complete": true,
+        "encoding_fallback": {
+          "count": 0,
+          "encoding": "iso-8859-1",
+          "files": [],
+          "omitted_count": 0
+        },
+        "files_skipped_by_reason": {},
+        "input_inventory": {
+          "complete": true,
+          "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+          "unsupported_file_count": 0,
+          "unsupported_file_types": {}
+        },
+        "limits_reached": [],
+        "rules_available": [
+          "FUSE001",
+          "FUSE002",
+          "FUSE003",
+          "FUSE004",
+          "FUSE005",
+          "FUSE006",
+          "FUSE007"
+        ],
+        "rules_enabled": [
+          "FUSE001",
+          "FUSE002",
+          "FUSE003",
+          "FUSE004",
+          "FUSE005",
+          "FUSE006",
+          "FUSE007"
+        ],
+        "support": {
+          "capability_id": "source.generic",
+          "label": "basic",
+          "limitations": [
+            "No build resolution",
+            "No runtime or device validation"
+          ],
+          "scope": "Seven native rules over selected source and configuration files.",
+          "status": "completed"
+        }
+      },
+      "files_discovered": 16,
+      "files_scanned": 16,
+      "license": "MIT",
+      "license_path": "LICENSE",
+      "repository": "hathach/tinyusb",
+      "sample_count": 4,
+      "selected_sources": [
+        {
+          "bytes": 15377,
+          "git_blob": "da934a7b20c8d17bd5399de49eb07625b8ee4652",
+          "path": "test/fuzz/host/usbh_enum/fuzz.c",
+          "sha256": "ad2f1f793d6d8d54b0e37b771f6997d95ef4cc037488b45e5bd159267afb79e5"
+        },
+        {
+          "bytes": 4634,
+          "git_blob": "28f9fa285f39fa2a5b0ec78d575db1a4588f0cb3",
+          "path": "hw/bsp/stm32u0/boards/stm32u083cdk/board.h",
+          "sha256": "34c480cf9dc0597f6278a5d82b40adca39d6c221c812b398d01cc480335c2753"
+        },
+        {
+          "bytes": 6857,
+          "git_blob": "fc7228c350f769e6c473bbed8415f5a0e5741d95",
+          "path": "examples/device/midi_test/src/usb_descriptors.c",
+          "sha256": "248a7687ce2e70bcce3fcccbb14c817e2ca87df4f2759f9f17418d8aaeb194ba"
+        },
+        {
+          "bytes": 6501,
+          "git_blob": "cc627cf6a10d719b9612c5a02e9c7b89133042ab",
+          "path": "hw/bsp/imxrt/boards/metro_m7_1011/board/clock_config.h",
+          "sha256": "a7d7c416073bfb17af74d5530d83e05d724a80f52a38c6cbf3246baf62ff78b3"
+        },
+        {
+          "bytes": 14717,
+          "git_blob": "deabe25aaa8ef7f7eec6728ddd706e66de1cf11f",
+          "path": "hw/bsp/kinetis_kl/boards/frdm_kl25z/clock_config.c",
+          "sha256": "4a4df5d7d26528dcd8b76ce7ae7392e6f1cf55d17cab8cefd788784d322deabe"
+        },
+        {
+          "bytes": 6881,
+          "git_blob": "e5a76af85c9f32b6a9ac50505f555a878a943395",
+          "path": "hw/bsp/maxim/FreeRTOSConfig/FreeRTOSConfig.h",
+          "sha256": "2319644827241eb4974773137c345f30e473d67fc507bf00dc2e9bca0a2bb210"
+        },
+        {
+          "bytes": 8847,
+          "git_blob": "acc2f3e458f680fc1868e60c0c1a1b49754025ce",
+          "path": "hw/bsp/mcx/boards/mcxn947brk/pin_mux.c",
+          "sha256": "e351701f5ae58f54a9f07c755b8f4a7aea1aae457413e2c4357bbbefccc06885"
+        },
+        {
+          "bytes": 8469,
+          "git_blob": "38961e8280313eaeb0be8e5d078c3781f31e9144",
+          "path": "hw/mcu/dialog/da1469x/include/mcu/mcu.h",
+          "sha256": "2cc28e11aec945ab824c25bda0f498d659773cd0cc48d8219f239a0825439e8a"
+        },
+        {
+          "bytes": 15030,
+          "git_blob": "8e2e72585d7955658f5ddc0f0e625ed00a8cce38",
+          "path": "src/class/net/ecm_rndis_device.c",
+          "sha256": "6f7897d4f39bd62bbaf889fdedc8c089effa59367498ea5ad26ae2bce9d55fce"
+        },
+        {
+          "bytes": 4263,
+          "git_blob": "16349b5ff7137387fcaf6e93b1dd44212e429f75",
+          "path": "hw/bsp/ra/boards/ra6m1_ek/ra_cfg/fsp_cfg/bsp/bsp_mcu_family_cfg.h",
+          "sha256": "275aae496b0c37463a26f378a10e32183c80d0a7b59d508fabaebaf78cacace9"
+        },
+        {
+          "bytes": 37867,
+          "git_blob": "dc662857e0b84b7cc1c6c28d690e05cb4762e55f",
+          "path": "src/portable/dialog/da146xx/dcd_da146xx.c",
+          "sha256": "e9ca915b8e94e3cd9de641bd8174f7277f111b13dd393bd58c7a9246172abdee"
+        },
+        {
+          "bytes": 7984,
+          "git_blob": "9ad78fe43148c64580e6fbf0ac0d28644589767b",
+          "path": "hw/bsp/rw61x/boards/frdm_rw612/clock_config.c",
+          "sha256": "df7c13f5b9d9c783b73c8def82eeb197cb6c594f6b469c3840ea1f6c88eefb75"
+        },
+        {
+          "bytes": 8510,
+          "git_blob": "c33790ac51da21f2519788ca1c48969943eec986",
+          "path": "hw/bsp/mcx/boards/frdm_mcxn947/pin_mux.c",
+          "sha256": "511c6db8c70287d9aba1a788a0ef4c81cf10e97e985bd07a7e799313cc07ea15"
+        },
+        {
+          "bytes": 2527,
+          "git_blob": "97ec65f665c71d6f33448f19b561401df727548c",
+          "path": "examples/device/board_test/src/tusb_config.h",
+          "sha256": "ffbcbe35aea16d28b8ffe8c4cb25b46b0b36a327651e4a6633bd562d0464a779"
+        },
+        {
+          "bytes": 5723,
+          "git_blob": "dadcd6e860e6f299cc862928fc8cca2d853b79de",
+          "path": "hw/bsp/stm32h7/boards/stm32h750_weact/board.h",
+          "sha256": "82c04d4140736f211759efcdb5c0721d05b9098d7f9eb5321f8302284d5956ef"
+        },
+        {
+          "bytes": 5241,
+          "git_blob": "d94a87c9974dde1f13d4a688bd35d3ce9b22f6b3",
+          "path": "examples/device/net_lwip_webserver/src/tusb_config.h",
+          "sha256": "7d808f6e300954588d5547a68d03c20817a6c69316a099ba14e9473013ff7fae"
+        }
+      ]
+    }
+  ],
+  "selection_sha256": "9d252f2993faf954b78fbf6f83d937b59b89de8726cad95b52374369efdeea5c"
+}
