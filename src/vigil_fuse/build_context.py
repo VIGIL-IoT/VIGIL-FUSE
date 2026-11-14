@@ -18,8 +18,9 @@ from .model import (
 from .text_safety import safe_report_text
 
 MAX_PLATFORMIO_BYTES = 2 * 1024 * 1024
-MAX_PLATFORMIO_CONFIG_FILES = 64
+MAX_PLATFORMIO_CONFIG_FILES = 512
 MAX_PLATFORMIO_CONFIG_DEPTH = 8
+MAX_PLATFORMIO_INHERITANCE_DEPTH = 32
 MAX_PLATFORMIO_TOTAL_BYTES = 10 * 1024 * 1024
 MAX_COMPILATION_DATABASE_BYTES = 20 * 1024 * 1024
 MAX_COMPILATION_DATABASE_ENTRIES = 100_000
@@ -70,7 +71,9 @@ def _csv_values(value: str | None) -> tuple[str, ...]:
     if not value:
         return ()
     return tuple(
-        cleaned for item in value.split(",") if (cleaned := safe_report_text(item, limit=240))
+        cleaned
+        for item in value.replace(",", "\n").splitlines()
+        if (cleaned := safe_report_text(item, limit=240))
     )
 
 
@@ -158,7 +161,9 @@ def _load_platformio_config_graph(
                 root_invalid = True
             visited.add(resolved)
             return
-        parser = configparser.ConfigParser(interpolation=None, strict=False)
+        parser = configparser.ConfigParser(
+            interpolation=None, strict=False, inline_comment_prefixes=("#", ";")
+        )
         try:
             parser.read_string(text)
         except configparser.Error as error:
@@ -278,23 +283,24 @@ def inspect_platformio(
     resolved_sections: dict[str, dict[str, str]] = {}
     resolving: set[str] = set()
 
-    def resolve_environment(name: str) -> dict[str, str]:
+    def resolve_section(name: str) -> dict[str, str]:
         if name in resolved_sections:
             return dict(resolved_sections[name])
         if name in resolving:
             limitations.append(f"Environment inheritance cycle includes {name}.")
             return {}
-        section_name = sections.get(name)
-        if section_name is None:
-            limitations.append(f"Environment inheritance target {name} was not found.")
+        if name not in merged_sections:
+            label = safe_report_text(name, limit=240)
+            limitations.append(f"Environment inheritance target {label} was not found.")
+            return {}
+        if len(resolving) >= MAX_PLATFORMIO_INHERITANCE_DEPTH:
+            limitations.append("PlatformIO inheritance depth limit exceeded; metadata is partial.")
             return {}
         resolving.add(name)
-        values = dict(base_values)
-        own = dict(merged_sections[section_name])
-        parent = own.get("extends", "").strip()
-        if parent:
-            parent_name = parent.removeprefix("env:")
-            values.update(resolve_environment(parent_name))
+        values: dict[str, str] = {}
+        own = dict(merged_sections[name])
+        for parent in _csv_values(own.get("extends")):
+            values.update(resolve_section(parent))
         values.update(own)
         resolving.remove(name)
         resolved_sections[name] = dict(values)
@@ -302,7 +308,22 @@ def inspect_platformio(
 
     environments: list[PlatformIOEnvironment] = []
     for name in sorted(sections, key=str.casefold):
-        values = resolve_environment(name)
+        values = resolve_section("env") if base_values else {}
+        values.update(resolve_section(sections[name]))
+        reported_options = (
+            "platform",
+            "board",
+            "framework",
+            "build_type",
+            "upload_protocol",
+            "debug_tool",
+            "src_dir",
+            "build_src_filter",
+        )
+        if any("${" in values.get(option, "") for option in reported_options):
+            limitations.append(
+                "PlatformIO metadata contains unresolved interpolation; declared values are not effective build settings."
+            )
         environments.append(
             PlatformIOEnvironment(
                 name=safe_report_text(name, limit=240) or "unnamed",

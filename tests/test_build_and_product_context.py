@@ -64,7 +64,7 @@ class PlatformIOInventoryTests(unittest.TestCase):
                 "[env:base]\n"
                 "board = esp32dev\n"
                 "[env:release]\n"
-                "extends = base\n"
+                "extends = env:base\n"
                 "build_type = release\n"
                 "framework = espidf\n",
                 encoding="utf-8",

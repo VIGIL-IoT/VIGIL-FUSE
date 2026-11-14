@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- PlatformIO context resolves shared sections and ordered multiple parents, handles multiline default environments and inline comments, and flags unresolved reported interpolation as partial. The file cap is 512 with the existing byte and include-depth caps retained; inheritance depth is bounded at 32.
+
 ## 0.3.0 - 2026-11-11
 
 ### Changed
