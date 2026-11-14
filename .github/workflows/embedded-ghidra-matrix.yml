@@ -30,7 +30,7 @@ jobs:
       - name: Install evaluation dependencies and verify frozen detector
         run: |
           python -m pip install '.[test]'
-          python scripts/freeze_evaluation.py reports/evaluation/2026-11-14/manifest.json --verify
+          python scripts/freeze_evaluation.py reports/evaluation/2026-11-14/post-redaction/manifest.json --verify
       - name: Install checksum-verified Ghidra
         run: |
           set -euo pipefail
@@ -48,6 +48,7 @@ jobs:
           curl --fail --location --retry 3 "$base/$name" -o "$name"
           curl --fail --location --retry 3 "$base/$name.sha256" -o "$name.sha256"
           sha256sum --check "$name.sha256"
+          echo "34ee877aadc78c5e9f067e603a1bc9745ed93ca7ae5dbfc9b4406508dc153920  $name" | sha256sum --check
           tar -xf "$name"
           echo "$RUNNER_TEMP/LLVM-ET-Arm-19.1.5-Linux-x86_64/bin" >> "$GITHUB_PATH"
           sha256sum "$name" > arm-toolchain-checksum.txt

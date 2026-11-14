@@ -42,14 +42,14 @@ TARGETS = {
     },
     "esp32": {
         "architecture": "Xtensa",
-        "compiler": "xtensa-esp-elf-gcc",
-        "flags": ["-mcpu=esp32", "-mtext-section-literals"],
+        "compiler": "xtensa-esp32-elf-gcc",
+        "flags": ["-mtext-section-literals"],
         "base": "0x40080000",
     },
     "esp32s3": {
         "architecture": "Xtensa",
-        "compiler": "xtensa-esp-elf-gcc",
-        "flags": ["-mcpu=esp32s3", "-mtext-section-literals"],
+        "compiler": "xtensa-esp32s3-elf-gcc",
+        "flags": ["-mtext-section-literals"],
         "base": "0x40370000",
     },
     "esp32c6": {
@@ -307,7 +307,7 @@ def main() -> int:
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--ghidra-install-dir", type=Path, required=True)
     parser.add_argument(
-        "--manifest", type=Path, default=ROOT / "reports/evaluation/2026-11-14/manifest.json"
+        "--manifest", type=Path, default=ROOT / "reports/evaluation/2026-11-14/post-redaction/manifest.json"
     )
     parser.add_argument("--timeout-seconds", type=int, default=300)
     parser.add_argument("--real-binary", type=Path)
@@ -344,7 +344,7 @@ def main() -> int:
                     "project": "ESP-IDF hello_world",
                     "repository": "https://github.com/espressif/esp-idf",
                     "commit": IDF_COMMIT,
-                    "license": "Apache-2.0; example public domain (see source header)",
+                    "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
                     "source_available": True,
                     "redistribution": "binary not committed; build from pinned official image",
                     "image": IDF_IMAGE,
