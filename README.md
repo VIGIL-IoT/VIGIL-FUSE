@@ -119,3 +119,7 @@ Because this repository is public on GitHub, GitHub's [Terms of Service](https:/
 ---
 
 **FUSE · Firmware & Unified Security Engine · A [VIGIL](https://github.com/VIGIL-IoT) Project**
+
+## Multi-repository evaluation report
+
+Read the [LaTeX evaluation and reproduction record](reports/repository-scans/multi-repository-2026-11-14/README.md) or the [PDF on GitHub Pages](https://vigil-iot.github.io/VIGIL-FUSE/report.pdf). Four pinned scopes yielded three static review candidates across 4,347 scanned files, with coverage limitations recorded.

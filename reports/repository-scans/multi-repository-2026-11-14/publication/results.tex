@@ -1,0 +1,16 @@
+\newcommand{\ScannedFiles}{4347}
+\newcommand{\SelectedFiles}{4348}
+\newcommand{\RawFindings}{3}
+\newcommand{\ScannerCommit}{93313780408799032b88462483a76ecbb641d2c1}
+\newcommand{\ResultRows}{ArduPilot/ardupilot & 260/260 & 0 & complete \\
+RT-Thread/rt-thread & 2126/2127 & 1 & partial \\
+openbmc/openbmc & 230/230 & 0 & complete \\
+meshtastic/firmware & 1731/1731 & 2 & partial \\}
+\newcommand{\PinnedScopes}{\item ArduPilot/ardupilot: \texttt{278a68a57aa0d9b98e6dbaaf9346f6b485f4c9ac}. ArduCopter plus selected communications, networking, arming, HAL, and parameter libraries
+\item RT-Thread/rt-thread: \texttt{cbc19778d0ae5ef2533a28c0f62c6a399858010a}. RTOS core, headers, networking, drivers, shell, utilities, and root configuration
+\item openbmc/openbmc: \texttt{c9bb07fa438f008aa1c998fe2e742a386cd15776}. Phosphor service recipes and selected IBM host and network recipe extensions
+\item meshtastic/firmware: \texttt{332b5b0a2c4fec2896de3c5fa63f46d5cd05ea98}. Firmware source, board variants, and selected build configuration}
+\newcommand{\FindingItems}{\item RT-Thread/rt-thread: FUSE001, medium severity, high confidence. Credential-like literal in source Location: \texttt{components/finsh/shell.h}, line 47.
+\item meshtastic/firmware: FUSE001, medium severity, high confidence. Credential-like literal in source Location: \texttt{src/mesh/Default.h}, line 79.
+\item meshtastic/firmware: FUSE003, high severity, high confidence. TLS peer verification appears disabled Location: \texttt{src/mqtt/MQTT.cpp}, line 544.}
+\newcommand{\MetadataLimits}{\item meshtastic/firmware: PlatformIO metadata contains unresolved interpolation; declared values are not effective build settings.}

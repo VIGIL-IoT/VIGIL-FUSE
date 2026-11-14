@@ -1,0 +1,843 @@
+FUSE scan: meshtastic/firmware, selected radio firmware and board configuration
+Target kind: directory
+Profile: generic
+Support: basic / completed
+Network policy: no-network
+Scanned manifest SHA-256: 5c5ac4ee1debd85f280ad8984654ae35c83a32435bd6119eb10a86ab859386f9
+Files discovered/selected: 1739/1731
+Files filtered by path policy: 8
+Files scanned: 1731
+Source bytes read: 11246892
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 2
+Hardware artifacts: 0
+PlatformIO: partial; 277 environment(s), 217 config file(s), selected: heltec-v3
+  9m2ibr_aprs_lora_tracker [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_base.build_src_filter} ; +<../variants/esp32/diy/9m2ibr_aprs_lora_tracker>
+  ai-c3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c3-devkitm-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  axiometa-genesis-mini [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, axiometa-genesis-mini, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/axiometa_genesis_mini>
+  betafpv_2400_tx_micro [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  betafpv_900_tx_nano [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  bpi_picow_esp32_s3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, bpi_picow_esp32_s3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  buildroot [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, buildroot, arduino]
+    source filter: ${portduino_base.build_src_filter}
+  canaryone [platformio/nordicnrf52@11.0.0, canaryone, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/canaryone>
+  catsniffer [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  CDEBYTE_E77-MBL [platformio/ststm32@20.0.0, ebyte_e77_dev, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/stm32wl/> -<nimble/> -<mesh/api/> -<mesh/wifi/> -<mesh/http/> -<modules/esp32> -<mesh/eth/> -<input> -<buzz> -<modules/RemoteHardwareModule.cpp> -<mesh/raspihttp>
+  CDEBYTE_EoRa-Hub [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, CDEBYTE_EoRa-Hub, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  CDEBYTE_EoRa-S3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, CDEBYTE_EoRa-S3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  challenger_2040_lora [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, challenger_2040_lora, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  chatter2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  coverage [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${portduino_base.build_src_filter}
+  coverage-channel-table [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${portduino_base.build_src_filter}
+  coverage-event-policy [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${portduino_base.build_src_filter}
+  crowpanel-esp32s3-2-epaper [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  crowpanel-esp32s3-4-epaper [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  crowpanel-esp32s3-5-epaper [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  dreamcatcher [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32s3box, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  dreamcatcher-2206 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32s3box, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  EBYTE_ESP32-S3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ESP32-S3-WROOM-1-N4, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  elecrow-adv-24-28-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  elecrow-adv-35-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  elecrow-adv1-43-50-70-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  ESP32-S3-Pico [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-pico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  esp32c3_super_mini [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c3-devkitm-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  feather_diy [platformio/nordicnrf52@11.0.0, adafruit_feather_nrf52840, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/feather_diy>
+  feather_rp2040_rfm95 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, adafruit_feather, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  gat562_mesh_trial_tracker [platformio/nordicnrf52@11.0.0, gat562_mesh_trial_tracker, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/gat562_mesh_trial_tracker>
+  hackaday-communicator [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, hackaday-communicator, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/hackaday-communicator>
+  hackerboxes-esp32-io [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32dev, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  hackerboxes-esp32c3-oled [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c3-devkitm-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-hru-3601 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, adafruit_qtpy_esp32c3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-ht62-esp32c3-sx1262 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c3-devkitm-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-mesh-node-t096 [platformio/nordicnrf52@11.0.0, heltec_mesh_node_t096, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_node_t096>
+  heltec-mesh-node-t1 [platformio/nordicnrf52@11.0.0, heltec_mesh_node_t1, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_node_t1>
+  heltec-mesh-node-t114 [platformio/nordicnrf52@11.0.0, heltec_mesh_node_t114, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_node_t114>
+  heltec-mesh-node-t114-inkhud [platformio/nordicnrf52@11.0.0, heltec_mesh_node_t114, arduino]
+    source filter: ${nrf52_base.build_src_filter} ; ${inkhud.build_src_filter} ; +<../variants/nrf52840/heltec_mesh_node_t114-inkhud>
+  heltec-mesh-pocket-10000 [platformio/nordicnrf52@11.0.0, heltec_mesh_pocket, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_pocket>
+  heltec-mesh-pocket-10000-inkhud [platformio/nordicnrf52@11.0.0, heltec_mesh_pocket, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_pocket> ${inkhud.build_src_filter}
+  heltec-mesh-pocket-5000 [platformio/nordicnrf52@11.0.0, heltec_mesh_pocket, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_pocket>
+  heltec-mesh-pocket-5000-inkhud [platformio/nordicnrf52@11.0.0, heltec_mesh_pocket, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_pocket> ${inkhud.build_src_filter}
+  heltec-mesh-solar [platformio/nordicnrf52@11.0.0, heltec_mesh_solar, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_solar>
+  heltec-mesh-solar-eink [platformio/nordicnrf52@11.0.0, heltec_mesh_solar, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_solar>
+  heltec-mesh-solar-inkhud [platformio/nordicnrf52@11.0.0, heltec_mesh_solar, arduino]
+    source filter: ${heltec_mesh_solar_base.build_src_filter} ${inkhud.build_src_filter}
+  heltec-mesh-solar-oled [platformio/nordicnrf52@11.0.0, heltec_mesh_solar, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_solar>
+  heltec-mesh-solar-tft [platformio/nordicnrf52@11.0.0, heltec_mesh_solar, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_solar>
+  heltec-mesh-tower-v2 [platformio/nordicnrf52@11.0.0, heltec_mesh_tower_v2, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_mesh_tower_v2>
+  heltec-rc32 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_rc32, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-rc52 [platformio/nordicnrf52@11.0.0, heltec_rc52, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/heltec_rc52>
+  heltec-rcc6 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_rcc6, arduino]
+    source filter: ${esp32_common.build_src_filter}
+  heltec-v1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  heltec-v2_0 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V2, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  heltec-v2_1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V2, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  heltec-v3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-v4 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_v4, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-v4-r8-oled [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_v4_r8, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-v4-r8-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_v4_r8, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-v4-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_v4, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-vision-master-e213 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_vision_master_e213, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-vision-master-e213-inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_vision_master_e213, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; ${inkhud.build_src_filter}
+  heltec-vision-master-e290 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_vision_master_e290, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-vision-master-e290-inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_vision_master_e290, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; ${inkhud.build_src_filter}
+  heltec-vision-master-t190 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_vision_master_t190, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-wireless-bridge [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  heltec-wireless-paper [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-wireless-paper-inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; ${inkhud.build_src_filter}
+  heltec-wireless-paper-v1_0 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-wireless-tracker [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_tracker, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-wireless-tracker-V1-0 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_tracker, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-wireless-tracker-v2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_tracker_v2, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec-wsl-v2_1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_stick_lite, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  heltec-wsl-v3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec_capsule_sensor_v3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  heltec_sensor_hub [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wifi_lora_32_V3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  hydra [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  icarus [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, icarus, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  link32-s3-v1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  m5stack-cardputer-adv [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, m5stack-stamps3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  m5stack-core [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, m5stack-core-esp32, arduino]
+    source filter: ${esp32_base.build_src_filter}
+  m5stack-coreink [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, m5stack-coreink, arduino]
+    source filter: ${esp32_base.build_src_filter}
+  m5stack-cores3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, m5stack-cores3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  m5stack-stamp-c3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c3-devkitm-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  m5stack-unitc6l [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c6-devkitc-1, arduino]
+    source filter: ${esp32c6_base.build_src_filter} +<../variants/esp32c6/m5stack_unitc6l>
+  makerfabs_nomad_terminal [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/makerfabs_nomad_terminal>
+  makerfabs_nomad_terminal-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/makerfabs_nomad_terminal>
+  makerpython_nrf52840_sx1280_eink [platformio/nordicnrf52@11.0.0, nordic_pca10059, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/MakePython_nRF52840_eink>
+  makerpython_nrf52840_sx1280_oled [platformio/nordicnrf52@11.0.0, nordic_pca10059, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/MakePython_nRF52840_oled>
+  ME25LS01-4Y10TD [platformio/nordicnrf52@11.0.0, me25ls01-4y10td, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/ME25LS01-4Y10TD>
+  ME25LS01-4Y10TD_e-ink [platformio/nordicnrf52@11.0.0, me25ls01-4y10td, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/ME25LS01-4Y10TD_e-ink>
+  mesh-tab-3-2-IPS-capacitive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  mesh-tab-3-2-IPS-resistive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  mesh-tab-3-2-TN-resistive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  mesh-tab-3-5-IPS-capacitive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  mesh-tab-3-5-IPS-resistive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  mesh-tab-3-5-TN-resistive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  mesh-tab-4-0-IPS-capacitive [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mesh-tab, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  meshlink [platformio/nordicnrf52@11.0.0, meshlink, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/meshlink>
+  meshlink_eink [platformio/nordicnrf52@11.0.0, meshlink, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/meshlink>
+  meshnology_w10 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  meshnology_w12 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  meshtastic-diy-v1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  meshtastic-diy-v1_1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  meshtastic-dr-dev [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  meshtiny [platformio/nordicnrf52@11.0.0, meshtiny, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/meshtiny>
+  milesight_gs301 [platformio/ststm32@20.0.0, wiscore_rak3172, arduino]
+    source filter: ${stm32_base.build_src_filter} ; +<../variants/stm32/milesight_gs301>
+  mini-epaper-s3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mini-epaper-s3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  mini-epaper-s3-inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, mini-epaper-s3, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; ${inkhud.build_src_filter}
+  minimesh_lite [platformio/nordicnrf52@11.0.0, minimesh_lite, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/dls_Minimesh_Lite>
+  monteops_hw1 [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/monteops_hw1> +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  ms24sf1 [platformio/nordicnrf52@11.0.0, ms24sf1, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/MS24SF1>
+  muzi-base [platformio/nordicnrf52@11.0.0, muzi-base, arduino]
+    source filter: ${nrf52840_base.build_src_filter} +<../variants/nrf52840/muzi_base>
+  my-esp32s3-diy-eink [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, my_esp32s3_diy_eink, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  my-esp32s3-diy-oled [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, my-esp32s3-diy-oled, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  nano-g1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-tbeam, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  nano-g1-explorer [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-tbeam, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  nano-g2-ultra [platformio/nordicnrf52@11.0.0, nano-g2-ultra, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/nano-g2-ultra>
+  native [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${portduino_base.build_src_filter}
+  native-fb [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter}
+  native-macos [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter} ; -<input/LinuxInput.cpp> ; -<input/LinuxInputImpl.cpp> ; -<graphics/Panel_sdl.cpp> ; -<graphics/TFTDisplay.cpp>
+  native-macos-debug [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${env:native-macos.build_src_filter}
+  native-macos-tft [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter} ; -<input/LinuxInput.cpp> ; -<input/LinuxInputImpl.cpp> ; -<graphics/Panel_sdl.cpp> ; -<graphics/TFTDisplay.cpp>
+  native-tft [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter}
+  native-tft-debug [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${env:native-tft.build_src_filter}
+  native-wasm [https://github.com/meshtastic/platform-wasm/archive/7834113c8ee05bedc6af9c9cce7f515a1560e2c6.zip, wasm, arduino]
+    source filter: -<*> ; +<main.cpp> ; +<PowerFSM.cpp> +<Power.cpp> +<airtime.cpp> +<sleep.cpp> ; +<RedirectablePrint.cpp> +<SerialConsole.cpp> +<Observer.cpp> ; +<FSCommon.cpp> +<SafeFile.cpp> +<MessageStore.cpp> +<meshUtils.cpp> +<UptimeClock.cpp> ; +<memGet.cpp> +<memory/> +<GpioLogic.cpp> +<PowerMon.cpp> +<SPILock.cpp> ; +<xmodem.cpp> +<DisplayFormatters.cpp> ; +<detect/ScanI2C.cpp> +<detect/ScanI2CTwoWire.cpp> +<detect/ScanI2CConsumer.cpp> ; +<power/PowerHAL.cpp> ; +<gps/RTC.cpp> ; +<buzz/buzz.cpp> +<buzz/BuzzerFeedbackThread.cpp> ; +<mesh/*.cpp> +<mesh/*.c> ; -<mesh/LR20x0Interface.cpp> ; +<mesh/generated/> ; +<concurrency/> ; +<platform/portduino/PortduinoGlue.cpp> +<platform/portduino/SimRadio.cpp> ; +<platform/portduino/wasm/> ; +<modules/> -<modules/esp32/>
+  native-windows [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter} ; -<input/LinuxInput.cpp> ; -<input/LinuxInputImpl.cpp> ; -<graphics/Panel_sdl.cpp> ; -<graphics/TFTDisplay.cpp>
+  native-windows-channel-table [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter} ; -<input/LinuxInput.cpp> ; -<input/LinuxInputImpl.cpp> ; -<graphics/Panel_sdl.cpp> ; -<graphics/TFTDisplay.cpp>
+  native-windows-event-policy [https://github.com/meshtastic/platform-native/archive/86c62edfb7084d11669aa255411a70580e83823b.zip, cross_platform, arduino]
+    source filter: ${native_base.build_src_filter} ; -<input/LinuxInput.cpp> ; -<input/LinuxInputImpl.cpp> ; -<graphics/Panel_sdl.cpp> ; -<graphics/TFTDisplay.cpp>
+  nibble-esp32 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-zero, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  nibble-rp2040 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  nodara [platformio/nordicnrf52@11.0.0, nodara, arduino]
+    source filter: ${nrf52_base.build_src_filter} ; +<../variants/nrf52840/nodara>
+  nrf52_promicro_diy-easypromicro [platformio/nordicnrf52@11.0.0, promicro-nrf52840, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf52_promicro_diy-inkhud [platformio/nordicnrf52@11.0.0, promicro-nrf52840, arduino]
+    source filter: ${nrf52_base.build_src_filter} ; ${inkhud.build_src_filter} ; +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf52_promicro_diy-sx1280 [platformio/nordicnrf52@11.0.0, promicro-nrf52840, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf52_promicro_diy_tcxo [platformio/nordicnrf52@11.0.0, promicro-nrf52840, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  nrf54l15dk [https://github.com/meshtastic/platform-nordicnrf54.git#v0.3.1, nrf54l15dk, arduino]
+    source filter: ${nrf54_base.build_src_filter} ; +<../variants/nrf54l15/nrf54l15dk>
+  nucleo_wl55jc [platformio/ststm32@20.0.0, nucleo_wl55jc, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/stm32wl/> -<nimble/> -<mesh/api/> -<mesh/wifi/> -<mesh/http/> -<modules/esp32> -<mesh/eth/> -<input> -<buzz> -<modules/RemoteHardwareModule.cpp> -<mesh/raspihttp>
+  nugget-s2-lora [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, lolin_s2_mini, arduino]
+    source filter: ${esp32_common.build_src_filter} - <libpax/> -<nimble/> -<mesh/raspihttp>
+  nugget-s3-lora [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, lolin_s3_mini, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  pca10059_diy_eink [platformio/nordicnrf52@11.0.0, nordic_pca10059, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/Dongle_nRF52840-pca10059-v1>
+  pico [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  pico2 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico2, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp> -<platform/rp2xx0/pico_sleep> -<platform/rp2xx0/hardware_rosc>
+  pico2_w5500_e22 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico2, arduino]
+    source filter: ${rp2350_base.build_src_filter} +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  pico2w [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico2w, arduino]
+    source filter: ${rp2350_base.build_src_filter} +<mesh/wifi/>
+  pico_slowclock [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  picomputer-s3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, bpi_picow_esp32_s3, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  picomputer-s3-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, bpi_picow_esp32_s3, arduino]
+    source filter: ${esp32s3_base.build_src_filter}
+  picow [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipicow, arduino]
+    source filter: ${rp2040_base.build_src_filter} +<mesh/wifi/>
+  r1-neo [platformio/nordicnrf52@11.0.0, r1-neo, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/r1-neo> +<mesh/api/> +<mqtt/>
+  radiomaster_900_bandit [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  radiomaster_900_bandit_micro [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  radiomaster_900_bandit_nano [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32doit-devkit-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  rak11200 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, wiscore_rak11200, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  rak11310 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rakwireless_rak11300, arduino]
+    source filter: ${rp2040_base.build_src_filter} +<../variants/rp2040/rak11310> +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  rak2560 [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak2560> +<mesh/api/> +<mqtt/> +<serialization/>
+  rak3112 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, wiscore_rak3312, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  rak3172 [platformio/ststm32@20.0.0, wiscore_rak3172, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/stm32wl/> -<nimble/> -<mesh/api/> -<mesh/wifi/> -<mesh/http/> -<modules/esp32> -<mesh/eth/> -<input> -<buzz> -<modules/RemoteHardwareModule.cpp> -<mesh/raspihttp>
+  rak3312 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, wiscore_rak3312, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  rak3401-1watt [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak3401_1watt> +<mesh/api/>
+  rak3401-lr2021 [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak3401_lr2021> +<mesh/api/>
+  rak4631 [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} \ ; +<../variants/nrf52840/rak4631> \ ; +<mqtt/> \ ; -<graphics/EInkDisplay2.cpp> \ ; -<graphics/EInkDynamicDisplay.cpp> \ ; -<graphics/fonts/EinkDisplayFonts.cpp>
+  rak4631_dbg [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} \ ; +<../variants/nrf52840/rak4631> \ ; +<mqtt/> \ ; -<graphics/EInkDisplay2.cpp> \ ; -<graphics/EInkDynamicDisplay.cpp> \ ; -<graphics/fonts/EinkDisplayFonts.cpp>
+  rak4631_eink [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak4631_epaper>
+  rak4631_eink_onrxtx [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak4631_epaper_onrxtx>
+  rak4631_eth_gw [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak4631_eth_gw> +<mesh/eth/> +<mesh/api/> +<mqtt/> +<serialization/>
+  rak4631_eth_gw_dbg [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak4631_eth_gw> +<mesh/eth/> +<mesh/api/> +<mqtt/> +<serialization/>
+  rak4631_nomadstar_meteor_pro [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak4631_nomadstar_meteor_pro> +<mesh/api/> +<mqtt/>
+  rak4631_nomadstar_meteor_pro_dbg [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak4631_nomadstar_meteor_pro> +<mesh/api/> +<mqtt/>
+  rak_wismesh_dongle [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak_wismesh_dongle>
+  rak_wismesh_pocket [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} \ ; +<../variants/nrf52840/rak4631> \ ; +<mqtt/> \ ; -<graphics/EInkDisplay2.cpp> \ ; -<graphics/EInkDynamicDisplay.cpp> \ ; -<graphics/fonts/EinkDisplayFonts.cpp>
+  rak_wismesh_pod [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak_wismeshtag>
+  rak_wismesh_repeater_mini [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} \ ; +<../variants/nrf52840/rak4631> \ ; +<mqtt/> \ ; -<graphics/EInkDisplay2.cpp> \ ; -<graphics/EInkDynamicDisplay.cpp> \ ; -<graphics/fonts/EinkDisplayFonts.cpp>
+  rak_wismesh_repeater_mini_hp [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak3401_1watt> +<mesh/api/>
+  rak_wismesh_sensorhub [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak2560> +<mesh/api/> +<mqtt/> +<serialization/>
+  rak_wismesh_tap_v2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, wiscore_rak3312, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  rak_wismesh_tap_v2-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, wiscore_rak3312, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  rak_wismeshtag [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak_wismeshtag>
+  rak_wismeshtap [platformio/nordicnrf52@11.0.0, wiscore_rak4631, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/rak_wismeshtap> +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  rp2040-lora [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  russell [platformio/ststm32@20.0.0, wiscore_rak3172, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/stm32wl/> -<nimble/> -<mesh/api/> -<mesh/wifi/> -<mesh/http/> -<modules/esp32> -<mesh/eth/> -<input> -<buzz> -<modules/RemoteHardwareModule.cpp> -<mesh/raspihttp>
+  seeed-sensecap-indicator [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, seeed-sensecap-indicator, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  seeed-sensecap-indicator-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, seeed-sensecap-indicator, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  seeed-xiao-s3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, seeed-xiao-s3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  seeed_mesh_tracker_X1 [platformio/nordicnrf52@11.0.0, mesh-tracker-x1, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_mesh_tracker_X1>
+  seeed_solar_node [platformio/nordicnrf52@11.0.0, seeed_solar_node, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_solar_node>
+  seeed_wio_tracker_L1 [platformio/nordicnrf52@11.0.0, seeed_wio_tracker_L1, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_wio_tracker_L1>
+  seeed_wio_tracker_L1_eink [platformio/nordicnrf52@11.0.0, seeed_wio_tracker_L1, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_wio_tracker_L1_eink>
+  seeed_wio_tracker_L1_eink-inkhud [platformio/nordicnrf52@11.0.0, seeed_wio_tracker_L1, arduino]
+    source filter: ${env:seeed_wio_tracker_L1_eink.build_src_filter} ; ${inkhud.build_src_filter}
+  seeed_wio_tracker_L1_Pro_1W [platformio/nordicnrf52@11.0.0, seeed_wio_tracker_L1_Pro_1W, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_wio_tracker_L1_Pro_1W>
+  seeed_wio_tracker_L2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, seeed_wio_tracker_L2, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/seeed_wio_tracker_L2>
+  seeed_wio_tracker_L2-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, seeed_wio_tracker_L2, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/seeed_wio_tracker_L2>
+  seeed_xiao_nrf52840_btb [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  seeed_xiao_nrf52840_e22_900m30s [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  seeed_xiao_nrf52840_e22_900m33s [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  seeed_xiao_nrf52840_kit [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  seeed_xiao_nrf52840_kit_i2c [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  seeed_xiao_rp2040 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, seeed_xiao_rp2040, arduino]
+    source filter: ${rp2040_base.build_src_filter} +<../variants/rp2040/seeed_xiao_rp2040/>
+  seeed_xiao_rp2350 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, seeed_xiao_rp2350, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp> -<platform/rp2xx0/pico_sleep> -<platform/rp2xx0/hardware_rosc>
+  senselora_rp2040 [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, rpipico, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/rp2xx0/> -<nimble/> -<modules/esp32> -<mesh/eth/> -<mesh/wifi/> -<mesh/http/> -<mesh/raspihttp>
+  station-g1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-tbeam, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  station-g2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, station-g2, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  station-g3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, station-g3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  sugarcube [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v21, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  t-beam-1w [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-beam-1w, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  t-beam-bpf [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-beam-bpf, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  t-connect-pro [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-connect-pro, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  t-deck [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-deck, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t-deck>
+  t-deck-pro [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-deck-pro, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t-deck-pro>
+  t-deck-pro-v1_1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-deck-pro, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t-deck-pro-v1_1>
+  t-deck-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-deck, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t-deck>
+  t-echo [platformio/nordicnrf52@11.0.0, t-echo, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/t-echo>
+  t-echo-card [platformio/nordicnrf52@11.0.0, t-echo, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/t-echo-card>
+  t-echo-inkhud [platformio/nordicnrf52@11.0.0, t-echo, arduino]
+    source filter: ${nrf52_base.build_src_filter} ; ${inkhud.build_src_filter} ; +<../variants/nrf52840/t-echo>
+  t-echo-lite [platformio/nordicnrf52@11.0.0, t-echo, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/t-echo-lite>
+  t-echo-plus [platformio/nordicnrf52@11.0.0, t-echo, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/t-echo-plus>
+  t-energy-s3_e22 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  t-eth-elite [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32s3box, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  t-impulse-plus [platformio/nordicnrf52@11.0.0, t-impulse-plus, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/t-impulse-plus>
+  t-watch-s3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-watch-s3, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  t-watch-ultra [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-watch-ultra, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t-watch-ultra>
+  t-watch-ultra-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-watch-ultra, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t-watch-ultra>
+  t5s3-epaper-v1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t5-epaper-s3, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t5s3_epaper>
+  t5s3-epaper-v2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t5-epaper-s3, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/t5s3_epaper>
+  t5s3_epaper_inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t5-epaper-s3, arduino]
+    source filter: ${t5s3_epaper_base.build_src_filter} ; ${inkhud.build_src_filter}
+  tbeam [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-tbeam, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tbeam-displayshield [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-tbeam, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tbeam-s3-core [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, tbeam-s3-core, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  tbeam0_7 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-tbeam, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  thinknode_g3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ESP32-S3-WROOM-1-N4, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/ELECROW-ThinkNode-G3/*>
+  thinknode_m1 [platformio/nordicnrf52@11.0.0, ThinkNode-M1, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/ELECROW-ThinkNode-M1>
+  thinknode_m1-inkhud [platformio/nordicnrf52@11.0.0, ThinkNode-M1, arduino]
+    source filter: ${nrf52_base.build_src_filter} ; ${inkhud.build_src_filter} ; +<../variants/nrf52840/ELECROW-ThinkNode-M1>
+  thinknode_m2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ESP32-S3-WROOM-1-N4, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  thinknode_m3 [platformio/nordicnrf52@11.0.0, ThinkNode-M3, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/ELECROW-ThinkNode-M3>
+  thinknode_m4 [platformio/nordicnrf52@11.0.0, ThinkNode-M4, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/ELECROW-ThinkNode-M4>
+  thinknode_m5 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ESP32-S3-WROOM-1-N4, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/ELECROW-ThinkNode-M5>
+  thinknode_m5-inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ESP32-S3-WROOM-1-N4, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; ${inkhud.build_src_filter} ; +<../variants/esp32s3/ELECROW-ThinkNode-M5>
+  thinknode_m6 [platformio/nordicnrf52@11.0.0, ThinkNode-M6, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/ELECROW-ThinkNode-M6>
+  thinknode_m7 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ThinkNode-M7, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/ELECROW-ThinkNode-M7/*>
+  thinknode_m8 [platformio/nordicnrf52@11.0.0, ThinkNode-M8, arduino]
+    source filter: ${nrf52_base.build_src_filter} ; +<../variants/nrf52840/ELECROW-ThinkNode-M8>
+  thinknode_m9 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/ELECROW-ThinkNode-M9>
+  thinknode_m9-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, crowpanel, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/ELECROW-ThinkNode-M9>
+  tlora-c6 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-c6-devkitm-1, arduino]
+    source filter: ${esp32_common.build_src_filter}
+  tlora-pager [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-deck-pro, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/tlora-pager>
+  tlora-pager-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, t-deck-pro, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/tlora-pager>
+  tlora-t3s3-epaper [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, tlora-t3s3-v1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  tlora-t3s3-epaper-inkhud [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, tlora-t3s3-v1, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; ${inkhud.build_src_filter}
+  tlora-t3s3-v1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, tlora-t3s3-v1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  tlora-v1 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tlora-v2 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tlora-v2-1-1_6 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v21, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tlora-v2-1-1_6-tcxo [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v21, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tlora-v2-1-1_8 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v21, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tlora-v3-3-0-tcxo [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v21, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tlora_v1_3 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, ttgo-lora32-v1, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tracker-t1000-e [platformio/nordicnrf52@11.0.0, tracker-t1000-e, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/tracker-t1000-e>
+  trackerd [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, pico32, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  tracksenger [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_tracker, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  tracksenger-lcd [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_tracker, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  tracksenger-oled [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, heltec_wireless_tracker, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  TWC_mesh_v4 [platformio/nordicnrf52@11.0.0, nordic_pca10059, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/TWC_mesh_v4>
+  unphone [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, unphone, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/unphone>
+  unphone-tft [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, unphone, arduino]
+    source filter: ${esp32s3_base.build_src_filter} ; +<../variants/esp32s3/unphone>
+  visualizer-hub75 [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, esp32-s3-devkitc-1, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/esp32/> -<mesh/eth/> -<mesh/raspihttp>
+  WashTastic [platformio/nordicnrf52@11.0.0, promicro-nrf52840, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/diy/nrf52_promicro_diy_tcxo>
+  wio-e5 [platformio/ststm32@20.0.0, lora_e5_dev_board, arduino]
+    source filter: ${arduino_base.build_src_filter} +<platform/stm32wl/> -<nimble/> -<mesh/api/> -<mesh/wifi/> -<mesh/http/> -<modules/esp32> -<mesh/eth/> -<input> -<buzz> -<modules/RemoteHardwareModule.cpp> -<mesh/raspihttp>
+  wio-sdk-wm1110 [platformio/nordicnrf52@11.0.0, wio-sdk-wm1110, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/wio-sdk-wm1110>
+  wio-t1000-s [platformio/nordicnrf52@11.0.0, wio-t1000-s, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/wio-t1000-s>
+  wio-tracker-wm1110 [platformio/nordicnrf52@11.0.0, wio-tracker-wm1110, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/wio-tracker-wm1110>
+  wiphone [https://github.com/pioarduino/platform-espressif32/releases/download/55.03.312-1/platform-espressif32.zip, wiphone, arduino]
+    source filter: ${esp32_common.build_src_filter} ; -<modules/esp32/PaxcounterModule.cpp> ; -<mesh/http/>
+  wiznet_5500_evb_pico2_e22p [https://github.com/maxgerhardt/platform-raspberrypi#5d4561a05e3b212660ac6fdd3fbfb328d1988aa1, wiznet_5500_evb_pico2, arduino]
+    source filter: ${rp2350_base.build_src_filter} +<mesh/eth/> +<mesh/api/> +<mqtt/>
+  xiao_ble [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  xiao_ble_30db [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  xiao_ble_33db [platformio/nordicnrf52@11.0.0, xiao_ble_sense, arduino]
+    source filter: ${nrf52_base.build_src_filter} +<../variants/nrf52840/seeed_xiao_nrf52840_kit>
+  xiao_nrf54l15 [https://github.com/meshtastic/platform-nordicnrf54.git#v0.3.1, xiao_nrf54l15, arduino]
+    source filter: ${nrf54_base.build_src_filter} ; +<../variants/nrf54l15/xiao_nrf54l15>
+  xiao_nrf54l15_lr2021 [https://github.com/meshtastic/platform-nordicnrf54.git#v0.3.1, xiao_nrf54l15, arduino]
+    source filter: ${nrf54_base.build_src_filter} ; +<../variants/nrf54l15/xiao_nrf54l15>
+  PlatformIO config: platformio.ini [sha256:77db83f82dcc8824f7724e5028cfe33fe71a50c40e30a0ce6b70ffa0c2da4015]
+  PlatformIO config: variants/esp32/esp32-common.ini [sha256:e57ac284d5e780f69dff7fe2aed41a440023767b178c8bfbc56a9eb1d1ccd851]
+  PlatformIO config: variants/esp32/esp32.ini [sha256:f0485f816d4d5e7c5a1a1b9729eb02dfc229b8465a4564763436153803996a73]
+  PlatformIO config: variants/esp32c3/esp32c3.ini [sha256:8ff1efc56f2ca525d898ef5155dd940174f37878cc3d97c968e053fa59cbc596]
+  PlatformIO config: variants/esp32c6/esp32c6.ini [sha256:5298c9c687cc45a0870aa4211a62f72445a6051684ce7556a01bb29d1520ce22]
+  PlatformIO config: variants/esp32p4/esp32p4.ini [sha256:97a6c2cb29dbd822b0441d504aa2b77321724866dc6763ecfb2dece5f5a10146]
+  PlatformIO config: variants/esp32s2/esp32s2.ini [sha256:62213cccb8cb2655afca66da77c4b0713fe6b8f2959ca7270a6eafcc22d8e8fd]
+  PlatformIO config: variants/esp32s3/esp32s3.ini [sha256:b6bf0d4fe404292f138cd082fa7cbbba44c705f25621fa509e94e8a9da1a3d14]
+  PlatformIO config: variants/native/portduino.ini [sha256:0215d449e630a7dbc490e47c3488e15ebcb15b132d99e7998ca9b48521fe9dca]
+  PlatformIO config: variants/nrf52840/nrf52.ini [sha256:c7f23c5f13a664a9c78ed63225f7e15c00e0354055c48521591017ae1aca6625]
+  PlatformIO config: variants/nrf52840/nrf52840.ini [sha256:7c7d53dea735bc4c68f0a5a3360634c9e64a7b5c2123d5fb8eae983c9e8f0c2f]
+  PlatformIO config: variants/nrf54l15/nrf54.ini [sha256:bacbb3eff06bcb60ff0199ab90bddf0f375559ab8d80fb66bd2037b22830cc26]
+  PlatformIO config: variants/rp2040/rp2040.ini [sha256:555d28b2d3e842107adf83659c4ac558549bc007e6a941bb59965a8cace1d8ac]
+  PlatformIO config: variants/rp2350/rp2350.ini [sha256:00b8126bebb734b32d279e0650b74006a981905063bde708512a0edf8c3ac771]
+  PlatformIO config: variants/stm32/stm32.ini [sha256:c538b5293264dd524e34e14801bc01402e1ebf580a09a2168ad6eba96d1bdb26]
+  PlatformIO config: variants/esp32/betafpv_2400_tx_micro/platformio.ini [sha256:5e95f101f0dd401a559165886606ffcaf70634a0f9b7218ae7280cde17d42576]
+  PlatformIO config: variants/esp32/betafpv_900_tx_nano/platformio.ini [sha256:9f54e91c2f68810123e6ee0fd7ad0c0c10130eae266d0b90819fa2650bf042b4]
+  PlatformIO config: variants/esp32/chatter2/platformio.ini [sha256:6fba5753fb1c705b79399702a617b92d960d44a8b755067e6e64134bf7672f0e]
+  PlatformIO config: variants/esp32/hackerboxes_esp32_io/platformio.ini [sha256:26ac3a25e4e06bf10c64bf490e6821fbf4c9b1c412121e061aafbe9906baac1f]
+  PlatformIO config: variants/esp32/heltec_v1/platformio.ini [sha256:66a46f34316f47cdd8ca49482291083c6147db9f4e392bcbe1938ed4e7d91075]
+  PlatformIO config: variants/esp32/heltec_v2.1/platformio.ini [sha256:b944d6679ee9a6688b6dfd3b6af0c7882736470f54e8bbeb2afea331c6977597]
+  PlatformIO config: variants/esp32/heltec_v2/platformio.ini [sha256:741903d73b635bbc2fdcd3da6edc2c130f640b90d793c89ec84efed35e7ccbab]
+  PlatformIO config: variants/esp32/heltec_wireless_bridge/platformio.ini [sha256:756d5bb9983eb506d5e4eb75fcb141b0b9b7047643d5036d96b89f87deb4f318]
+  PlatformIO config: variants/esp32/heltec_wsl_v2.1/platformio.ini [sha256:11a062683ca90259e51e7aeb9219c13792fd6e77faf24cc7758ae78b6fc0020d]
+  PlatformIO config: variants/esp32/m5stack_core/platformio.ini [sha256:6f64e9d826abc43e5a66fdd58ebfafd90b87826b81b62faed69b9d404f54817f]
+  PlatformIO config: variants/esp32/m5stack_coreink/platformio.ini [sha256:5b9e8739ccb7dabbc8d22b77e8c8ac25a78cb3aafc4b31f18577da263b1cb27c]
+  PlatformIO config: variants/esp32/nano-g1-explorer/platformio.ini [sha256:74457fa1e26b2d0a2a3d0550de098dc2428eb83c6e71c21d4cef0b3d83e8966e]
+  PlatformIO config: variants/esp32/nano-g1/platformio.ini [sha256:3d93dde1f7a3ef56bec4baad45640b52d5fc14c448e26eb395729451e2519a6c]
+  PlatformIO config: variants/esp32/radiomaster_900_bandit/platformio.ini [sha256:767a383610b6f6b5ad765d834c84b7430b05851166e98c94ec3865536d4c2371]
+  PlatformIO config: variants/esp32/radiomaster_900_bandit_micro/platformio.ini [sha256:95d6c9d5a181c2b773a851ce6f2a262faef5c6803b03c45c0af8c9ad36759f6a]
+  PlatformIO config: variants/esp32/radiomaster_900_bandit_nano/platformio.ini [sha256:e50f92e61101381960762ec7dd51e74d602e1e9ae6969364d8674826c7394161]
+  PlatformIO config: variants/esp32/rak11200/platformio.ini [sha256:d058439acd19bd88fe1d409ee9aef279438076bc6f9f0824812a0f9ee545649e]
+  PlatformIO config: variants/esp32/station-g1/platformio.ini [sha256:5978f59c5d4d52dbcd9b698d7db6ba31704a83921134518411f324d338ef7b13]
+  PlatformIO config: variants/esp32/tbeam/platformio.ini [sha256:f5e2a8ad82b92063ef7422fc25cffd10e63ee6f0300b170eedcd69dc51f8eaab]
+  PlatformIO config: variants/esp32/tbeam_v07/platformio.ini [sha256:18cc6001e917eafb6099fa741cd28b277d87d833771c78351509c7dd3ec41669]
+  PlatformIO config: variants/esp32/tlora_v1/platformio.ini [sha256:7b374717ef9e2491b01a63553e7af268dc9eaf3419b861e03f53323eee97cbc0]
+  PlatformIO config: variants/esp32/tlora_v1_3/platformio.ini [sha256:8b718d328eba0330c5dfaa836cc814264bc419cd19c830d4c483a73519649a3b]
+  PlatformIO config: variants/esp32/tlora_v2/platformio.ini [sha256:ac9173817b0957c5f5d9b1e2c7bbc39b541720e1e03715a8e7562639a0999d7c]
+  PlatformIO config: variants/esp32/tlora_v2_1_16/platformio.ini [sha256:8559e3693932957ab018a8f90cb4e96d10543c9902b4792e77c30fa83d110646]
+  PlatformIO config: variants/esp32/tlora_v2_1_16_tcxo/platformio.ini [sha256:9697965bac840ea8096ef2130f9a7a1d2aed9832842d09beef266dfb64f47ee9]
+  PlatformIO config: variants/esp32/tlora_v2_1_18/platformio.ini [sha256:12bc23fa4a8667e95c449d60d31473cf9282f01a90134d1fb94b38f0fbef80c0]
+  PlatformIO config: variants/esp32/tlora_v3_3_0_tcxo/platformio.ini [sha256:51bdc65ac1aea95858a3bba31c9629d202235e87a7b0c68347fbc9527adf6db7]
+  PlatformIO config: variants/esp32/trackerd/platformio.ini [sha256:68aaa286f6aa097af6f34a3b2cd6658f8dae2860b8280aa02916ab9372918916]
+  PlatformIO config: variants/esp32/wiphone/platformio.ini [sha256:502af291cfdca3e5c784b218ac7f69c523a41e4666853c37e6247efa5bfa7df3]
+  PlatformIO config: variants/esp32c3/ai-c3/platformio.ini [sha256:76d6e4e860495cfb1f23ca53f44eedd1b77b0794b4453d9e6195b98f253cc0a7]
+  PlatformIO config: variants/esp32c3/hackerboxes_esp32c3_oled/platformio.ini [sha256:6f8abd6d9881779aa45a63ce779ba296343b4891e9dce74e47b6ad0232f89629]
+  PlatformIO config: variants/esp32c3/heltec_esp32c3/platformio.ini [sha256:926dcf368c5d0f7379b8f5af3f2a32b21514bb1463942f7926eda64fae3d8249]
+  PlatformIO config: variants/esp32c3/heltec_hru_3601/platformio.ini [sha256:236c8eb0476a0eb548266e646caa7b8499f86b6a8144532f5dea65fcee6ad07d]
+  PlatformIO config: variants/esp32c3/m5stack-stamp-c3/platformio.ini [sha256:f75e96b32e428deb2355f8a8fa3cfb0f34290295fc4483547aa5adc0dfa9d7dd]
+  PlatformIO config: variants/esp32c6/heltec_rcc6/platformio.ini [sha256:7683359c155fa42db888fae3bcda94167bc30392330862943d5c1a882ad433bb]
+  PlatformIO config: variants/esp32c6/m5stack_unitc6l/platformio.ini [sha256:e8edadd146adede011c91f67e729c6b3d585011ceb468aad9697460d937dc22d]
+  PlatformIO config: variants/esp32c6/tlora_c6/platformio.ini [sha256:0f01efc59b4fe2989e273d9ca6ab418bbfbd3e529b0ecc5ab0dbaa48979d6491]
+  PlatformIO config: variants/esp32s2/nugget_s2_lora/platformio.ini [sha256:d78abbedaf8ace4bef7eab6847862a259325bef30258470294d5a7436af9c254]
+  PlatformIO config: variants/esp32s3/axiometa_genesis_mini/platformio.ini [sha256:ad869672a155e4ac13de9d408081a449d07cdccb79a508eedb0a2846ffd2278b]
+  PlatformIO config: variants/esp32s3/bpi_picow_esp32_s3/platformio.ini [sha256:99e3df9117a5aeb61dac789556d495521d3688dd1c27d2d6117defc2260fa5df]
+  PlatformIO config: variants/esp32s3/CDEBYTE_EoRa-Hub/platformio.ini [sha256:fa1fb844a0d125e3775aabcd8bf6cb1f4838fc99f13242cd0d749e585feb7116]
+  PlatformIO config: variants/esp32s3/CDEBYTE_EoRa-S3/platformio.ini [sha256:e43444cf714c312d1f0cae8f32412d51ac486c6a66116b922d033770b9ed3511]
+  PlatformIO config: variants/esp32s3/crowpanel-esp32s3-5-epaper/platformio.ini [sha256:030e3a1cd2aed8d636e17fe9762caa0b6280d8f2cd87493f8d8bce80be319149]
+  PlatformIO config: variants/esp32s3/dreamcatcher/platformio.ini [sha256:675a15590c34569a7a69722637cf31a939f363d8d70198d0e6d25b1b1fd132bc]
+  PlatformIO config: variants/esp32s3/EBYTE_ESP32-S3/platformio.ini [sha256:f507465140400ad1460a905b56ce0e79d644748b7b7e425f74181adfa0b80eae]
+  PlatformIO config: variants/esp32s3/ELECROW-ThinkNode-G3/platformio.ini [sha256:b1cfc6ed355f665a960a552a8b687f804a50b9707f289632a42f3b040bd5b5da]
+  PlatformIO config: variants/esp32s3/ELECROW-ThinkNode-M2/platformio.ini [sha256:63ad7b114bfdbd0f4de75cb4738dad254382d26675645c4fa24d268196f8737d]
+  PlatformIO config: variants/esp32s3/ELECROW-ThinkNode-M5/platformio.ini [sha256:0561c1c3cbcda68436996f7c1496a6552237af023c009e8ec033565872ee73de]
+  PlatformIO config: variants/esp32s3/ELECROW-ThinkNode-M7/platformio.ini [sha256:4f550c2a2d5cebcd32c5a6012e1b9754d7234c7c8fd5c832e83665b24f0ff5ee]
+  PlatformIO config: variants/esp32s3/ELECROW-ThinkNode-M9/platformio.ini [sha256:4363f29041e49dcdf58b8e322f54934c6f836e9e7a03e198bf3fe15bdcdb6a30]
+  PlatformIO config: variants/esp32s3/elecrow_panel/platformio.ini [sha256:39bbfa1793680f4d5ba57f1b57648986033565941dd69284f3cc403545c2bef9]
+  PlatformIO config: variants/esp32s3/esp32-s3-pico/platformio.ini [sha256:ecd4ee1c6c73858f7a1ab52eeba99849191ac89968c3fa61c01886c8843005d0]
+  PlatformIO config: variants/esp32s3/hackaday-communicator/platformio.ini [sha256:7c76916d6804d87ba8bdd32e5ba9f8604ca83c3548a76c79825b4f9dd10f0320]
+  PlatformIO config: variants/esp32s3/heltec_capsule_sensor_v3/platformio.ini [sha256:6506a012936c002e28651d4de0a3461c87fb0818b97d660d9c093b02741fc042]
+  PlatformIO config: variants/esp32s3/heltec_rc32/platformio.ini [sha256:4f50f35288e0aa46bf9247a748041843b3a77ae432337bc68c5ce35e074e619c]
+  PlatformIO config: variants/esp32s3/heltec_sensor_hub/platformio.ini [sha256:22ae1cbe935014123c627d2e6f7df1fbf7c39f86ee522fc1d83adbbce5bf30e3]
+  PlatformIO config: variants/esp32s3/heltec_v3/platformio.ini [sha256:609a108c63497e3969a51087f4812d3d8ca75989144f4689daa9536d79986882]
+  PlatformIO config: variants/esp32s3/heltec_v4/platformio.ini [sha256:01111d73a91ad6b03937b5e284916cb77fe3bb19944a88731b5f2a53c56b1299]
+  PlatformIO config: variants/esp32s3/heltec_v4_r8/platformio.ini [sha256:b5f2ac4dfa9ecb4fbead49d63cfa3e2995057d1094a2c9e1e72bf979bfe6eeff]
+  PlatformIO config: variants/esp32s3/heltec_vision_master_e213/platformio.ini [sha256:d58b69d58c9bde630295c6168fb17c4ba650dda8d1b14c216d65ce47701ee9a0]
+  PlatformIO config: variants/esp32s3/heltec_vision_master_e290/platformio.ini [sha256:f5cd59ce79a9cd12b4af24d7d89b931b4c90e3616eeb61f248420bab835f2f8d]
+  PlatformIO config: variants/esp32s3/heltec_vision_master_t190/platformio.ini [sha256:cae7317a90e051f63a9259840cb97f61927146e0887b351bac6b6336ad207a1c]
+  PlatformIO config: variants/esp32s3/heltec_wireless_paper/platformio.ini [sha256:d814d7100dc2dc9535823579f6d4e0ad03afee390868784dc3e17ab537ad1a85]
+  PlatformIO config: variants/esp32s3/heltec_wireless_paper_v1/platformio.ini [sha256:415cef10e8f186dc537612fda8f70c5ee03a3d60d16f4d79af49f03b7afb2e20]
+  PlatformIO config: variants/esp32s3/heltec_wireless_tracker/platformio.ini [sha256:55ee150704dccd0e4417b7664168a4f00fd8fa8956190731a7459243ae798eca]
+  PlatformIO config: variants/esp32s3/heltec_wireless_tracker_V1_0/platformio.ini [sha256:eb50d7b8f1f5995304eec0bade83cd78e808c6de1110bcf34138deaf260fc0b4]
+  PlatformIO config: variants/esp32s3/heltec_wireless_tracker_v2/platformio.ini [sha256:4190427ab5c86118ac77f897b77c88af07eb373c80116163c6357a0af4718d26]
+  PlatformIO config: variants/esp32s3/heltec_wsl_v3/platformio.ini [sha256:eba30ddf43876a7cd8d763456e8f986e1217c3b41a9fe2112559ba19999d019b]
+  PlatformIO config: variants/esp32s3/icarus/platformio.ini [sha256:464e97b02c9caa26b0087ad295c4199f2308af6281e2667b90b274fc953c7290]
+  PlatformIO config: variants/esp32s3/link32_s3_v1/platformio.ini [sha256:e374513891bdae3e0e077c9b2f42db4a09b297838887e5eb7b5a5b28df8145d0]
+  PlatformIO config: variants/esp32s3/m5stack_cardputer_adv/platformio.ini [sha256:d5509f0401f83376ccf145f2cc4a659a6870a970f4fb0f93fcb42456af8653a7]
+  PlatformIO config: variants/esp32s3/m5stack_cores3/platformio.ini [sha256:56daababeb174907cd0c0e8fec66b226bc63e8aee171b3122642ab68b5ba91d1]
+  PlatformIO config: variants/esp32s3/makerfabs_nomad_terminal/platformio.ini [sha256:a004018a6f88e6ab20a446310bb4eaa441492f81db3dba1f24477767b443ccb3]
+  PlatformIO config: variants/esp32s3/mesh-tab/platformio.ini [sha256:abe4b432d67bb6e8ee18c09bf179e7f49e18fc6717abd285259f3aa302a663c5]
+  PlatformIO config: variants/esp32s3/meshnology-w10/platformio.ini [sha256:ee3b52251e9cd8189ee6a289c71c92dbd27726ac80d230eb677321193ae41ccd]
+  PlatformIO config: variants/esp32s3/meshnology-w12/platformio.ini [sha256:87c19d3228bb52c6d12d9dabaacd8642ed4fd304127ed42b6282f4afe07eed3e]
+  PlatformIO config: variants/esp32s3/mini-epaper-s3/platformio.ini [sha256:1e92e82d286a3a2313caf2d244f35c36e800820aef6ac292fb5467fb5c8e22c0]
+  PlatformIO config: variants/esp32s3/nibble_esp32/platformio.ini [sha256:ead1d438844e855add68496a494d425a0b6bc9004324ac1681ac2f40146c45b8]
+  PlatformIO config: variants/esp32s3/nugget_s3_lora/platformio.ini [sha256:04b636bc708328f71170b878d58c19f7643a6c93ced26e619efdd12ca9f269b3]
+  PlatformIO config: variants/esp32s3/picomputer-s3/platformio.ini [sha256:8c39c6f4ad8b7831b2119e8343c15f872fc285816e1f094aa122a9a4df2131fb]
+  PlatformIO config: variants/esp32s3/rak3312/platformio.ini [sha256:134ca1c0d3fc014d813b801b24cdbfa15beaab9a77f6cd4d7c91ce6150b7a292]
+  PlatformIO config: variants/esp32s3/rak_wismesh_tap_v2/platformio.ini [sha256:b28281be7033e7851ce4866caa9f6ecf672af550fc9826dc69374911eeb04839]
+  PlatformIO config: variants/esp32s3/seeed-sensecap-indicator/platformio.ini [sha256:e1669d32c481a42ba86a48fdefbb88ba7e6617c3551e50815879a51484722f7b]
+  PlatformIO config: variants/esp32s3/seeed_wio_tracker_L2/platformio.ini [sha256:808ba7bb8bc1fa6a5daaaf21b384271cfef9d682455cbe5de3405abcec7c4a01]
+  PlatformIO config: variants/esp32s3/seeed_xiao_s3/platformio.ini [sha256:b69f6c3553cc969d3a789cde6758b0e3f95466bbbb37f8f0ed395a6c1950c059]
+  PlatformIO config: variants/esp32s3/station-g2/platformio.ini [sha256:827109295ce5099a0e85801d1333a1097b01b01b4ac3d44c2cae912e868167e0]
+  PlatformIO config: variants/esp32s3/station-g3/platformio.ini [sha256:8d7d9e5486a0415ff90710cb65d849587eb236ebbe5feffe6a18ff79f692953c]
+  PlatformIO config: variants/esp32s3/t-beam-1w/platformio.ini [sha256:bed5afcb2896896ce826ab858e2bba747bfa78bd3b9385decd5390a87c87ade5]
+  PlatformIO config: variants/esp32s3/t-beam-bpf/platformio.ini [sha256:653ff7a5df112ce51409fdfdc96e74a948479eca8724933c20da2d1f03cca115]
+  PlatformIO config: variants/esp32s3/t-connect-pro/platformio.ini [sha256:017a6cef276108361f71a5417eb90d7cc3c68af7f7745a76579da4bc527ab5da]
+  PlatformIO config: variants/esp32s3/t-deck-pro-v1_1/platformio.ini [sha256:beb5496603722c074ef23711d8c14ea44413485686fccef214c5c3f3c5bbe06a]
+  PlatformIO config: variants/esp32s3/t-deck-pro/platformio.ini [sha256:1f5059a34ba9b7cdd5c0216941724acb4542bc553e29c4a2ee90a027fc3f6aae]
+  PlatformIO config: variants/esp32s3/t-deck/platformio.ini [sha256:61d8a50ac950b81bf4caed19f535e17fb24fd83722d8c6ec0e65417a7a53bbd4]
+  PlatformIO config: variants/esp32s3/t-eth-elite/platformio.ini [sha256:6f7472e6b222eab624b401085a80d42e25a5563c5b8120c36e295b467a3f0ee0]
+  PlatformIO config: variants/esp32s3/t-watch-s3/platformio.ini [sha256:6591d3073fd1d2b462a9596817ff1dbaa727c8401fbc8b81e2b938590828f230]
+  PlatformIO config: variants/esp32s3/t-watch-ultra/platformio.ini [sha256:c1ec1615d300444a98649f2fb227310cd2f7fad0318e1ac4418c1dbe6088e0b5]
+  PlatformIO config: variants/esp32s3/t5s3_epaper/platformio.ini [sha256:42d57b16b22597f9bc33ff5155196fe8f45fe8968f86cbc6dd5f519ba1e5db41]
+  PlatformIO config: variants/esp32s3/tbeam-s3-core/platformio.ini [sha256:92c4ed79bd506282355ece5bcb8f6cd266fad17704de8da87ec828191aa0747d]
+  PlatformIO config: variants/esp32s3/tlora-pager/platformio.ini [sha256:8c95112d60bcecc8e24e11d6b6352a61d6f5f6d17e562f4ddefc964eb3477076]
+  PlatformIO config: variants/esp32s3/tlora_t3s3_epaper/platformio.ini [sha256:c3be9525cfbb1c16cf96b14ba07c9b99760cb8409aea8e22cf72001abe87cd10]
+  PlatformIO config: variants/esp32s3/tlora_t3s3_v1/platformio.ini [sha256:77e60c838391b78854d8017860ef33e432894503c806749544ba11ba3139e07f]
+  PlatformIO config: variants/esp32s3/tracksenger/platformio.ini [sha256:9ace61e45fa70609b5b44f893652eb3bc4f1f086b858d8590a0df7c5e0543e5b]
+  PlatformIO config: variants/esp32s3/unphone/platformio.ini [sha256:a51ecc9b8cee5a4c35d55de716b3a2bc9ff01c463d2a657b33d9bace1f713f43]
+  PlatformIO config: variants/esp32s3/visualizer-hub75/platformio.ini [sha256:7fdf4d0dc6d3ba628c8e38ef484d103fae36354aa243531ae63f6602f1e9d5e3]
+  PlatformIO config: variants/native/portduino-buildroot/platformio.ini [sha256:e47af6e97eee41968e1ae81bc528f1e8ea4eeb79ab6cad65b39708938dffd610]
+  PlatformIO config: variants/native/portduino/platformio.ini [sha256:7c0ead5a8ae0ef48cb8e61e219c37aca27056e50a47797cce42881d6bc8adf69]
+  PlatformIO config: variants/nrf52840/canaryone/platformio.ini [sha256:8de74a511197ead4b8930cbab27fd1278e736be4f6dba1d5493d92f78f192e4e]
+  PlatformIO config: variants/nrf52840/dls_Minimesh_Lite/platformio.ini [sha256:81fcec2a974bfbc2de77f84434d78e1318bd5ca4bf9509c399aed12410f99498]
+  PlatformIO config: variants/nrf52840/Dongle_nRF52840-pca10059-v1/platformio.ini [sha256:5d52fd43e1ac089f22e9eee5a42d3d4a7f200be9bf54e99a1d15946c5d5a6112]
+  PlatformIO config: variants/nrf52840/ELECROW-ThinkNode-M1/platformio.ini [sha256:00ea804111be39e83752637000c1e05d9e9d895c09bb939a96934f13e9ba67bc]
+  PlatformIO config: variants/nrf52840/ELECROW-ThinkNode-M3/platformio.ini [sha256:74cbe80469c92860c5a768ca2576cd64554970111ba1432c0a8ad1e9e7306f33]
+  PlatformIO config: variants/nrf52840/ELECROW-ThinkNode-M4/platformio.ini [sha256:a023162b28c6f9da91d89e973182da53669f479efbf5685da40b83e16ef1cead]
+  PlatformIO config: variants/nrf52840/ELECROW-ThinkNode-M6/platformio.ini [sha256:d82fd69617a32bf55a865509146d6bcc1c3a84b38aedeeb8504c392d7324e5c2]
+  PlatformIO config: variants/nrf52840/ELECROW-ThinkNode-M8/platformio.ini [sha256:43478577be3c997a6f290a5020c44752f1003bcef6bb2a4e52b884a6f6209827]
+  PlatformIO config: variants/nrf52840/feather_diy/platformio.ini [sha256:e7fa1044b73bb817e863cd3156c11c02862c61486eb799c2bc6fe595d9897d6e]
+  PlatformIO config: variants/nrf52840/gat562_mesh_trial_tracker/platformio.ini [sha256:f8c557b6b3aa2f48a02819e9586ff79c729cf18e8cb29463d53a130327ac4d3c]
+  PlatformIO config: variants/nrf52840/heltec_mesh_node_t096/platformio.ini [sha256:72ae1c0064d6355bd1a8952da76180aad8d7d08936867957bc2acac19ff7faac]
+  PlatformIO config: variants/nrf52840/heltec_mesh_node_t1/platformio.ini [sha256:7771109bfe4640221a41acc78576fff555987348dc435b2837c07ebcc0da95be]
+  PlatformIO config: variants/nrf52840/heltec_mesh_node_t114-inkhud/platformio.ini [sha256:db6e46379b97ffeda6cc0cda781a567ee92dc80f1c95a74441124ad67769eb3c]
+  PlatformIO config: variants/nrf52840/heltec_mesh_node_t114/platformio.ini [sha256:1848b9da4143436758e7620fb1c0487ef579d0c628443ce4ff020750a24c3a5c]
+  PlatformIO config: variants/nrf52840/heltec_mesh_pocket/platformio.ini [sha256:08e483036595c4af10131a3a97e454537d773ca347801a10cc05f093d569626e]
+  PlatformIO config: variants/nrf52840/heltec_mesh_solar/platformio.ini [sha256:368269d33bc509e80064506ea26589c09666cac3c898cec496f6d9cddd6885df]
+  PlatformIO config: variants/nrf52840/heltec_mesh_tower_v2/platformio.ini [sha256:db41eb875cceda82a1494fa66f8a78218c7a7d9d147fc9926d6846f08b093755]
+  PlatformIO config: variants/nrf52840/heltec_rc52/platformio.ini [sha256:e9d51b32a874f931e4b4004b80a25b528295680bc2e9f4db6c67cf57a7a11139]
+  PlatformIO config: variants/nrf52840/MakePython_nRF52840_eink/platformio.ini [sha256:a1ab082c8f84f8c98de5eab27eee5c2393dfaaca8a8aee1087e10bd1150ecd3c]
+  PlatformIO config: variants/nrf52840/MakePython_nRF52840_oled/platformio.ini [sha256:f7ee2dc00d4e95068d80369883deff3e6143e72fb0cab9e69f5a0eeff7f2e15d]
+  PlatformIO config: variants/nrf52840/ME25LS01-4Y10TD/platformio.ini [sha256:692249203087febbba329728ea5eeca49fb0f95a580c4bdcb8743f298b2738d0]
+  PlatformIO config: variants/nrf52840/ME25LS01-4Y10TD_e-ink/platformio.ini [sha256:78be04c3e00bd68e063b8dd7bae5cb02be0755a1d0761c6a227cec2758076d6b]
+  PlatformIO config: variants/nrf52840/meshlink/platformio.ini [sha256:a0ba9645def44cac9b347d546fbeae8059ac334294bdfb0c6dfb00ae0032576a]
+  PlatformIO config: variants/nrf52840/meshtiny/platformio.ini [sha256:00661506723ca7a1a09814ce58e1d3df129b6dda06ca79d1f9711d63ece532c1]
+  PlatformIO config: variants/nrf52840/monteops_hw1/platformio.ini [sha256:963e967c2707f359bd74fbda51b39f0739ccb17a8348a5905d39cb2a13089bd2]
+  PlatformIO config: variants/nrf52840/MS24SF1/platformio.ini [sha256:5f663ff0826d227bc01a7053394026981ea9fa2a0b0461233e792092c50a7e28]
+  PlatformIO config: variants/nrf52840/muzi_base/platformio.ini [sha256:32b7c8ba8efce0e73cdea5cee34f2fbf5ea39f4be7b20000f0cb9d1cfd25b5ab]
+  PlatformIO config: variants/nrf52840/nano-g2-ultra/platformio.ini [sha256:d0572c47770f2e12411f521d5b892b7ebd01446e6d5c70837941631f4b5aad4b]
+  PlatformIO config: variants/nrf52840/nodara/platformio.ini [sha256:c4cf696347c713f1e26d1db499b7524d6ebd5fb6988b7476c68fa036d7081512]
+  PlatformIO config: variants/nrf52840/r1-neo/platformio.ini [sha256:00b3e26ad9eed3f287e7bab8145703ddc3d7f3eb74f44702b5a2a509454566e5]
+  PlatformIO config: variants/nrf52840/rak2560/platformio.ini [sha256:0738a53dbbd171a646ef6db46f7077e9949f881a3d0d82fc25fab6ef877009b6]
+  PlatformIO config: variants/nrf52840/rak3401_1watt/platformio.ini [sha256:0dc457e8635fa9b66982f553588cc510d638519121d575848c89573ebcf9d02a]
+  PlatformIO config: variants/nrf52840/rak3401_lr2021/platformio.ini [sha256:c7b99e5f957a862d46587e75773271d4632d3dac0fd334792ef34921fdf051d0]
+  PlatformIO config: variants/nrf52840/rak4631/platformio.ini [sha256:2c2950b36816d2297ab18c0176e479d4767b4465dc864f0de7fe3dbeccfb6d23]
+  PlatformIO config: variants/nrf52840/rak4631_epaper/platformio.ini [sha256:6bb85c9d5df11c07febc4b7d0c19a5130ac3f223cce5ca8c6af0f1203d696153]
+  PlatformIO config: variants/nrf52840/rak4631_epaper_onrxtx/platformio.ini [sha256:a196bec2a6699e0b55188668d532988e79e47b0a989de3f6a636fd365fd5d668]
+  PlatformIO config: variants/nrf52840/rak4631_eth_gw/platformio.ini [sha256:b567db772b8d56b52b7e45bbf384a3d01a738b43dcaf02614148ab75ade7c895]
+  PlatformIO config: variants/nrf52840/rak4631_nomadstar_meteor_pro/platformio.ini [sha256:bafdf0616be3bd0bde89ca085f7728cd5a8e7a5fdaa150be926ff81eab30f90d]
+  PlatformIO config: variants/nrf52840/rak_wismesh_dongle/platformio.ini [sha256:527f1b3c4ed30ffca35711ddb5e36d26c2596ef650a6fa2a4376cd13e4eb47de]
+  PlatformIO config: variants/nrf52840/rak_wismeshtag/platformio.ini [sha256:00172940f15a6cfa283731de7b99386965bdacab3c23bafe38d36a84fee367b5]
+  PlatformIO config: variants/nrf52840/rak_wismeshtap/platformio.ini [sha256:417942fa0466c54d449729f89ebbe355603c78e7ff31c76741b2995ee1930a75]
+  PlatformIO config: variants/nrf52840/seeed_mesh_tracker_X1/platformio.ini [sha256:17b64da7ca5aac35d560870c0c208cb86b1250b9c23e1112b1b4f5dfc00aecc9]
+  PlatformIO config: variants/nrf52840/seeed_solar_node/platformio.ini [sha256:bf9ebd1c6f3a15b701fd22c69fb29ae0e2457303f78f20e2b77914a475ed55e5]
+  PlatformIO config: variants/nrf52840/seeed_wio_tracker_L1/platformio.ini [sha256:8154e993a37e0749b0f2afd4d7341f68e6e0a31daedbf95da5c07af60e63937d]
+  PlatformIO config: variants/nrf52840/seeed_wio_tracker_L1_eink/platformio.ini [sha256:bc310e84dc9fd0ff39133d11f163cf32530d2caaa14d5c411679cba3795a8c13]
+  PlatformIO config: variants/nrf52840/seeed_wio_tracker_L1_Pro_1W/platformio.ini [sha256:1137212427b56dd5d9ec50f6627a7b3a73a9152f1ff78fa64402a71b90c20794]
+  PlatformIO config: variants/nrf52840/seeed_xiao_nrf52840_kit/platformio.ini [sha256:f8313ab54839f06a1718bbdc62280d1bbf44e64e0faaff753d32919451d16a12]
+  PlatformIO config: variants/nrf52840/t-echo-card/platformio.ini [sha256:24139c22b782b5ebd498c423e55d3b1c52f7aea221c0ed505870c4476ce1db4d]
+  PlatformIO config: variants/nrf52840/t-echo-lite/platformio.ini [sha256:dd5f78e9a6aaded9aa5e9148e234a0655a1afcdb11eeb061339c6816f45e1111]
+  PlatformIO config: variants/nrf52840/t-echo-plus/platformio.ini [sha256:ff39e87088cf8f3b040ee758573898f0cfbd49945e0d120c8e5dc4b5a1682d38]
+  PlatformIO config: variants/nrf52840/t-echo/platformio.ini [sha256:41b20c3723fba3b9fe232a1a7379cba43318a7dacb855c1c29e09fed415a70cb]
+  PlatformIO config: variants/nrf52840/t-impulse-plus/platformio.ini [sha256:829994cd0163d117c7da349bf9a5095c9e555d7e70124df2940ec0111828ddf2]
+  PlatformIO config: variants/nrf52840/tracker-t1000-e/platformio.ini [sha256:ed3857560cc01f4819cfad4d12aca2e23f8a82c6cbe74d5a80ae15bbefa551ac]
+  PlatformIO config: variants/nrf52840/TWC_mesh_v4/platformio.ini [sha256:c61afd9fbbe5f742f1254e16743d7aaaa0d3a0d369f2f9aa86607302a03fb6d1]
+  PlatformIO config: variants/nrf52840/wio-sdk-wm1110/platformio.ini [sha256:2e7af331ea4c1ba5afe6a640df2c545de6677ed40734e97e9a54ffaa872468fe]
+  PlatformIO config: variants/nrf52840/wio-t1000-s/platformio.ini [sha256:573e2f9f27eb304be24555c5226f86102109a34cd478833c30de56839bdcd502]
+  PlatformIO config: variants/nrf52840/wio-tracker-wm1110/platformio.ini [sha256:d5630c4f4ecefbc74a4faf8b4aaaa686e10d69b4a3b586f9ac111323f4dab341]
+  PlatformIO config: variants/nrf54l15/nrf54l15dk/platformio.ini [sha256:7d9898137e9dc1618ae3504ed3c8e5cb1d85150a57a7dafd016765b9e1fcbe76]
+  PlatformIO config: variants/nrf54l15/xiao_nrf54l15/platformio.ini [sha256:0fbd22b9c80227cc7e57e4de1438e77b4c170ed0b867b426f7bbde33893cab16]
+  PlatformIO config: variants/rp2040/challenger_2040_lora/platformio.ini [sha256:fef3a2dcd4257c26612d1ba7f3c17ef0ccaef9208ff2bd74c5e838bdd4726203]
+  PlatformIO config: variants/rp2040/ec_catsniffer/platformio.ini [sha256:ba658184a6569153a9ca7d99889a097bcabe1d53faedf107deca40715794b5bc]
+  PlatformIO config: variants/rp2040/feather_rp2040_rfm95/platformio.ini [sha256:2facd16beb3e4eeec7aee062088c31091ba6c6848c0309667b68154b36680513]
+  PlatformIO config: variants/rp2040/nibble_rp2040/platformio.ini [sha256:daa329ff3c8ac9d79fb0df75a4ff4c852757f76fcd75255100763075a04071bf]
+  PlatformIO config: variants/rp2040/rak11310/platformio.ini [sha256:1f408f022dddb31ff7a87c5f1814db8d240b0abfe5614f755724e02ebab50eaf]
+  PlatformIO config: variants/rp2040/rp2040-lora/platformio.ini [sha256:833ddeccf681e160c25975ad043c47c1b9cbcba4766281f5eab61499ab00dbbb]
+  PlatformIO config: variants/rp2040/rpipico-slowclock/platformio.ini [sha256:f0b76305eb2007225f5f2cda2845d1ab6eceaaae515b9885fa8395215456ad97]
+  PlatformIO config: variants/rp2040/rpipico/platformio.ini [sha256:deeaf627b70129a44d6d3507e4be175e51125d89662e35a42d8db87b7a0b721f]
+  PlatformIO config: variants/rp2040/rpipicow/platformio.ini [sha256:d46a6298137093e904f657ac72cd75ceafbe86a96f6a6b99b6f6b503ac5f8cfb]
+  PlatformIO config: variants/rp2040/seeed_xiao_rp2040/platformio.ini [sha256:720d181af7d3ad4fc8e1340a832266586078aee2549beb8e321037b355474e64]
+  PlatformIO config: variants/rp2040/senselora_rp2040/platformio.ini [sha256:1e19508c0f87ad8c5ec02c362d09276b332b730addfaeec73243398911c2849b]
+  PlatformIO config: variants/rp2350/rpipico2/platformio.ini [sha256:7a19bba675c1bf994b6ac09393a01c9ccd730bbd2bbf28b7420599a33a7c09b6]
+  PlatformIO config: variants/rp2350/rpipico2w/platformio.ini [sha256:a3dc72830989da0039ff29155c916c16473d0efd0070f3b84ed763eb914ced47]
+  PlatformIO config: variants/rp2350/seeed_xiao_rp2350/platformio.ini [sha256:9db9142e2aee9f6f6775bb6bdbc745e2b1d86fb37d6de03f3d046b653a3209c0]
+  PlatformIO config: variants/stm32/CDEBYTE_E77-MBL/platformio.ini [sha256:72ba14304276eade7bc6245809776315071455fb01bef02a9ac9c7f06532614d]
+  PlatformIO config: variants/stm32/milesight_gs301/platformio.ini [sha256:a8379f5f9535108ca1a9fdc692271aa3c82d2eeccf05b6fa771df42c10a6ebf7]
+  PlatformIO config: variants/stm32/nucleo_wl55jc/platformio.ini [sha256:d43ca376e0b3c0b1821294eb9bc2fe9e442ccd3f181f0a291975ac042fa65275]
+  PlatformIO config: variants/stm32/rak3172/platformio.ini [sha256:306b319eaab1cc45c1d8f3abe07bdb3da50bd6d4eb1066c9b20336e44d1471e1]
+  PlatformIO config: variants/stm32/russell/platformio.ini [sha256:3a72aef970ee2c12a089a1fd095772b95aa794cf6ecfe2b0d6e4ecebe3efe5d4]
+  PlatformIO config: variants/stm32/wio-e5/platformio.ini [sha256:4c2d2b6b6091fa1be499aece951066a574e5c49b6e32af2ca4d9a102e8bdb077]
+  PlatformIO config: variants/esp32/diy/9m2ibr_aprs_lora_tracker/platformio.ini [sha256:6be7188e09759efac45fdc8eaf0bd1642cbb36befaad20eddabf6999ca0d9402]
+  PlatformIO config: variants/esp32/diy/dr-dev/platformio.ini [sha256:cf05e309679486ff0ac83f7e646cc1f7110d79496468ed185d44995566622162]
+  PlatformIO config: variants/esp32/diy/hydra/platformio.ini [sha256:76b276aaefe72d9da798441981d94aa2e0a6cb45a63c1b329c6b2ba7567a1850]
+  PlatformIO config: variants/esp32/diy/v1/platformio.ini [sha256:72cc94f63f948f6739e12a969c607db26298d3d2568d62d006f6f1a3924c7917]
+  PlatformIO config: variants/esp32/diy/v1_1/platformio.ini [sha256:9a69a5f3ef7b947c1828c407a6d531a4fe7081f7b13ee6488e815ae324eccd20]
+  PlatformIO config: variants/esp32c3/diy/esp32c3_super_mini/platformio.ini [sha256:29defd4de7ab6937e74dbd79c9fb992e3424f82b56de445c708afb458d75e61a]
+  PlatformIO config: variants/esp32s3/diy/my_esp32s3_diy_eink/platformio.ini [sha256:54fa4382a4188d00a0a91f8a33282680e982b0749c85773f283f01e88968d37c]
+  PlatformIO config: variants/esp32s3/diy/my_esp32s3_diy_oled/platformio.ini [sha256:1b5424348949dbbebaa78349ab0ace625248d74f07f65e3c139e63deb10e828e]
+  PlatformIO config: variants/esp32s3/diy/t-energy-s3_e22/platformio.ini [sha256:fd5fb6d1f4f82e9084825d4784db6ded7dc4fd06435e9e85bf4d51ce78861239]
+  PlatformIO config: variants/nrf52840/diy/nrf52_promicro_diy_tcxo/platformio.ini [sha256:ea85c51bc02ca7b3f22fe1b09a10c92953fc67ed7ac78021dd9ee7071e3cb2f4]
+  PlatformIO config: variants/nrf52840/diy/seeed-xiao-nrf52840-wio-sx1262/platformio.ini [sha256:d2d906ae89b925ebbd687bc50aad9f754216f57be00cb49d41379a37942edbf8]
+  PlatformIO config: variants/nrf52840/diy/seeed_xiao_nrf52840_e22/platformio.ini [sha256:99209f1e7a0ec4a7c68ecd826599ab5858c40001a1b31245be2e53ac65137139]
+  PlatformIO config: variants/nrf52840/diy/WashTastic/platformio.ini [sha256:54a4adf692577cb2f262e8968f2bcdb84c1cef11da57fba2fbb0403f8c9933e9]
+  PlatformIO config: variants/nrf52840/diy/xiao_ble/platformio.ini [sha256:f3d643f76446e2a3d14b3b409f8f6b0c9caab3d37bfae4aa2c493538c0a885ba]
+  PlatformIO config: variants/rp2350/diy/pico2_w5500_e22/platformio.ini [sha256:a026260f3c949d5b19763fe3c3e8e444f6ae4184d750d7543e6ba5bca31f02c9]
+  PlatformIO config: variants/rp2350/diy/wiznet_5500_evb_pico2_e22p/platformio.ini [sha256:eeaea07f980e9a2aa849946b68f038dd921f53652c44721ae0cca724a519815b]
+  PlatformIO config: src/graphics/niche/InkHUD/PlatformioConfig.ini [sha256:0e6d895fef143adffc4a2ff5e3eb43beb4a757fbed5c45c3c6fec755c45e6976]
+  PlatformIO limit: PlatformIO metadata contains unresolved interpolation; declared values are not effective build settings.
+Files not selected by the source profile: 56
+  .csv: 5
+  .dockerfile: 1
+  .gif: 1
+  .jpg: 1
+  .jsonc: 1
+  .ld: 4
+  .lock: 1
+  .md: 22
+  .nix: 2
+  .pdf: 1
+  .png: 2
+  .rpkg: 1
+  .s: 1
+  .test: 1
+  .txt: 1
+  .webp: 1
+  .xbm: 2
+  <no-extension>: 8
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 0 / complete (extension and size only, contents not inspected)
+Analyzers:
+  fuse-native: completed (Native rules completed.)
+  native-rule:FUSE001: completed (Evaluated 37 selected input(s). The conservative prefilter excluded 1694 inputs without the rule's required markers.)
+  native-rule:FUSE002: skipped (No selected input matched this rule's supported input scope.)
+  native-rule:FUSE003: completed (Evaluated 36 selected input(s). The conservative prefilter excluded 1695 inputs without the rule's required markers.)
+  native-rule:FUSE004: completed (Evaluated 15 selected input(s). The conservative prefilter excluded 1716 inputs without the rule's required markers.)
+  native-rule:FUSE005: completed (Evaluated 4 selected input(s). The conservative prefilter excluded 1727 inputs without the rule's required markers.)
+  native-rule:FUSE006: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 1730 inputs without the rule's required markers.)
+  native-rule:FUSE007: completed (Evaluated 1 selected input(s). The conservative prefilter excluded 1730 inputs without the rule's required markers.)
+  firmware-candidate-inventory: completed (Recorded 0 filename and size candidate(s); no image contents were read or verified.)
+
+[MEDIUM] FUSE001 - Credential-like literal in source
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/mesh/Default.h:79
+  Evidence: #define default_mqtt_password "[REDACTED]"
+  Explanation: A credential-related name is assigned a literal or compared with one. Quoted assignments and comparisons include C and C++ character-prefixed string literals. Plain values are also checked in .env files. FUSE cannot determine whether the value is valid or used.
+  Potential impact: If the value is an active credential and the code or firmware is distributed, an unauthorized party may recover it and access the associated service or device.
+  Remediation: Remove the literal, rotate the value if it was exposed, and provision secrets through a deployment-specific secret store or protected device provisioning flow.
+  References: https://cwe.mitre.org/data/definitions/798.html
+
+[HIGH] FUSE003 - TLS peer verification appears disabled
+  Severity basis: rule
+  Confidence: high
+  Applicability: unknown
+  Validation: static (not-validated)
+  Location: src/mqtt/MQTT.cpp:544
+  Evidence: .setInsecure()
+  Explanation: The source contains an explicit setting or API commonly used to bypass TLS certificate or hostname verification. FUSE does not establish that this path runs.
+  Potential impact: If used for a network connection, disabling verification can allow an active attacker to impersonate the peer and intercept or alter traffic.
+  Remediation: Enable certificate-chain and hostname verification, install the correct trust anchor, and use a test-only override that cannot enter production builds.
+  References: https://cwe.mitre.org/data/definitions/295.html

@@ -1,0 +1,73 @@
+{
+  "scan_date": "2026-11-14",
+  "scanner": {
+    "version": "0.3.0",
+    "commit": "93313780408799032b88462483a76ecbb641d2c1",
+    "source_tree_sha256": "dbb960a896c8b0e074b633addc38a51af0aeb284b823323576d3ec8c3e6514da",
+    "source_tree_dirty": false,
+    "source_tree_scope": "src/vigil_fuse Python and JSON files plus pyproject.toml",
+    "source_tree_hash_algorithm": "SHA-256 over sorted relative path, NUL, file bytes, NUL"
+  },
+  "rows": [
+    {
+      "repository": "ArduPilot/ardupilot",
+      "scope": "ardupilot",
+      "commit": "278a68a57aa0d9b98e6dbaaf9346f6b485f4c9ac",
+      "profile": "generic",
+      "scanned": 260,
+      "selected": 260,
+      "skipped": 0,
+      "findings": 0,
+      "status": "complete",
+      "platformio_before": 0,
+      "platformio_after": 0,
+      "platformio_status": "not-detected",
+      "report_sha256": "d8b187b9375a5378eb7962aab7553ba8728c7e9825eb0bd55c222ca006a19d6c"
+    },
+    {
+      "repository": "RT-Thread/rt-thread",
+      "scope": "rt-thread",
+      "commit": "cbc19778d0ae5ef2533a28c0f62c6a399858010a",
+      "profile": "generic",
+      "scanned": 2126,
+      "selected": 2127,
+      "skipped": 1,
+      "findings": 1,
+      "status": "partial",
+      "platformio_before": 0,
+      "platformio_after": 0,
+      "platformio_status": "not-detected",
+      "report_sha256": "c69410fb1013b7a99322499f55910b25186263c98e2fc34c4357b35d64f72dee"
+    },
+    {
+      "repository": "openbmc/openbmc",
+      "scope": "openbmc",
+      "commit": "c9bb07fa438f008aa1c998fe2e742a386cd15776",
+      "profile": "embedded-linux",
+      "scanned": 230,
+      "selected": 230,
+      "skipped": 0,
+      "findings": 0,
+      "status": "complete",
+      "platformio_before": 0,
+      "platformio_after": 0,
+      "platformio_status": "not-detected",
+      "report_sha256": "a7df0ee318e46c068cde0b95c7a5e1d1c708b3aa1ae5fc8e030c19da772de162"
+    },
+    {
+      "repository": "meshtastic/firmware",
+      "scope": "meshtastic-firmware",
+      "commit": "332b5b0a2c4fec2896de3c5fa63f46d5cd05ea98",
+      "profile": "generic",
+      "scanned": 1731,
+      "selected": 1731,
+      "skipped": 0,
+      "findings": 2,
+      "status": "partial",
+      "platformio_before": 22,
+      "platformio_after": 277,
+      "platformio_status": "partial",
+      "report_sha256": "7f4138bb75da495302490cf40f23163fda85b6d0610a5fcf4b35fe155d7f2d5f"
+    }
+  ]
+}

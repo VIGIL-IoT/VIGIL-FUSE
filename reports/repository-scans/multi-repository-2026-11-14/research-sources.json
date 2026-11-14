@@ -1,0 +1,98 @@
+[
+  {
+    "id": "platformio-extends",
+    "url": "https://docs.platformio.org/en/latest/projectconf/sections/env/options/advanced/extends.html",
+    "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/env/options/advanced/extends.html",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "d6ff422e453bef2d0e3de55e458d7e8777e166b8d68118e020cf04c67f3f3428",
+    "markdown_sha256": "7953030833829bfbd72f88a68c6bb17dc24da48a4b68b3e721bc8639e6f3efd6",
+    "markdown_bytes": 7295
+  },
+  {
+    "id": "platformio-interpolation",
+    "url": "https://docs.platformio.org/en/latest/projectconf/interpolation.html",
+    "final_url": "https://docs.platformio.org/en/latest/projectconf/interpolation.html",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "b51a6a24d56fe983efc57f9b7f09fd199f5e5477d3a7ba73b308f06f2ad221f2",
+    "markdown_sha256": "7b327d7151f445bee14fff596884582eebaf771580b570c1d967a3a260af1a75",
+    "markdown_bytes": 8710
+  },
+  {
+    "id": "platformio-extra-configs",
+    "url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/extra_configs.html",
+    "final_url": "https://docs.platformio.org/en/latest/projectconf/sections/platformio/options/generic/extra_configs.html",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "b6cfb416668e2d1b9001de8edeadf3d7d0e9228ebd01945ada15c0fed0222824",
+    "markdown_sha256": "5965de4865b629c06c12c0cd88a1b9cd87571583460580b561e07c803eaa2638",
+    "markdown_bytes": 7483
+  },
+  {
+    "id": "clang-compilation-database",
+    "url": "https://clang.llvm.org/docs/JSONCompilationDatabase.html",
+    "final_url": "https://clang.llvm.org/docs/JSONCompilationDatabase.html",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "ba6c29c107f582334f023d6c57afceb5fa98fa286afe14269087656614c7c587",
+    "markdown_sha256": "756ca7e66a72b7052f935e681e5b677cb2b3a8f1fd5883b7ba91069654ea4fc9",
+    "markdown_bytes": 20821
+  },
+  {
+    "id": "cmake-file-api",
+    "url": "https://cmake.org/cmake/help/latest/manual/cmake-file-api.7.html",
+    "final_url": "https://cmake.org/cmake/help/latest/manual/cmake-file-api.7.html",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "7e1b0b8f2b49c5c7e339ec0944a9fc6749f88da571244b0cbd6e2d5b57a06eae",
+    "markdown_sha256": "95dc85d2ca493701e7300e8fa05ac737ce15342a37fa18d0c9ecdb62aa96dd08",
+    "markdown_bytes": 114583
+  },
+  {
+    "id": "zephyr-west-manifests",
+    "url": "https://docs.zephyrproject.org/latest/develop/west/manifest.html",
+    "final_url": "https://docs.zephyrproject.org/latest/develop/west/manifest.html",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "ea8a0f36eba7884cf54c576261c959385a87a2c229b9696b4d31a4364ade78c3",
+    "markdown_sha256": "54ea88847830187e0e2df56a8a6e6929dd4bc3f74a633baa1a9aef7b77646594",
+    "markdown_bytes": 99390
+  },
+  {
+    "id": "osv-supported-inputs",
+    "url": "https://google.github.io/osv-scanner/supported-languages-and-lockfiles/",
+    "final_url": "https://google.github.io/osv-scanner/supported-languages-and-lockfiles/",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "c38523cc5e8b24340ffba8c0fef6834181132a60e18503fe07772b7441ba82b8",
+    "markdown_sha256": "fd5166585612eff9350feef4803a117f26625865c6352113d2c52a716d11b6e5",
+    "markdown_bytes": 13368
+  },
+  {
+    "id": "sarif-import",
+    "url": "https://docs.github.com/en/code-security/code-scanning/integrating-with-code-scanning/sarif-support-for-code-scanning",
+    "final_url": "https://docs.github.com/en/code-security/reference/code-scanning/sarif-files/sarif-support",
+    "status": 200,
+    "retrieved_date": "2026-11-13",
+    "tool": "Crawl4AI 0.9.5",
+    "method": "urllib HTTPS fetch, then Crawl4AI raw HTML parsing",
+    "html_sha256": "11b2e65ebe90cbc2e9a16220fcbde5025f21658e58e8b28a784de97fdc462bfd",
+    "markdown_sha256": "45cd56452ce8b2c8cbce544517dec38949cb47186576b5b9d7ea1fc900c2e731",
+    "markdown_bytes": 113083
+  }
+]

@@ -1,0 +1,76 @@
+name: Build evaluation PDF and publish Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - reports/repository-scans/multi-repository-2026-11-14/**
+      - reports/repository-scans/release-0.3.0-transfer-2026-11-12/**
+      - scripts/build_multi_repository_report.py
+      - scripts/run_repository_scan_pilot.py
+      - .github/workflows/report-pages.yml
+  pull_request:
+    paths:
+      - reports/repository-scans/multi-repository-2026-11-14/**
+      - scripts/build_multi_repository_report.py
+      - .github/workflows/report-pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: evaluation-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Install publication tools
+        run: |
+          python -m pip install --no-deps .
+          python -m pip install matplotlib==3.10.8
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y texlive-latex-base texlive-latex-recommended lmodern
+      - name: Generate figures and tables from recorded scans
+        run: python scripts/build_multi_repository_report.py
+      - name: Compile LaTeX with shell escape disabled
+        working-directory: reports/repository-scans/multi-repository-2026-11-14/publication
+        run: |
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error report.tex
+          pdflatex -no-shell-escape -interaction=nonstopmode -halt-on-error report.tex
+          mkdir -p "$GITHUB_WORKSPACE/_report-site"
+          cp report.pdf metrics.json scan-results.png platformio-context.png "$GITHUB_WORKSPACE/_report-site/"
+          cp index.html "$GITHUB_WORKSPACE/_report-site/"
+      - name: Preserve PDF for pull request review
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: fuse-evaluation-report
+          path: _report-site/
+      - name: Prepare Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: _report-site/
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy publication
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
