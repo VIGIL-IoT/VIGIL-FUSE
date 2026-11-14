@@ -6,7 +6,7 @@ A VIGIL Project. This is a source-only regression replay of four previously revi
 
 - [Manifest](manifest.json): pinned upstream commits, include paths, profiles and clean scanner-source provenance.
 - [Raw reports](reports/): original JSON, text and SARIF outputs.
-- [Publication source](publication/report.tex), [generated metrics](publication/metrics.json), and Matplotlib charts.
+- [Compiled PDF](publication/report.pdf), [publication source](publication/report.tex), [generated metrics](publication/metrics.json), and Matplotlib charts.
 - [Hosted PDF](https://vigil-iot.github.io/VIGIL-FUSE/report.pdf), rebuilt by the report-pages workflow.
 
 | Project | Scanned / selected | Raw findings | Coverage |
@@ -49,3 +49,7 @@ The runner refreshes scanner provenance on reruns. Save new runs separately to r
 - [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) documents artifact deployment and required permissions.
 
 The preceding research pass retrieved official documentation through Crawl4AI 0.9.5 using HTTPS fetch followed by raw HTML parsing. Source hashes and collection dates are preserved in [research-sources.json](research-sources.json); retrieved dates precede this replay. Raw third-party documentation is not republished.
+
+## Publication verification
+
+[Build and Pages deployment run 43580073571](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43580073571) succeeded. The hosted PDF returned HTTP 200; its three pages were rendered and visually checked. The [corresponding FUSE CI run](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43580073625) passed all nine jobs, including the OS/Python matrix, self-scan, package installation and Docker integration. All current finding fingerprints match the baseline in each selected scope. The compiled PDF in this directory is the first successful publication artifact; future workflow runs may update hosted build metadata.
