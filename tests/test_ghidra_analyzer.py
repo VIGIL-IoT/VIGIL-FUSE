@@ -18,6 +18,28 @@ from vigil_fuse.cli import main
 from vigil_fuse.ghidra_analyzer import GhidraProbe
 
 
+class GhidraMetadataRedactionTests(unittest.TestCase):
+    def test_url_derived_metadata_cannot_retain_truncated_credentials(self):
+        for key in ("name", "function", "symbol"):
+            for label in (
+                "s_mqtt://fixture-user:partial-secret_00400080",
+                "s_http___user_secret_08000000",
+            ):
+                with self.subTest(key=key, label=label):
+                    normalized = ghidra_analyzer._normalized_json_value({key: label})
+                    self.assertEqual({key: "[redacted URL-derived name]"}, normalized)
+        self.assertEqual(
+            {"name": "connect_broker"},
+            ghidra_analyzer._normalized_json_value({"name": "connect_broker"}),
+        )
+        self.assertEqual(
+            {"value": "http://device.example"},
+            ghidra_analyzer._normalized_json_value(
+                {"value": "http://user:secret@device.example/path"}
+            ),
+        )
+
+
 def _bounded(records: list[dict[str, object]] | None = None) -> dict[str, object]:
     values = records or []
     return {

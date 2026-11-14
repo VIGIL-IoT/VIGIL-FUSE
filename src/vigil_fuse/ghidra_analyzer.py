@@ -414,6 +414,9 @@ def _normalized_json_value(value: object, key: str = "") -> object:
             values.sort(key=lambda item: json.dumps(item, sort_keys=True, ensure_ascii=False))
         return values
     if isinstance(value, str) and key in {"name", "function", "symbol", "value"}:
+        # Ghidra labels can embed truncated credential-bearing strings.
+        if key != "value" and re.search(r"(?i)(?:https?|mqtts?)(?:://|___)", value):
+            return "[redacted URL-derived name]"
         return _redact_binary_string(value)
     return value
 
