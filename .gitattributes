@@ -1,2 +1,2 @@
 # Preserve measured artifact bytes and SHA-256 digests across platforms.
-reports/evaluation/** -text
+reports/evaluation/** -text whitespace=cr-at-eol
