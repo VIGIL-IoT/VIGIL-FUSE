@@ -1,0 +1,90 @@
+name: Embedded Ghidra evaluation
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  embedded:
+    name: Embedded evidence / ${{ matrix.target }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    permissions:
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [x86_64, cortex_m4, esp32, esp32s3, esp32c6]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: "25"
+      - name: Install evaluation dependencies and verify frozen detector
+        run: |
+          python -m pip install '.[test]'
+          python scripts/freeze_evaluation.py reports/evaluation/2026-11-14/manifest.json --verify
+      - name: Install checksum-verified Ghidra
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_12.2_build/ghidra_12.2_PUBLIC_20261016.zip -o "$RUNNER_TEMP/ghidra.zip"
+          echo "2c2cd776db3c1f6a097ba418922378ac3649cadd5e844a6f5f088ae628a7be67  $RUNNER_TEMP/ghidra.zip" | sha256sum --check
+          unzip -q "$RUNNER_TEMP/ghidra.zip" -d "$RUNNER_TEMP"
+          echo "GHIDRA_INSTALL_DIR=$RUNNER_TEMP/ghidra_12.2_PUBLIC" >> "$GITHUB_ENV"
+      - name: Install official Arm LLVM toolchain
+        if: matrix.target == 'cortex_m4'
+        run: |
+          set -euo pipefail
+          name=LLVM-ET-Arm-19.1.5-Linux-x86_64.tar.xz
+          base=https://github.com/ARM-software/LLVM-embedded-toolchain-for-Arm/releases/download/release-19.1.5
+          cd "$RUNNER_TEMP"
+          curl --fail --location --retry 3 "$base/$name" -o "$name"
+          curl --fail --location --retry 3 "$base/$name.sha256" -o "$name.sha256"
+          sha256sum --check "$name.sha256"
+          tar -xf "$name"
+          echo "$RUNNER_TEMP/LLVM-ET-Arm-19.1.5-Linux-x86_64/bin" >> "$GITHUB_PATH"
+          sha256sum "$name" > arm-toolchain-checksum.txt
+      - name: Pull pinned ESP-IDF toolchain image and build official example
+        if: startsWith(matrix.target, 'esp')
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          image=espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84
+          docker pull "$image"
+          mkdir -p "$RUNNER_TEMP/real-project"
+          docker run --rm --network=none --env TARGET \
+            --volume "$RUNNER_TEMP/real-project:/project" --workdir /project \
+            "$image" bash -c 'set -eu; test "$(git -C "$IDF_PATH" rev-parse HEAD)" = 880a203ae603d08a94d06aa01e0d6761958e5e9e; cp -a "$IDF_PATH/examples/get-started/hello_world/." .; idf.py set-target "$TARGET"; idf.py build'
+      - name: Analyze controlled matrix and real example
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          extra=()
+          if [[ "$TARGET" == esp* ]]; then
+            extra=(--real-binary "$RUNNER_TEMP/real-project/build/hello_world.elf")
+          fi
+          python scripts/run_embedded_ghidra_matrix.py --target "$TARGET" \
+            --work "$RUNNER_TEMP/evidence" --ghidra-install-dir "$GHIDRA_INSTALL_DIR" "${extra[@]}"
+      - name: Preserve reports and toolchain evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: embedded-evaluation-${{ matrix.target }}
+          path: |
+            ${{ runner.temp }}/evidence/compatibility.json
+            ${{ runner.temp }}/evidence/dataset.json
+            ${{ runner.temp }}/evidence/metrics/
+            ${{ runner.temp }}/evidence/outputs/
+            ${{ runner.temp }}/evidence/compiler-version.txt
+            ${{ runner.temp }}/arm-toolchain-checksum.txt
+          if-no-files-found: warn
+          retention-days: 90
