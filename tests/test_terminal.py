@@ -19,10 +19,9 @@ class TerminalBannerTests(unittest.TestCase):
             show_banner()
 
         banner = output.getvalue()
-        self.assertIn("FFFFF", banner)
+        self.assertIn("FFFFFF   U   U   SSSSS   EEEEEE", banner)
         self.assertIn("Firmware & Unified Security Engine", banner)
         self.assertIn("A VIGIL Project", banner)
-        self.assertIn("FFFFF   U   U   SSSSS  EEEEE", banner)
         self.assertNotIn("\x1b[", banner)
 
     def test_non_interactive_banner_is_silent(self) -> None:

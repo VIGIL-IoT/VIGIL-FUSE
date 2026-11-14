@@ -18,11 +18,12 @@ def show_banner() -> None:
         reset = "\033[0m"
 
     print(
-        f"{red}  FFFFF   U   U   SSSSS  EEEEE\n"
-        "  F       U   U  S       E\n"
-        "  FFFF    U   U   SSSS   EEEE\n"
-        "  F       U   U      S  E\n"
-        f"  F        UUU   SSSSS  EEEEE{reset}\n"
+        f"{red}  FFFFFF   U   U   SSSSS   EEEEEE\n"
+        "  F        U   U  S        E\n"
+        "  FFFFF    U   U   SSSS    EEEEE\n"
+        "  F        U   U      S    E\n"
+        "  F         UUU   SSSSS   EEEEEE\n"
+        f"  ----------------------------------{reset}\n"
         f"  Firmware & Unified Security Engine\n"
         f"  A VIGIL Project  |  v{__version__}",
         file=sys.stderr,
