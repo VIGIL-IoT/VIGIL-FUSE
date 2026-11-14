@@ -92,11 +92,14 @@ def _render_report(result: ScanResult) -> str:
         if analyzers
         else ""
     )
-    severity_counts = " \\quad ".join(
-        f"\\textbf{{{_latex_text(name.title())}}} {count}"
-        for name, count in counts.items()
-        if count
-    ) or "No findings"
+    severity_counts = (
+        " \\quad ".join(
+            f"\\textbf{{{_latex_text(name.title())}}} {count}"
+            for name, count in counts.items()
+            if count
+        )
+        or "No findings"
+    )
 
     return rf"""\documentclass[10pt,a4paper]{{article}}
 \usepackage[margin=20mm]{{geometry}}
