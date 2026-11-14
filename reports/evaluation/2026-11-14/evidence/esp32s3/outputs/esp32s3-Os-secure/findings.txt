@@ -1,0 +1,34 @@
+FUSE scan: esp32s3-Os-secure.elf
+Target kind: firmware-image
+Profile: generic
+Support: experimental / completed
+Network policy: no-network
+Scanned manifest SHA-256: 5b765a392832a83309606117c253d79e5048ccfc66cc145ea2e3e45707eefae5
+Files discovered/selected: 0/0
+Files filtered by path policy: 0
+Files scanned: 0
+Source bytes read: 0
+Files skipped: 0
+Files decoded with ISO-8859-1 fallback: 0
+Discovery complete: yes
+Findings: 0
+Hardware artifacts: 0
+Source-profile file inventory: not applicable to this specialized input.
+Hardware inventory: no recognized hardware artifacts in target scope.
+Firmware-like file candidates: 1 / complete (extension and size only, contents not inspected)
+  .elf: 1
+  esp32s3-Os-secure.elf [elf, 5176 bytes]
+Analyzers:
+  fuse-native: skipped (No selected text files or no enabled rules.)
+  native-rule:FUSE001: skipped (No selected input was passed to this rule.)
+  native-rule:FUSE002: skipped (No selected input was passed to this rule.)
+  native-rule:FUSE003: skipped (No selected input was passed to this rule.)
+  native-rule:FUSE004: skipped (No selected input was passed to this rule.)
+  native-rule:FUSE005: skipped (No selected input was passed to this rule.)
+  native-rule:FUSE006: skipped (No selected input was passed to this rule.)
+  native-rule:FUSE007: skipped (No selected input was passed to this rule.)
+  firmware-candidate-inventory: completed (Recorded 1 filename and size candidate(s); no image contents were read or verified.)
+  ghidra: completed (Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.)
+Artifacts:
+  ghidra-analysis.json [application/vnd.vigil-fuse.ghidra-analysis+json]
+No native source/configuration files were analyzed. Review analyzer coverage and artifacts for other analysis stages.

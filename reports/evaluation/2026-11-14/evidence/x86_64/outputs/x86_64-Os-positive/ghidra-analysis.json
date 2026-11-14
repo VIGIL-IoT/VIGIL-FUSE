@@ -1,0 +1,439 @@
+{
+  "analysis": {
+    "compiler_spec": "gcc",
+    "endianness": "little",
+    "entry_points": [
+      "004000c0",
+      "0040000c",
+      "00400000"
+    ],
+    "errors": [],
+    "image_base": "00400000",
+    "language_id": "x86:LE:64:default",
+    "loader": "Executable and Linking Format (ELF)",
+    "pointer_size_bytes": 8,
+    "processor": "x86",
+    "status": "completed",
+    "timeout_occurred": false,
+    "warnings": []
+  },
+  "api_references": {
+    "observed": 0,
+    "observed_is_lower_bound": false,
+    "records": [],
+    "reported": 0,
+    "truncated": false
+  },
+  "cross_references": {
+    "observed": 2,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "from_address": "00400010",
+        "function": "_start",
+        "function_entry_address": "0040000c",
+        "reference_type": "PARAM",
+        "string_address": "00400026"
+      },
+      {
+        "from_address": "0040001a",
+        "function": "_start",
+        "function_entry_address": "0040000c",
+        "reference_type": "PARAM",
+        "string_address": "00400063"
+      }
+    ],
+    "reported": 2,
+    "truncated": false
+  },
+  "exports": {
+    "observed": 3,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": "00400000",
+        "entry_point": true,
+        "external": false,
+        "name": "record_endpoint",
+        "type": "Function"
+      },
+      {
+        "address": "0040000c",
+        "entry_point": true,
+        "external": false,
+        "name": "_start",
+        "type": "Function"
+      },
+      {
+        "address": "004000c0",
+        "entry_point": true,
+        "external": false,
+        "name": "fuse_endpoint_sink",
+        "type": "Label"
+      }
+    ],
+    "reported": 3,
+    "truncated": false
+  },
+  "functions": {
+    "observed": 2,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "entry_address": "00400000",
+        "external": false,
+        "name": "record_endpoint",
+        "thunk": false
+      },
+      {
+        "entry_address": "0040000c",
+        "external": false,
+        "name": "_start",
+        "thunk": false
+      }
+    ],
+    "reported": 2,
+    "truncated": false
+  },
+  "imports": {
+    "observed": 0,
+    "observed_is_lower_bound": false,
+    "records": [],
+    "reported": 0,
+    "truncated": false
+  },
+  "input": {
+    "byte_size": 5168,
+    "format": "ELF",
+    "sha256": "d29e2737a3b679d51d45b11ae6c5fe7483cef7e62ff7d4b656b1855eff23ea40"
+  },
+  "limits": {
+    "max_api_references": 512,
+    "max_cross_references": 2048,
+    "max_exports": 1024,
+    "max_functions": 2048,
+    "max_imports": 1024,
+    "max_memory_blocks": 256,
+    "max_name_chars": 128,
+    "max_output_bytes": 8388608,
+    "max_string_chars": 256,
+    "max_string_scan_items": 100000,
+    "max_strings": 1024,
+    "max_symbols": 1024
+  },
+  "memory_blocks": {
+    "observed": 11,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "byte_size": 120,
+        "end": ".symtab::00000077",
+        "execute": false,
+        "initialized": true,
+        "name": ".symtab",
+        "read": false,
+        "start": ".symtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 120,
+        "end": "0040009d",
+        "execute": true,
+        "initialized": true,
+        "name": ".rodata",
+        "read": true,
+        "start": "00400026",
+        "write": true
+      },
+      {
+        "byte_size": 224,
+        "end": "_elfProgramHeaders::000000df",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfProgramHeaders",
+        "read": false,
+        "start": "_elfProgramHeaders::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 32,
+        "end": "004000bf",
+        "execute": true,
+        "initialized": true,
+        "name": ".note.gnu.property",
+        "read": true,
+        "start": "004000a0",
+        "write": true
+      },
+      {
+        "byte_size": 38,
+        "end": "00400025",
+        "execute": true,
+        "initialized": true,
+        "name": ".text",
+        "read": true,
+        "start": "00400000",
+        "write": true
+      },
+      {
+        "byte_size": 45,
+        "end": ".comment::0000002c",
+        "execute": false,
+        "initialized": true,
+        "name": ".comment",
+        "read": false,
+        "start": ".comment::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 55,
+        "end": ".strtab::00000036",
+        "execute": false,
+        "initialized": true,
+        "name": ".strtab",
+        "read": false,
+        "start": ".strtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 576,
+        "end": "_elfSectionHeaders::0000023f",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfSectionHeaders",
+        "read": false,
+        "start": "_elfSectionHeaders::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 64,
+        "end": "_elfHeader::0000003f",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfHeader",
+        "read": false,
+        "start": "_elfHeader::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 74,
+        "end": ".shstrtab::00000049",
+        "execute": false,
+        "initialized": true,
+        "name": ".shstrtab",
+        "read": false,
+        "start": ".shstrtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 8,
+        "end": "004000c7",
+        "execute": true,
+        "initialized": false,
+        "name": ".bss",
+        "read": true,
+        "start": "004000c0",
+        "write": true
+      }
+    ],
+    "reported": 11,
+    "truncated": false
+  },
+  "schema_version": "1.0",
+  "strings": {
+    "observed": 15,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": ".comment::00000000",
+        "redacted": false,
+        "value": "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+      },
+      {
+        "address": ".shstrtab::00000001",
+        "redacted": false,
+        "value": ".symtab"
+      },
+      {
+        "address": ".shstrtab::00000009",
+        "redacted": false,
+        "value": ".strtab"
+      },
+      {
+        "address": ".shstrtab::00000011",
+        "redacted": false,
+        "value": ".shstrtab"
+      },
+      {
+        "address": ".shstrtab::0000001b",
+        "redacted": false,
+        "value": ".text"
+      },
+      {
+        "address": ".shstrtab::00000021",
+        "redacted": false,
+        "value": ".rodata"
+      },
+      {
+        "address": ".shstrtab::00000029",
+        "redacted": false,
+        "value": ".note.gnu.property"
+      },
+      {
+        "address": ".shstrtab::0000003c",
+        "redacted": false,
+        "value": ".bss"
+      },
+      {
+        "address": ".shstrtab::00000041",
+        "redacted": false,
+        "value": ".comment"
+      },
+      {
+        "address": ".strtab::00000001",
+        "redacted": false,
+        "value": "endpoints.c"
+      },
+      {
+        "address": ".strtab::0000000d",
+        "redacted": false,
+        "value": "fuse_endpoint_sink"
+      },
+      {
+        "address": ".strtab::00000020",
+        "redacted": false,
+        "value": "_start"
+      },
+      {
+        "address": ".strtab::00000027",
+        "redacted": false,
+        "value": "record_endpoint"
+      },
+      {
+        "address": "00400026",
+        "redacted": false,
+        "value": "http://device.example:8080"
+      },
+      {
+        "address": "00400063",
+        "redacted": false,
+        "value": "mqtt://192.0.2.1:1883"
+      }
+    ],
+    "reported": 15,
+    "truncated": false
+  },
+  "symbols": {
+    "observed": 13,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": ".comment::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "ElfComment[0]",
+        "type": "Label"
+      },
+      {
+        "address": ".shstrtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.shstrtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".strtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.strtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".symtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf64_Sym_ARRAY_.symtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "00400000",
+        "entry_point": true,
+        "external": false,
+        "name": "record_endpoint",
+        "type": "Function"
+      },
+      {
+        "address": "0040000c",
+        "entry_point": true,
+        "external": false,
+        "name": "_start",
+        "type": "Function"
+      },
+      {
+        "address": "00400024",
+        "entry_point": false,
+        "external": false,
+        "name": "LAB_00400024",
+        "type": "Label"
+      },
+      {
+        "address": "00400026",
+        "entry_point": false,
+        "external": false,
+        "name": "[redacted URL-derived name]",
+        "type": "Label"
+      },
+      {
+        "address": "00400063",
+        "entry_point": false,
+        "external": false,
+        "name": "[redacted URL-derived name]",
+        "type": "Label"
+      },
+      {
+        "address": "004000a0",
+        "entry_point": false,
+        "external": false,
+        "name": "NoteGnuProperty_4_004000a0",
+        "type": "Label"
+      },
+      {
+        "address": "004000c0",
+        "entry_point": true,
+        "external": false,
+        "name": "fuse_endpoint_sink",
+        "type": "Label"
+      },
+      {
+        "address": "_elfProgramHeaders::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf64_Phdr_ARRAY__elfProgramHeaders__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "_elfSectionHeaders::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf64_Shdr_ARRAY__elfSectionHeaders__00000000",
+        "type": "Label"
+      }
+    ],
+    "reported": 13,
+    "truncated": false
+  },
+  "tool": {
+    "name": "Ghidra",
+    "version": "12.2"
+  },
+  "truncation": {
+    "api_references": false,
+    "cross_references": false,
+    "exports": false,
+    "functions": false,
+    "imports": false,
+    "memory_blocks": false,
+    "strings": false,
+    "symbols": false
+  }
+}

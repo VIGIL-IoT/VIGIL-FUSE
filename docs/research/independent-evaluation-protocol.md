@@ -50,6 +50,8 @@ Only calculate precision from adjudicated, applicable findings and clearly state
 
 ## Comparator study
 
+The [2026-11-14 packet](../../reports/evaluation/2026-11-14/review/README.md) operationalizes pinned-source selection, regression-hash checks, blank independent A/B forms and adjudication. Initial NetX Duo and TinyUSB samples emitted no findings; an emitted-candidate supplement and independent human decisions remain pending. No field precision or recall is claimed.
+
 A second tool is a comparison point, not ground truth. Pin the tool version, ruleset digest, command, and exclusions. Compare only categories where both tools have an explicit, documented check. Preserve unmatched and conflicting results for adjudication. Do not collapse product differences into a single winner score.
 
 ## Required output

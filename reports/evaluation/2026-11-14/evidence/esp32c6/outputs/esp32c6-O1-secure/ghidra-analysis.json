@@ -1,0 +1,2743 @@
+{
+  "analysis": {
+    "compiler_spec": "gcc",
+    "endianness": "little",
+    "entry_points": [
+      "ram:4200006c",
+      "ram:4200000a",
+      "ram:42000000"
+    ],
+    "errors": [],
+    "image_base": "ram:42000000",
+    "language_id": "RISCV:LE:32:AndeStar_v5",
+    "loader": "Executable and Linking Format (ELF)",
+    "pointer_size_bytes": 4,
+    "processor": "RISCV",
+    "status": "completed",
+    "timeout_occurred": false,
+    "warnings": []
+  },
+  "api_references": {
+    "observed": 0,
+    "observed_is_lower_bound": false,
+    "records": [],
+    "reported": 0,
+    "truncated": false
+  },
+  "cross_references": {
+    "observed": 2,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "from_address": "ram:42000012",
+        "function": "_start",
+        "function_entry_address": "ram:4200000a",
+        "reference_type": "PARAM",
+        "string_address": "ram:42000030"
+      },
+      {
+        "from_address": "ram:42000022",
+        "function": "_start",
+        "function_entry_address": "ram:4200000a",
+        "reference_type": "PARAM",
+        "string_address": "ram:42000050"
+      }
+    ],
+    "reported": 2,
+    "truncated": false
+  },
+  "exports": {
+    "observed": 4,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": "ram:42000000",
+        "entry_point": true,
+        "external": false,
+        "name": "$xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zmmul1p0_zaamo1p0_zalrsc1p0",
+        "type": "Label"
+      },
+      {
+        "address": "ram:42000000",
+        "entry_point": true,
+        "external": false,
+        "name": "record_endpoint",
+        "type": "Function"
+      },
+      {
+        "address": "ram:4200000a",
+        "entry_point": true,
+        "external": false,
+        "name": "_start",
+        "type": "Function"
+      },
+      {
+        "address": "ram:4200006c",
+        "entry_point": true,
+        "external": false,
+        "name": "fuse_endpoint_sink",
+        "type": "Label"
+      }
+    ],
+    "reported": 4,
+    "truncated": false
+  },
+  "functions": {
+    "observed": 2,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "entry_address": "ram:42000000",
+        "external": false,
+        "name": "record_endpoint",
+        "thunk": false
+      },
+      {
+        "entry_address": "ram:4200000a",
+        "external": false,
+        "name": "_start",
+        "thunk": false
+      }
+    ],
+    "reported": 2,
+    "truncated": false
+  },
+  "imports": {
+    "observed": 0,
+    "observed_is_lower_bound": false,
+    "records": [],
+    "reported": 0,
+    "truncated": false
+  },
+  "input": {
+    "byte_size": 5084,
+    "format": "ELF",
+    "sha256": "9a1118f4e1c7947e684904598b38613179c3e4c6fe605c757db77569522168b4"
+  },
+  "limits": {
+    "max_api_references": 512,
+    "max_cross_references": 2048,
+    "max_exports": 1024,
+    "max_functions": 2048,
+    "max_imports": 1024,
+    "max_memory_blocks": 256,
+    "max_name_chars": 128,
+    "max_output_bytes": 8388608,
+    "max_string_chars": 256,
+    "max_string_scan_items": 100000,
+    "max_strings": 1024,
+    "max_symbols": 1024
+  },
+  "memory_blocks": {
+    "observed": 12,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "byte_size": 130,
+        "end": ".strtab::00000081",
+        "execute": false,
+        "initialized": true,
+        "name": ".strtab",
+        "read": false,
+        "start": ".strtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 16384,
+        "end": "csreg:0fff.3",
+        "execute": false,
+        "initialized": false,
+        "name": "csr",
+        "read": true,
+        "start": "csreg:0000",
+        "write": true
+      },
+      {
+        "byte_size": 176,
+        "end": ".symtab::000000af",
+        "execute": false,
+        "initialized": true,
+        "name": ".symtab",
+        "read": false,
+        "start": ".symtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 360,
+        "end": "_elfSectionHeaders::00000167",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfSectionHeaders",
+        "read": false,
+        "start": "_elfSectionHeaders::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 4,
+        "end": "ram:4200006f",
+        "execute": true,
+        "initialized": false,
+        "name": ".sbss",
+        "read": true,
+        "start": "ram:4200006c",
+        "write": true
+      },
+      {
+        "byte_size": 47,
+        "end": ".comment::0000002e",
+        "execute": false,
+        "initialized": true,
+        "name": ".comment",
+        "read": false,
+        "start": ".comment::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 48,
+        "end": "ram:4200002f",
+        "execute": true,
+        "initialized": true,
+        "name": ".text",
+        "read": true,
+        "start": "ram:42000000",
+        "write": true
+      },
+      {
+        "byte_size": 52,
+        "end": "_elfHeader::00000033",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfHeader",
+        "read": false,
+        "start": "_elfHeader::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 60,
+        "end": "ram:4200006b",
+        "execute": true,
+        "initialized": true,
+        "name": ".rodata",
+        "read": true,
+        "start": "ram:42000030",
+        "write": true
+      },
+      {
+        "byte_size": 74,
+        "end": ".shstrtab::00000049",
+        "execute": false,
+        "initialized": true,
+        "name": ".shstrtab",
+        "read": false,
+        "start": ".shstrtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 92,
+        "end": ".riscv.attributes::0000005b",
+        "execute": false,
+        "initialized": true,
+        "name": ".riscv.attributes",
+        "read": false,
+        "start": ".riscv.attributes::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 96,
+        "end": "_elfProgramHeaders::0000005f",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfProgramHeaders",
+        "read": false,
+        "start": "_elfProgramHeaders::00000000",
+        "write": false
+      }
+    ],
+    "reported": 12,
+    "truncated": false
+  },
+  "schema_version": "1.0",
+  "strings": {
+    "observed": 16,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": ".comment::00000000",
+        "redacted": false,
+        "value": "GCC: (crosstool-NG esp-14.2.0_20260121) 14.2.0"
+      },
+      {
+        "address": ".shstrtab::00000001",
+        "redacted": false,
+        "value": ".symtab"
+      },
+      {
+        "address": ".shstrtab::00000009",
+        "redacted": false,
+        "value": ".strtab"
+      },
+      {
+        "address": ".shstrtab::00000011",
+        "redacted": false,
+        "value": ".shstrtab"
+      },
+      {
+        "address": ".shstrtab::0000001b",
+        "redacted": false,
+        "value": ".text"
+      },
+      {
+        "address": ".shstrtab::00000021",
+        "redacted": false,
+        "value": ".rodata"
+      },
+      {
+        "address": ".shstrtab::00000029",
+        "redacted": false,
+        "value": ".sbss"
+      },
+      {
+        "address": ".shstrtab::0000002f",
+        "redacted": false,
+        "value": ".comment"
+      },
+      {
+        "address": ".shstrtab::00000038",
+        "redacted": false,
+        "value": ".riscv.attributes"
+      },
+      {
+        "address": ".strtab::00000001",
+        "redacted": false,
+        "value": "endpoints.c"
+      },
+      {
+        "address": ".strtab::0000000d",
+        "redacted": false,
+        "value": "$xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zmmul1p0_zaamo1p0_zalrsc1p0"
+      },
+      {
+        "address": ".strtab::00000058",
+        "redacted": false,
+        "value": "fuse_endpoint_sink"
+      },
+      {
+        "address": ".strtab::0000006b",
+        "redacted": false,
+        "value": "_start"
+      },
+      {
+        "address": ".strtab::00000072",
+        "redacted": false,
+        "value": "record_endpoint"
+      },
+      {
+        "address": "ram:42000030",
+        "redacted": false,
+        "value": "https://device.example"
+      },
+      {
+        "address": "ram:42000050",
+        "redacted": false,
+        "value": "mqtts://broker.example:8883"
+      }
+    ],
+    "reported": 16,
+    "truncated": false
+  },
+  "symbols": {
+    "observed": 339,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": ".comment::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "ElfComment[0]",
+        "type": "Label"
+      },
+      {
+        "address": ".riscv.attributes::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.riscv.attributes__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".shstrtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.shstrtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".strtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.strtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".symtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf32_Sym_ARRAY_.symtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "_elfProgramHeaders::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf32_Phdr_ARRAY__elfProgramHeaders__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "_elfSectionHeaders::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf32_Shdr_ARRAY__elfSectionHeaders__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0000",
+        "entry_point": false,
+        "external": false,
+        "name": "ustatus",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0001",
+        "entry_point": false,
+        "external": false,
+        "name": "fflags",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0002",
+        "entry_point": false,
+        "external": false,
+        "name": "frm",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0003",
+        "entry_point": false,
+        "external": false,
+        "name": "fcsr",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0004",
+        "entry_point": false,
+        "external": false,
+        "name": "uie",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0005",
+        "entry_point": false,
+        "external": false,
+        "name": "utvec",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0008",
+        "entry_point": false,
+        "external": false,
+        "name": "vstart",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0009",
+        "entry_point": false,
+        "external": false,
+        "name": "vxsat",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:000a",
+        "entry_point": false,
+        "external": false,
+        "name": "vxrm",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:000f",
+        "entry_point": false,
+        "external": false,
+        "name": "vcsr",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0040",
+        "entry_point": false,
+        "external": false,
+        "name": "uscratch",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0041",
+        "entry_point": false,
+        "external": false,
+        "name": "uepc",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0042",
+        "entry_point": false,
+        "external": false,
+        "name": "ucause",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0043",
+        "entry_point": false,
+        "external": false,
+        "name": "utval",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0044",
+        "entry_point": false,
+        "external": false,
+        "name": "uip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0100",
+        "entry_point": false,
+        "external": false,
+        "name": "sstatus",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0101",
+        "entry_point": false,
+        "external": false,
+        "name": "sedeleg",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0102",
+        "entry_point": false,
+        "external": false,
+        "name": "sideleg",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0103",
+        "entry_point": false,
+        "external": false,
+        "name": "sie",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0104",
+        "entry_point": false,
+        "external": false,
+        "name": "stvec",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0105",
+        "entry_point": false,
+        "external": false,
+        "name": "scounteren",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0140",
+        "entry_point": false,
+        "external": false,
+        "name": "sscratch",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0141",
+        "entry_point": false,
+        "external": false,
+        "name": "sepc",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0142",
+        "entry_point": false,
+        "external": false,
+        "name": "scause",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0143",
+        "entry_point": false,
+        "external": false,
+        "name": "stval",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0144",
+        "entry_point": false,
+        "external": false,
+        "name": "sip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0180",
+        "entry_point": false,
+        "external": false,
+        "name": "satp",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0200",
+        "entry_point": false,
+        "external": false,
+        "name": "vsstatus",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0204",
+        "entry_point": false,
+        "external": false,
+        "name": "vsie",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0205",
+        "entry_point": false,
+        "external": false,
+        "name": "vstvec",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0240",
+        "entry_point": false,
+        "external": false,
+        "name": "vsscratch",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0241",
+        "entry_point": false,
+        "external": false,
+        "name": "vsepc",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0242",
+        "entry_point": false,
+        "external": false,
+        "name": "vscause",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0243",
+        "entry_point": false,
+        "external": false,
+        "name": "vstval",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0244",
+        "entry_point": false,
+        "external": false,
+        "name": "vsip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0280",
+        "entry_point": false,
+        "external": false,
+        "name": "vsatp",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0300",
+        "entry_point": false,
+        "external": false,
+        "name": "mstatus",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0301",
+        "entry_point": false,
+        "external": false,
+        "name": "misa",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0302",
+        "entry_point": false,
+        "external": false,
+        "name": "medeleg",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0303",
+        "entry_point": false,
+        "external": false,
+        "name": "mideleg",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0304",
+        "entry_point": false,
+        "external": false,
+        "name": "mie",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0305",
+        "entry_point": false,
+        "external": false,
+        "name": "mtvec",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0306",
+        "entry_point": false,
+        "external": false,
+        "name": "mcounteren",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0310",
+        "entry_point": false,
+        "external": false,
+        "name": "mstatush",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0320",
+        "entry_point": false,
+        "external": false,
+        "name": "mcountinhibit",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0323",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent3",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0324",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent4",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0325",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent5",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0326",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent6",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0327",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent7",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0328",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent8",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0329",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent9",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:032a",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent10",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:032b",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent11",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:032c",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent12",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:032d",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent13",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:032e",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent14",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:032f",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent15",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0330",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent16",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0331",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent17",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0332",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent18",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0333",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent19",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0334",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent20",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0335",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent21",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0336",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent22",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0337",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent23",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0338",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent24",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0339",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent25",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:033a",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent26",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:033b",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent27",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:033c",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent28",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:033d",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent29",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:033e",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent30",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:033f",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmevent31",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0340",
+        "entry_point": false,
+        "external": false,
+        "name": "mscratch",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0341",
+        "entry_point": false,
+        "external": false,
+        "name": "mepc",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0342",
+        "entry_point": false,
+        "external": false,
+        "name": "mcause",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0343",
+        "entry_point": false,
+        "external": false,
+        "name": "mtval",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0344",
+        "entry_point": false,
+        "external": false,
+        "name": "mip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:034a",
+        "entry_point": false,
+        "external": false,
+        "name": "mtinst",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:034b",
+        "entry_point": false,
+        "external": false,
+        "name": "mtval2",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0380",
+        "entry_point": false,
+        "external": false,
+        "name": "mbase",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0381",
+        "entry_point": false,
+        "external": false,
+        "name": "mbound",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0382",
+        "entry_point": false,
+        "external": false,
+        "name": "mibase",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0383",
+        "entry_point": false,
+        "external": false,
+        "name": "mibound",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0384",
+        "entry_point": false,
+        "external": false,
+        "name": "mdbase",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0385",
+        "entry_point": false,
+        "external": false,
+        "name": "mdbound",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a0",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg0",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a1",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg1",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a2",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg2",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a3",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg3",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a4",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg4",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a5",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg5",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a6",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg6",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a7",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg7",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a8",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg8",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03a9",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg9",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03aa",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg10",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ab",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg11",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ac",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg12",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ad",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg13",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ae",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg14",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03af",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpcfg15",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b0",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr0",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b1",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr1",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b2",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr2",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b3",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr3",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b4",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr4",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b5",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr5",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b6",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr6",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b7",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr7",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b8",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr8",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03b9",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr9",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ba",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr10",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03bb",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr11",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03bc",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr12",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03bd",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr13",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03be",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr14",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03bf",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr15",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c0",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr16",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c1",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr17",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c2",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr18",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c3",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr19",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c4",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr20",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c5",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr21",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c6",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr22",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c7",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr23",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c8",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr24",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03c9",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr25",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ca",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr26",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03cb",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr27",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03cc",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr28",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03cd",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr29",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ce",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr30",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03cf",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr31",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d0",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr32",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d1",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr33",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d2",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr34",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d3",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr35",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d4",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr36",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d5",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr37",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d6",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr38",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d7",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr39",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d8",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr40",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03d9",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr41",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03da",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr42",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03db",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr43",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03dc",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr44",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03dd",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr45",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03de",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr46",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03df",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr47",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e0",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr48",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e1",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr49",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e2",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr50",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e3",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr51",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e4",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr52",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e5",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr53",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e6",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr54",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e7",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr55",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e8",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr56",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03e9",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr57",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ea",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr58",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03eb",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr59",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ec",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr60",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ed",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr61",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ee",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr62",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:03ef",
+        "entry_point": false,
+        "external": false,
+        "name": "pmpaddr63",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:05a8",
+        "entry_point": false,
+        "external": false,
+        "name": "scontext",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0600",
+        "entry_point": false,
+        "external": false,
+        "name": "hstatus",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0602",
+        "entry_point": false,
+        "external": false,
+        "name": "hedeleg",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0603",
+        "entry_point": false,
+        "external": false,
+        "name": "hideleg",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0604",
+        "entry_point": false,
+        "external": false,
+        "name": "hie",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0605",
+        "entry_point": false,
+        "external": false,
+        "name": "htimedelta",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0606",
+        "entry_point": false,
+        "external": false,
+        "name": "hcounteren",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0607",
+        "entry_point": false,
+        "external": false,
+        "name": "hgeie",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0615",
+        "entry_point": false,
+        "external": false,
+        "name": "htimedeltah",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0643",
+        "entry_point": false,
+        "external": false,
+        "name": "htval",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0644",
+        "entry_point": false,
+        "external": false,
+        "name": "hip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0645",
+        "entry_point": false,
+        "external": false,
+        "name": "hvip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:064a",
+        "entry_point": false,
+        "external": false,
+        "name": "htinst",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0680",
+        "entry_point": false,
+        "external": false,
+        "name": "hgatp",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:06a8",
+        "entry_point": false,
+        "external": false,
+        "name": "hcontext",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07a0",
+        "entry_point": false,
+        "external": false,
+        "name": "tselect",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07a1",
+        "entry_point": false,
+        "external": false,
+        "name": "tdata1",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07a2",
+        "entry_point": false,
+        "external": false,
+        "name": "tdata2",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07a3",
+        "entry_point": false,
+        "external": false,
+        "name": "tdata3",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07a8",
+        "entry_point": false,
+        "external": false,
+        "name": "mcontext",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07b0",
+        "entry_point": false,
+        "external": false,
+        "name": "dcsr",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07b1",
+        "entry_point": false,
+        "external": false,
+        "name": "dpc",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07b2",
+        "entry_point": false,
+        "external": false,
+        "name": "dscratch0",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:07b3",
+        "entry_point": false,
+        "external": false,
+        "name": "dscratch1",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a00",
+        "entry_point": false,
+        "external": false,
+        "name": "mcycle",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a02",
+        "entry_point": false,
+        "external": false,
+        "name": "minstret",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a03",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter3",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a04",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter4",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a05",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter5",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a06",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter6",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a07",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter7",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a08",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter8",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a09",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter9",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a0a",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter10",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a0b",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter11",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a0c",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter12",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a0d",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter13",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a0e",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter14",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a0f",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter15",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a10",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter16",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a11",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter17",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a12",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter18",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a13",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter19",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a14",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter20",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a15",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter21",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a16",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter22",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a17",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter23",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a18",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter24",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a19",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter25",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a1a",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter26",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a1b",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter27",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a1c",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter28",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a1d",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter29",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a1e",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter30",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0a1f",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter31",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b80",
+        "entry_point": false,
+        "external": false,
+        "name": "mcycleh",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b81",
+        "entry_point": false,
+        "external": false,
+        "name": "minstreth",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b82",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter3h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b83",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter4h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b84",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter5h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b85",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter6h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b86",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter7h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b88",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter8h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b89",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter9h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b8a",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter10h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b8b",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter11h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b8c",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter12h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b8d",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter13h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b8e",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter14h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b8f",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter15h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b90",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter16h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b91",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter17h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b92",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter18h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b93",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter19h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b94",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter20h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b95",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter21h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b96",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter22h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b97",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter23h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b98",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter24h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b99",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter25h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b9a",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter26h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b9b",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter27h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b9c",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter28h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b9d",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter29h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b9e",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter30h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0b9f",
+        "entry_point": false,
+        "external": false,
+        "name": "mhpmcounter31h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c00",
+        "entry_point": false,
+        "external": false,
+        "name": "cycle",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c01",
+        "entry_point": false,
+        "external": false,
+        "name": "time",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c02",
+        "entry_point": false,
+        "external": false,
+        "name": "instret",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c03",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter3",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c04",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter4",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c05",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter5",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c06",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter6",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c07",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter7",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c08",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter8",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c09",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter9",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c0a",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter10",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c0b",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter11",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c0c",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter12",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c0d",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter13",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c0e",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter14",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c0f",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter15",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c10",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter16",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c11",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter17",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c12",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter18",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c13",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter19",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c14",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter20",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c15",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter21",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c16",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter22",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c17",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter23",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c18",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter24",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c19",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter25",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c1a",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter26",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c1b",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter27",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c1c",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter28",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c1d",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter29",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c1e",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter30",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c1f",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter31",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c20",
+        "entry_point": false,
+        "external": false,
+        "name": "vl",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c21",
+        "entry_point": false,
+        "external": false,
+        "name": "vtype",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c22",
+        "entry_point": false,
+        "external": false,
+        "name": "vlenb",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c80",
+        "entry_point": false,
+        "external": false,
+        "name": "cycleh",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c81",
+        "entry_point": false,
+        "external": false,
+        "name": "timeh",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c82",
+        "entry_point": false,
+        "external": false,
+        "name": "instreth",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c83",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter3h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c84",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter4h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c85",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter5h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c86",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter6h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c87",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter7h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c88",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter8h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c89",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter9h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c8a",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter10h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c8b",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter11h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c8c",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter12h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c8d",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter13h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c8e",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter14h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c8f",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter15h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c90",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter16h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c91",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter17h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c92",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter18h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c93",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter19h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c94",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter20h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c95",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter21h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c96",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter22h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c97",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter23h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c98",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter24h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c99",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter25h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c9a",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter26h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c9b",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter27h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c9c",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter28h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c9d",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter29h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c9e",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter30h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0c9f",
+        "entry_point": false,
+        "external": false,
+        "name": "hpmcounter31h",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0e12",
+        "entry_point": false,
+        "external": false,
+        "name": "hgeip",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0f11",
+        "entry_point": false,
+        "external": false,
+        "name": "mvendorid",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0f12",
+        "entry_point": false,
+        "external": false,
+        "name": "marchid",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0f13",
+        "entry_point": false,
+        "external": false,
+        "name": "mimpid",
+        "type": "Label"
+      },
+      {
+        "address": "csreg:0f14",
+        "entry_point": false,
+        "external": false,
+        "name": "mhartid",
+        "type": "Label"
+      },
+      {
+        "address": "ram:42000000",
+        "entry_point": true,
+        "external": false,
+        "name": "$xrv32i2p1_m2p0_a2p1_c2p0_zicsr2p0_zifencei2p0_zmmul1p0_zaamo1p0_zalrsc1p0",
+        "type": "Label"
+      },
+      {
+        "address": "ram:42000000",
+        "entry_point": true,
+        "external": false,
+        "name": "record_endpoint",
+        "type": "Function"
+      },
+      {
+        "address": "ram:4200000a",
+        "entry_point": true,
+        "external": false,
+        "name": "_start",
+        "type": "Function"
+      },
+      {
+        "address": "ram:4200002e",
+        "entry_point": false,
+        "external": false,
+        "name": "LAB_ram_4200002e",
+        "type": "Label"
+      },
+      {
+        "address": "ram:42000030",
+        "entry_point": false,
+        "external": false,
+        "name": "[redacted URL-derived name]",
+        "type": "Label"
+      },
+      {
+        "address": "ram:42000050",
+        "entry_point": false,
+        "external": false,
+        "name": "[redacted URL-derived name]",
+        "type": "Label"
+      },
+      {
+        "address": "ram:4200006c",
+        "entry_point": true,
+        "external": false,
+        "name": "fuse_endpoint_sink",
+        "type": "Label"
+      }
+    ],
+    "reported": 339,
+    "truncated": false
+  },
+  "tool": {
+    "name": "Ghidra",
+    "version": "12.2"
+  },
+  "truncation": {
+    "api_references": false,
+    "cross_references": false,
+    "exports": false,
+    "functions": false,
+    "imports": false,
+    "memory_blocks": false,
+    "strings": false,
+    "symbols": false
+  }
+}

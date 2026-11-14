@@ -185,6 +185,9 @@ def build_controlled(target: str, work: Path) -> tuple[list[dict], dict]:
         compiler_version = subprocess.check_output([compiler, "--version"], text=True).strip()
         for command in commands:
             subprocess.run(command, cwd=work, check=True, capture_output=True)
+    compiler_version = "\n".join(
+        line for line in compiler_version.splitlines() if not line.startswith("InstalledDir:")
+    )
     return cases, {
         "compiler": compiler,
         "compiler_version": compiler_version,

@@ -1,0 +1,3 @@
+rule,tp,fp,tn,fn,support,precision,recall,f1
+FUSE-BIN-001,5,0,5,0,10,1.0,1.0,1.0
+FUSE-BIN-002,5,0,5,0,10,1.0,1.0,1.0

@@ -1,0 +1,497 @@
+{
+  "analysis": {
+    "compiler_spec": "default",
+    "endianness": "little",
+    "entry_points": [
+      "08000000",
+      "080000c4",
+      "08000014"
+    ],
+    "errors": [],
+    "image_base": "08000000",
+    "language_id": "ARM:LE:32:v8",
+    "loader": "Executable and Linking Format (ELF)",
+    "pointer_size_bytes": 4,
+    "processor": "ARM",
+    "status": "completed",
+    "timeout_occurred": false,
+    "warnings": []
+  },
+  "api_references": {
+    "observed": 0,
+    "observed_is_lower_bound": false,
+    "records": [],
+    "reported": 0,
+    "truncated": false
+  },
+  "cross_references": {
+    "observed": 2,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "from_address": "0800001c",
+        "function": "_start",
+        "function_entry_address": "08000014",
+        "reference_type": "PARAM",
+        "string_address": "08000087"
+      },
+      {
+        "from_address": "08000028",
+        "function": "_start",
+        "function_entry_address": "08000014",
+        "reference_type": "PARAM",
+        "string_address": "0800004c"
+      }
+    ],
+    "reported": 2,
+    "truncated": false
+  },
+  "exports": {
+    "observed": 3,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": "08000000",
+        "entry_point": true,
+        "external": false,
+        "name": "record_endpoint",
+        "type": "Function"
+      },
+      {
+        "address": "08000014",
+        "entry_point": true,
+        "external": false,
+        "name": "_start",
+        "type": "Function"
+      },
+      {
+        "address": "080000c4",
+        "entry_point": true,
+        "external": false,
+        "name": "fuse_endpoint_sink",
+        "type": "Label"
+      }
+    ],
+    "reported": 3,
+    "truncated": false
+  },
+  "functions": {
+    "observed": 2,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "entry_address": "08000000",
+        "external": false,
+        "name": "record_endpoint",
+        "thunk": false
+      },
+      {
+        "entry_address": "08000014",
+        "external": false,
+        "name": "_start",
+        "thunk": false
+      }
+    ],
+    "reported": 2,
+    "truncated": false
+  },
+  "imports": {
+    "observed": 0,
+    "observed_is_lower_bound": false,
+    "records": [],
+    "reported": 0,
+    "truncated": false
+  },
+  "input": {
+    "byte_size": 66480,
+    "format": "ELF",
+    "sha256": "21406b13ec5ee49d250eeb1243f176440003bab169509b2701edb69f134f0926"
+  },
+  "limits": {
+    "max_api_references": 512,
+    "max_cross_references": 2048,
+    "max_exports": 1024,
+    "max_functions": 2048,
+    "max_imports": 1024,
+    "max_memory_blocks": 256,
+    "max_name_chars": 128,
+    "max_output_bytes": 8388608,
+    "max_string_chars": 256,
+    "max_string_scan_items": 100000,
+    "max_strings": 1024,
+    "max_symbols": 1024
+  },
+  "memory_blocks": {
+    "observed": 12,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "byte_size": 120,
+        "end": "080000c3",
+        "execute": false,
+        "initialized": true,
+        "name": ".rodata",
+        "read": true,
+        "start": "0800004c",
+        "write": false
+      },
+      {
+        "byte_size": 160,
+        "end": "_elfProgramHeaders::0000009f",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfProgramHeaders",
+        "read": false,
+        "start": "_elfProgramHeaders::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 24,
+        "end": "0800004b",
+        "execute": false,
+        "initialized": true,
+        "name": ".ARM.exidx",
+        "read": true,
+        "start": "08000034",
+        "write": false
+      },
+      {
+        "byte_size": 4,
+        "end": "080000c7",
+        "execute": false,
+        "initialized": false,
+        "name": ".bss",
+        "read": true,
+        "start": "080000c4",
+        "write": true
+      },
+      {
+        "byte_size": 400,
+        "end": "_elfSectionHeaders::0000018f",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfSectionHeaders",
+        "read": false,
+        "start": "_elfSectionHeaders::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 41,
+        "end": ".comment::00000028",
+        "execute": false,
+        "initialized": true,
+        "name": ".comment",
+        "read": false,
+        "start": ".comment::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 52,
+        "end": "08000033",
+        "execute": true,
+        "initialized": true,
+        "name": ".text",
+        "read": true,
+        "start": "08000000",
+        "write": false
+      },
+      {
+        "byte_size": 52,
+        "end": "_elfHeader::00000033",
+        "execute": false,
+        "initialized": true,
+        "name": "_elfHeader",
+        "read": false,
+        "start": "_elfHeader::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 58,
+        "end": ".strtab::00000039",
+        "execute": false,
+        "initialized": true,
+        "name": ".strtab",
+        "read": false,
+        "start": ".strtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 71,
+        "end": ".ARM.attributes::00000046",
+        "execute": false,
+        "initialized": true,
+        "name": ".ARM.attributes",
+        "read": false,
+        "start": ".ARM.attributes::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 82,
+        "end": ".shstrtab::00000051",
+        "execute": false,
+        "initialized": true,
+        "name": ".shstrtab",
+        "read": false,
+        "start": ".shstrtab::00000000",
+        "write": false
+      },
+      {
+        "byte_size": 96,
+        "end": ".symtab::0000005f",
+        "execute": false,
+        "initialized": true,
+        "name": ".symtab",
+        "read": false,
+        "start": ".symtab::00000000",
+        "write": false
+      }
+    ],
+    "reported": 12,
+    "truncated": false
+  },
+  "schema_version": "1.0",
+  "strings": {
+    "observed": 19,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": ".comment::00000000",
+        "redacted": false,
+        "value": ""
+      },
+      {
+        "address": ".comment::00000001",
+        "redacted": false,
+        "value": "clang version 19.1.5"
+      },
+      {
+        "address": ".comment::00000016",
+        "redacted": false,
+        "value": "Linker: LLD 19.1.5"
+      },
+      {
+        "address": ".shstrtab::00000001",
+        "redacted": false,
+        "value": ".text"
+      },
+      {
+        "address": ".shstrtab::00000007",
+        "redacted": false,
+        "value": ".ARM.exidx"
+      },
+      {
+        "address": ".shstrtab::00000012",
+        "redacted": false,
+        "value": ".rodata"
+      },
+      {
+        "address": ".shstrtab::0000001a",
+        "redacted": false,
+        "value": ".bss"
+      },
+      {
+        "address": ".shstrtab::0000001f",
+        "redacted": false,
+        "value": ".comment"
+      },
+      {
+        "address": ".shstrtab::00000028",
+        "redacted": false,
+        "value": ".ARM.attributes"
+      },
+      {
+        "address": ".shstrtab::00000038",
+        "redacted": false,
+        "value": ".symtab"
+      },
+      {
+        "address": ".shstrtab::00000040",
+        "redacted": false,
+        "value": ".shstrtab"
+      },
+      {
+        "address": ".shstrtab::0000004a",
+        "redacted": false,
+        "value": ".strtab"
+      },
+      {
+        "address": ".strtab::00000001",
+        "redacted": false,
+        "value": "endpoints.c"
+      },
+      {
+        "address": ".strtab::0000000d",
+        "redacted": false,
+        "value": "$t"
+      },
+      {
+        "address": ".strtab::00000010",
+        "redacted": false,
+        "value": "record_endpoint"
+      },
+      {
+        "address": ".strtab::00000020",
+        "redacted": false,
+        "value": "fuse_endpoint_sink"
+      },
+      {
+        "address": ".strtab::00000033",
+        "redacted": false,
+        "value": "_start"
+      },
+      {
+        "address": "0800004c",
+        "redacted": false,
+        "value": "mqtt://192.0.2.1:1883"
+      },
+      {
+        "address": "08000087",
+        "redacted": false,
+        "value": "http://device.example:8080"
+      }
+    ],
+    "reported": 19,
+    "truncated": false
+  },
+  "symbols": {
+    "observed": 17,
+    "observed_is_lower_bound": false,
+    "records": [
+      {
+        "address": ".ARM.attributes::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.ARM.attributes__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".comment::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "ElfComment[0]",
+        "type": "Label"
+      },
+      {
+        "address": ".comment::00000001",
+        "entry_point": false,
+        "external": false,
+        "name": "ElfComment[1]",
+        "type": "Label"
+      },
+      {
+        "address": ".comment::00000016",
+        "entry_point": false,
+        "external": false,
+        "name": "ElfComment[2]",
+        "type": "Label"
+      },
+      {
+        "address": ".shstrtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.shstrtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".strtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_.strtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": ".symtab::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf32_Sym_ARRAY_.symtab__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "08000000",
+        "entry_point": true,
+        "external": false,
+        "name": "record_endpoint",
+        "type": "Function"
+      },
+      {
+        "address": "08000014",
+        "entry_point": true,
+        "external": false,
+        "name": "_start",
+        "type": "Function"
+      },
+      {
+        "address": "08000015",
+        "entry_point": false,
+        "external": false,
+        "name": "_start+1",
+        "type": "Label"
+      },
+      {
+        "address": "08000032",
+        "entry_point": false,
+        "external": false,
+        "name": "LAB_08000032",
+        "type": "Label"
+      },
+      {
+        "address": "08000034",
+        "entry_point": false,
+        "external": false,
+        "name": "DAT_08000034",
+        "type": "Label"
+      },
+      {
+        "address": "0800004c",
+        "entry_point": false,
+        "external": false,
+        "name": "[redacted URL-derived name]",
+        "type": "Label"
+      },
+      {
+        "address": "08000087",
+        "entry_point": false,
+        "external": false,
+        "name": "[redacted URL-derived name]",
+        "type": "Label"
+      },
+      {
+        "address": "080000c4",
+        "entry_point": true,
+        "external": false,
+        "name": "fuse_endpoint_sink",
+        "type": "Label"
+      },
+      {
+        "address": "_elfProgramHeaders::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf32_Phdr_ARRAY__elfProgramHeaders__00000000",
+        "type": "Label"
+      },
+      {
+        "address": "_elfSectionHeaders::00000000",
+        "entry_point": false,
+        "external": false,
+        "name": "Elf32_Shdr_ARRAY__elfSectionHeaders__00000000",
+        "type": "Label"
+      }
+    ],
+    "reported": 17,
+    "truncated": false
+  },
+  "tool": {
+    "name": "Ghidra",
+    "version": "12.2"
+  },
+  "truncation": {
+    "api_references": false,
+    "cross_references": false,
+    "exports": false,
+    "functions": false,
+    "imports": false,
+    "memory_blocks": false,
+    "strings": false,
+    "symbols": false
+  }
+}

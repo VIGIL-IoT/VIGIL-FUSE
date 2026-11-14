@@ -15,6 +15,8 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 
 **Alpha · 0.3.0**
 
+New [embedded binary evaluation](reports/evaluation/2026-11-14/README.md): controlled Cortex-M4, Xtensa and RISC-V evidence with per-rule metrics and plots. Real ESP-IDF example results remain partial; independent human review is pending.
+
 ## Start here
 
 Requires Python 3.11 or newer. The native scanner has no runtime dependencies.

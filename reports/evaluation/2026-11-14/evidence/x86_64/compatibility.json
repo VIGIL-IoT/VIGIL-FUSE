@@ -1,0 +1,877 @@
+{
+  "architecture": "x86-64",
+  "build": {
+    "commands": [
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O0",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=0",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-O0-positive.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O0",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=1",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-O0-secure.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O1",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=0",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-O1-positive.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O1",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=1",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-O1-secure.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O2",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=0",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-O2-positive.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O2",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=1",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-O2-secure.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-Os",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=0",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-Os-positive.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-Os",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=1",
+        "-DUNREFERENCED=0",
+        "endpoints.c",
+        "-o",
+        "x86_64-Os-secure.elf"
+      ],
+      [
+        "gcc",
+        "-fno-pie",
+        "-no-pie",
+        "-O2",
+        "-nostdlib",
+        "-fno-stack-protector",
+        "-fno-unwind-tables",
+        "-fno-asynchronous-unwind-tables",
+        "-Wl,--build-id=none",
+        "-Wl,-T,layout.ld",
+        "-DSECURE=0",
+        "-DUNREFERENCED=1",
+        "endpoints.c",
+        "-o",
+        "x86_64-O2-unreferenced.elf"
+      ],
+      [
+        "strip",
+        "--strip-all",
+        "x86_64-O2-positive.elf",
+        "-o",
+        "x86_64-O2-positive-stripped.elf"
+      ],
+      [
+        "strip",
+        "--strip-all",
+        "x86_64-O2-secure.elf",
+        "-o",
+        "x86_64-O2-secure-stripped.elf"
+      ]
+    ],
+    "compiler": "gcc",
+    "compiler_version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    "fixture_sha256": "0996998c87737664c77dc53e1b618f7a1e573f9fb433cad964091bca884a9c85",
+    "idf_commit": null,
+    "image": null
+  },
+  "environment": {
+    "java": "openjdk version \"25.0.5\" 2026-10-20 LTS\nOpenJDK Runtime Environment Temurin-25.0.5+8 (build 25.0.5+8-LTS)\nOpenJDK 64-Bit Server VM Temurin-25.0.5+8 (build 25.0.5+8-LTS, mixed mode, sharing)",
+    "os": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "python": "3.12.16"
+  },
+  "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+  "harness_commit": "d84fe497add826a486c318cccd87201092865101",
+  "median_elapsed_seconds": 8.004781398000006,
+  "records": [
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "004000e0",
+          "0040001a",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10359,
+      "artifact_sha256": "09aaa99a0c408d97882f421edb701794508f29d73c4945f5c89de3978a662456",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 13.781719934000002,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O0-positive",
+      "input_bytes": 5200,
+      "input_sha256": "ad0bf7b1dc6911d0076bd58cc9e644de7a83ab64fdcbb0c1f09f747c5154a8b7",
+      "kind": "positive",
+      "optimization": "O0",
+      "peak_process_tree_rss_bytes": 557400064,
+      "redaction_passed": true,
+      "report_sha256": "fabc14c20f5a64461242d63cef0ce6c7b9e05a73a622c510f8a096cd347c83c0",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "00400098",
+          "0040001a",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10360,
+      "artifact_sha256": "a9d22323f71d42195a8b1a6259275b07adb0e36cb1a075ecc5fd25a2799047f8",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 7.9352557730000015,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O0-secure",
+      "input_bytes": 5128,
+      "input_sha256": "86be64d74c2d685bc974a75304cd6ddc9839f2203e63b226800d35fab9f5fe2b",
+      "kind": "secure",
+      "optimization": "O0",
+      "peak_process_tree_rss_bytes": 545914880,
+      "redaction_passed": true,
+      "report_sha256": "6d255d1153b19ac5adb3a9c8386cb9968cd4c96ccd159fda69c6f10888b6e404",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "004000c8",
+          "0040000c",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10359,
+      "artifact_sha256": "4002eedd5adcb121ccfea24e59d55f32d20c37c67722e5f03b4c15085b576528",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 7.977081893999994,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O1-positive",
+      "input_bytes": 5176,
+      "input_sha256": "da4d06d0c5416280628c2e0d9549593b7f927efa6204402c35e6f0bad3f61043",
+      "kind": "positive",
+      "optimization": "O1",
+      "peak_process_tree_rss_bytes": 530894848,
+      "redaction_passed": true,
+      "report_sha256": "de8c16ce2abbe662a1761bed240a90ba35c3de80267de42d204424447d68b27b",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "00400080",
+          "0040000c",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10360,
+      "artifact_sha256": "008ac4a8cf1ea637b2ec4e39e502dfe220ee7787b58fc3e6165988e8621f2afd",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 8.004781398000006,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O1-secure",
+      "input_bytes": 5104,
+      "input_sha256": "5092b3e7c13a115c9707650e4b0118b9d6657988751ab65bc468596bd8c06ef0",
+      "kind": "secure",
+      "optimization": "O1",
+      "peak_process_tree_rss_bytes": 523960320,
+      "redaction_passed": true,
+      "report_sha256": "4f3c48d3974a0843d70b38e1cb6f8192ea47754b50db0e03032da5b564432507",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "004000d0",
+          "00400010",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10359,
+      "artifact_sha256": "5045064912a887935b909914550e9155ebad124299f618565f37d6f4ad84c351",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 8.192512416999989,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O2-positive",
+      "input_bytes": 5184,
+      "input_sha256": "d70421ec4addfc0d61602452fa33846133fa94acbd00ee14951cee4c98fa205f",
+      "kind": "positive",
+      "optimization": "O2",
+      "peak_process_tree_rss_bytes": 496803840,
+      "redaction_passed": true,
+      "report_sha256": "57394c856c1af40709d9497d5d63f4ea6efc26d8cc0406550a7070893a02ed1f",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "00400088",
+          "00400010",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10360,
+      "artifact_sha256": "aca77be15b1036f2eccd38f1745baa6d84c277a4d00c1b47a5a1f550196d5771",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 8.203034027000001,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O2-secure",
+      "input_bytes": 5112,
+      "input_sha256": "028ec9a547a4c8ca37f4767f8467a1c45ec7c3df8dba3439c717f3a8fb36fba0",
+      "kind": "secure",
+      "optimization": "O2",
+      "peak_process_tree_rss_bytes": 580161536,
+      "redaction_passed": true,
+      "report_sha256": "a56e3947bb9e6db9cc2f480ac9900c43d0903a38a58639ee97d9985059b738eb",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "004000c0",
+          "0040000c",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10359,
+      "artifact_sha256": "ab01b96b79610171f941d02b887972d6bd360ec92aab5909acfdac5a3a71ae92",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 8.069444646999997,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-Os-positive",
+      "input_bytes": 5168,
+      "input_sha256": "d29e2737a3b679d51d45b11ae6c5fe7483cef7e62ff7d4b656b1855eff23ea40",
+      "kind": "positive",
+      "optimization": "Os",
+      "peak_process_tree_rss_bytes": 527171584,
+      "redaction_passed": true,
+      "report_sha256": "da273d79d039e3af1dfd8103a4ea8b0a4add661ceffab4941aeb45af9492931b",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "00400080",
+          "0040000c",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 10360,
+      "artifact_sha256": "008ac4a8cf1ea637b2ec4e39e502dfe220ee7787b58fc3e6165988e8621f2afd",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 15
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 7.929072863000002,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-Os-secure",
+      "input_bytes": 5104,
+      "input_sha256": "5092b3e7c13a115c9707650e4b0118b9d6657988751ab65bc468596bd8c06ef0",
+      "kind": "secure",
+      "optimization": "Os",
+      "peak_process_tree_rss_bytes": 560017408,
+      "redaction_passed": true,
+      "report_sha256": "74ab40958e3224be2e0e5b94ff735a2a8e3339f5f82a2aa16ace804f80a809a8",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "004000d0",
+          "00400010",
+          "00400000"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 11153,
+      "artifact_sha256": "9a25c0768bc7aa346262d981c84f831d0b433c344b03804cd2448eba80976b1b",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 19
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 7.798328619000003,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O2-unreferenced",
+      "input_bytes": 5256,
+      "input_sha256": "a070a82809ec7ea5e2d3f723c892d8af561ce996b057f1e6ffc6fa931e5dc4a1",
+      "kind": "unreferenced",
+      "optimization": "O2",
+      "peak_process_tree_rss_bytes": 655900672,
+      "redaction_passed": true,
+      "report_sha256": "178837e7cabb55ef54b453c7efcfa65bf8a213754eb3dbc2c60610a90211de33",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": false,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "00400010"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 8421,
+      "artifact_sha256": "5040ed5cf49647ba6c47dc84fbbe69f5ebe486e45d8aebe695a552c2f441e445",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 9
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 8.082671614999995,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O2-positive-stripped",
+      "input_bytes": 4856,
+      "input_sha256": "5a64504ed6538f2a48c18b6b6576827f343a685755604269d732bbebd4ab9ffe",
+      "kind": "positive",
+      "optimization": "O2",
+      "peak_process_tree_rss_bytes": 559927296,
+      "redaction_passed": true,
+      "report_sha256": "c39257f76a7bba0df0ecabd12965b3309d6d0a90ee497f08afc3553396200c66",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": true,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    },
+    {
+      "analysis": {
+        "compiler_spec": "gcc",
+        "endianness": "little",
+        "entry_points": [
+          "00400010"
+        ],
+        "errors": [],
+        "image_base": "00400000",
+        "language_id": "x86:LE:64:default",
+        "loader": "Executable and Linking Format (ELF)",
+        "pointer_size_bytes": 8,
+        "processor": "x86",
+        "status": "completed",
+        "timeout_occurred": false,
+        "warnings": []
+      },
+      "artifact_bytes": 8422,
+      "artifact_sha256": "4cba07f9e904bbe75076a579a13f39a2426cf608e625e907ebd81f8a96549d28",
+      "counts": {
+        "cross_references": 2,
+        "functions": 2,
+        "strings": 9
+      },
+      "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+      "elapsed_seconds": 7.916634904000006,
+      "exit_code": 0,
+      "expected_rules_match": true,
+      "experimental": false,
+      "format": "ELF",
+      "id": "x86_64-O2-secure-stripped",
+      "input_bytes": 4784,
+      "input_sha256": "30fa8249c0cbaf70cfeeafe17f25aa27d10cdd99bfacab80d8afab668bd0466b",
+      "kind": "secure",
+      "optimization": "O2",
+      "peak_process_tree_rss_bytes": 557793280,
+      "redaction_passed": true,
+      "report_sha256": "701140354251d01a84a25896baf08ab6b1c9c3426656f09e7dade5952c7c4832",
+      "rss_inaccessible_observations": 0,
+      "rule_ids": [],
+      "schemas_valid": true,
+      "status": "completed",
+      "stripped": true,
+      "temporary_cleanup": true,
+      "tool": {
+        "name": "Ghidra",
+        "version": "12.2"
+      },
+      "truncation": {
+        "api_references": false,
+        "cross_references": false,
+        "exports": false,
+        "functions": false,
+        "imports": false,
+        "memory_blocks": false,
+        "strings": false,
+        "symbols": false
+      }
+    }
+  ],
+  "schema_version": "1.0",
+  "source_artifact_sha256": "7596a78a8be4793885e38e25735610326579bccf1c1f212788622a368d39e487",
+  "status_counts": {
+    "completed": 11
+  },
+  "target": "x86_64"
+}

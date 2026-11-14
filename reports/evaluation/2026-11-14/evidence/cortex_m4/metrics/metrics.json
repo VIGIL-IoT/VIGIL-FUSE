@@ -1,0 +1,113 @@
+{
+  "coverage": {
+    "bytes_scanned": 597868,
+    "files_discovered": 9,
+    "files_scanned": 9,
+    "files_skipped": 0,
+    "unique_inputs": 9
+  },
+  "dataset_id": "embedded-controls-cortex_m4",
+  "dataset_sha256": "2afb2c5525c63d325a250257f9abc4c8770365f78a75f5465ed514172006bf10",
+  "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+  "ground_truth": "controlled source construction; no target execution, network call, or vulnerability claim",
+  "interpretation": "Scope-specific labeled case decisions only. No overall FUSE accuracy or field-security claim.",
+  "macro": {
+    "f1": {
+      "rules": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "value": 1.0
+    },
+    "precision": {
+      "rules": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "value": 1.0
+    },
+    "recall": {
+      "rules": [
+        "FUSE-BIN-001",
+        "FUSE-BIN-002"
+      ],
+      "value": 1.0
+    }
+  },
+  "micro": {
+    "f1": 1.0,
+    "fn": 0,
+    "fp": 0,
+    "negative_support": 10,
+    "positive_support": 8,
+    "precision": 1.0,
+    "precision_wilson_95": [
+      0.6755924351161198,
+      1.0
+    ],
+    "recall": 1.0,
+    "recall_wilson_95": [
+      0.6755924351161198,
+      1.0
+    ],
+    "support": 18,
+    "tn": 10,
+    "tp": 8
+  },
+  "rules": {
+    "FUSE-BIN-001": {
+      "cases": 9,
+      "excluded": {},
+      "f1": 1.0,
+      "fn": 0,
+      "fp": 0,
+      "negative_support": 5,
+      "positive_support": 4,
+      "precision": 1.0,
+      "precision_wilson_95": [
+        0.5101091635454027,
+        1.0
+      ],
+      "recall": 1.0,
+      "recall_wilson_95": [
+        0.5101091635454027,
+        1.0
+      ],
+      "status_counts": {
+        "completed": 9
+      },
+      "support": 9,
+      "tn": 5,
+      "tp": 4
+    },
+    "FUSE-BIN-002": {
+      "cases": 9,
+      "excluded": {},
+      "f1": 1.0,
+      "fn": 0,
+      "fp": 0,
+      "negative_support": 5,
+      "positive_support": 4,
+      "precision": 1.0,
+      "precision_wilson_95": [
+        0.5101091635454027,
+        1.0
+      ],
+      "recall": 1.0,
+      "recall_wilson_95": [
+        0.5101091635454027,
+        1.0
+      ],
+      "status_counts": {
+        "completed": 9
+      },
+      "support": 9,
+      "tn": 5,
+      "tp": 4
+    }
+  },
+  "schema_version": "1.0",
+  "scope": "Ghidra code-referenced plaintext HTTP/MQTT endpoints, ELF only",
+  "split": "controlled-binary",
+  "uncertainty_method": "two-sided 95% Wilson score interval; cases assumed independent; compiler variants are correlated"
+}

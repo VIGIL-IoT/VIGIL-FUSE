@@ -1,0 +1,284 @@
+{
+  "cases": [
+    {
+      "coverage": {
+        "bytes_scanned": 66480,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-O0-positive-FUSE-BIN-001",
+      "input_sha256": "21406b13ec5ee49d250eeb1243f176440003bab169509b2701edb69f134f0926",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66480,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-O0-positive-FUSE-BIN-002",
+      "input_sha256": "21406b13ec5ee49d250eeb1243f176440003bab169509b2701edb69f134f0926",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66420,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O0-secure-FUSE-BIN-001",
+      "input_sha256": "9449a9577fe1497e9ffab8c78800681ca6270e758535c3a9a2c2037b76181f92",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66420,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O0-secure-FUSE-BIN-002",
+      "input_sha256": "9449a9577fe1497e9ffab8c78800681ca6270e758535c3a9a2c2037b76181f92",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66604,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-O1-positive-FUSE-BIN-001",
+      "input_sha256": "fe94afdea990f190b84e3d121f78d831f7b5a4d0d22fd58a2c4c13a1397068bf",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66604,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-O1-positive-FUSE-BIN-002",
+      "input_sha256": "fe94afdea990f190b84e3d121f78d831f7b5a4d0d22fd58a2c4c13a1397068bf",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66544,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O1-secure-FUSE-BIN-001",
+      "input_sha256": "1756d156e7cc89711de3d5070ca712b4acae9b7e7ec28b4bcb9de0fdb0350294",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66544,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O1-secure-FUSE-BIN-002",
+      "input_sha256": "1756d156e7cc89711de3d5070ca712b4acae9b7e7ec28b4bcb9de0fdb0350294",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66472,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-Os-positive-FUSE-BIN-001",
+      "input_sha256": "8489ad16f05ccc1fa99c7f26947e7deb45665b1102c4e24c4593fe1ccd086514",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66472,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-Os-positive-FUSE-BIN-002",
+      "input_sha256": "8489ad16f05ccc1fa99c7f26947e7deb45665b1102c4e24c4593fe1ccd086514",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66412,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-Os-secure-FUSE-BIN-001",
+      "input_sha256": "6741a66652d335f01a1437c433f0112d96a091256c8ee65eafa0792e68bf1a9f",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66412,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-Os-secure-FUSE-BIN-002",
+      "input_sha256": "6741a66652d335f01a1437c433f0112d96a091256c8ee65eafa0792e68bf1a9f",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66652,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O2-unreferenced-FUSE-BIN-001",
+      "input_sha256": "9e89d24dd308d850d7f6620461662595d5ec237668cad752ba858034343e6856",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66652,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O2-unreferenced-FUSE-BIN-002",
+      "input_sha256": "9e89d24dd308d850d7f6620461662595d5ec237668cad752ba858034343e6856",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66172,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-O2-positive-stripped-FUSE-BIN-001",
+      "input_sha256": "0290948b9d38579e672184c73b242bd6858a7ce2b8ee272309f6a6459085c00a",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66172,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "cortex_m4-O2-positive-stripped-FUSE-BIN-002",
+      "input_sha256": "0290948b9d38579e672184c73b242bd6858a7ce2b8ee272309f6a6459085c00a",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66112,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O2-secure-stripped-FUSE-BIN-001",
+      "input_sha256": "181dcd12238a47c89a2cd4e48668f18f64d4134bc87aa2265b2b69535f81c915",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 66112,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "cortex_m4-O2-secure-stripped-FUSE-BIN-002",
+      "input_sha256": "181dcd12238a47c89a2cd4e48668f18f64d4134bc87aa2265b2b69535f81c915",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    }
+  ],
+  "dataset_id": "embedded-controls-cortex_m4",
+  "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+  "ground_truth": "controlled source construction; no target execution, network call, or vulnerability claim",
+  "rules": [
+    "FUSE-BIN-001",
+    "FUSE-BIN-002"
+  ],
+  "schema_version": "1.0",
+  "scope": "Ghidra code-referenced plaintext HTTP/MQTT endpoints, ELF only",
+  "split": "controlled-binary"
+}

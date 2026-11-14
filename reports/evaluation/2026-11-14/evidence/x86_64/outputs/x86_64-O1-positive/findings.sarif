@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.3.0",
+          "rules": [
+            {
+              "id": "FUSE-BIN-001",
+              "shortDescription": {
+                "text": "Referenced plaintext HTTP endpoint in executable"
+              },
+              "fullDescription": {
+                "text": "Ghidra identified a code cross-reference from a function to a plaintext network endpoint string. Static reference evidence does not prove that the function executes, the endpoint is reachable, or traffic uses this value."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "low",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "insecure-communication",
+                "version": "1.0.0"
+              }
+            },
+            {
+              "id": "FUSE-BIN-002",
+              "shortDescription": {
+                "text": "Referenced plaintext MQTT endpoint in executable"
+              },
+              "fullDescription": {
+                "text": "Ghidra identified a code cross-reference from a function to a plaintext network endpoint string. Static reference evidence does not prove that the function executes, the endpoint is reachable, or traffic uses this value."
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "severity": "low",
+                "severityBasis": "rule",
+                "severityScore": null,
+                "severityVector": null,
+                "severityVersion": null,
+                "confidence": "high",
+                "applicability": "candidate",
+                "validationMethod": "static",
+                "validationStatus": "not-validated",
+                "category": "insecure-communication",
+                "version": "1.0.0"
+              }
+            }
+          ]
+        }
+      },
+      "artifacts": [
+        {
+          "location": {
+            "uri": "ghidra-analysis.json"
+          },
+          "mimeType": "application/vnd.vigil-fuse.ghidra-analysis+json",
+          "hashes": {
+            "sha-256": "4002eedd5adcb121ccfea24e59d55f32d20c37c67722e5f03b4c15085b576528"
+          }
+        }
+      ],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "FUSE-BIN-001",
+          "level": "warning",
+          "message": {
+            "text": "Referenced plaintext HTTP endpoint in executable. Ghidra identified a code cross-reference from a function to a plaintext network endpoint string. Static reference evidence does not prove that the function executes, the endpoint is reachable, or traffic uses this value. Evidence: Static reference from _start at 00400010 to http endpoint http://device.example:8080 at 00400028. URL path, credentials, query, and fragment are omitted."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "x86_64-O1-positive.elf",
+                  "uriBaseId": "%SRCROOT%"
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "de5f425e2d708b8e622ee996901c57e93cd7d041084691a3490ad45b679d317f:1",
+            "vigilIoTFingerprint/v1": "a4beaafd1a4d5d80035fa8b283b893516e51d818f8577232d898ef45e92f1006"
+          },
+          "properties": {
+            "fuseId": "FUSE-BIN-001:a4beaafd1a4d",
+            "severity": "low",
+            "confidence": "high",
+            "category": "insecure-communication",
+            "analyzer": "ghidra",
+            "potentialImpact": "If the referenced endpoint is used for device communication, data or control traffic may be observable or modifiable on the network path.",
+            "remediation": "Confirm the endpoint's runtime use and replace plaintext transport with a supported authenticated TLS transport. Verify certificate and hostname checks in the target implementation.",
+            "evidence": "Static reference from _start at 00400010 to http endpoint http://device.example:8080 at 00400028. URL path, credentials, query, and fragment are omitted.",
+            "references": [],
+            "component": null,
+            "vexReview": null
+          }
+        },
+        {
+          "ruleId": "FUSE-BIN-002",
+          "level": "warning",
+          "message": {
+            "text": "Referenced plaintext MQTT endpoint in executable. Ghidra identified a code cross-reference from a function to a plaintext network endpoint string. Static reference evidence does not prove that the function executes, the endpoint is reachable, or traffic uses this value. Evidence: Static reference from _start at 0040001a to mqtt endpoint mqtt://192.0.2.1:1883 at 00400068. URL path, credentials, query, and fragment are omitted."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "x86_64-O1-positive.elf",
+                  "uriBaseId": "%SRCROOT%"
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "primaryLocationLineHash": "bf449ebd1df09ddd4ba9b9b6817b353e1b540fab8752169ef17a698038ada888:1",
+            "vigilIoTFingerprint/v1": "be62ab069b506d4f6663b946842d94deade5de0da9b44dbda22ace0e8f6d1f1f"
+          },
+          "properties": {
+            "fuseId": "FUSE-BIN-002:be62ab069b50",
+            "severity": "low",
+            "confidence": "high",
+            "category": "insecure-communication",
+            "analyzer": "ghidra",
+            "potentialImpact": "If the referenced endpoint is used for device communication, data or control traffic may be observable or modifiable on the network path.",
+            "remediation": "Confirm the endpoint's runtime use and replace plaintext transport with a supported authenticated TLS transport. Verify certificate and hostname checks in the target implementation.",
+            "evidence": "Static reference from _start at 0040001a to mqtt endpoint mqtt://192.0.2.1:1883 at 00400068. URL path, credentials, query, and fragment are omitted.",
+            "references": [],
+            "component": null,
+            "vexReview": null
+          }
+        }
+      ],
+      "properties": {
+        "target": "x86_64-O1-positive.elf",
+        "profile": "generic",
+        "networkPolicy": "no-network",
+        "inputManifestSha256": "1b16181ef72828462cdc03976824a358e3b9c5ac6a7c77992b670cc24213b1c9",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "skipped",
+            "version": "0.3.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "skipped",
+            "version": "1.9.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "skipped",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          },
+          {
+            "name": "ghidra",
+            "status": "completed",
+            "version": "12.2"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 2,
+          "resultsIncluded": 2,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}

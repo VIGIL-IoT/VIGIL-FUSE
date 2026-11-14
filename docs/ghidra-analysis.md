@@ -8,6 +8,8 @@ The design decision and trust boundaries are documented in [ADR-0006](decisions/
 
 ## Requirements and installation
 
+The [2026-11-14 embedded evaluation](../reports/evaluation/2026-11-14/README.md) records controlled Cortex-M4, ESP32, ESP32-S3 and ESP32-C6 ELFs, an x86 control, optimization and stripping checks, and two explicitly configured ARM raw fixtures. Three real ESP-IDF examples yielded partial inventories. These results establish bounded compatibility for the tested inputs, not universal firmware coverage or confirmed vulnerabilities.
+
 Ghidra is not bundled in FUSE, is not a Python dependency, and is not downloaded during a scan. Install Ghidra from the [official National Security Agency Ghidra repository](https://github.com/NationalSecurityAgency/ghidra). This integration currently validates Ghidra 12.2 with JDK 25 or newer, following the [Ghidra 12.2 release notes](https://github.com/NationalSecurityAgency/ghidra/blob/Ghidra_12.2_build/Ghidra/Configurations/Public_Release/src/global/docs/WhatsNew.md). Other Ghidra releases are reported as incompatible until tested.
 
 The integration requires the installation directory to include `Ghidra/application.properties`, `Ghidra/Framework/Utility/lib/Utility.jar`, and the host's `support/analyzeHeadless` launcher. Discovery order is explicit CLI path, configured path, `GHIDRA_INSTALL_DIR`, then the launcher found on `PATH`. FUSE does not search entire disks.

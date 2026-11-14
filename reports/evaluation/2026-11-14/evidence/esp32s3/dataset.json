@@ -1,0 +1,284 @@
+{
+  "cases": [
+    {
+      "coverage": {
+        "bytes_scanned": 5268,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-O0-positive-FUSE-BIN-001",
+      "input_sha256": "27fc14306fe4f00557489dc61bbff0e77695c29abbae7174c8d56f3e3844cb71",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5268,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-O0-positive-FUSE-BIN-002",
+      "input_sha256": "27fc14306fe4f00557489dc61bbff0e77695c29abbae7174c8d56f3e3844cb71",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5204,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O0-secure-FUSE-BIN-001",
+      "input_sha256": "1bb949e8a8c64581fafe22c425644c339c0e5d196d23d25ee5e05ba758da33da",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5204,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O0-secure-FUSE-BIN-002",
+      "input_sha256": "1bb949e8a8c64581fafe22c425644c339c0e5d196d23d25ee5e05ba758da33da",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5244,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-O1-positive-FUSE-BIN-001",
+      "input_sha256": "9813ebbc9769278718e76074b936dc0c97f39aed0671bf797f8b561281a09435",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5244,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-O1-positive-FUSE-BIN-002",
+      "input_sha256": "9813ebbc9769278718e76074b936dc0c97f39aed0671bf797f8b561281a09435",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5180,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O1-secure-FUSE-BIN-001",
+      "input_sha256": "a649e478d700e95d492fad5707c27a48fb51b79186b356a6d096e3b1ae2b2a2e",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5180,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O1-secure-FUSE-BIN-002",
+      "input_sha256": "a649e478d700e95d492fad5707c27a48fb51b79186b356a6d096e3b1ae2b2a2e",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5240,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-Os-positive-FUSE-BIN-001",
+      "input_sha256": "893e827facc7e3993b0e62150268801ac5efdfe8af50e3284bb04c6a48ec8b90",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5240,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-Os-positive-FUSE-BIN-002",
+      "input_sha256": "893e827facc7e3993b0e62150268801ac5efdfe8af50e3284bb04c6a48ec8b90",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5176,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-Os-secure-FUSE-BIN-001",
+      "input_sha256": "0c97e14a0e0c55e7941cdca057ce2622173a94c8df262209938866d4164f5f67",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5176,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-Os-secure-FUSE-BIN-002",
+      "input_sha256": "0c97e14a0e0c55e7941cdca057ce2622173a94c8df262209938866d4164f5f67",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5304,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O2-unreferenced-FUSE-BIN-001",
+      "input_sha256": "8a915197a2fcc7d9da93799ecd3648ec795ceaccfb4e0b8cffad3a3201e06381",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 5304,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O2-unreferenced-FUSE-BIN-002",
+      "input_sha256": "8a915197a2fcc7d9da93799ecd3648ec795ceaccfb4e0b8cffad3a3201e06381",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 4900,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-O2-positive-stripped-FUSE-BIN-001",
+      "input_sha256": "a22cc19cb03bd485c663d82e0aba295e5bd52f12318441122cb4609598181029",
+      "observed": true,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 4900,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "positive",
+      "id": "esp32s3-O2-positive-stripped-FUSE-BIN-002",
+      "input_sha256": "a22cc19cb03bd485c663d82e0aba295e5bd52f12318441122cb4609598181029",
+      "observed": true,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 4836,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O2-secure-stripped-FUSE-BIN-001",
+      "input_sha256": "0bae706ad818eff9fbaae853b51b1bc1cf5eca3c08c19779308620425a52b12d",
+      "observed": false,
+      "rule_id": "FUSE-BIN-001",
+      "status": "completed"
+    },
+    {
+      "coverage": {
+        "bytes_scanned": 4836,
+        "complete": true,
+        "files_discovered": 1,
+        "files_scanned": 1,
+        "files_skipped": 0
+      },
+      "expected": "negative",
+      "id": "esp32s3-O2-secure-stripped-FUSE-BIN-002",
+      "input_sha256": "0bae706ad818eff9fbaae853b51b1bc1cf5eca3c08c19779308620425a52b12d",
+      "observed": false,
+      "rule_id": "FUSE-BIN-002",
+      "status": "completed"
+    }
+  ],
+  "dataset_id": "embedded-controls-esp32s3",
+  "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+  "ground_truth": "controlled source construction; no target execution, network call, or vulnerability claim",
+  "rules": [
+    "FUSE-BIN-001",
+    "FUSE-BIN-002"
+  ],
+  "schema_version": "1.0",
+  "scope": "Ghidra code-referenced plaintext HTTP/MQTT endpoints, ELF only",
+  "split": "controlled-binary"
+}

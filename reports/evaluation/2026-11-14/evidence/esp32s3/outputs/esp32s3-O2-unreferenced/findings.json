@@ -1,0 +1,309 @@
+{
+  "schema_version": "1.11",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.3.0"
+  },
+  "target": "esp32s3-O2-unreferenced.elf",
+  "scan": {
+    "target_kind": "firmware-image",
+    "profile": "generic",
+    "network_policy": "no-network",
+    "started_at": "2026-11-14T13:43:16Z",
+    "completed_at": "2026-11-14T13:43:16Z",
+    "input_manifest_sha256": "4224a282190b357f3f3444d684017f66243684d9392c755ba26d4d163c030dce"
+  },
+  "summary": {
+    "files_discovered": 0,
+    "files_selected": 0,
+    "files_filtered": 0,
+    "files_scanned": 0,
+    "source_bytes_read": 0,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Not applicable to a firmware-image input; the selected firmware stage handles this input.",
+      "complete": true,
+      "unsupported_file_count": 0,
+      "unsupported_file_types": {}
+    },
+    "support": {
+      "capability_id": "firmware.compiled-binary-analysis",
+      "label": "experimental",
+      "status": "completed",
+      "scope": "Bounded static metadata, functions, symbols, imports, exports, strings, cross references, and selected API references.",
+      "limitations": [
+        "Ghidra is an optional external installation and is never bundled",
+        "Only Ghidra 12.2 with Java 25 or later is currently validated",
+        "Static references do not prove runtime reachability or exploitability",
+        "No symbolic execution, taint analysis, or full data-flow analysis is performed",
+        "Raw binary analysis requires an explicit language ID and base address",
+        "Host execution is process-bounded but is not an OS-level sandbox"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "skipped",
+        "version": "0.3.0",
+        "detail": "No selected text files or no enabled rules.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "skipped",
+        "version": "1.9.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "skipped",
+        "version": "1.4.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input was passed to this rule.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 1 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      },
+      {
+        "name": "ghidra",
+        "status": "completed",
+        "version": "12.2",
+        "detail": "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed.",
+        "findings": 0
+      }
+    ]
+  },
+  "hardware_inventory": {
+    "scope": "single-file",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": []
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "single-file",
+    "candidate_count": 1,
+    "extension_counts": {
+      ".elf": 1
+    },
+    "candidates": [
+      {
+        "path": "esp32s3-O2-unreferenced.elf",
+        "format": "elf",
+        "byte_size": 5304
+      }
+    ],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [],
+  "artifacts": [
+    {
+      "path": "ghidra-analysis.json",
+      "media_type": "application/vnd.vigil-fuse.ghidra-analysis+json",
+      "sha256": "24ca775bdbf7fdb24bd6407c8c95b8bf3c2271cb0d1f88de474143b9830ebad7"
+    }
+  ]
+}

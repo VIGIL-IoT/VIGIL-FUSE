@@ -1,0 +1,15 @@
+{
+  "figure_hashes": {
+    "compatibility.svg": "01af318218322c3caacb8db61a2fa13b9424ea6d55687324dbc80b886ad849a0",
+    "duration.svg": "e26bd6ee7befdc832927fb01da5253f856850c99549b16b41c2981ed4888f973"
+  },
+  "generator_sha256": "dfb62c87446ca49d704744bb869d6e95b8b99693f2d1ec234c239efbe1238560",
+  "input_hashes": {
+    "evidence/cortex_m4/compatibility.json": "e446b23b8187d72fde363978158d51c4d4dd717bc5ed9861de349700b9412fe3",
+    "evidence/esp32/compatibility.json": "330469e7d36a318e5f2582082284f3aafb34c4acd03420ac766b1a11d56b1978",
+    "evidence/esp32c6/compatibility.json": "67226e7582b1b72c4a4e36b90a15394fe31271905c6b509e45e62291eaa80373",
+    "evidence/esp32s3/compatibility.json": "b41542f2ee6d2f496e3115e70fe7497f2e3888bb9d2b406618ecd1c44fdea2d5",
+    "evidence/x86_64/compatibility.json": "77826d82a46c1a9c0573100e3bde62a98c7b539bedd15d0f4c23a0753214e0c3"
+  },
+  "matplotlib": "3.10.8"
+}
