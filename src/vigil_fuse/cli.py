@@ -1455,15 +1455,13 @@ def main(
     _prompt_for_pdf: bool = False,
 ) -> int:
     actual_argv = list(argv) if argv is not None else sys.argv[1:]
-    if not actual_argv and sys.stdin.isatty() and sys.stderr.isatty():
+    if not actual_argv and sys.stdin.isatty() and sys.stdout.isatty() and sys.stderr.isatty():
         if _show_banner:
             show_banner()
         return _interactive_launch()
 
     parser = _parser()
     args = parser.parse_args(actual_argv)
-    if _show_banner:
-        show_banner()
     if args.command is None:
         parser.print_help()
         return 0

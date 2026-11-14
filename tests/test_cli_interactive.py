@@ -64,6 +64,7 @@ class InteractiveLaunchTests(unittest.TestCase):
         output = TTYBuffer()
         with (
             patch("vigil_fuse.cli.sys.stdin", TTYBuffer()),
+            patch("vigil_fuse.cli.sys.stdout", TTYBuffer()),
             patch("vigil_fuse.cli.sys.stderr", output),
             patch("vigil_fuse.cli.show_banner") as banner,
             patch("vigil_fuse.cli._interactive_launch", return_value=0) as launch,

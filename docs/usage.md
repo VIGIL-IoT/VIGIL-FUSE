@@ -49,6 +49,8 @@ The native scanner has no runtime dependencies. Optional analyzer stages need th
 
 ## Interactive terminal launch
 
+The interactive identity uses accent `#CBA6F7` and foreground `#CDD6F4`. Reference background `#1E1E2E` informs the design; FUSE preserves the terminal background. Narrow terminals use a compact title, legacy encodings use ASCII, and `NO_COLOR` disables ANSI colors. Explicit commands and redirected output omit decoration.
+
 Open a terminal in the project folder and run:
 
 ```sh
