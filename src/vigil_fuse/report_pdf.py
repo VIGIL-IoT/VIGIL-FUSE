@@ -52,7 +52,9 @@ def _render_report(result: ScanResult) -> str:
             + "} \\textbar{} "
             + _latex_text(finding.title)
             + "}\n"
-            + "\\textbf{Rule:} \\texttt{"
+            + "\\textbf{Finding ID:} \\texttt{"
+            + _latex_text(finding.id)
+            + "} \\quad \\textbf{Rule:} \\texttt{"
             + _latex_text(finding.rule_id)
             + "} \\quad \\textbf{Severity:} "
             + _latex_text(finding.severity)
@@ -70,6 +72,8 @@ def _render_report(result: ScanResult) -> str:
             + _latex_text(finding.potential_impact)
             + "\\\\[3pt]\n\\textbf{Remediation:} "
             + _latex_text(finding.remediation)
+            + "\\\\[3pt]\n\\textbf{References:} "
+            + _latex_text("; ".join(finding.references) if finding.references else "None listed")
         )
 
     finding_section = (

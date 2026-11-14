@@ -10,6 +10,7 @@ from vigil_fuse.report_pdf import _render_report, write_pdf_report
 class PDFReportTests(unittest.TestCase):
     def _result(self) -> SimpleNamespace:
         finding = SimpleNamespace(
+            id="FUSE-FIND-001",
             severity="high",
             confidence="medium",
             title="Credential & key",
@@ -21,6 +22,7 @@ class PDFReportTests(unittest.TestCase):
             explanation="A matching credential-like literal was found.",
             potential_impact="A deployed credential may be exposed.",
             remediation="Use a secret store and rotate exposed credentials.",
+            references=("https://example.invalid/security-guidance",),
         )
         return SimpleNamespace(
             findings=(finding,),
@@ -42,6 +44,8 @@ class PDFReportTests(unittest.TestCase):
 
         self.assertIn(r"\textbf{Severity:} high", report)
         self.assertIn(r"\textbf{Confidence:} medium", report)
+        self.assertIn("FUSE-FIND-001", report)
+        self.assertIn("security-guidance", report)
         self.assertIn(r"\&", report)
         self.assertIn(r"\textbackslash{}input", report)
         self.assertIn(r"\%", report)

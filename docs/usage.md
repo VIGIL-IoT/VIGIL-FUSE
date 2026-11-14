@@ -55,7 +55,9 @@ Open a terminal in the project folder and run:
 vigil-fuse
 ```
 
-FUSE shows the resolved folder before it asks whether to scan. Answer `N` to cancel if the terminal opened in the wrong folder. After a completed scan, FUSE asks whether to create a PDF report. This optional output uses `pdflatex` and is saved as `.fuse-results/fuse-report.pdf`; the `.tex` source is kept if `pdflatex` is not installed. The normal JSON, text, and SARIF reports are written independently.
+FUSE shows the resolved folder before it asks whether to scan. Answer `N` to cancel if the terminal opened in the wrong folder. After you confirm, choose a full project scan, a framework profile, dependency analysis, a Binwalk firmware signature scan, or Ghidra binary analysis. Dependency analysis uses Syft and OSV-Scanner if installed. Ghidra analyzes one executable or firmware image and FUSE checks the structured evidence it returns. The adapter does not export or scan decompiled pseudocode. Use `vigil-fuse doctor` to check optional tools.
+
+After a completed scan, FUSE asks whether to create a PDF report. This optional output uses `pdflatex` and is saved as `.fuse-results/fuse-report.pdf`; the `.tex` source is kept if `pdflatex` is not installed. The normal JSON, text, and SARIF reports are written independently.
 
 ## Preview a scan
 

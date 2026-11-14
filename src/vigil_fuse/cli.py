@@ -1391,7 +1391,61 @@ def _interactive_launch() -> int:
     if answer not in {"y", "yes"}:
         _safe_print("Scan cancelled.", file=sys.stderr)
         return 0
-    return main(["scan", str(target)], _show_banner=False, _prompt_for_pdf=True)
+
+    _safe_print("Choose a scan type:", file=sys.stderr)
+    _safe_print("  1. Full project scan", file=sys.stderr)
+    _safe_print("  2. Profile-specific project scan", file=sys.stderr)
+    _safe_print("  3. Project and dependency scan (Syft and OSV-Scanner)", file=sys.stderr)
+    _safe_print("  4. Firmware signature scan (Binwalk, no extraction)", file=sys.stderr)
+    _safe_print("  5. Ghidra reverse-engineering analysis (one binary)", file=sys.stderr)
+    _safe_print("  0. Cancel", file=sys.stderr)
+    _safe_print(
+        "Ghidra records bounded binary metadata; FUSE checks supported signals in that evidence. "
+        "It does not export decompiled pseudocode.",
+        file=sys.stderr,
+    )
+    _safe_print("Run vigil-fuse doctor to check optional tools.", file=sys.stderr)
+    try:
+        choice = input("Scan type [1-5, 0 to cancel]: ").strip()
+    except EOFError:
+        choice = "0"
+    if choice == "0":
+        _safe_print("Scan cancelled.", file=sys.stderr)
+        return 0
+
+    scan_args = ["scan", str(target)]
+    if choice == "2":
+        for index, (name, profile) in enumerate(PROFILES.items(), start=1):
+            _safe_print(f"  {index}. {name}: {profile.description}", file=sys.stderr)
+        try:
+            selected = input(f"Profile [1-{len(PROFILES)}]: ").strip()
+        except EOFError:
+            selected = ""
+        names = tuple(PROFILES)
+        if not selected.isdigit() or not 1 <= int(selected) <= len(names):
+            _safe_print("Invalid profile selection. Scan cancelled.", file=sys.stderr)
+            return 2
+        scan_args.extend(["--profile", names[int(selected) - 1]])
+    elif choice == "3":
+        scan_args.extend(["--sbom", "--vulnerabilities"])
+    elif choice in {"4", "5"}:
+        label = "Firmware image" if choice == "4" else "Executable or firmware image"
+        try:
+            entered_path = input(f"{label} path: ").strip().strip('"').strip("'")
+        except EOFError:
+            entered_path = ""
+        if not entered_path:
+            _safe_print("Scan cancelled.", file=sys.stderr)
+            return 0
+        binary = Path(entered_path).expanduser()
+        if not binary.is_absolute():
+            binary = target / binary
+        scan_args = ["scan", str(binary), "--firmware" if choice == "4" else "--ghidra"]
+    elif choice != "1":
+        _safe_print("Choose a scan type from 0 through 5. Scan cancelled.", file=sys.stderr)
+        return 2
+
+    return main(scan_args, _show_banner=False, _prompt_for_pdf=True)
 
 
 def main(

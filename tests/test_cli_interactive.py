@@ -30,7 +30,7 @@ class InteractiveLaunchTests(unittest.TestCase):
         target = Path("/workspace/project")
         with (
             patch("vigil_fuse.cli.Path.cwd", return_value=target),
-            patch("builtins.input", return_value="yes"),
+            patch("builtins.input", side_effect=["yes", "1"]),
             patch("vigil_fuse.cli.main", return_value=0) as dispatch,
             patch("vigil_fuse.cli.sys.stderr", TTYBuffer()),
         ):
@@ -39,6 +39,25 @@ class InteractiveLaunchTests(unittest.TestCase):
         self.assertEqual(0, code)
         dispatch.assert_called_once_with(
             ["scan", str(target)], _show_banner=False, _prompt_for_pdf=True
+        )
+
+    def test_ghidra_choice_asks_for_one_binary_and_runs_fuse_analysis(self) -> None:
+        target = Path("/workspace/project")
+        output = TTYBuffer()
+        with (
+            patch("vigil_fuse.cli.Path.cwd", return_value=target),
+            patch("builtins.input", side_effect=["yes", "5", "firmware.elf"]),
+            patch("vigil_fuse.cli.main", return_value=0) as dispatch,
+            patch("vigil_fuse.cli.sys.stderr", output),
+        ):
+            code = _interactive_launch()
+
+        self.assertEqual(0, code)
+        self.assertIn("does not export decompiled pseudocode", output.getvalue())
+        dispatch.assert_called_once_with(
+            ["scan", str(target / "firmware.elf"), "--ghidra"],
+            _show_banner=False,
+            _prompt_for_pdf=True,
         )
 
     def test_no_argument_tty_launch_shows_banner_before_prompt(self) -> None:
