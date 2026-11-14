@@ -47,6 +47,16 @@ vigil-fuse doctor
 
 The native scanner has no runtime dependencies. Optional analyzer stages need their own executables on `PATH`.
 
+## Interactive terminal launch
+
+Open a terminal in the project folder and run:
+
+```sh
+vigil-fuse
+```
+
+FUSE shows the resolved folder before it asks whether to scan. Answer `N` to cancel if the terminal opened in the wrong folder. After a completed scan, FUSE asks whether to create a PDF report. This optional output uses `pdflatex` and is saved as `.fuse-results/fuse-report.pdf`; the `.tex` source is kept if `pdflatex` is not installed. The normal JSON, text, and SARIF reports are written independently.
+
 ## Preview a scan
 
 Use `--plan` to preview selected inputs, stages, limits, and optional tools before running analysis:

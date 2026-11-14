@@ -7,7 +7,7 @@ from . import __version__
 
 
 def show_banner() -> None:
-    """Show a small original FUSE circuit illustration on an interactive terminal."""
+    """Show the FUSE wordmark on an interactive terminal."""
     if not sys.stderr.isatty():
         return
 
@@ -18,11 +18,12 @@ def show_banner() -> None:
         reset = "\033[0m"
 
     print(
-        f"{red}      +-----+   +-----+   +-----+   +-----+\n"
-        "      |  F  |---|  U  |---|  S  |---|  E  |\n"
-        "      +--+--+   +--+--+   +--+--+   +--+--+\n"
-        f"         firmware  ->  security evidence{reset}\n"
-        f"  FUSE {__version__}  |  Firmware & Unified Security Engine\n"
-        "  A VIGIL Project",
+        f"{red}  FFFFF   U   U   SSSSS  EEEEE\n"
+        "  F       U   U  S       E\n"
+        "  FFFF    U   U   SSSS   EEEE\n"
+        "  F       U   U      S  E\n"
+        f"  F        UUU   SSSSS  EEEEE{reset}\n"
+        f"  Firmware & Unified Security Engine\n"
+        f"  A VIGIL Project  |  v{__version__}",
         file=sys.stderr,
     )

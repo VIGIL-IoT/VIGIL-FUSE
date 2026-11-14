@@ -42,6 +42,7 @@ from .platform_context import detect_project_frameworks, resolve_build_dir
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
+from .report_pdf import write_pdf_report
 from .rule_execution import (
     DEFAULT_RULE_TIMEOUT_SECONDS,
     MAX_RULE_TIMEOUT_SECONDS,
@@ -1376,10 +1377,39 @@ def _analyze_with_optional_tools(
     )
 
 
-def main(argv: list[str] | None = None) -> int:
+def _interactive_launch() -> int:
+    target = Path.cwd()
+    _safe_print("Current folder:", target, file=sys.stderr)
+    _safe_print(
+        "If this is not your project, open a terminal in the project folder before launching FUSE.",
+        file=sys.stderr,
+    )
+    try:
+        answer = input("Run FUSE scan here? [y/N] ").strip().casefold()
+    except EOFError:
+        answer = ""
+    if answer not in {"y", "yes"}:
+        _safe_print("Scan cancelled.", file=sys.stderr)
+        return 0
+    return main(["scan", str(target)], _show_banner=False, _prompt_for_pdf=True)
+
+
+def main(
+    argv: list[str] | None = None,
+    *,
+    _show_banner: bool = True,
+    _prompt_for_pdf: bool = False,
+) -> int:
+    actual_argv = list(argv) if argv is not None else sys.argv[1:]
+    if not actual_argv and sys.stdin.isatty() and sys.stderr.isatty():
+        if _show_banner:
+            show_banner()
+        return _interactive_launch()
+
     parser = _parser()
-    args = parser.parse_args(argv)
-    show_banner()
+    args = parser.parse_args(actual_argv)
+    if _show_banner:
+        show_banner()
     if args.command is None:
         parser.print_help()
         return 0
@@ -1784,6 +1814,17 @@ def main(argv: list[str] | None = None) -> int:
                 if args.format == "sarif"
                 else to_text(result)
             )
+        if _prompt_for_pdf:
+            try:
+                report_answer = input("Generate an aesthetic PDF report? [y/N] ").strip().casefold()
+            except EOFError:
+                report_answer = ""
+            if report_answer in {"y", "yes"} and output_dir is not None:
+                pdf_path, note = write_pdf_report(result, output_dir)
+                if pdf_path is not None:
+                    _safe_print(f"PDF report written to {pdf_path}", file=sys.stderr)
+                if note:
+                    _safe_print(note, file=sys.stderr)
     except (OSError, ValueError) as error:
         _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
         return 2
