@@ -1,0 +1,16 @@
+{
+  "selection_version": "1.0",
+  "frozen_manifest": "post-redaction/manifest.json",
+  "purpose": "New project snapshots for blinded human review; no labels supplied or inferred",
+  "seed": "fuse-2026-11-14-review-v1",
+  "selection": "Per project, hash-sort C/H paths and select 16; independently hash-sort PEM/KEY paths and select up to 8. Scan those selected files, then hash-sort and sample up to 4 emitted and 4 no-finding files per project. Preserve original paths including test/example directories. No rule tuning after freeze.",
+  "rule_scope": ["FUSE001", "FUSE002", "FUSE003", "FUSE004", "FUSE005", "FUSE006", "FUSE007"],
+  "exclusions": "No builds, target execution, submodules, generated downloads, binary archives or source redistribution. Unknown labels remain unknown until two independent humans and adjudication.",
+  "leakage_check": "Reject projects already named in tracked prior scan manifests and input digests in frozen regression fixtures. Review samples lose holdout status if later used to tune detectors.",
+  "projects": [
+    {"repository": "eclipse-threadx/netxduo", "commit": "c690f59f9a5195c465153e90ef56b865337a8a62", "license": "MIT", "license_path": "LICENSE.txt"},
+    {"repository": "hathach/tinyusb", "commit": "70319024b218adc5df3d98a931feb1c6ff3539b4", "license": "MIT", "license_path": "LICENSE"}
+  ],
+  "review_status": "not_started",
+  "ground_truth": "pending independent human review; source licenses checked through official repository license endpoints"
+}

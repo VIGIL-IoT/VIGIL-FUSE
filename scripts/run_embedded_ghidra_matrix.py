@@ -307,7 +307,9 @@ def main() -> int:
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--ghidra-install-dir", type=Path, required=True)
     parser.add_argument(
-        "--manifest", type=Path, default=ROOT / "reports/evaluation/2026-11-14/post-redaction/manifest.json"
+        "--manifest",
+        type=Path,
+        default=ROOT / "reports/evaluation/2026-11-14/post-redaction/manifest.json",
     )
     parser.add_argument("--timeout-seconds", type=int, default=300)
     parser.add_argument("--real-binary", type=Path)
