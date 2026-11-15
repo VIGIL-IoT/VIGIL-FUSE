@@ -1,0 +1,330 @@
+{
+  "cases": [
+    {
+      "case_id": "dc045797712a03cb",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/ai/xiaozhi_chat/sdkconfig.defaults",
+      "input_sha256": "a3c89fa845732a7e67efedb62bffbd3e5b168954683831f4f8dcaefa0e165d8c",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/ai/xiaozhi_chat/sdkconfig.defaults"
+    },
+    {
+      "case_id": "d63f00b157602460",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/bluetooth/ble_adv/bthome/dimmer/sdkconfig.defaults",
+      "input_sha256": "c963ab5e9c69bb0bf3429ed19364afe3ddc475a5b9b89f22c66e7cd0232f558a",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/bluetooth/ble_adv/bthome/dimmer/sdkconfig.defaults"
+    },
+    {
+      "case_id": "eea5f270e8c49745",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/camera/basic/sdkconfig.defaults",
+      "input_sha256": "1907d3eab3e7f054c7e84e17fbdca3f48ad35e6fd2c9ae81511abf2a7b4334c1",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/camera/basic/sdkconfig.defaults"
+    },
+    {
+      "case_id": "6e0ebeb7b67bc90c",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/camera/pic_server/sdkconfig.defaults",
+      "input_sha256": "f92e590c436ac296584c0232f4e8bf2867017872cb88714e201823e5aabb67ce",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/camera/pic_server/sdkconfig.defaults"
+    },
+    {
+      "case_id": "c1c1d46afcfb19fb",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/camera/test_framerate/sdkconfig.defaults",
+      "input_sha256": "1907d3eab3e7f054c7e84e17fbdca3f48ad35e6fd2c9ae81511abf2a7b4334c1",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/camera/test_framerate/sdkconfig.defaults"
+    },
+    {
+      "case_id": "ac1290d0d8f7338a",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults",
+      "input_sha256": "2d8a07928668feec54e30b501ea40546e1e2a6310d0c9ec58dec09d59de9afce",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults"
+    },
+    {
+      "case_id": "962f32e532e913ab",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/elf_loader/tests/idf_dlopen/sdkconfig.defaults",
+      "input_sha256": "1df60da0792a182b61adb6749d1842ecfeb5a5fcce51c7722e82df3ee7fd71b1",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/elf_loader/tests/idf_dlopen/sdkconfig.defaults"
+    },
+    {
+      "case_id": "daa7d156fe7ecd8a",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/display/lcd/esp_lcd_st7121/test_apps/sdkconfig.defaults",
+      "input_sha256": "d069aa389dda482286b8b3e6317b5e0af107825fea39788b715908c25ec4e4a2",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/display/lcd/esp_lcd_st7121/test_apps/sdkconfig.defaults"
+    },
+    {
+      "case_id": "7630ac37c3be9b5f",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/display/tools/esp_lv_decoder/test_apps/lvgl9/sdkconfig.defaults",
+      "input_sha256": "1f2806ad99bd9e1462fae1cbc06899b77691a8b9370d36df9fe893439b28f389",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/display/tools/esp_lv_decoder/test_apps/lvgl9/sdkconfig.defaults"
+    },
+    {
+      "case_id": "fd0f1a26dfafa8ee",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/display/gui/lvgl_decode_image/sdkconfig.defaults",
+      "input_sha256": "f86b3d4b3bffb6e0220a8b6ce8bba1093e7e7faeab26b6571378fd64b755d1ba",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/display/gui/lvgl_decode_image/sdkconfig.defaults"
+    },
+    {
+      "case_id": "867aeeb571b1a14e",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/display/lcd/esp_lcd_sh8601/test_apps/sdkconfig.defaults",
+      "input_sha256": "6a5e43edc0d27cce58b5de4aa0e183b05713beb7d28b08c05ba3baf7096d5569",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/display/lcd/esp_lcd_sh8601/test_apps/sdkconfig.defaults"
+    },
+    {
+      "case_id": "fdbb7c2b44339fd6",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/motor/drv10987/sdkconfig.defaults",
+      "input_sha256": "a2266ef84fc1412b260ac3013991761ee967bea153d68093bc47da792b71d43a",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/motor/drv10987/sdkconfig.defaults"
+    },
+    {
+      "case_id": "c9085edb1676f260",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/display/lcd/esp_lcd_jd9165/test_apps/sdkconfig.defaults",
+      "input_sha256": "d069aa389dda482286b8b3e6317b5e0af107825fea39788b715908c25ec4e4a2",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/display/lcd/esp_lcd_jd9165/test_apps/sdkconfig.defaults"
+    },
+    {
+      "case_id": "2f3e15a47bb03e1e",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/ai/esp_dl/touchpad_digit_recognition/sdkconfig.defaults",
+      "input_sha256": "b47695405e286c0dbb9b820ed9d767668be7ea91b5b36eef2ea2987eaa3193ce",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/ai/esp_dl/touchpad_digit_recognition/sdkconfig.defaults"
+    },
+    {
+      "case_id": "b37ecd3e43793407",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/display/gui/lvgl_lottie_player/sdkconfig.defaults.esp32s31",
+      "input_sha256": "b4f594c681bd8c4e2be803c27921c1dedfa6acfcc5fa76bc67a0c82a7ef94083",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/display/gui/lvgl_lottie_player/sdkconfig.defaults.esp32s31"
+    },
+    {
+      "case_id": "8b06a3b15b462f54",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/display/lcd/esp_lcd_st7121/test_apps/sdkconfig.defaults.esp32p4",
+      "input_sha256": "4fa670b7b44d1e1fdfcc48b61ccf8777562d331fd4bdd85f5e633d9a3b636c79",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/display/lcd/esp_lcd_st7121/test_apps/sdkconfig.defaults.esp32p4"
+    },
+    {
+      "case_id": "0a1e8e7f313425fe",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/display/gui/gsp_lvgl_present_handoff/sdkconfig.defaults.esp32p4",
+      "input_sha256": "5683a291dbcc0800aa7a6e1870e1d6edfa2122a4f013dee2081a9150b8a3c082",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/display/gui/gsp_lvgl_present_handoff/sdkconfig.defaults.esp32p4"
+    },
+    {
+      "case_id": "9e86d6934ee97fff",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/ai/esp_dl/human_activity_recognition/sdkconfig.defaults.esp32s31",
+      "input_sha256": "103c0abd4a7c9a954f1e72c5ab8e07466f01dfc1095114f0d6c74d980308e706",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/ai/esp_dl/human_activity_recognition/sdkconfig.defaults.esp32s31"
+    },
+    {
+      "case_id": "69cda3be286ad001",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/storage/ramfs/test_apps/sdkconfig.defaults.esp32p4",
+      "input_sha256": "3362e1ff71e56c70da17a785699fb12854c9a3493503cd670a9b2052773d457a",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/storage/ramfs/test_apps/sdkconfig.defaults.esp32p4"
+    },
+    {
+      "case_id": "df08f5ed7c1e51a6",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/elf_loader/elf_console_example/sdkconfig.defaults.esp32s31",
+      "input_sha256": "25253fa3c4925772960440cf6e872dce19436806d671c765e648318295f94cb5",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/elf_loader/elf_console_example/sdkconfig.defaults.esp32s31"
+    },
+    {
+      "case_id": "146d70259fbb9402",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "examples/usb/device/usb_dual_uvc_device/sdkconfig.defaults.esp32s3",
+      "input_sha256": "d17a96eb0754aac286dab3d7459b690aa73b60300afbbe468adb7cb465b28dde",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/examples/usb/device/usb_dual_uvc_device/sdkconfig.defaults.esp32s3"
+    },
+    {
+      "case_id": "e799940f2f98213c",
+      "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+      "file": "components/display/lcd/esp_lcd_st77916/test_apps/sdkconfig.defaults.esp32p4",
+      "input_sha256": "1f3862893e1cf3aa3437b4d76d777ae1b260c5b35a5e3087b05ef8120c7b4183",
+      "scope": [
+        "FUSE006",
+        "FUSE007"
+      ],
+      "source_url": "https://github.com/espressif/esp-iot-solution/blob/35b831cfa84d132d66cb88f7b6f131632ed4f726/components/display/lcd/esp_lcd_st77916/test_apps/sdkconfig.defaults.esp32p4"
+    }
+  ],
+  "commit": "35b831cfa84d132d66cb88f7b6f131632ed4f726",
+  "human_labels": "unknown; no reviewer decisions or adjudication are included.",
+  "population": {
+    "generated_sdkconfig_paths": [],
+    "prior_emitted_candidate_files": 6,
+    "remaining_target_specific_defaults": 160,
+    "remaining_unsuffixed_defaults": 257,
+    "tracked_generated_sdkconfig_files": 0,
+    "tracked_sdkconfig_defaults_files": 423
+  },
+  "protocol": "protocol.md",
+  "protocol_sha256": "08e34de5e5a47235cedbfad1448d42ada74d2676139c85598cf79e699d444d26",
+  "purpose": "Post-scan emitted-candidate applicability supplement, not a blind holdout or accuracy estimate.",
+  "repository": "espressif/esp-iot-solution",
+  "review_status": "not_started",
+  "schema_version": "1.0",
+  "seed": "fuse-2026-11-15-esp-idf-config-applicability-v1",
+  "selection": {
+    "control_method": "Select first eight in each stratum by ascending SHA-256(seed UTF-8 + NUL + repository-relative POSIX path UTF-8), tie-broken by path.",
+    "emitted_candidates": [
+      {
+        "file": "examples/ai/xiaozhi_chat/sdkconfig.defaults",
+        "prior_emitted_rules": [
+          "FUSE006"
+        ]
+      },
+      {
+        "file": "examples/bluetooth/ble_adv/bthome/dimmer/sdkconfig.defaults",
+        "prior_emitted_rules": [
+          "FUSE006"
+        ]
+      },
+      {
+        "file": "examples/camera/basic/sdkconfig.defaults",
+        "prior_emitted_rules": [
+          "FUSE006",
+          "FUSE007"
+        ]
+      },
+      {
+        "file": "examples/camera/pic_server/sdkconfig.defaults",
+        "prior_emitted_rules": [
+          "FUSE006",
+          "FUSE007"
+        ]
+      },
+      {
+        "file": "examples/camera/test_framerate/sdkconfig.defaults",
+        "prior_emitted_rules": [
+          "FUSE006",
+          "FUSE007"
+        ]
+      },
+      {
+        "file": "examples/ulp/lp_cpu/lp_environment_sensor/sdkconfig.defaults",
+        "prior_emitted_rules": [
+          "FUSE006",
+          "FUSE007"
+        ]
+      }
+    ],
+    "emitted_candidates_included_all": true,
+    "target_overlay_controls": [
+      "examples/display/gui/lvgl_lottie_player/sdkconfig.defaults.esp32s31",
+      "components/display/lcd/esp_lcd_st7121/test_apps/sdkconfig.defaults.esp32p4",
+      "examples/display/gui/gsp_lvgl_present_handoff/sdkconfig.defaults.esp32p4",
+      "examples/ai/esp_dl/human_activity_recognition/sdkconfig.defaults.esp32s31",
+      "components/storage/ramfs/test_apps/sdkconfig.defaults.esp32p4",
+      "examples/elf_loader/elf_console_example/sdkconfig.defaults.esp32s31",
+      "examples/usb/device/usb_dual_uvc_device/sdkconfig.defaults.esp32s3",
+      "components/display/lcd/esp_lcd_st77916/test_apps/sdkconfig.defaults.esp32p4"
+    ],
+    "unsuffixed_controls": [
+      "components/elf_loader/tests/idf_dlopen/sdkconfig.defaults",
+      "components/display/lcd/esp_lcd_st7121/test_apps/sdkconfig.defaults",
+      "components/display/tools/esp_lv_decoder/test_apps/lvgl9/sdkconfig.defaults",
+      "examples/display/gui/lvgl_decode_image/sdkconfig.defaults",
+      "components/display/lcd/esp_lcd_sh8601/test_apps/sdkconfig.defaults",
+      "examples/motor/drv10987/sdkconfig.defaults",
+      "components/display/lcd/esp_lcd_jd9165/test_apps/sdkconfig.defaults",
+      "examples/ai/esp_dl/touchpad_digit_recognition/sdkconfig.defaults"
+    ]
+  },
+  "status": "selected_before_new_FUSE_scan"
+}
