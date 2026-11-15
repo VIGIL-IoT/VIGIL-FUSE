@@ -11,7 +11,7 @@
 - `pyproject.toml` declares `LicenseRef-VIGIL-FUSE-PyPI-Restricted-Use` and includes the root license in built artifacts.
 - Repository history includes earlier MIT license text. The current license does not revoke permissions already granted to copies received under the earlier terms.
 - `CONTRIBUTING.md` pauses public code contributions while ownership and contribution terms are unresolved.
-- PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) requests project-specific policy and license-term guidance. It had only an automated acknowledgement as of 2026-11-11. The owner authorized the initial 0.3.0 PyPI attempt before a staff response. This is not PyPI approval.
+- PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) requests project-specific policy and license-term guidance. It remained open with only an automated acknowledgement when checked on 2026-11-15. The owner authorized the initial 0.3.0 PyPI attempt before a staff response. This is not PyPI approval.
 - The project owner stated a preference for allowing commercial use while restricting copying and redistribution. That preference is recorded here for review. The repository's listed copyright holder, authorship, and legal authority to grant permissions still need confirmation.
 
 ## Questions for the rights holder and counsel
@@ -55,7 +55,7 @@
 | Channel terms and intended distribution methods | Project owner and counsel | Partial, see release process | No |
 | Written decision on contributions and derivatives | Project owner and counsel | No | No |
 | Reviewed license text and matching package metadata | Qualified counsel and maintainer | Draft v1.1 and metadata updated on 2026-11-04 | No |
-| PyPI Acceptable Use Policy decision for a defensive vulnerability-analysis CLI | PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) and project owner | Open, no staff response as of 2026-11-11 | No |
+| PyPI Acceptable Use Policy decision for a defensive vulnerability-analysis CLI | PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) and project owner | Open, only automated acknowledgement as of 2026-11-15 | No |
 | Release approver and permission request route | Project owner | No | No |
 
 ## Release decision record

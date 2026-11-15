@@ -5,7 +5,7 @@
 - **Project:** FUSE, Firmware & Unified Security Engine
 - **Affiliation:** A VIGIL Project in the VIGIL-IoT initiative
 - **Type:** Local CLI software for embedded and IoT cybersecurity analysis, with research and engineering evaluation data
-- **Maturity:** Alpha, version `0.2.0`; source-available under the custom VIGIL-FUSE Restricted Use License
+- **Maturity:** Alpha, version `0.3.0`; source-available under the custom VIGIL-FUSE Restricted Use License
 
 ## Problem and motivation
 

@@ -15,7 +15,9 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 
 **Alpha · 0.3.0**
 
-New [embedded binary evaluation](reports/evaluation/2026-11-14/README.md): controlled Cortex-M4, Xtensa and RISC-V evidence with per-rule metrics and plots. Real ESP-IDF example results remain partial; independent human review is pending.
+**Maintenance status:** Feature development for the initial scope is frozen. Maintainer work is limited to confirmed defects, security fixes, compatibility, documentation, regression tests, and necessary packaging fixes. The next release remains blocked by the open rights and distribution review. See [project completion and maintenance](docs/PROJECT_COMPLETION.md).
+
+Latest [binary detection comparison](reports/evaluation/2026-11-15/binary-detection/README.md): the three real ESP-IDF rebuilds retained partial inventories and completed the independent security traversal without findings. Their ELF hashes differ from the immutable November 14 artifacts, so this is not a byte-identical rerun. See the [November 14 baseline](reports/evaluation/2026-11-14/README.md). Independent human review is still pending.
 
 ## Start here
 
