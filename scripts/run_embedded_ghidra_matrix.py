@@ -258,6 +258,19 @@ def analyze(case: dict, binary: Path, work: Path, ghidra: Path, timeout: int) ->
         else {}
     )
     found = sorted({f["rule_id"] for f in report["findings"]}) if report else []
+    inventory = artifact.get("inventory") if artifact else None
+    security = artifact.get("security_evaluation") if artifact else None
+    inventory_status = inventory.get("status") if isinstance(inventory, dict) else "partial"
+    security_status = security.get("status") if isinstance(security, dict) else "unsupported"
+    security_rules = security.get("rules") if isinstance(security, dict) else {}
+    security_rule_statuses = (
+        {
+            rule: value.get("status", "unsupported") if isinstance(value, dict) else "unsupported"
+            for rule, value in security_rules.items()
+        }
+        if isinstance(security_rules, dict)
+        else {}
+    )
     serialized = "\n".join(path.read_text() for path in output.glob("*.*") if path.is_file())
     redaction = not any(
         secret in serialized
@@ -280,6 +293,24 @@ def analyze(case: dict, binary: Path, work: Path, ghidra: Path, timeout: int) ->
         "detail": status.get("detail"),
         "exit_code": process.returncode,
         "analysis": artifact["analysis"] if artifact else None,
+        "inventory_status": inventory_status,
+        "security_evaluation_status": security_status,
+        "security_rule_statuses": security_rule_statuses,
+        "security_counts": {
+            "data_items_scanned": security.get("data_items_scanned"),
+            "references_visited": security.get("references_visited"),
+            "rules": {
+                rule: {
+                    "observed": value.get("observed"),
+                    "reported": value.get("reported"),
+                    "truncated": value.get("truncated"),
+                }
+                for rule, value in security_rules.items()
+                if isinstance(value, dict)
+            },
+        }
+        if isinstance(security, dict) and isinstance(security_rules, dict)
+        else {},
         "counts": {
             name: artifact[name]["reported"]
             for name in ("functions", "strings", "cross_references")
@@ -312,7 +343,7 @@ def main() -> int:
     parser.add_argument(
         "--manifest",
         type=Path,
-        default=ROOT / "reports/evaluation/2026-11-14/post-redaction/manifest.json",
+        default=ROOT / "reports/evaluation/2026-11-15/binary-detection/manifest.json",
     )
     parser.add_argument("--timeout-seconds", type=int, default=300)
     parser.add_argument("--real-binary", type=Path)
@@ -380,20 +411,23 @@ def main() -> int:
             continue
         seen.add(record["input_sha256"])
         for rule in RULES:
+            rule_complete = (
+                record["security_rule_statuses"].get(rule) == "complete" and record["schemas_valid"]
+            )
             dataset["cases"].append(
                 {
                     "id": record["id"] + "-" + rule,
                     "rule_id": rule,
                     "input_sha256": record["input_sha256"],
                     "expected": "positive" if record["kind"] == "positive" else "negative",
-                    "observed": rule in record["rule_ids"] if record["schemas_valid"] else None,
+                    "observed": rule in record["rule_ids"] if rule_complete else None,
                     "status": record["status"],
                     "coverage": {
-                        "complete": record["status"] == "completed" and record["schemas_valid"],
+                        "complete": rule_complete,
                         "files_discovered": 1,
-                        "files_scanned": int(record["schemas_valid"]),
-                        "files_skipped": int(not record["schemas_valid"]),
-                        "bytes_scanned": record["input_bytes"] if record["schemas_valid"] else 0,
+                        "files_scanned": int(rule_complete),
+                        "files_skipped": int(not rule_complete),
+                        "bytes_scanned": record["input_bytes"] if rule_complete else 0,
                     },
                 }
             )
