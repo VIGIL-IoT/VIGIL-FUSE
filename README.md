@@ -17,7 +17,7 @@ FUSE is a CLI-first analysis tool for embedded and IoT project repositories. It 
 
 **Alpha · 0.4.0**
 
-**Release status:** Version 0.4.0 closes the initial feature-development scope. After publication, FUSE enters maintenance mode for confirmed defects, security fixes, dependency and platform compatibility, packaging, documentation, and regression tests. See [project completion and maintenance](docs/PROJECT_COMPLETION.md).
+**Maintenance status:** FUSE 0.4.0 was published on 2026-11-15. Initial feature development is complete. Maintenance is limited to confirmed defects, security fixes, dependency and platform compatibility, packaging, documentation, and regression tests. See [project completion and maintenance](docs/PROJECT_COMPLETION.md).
 
 Latest [binary detection comparison](reports/evaluation/2026-11-15/binary-detection/README.md): the three real ESP-IDF rebuilds retained partial inventories and completed the independent security traversal without findings. Their ELF hashes differ from the immutable November 14 artifacts, so this is not a byte-identical rerun. See the [November 14 baseline](reports/evaluation/2026-11-14/README.md). Independent human review is still pending.
 
@@ -120,7 +120,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for repository setup and [rule developmen
 
 ## License status
 
-FUSE is a VIGIL-IoT project created and maintained by Shantanu. It is source-available under the custom [VIGIL-FUSE Restricted Use License, version 1.2](LICENSE), with copyright held by Shantanu. The license permits personal, educational, research, internal, and commercial use; private modifications; and publication of analysis outputs. Only unmodified official releases may be redistributed through PyPI and compatible mirrors. Other redistribution, public forks, and published modifications require written permission from Shantanu. This is not an OSI-approved open-source license and has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. A successful upload is not PyPI policy approval.
+FUSE is a VIGIL-IoT project created and maintained by Shantanu. It is source-available under the custom [VIGIL-FUSE Restricted Use License, version 1.2](LICENSE), with copyright held by Shantanu. The license permits personal, educational, research, internal, and commercial use; private modifications; and publication of analysis outputs. Only unmodified official releases may be redistributed through PyPI and compatible mirrors. Other redistribution, public forks, and published modifications require written permission from Shantanu. This is not an OSI-approved open-source license and has not received external legal review. Version [0.4.0 is published on PyPI](https://pypi.org/project/vigil-fuse/0.4.0/). PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. A successful upload is not PyPI policy approval.
 
 An earlier public snapshot included MIT terms at [commit `ec91524`](https://github.com/VIGIL-IoT/VIGIL-FUSE/commit/ec91524). This license does not revoke permissions already granted for copies made available under those earlier terms. Review the license attached to the specific version you use.
 

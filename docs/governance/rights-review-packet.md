@@ -2,7 +2,7 @@
 
 **Prepared:** 2026-11-15
 
-**Status:** The owner has confirmed the copyright holder, authorized Restricted Use License v1.2, and approved preparation and publication of official release 0.4.0 through PyPI after technical release checks pass. No external legal review or project-specific PyPI policy approval is claimed. This record documents the owner's decision and is not a legal determination.
+**Status:** The owner confirmed the copyright holder, authorized Restricted Use License v1.2, and approved official release 0.4.0 through PyPI. The release was published and verified on 2026-11-15. No external legal review or project-specific PyPI policy approval is claimed. This record documents the owner's decision and is not a legal determination.
 
 ## Recorded owner decision
 
@@ -36,9 +36,10 @@ The owner has authorized proceeding with 0.4.0 while project-specific policy gui
 | Project organization and repository namespace | VIGIL-IoT |
 | Authorized license | VIGIL-FUSE Restricted Use License v1.2 |
 | Authorized publisher route | PyPI Trusted Publishing workflow `pypi-publish.yml`, environment `pypi` |
-| Authorized release | VIGIL-FUSE 0.4.0, after all required technical checks pass |
+| Authorized release | VIGIL-FUSE 0.4.0, published after required technical checks passed |
+| Verified release artifacts | Recorded with hashes in [project completion](../PROJECT_COMPLETION.md) |
 | External legal review | None claimed |
 | PyPI project-specific approval | None claimed; issue #12999 remains open |
 | Public contributions | Paused pending separately documented contribution terms |
 
-The release is not complete until the tagged source, GitHub release, PyPI files, package metadata, installed CLI, CI, and CodeQL results are verified and recorded in [project completion](../PROJECT_COMPLETION.md).
+The tagged source, GitHub release, PyPI files, package metadata, installed CLI, CI, CodeQL, and Ghidra results were verified and recorded in [project completion](../PROJECT_COMPLETION.md). PyPI Support issue #12999 remains open and is not evidence of approval.
