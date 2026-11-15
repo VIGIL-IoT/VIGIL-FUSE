@@ -1,9 +1,19 @@
 # Changelog
 
-## Unreleased
+## 0.4.0 - 2026-11-15
 
-- PlatformIO context resolves shared sections and ordered multiple parents, handles multiline default environments and inline comments, and flags unresolved reported interpolation as partial. The file cap is 512 with the existing byte and include-depth caps retained; inheritance depth is bounded at 32.
-- Ghidra security candidate traversal is independently bounded from binary inventory exports. Reports distinguish inventory status from rule evaluation status. The [November 15 comparison](reports/evaluation/2026-11-15/binary-detection/README.md) preserves partial inventory and complete security evaluation as separate results.
+### Security analysis
+
+- Ghidra security-candidate traversal is independently bounded from general binary inventory exports. Reports distinguish inventory completeness from security-rule evaluation completeness.
+- Added controlled late-position endpoint regressions after more than 1,500 ordinary strings, with secure HTTPS and MQTTS negative controls and incomplete-coverage reporting at the rule traversal limit.
+- Reran pinned ESP-IDF examples for ESP32, ESP32-S3, and ESP32-C6. Inventory remained partial while independent security traversal completed without findings. The rebuilt ELF hashes differ from the immutable November 14 artifacts. See the [separate comparison](reports/evaluation/2026-11-15/binary-detection/README.md).
+
+### Project and release
+
+- PlatformIO context resolves shared sections and ordered multiple parents, handles multiline default environments and inline comments, and reports unresolved interpolation as partial within bounded file, byte, include-depth, and inheritance limits.
+- Completed cross-platform release acceptance on Windows, Linux, and macOS through local checks and the hosted CI matrix.
+- Froze initial feature development and moved the project to maintenance after the 0.4.0 release.
+- Updated ownership attribution to Shantanu and adopted the custom VIGIL-FUSE Restricted Use License, version 1.2. Earlier public MIT grants remain historically valid for copies distributed under those terms.
 
 ## 0.3.0 - 2026-11-12
 

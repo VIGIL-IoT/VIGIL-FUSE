@@ -6,10 +6,11 @@ build-backend = "setuptools.build_meta"
 name = "vigil-fuse"
 dynamic = ["version"]
 description = "FUSE, the Firmware & Unified Security Engine, a VIGIL Project"
+authors = [{ name = "Shantanu" }]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
-license = "LicenseRef-VIGIL-FUSE-PyPI-Restricted-Use"
+license = "LicenseRef-VIGIL-FUSE-Restricted-Use-1.2"
 license-files = ["LICENSE"]
 keywords = ["embedded security", "firmware analysis", "IoT", "static analysis"]
 classifiers = [

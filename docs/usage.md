@@ -7,13 +7,13 @@ FUSE is a local command-line tool for reviewing embedded and IoT project sources
 The published [`vigil-fuse` package](https://pypi.org/project/vigil-fuse/) requires Python 3.11 or newer. Install the isolated command-line tool with pipx:
 
 ```sh
-pipx install vigil-fuse==0.3.0
+pipx install vigil-fuse==0.4.0
 ```
 
 If you already have an active virtual environment, install with pip instead:
 
 ```sh
-python -m pip install vigil-fuse==0.3.0
+python -m pip install vigil-fuse==0.4.0
 ```
 
 For pipx setup instructions on your operating system, see the [pipx installation guide](https://pipx.pypa.io/stable/installation/).
