@@ -51,9 +51,23 @@ def _bounded(records: list[dict[str, object]] | None = None) -> dict[str, object
     }
 
 
-def _document(digest: str, input_format: str, byte_size: int) -> dict[str, object]:
+def _security_rule(
+    records: list[dict[str, object]], *, status: str = "complete", lower_bound: bool | None = None
+) -> dict[str, object]:
+    partial = status == "partial"
     return {
-        "schema_version": "1.0",
+        "status": status,
+        "records": records,
+        "observed": len(records),
+        "reported": len(records),
+        "truncated": partial,
+        "observed_is_lower_bound": partial if lower_bound is None else lower_bound,
+    }
+
+
+def _document(digest: str, input_format: str, byte_size: int) -> dict[str, object]:
+    document: dict[str, object] = {
+        "schema_version": "1.1",
         "tool": {"name": "Ghidra", "version": "12.2"},
         "input": {"sha256": digest, "format": input_format, "byte_size": byte_size},
         "analysis": {
@@ -113,6 +127,9 @@ def _document(digest: str, input_format: str, byte_size: int) -> dict[str, objec
             "max_strings": 1024,
             "max_string_scan_items": 100000,
             "max_cross_references": 2048,
+            "max_security_data_items": 100000,
+            "max_security_reference_visits": 16384,
+            "max_security_references_per_rule": 2048,
             "max_api_references": 512,
             "max_memory_blocks": 256,
             "max_name_chars": 128,
@@ -130,6 +147,44 @@ def _document(digest: str, input_format: str, byte_size: int) -> dict[str, objec
             "api_references": False,
         },
     }
+    http_reference = {
+        "string_address": "00401000",
+        "from_address": "00400020",
+        "function": "download_update",
+        "function_entry_address": "00400010",
+        "reference_type": "DATA",
+    }
+    mqtt_reference = {
+        "string_address": "00402000",
+        "from_address": "00400030",
+        "function": "connect_broker",
+        "function_entry_address": "00400028",
+        "reference_type": "DATA",
+    }
+    document["inventory"] = {"status": "complete", "truncated_groups": []}
+    document["security_evaluation"] = {
+        "status": "complete",
+        "data_items_scanned": 8,
+        "references_visited": 2,
+        "rules": {
+            "FUSE-BIN-001": _security_rule([http_reference]),
+            "FUSE-BIN-002": _security_rule([mqtt_reference]),
+        },
+    }
+    return document
+
+
+def _legacy_document(digest: str, input_format: str, byte_size: int) -> dict[str, object]:
+    document = _document(digest, input_format, byte_size)
+    document["schema_version"] = "1.0"
+    document.pop("inventory")
+    document.pop("security_evaluation")
+    limits = document["limits"]
+    assert isinstance(limits, dict)
+    limits.pop("max_security_data_items")
+    limits.pop("max_security_reference_visits")
+    limits.pop("max_security_references_per_rule")
+    return document
 
 
 def _probe(root: Path) -> GhidraProbe:
@@ -428,6 +483,13 @@ class GhidraAdapterTests(unittest.TestCase):
             ]
             references["reported"] = 2
             references["observed"] = 2
+            security = document["security_evaluation"]
+            assert isinstance(security, dict)
+            rules = security["rules"]
+            assert isinstance(rules, dict)
+            rules["FUSE-BIN-001"] = _security_rule([])
+            rules["FUSE-BIN-002"] = _security_rule([])
+            security["references_visited"] = 2
             return document
 
         with (
@@ -534,12 +596,11 @@ class GhidraAdapterTests(unittest.TestCase):
         self.assertEqual("failed", failed_exit.status.status)
         self.assertIn("code 7", failed_exit.status.detail or "")
 
-    def test_truncated_analysis_is_partial_and_reported(self) -> None:
-        def partial_document(digest: str, input_format: str, size: int) -> dict[str, object]:
+    def test_truncated_inventory_does_not_make_complete_security_evaluation_partial(self) -> None:
+        def partial_inventory_document(
+            digest: str, input_format: str, size: int
+        ) -> dict[str, object]:
             document = _document(digest, input_format, size)
-            analysis = document["analysis"]
-            assert isinstance(analysis, dict)
-            analysis["status"] = "partial"
             groups = document["strings"]
             assert isinstance(groups, dict)
             groups["truncated"] = True
@@ -548,6 +609,10 @@ class GhidraAdapterTests(unittest.TestCase):
             truncation = document["truncation"]
             assert isinstance(truncation, dict)
             truncation["strings"] = True
+            inventory = document["inventory"]
+            assert isinstance(inventory, dict)
+            inventory["status"] = "partial"
+            inventory["truncated_groups"] = ["strings"]
             return document
 
         with (
@@ -555,14 +620,205 @@ class GhidraAdapterTests(unittest.TestCase):
             patch.object(
                 ghidra_analyzer,
                 "_run",
-                side_effect=self._runner(document_factory=partial_document),
+                side_effect=self._runner(document_factory=partial_inventory_document),
+            ),
+        ):
+            result = ghidra_analyzer.analyze_ghidra(self.binary, self.output)
+        self.assertEqual("completed", result.status.status)
+        self.assertIn("inventory partial", result.status.detail or "")
+        self.assertIn("evaluation complete", result.status.detail or "")
+        report = json.loads((self.output / "ghidra-analysis.json").read_text(encoding="utf-8"))
+        self.assertTrue(report["strings"]["truncated"])
+        self.assertTrue(report["truncation"]["strings"])
+        self.assertEqual("partial", report["inventory"]["status"])
+        self.assertEqual("complete", report["security_evaluation"]["status"])
+
+    def test_late_security_evidence_is_independent_of_string_inventory(self) -> None:
+        def late_endpoint_document(digest: str, input_format: str, size: int) -> dict[str, object]:
+            document = _document(digest, input_format, size)
+            strings = document["strings"]
+            references = document["cross_references"]
+            truncation = document["truncation"]
+            inventory = document["inventory"]
+            security = document["security_evaluation"]
+            assert isinstance(strings, dict)
+            assert isinstance(references, dict)
+            assert isinstance(truncation, dict)
+            assert isinstance(inventory, dict)
+            assert isinstance(security, dict)
+            strings["records"] = [
+                {"address": f"0040{index:04X}", "value": f"ordinary-{index:04d}", "redacted": False}
+                for index in range(1024)
+            ]
+            strings["reported"] = 1024
+            strings["observed"] = 1025
+            strings["truncated"] = True
+            strings["observed_is_lower_bound"] = True
+            references["records"] = []
+            references["observed"] = 0
+            references["reported"] = 0
+            references["truncated"] = True
+            references["observed_is_lower_bound"] = True
+            truncation["strings"] = True
+            truncation["cross_references"] = True
+            inventory["status"] = "partial"
+            inventory["truncated_groups"] = ["strings", "cross_references"]
+            http = {
+                "string_address": "00408000",
+                "from_address": "00400020",
+                "function": "download_update",
+                "function_entry_address": "00400010",
+                "reference_type": "DATA",
+            }
+            mqtt = {
+                "string_address": "00408040",
+                "from_address": "00400030",
+                "function": "connect_broker",
+                "function_entry_address": "00400028",
+                "reference_type": "DATA",
+            }
+            rules = security["rules"]
+            assert isinstance(rules, dict)
+            rules["FUSE-BIN-001"] = _security_rule([http])
+            rules["FUSE-BIN-002"] = _security_rule([mqtt])
+            security["data_items_scanned"] = 1602
+            security["references_visited"] = 2
+            return document
+
+        with (
+            patch.object(ghidra_analyzer, "inspect_ghidra", return_value=self.probe),
+            patch.object(
+                ghidra_analyzer,
+                "_run",
+                side_effect=self._runner(document_factory=late_endpoint_document),
+            ),
+        ):
+            result = ghidra_analyzer.analyze_ghidra(self.binary, self.output)
+        self.assertEqual("completed", result.status.status)
+        self.assertEqual(
+            {"FUSE-BIN-001", "FUSE-BIN-002"}, {finding.rule_id for finding in result.findings}
+        )
+        artifact_text = (self.output / "ghidra-analysis.json").read_text(encoding="utf-8")
+        self.assertNotIn("http://", artifact_text)
+        self.assertNotIn("mqtt://", artifact_text)
+
+    def test_incomplete_security_traversal_cannot_report_a_clean_negative(self) -> None:
+        def incomplete_document(digest: str, input_format: str, size: int) -> dict[str, object]:
+            document = _document(digest, input_format, size)
+            security = document["security_evaluation"]
+            assert isinstance(security, dict)
+            security["status"] = "partial"
+            security["rules"] = {
+                "FUSE-BIN-001": _security_rule([], status="partial"),
+                "FUSE-BIN-002": _security_rule([], status="partial"),
+            }
+            return document
+
+        with (
+            patch.object(ghidra_analyzer, "inspect_ghidra", return_value=self.probe),
+            patch.object(
+                ghidra_analyzer,
+                "_run",
+                side_effect=self._runner(document_factory=incomplete_document),
             ),
         ):
             result = ghidra_analyzer.analyze_ghidra(self.binary, self.output)
         self.assertEqual("partial", result.status.status)
-        report = json.loads((self.output / "ghidra-analysis.json").read_text(encoding="utf-8"))
-        self.assertTrue(report["strings"]["truncated"])
-        self.assertTrue(report["truncation"]["strings"])
+        self.assertEqual((), result.findings)
+        self.assertIn("Review the artifact coverage", result.status.detail or "")
+
+    def test_per_rule_record_limit_is_partial_with_an_exact_observed_count(self) -> None:
+        def limited_document(digest: str, input_format: str, size: int) -> dict[str, object]:
+            document = _document(digest, input_format, size)
+            security = document["security_evaluation"]
+            assert isinstance(security, dict)
+            rules = security["rules"]
+            assert isinstance(rules, dict)
+            http_record = {
+                "string_address": "00401000",
+                "from_address": "00400020",
+                "function": "download_update",
+                "function_entry_address": "00400010",
+                "reference_type": "DATA",
+            }
+            http_rule = _security_rule(
+                [http_record] * ghidra_analyzer._GHIDRA_MAX_SECURITY_REFERENCES_PER_RULE,
+                status="partial",
+                lower_bound=False,
+            )
+            http_rule["observed"] = ghidra_analyzer._GHIDRA_MAX_SECURITY_REFERENCES_PER_RULE + 1
+            rules["FUSE-BIN-001"] = http_rule
+            security["status"] = "partial"
+            security["references_visited"] = (
+                ghidra_analyzer._GHIDRA_MAX_SECURITY_REFERENCES_PER_RULE + 2
+            )
+            return document
+
+        with (
+            patch.object(ghidra_analyzer, "inspect_ghidra", return_value=self.probe),
+            patch.object(
+                ghidra_analyzer,
+                "_run",
+                side_effect=self._runner(document_factory=limited_document),
+            ),
+        ):
+            result = ghidra_analyzer.analyze_ghidra(self.binary, self.output)
+        self.assertEqual("partial", result.status.status)
+
+    def test_legacy_schema_preserves_findings_but_marks_rule_evaluation_unsupported(self) -> None:
+        with (
+            patch.object(ghidra_analyzer, "inspect_ghidra", return_value=self.probe),
+            patch.object(
+                ghidra_analyzer,
+                "_run",
+                side_effect=self._runner(document_factory=_legacy_document),
+            ),
+        ):
+            result = ghidra_analyzer.analyze_ghidra(self.binary, self.output)
+        self.assertEqual("partial", result.status.status)
+        self.assertEqual(
+            {"FUSE-BIN-001", "FUSE-BIN-002"}, {finding.rule_id for finding in result.findings}
+        )
+        self.assertIn("unsupported", result.status.detail or "")
+        schema = json.loads(
+            (
+                Path(__file__).parents[1]
+                / "src"
+                / "vigil_fuse"
+                / "schemas"
+                / "ghidra-analysis-1.0.schema.json"
+            ).read_text(encoding="utf-8")
+        )
+        Draft202012Validator(schema).validate(
+            json.loads((self.output / "ghidra-analysis.json").read_text(encoding="utf-8"))
+        )
+
+    def test_security_evaluation_can_explicitly_report_unsupported(self) -> None:
+        def unsupported_document(digest: str, input_format: str, size: int) -> dict[str, object]:
+            document = _document(digest, input_format, size)
+            security = document["security_evaluation"]
+            assert isinstance(security, dict)
+            security["status"] = "unsupported"
+            security["data_items_scanned"] = 0
+            security["references_visited"] = 0
+            security["rules"] = {
+                "FUSE-BIN-001": _security_rule([], status="unsupported"),
+                "FUSE-BIN-002": _security_rule([], status="unsupported"),
+            }
+            return document
+
+        with (
+            patch.object(ghidra_analyzer, "inspect_ghidra", return_value=self.probe),
+            patch.object(
+                ghidra_analyzer,
+                "_run",
+                side_effect=self._runner(document_factory=unsupported_document),
+            ),
+        ):
+            result = ghidra_analyzer.analyze_ghidra(self.binary, self.output)
+        self.assertEqual("partial", result.status.status)
+        self.assertIn("evaluation unsupported", result.status.detail or "")
+        self.assertEqual((), result.findings)
 
     def test_docker_sandbox_never_falls_back_to_host(self) -> None:
         with patch.object(ghidra_analyzer, "analyzer_sandbox_active", return_value=True):

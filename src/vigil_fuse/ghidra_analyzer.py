@@ -34,6 +34,9 @@ GHIDRA_MAXIMUM_TIMEOUT_SECONDS = 3600
 GHIDRA_MAXIMUM_INPUT_BYTES = 128 * 1024 * 1024
 GHIDRA_MAXIMUM_ARTIFACT_BYTES = 8 * 1024 * 1024
 GHIDRA_MAXIMUM_DIAGNOSTIC_BYTES = MAX_ANALYZER_OUTPUT_BYTES
+_GHIDRA_MAX_SECURITY_DATA_ITEMS = 100000
+_GHIDRA_MAX_SECURITY_REFERENCE_VISITS = 16384
+_GHIDRA_MAX_SECURITY_REFERENCES_PER_RULE = 2048
 _JAVA_ENVIRONMENT_OVERRIDES = (
     "JAVA_TOOL_OPTIONS",
     "JDK_JAVA_OPTIONS",
@@ -448,7 +451,8 @@ def _validate_result_document(
 ) -> dict[str, object]:
     if not isinstance(document, dict):
         raise ValueError("Ghidra result must be a JSON object.")
-    if document.get("schema_version") != "1.0":
+    schema_version = document.get("schema_version")
+    if not isinstance(schema_version, str) or schema_version not in {"1.0", "1.1"}:
         raise ValueError("Unsupported Ghidra result schema version.")
     input_info = document.get("input")
     if not isinstance(input_info, dict) or input_info.get("sha256") != digest:
@@ -492,8 +496,10 @@ def _validate_result_document(
     if (
         not isinstance(analysis, dict)
         or set(analysis) != analysis_fields
+        or not isinstance(analysis.get("status"), str)
         or analysis.get("status") not in {"completed", "partial"}
         or not isinstance(analysis.get("timeout_occurred"), bool)
+        or not isinstance(analysis.get("endianness"), str)
         or analysis.get("endianness") not in {"little", "big"}
         or not isinstance(analysis.get("pointer_size_bytes"), int)
         or isinstance(analysis.get("pointer_size_bytes"), bool)
@@ -653,6 +659,14 @@ def _validate_result_document(
         "max_string_chars",
         "max_output_bytes",
     }
+    if schema_version == "1.1":
+        limit_keys.update(
+            {
+                "max_security_data_items",
+                "max_security_reference_visits",
+                "max_security_references_per_rule",
+            }
+        )
     if set(limits) != limit_keys or any(
         not isinstance(value, int) or isinstance(value, bool) or value <= 0
         for value in limits.values()
@@ -669,7 +683,138 @@ def _validate_result_document(
         if isinstance(document[name], dict)
     ):
         raise ValueError("Ghidra result truncation summary does not match its inventories.")
+    if schema_version == "1.1":
+        _validate_security_coverage(document, limits, truncation, analysis)
     return document
+
+
+def _validate_security_coverage(
+    document: dict[str, object],
+    limits: dict[str, object],
+    truncation: dict[str, object],
+    analysis: dict[str, object],
+) -> None:
+    expected_limits = {
+        "max_security_data_items": _GHIDRA_MAX_SECURITY_DATA_ITEMS,
+        "max_security_reference_visits": _GHIDRA_MAX_SECURITY_REFERENCE_VISITS,
+        "max_security_references_per_rule": _GHIDRA_MAX_SECURITY_REFERENCES_PER_RULE,
+    }
+    if any(limits.get(name) != value for name, value in expected_limits.items()):
+        raise ValueError("Ghidra security rule limits do not match the supported bounds.")
+
+    inventory = document.get("inventory")
+    if not isinstance(inventory, dict) or set(inventory) != {"status", "truncated_groups"}:
+        raise ValueError("Ghidra inventory coverage metadata is invalid.")
+    truncated_groups = inventory.get("truncated_groups")
+    if not isinstance(truncated_groups, list) or any(
+        not isinstance(value, str) for value in truncated_groups
+    ):
+        raise ValueError("Ghidra inventory truncation groups are invalid.")
+    expected_groups = {name for name, value in truncation.items() if value is True}
+    if analysis.get("timeout_occurred") is True:
+        expected_groups.add("analysis_timeout")
+    if set(truncated_groups) != expected_groups or len(truncated_groups) != len(expected_groups):
+        raise ValueError("Ghidra inventory coverage does not match its truncation metadata.")
+    expected_inventory_status = "partial" if expected_groups else "complete"
+    if inventory.get("status") != expected_inventory_status:
+        raise ValueError("Ghidra inventory status does not match its truncation metadata.")
+
+    security = document.get("security_evaluation")
+    if not isinstance(security, dict) or set(security) != {
+        "status",
+        "data_items_scanned",
+        "references_visited",
+        "rules",
+    }:
+        raise ValueError("Ghidra security evaluation metadata is invalid.")
+    traversed_references = security.get("references_visited")
+    if not isinstance(traversed_references, int) or isinstance(traversed_references, bool):
+        raise ValueError("Ghidra security reference visit count is invalid.")
+    for name, maximum in (
+        ("data_items_scanned", _GHIDRA_MAX_SECURITY_DATA_ITEMS),
+        ("references_visited", _GHIDRA_MAX_SECURITY_REFERENCE_VISITS),
+    ):
+        value = security.get(name)
+        if not isinstance(value, int) or isinstance(value, bool) or not 0 <= value <= maximum:
+            raise ValueError(f"Ghidra security evaluation {name} is outside its bound.")
+    rules = security.get("rules")
+    expected_rule_ids = {"FUSE-BIN-001", "FUSE-BIN-002"}
+    if not isinstance(rules, dict) or set(rules) != expected_rule_ids:
+        raise ValueError("Ghidra security evaluation rule set is invalid.")
+    statuses: list[str] = []
+    observed_total = 0
+    for rule_id, rule in rules.items():
+        if not isinstance(rule, dict) or set(rule) != {
+            "status",
+            "records",
+            "observed",
+            "reported",
+            "truncated",
+            "observed_is_lower_bound",
+        }:
+            raise ValueError(f"Ghidra security evaluation for {rule_id} is malformed.")
+        status = rule.get("status")
+        records = rule.get("records")
+        observed = rule.get("observed")
+        reported = rule.get("reported")
+        truncated = rule.get("truncated")
+        lower_bound = rule.get("observed_is_lower_bound")
+        if (
+            not isinstance(status, str)
+            or status not in {"complete", "partial", "unsupported"}
+            or not isinstance(records, list)
+            or len(records) > _GHIDRA_MAX_SECURITY_REFERENCES_PER_RULE
+            or not isinstance(observed, int)
+            or isinstance(observed, bool)
+            or observed > _GHIDRA_MAX_SECURITY_REFERENCE_VISITS
+            or not isinstance(reported, int)
+            or isinstance(reported, bool)
+            or reported != len(records)
+            or observed < reported
+            or not isinstance(truncated, bool)
+            or not isinstance(lower_bound, bool)
+            or (status == "complete" and (truncated or lower_bound))
+            or (status == "partial" and not truncated)
+            or (lower_bound and status != "partial")
+            or (status == "unsupported" and (records or observed or truncated or lower_bound))
+        ):
+            raise ValueError(f"Ghidra security evaluation bounds are invalid for {rule_id}.")
+        observed_total += observed
+        record_fields = {
+            "string_address",
+            "from_address",
+            "function",
+            "function_entry_address",
+            "reference_type",
+        }
+        for record in records:
+            if not isinstance(record, dict) or set(record) != record_fields:
+                raise ValueError(f"Ghidra security evidence is malformed for {rule_id}.")
+            if any(
+                not isinstance(record[field], str) or len(record[field]) > maximum
+                for field, maximum in (
+                    ("string_address", 128),
+                    ("from_address", 128),
+                    ("function", 128),
+                    ("function_entry_address", 128),
+                    ("reference_type", 64),
+                )
+            ):
+                raise ValueError(f"Ghidra security evidence exceeds its text limit for {rule_id}.")
+        statuses.append(status)
+    if observed_total > traversed_references:
+        raise ValueError("Ghidra security rule counts exceed the traversed references.")
+    if analysis.get("timeout_occurred") is True and any(status != "partial" for status in statuses):
+        raise ValueError("Ghidra analysis timeouts require partial security rule evaluation.")
+    expected_status = (
+        "complete"
+        if all(status == "complete" for status in statuses)
+        else "unsupported"
+        if all(status == "unsupported" for status in statuses)
+        else "partial"
+    )
+    if security.get("status") != expected_status:
+        raise ValueError("Ghidra security evaluation status does not match its rules.")
 
 
 def _findings_from_document(
@@ -678,42 +823,60 @@ def _findings_from_document(
     input_path: Path,
     input_digest: str,
 ) -> tuple[Finding, ...]:
-    strings = document.get("strings")
-    references = document.get("cross_references")
-    if not isinstance(strings, dict) or not isinstance(references, dict):
-        return ()
-    string_records = strings.get("records")
-    reference_records = references.get("records")
-    if not isinstance(string_records, list) or not isinstance(reference_records, list):
-        return ()
-    strings_by_address = {
-        record.get("address"): record.get("value")
-        for record in string_records
-        if isinstance(record, dict)
-        and isinstance(record.get("address"), str)
-        and isinstance(record.get("value"), str)
-    }
+    candidates: list[tuple[str, dict[str, object]]] = []
+    if document.get("schema_version") == "1.1":
+        security = document.get("security_evaluation")
+        rules = security.get("rules") if isinstance(security, dict) else None
+        if not isinstance(rules, dict):
+            return ()
+        for rule_id in ("FUSE-BIN-001", "FUSE-BIN-002"):
+            rule = rules.get(rule_id)
+            records = rule.get("records") if isinstance(rule, dict) else None
+            if isinstance(records, list):
+                candidates.extend(
+                    (rule_id, record) for record in records if isinstance(record, dict)
+                )
+    else:
+        strings = document.get("strings")
+        references = document.get("cross_references")
+        if not isinstance(strings, dict) or not isinstance(references, dict):
+            return ()
+        string_records = strings.get("records")
+        reference_records = references.get("records")
+        if not isinstance(string_records, list) or not isinstance(reference_records, list):
+            return ()
+        strings_by_address = {
+            record.get("address"): record.get("value")
+            for record in string_records
+            if isinstance(record, dict)
+            and isinstance(record.get("address"), str)
+            and isinstance(record.get("value"), str)
+        }
+        for reference in reference_records:
+            if not isinstance(reference, dict):
+                continue
+            address = reference.get("string_address")
+            value = strings_by_address.get(address)
+            if not isinstance(value, str):
+                continue
+            scheme = urlsplit(value).scheme.casefold()
+            if scheme in {"http", "mqtt"}:
+                rule_id = "FUSE-BIN-001" if scheme == "http" else "FUSE-BIN-002"
+                candidates.append((rule_id, reference))
+
     findings: list[Finding] = []
     seen: set[tuple[str, str, str]] = set()
-    for reference in reference_records:
-        if not isinstance(reference, dict):
-            continue
+    for rule_id, reference in candidates:
         address = reference.get("string_address")
         function = reference.get("function")
         from_address = reference.get("from_address")
-        value = strings_by_address.get(address)
         if (
             not isinstance(address, str)
             or not isinstance(function, str)
             or not isinstance(from_address, str)
-            or not isinstance(value, str)
         ):
             continue
-        endpoint = value
-        scheme = urlsplit(endpoint).scheme.casefold()
-        if scheme not in {"http", "mqtt"}:
-            continue
-        rule_id = "FUSE-BIN-001" if scheme == "http" else "FUSE-BIN-002"
+        scheme = "http" if rule_id == "FUSE-BIN-001" else "mqtt"
         marker = (rule_id, address, function)
         if marker in seen:
             continue
@@ -741,8 +904,8 @@ def _findings_from_document(
                 start_line=None,
                 end_line=None,
                 evidence=(
-                    f"Static reference from {function} at {from_address} to {scheme} endpoint "
-                    f"{endpoint} at {address}. URL path, credentials, query, and fragment are omitted."
+                    f"Static reference from {function} at {from_address} to a plaintext "
+                    f"{scheme.upper()} endpoint at {address}. Endpoint contents are omitted."
                 ),
                 explanation=(
                     "Ghidra identified a code cross-reference from a function to a plaintext "
@@ -1039,15 +1202,40 @@ def analyze_ghidra(
             )
             analysis = normalized.get("analysis")
             timed_out = isinstance(analysis, dict) and analysis.get("timeout_occurred") is True
+            inventory = normalized.get("inventory")
+            inventory_status = inventory.get("status") if isinstance(inventory, dict) else None
+            if inventory_status not in {"complete", "partial"}:
+                truncation = normalized.get("truncation")
+                inventory_status = (
+                    "partial"
+                    if not isinstance(truncation, dict)
+                    or any(value is True for value in truncation.values())
+                    or (isinstance(analysis, dict) and analysis.get("status") == "partial")
+                    else "complete"
+                )
+            security = normalized.get("security_evaluation")
+            security_status = (
+                security.get("status") if isinstance(security, dict) else "unsupported"
+            )
             if completed.returncode != 0:
                 status: Literal["completed", "partial", "failed"] = "failed"
                 detail = f"Ghidra Headless Analyzer exited with code {completed.returncode}."
-            elif timed_out or (isinstance(analysis, dict) and analysis.get("status") == "partial"):
+            elif (
+                timed_out
+                or (isinstance(analysis, dict) and analysis.get("status") == "partial")
+                or security_status != "complete"
+            ):
                 status = "partial"
-                detail = "Ghidra completed with an analysis timeout or reported truncation; review artifact limits."
+                detail = (
+                    f"Ghidra binary inventory {inventory_status}; security rule evaluation "
+                    f"{security_status}. Review the artifact coverage fields before interpreting a clean result."
+                )
             else:
                 status = "completed"
-                detail = "Ghidra Headless Analyzer completed bounded static analysis; no target code was executed."
+                detail = (
+                    f"Ghidra completed bounded static analysis. Binary inventory {inventory_status}; "
+                    "security rule evaluation complete. No target code was executed."
+                )
             return AdapterResult(
                 AnalyzerStatus(
                     "ghidra",

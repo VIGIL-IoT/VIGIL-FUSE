@@ -33,6 +33,9 @@ public class FuseExport extends HeadlessScript {
     private static final int MAX_STRINGS = 1024;
     private static final int MAX_STRING_SCAN_ITEMS = 100000;
     private static final int MAX_REFERENCES = 2048;
+    private static final int MAX_SECURITY_DATA_ITEMS = 100000;
+    private static final int MAX_SECURITY_REFERENCE_VISITS = 16384;
+    private static final int MAX_SECURITY_REFERENCES_PER_RULE = 2048;
     private static final int MAX_API_REFERENCES = 512;
     private static final int MAX_MEMORY_BLOCKS = 256;
     private static final int MAX_NAME_CHARS = 128;
@@ -78,21 +81,33 @@ public class FuseExport extends HeadlessScript {
         BoundedRecords exports = collectExternalSymbols(program, false);
         StringCollection strings = collectStrings(program);
         BoundedRecords references = collectStringReferences(program, strings.addresses);
+        if (strings.records.truncated) {
+            references = new BoundedRecords(references.records, references.observed, true);
+        }
         BoundedRecords apiReferences = collectApiReferences(program);
         BoundedRecords memoryBlocks = collectMemoryBlocks(program);
         boolean timedOut = analysisTimeoutOccurred();
-        boolean partial = timedOut || functions.truncated || symbols.truncated || imports.truncated
-            || exports.truncated || strings.records.truncated || references.truncated
-            || apiReferences.truncated || memoryBlocks.truncated;
+        SecurityEvaluation security = collectSecurityCandidates(program, timedOut);
+        List<String> truncatedGroups = new ArrayList<>();
+        if (timedOut) truncatedGroups.add("analysis_timeout");
+        if (memoryBlocks.truncated) truncatedGroups.add("memory_blocks");
+        if (functions.truncated) truncatedGroups.add("functions");
+        if (symbols.truncated) truncatedGroups.add("symbols");
+        if (imports.truncated) truncatedGroups.add("imports");
+        if (exports.truncated) truncatedGroups.add("exports");
+        if (strings.records.truncated) truncatedGroups.add("strings");
+        if (references.truncated) truncatedGroups.add("cross_references");
+        if (apiReferences.truncated) truncatedGroups.add("api_references");
+        boolean inventoryPartial = !truncatedGroups.isEmpty();
 
         StringBuilder json = new StringBuilder(65536);
-        json.append("{\"schema_version\":\"1.0\",");
+        json.append("{\"schema_version\":\"1.1\",");
         json.append("\"tool\":{\"name\":\"Ghidra\",\"version\":")
             .append(quote(getGhidraVersion())).append("},");
         json.append("\"input\":{\"sha256\":").append(quote(digest))
             .append(",\"format\":").append(quote(inputFormat))
             .append(",\"byte_size\":").append(inputSize).append("},");
-        json.append("\"analysis\":{\"status\":").append(quote(partial ? "partial" : "completed"))
+        json.append("\"analysis\":{\"status\":").append(quote(timedOut ? "partial" : "completed"))
             .append(",\"timeout_occurred\":").append(timedOut)
             .append(",\"loader\":").append(quote(program.getExecutableFormat()))
             .append(",\"processor\":").append(quote(program.getLanguage().getProcessor().toString()))
@@ -122,6 +137,9 @@ public class FuseExport extends HeadlessScript {
             .append(",\"max_strings\":").append(MAX_STRINGS)
             .append(",\"max_string_scan_items\":").append(MAX_STRING_SCAN_ITEMS)
             .append(",\"max_cross_references\":").append(MAX_REFERENCES)
+            .append(",\"max_security_data_items\":").append(MAX_SECURITY_DATA_ITEMS)
+            .append(",\"max_security_reference_visits\":").append(MAX_SECURITY_REFERENCE_VISITS)
+            .append(",\"max_security_references_per_rule\":").append(MAX_SECURITY_REFERENCES_PER_RULE)
             .append(",\"max_api_references\":").append(MAX_API_REFERENCES)
             .append(",\"max_memory_blocks\":").append(MAX_MEMORY_BLOCKS)
             .append(",\"max_name_chars\":").append(MAX_NAME_CHARS)
@@ -134,8 +152,73 @@ public class FuseExport extends HeadlessScript {
             .append(",\"exports\":").append(exports.truncated)
             .append(",\"strings\":").append(strings.records.truncated)
             .append(",\"cross_references\":").append(references.truncated)
-            .append(",\"api_references\":").append(apiReferences.truncated).append("}}");
+            .append(",\"api_references\":").append(apiReferences.truncated).append("},")
+            .append("\"inventory\":{\"status\":")
+            .append(quote(inventoryPartial ? "partial" : "complete"))
+            .append(",\"truncated_groups\":").append(stringArray(truncatedGroups)).append("},")
+            .append("\"security_evaluation\":").append(security.toJson()).append("}");
         return json.toString();
+    }
+
+    private SecurityEvaluation collectSecurityCandidates(Program program, boolean timedOut) {
+        SecurityRuleRecords http = new SecurityRuleRecords();
+        SecurityRuleRecords mqtt = new SecurityRuleRecords();
+        DataIterator iterator = program.getListing().getDefinedData(true);
+        int dataItems = 0;
+        int referenceVisits = 0;
+        boolean dataTruncated = false;
+        boolean referencesTruncated = false;
+        while (iterator.hasNext()) {
+            if (dataItems == MAX_SECURITY_DATA_ITEMS) {
+                dataTruncated = true;
+                break;
+            }
+            Data data = iterator.next();
+            dataItems++;
+            Object value = data.getValue();
+            if (!(value instanceof String)) {
+                continue;
+            }
+            String text = (String) value;
+            SecurityRuleRecords rule = securityRule(text, http, mqtt);
+            if (rule == null) {
+                continue;
+            }
+            String address = data.getAddress().toString();
+            ReferenceIterator references = program.getReferenceManager()
+                .getReferencesTo(data.getAddress());
+            while (references.hasNext()) {
+                if (referenceVisits == MAX_SECURITY_REFERENCE_VISITS) {
+                    referencesTruncated = true;
+                    break;
+                }
+                Reference reference = references.next();
+                referenceVisits++;
+                Function function = program.getFunctionManager()
+                    .getFunctionContaining(reference.getFromAddress());
+                if (function == null) {
+                    continue;
+                }
+                rule.add(address, reference, function);
+            }
+            if (referencesTruncated) {
+                break;
+            }
+        }
+        boolean sharedTruncation = timedOut || dataTruncated || referencesTruncated;
+        http.finish(sharedTruncation);
+        mqtt.finish(sharedTruncation);
+        return new SecurityEvaluation(dataItems, referenceVisits, http, mqtt);
+    }
+
+    private SecurityRuleRecords securityRule(
+        String value, SecurityRuleRecords http, SecurityRuleRecords mqtt
+    ) {
+        String lower = value.toLowerCase(Locale.ROOT);
+        if (lower.startsWith("http://")) {
+            return http;
+        }
+        return lower.startsWith("mqtt://") ? mqtt : null;
     }
 
     private List<String> collectEntryPoints(Program program) {
@@ -411,6 +494,74 @@ public class FuseExport extends HeadlessScript {
         private StringCollection(BoundedRecords records, List<Address> addresses) {
             this.records = records;
             this.addresses = addresses;
+        }
+    }
+
+    private final class SecurityRuleRecords {
+        private final List<String> records = new ArrayList<>();
+        private int observed;
+        private boolean truncated;
+        private boolean observedIsLowerBound;
+
+        private void add(String stringAddress, Reference reference, Function function) {
+            observed++;
+            if (records.size() == MAX_SECURITY_REFERENCES_PER_RULE) {
+                truncated = true;
+                return;
+            }
+            records.add("{\"string_address\":" + quote(stringAddress)
+                + ",\"from_address\":" + quote(reference.getFromAddress().toString())
+                + ",\"function\":" + quote(limit(function.getName(), MAX_NAME_CHARS))
+                + ",\"function_entry_address\":" + quote(function.getEntryPoint().toString())
+                + ",\"reference_type\":" + quote(reference.getReferenceType().toString()) + "}");
+        }
+
+        private void finish(boolean sharedTruncation) {
+            truncated = truncated || sharedTruncation;
+            observedIsLowerBound = observedIsLowerBound || sharedTruncation;
+        }
+
+        private String status() {
+            return truncated ? "partial" : "complete";
+        }
+
+        private String toJson() {
+            return "{\"status\":" + quote(status())
+                + ",\"records\":[" + String.join(",", records) + "]"
+                + ",\"observed\":" + observed
+                + ",\"reported\":" + records.size()
+                + ",\"truncated\":" + truncated
+                + ",\"observed_is_lower_bound\":" + observedIsLowerBound + "}";
+        }
+    }
+
+    private final class SecurityEvaluation {
+        private final int dataItemsScanned;
+        private final int referencesVisited;
+        private final SecurityRuleRecords http;
+        private final SecurityRuleRecords mqtt;
+
+        private SecurityEvaluation(
+            int dataItemsScanned, int referencesVisited,
+            SecurityRuleRecords http, SecurityRuleRecords mqtt
+        ) {
+            this.dataItemsScanned = dataItemsScanned;
+            this.referencesVisited = referencesVisited;
+            this.http = http;
+            this.mqtt = mqtt;
+        }
+
+        private String status() {
+            return http.status().equals("complete") && mqtt.status().equals("complete")
+                ? "complete" : "partial";
+        }
+
+        private String toJson() {
+            return "{\"status\":" + quote(status())
+                + ",\"data_items_scanned\":" + dataItemsScanned
+                + ",\"references_visited\":" + referencesVisited
+                + ",\"rules\":{\"FUSE-BIN-001\":" + http.toJson()
+                + ",\"FUSE-BIN-002\":" + mqtt.toJson() + "}}";
         }
     }
 }
