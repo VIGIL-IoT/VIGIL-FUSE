@@ -1,0 +1,284 @@
+{
+  "schema_version": "1.1",
+  "targets": {
+    "esp32": {
+      "input_comparison": {
+        "basis": "same_pinned_source_rebuild",
+        "input_bytes_match": true,
+        "pinned_provenance_matches": true,
+        "sha256_matches": false
+      },
+      "previous": {
+        "artifact_bytes": 741081,
+        "elapsed_seconds": 20.336181229000033,
+        "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+        "ghidra_version": "12.2",
+        "input_bytes": 2392300,
+        "input_sha256": "230a0746f0e560e5582ce6a7a0de9e2846d4666ec56359dfe957a25959982a5f",
+        "inventory_status": "partial",
+        "peak_process_tree_rss_bytes": 793468928,
+        "provenance": {
+          "command": "idf.py set-target TARGET && idf.py build",
+          "commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+          "image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+          "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
+          "project": "ESP-IDF hello_world",
+          "redistribution": "binary not committed; build from pinned official image",
+          "repository": "https://github.com/espressif/esp-idf",
+          "source_available": true
+        },
+        "rule_ids": [],
+        "security_evaluation_status": "unsupported",
+        "truncation": {
+          "api_references": false,
+          "cross_references": false,
+          "exports": true,
+          "functions": false,
+          "imports": false,
+          "memory_blocks": false,
+          "strings": true,
+          "symbols": true
+        }
+      },
+      "revised": {
+        "artifact_bytes": 741906,
+        "elapsed_seconds": 18.76390336,
+        "fuse_commit": "5d5ca11d3bdab399242ab0ce9bdaeb43a4154707",
+        "ghidra_version": "12.2",
+        "harness_commit": "324a17ac3eb9d581335a12078f1365d72e30b96f",
+        "input_bytes": 2392300,
+        "input_sha256": "433cfda174f40099354288da071a99994ce246878313cd1ddb9c700857265528",
+        "inventory_status": "partial",
+        "peak_process_tree_rss_bytes": 894160896,
+        "provenance": {
+          "command": "idf.py set-target TARGET && idf.py build",
+          "commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+          "image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+          "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
+          "project": "ESP-IDF hello_world",
+          "redistribution": "binary not committed; build from pinned official image",
+          "repository": "https://github.com/espressif/esp-idf",
+          "source_available": true
+        },
+        "rule_ids": [],
+        "security_counts": {
+          "data_items_scanned": 13465,
+          "references_visited": 0,
+          "rules": {
+            "FUSE-BIN-001": {
+              "observed": 0,
+              "reported": 0,
+              "truncated": false
+            },
+            "FUSE-BIN-002": {
+              "observed": 0,
+              "reported": 0,
+              "truncated": false
+            }
+          }
+        },
+        "security_evaluation_status": "complete",
+        "security_rule_statuses": {
+          "FUSE-BIN-001": "complete",
+          "FUSE-BIN-002": "complete"
+        },
+        "truncation": {
+          "api_references": false,
+          "cross_references": true,
+          "exports": true,
+          "functions": false,
+          "imports": false,
+          "memory_blocks": false,
+          "strings": true,
+          "symbols": true
+        }
+      }
+    },
+    "esp32c6": {
+      "input_comparison": {
+        "basis": "same_pinned_source_rebuild",
+        "input_bytes_match": true,
+        "pinned_provenance_matches": true,
+        "sha256_matches": false
+      },
+      "previous": {
+        "artifact_bytes": 868237,
+        "elapsed_seconds": 23.373641351999993,
+        "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+        "ghidra_version": "12.2",
+        "input_bytes": 2866584,
+        "input_sha256": "ee11b7878d47b16c6fac132258cc453e8bec44994fab53fe9962c8965fcf2fae",
+        "inventory_status": "partial",
+        "peak_process_tree_rss_bytes": 658567168,
+        "provenance": {
+          "command": "idf.py set-target TARGET && idf.py build",
+          "commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+          "image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+          "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
+          "project": "ESP-IDF hello_world",
+          "redistribution": "binary not committed; build from pinned official image",
+          "repository": "https://github.com/espressif/esp-idf",
+          "source_available": true
+        },
+        "rule_ids": [],
+        "security_evaluation_status": "unsupported",
+        "truncation": {
+          "api_references": false,
+          "cross_references": false,
+          "exports": true,
+          "functions": false,
+          "imports": false,
+          "memory_blocks": false,
+          "strings": true,
+          "symbols": true
+        }
+      },
+      "revised": {
+        "artifact_bytes": 869062,
+        "elapsed_seconds": 15.546588966999991,
+        "fuse_commit": "5d5ca11d3bdab399242ab0ce9bdaeb43a4154707",
+        "ghidra_version": "12.2",
+        "harness_commit": "324a17ac3eb9d581335a12078f1365d72e30b96f",
+        "input_bytes": 2866584,
+        "input_sha256": "4cfcfaaa9fe085b297e411354be2f60866ae82322a9a9eae21a5b031c10cf8a8",
+        "inventory_status": "partial",
+        "peak_process_tree_rss_bytes": 911683584,
+        "provenance": {
+          "command": "idf.py set-target TARGET && idf.py build",
+          "commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+          "image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+          "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
+          "project": "ESP-IDF hello_world",
+          "redistribution": "binary not committed; build from pinned official image",
+          "repository": "https://github.com/espressif/esp-idf",
+          "source_available": true
+        },
+        "rule_ids": [],
+        "security_counts": {
+          "data_items_scanned": 14128,
+          "references_visited": 0,
+          "rules": {
+            "FUSE-BIN-001": {
+              "observed": 0,
+              "reported": 0,
+              "truncated": false
+            },
+            "FUSE-BIN-002": {
+              "observed": 0,
+              "reported": 0,
+              "truncated": false
+            }
+          }
+        },
+        "security_evaluation_status": "complete",
+        "security_rule_statuses": {
+          "FUSE-BIN-001": "complete",
+          "FUSE-BIN-002": "complete"
+        },
+        "truncation": {
+          "api_references": false,
+          "cross_references": true,
+          "exports": true,
+          "functions": false,
+          "imports": false,
+          "memory_blocks": false,
+          "strings": true,
+          "symbols": true
+        }
+      }
+    },
+    "esp32s3": {
+      "input_comparison": {
+        "basis": "same_pinned_source_rebuild",
+        "input_bytes_match": true,
+        "pinned_provenance_matches": true,
+        "sha256_matches": false
+      },
+      "previous": {
+        "artifact_bytes": 658811,
+        "elapsed_seconds": 18.80768889699999,
+        "fuse_commit": "cca712eaea7494c5a5a776f6668d72eb5db95031",
+        "ghidra_version": "12.2",
+        "input_bytes": 3049700,
+        "input_sha256": "1315dc271837076a925df9a7cc942e0a08204097cba9526c2675fb109de35457",
+        "inventory_status": "partial",
+        "peak_process_tree_rss_bytes": 899727360,
+        "provenance": {
+          "command": "idf.py set-target TARGET && idf.py build",
+          "commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+          "image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+          "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
+          "project": "ESP-IDF hello_world",
+          "redistribution": "binary not committed; build from pinned official image",
+          "repository": "https://github.com/espressif/esp-idf",
+          "source_available": true
+        },
+        "rule_ids": [],
+        "security_evaluation_status": "unsupported",
+        "truncation": {
+          "api_references": false,
+          "cross_references": false,
+          "exports": true,
+          "functions": false,
+          "imports": false,
+          "memory_blocks": false,
+          "strings": true,
+          "symbols": true
+        }
+      },
+      "revised": {
+        "artifact_bytes": 659636,
+        "elapsed_seconds": 19.698857952999987,
+        "fuse_commit": "5d5ca11d3bdab399242ab0ce9bdaeb43a4154707",
+        "ghidra_version": "12.2",
+        "harness_commit": "324a17ac3eb9d581335a12078f1365d72e30b96f",
+        "input_bytes": 3049700,
+        "input_sha256": "ccf9acff1a43c4d5b7149808a216178aa80da16aed1a2d75283380cba61f7156",
+        "inventory_status": "partial",
+        "peak_process_tree_rss_bytes": 987693056,
+        "provenance": {
+          "command": "idf.py set-target TARGET && idf.py build",
+          "commit": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+          "image": "espressif/idf@sha256:bf72fe7a15c22849a9a94147301165a545fb8905d97c176cf748e3e4614cac84",
+          "license": "CC0-1.0 example; Apache-2.0 ESP-IDF components (component licenses also apply)",
+          "project": "ESP-IDF hello_world",
+          "redistribution": "binary not committed; build from pinned official image",
+          "repository": "https://github.com/espressif/esp-idf",
+          "source_available": true
+        },
+        "rule_ids": [],
+        "security_counts": {
+          "data_items_scanned": 17588,
+          "references_visited": 0,
+          "rules": {
+            "FUSE-BIN-001": {
+              "observed": 0,
+              "reported": 0,
+              "truncated": false
+            },
+            "FUSE-BIN-002": {
+              "observed": 0,
+              "reported": 0,
+              "truncated": false
+            }
+          }
+        },
+        "security_evaluation_status": "complete",
+        "security_rule_statuses": {
+          "FUSE-BIN-001": "complete",
+          "FUSE-BIN-002": "complete"
+        },
+        "truncation": {
+          "api_references": false,
+          "cross_references": true,
+          "exports": true,
+          "functions": false,
+          "imports": false,
+          "memory_blocks": false,
+          "strings": true,
+          "symbols": true
+        }
+      }
+    }
+  }
+}

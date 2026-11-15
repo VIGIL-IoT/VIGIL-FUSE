@@ -71,12 +71,16 @@ The example values are illustrative. Check the selected Ghidra installation's pr
 
 ## Output and initial findings
 
-The report directory contains `ghidra-analysis.json` when the stage produces a validated artifact. Its separate [JSON Schema](../src/vigil_fuse/schemas/ghidra-analysis.schema.json) covers:
+The report directory contains `ghidra-analysis.json` when the stage produces a validated artifact. Schema 1.1 is the current format. The adapter continues to accept schema 1.0 artifacts, but marks their security-rule evaluation unsupported because they lack the independent traversal. See the [current schema](../src/vigil_fuse/schemas/ghidra-analysis.schema.json), [version 1.1 schema](../src/vigil_fuse/schemas/ghidra-analysis-1.1.schema.json), and [preserved version 1.0 schema](../src/vigil_fuse/schemas/ghidra-analysis-1.0.schema.json). The artifact covers:
 
 - input SHA-256, format, and byte size
 - Ghidra version, loader, processor, language, compiler specification, endianness, pointer size, and image base
 - entry points, memory blocks, functions, symbols, imports, exports, strings, cross references, and selected API references
 - per-inventory limits, observed and reported counts, truncation flags, warnings, and analysis status
+- separate binary inventory coverage and security-rule evaluation coverage
+- per-rule evidence counts, bounded traversal counts, and rule-specific partial or unsupported status
+
+General-purpose inventory remains bounded, including the 1,024-record string export. FUSE-BIN-001 and FUSE-BIN-002 use an independent traversal bounded to 100,000 defined data items, 16,384 reference visits, and 2,048 reported references per rule. A partial inventory can therefore coexist with complete security-rule evaluation. If the independent traversal reaches a bound, the affected rule coverage is partial and an empty finding list must not be read as a clean result. A per-rule evidence cap also makes that rule partial; when traversal finishes, `observed` remains an exact count, while `observed_is_lower_bound` is true only when traversal itself stopped early. The artifact reports inventory status and security evaluation status separately.
 
 One [controlled local benchmark](experiments/ghidra-adapter-2026-11-03.md) records Ghidra startup, headless-process and adapter wall time, and sampled process-tree RSS. It is a single Windows sample without a performance threshold. It does not support general speed or memory claims.
 
@@ -84,10 +88,10 @@ The Python adapter redacts password-like assignments, JWT-shaped values, private
 
 | Rule | Evidence required | Severity | Confidence |
 | --- | --- | --- | --- |
-| `FUSE-BIN-001` | A Ghidra cross reference from a function to an `http://` string | Low | High |
-| `FUSE-BIN-002` | A Ghidra cross reference from a function to an `mqtt://` string | Low | High |
+| `FUSE-BIN-001` | An independent Ghidra traversal finds a code reference to an `http://` string | Low | High |
+| `FUSE-BIN-002` | An independent Ghidra traversal finds a code reference to an `mqtt://` string | Low | High |
 
-Both rules use candidate applicability and `not-validated` validation status. A cross reference does not prove that the function runs, that traffic reaches the endpoint, or that a device is affected. Imported symbols alone do not create vulnerability findings.
+Both rules use candidate applicability and `not-validated` validation status. Evidence records include addresses and function metadata, not endpoint contents. A code reference does not prove that the function runs, that traffic reaches the endpoint, or that a device is affected. Imported symbols alone do not create vulnerability findings.
 
 Report schema 1.11 adds the Ghidra analyzer status and compiled-binary capability while preserving previous report schemas. Requested analysis failures remain visible and make the CLI return an incomplete-scan exit status.
 

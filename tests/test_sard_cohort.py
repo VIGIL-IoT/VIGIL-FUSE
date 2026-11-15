@@ -92,18 +92,21 @@ class SardCohortInputTests(unittest.TestCase):
         )
 
     def test_catalogue_compares_macro_literals_without_recording_secret_values(self) -> None:
-        secret = "sensitive-fixture-value-123"
+        fixture_value = "sample-literal-123"
         source_lines = {
-            "target.c": f'#define DEVICE_PASSWORD "{secret}"\n'.encode("utf-8"),
-            "same.c": f'#define DEVICE_PASSWORD "{secret}"\n'.encode("utf-8"),
+            "target.c": f'#define DEVICE_PASSWORD "{fixture_value}"\n'.encode("utf-8"),
+            "same.c": f'#define DEVICE_PASSWORD "{fixture_value}"\n'.encode("utf-8"),
             "different.c": b'#define DEVICE_PASSWORD "another-fixture-value"\n',
         }
         findings = []
         target_files = []
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
+            fixture_sources: dict[Path, bytes] = {}
             for name, content in source_lines.items():
-                (root / name).write_bytes(content)
+                path = root / name
+                path.touch()
+                fixture_sources[path.resolve()] = content
                 target_files.append(
                     {
                         "path": name,
@@ -113,14 +116,21 @@ class SardCohortInputTests(unittest.TestCase):
                 )
                 findings.append({"location": {"file": name, "start_line": 1}})
 
-            result = summarize_findings(
-                {
-                    "sarif_targets": ["target.c"],
-                    "target_files": target_files,
-                },
-                findings,
-                root,
-            )
+            read_bytes = Path.read_bytes
+
+            def read_fixture_bytes(path: Path) -> bytes:
+                fixture = fixture_sources.get(path.resolve())
+                return fixture if fixture is not None else read_bytes(path)
+
+            with patch.object(Path, "read_bytes", read_fixture_bytes):
+                result = summarize_findings(
+                    {
+                        "sarif_targets": ["target.c"],
+                        "target_files": target_files,
+                    },
+                    findings,
+                    root,
+                )
 
         self.assertEqual(1, result["additional_same_named_macro_literal_matches"])
         self.assertEqual(2, result["additional_macro_literal_comparisons"])
@@ -130,7 +140,7 @@ class SardCohortInputTests(unittest.TestCase):
             False,
             locations["different.c"]["same_named_macro_literal_as_sarif_target"],
         )
-        self.assertNotIn(secret, json.dumps(result))
+        self.assertNotIn(fixture_value, json.dumps(result))
 
     def test_checked_in_catalogue_result_preserves_complete_secret_safe_comparison(self) -> None:
         report = json.loads(DEFAULT_OUTPUT.read_text(encoding="utf-8"))
@@ -160,8 +170,11 @@ class SardCohortInputTests(unittest.TestCase):
                 "support.c": b"const char *password = derive_secret();\n",
             }
             target_files = []
+            fixture_sources: dict[Path, bytes] = {}
             for name, content in sources.items():
-                (root / name).write_bytes(content)
+                path = root / name
+                path.touch()
+                fixture_sources[path.resolve()] = content
                 target_files.append(
                     {
                         "path": name,
@@ -169,14 +182,21 @@ class SardCohortInputTests(unittest.TestCase):
                         "sha256": hashlib.sha256(content).hexdigest(),
                     }
                 )
-            result = summarize_findings(
-                {"sarif_targets": ["target.c"], "target_files": target_files},
-                [
-                    {"location": {"file": "target.c", "start_line": 1}},
-                    {"location": {"file": "support.c", "start_line": 1}},
-                ],
-                root,
-            )
+            read_bytes = Path.read_bytes
+
+            def read_fixture_bytes(path: Path) -> bytes:
+                fixture = fixture_sources.get(path.resolve())
+                return fixture if fixture is not None else read_bytes(path)
+
+            with patch.object(Path, "read_bytes", read_fixture_bytes):
+                result = summarize_findings(
+                    {"sarif_targets": ["target.c"], "target_files": target_files},
+                    [
+                        {"location": {"file": "target.c", "start_line": 1}},
+                        {"location": {"file": "support.c", "start_line": 1}},
+                    ],
+                    root,
+                )
 
         self.assertEqual(0, result["additional_same_named_macro_literal_matches"])
         self.assertEqual(0, result["additional_macro_literal_comparisons"])
