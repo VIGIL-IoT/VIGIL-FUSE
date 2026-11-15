@@ -1,9 +1,9 @@
 # Project completion and maintenance status
 
-- **Prepared:** 2026-11-15
-- **Release candidate:** `0.4.0`
-- **Latest published release at preparation:** `v0.3.0`
-- **Release commit, tag, artifact hashes, and publication date:** to be recorded after publication
+- **Completed:** 2026-11-15
+- **Release:** `v0.4.0`
+- **Release source commit:** `7d2dcb0476ec8fd6d323807aa439744b5bd9bb44`
+- **Maintenance mode:** active
 
 VIGIL-FUSE is a cross-platform, read-only CLI for inspecting supported embedded and IoT source, configuration, metadata, hardware files, and selected firmware inputs. It reports static evidence, severity, confidence, findings, and scan coverage without executing target project code or firmware. A clean scan is not proof of security.
 
@@ -15,23 +15,21 @@ The initial scope includes native text and configuration rules, project profiles
 
 ## Gate 2: Release acceptance
 
-**PASS, pending final main-branch run record.** The Windows Python 3.14.7 acceptance pass recorded 383 tests passed, one environment-gated Docker test skipped, and 184 subtests passed. Combined statement and branch coverage was 78%, above the 75% threshold. Ruff lint and formatting, strict Mypy, documentation validation, synthetic fixture benchmark, build, Twine validation, clean-wheel installation, CLI checks, representative text/JSON/SARIF scans, and failure-path checks passed.
+**PASS.** On Windows 11 with Python 3.14.7, the clean-tree suite reported 383 passed, one environment-gated Docker test skipped, and 184 subtests passed. Coverage was 78%, above the 75% threshold. Ruff lint and formatting, strict Mypy, documentation validation for 109 Markdown files, the 24-case synthetic rule benchmark, build, Twine, clean-wheel installation, CLI help and doctor checks, and representative text, JSON, and SARIF scans passed. The local pytest run emitted one non-failing deprecation warning from the installed AnyIO pytest plugin. The published PyPI wheel was installed separately and reported `FUSE 0.4.0`.
 
-The previous main-branch FUSE CI [run 43713685076](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43713685076) and CodeQL [run 43713685081](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43713685081) passed on commit `d7fdb0cd2da0edf707d1e8fbb8071f67fbe2992d`. Final release-branch and post-merge run IDs will replace these after v0.4.0 acceptance. The dedicated Ghidra workflow and cross-platform matrix must pass for the release commit.
+The hosted FUSE CI [run 43727828373](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828373) passed the release commit across Ubuntu with Python 3.11 through 3.14, Windows and macOS with Python 3.11, package build and install, quality and coverage, and Docker fixture integration. CodeQL passed in [run 43727828442](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828442). The dedicated Ghidra 12.2 workflow passed in [run 43727828463](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828463). The selected ESP-IDF build-context workflow passed in [run 43727828391](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828391).
 
-The November 15 ESP-IDF comparison reported partial inventories for ESP32, ESP32-S3, and ESP32-C6 while the independent security traversal completed without findings. Its rebuilt ELF hashes differ from the immutable November 14 artifacts, so it is not a byte-identical rerun. The [comparison report](../reports/evaluation/2026-11-15/binary-detection/README.md) records the limits. Controlled fixtures are regression evidence, not independent accuracy evidence.
+The November 15 ESP-IDF comparison reported partial inventories for ESP32, ESP32-S3, and ESP32-C6 while the independent security traversal completed without findings. Its rebuilt ELF hashes differ from the immutable November 14 artifacts, so this is not a byte-identical rerun. The [comparison report](../reports/evaluation/2026-11-15/binary-detection/README.md) records the limits. Controlled fixtures are regression evidence, not independent accuracy evidence.
 
 ## Gate 3: Security and governance
 
-**PASS, pending release-branch verification.** Main CodeQL passed and there were zero open code-scanning and secret-scanning alerts at preparation. The active `Protect main` ruleset requires pull requests, CI, package build, quality, Docker integration, and CodeQL while blocking deletion and force pushes. The owner has explicitly confirmed Shantanu as copyright holder, authorized Restricted Use License v1.2 and release 0.4.0, and accepted responsibility for the distribution decision. VIGIL-IoT remains the project identity and namespace.
+**PASS.** At final verification, the active `Protect main` ruleset required pull requests and required checks. GitHub reported zero open code-scanning alerts and zero open secret-scanning alerts. Shantanu confirmed copyright ownership, authorized Restricted Use License v1.2 and release 0.4.0, and accepted responsibility for the distribution decision. VIGIL-IoT remains the project identity and namespace.
 
-The license identifies third-party software as excluded where separate terms apply. Ghidra remains an optional external installation. Credits and notices cover Ghidra, the vendored Anatomy kit, Archify output, and the embedded JetBrains Mono font. The owner decision and historical MIT terms are recorded in the [rights and distribution record](governance/rights-review-packet.md). No external legal review is claimed. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open, and successful publication is not PyPI policy approval.
-
-The owner has authorized the official unmodified wheel and source distribution through PyPI after technical checks pass. No distribution channel beyond those stated in Restricted Use License v1.2 is implied.
+Third-party notices cover Ghidra, the vendored Anatomy kit, Archify output, and the embedded JetBrains Mono font. Ghidra remains an optional external installation. Earlier MIT permissions remain valid for copies distributed under those terms. No external legal review is claimed. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. Successful publication is not PyPI policy approval.
 
 ## Gate 4: Release
 
-**BLOCKED until publication.** The release candidate is `0.4.0`. Gate 4 passes only after the verified main commit is tagged `v0.4.0`, the GitHub release is published, the trusted-publishing workflow succeeds, and the public PyPI files, metadata, license, hashes, and installed CLI are verified. Until then, the initial development scope is not declared complete.
+**PASS.** The annotated `v0.4.0` tag targets the verified main commit. The [GitHub release](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases/tag/v0.4.0) was published on 2026-11-15. The existing [trusted-publishing workflow run 43729913149](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43729913149) built and validated the release distributions, matched their version to the tag, and published them to PyPI. The public files' SHA-256 digests match PyPI metadata, both distributions include `LICENSE`, the package metadata names `LicenseRef-VIGIL-FUSE-Restricted-Use-1.2`, and a fresh public installation reports `FUSE 0.4.0`.
 
 ## Known limitations
 
@@ -44,7 +42,7 @@ The owner has authorized the official unmodified wheel and source distribution t
 
 ## Maintenance policy
 
-After the verified 0.4.0 release, feature development for the initial scope is frozen. Maintenance permits confirmed defect and security fixes, dependency and supported-platform compatibility, packaging fixes, documentation corrections, and regression tests. New analyzers, rule families, research features, firmware emulation, hardware programming, and UI redesigns require separately approved future scope.
+Initial feature development is complete and FUSE is in maintenance mode. Maintenance permits confirmed defect and security fixes, dependency and supported-platform compatibility, packaging fixes, documentation corrections, and regression tests. New analyzers, rule families, research features, firmware emulation, hardware programming, and UI redesigns require separately approved future scope.
 
 ## Independent evaluation status
 
@@ -54,17 +52,24 @@ The November 14 evaluation remains immutable. The November 15 binary comparison 
 
 | Item | Value |
 | --- | --- |
-| Main commit | Pending release merge |
-| Annotated tag and tag SHA | Pending |
-| Source distribution SHA-256 | Pending |
-| Wheel SHA-256 | Pending |
-| GitHub release | Pending |
-| PyPI package | Pending |
-| Publication date | Pending |
-| FUSE CI run | Pending |
-| CodeQL run | Pending |
-| Ghidra integration run | Pending |
+| Release source commit | `7d2dcb0476ec8fd6d323807aa439744b5bd9bb44` |
+| Annotated tag | `v0.4.0` |
+| Annotated tag object SHA-1 | `d1e7a01930f9a89a5b3380c1fe77c190eff3289f` |
+| Tag target commit | `7d2dcb0476ec8fd6d323807aa439744b5bd9bb44` |
+| Wheel SHA-256 | `b1131aa9160d375e2beb0cff13e96c6c3bbc1468cb0df4cbd6ac0a8f58a6022f` |
+| Source distribution SHA-256 | `e20bc18bc63b7bae7afc5287a129b14e4a539e813c7517965a2baf6404094275` |
+| GitHub release | [FUSE 0.4.0](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases/tag/v0.4.0) |
+| PyPI package | [vigil-fuse 0.4.0](https://pypi.org/project/vigil-fuse/0.4.0/) |
+| GitHub release published | 2026-11-15 15:26:43 UTC |
+| PyPI upload | 2026-11-15 15:27:11 UTC |
+| FUSE CI | [run 43727828373](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828373) |
+| CodeQL | [run 43727828442](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828442) |
+| Ghidra integration | [run 43727828463](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828463) |
+| ESP-IDF build contexts | [run 43727828391](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43727828391) |
+| PyPI trusted publishing | [run 43729913149](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43729913149) |
 
 ## Completion declaration
 
-**RELEASE BLOCKED**
+**COMPLETE**
+
+> VIGIL-FUSE initial development is complete. The project has entered maintenance mode.

@@ -1,10 +1,10 @@
 # Release process
 
-VIGIL-FUSE remains in the 0.x alpha series. The owner has authorized release 0.4.0 under the VIGIL-FUSE Restricted Use License v1.2 after the required technical checks pass. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license.
+VIGIL-FUSE remains in the 0.x alpha series. Version 0.4.0 was published on 2026-11-15 under the VIGIL-FUSE Restricted Use License v1.2 after the required technical checks passed. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license. Initial feature development is complete and maintenance mode is active.
 
 The license has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. The owner has authorized the release while policy guidance is pending. A successful upload is not PyPI policy approval. The current owner decision and historical license record are in the [rights and distribution record](governance/rights-review-packet.md).
 
-## Release candidate checks
+## 0.4.0 release acceptance record
 
 From a clean working tree on the release-preparation branch:
 
@@ -48,4 +48,4 @@ PyPI's [Terms of Service](https://policies.python.org/pypi.org/Terms-of-Service/
 
 ## Maintenance mode
 
-After 0.4.0 is published and verified, initial feature development is complete. Maintenance work is limited to confirmed defects, security fixes, dependency and supported-platform compatibility, packaging fixes, documentation corrections, and regression tests. New analyzers, rules, research features, firmware emulation, hardware programming, and UI redesigns require a separately approved future scope.
+Version 0.4.0 has been published and verified. Maintenance work is limited to confirmed defects, security fixes, dependency and supported-platform compatibility, packaging fixes, documentation corrections, and regression tests. New analyzers, rules, research features, firmware emulation, hardware programming, and UI redesigns require a separately approved future scope.
