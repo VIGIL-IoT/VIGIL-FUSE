@@ -1,8 +1,9 @@
-VIGIL-FUSE RESTRICTED USE LICENSE, VERSION 1.1
+VIGIL-FUSE RESTRICTED USE LICENSE, VERSION 1.2
 
-Copyright (c) 2026 VIGIL-IoT
+Copyright (c) 2026 Shantanu
+All rights reserved.
 
-Effective date: 2026-11-04
+Effective date: 2026-11-15
 
 This is a custom source-available license. It is not an OSI-approved open-source
 license. By installing, running, modifying, or distributing the Software as
@@ -10,18 +11,20 @@ permitted below, you agree to these terms.
 
 1. Definitions
 
-"Software" means FUSE and the source code, object code, documentation, and
-other files owned by VIGIL-IoT and expressly made available under this license.
-It excludes third-party components, assets, data, and dependencies identified
-as subject to separate terms. Those separate terms continue to apply.
+"Software" means VIGIL-FUSE, including its source code, object code,
+documentation, and other files owned by Shantanu and expressly made available
+under this license. It excludes third-party components, assets, data, and
+dependencies identified as subject to separate terms. Those separate terms
+continue to apply.
 
 "Official PyPI Distribution" means an unmodified source distribution or wheel
-for the package named "vigil-fuse", uploaded to PyPI by VIGIL-IoT or by a
-publisher authorized by VIGIL-IoT.
+for the package named "vigil-fuse", published by Shantanu, by VIGIL-IoT acting
+with Shantanu's authorization, or by another publisher explicitly authorized
+by Shantanu.
 
-"PyPI Services" means the Python Package Index service operated at pypi.org,
-its service providers, and facilities that operate a PyPI-compatible cache or
-mirror.
+"PyPI Services" means PyPI at pypi.org, the Python Software Foundation (PSF),
+the infrastructure and service providers used to operate PyPI, PyPI users,
+and public or private caches and mirrors that interoperate with PyPI.
 
 "You" means the person or organization using the Software. If you use the
 Software for an organization, that organization is the licensee. Its employees
@@ -29,80 +32,83 @@ and contractors may use the Software only on its behalf and under these terms.
 
 2. Permission to use
 
-VIGIL-IoT grants you a worldwide, royalty-free, non-exclusive,
+Shantanu grants you a worldwide, royalty-free, non-exclusive,
 non-transferable license to download and make the copies reasonably necessary
 to install, run, test, back up, and privately modify the Software.
 
 You may use the Software for personal, educational, research, internal
 business, and other commercial purposes. You may use, share, and publish the
 analysis outputs produced by the Software. You may run the Software as part of
-a hosted service, provided that you do not provide third parties with a copy of
-the Software or a modified version.
+a hosted service, provided that you do not provide third parties with a copy
+of the Software or a modified version.
 
 You may modify the Software for your own private or internal use. You may not
-publish or share those modifications, patches, or derivative versions.
+publish or share those modifications, patches, or derivative versions without
+written permission from Shantanu.
 
 3. PyPI distribution permission
 
-VIGIL-IoT authorizes itself and publishers it has authorized to publish
-Official PyPI Distributions. For each Official PyPI Distribution, VIGIL-IoT
-grants the Python Software Foundation, its service providers, PyPI users, and
-operators of PyPI-compatible mirrors a worldwide, royalty-free,
-non-exclusive license to reproduce, host, cache, distribute, transmit, display,
-perform, publish, and make available unmodified copies of the Software through
-PyPI Services. These permissions allow PyPI Services to operate, cache, mirror,
-and archive the package, and allow users to download, install, run, test, back
-up, and redistribute unmodified package copies through PyPI Services.
+Official PyPI Distributions may be published by Shantanu, by VIGIL-IoT acting
+with Shantanu's authorization, or by another publisher explicitly authorized
+by Shantanu. For each Official PyPI Distribution, Shantanu grants the PSF,
+its legal successors and assigns, PyPI service providers, PyPI users, and
+operators of PyPI-compatible caches and mirrors a worldwide, royalty-free,
+non-exclusive license to host, reproduce, cache, distribute, transmit,
+display, perform, publish, archive, and make available unmodified copies of
+that distribution through PyPI Services. These permissions allow PyPI Services
+to operate and allow users to download, install, run, test, back up, and
+redistribute unmodified copies through PyPI Services.
 
-The permission to redistribute is limited to unmodified copies of an Official
-PyPI Distribution, through PyPI Services, without a fee for the Software
-itself. This permission does not authorize redistribution through another
-package registry, source repository, container registry, or download service.
-It does not authorize modified or derivative versions, repackaging, or removal
-of copyright notices or this license. This section is the only exception to
-the restrictions in section 4.
+Redistribution under this section is limited to unmodified copies of an
+Official PyPI Distribution through PyPI Services, without a fee for the
+Software itself. It does not authorize distribution through another package
+registry, source repository, container registry, or download service. It does
+not authorize modified or derivative versions, repackaging, or removal of
+copyright or license notices. This section is the only exception to the
+restrictions in section 4.
 
 4. Restrictions
 
 Except for the limited permission in section 3 or separate written permission
-from VIGIL-IoT, you may not:
+from Shantanu, you may not:
 
-- distribute, publish, sublicense, sell, rent, lease, transfer, or otherwise
+- republish, distribute, sublicense, sell, rent, lease, transfer, or otherwise
   provide a copy of the Software to another person or organization;
 - upload or mirror the Software, or a modified version, to a public or private
-  package registry, source repository, container registry, or download service;
+  package registry, source repository, container registry, or download
+  service;
 - publish, share, or distribute a modified or derivative version, including a
-  fork or patch set; or
-- remove or alter copyright notices or this license.
+  fork or patch set;
+- relicense the Software or remove or alter copyright or license notices;
+- claim authorship or ownership of VIGIL-FUSE; or
+- use VIGIL-IoT, VIGIL, or FUSE names, logos, or trademarks to imply
+  endorsement or affiliation.
 
 The permission to make installation, execution, backup, and private
 modification copies in section 2 does not permit sharing those copies except
 as expressly allowed in section 3.
 
-This license does not grant permission to use VIGIL-IoT, VIGIL, or FUSE names,
-logos, or trademarks to imply endorsement or affiliation.
-
 5. Ownership
 
-VIGIL-IoT retains ownership of the Software. This license grants only the
-permissions stated above. It does not transfer copyright or any other
-ownership rights to you.
+Shantanu retains ownership and copyright in VIGIL-FUSE. This license grants
+specific permissions to users but does not transfer ownership of the
+Software.
 
 6. Termination
 
 Your permissions under this license end if you materially violate its terms.
-They resume if VIGIL-IoT expressly reinstates them in writing.
+They resume if Shantanu expressly reinstates them in writing.
 
 7. Warranty and liability
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL
-VIGIL-IoT OR THE COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+SHANTANU OR THE COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
 OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 8. Other permissions
 
-Any permission outside this license must be granted in writing by VIGIL-IoT.
+Any permission outside this license must be granted in writing by Shantanu.

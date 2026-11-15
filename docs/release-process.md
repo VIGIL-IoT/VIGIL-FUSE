@@ -1,26 +1,28 @@
 # Release process
 
-FUSE remains in the 0.x alpha series. The repository owner authorized the first PyPI publication attempt for version 0.3.0 on 2026-11-11, and the package is now published at [pypi.org/project/vigil-fuse](https://pypi.org/project/vigil-fuse/). Legal review and PyPI policy confirmation remain unresolved. Publication is an owner release decision, not legal advice or PyPI approval, and applies to this release only.
+VIGIL-FUSE remains in the 0.x alpha series. The owner has authorized release 0.4.0 under the VIGIL-FUSE Restricted Use License v1.2 after the required technical checks pass. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license.
 
-## Local release candidate checks
+The license has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. The owner has authorized the release while policy guidance is pending. A successful upload is not PyPI policy approval. The current owner decision and historical license record are in the [rights and distribution record](governance/rights-review-packet.md).
 
-From a clean working tree after the intended changes are reviewed:
+## Release candidate checks
+
+From a clean working tree on the release-preparation branch:
 
 ```powershell
 python -m pip install -e ".[dev]"
 python -m pytest -q
-python scripts/evaluate_rule_benchmark.py --check
-python -m ruff check src tests scripts
-python -m coverage run -m pytest
+python -m coverage run -m pytest -q
 python -m coverage report -m --fail-under=75
+python -m ruff check src tests scripts
 python -m ruff format --check src tests scripts
 python -m mypy
 python scripts/validate_docs.py
+python scripts/evaluate_rule_benchmark.py --check
 python -m build
 python -m twine check dist/*
 ```
 
-Install the built wheel into a clean virtual environment and verify:
+Install the built wheel in a fresh virtual environment and verify:
 
 ```powershell
 vigil-fuse --version
@@ -29,33 +31,21 @@ vigil-fuse doctor
 vigil-fuse scan --help
 ```
 
-Also validate report schemas, run a small representative scan, inspect generated text/JSON/SARIF and artifacts, and confirm optional-stage failures and partial coverage are visible. Keep coverage artifacts out of version control.
+Exercise representative text, JSON, and SARIF scans. Confirm machine-readable output contains no terminal banner. Keep build artifacts and test reports out of the repository.
 
 ## Version and release gates
 
-- Keep the version in `0.x` while the documented release gates are incomplete.
-- Require green supported-Python CI, package build and install smoke test, schema validation, security-specific tests, and the synthetic fixture benchmark.
-- Reproduce validation reports from pinned manifests and preserve the distinction between development, regression, and holdout data.
-- Review the full diff for secrets, user-owned scan artifacts, generated output, and unsupported claims.
-- For version 0.3.0, the owner chose to proceed before qualified license review and PyPI policy confirmation. The custom license permits personal and commercial use and grants narrow distribution rights for unmodified official packages through PyPI and its mirrors. The remaining review risk is recorded in the rights packet. Do not describe PyPI as having approved the package.
-- Create tags and releases only after an owner explicitly requests publication and the release contents have been reviewed.
+- Use `0.4.0` for this authorized final release of the initial development scope. Do not bump to `1.0.0`; the project does not promise stable 1.x APIs.
+- Require passing Linux, Windows, and macOS CI, the package build and clean-install smoke test, the quality and coverage job, Docker fixture integration, CodeQL, and the dedicated Ghidra integration workflow.
+- Confirm no open secret-scanning alerts, the active `Protect main` ruleset, the `vigil-fuse` package metadata, and inclusion of the license in both distributions.
+- Review the final diff for personal paths, secrets, generated temporary files, historical report changes, and unsupported security or firmware claims.
+- Merge the release-preparation pull request only after all required checks pass.
+- Create the annotated `v0.4.0` tag from the verified main commit, then publish GitHub release `FUSE 0.4.0`. The existing `pypi-publish.yml` workflow builds from that tag, runs Twine validation, checks the artifact version, and publishes through GitHub Trusted Publishing in the `pypi` environment.
+- Verify the public PyPI metadata, custom license identifier, included `LICENSE`, artifact hashes, and a clean installation reporting `vigil-fuse --version` as `0.4.0`.
+- Record the commit and tag SHAs, wheel and source archive SHA-256 hashes, release and package URLs, publication date, and CI, CodeQL, and Ghidra workflow runs in the [completion record](PROJECT_COMPLETION.md).
 
-The PyPI publish workflow builds the GitHub release tag, validates the distributions, then publishes through a PyPI Trusted Publisher. Keep local release artifacts in dist/ out of the repository. The current finalization status, proposed next version, and unresolved release gates are recorded in [project completion and maintenance](PROJECT_COMPLETION.md).
+PyPI's [Terms of Service](https://policies.python.org/pypi.org/Terms-of-Service/) describe the rights required for PSF, PyPI users, and mirrors to redistribute unmodified package files. License v1.2 includes a narrow grant for Official PyPI Distributions. This project has not received a PyPI-specific approval, and publication must not be described as approval. The [current Acceptable Use Policy](https://policies.python.org/pypi.org/Acceptable-Use-Policy/) and support issue remain documented in the rights record.
 
-## Distribution and rights gate
+## Maintenance mode
 
-The root LICENSE and Python package metadata declare the custom VIGIL-FUSE Restricted Use License, version 1.1. It grants a limited permission to publish unmodified official package distributions through PyPI and PyPI-compatible mirrors. A successful wheel build or metadata check does not establish that the license is legally sufficient, that the publisher holds all required rights, or that a channel accepts the package. The current license does not revoke permissions already granted for copies provided under earlier license text. The owner's authorization for version 0.3.0 does not resolve these rights-history, ownership, or legal-review questions.
-
-PyPI's [current Acceptable Use Policy](https://policies.python.org/pypi.org/Acceptable-Use-Policy/) includes dual-use content used for vulnerability research under its active malware and exploits policy, and says PyPI is primarily for installation and runtime use rather than research. FUSE is a defensive static security analyzer, but PyPI has not issued a project-specific decision. Support issue [#12999](https://github.com/pypi/support/issues/12999), filed on 2026-11-04, remained open with only an automated acknowledgement when checked on 2026-11-15. The owner authorized the 0.3.0 publication attempt before a response. This does not resolve the policy question or indicate PyPI endorsement.
-
-Use the [rights and distribution review packet](governance/rights-review-packet.md) to collect ownership, prior-license, third-party asset, contribution, channel, and release-approval evidence. It is a checklist, not legal advice or a substitute for qualified review.
-
-GitHub Packages does not currently provide a Python package registry. Its documented registries include Container, npm, RubyGems, Apache Maven, Gradle, and NuGet, so it cannot serve as a standard `pip`, `pipx`, or `uv` index for FUSE. See GitHub's [package registry list](https://docs.github.com/en/packages/learn-github-packages/introduction-to-github-packages). A GitHub Release can host wheel or source archive assets, but publishing those assets still needs a documented rights decision. See GitHub's [release asset documentation](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
-
-For later releases or distribution channels, the owner should resolve these options with qualified legal review:
-
-- Confirm that the declared use, modification, redistribution, report, and trademark terms match the owner's intent. Keep the current no-code-contributions pause until contribution rights are documented.
-- Select a distribution channel and review its current terms. GitHub Packages is not a Python package index.
-- Confirm that `pyproject.toml` metadata and release documentation match the approved rights decision before creating public assets.
-
-The owner decision authorized the first PyPI publication attempt for version 0.3.0, which completed successfully. Other registries and future releases remain gated on a separate documented owner decision and rights review. The license-history, ownership, and PyPI policy questions remain open. This checklist is an engineering record, not legal advice.
+After 0.4.0 is published and verified, initial feature development is complete. Maintenance work is limited to confirmed defects, security fixes, dependency and supported-platform compatibility, packaging fixes, documentation corrections, and regression tests. New analyzers, rules, research features, firmware emulation, hardware programming, and UI redesigns require a separately approved future scope.

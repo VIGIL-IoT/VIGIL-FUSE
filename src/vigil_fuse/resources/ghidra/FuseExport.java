@@ -1,4 +1,4 @@
-// Copyright (c) VIGIL-IoT contributors.
+// Copyright (c) 2026 Shantanu.
 // This FUSE-owned script uses documented Ghidra APIs and is not copied from Ghidra.
 
 import ghidra.app.util.headless.HeadlessScript;
