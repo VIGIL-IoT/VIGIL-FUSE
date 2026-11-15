@@ -130,6 +130,7 @@ jobs:
           cases=(positive-O0 positive-O1 positive-O2 positive-Os secure-O2 unreferenced-O2 limited-O0 \
             positive-O2-stripped secure-O2-stripped unreferenced-O2-stripped)
           for case in "${cases[@]}"; do
+            set +e
             TMPDIR="$work/tmp" vigil-fuse scan "$work/$case.elf" \
               --ghidra \
               --ghidra-install-dir "$GHIDRA_INSTALL_DIR" \
@@ -137,6 +138,13 @@ jobs:
               --output-dir "$work/output-$case" \
               --format json \
               --no-network
+            scan_status=$?
+            set -e
+            if [[ "$case" == limited-O0 ]]; then
+              test "$scan_status" -eq 2
+            else
+              test "$scan_status" -eq 0
+            fi
           done
           python - "$work" <<'PY'
           import json
