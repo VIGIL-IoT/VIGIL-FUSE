@@ -29,8 +29,10 @@ class BinaryDetectionComparisonTests(unittest.TestCase):
                 real_id = f"{target}-idf-hello-world"
                 record = {
                     "id": real_id,
-                    "provenance": {"project": "ESP-IDF hello_world"},
-                    "input_sha256": old_record["input_sha256"],
+                    "provenance": old_record["provenance"],
+                    "input_sha256": (
+                        "0" * 64 if target == TARGETS[0] else old_record["input_sha256"]
+                    ),
                     "input_bytes": old_record["input_bytes"],
                     "inventory_status": "partial",
                     "security_evaluation_status": "complete",
@@ -66,6 +68,7 @@ class BinaryDetectionComparisonTests(unittest.TestCase):
             build(source, destination)
             comparison = json.loads((destination / "comparison.json").read_text(encoding="utf-8"))
             report = (destination / "README.md").read_text(encoding="utf-8")
+            self.assertEqual("1.1", comparison["schema_version"])
             for target in TARGETS:
                 self.assertEqual(
                     "unsupported",
@@ -78,10 +81,28 @@ class BinaryDetectionComparisonTests(unittest.TestCase):
                     "complete",
                     comparison["targets"][target]["revised"]["security_evaluation_status"],
                 )
+                self.assertEqual(
+                    target != TARGETS[0],
+                    comparison["targets"][target]["input_comparison"]["sha256_matches"],
+                )
+                self.assertEqual(
+                    comparison["targets"][target]["previous"]["provenance"],
+                    comparison["targets"][target]["revised"]["provenance"],
+                )
             self.assertIn("Old rule evaluation | New rule evaluation", report)
-            self.assertNotIn("—", report)
+            self.assertIn("original November 14 ELF files were not archived", report)
+            self.assertNotIn(chr(0x2014), report)
             with self.assertRaises(FileExistsError):
                 build(source, destination)
+
+            current_path = source / TARGETS[1] / "compatibility.json"
+            current = json.loads(current_path.read_text(encoding="utf-8"))
+            current["records"][0]["provenance"]["commit"] = "changed"
+            current_path.write_text(json.dumps(current), encoding="utf-8")
+            invalid_destination = root / "invalid-report"
+            with self.assertRaisesRegex(ValueError, "Pinned build provenance changed"):
+                build(source, invalid_destination)
+            self.assertFalse(invalid_destination.exists())
 
 
 if __name__ == "__main__":

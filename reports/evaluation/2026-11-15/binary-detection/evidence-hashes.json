@@ -1,0 +1,17 @@
+{
+  "evidence/esp32/compatibility.json": "ebc268de7212a20e7f1f8e4a574326027b2414a067b74bdcb355e85c9e13875b",
+  "evidence/esp32/output/findings.json": "b975be8a8f15c1a7639039603c53bc0b5d95a8aa22044eead5663e284bc9c1f5",
+  "evidence/esp32/output/findings.sarif": "2f499b819ac0676f6b1d22237d14e1d9c23e759d963ebd75bc58d9b6d309dba5",
+  "evidence/esp32/output/findings.txt": "fd85b8841b36e9e190ebc40ee780793b3cf9c37ea0c48e91fcfcc2d982cb2621",
+  "evidence/esp32/output/ghidra-analysis.json": "38c0a31652bf442506a5340916287837cd39a20dabe98e5262865ff34330634e",
+  "evidence/esp32c6/compatibility.json": "ca134a7da0f3699cfb37fb296ab7fbfa44935850d59874babe00a24fc0508380",
+  "evidence/esp32c6/output/findings.json": "43423975fec6c45211f1477fdc7b4e9a2823b37007f086e7178b764a0180c801",
+  "evidence/esp32c6/output/findings.sarif": "36cf6a34c07ef3a581acaced4654e0f325dc64149d898167239fe161e15c4e30",
+  "evidence/esp32c6/output/findings.txt": "33f31717cf2679151bfeadb83de9dd377249e6f9a44997dac920463aee7fdd23",
+  "evidence/esp32c6/output/ghidra-analysis.json": "4a824adb7fd3c1f9791bce42f8f359518fb6d23bc04e3f9b460dabe05400f336",
+  "evidence/esp32s3/compatibility.json": "7b10f6fa93e01f7964fc37dbd376334f5e4b73dca3f3c5feca2b72a464653c12",
+  "evidence/esp32s3/output/findings.json": "e11bcb62f8c659871de7c3c48d925891fcb01e3bb8fb741a93c305ea41475e25",
+  "evidence/esp32s3/output/findings.sarif": "88846919c03a886ba0925e3c295ec7e8fdd6a8cf7c138911ad9a77387cb0fffc",
+  "evidence/esp32s3/output/findings.txt": "8752b004784e227a00dc443b19b03cb08e183f41a39d94fa5c9a44e4872f50f8",
+  "evidence/esp32s3/output/ghidra-analysis.json": "7901e14897b09ed7a54d87cf27b207177b27bce0dd6764649ed9c1a68099a55e"
+}

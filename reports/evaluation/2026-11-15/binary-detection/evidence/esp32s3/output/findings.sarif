@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "FUSE",
+          "semanticVersion": "0.3.0",
+          "rules": []
+        }
+      },
+      "artifacts": [
+        {
+          "location": {
+            "uri": "ghidra-analysis.json"
+          },
+          "mimeType": "application/vnd.vigil-fuse.ghidra-analysis+json",
+          "hashes": {
+            "sha-256": "7901e14897b09ed7a54d87cf27b207177b27bce0dd6764649ed9c1a68099a55e"
+          }
+        }
+      ],
+      "originalUriBaseIds": {
+        "%SRCROOT%": {
+          "uri": "./"
+        }
+      },
+      "results": [],
+      "properties": {
+        "target": "hello_world.elf",
+        "profile": "generic",
+        "networkPolicy": "no-network",
+        "inputManifestSha256": "aee62f6d1508b690400facdfa47b40eac92f276efa4055605c6d75b535daaa3d",
+        "analysisPerformed": true,
+        "analyzers": [
+          {
+            "name": "fuse-native",
+            "status": "skipped",
+            "version": "0.3.0"
+          },
+          {
+            "name": "native-rule:FUSE001",
+            "status": "skipped",
+            "version": "1.9.0"
+          },
+          {
+            "name": "native-rule:FUSE002",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE003",
+            "status": "skipped",
+            "version": "1.4.0"
+          },
+          {
+            "name": "native-rule:FUSE004",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE005",
+            "status": "skipped",
+            "version": "1.1.0"
+          },
+          {
+            "name": "native-rule:FUSE006",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "native-rule:FUSE007",
+            "status": "skipped",
+            "version": "1.2.0"
+          },
+          {
+            "name": "firmware-candidate-inventory",
+            "status": "completed",
+            "version": null
+          },
+          {
+            "name": "ghidra",
+            "status": "completed",
+            "version": "12.2"
+          }
+        ],
+        "sarifExport": {
+          "resultsAvailable": 0,
+          "resultsIncluded": 0,
+          "resultsOmitted": 0,
+          "maxBytes": 9437184
+        }
+      }
+    }
+  ]
+}
