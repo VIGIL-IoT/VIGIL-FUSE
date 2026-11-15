@@ -6,10 +6,10 @@ This matrix separates tested software combinations from declared package metadat
 
 | Operating system and runner | Python versions | Status | Evidence | Notes |
 | --- | --- | --- | --- | --- |
-| Ubuntu GitHub-hosted runner | 3.11, 3.12, 3.13, 3.14 | CI verified | `.github/workflows/ci.yml`; FUSE CI [run 41457214087](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41457214087) | One hosted runner image per matrix job |
-| Windows GitHub-hosted runner | 3.11 | CI verified | `.github/workflows/ci.yml`; FUSE CI [run 41457214087](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41457214087) | Windows path and process behavior also has focused regression tests |
-| macOS GitHub-hosted runner | 3.11 | CI verified | `.github/workflows/ci.yml`; FUSE CI [run 41457214087](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/41457214087) | The workflow tests Python 3.11 on the current hosted image |
-| Windows local environment | 3.14.7 | Locally verified | Full test, editable-install usage-guide smoke, package build, and CLI scan on 2026-11-02 | This is one developer workstation, not a CI support claim |
+| Ubuntu GitHub-hosted runner | 3.11, 3.12, 3.13, 3.14 | CI verified | `.github/workflows/ci.yml`; FUSE CI [run 43708705224](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43708705224) | One hosted runner image per matrix job |
+| Windows GitHub-hosted runner | 3.11 | CI verified | `.github/workflows/ci.yml`; FUSE CI [run 43708705224](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43708705224) | Windows path and process behavior also has focused regression tests |
+| macOS GitHub-hosted runner | 3.11 | CI verified | `.github/workflows/ci.yml`; FUSE CI [run 43708705224](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43708705224) | The workflow tests Python 3.11 on the current hosted image |
+| Windows local environment | 3.14.7 | Locally verified | Final acceptance test suite and package smoke checks on 2026-11-15 | This is one developer workstation, not a CI support claim |
 
 Package metadata declares Python `>=3.11`. Python versions newer than 3.14 and Python/OS combinations not listed above are untested here. See `pyproject.toml` and the CI workflow for current declarations.
 
@@ -28,7 +28,7 @@ See the [experiment records](experiments/) and [firmware analysis limits](firmwa
 
 ## Container isolation
 
-The opt-in Docker analyzer path has a dedicated Linux CI job using a pinned fixture base image. Its hosted result is pending. A separate local Windows Docker Desktop smoke check used the official SHA-256-pinned Syft v1.55.0 image and verified two CycloneDX components on a nested report path. Docker mode has not been verified on macOS, Linux rootless Docker, or other daemon versions. Host mode remains the default and has the broader core package compatibility matrix above. See the [maturity closure plan](research/maturity-100-closure-plan-2026-11-02.md) for the security evidence and residual limits.
+The opt-in Docker analyzer path has a dedicated hosted Ubuntu fixture integration in FUSE CI [run 43708705224](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/runs/43708705224). A separate local Windows Docker Desktop smoke check used the official SHA-256-pinned Syft v1.55.0 image and verified two CycloneDX components on a nested report path. Docker mode has not been verified on macOS, Linux rootless Docker, or other daemon versions. Host mode remains the default and has the broader core package compatibility matrix above. See the [maturity closure plan](research/maturity-100-closure-plan-2026-11-02.md) for the security evidence and residual limits.
 
 ## Hardware and target projects
 

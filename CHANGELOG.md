@@ -3,8 +3,9 @@
 ## Unreleased
 
 - PlatformIO context resolves shared sections and ordered multiple parents, handles multiline default environments and inline comments, and flags unresolved reported interpolation as partial. The file cap is 512 with the existing byte and include-depth caps retained; inheritance depth is bounded at 32.
+- Ghidra security candidate traversal is independently bounded from binary inventory exports. Reports distinguish inventory status from rule evaluation status. The [November 15 comparison](reports/evaluation/2026-11-15/binary-detection/README.md) preserves partial inventory and complete security evaluation as separate results.
 
-## 0.3.0 - 2026-11-11
+## 0.3.0 - 2026-11-12
 
 ### Changed
 

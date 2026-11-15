@@ -2,6 +2,8 @@
 
 FUSE is a CLI-first [VIGIL Project](https://github.com/VIGIL-IoT) for defensive embedded and IoT security analysis. Contributions should keep findings evidence-based and disclose unsupported or partial coverage.
 
+Feature development for the initial scope is frozen. Maintainer changes are limited to confirmed defects, security fixes, dependency and platform compatibility, documentation corrections, regression tests, and necessary packaging fixes. New analyzers, rule families, research features, firmware emulation, hardware programming, and UI redesigns require a separately approved scope. Public code contributions remain paused while rights and contribution terms are unresolved. See [project completion and maintenance](PROJECT_COMPLETION.md).
+
 ## Local setup
 
 ```powershell
@@ -24,7 +26,7 @@ python -m mypy
 python scripts/validate_docs.py
 python -m ruff format --check src tests scripts
 python -m coverage run -m pytest
-python -m coverage report -m --fail-under=70
+python -m coverage report -m --fail-under=75
 ```
 
 The coverage report is a development signal, not a target to inflate. CI runs strict Mypy checks across all source modules and checks Ruff formatting across the full source, test, and script trees. It also builds the wheel and source distribution, self-scans the repository, and runs the installed CLI smoke test in a clean virtual environment.

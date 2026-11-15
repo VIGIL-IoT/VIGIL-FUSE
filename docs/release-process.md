@@ -12,7 +12,10 @@ python -m pytest -q
 python scripts/evaluate_rule_benchmark.py --check
 python -m ruff check src tests scripts
 python -m coverage run -m pytest
-python -m coverage report -m --fail-under=70
+python -m coverage report -m --fail-under=75
+python -m ruff format --check src tests scripts
+python -m mypy
+python scripts/validate_docs.py
 python -m build
 python -m twine check dist/*
 ```
@@ -21,6 +24,7 @@ Install the built wheel into a clean virtual environment and verify:
 
 ```powershell
 vigil-fuse --version
+vigil-fuse --help
 vigil-fuse doctor
 vigil-fuse scan --help
 ```
@@ -36,13 +40,13 @@ Also validate report schemas, run a small representative scan, inspect generated
 - For version 0.3.0, the owner chose to proceed before qualified license review and PyPI policy confirmation. The custom license permits personal and commercial use and grants narrow distribution rights for unmodified official packages through PyPI and its mirrors. The remaining review risk is recorded in the rights packet. Do not describe PyPI as having approved the package.
 - Create tags and releases only after an owner explicitly requests publication and the release contents have been reviewed.
 
-The PyPI publish workflow builds the GitHub release tag, validates the distributions, then publishes through a PyPI Trusted Publisher. Keep local release artifacts in dist/ out of the repository.
+The PyPI publish workflow builds the GitHub release tag, validates the distributions, then publishes through a PyPI Trusted Publisher. Keep local release artifacts in dist/ out of the repository. The current finalization status, proposed next version, and unresolved release gates are recorded in [project completion and maintenance](PROJECT_COMPLETION.md).
 
 ## Distribution and rights gate
 
 The root LICENSE and Python package metadata declare the custom VIGIL-FUSE Restricted Use License, version 1.1. It grants a limited permission to publish unmodified official package distributions through PyPI and PyPI-compatible mirrors. A successful wheel build or metadata check does not establish that the license is legally sufficient, that the publisher holds all required rights, or that a channel accepts the package. The current license does not revoke permissions already granted for copies provided under earlier license text. The owner's authorization for version 0.3.0 does not resolve these rights-history, ownership, or legal-review questions.
 
-PyPI's current Acceptable Use Policy describes PyPI as a runtime distribution service rather than a research platform and discusses dual-use content related to vulnerability research under its active malware and exploits policy. FUSE is a defensive static security analyzer. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) was filed on 2026-11-04 and remained unanswered on 2026-11-11. The owner authorized the 0.3.0 publication attempt before a response. This does not resolve the policy question or indicate PyPI endorsement.
+PyPI's [current Acceptable Use Policy](https://policies.python.org/pypi.org/Acceptable-Use-Policy/) includes dual-use content used for vulnerability research under its active malware and exploits policy, and says PyPI is primarily for installation and runtime use rather than research. FUSE is a defensive static security analyzer, but PyPI has not issued a project-specific decision. Support issue [#12999](https://github.com/pypi/support/issues/12999), filed on 2026-11-04, remained open with only an automated acknowledgement when checked on 2026-11-15. The owner authorized the 0.3.0 publication attempt before a response. This does not resolve the policy question or indicate PyPI endorsement.
 
 Use the [rights and distribution review packet](governance/rights-review-packet.md) to collect ownership, prior-license, third-party asset, contribution, channel, and release-approval evidence. It is a checklist, not legal advice or a substitute for qualified review.
 
