@@ -64,7 +64,7 @@ version = { attr = "vigil_fuse.__version__" }
 where = ["src"]
 
 [tool.setuptools.package-data]
-vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "support-matrix.json"]
+vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "policies/*.rego", "support-matrix.json"]
 
 [tool.ruff]
 target-version = "py311"

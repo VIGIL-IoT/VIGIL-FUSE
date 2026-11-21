@@ -40,6 +40,12 @@ from .esp_idf_lock import lock_parser_available
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
+from .policy import (
+    evaluate_policies,
+    inspect_opa,
+    policy_results_json,
+    resolve_policy_files,
+)
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
@@ -261,6 +267,11 @@ def _parser() -> argparse.ArgumentParser:
         "--hardware-netlist",
         type=Path,
         help="inspect one KiCad XML netlist for debug-interface candidates; no PCB exposure is asserted",
+    )
+    scan_parser.add_argument(
+        "--policy",
+        type=Path,
+        help="evaluate an explicit .rego file or directory, or reference:production-iot",
     )
     scan_parser.add_argument(
         "--vex",
@@ -499,6 +510,15 @@ def _write_reports(result: ScanResult, output_dir: Path) -> None:
         path.write_text(content, encoding="utf-8")
 
 
+def _write_policy_results(document: dict[str, object], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_symlink():
+        raise OSError("Refusing to write policy results through a symbolic link")
+    if path.exists() and not path.is_file():
+        raise OSError("Policy results output path is not a regular file")
+    path.write_text(policy_results_json(document), encoding="utf-8")
+
+
 def _resolve_ghidra_install_dir(
     cli_path: Path | None,
     configured_path: str | None,
@@ -550,6 +570,10 @@ def _doctor(
         )
     )
     _safe_print(f"  Ghidra detail: {ghidra.detail}")
+    opa = inspect_opa()
+    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
+    _safe_print(f"OPA version: {opa.version or 'not detected'}")
+    _safe_print("policy engine: optional")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (
@@ -1446,6 +1470,10 @@ def main(
     try:
         config_path = args.config.expanduser() if args.config else None
         config = load_config(config_path) if config_path else ScanConfig()
+        if args.policy is not None:
+            if args.plan:
+                raise ValueError("--policy cannot be combined with --plan")
+            resolve_policy_files(args.policy)
         profile = args.profile or config.profile
         target_label = args.target_label if args.target_label is not None else config.target_label
         include = (*config.include, *args.include)
@@ -1664,7 +1692,7 @@ def main(
                 rule_timeout_seconds=args.rule_timeout,
             )
 
-        with (ScanProgress() if _interactive_scan else nullcontext()):
+        with ScanProgress() if _interactive_scan else nullcontext():
             result = scan(
                 args.target,
                 profile=profile,
@@ -1710,9 +1738,7 @@ def main(
                 else nullcontext()
             )
             with sandbox_scope:
-                with (
-                    ScanProgress(optional=True) if _interactive_scan else nullcontext()
-                ):
+                with ScanProgress(optional=True) if _interactive_scan else nullcontext():
                     result = _analyze_with_optional_tools(
                         result,
                         analyzer_target,
@@ -1751,6 +1777,7 @@ def main(
                 max_firmware_bytes=max_firmware_bytes,
             )
             result = replace(result, provenance=provenance)
+        policy_results = evaluate_policies(args.policy, result) if args.policy is not None else None
         if result.hardware_bom.status in {"imported", "partial"}:
             if output_dir is None:
                 raise ValueError("A CycloneDX hardware BOM needs a report output directory")
@@ -1776,6 +1803,10 @@ def main(
             )
         if output_dir is not None:
             _write_reports(result, output_dir)
+            policy_output = output_dir / "policy-results.json"
+            if policy_results is not None:
+                _write_policy_results(policy_results, policy_output)
+                _safe_print(f"Policy results written to {policy_output}", file=sys.stderr)
             _safe_print(f"Reports written to {output_dir}", file=sys.stderr)
             if (
                 args.output_dir is None
@@ -1802,6 +1833,10 @@ def main(
             )
             args.output.write_text(report, encoding="utf-8")
             _safe_print(f"Report written to {args.output}", file=sys.stderr)
+            if policy_results is not None:
+                policy_output = args.output.with_name(f"{args.output.stem}.policy-results.json")
+                _write_policy_results(policy_results, policy_output)
+                _safe_print(f"Policy results written to {policy_output}", file=sys.stderr)
         else:
             sys.stdout.write(
                 to_json(result)
@@ -1877,6 +1912,14 @@ def main(
         return 2
     if result.netlist_inventory.status in {"partial", "invalid"}:
         return 2
+
+    if policy_results is not None:
+        policy_status = str(policy_results["status"])
+        _safe_print(f"Policy evaluation: {policy_status.upper()}", file=sys.stderr)
+        if policy_status == "fail":
+            return 1
+        if policy_status == "unknown":
+            return 2
 
     if not result.analysis_performed:
         return 2
