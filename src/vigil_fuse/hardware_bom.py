@@ -30,6 +30,7 @@ _HEADER_ALIASES = {
         "manufacturerpn",
         "supplierpartnumber",
     },
+    "revision": {"revision", "chiprevision", "siliconrevision", "devicerevision"},
     "quantity": {"qty", "quantity", "count"},
 }
 
@@ -121,6 +122,7 @@ def inspect_hardware_bom(root: Path, supplied: str | Path) -> HardwareBOMInvento
                     description=cell("name")
                     if part_number and cell("name") != part_number
                     else None,
+                    revision=cell("revision") or None,
                 )
             )
     except (csv.Error, StopIteration, ValueError) as error:
@@ -176,6 +178,8 @@ def hardware_bom_document(
             properties.append({"name": "fuse:part-number", "value": item.part_number})
         if item.description:
             properties.append({"name": "fuse:description", "value": item.description})
+        if item.revision:
+            properties.append({"name": "fuse:revision", "value": item.revision})
         component: dict[str, object] = {
             "type": "device",
             "bom-ref": bom_ref,

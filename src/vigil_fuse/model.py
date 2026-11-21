@@ -189,6 +189,7 @@ class HardwareBOMComponent:
     manufacturer: str | None = None
     part_number: str | None = None
     description: str | None = None
+    revision: str | None = None
 
 
 @dataclass(frozen=True)

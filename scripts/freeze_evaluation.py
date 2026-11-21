@@ -40,7 +40,7 @@ def freeze() -> dict:
         "manifest_version": 1,
         "fuse_commit": revision,
         "fuse_version": __version__,
-        "report_schema_version": "1.11",
+        "report_schema_version": "1.12",
         "detector_files": hashes,
         "hash_encoding": "Git blob bytes; CRLF worktrees normalized to LF for verification",
         "rule_versions": {

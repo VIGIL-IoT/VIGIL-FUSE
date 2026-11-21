@@ -25,3 +25,33 @@ It does not establish:
 - whether the debug peripheral is enabled or locked in production
 
 Review the schematic, PCB, production fuse configuration, and physical device before drawing an exposure conclusion. FUSE does not invoke KiCad or export a netlist automatically.
+
+## BOM advisory and external-memory checks
+
+When a BOM is supplied, FUSE matches normalized manufacturer and part-number aliases against the built-in catalog and preserves the optional component revision in the CycloneDX hardware BOM. The initial catalog contains one sourced Espressif AR2023-005 record for classic ESP32. A family match without revision or configuration evidence remains a candidate; it does not raise severity or prove exploitability. Catalog severity is `unknown` unless evidence supports a stronger conclusion.
+
+The BOM also identifies likely external nonvolatile memory. With a selected or uniquely discovered KiCad XML netlist, FUSE reports candidate bus-labeled nets that connect that memory and a connector-like component. It does not infer PCB routing, physical access, readable contents, encryption state, or protection configuration.
+
+For a matching advisory, an output directory may include `sparta-mapping.json`. This contains analyst-assessed threat-technique associations with sources and unknowns. It is not a SPARTA compliance assessment.
+
+## cFS software-bus check
+
+`--profile cfs` enables bounded static correlation of direct cFS message initialization, transmission, and subscription calls in C/C++ source. To classify a message path, pass `--flight-bus-policy` with a project-relative JSON file, for example:
+
+```json
+{
+  "version": 1,
+  "applications": {
+    "payload_app": {"trust_zone": "lower_trust"},
+    "adcs_app": {"trust_zone": "flight_critical"}
+  },
+  "command_message_ids": ["0x1802"],
+  "message_origin_validation": {}
+}
+```
+
+Application trust zones and origin-validation states are operator declarations. Findings remain candidates with unknown severity. The parser does not resolve wrappers, generated routing, conditional compilation, runtime configuration, or deployed message authentication; review results against the mission build and its exact cFS version.
+
+## Current scope limits
+
+FUSE does not yet provide a full driver-to-Device-Tree-to-pin-to-PCB reachability graph, a Device Tree pinmux correlation engine, or a space-radiation and COTS hardening evidence assessor. The existing debug-interface and memory-net findings are narrow design candidates, not substitutes for those assessments. These areas require product-specific pin maps, board revisions, radiation qualification evidence, and validated deployment configuration.

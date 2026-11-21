@@ -16,7 +16,16 @@ from .firmware_inventory import inspect_firmware_candidates
 from .github_actions import inspect_github_actions
 from .hardware import classify_hardware_file
 from .hardware_bom import inspect_hardware_bom
+from .hardware_advisories import findings_from_matches, match_hardware_bom
+from .bus_exposure import external_memory_findings
 from .hardware_netlist import inspect_kicad_netlist
+from .flight_bus import (
+    MAX_FLIGHT_BUS_SOURCE_BYTES,
+    MAX_FLIGHT_BUS_SOURCE_FILES,
+    FlightBusAnalysis,
+    analyze_flight_bus,
+    load_flight_bus_policy,
+)
 from .input_types import MAX_SBOM_DETECTION_BYTES
 from .limits import (
     DEFAULT_MAX_DISCOVERED_DIRECTORIES,
@@ -339,6 +348,7 @@ def scan(
     compile_commands: str | Path | None = None,
     hardware_bom: str | Path | None = None,
     hardware_netlist: str | Path | None = None,
+    flight_bus_policy: str | Path | None = None,
     target_label: str | None = None,
     max_discovered_paths: int = MAX_DISCOVERED_PATHS,
     max_discovered_directories: int = MAX_DISCOVERED_DIRECTORIES,
@@ -367,6 +377,7 @@ def scan(
         or compile_commands is not None
         or hardware_bom is not None
         or hardware_netlist is not None
+        or flight_bus_policy is not None
     ) and not requested.is_dir():
         raise ValueError(
             "PlatformIO, compilation database, and hardware BOM inputs require a project directory target"
@@ -375,6 +386,8 @@ def scan(
         raise ValueError("--hardware-bom can only be used with a source project directory")
     if hardware_netlist is not None and (firmware_image or sbom_input):
         raise ValueError("--hardware-netlist can only be used with a source project directory")
+    if flight_bus_policy is not None and (firmware_image or sbom_input):
+        raise ValueError("--flight-bus-policy can only be used with a source project directory")
     if build_dir is not None and profile not in {"esp-idf", "zephyr"}:
         raise ValueError("--build-dir requires the esp-idf or zephyr profile")
     if build_dir is not None and not requested.is_dir():
@@ -411,6 +424,14 @@ def scan(
     validate_rule_timeout(rule_timeout_seconds)
 
     profile_info = get_profile(profile)
+    flight_bus_enabled = profile == "cfs" or flight_bus_policy is not None
+    mission_policy = None
+    mission_policy_path = None
+    mission_policy_digest = None
+    if flight_bus_policy is not None:
+        mission_policy, mission_policy_path, mission_policy_digest = load_flight_bus_policy(
+            requested, flight_bus_policy
+        )
     project_context, generated_config_sources, context_warnings, dependency_status = (
         inspect_project_context(
             requested,
@@ -432,6 +453,12 @@ def scan(
         if hardware_bom is not None
         else HardwareBOMInventory()
     )
+    hardware_advisory_matches = match_hardware_bom(hardware_bom_inventory)
+    hardware_advisory_findings = findings_from_matches(
+        hardware_advisory_matches,
+        source_path=hardware_bom_inventory.source_path or "hardware-bom",
+    )
+    memory_findings = external_memory_findings(hardware_bom_inventory)
     hardening_artifact = None
     hardening_findings: tuple[Finding, ...] = ()
     hardening_status = None
@@ -524,9 +551,15 @@ def scan(
             )
     if selected_netlist is not None:
         netlist_inventory, netlist_findings = inspect_kicad_netlist(
-            requested, selected_netlist, strict_format=not auto_selected_netlist
+            requested,
+            selected_netlist,
+            strict_format=not auto_selected_netlist,
+            hardware_bom=hardware_bom_inventory,
         )
     findings: list[Finding] = []
+    flight_sources: list[SourceFile] = []
+    flight_source_bytes = 0
+    flight_source_limit_reached = False
     skipped: Counter[str] = Counter()
     if sbom_too_large:
         skipped["sbom_too_large"] += 1
@@ -617,6 +650,17 @@ def scan(
                 encoding_fallback_count += 1
                 if len(encoding_fallback_files) < 100:
                     encoding_fallback_files.append(source.path)
+            if flight_bus_enabled and Path(source.path).suffix.casefold() in {
+                ".c", ".h", ".cc", ".cpp", ".hpp"
+            }:
+                if (
+                    len(flight_sources) < MAX_FLIGHT_BUS_SOURCE_FILES
+                    and flight_source_bytes + source.byte_size <= MAX_FLIGHT_BUS_SOURCE_BYTES
+                ):
+                    flight_sources.append(source)
+                    flight_source_bytes += source.byte_size
+                else:
+                    flight_source_limit_reached = True
             files_scanned += 1
             manifest.update(f"{source.path}\0{source.sha256}\n".encode("utf-8"))
             generated_esp_config_selected = profile == "esp-idf" and bool(generated_config_sources)
@@ -720,10 +764,26 @@ def scan(
     finally:
         rule_executor.close()
 
+    flight_bus_analysis = (
+        analyze_flight_bus(
+            tuple(flight_sources),
+            mission_policy,
+            source_limit_reached=flight_source_limit_reached,
+        )
+        if flight_bus_enabled
+        else FlightBusAnalysis("completed", 0, (), ())
+    )
     native_findings_count = len(findings)
     findings.extend(hardening_findings)
     findings.extend(workflow_findings)
     findings.extend(netlist_findings)
+    findings.extend(hardware_advisory_findings)
+    findings.extend(memory_findings)
+    findings.extend(flight_bus_analysis.findings)
+    if mission_policy_digest:
+        manifest.update(
+            f"flight-bus-policy:{mission_policy_path}\0{mission_policy_digest}\n".encode("utf-8")
+        )
     for artifact in project_context.configuration_files:
         if artifact.sha256:
             manifest.update(
@@ -877,6 +937,64 @@ def scan(
                     else "; ".join(netlist_inventory.limitations)
                 ),
                 findings=len(netlist_findings),
+            ),
+        )
+    if hardware_bom_inventory.status != "not-requested":
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="hardware-advisory-catalog",
+                status=(
+                    "completed"
+                    if hardware_bom_inventory.status == "imported"
+                    else "partial"
+                    if hardware_bom_inventory.status == "partial"
+                    else "failed"
+                ),
+                detail=(
+                    f"Matched {len(hardware_advisory_matches)} advisory candidate(s) against "
+                    f"{hardware_bom_inventory.component_count} BOM component(s); revision and "
+                    "configuration uncertainty remain visible."
+                    if hardware_bom_inventory.status in {"imported", "partial"}
+                    else "; ".join(hardware_bom_inventory.limitations)
+                ),
+                findings=len(hardware_advisory_findings),
+            ),
+        )
+    if flight_bus_enabled:
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="cfs-software-bus-static",
+                status=flight_bus_analysis.status,
+                detail=(
+                    f"Correlated {flight_bus_analysis.edge_count} publisher/subscriber message path(s); "
+                    f"{flight_bus_analysis.operator_validated_edges} path(s) have operator-declared "
+                    "origin validation. No mission configuration was executed."
+                    + (f" Policy digest: {mission_policy_digest}." if mission_policy_digest else "")
+                    + (" " + " ".join(flight_bus_analysis.limitations) if flight_bus_analysis.limitations else "")
+                ),
+                findings=len(flight_bus_analysis.findings),
+            ),
+        )
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="external-memory-static",
+                status=(
+                    "completed"
+                    if hardware_bom_inventory.status == "imported"
+                    else "partial"
+                    if hardware_bom_inventory.status == "partial"
+                    else "failed"
+                ),
+                detail=(
+                    f"Identified {len(memory_findings)} likely external nonvolatile-memory component(s); "
+                    "encryption state and physical access are not inferred."
+                    if hardware_bom_inventory.status in {"imported", "partial"}
+                    else "; ".join(hardware_bom_inventory.limitations)
+                ),
+                findings=len(memory_findings),
             ),
         )
     if build_dir is not None:

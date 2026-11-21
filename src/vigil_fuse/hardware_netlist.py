@@ -7,13 +7,15 @@ from xml.parsers import expat
 from pathlib import Path
 from typing import TypedDict
 
+from .bus_exposure import is_external_nonvolatile_memory
 from .build_context import _read_bounded, _select_project_file
-from .model import Finding, NetlistInventory
+from .model import Finding, HardwareBOMInventory, NetlistInventory
 from .text_safety import safe_report_text
 
 MAX_KICAD_NETLIST_BYTES = 10 * 1024 * 1024
 MAX_KICAD_XML_ELEMENTS = 100_000
 MAX_KICAD_XML_DEPTH = 128
+MAX_MEMORY_BUS_FINDINGS = 500
 _DEBUG_NET = re.compile(
     r"(?:jtag|swdio|swclk|swdclk|\bswd\b|\btms\b|\btdi\b|\btdo\b|\btck\b|debug|uart)",
     re.IGNORECASE,
@@ -21,6 +23,9 @@ _DEBUG_NET = re.compile(
 _CONNECTOR_REFERENCE = re.compile(r"^(?:J|P|CN|CONN?|TP)[A-Z]*\d+[A-Z]*$", re.IGNORECASE)
 _CONNECTOR_WORDS = re.compile(
     r"connector|pin.?header|debug|jtag|swd|uart|test.?point", re.IGNORECASE
+)
+_MEMORY_BUS_TOKENS = frozenset(
+    {"spi", "qspi", "i2c", "iic", "sck", "sclk", "miso", "mosi", "sda", "scl", "cs", "csn", "clk", "io0", "io1", "io2", "io3"}
 )
 
 
@@ -75,9 +80,13 @@ def _preflight_xml(data: bytes) -> None:
 
 
 def inspect_kicad_netlist(
-    root: Path, supplied: str | Path, *, strict_format: bool = True
+    root: Path,
+    supplied: str | Path,
+    *,
+    strict_format: bool = True,
+    hardware_bom: HardwareBOMInventory | None = None,
 ) -> tuple[NetlistInventory, tuple[Finding, ...]]:
-    """Read a bounded KiCad XML netlist and report debug-interface candidates only."""
+    """Read a bounded KiCad XML netlist and emit conservative interface candidates."""
     try:
         path, display = _select_project_file(root, supplied, "--hardware-netlist")
         data = _read_bounded(path, MAX_KICAD_NETLIST_BYTES, "KiCad netlist")
@@ -145,6 +154,11 @@ def inspect_kicad_netlist(
 
     candidates: list[str] = []
     findings: list[Finding] = []
+    memory_references = {
+        item.reference
+        for item in (hardware_bom.components if hardware_bom else ())
+        if is_external_nonvolatile_memory(item)
+    }
     nets = nets_section.findall("net")
     for net in nets:
         name = safe_report_text(net.attrib.get("name"), limit=240)
@@ -206,6 +220,65 @@ def inspect_kicad_netlist(
             )
         )
 
+    memory_bus_count = 0
+    for net in nets:
+        name = safe_report_text(net.attrib.get("name"), limit=240)
+        tokens = set(re.findall(r"[a-z0-9]+", name.casefold())) if name else set()
+        if not tokens.intersection(_MEMORY_BUS_TOKENS):
+            continue
+        connected = [node for node in net.findall("node") if node.attrib.get("ref") in components]
+        memory_nodes = [node for node in connected if node.attrib.get("ref") in memory_references]
+        connector_nodes = [
+            node
+            for node in connected
+            if _CONNECTOR_REFERENCE.fullmatch(node.attrib.get("ref", ""))
+            or _CONNECTOR_WORDS.search(components.get(node.attrib.get("ref", ""), ""))
+        ]
+        for memory_node in memory_nodes:
+            for connector_node in connector_nodes:
+                if memory_bus_count >= MAX_MEMORY_BUS_FINDINGS:
+                    break
+                memory_ref = memory_node.attrib.get("ref", "?")
+                connector_ref = connector_node.attrib.get("ref", "?")
+                evidence = safe_report_text(
+                    f"KiCad net {name!r} connects BOM memory {memory_ref}.{memory_node.attrib.get('pin', '?')} "
+                    f"to connector/test-point candidate {connector_ref}.{connector_node.attrib.get('pin', '?')}.",
+                    limit=500,
+                ) or "A memory-associated bus net reaches a connector candidate."
+                fingerprint = hashlib.sha256(
+                    f"FUSE-HW-BUS-001\0{display}\0{name}\0{memory_ref}\0{connector_ref}".encode("utf-8")
+                ).hexdigest()
+                findings.append(
+                    Finding(
+                        id=f"FUSE-HW-BUS-001:{memory_ref}:{connector_ref}:{fingerprint[:12]}",
+                        fingerprint=fingerprint,
+                        rule_id="FUSE-HW-BUS-001",
+                        rule_version="1.0.0",
+                        analyzer="kicad-netlist-static",
+                        title="External memory bus reaches a connector candidate",
+                        severity="unknown",
+                        confidence="medium",
+                        category="hardware-bus-exposure",
+                        file=display,
+                        start_line=None,
+                        end_line=None,
+                        evidence=evidence,
+                        explanation=(
+                            "The selected netlist connects a BOM-identified nonvolatile-memory component and a "
+                            "connector-like designator on a bus-labeled net. This does not prove PCB routing, "
+                            "physical accessibility, readable contents, or a disabled protection feature."
+                        ),
+                        potential_impact="If the bus is routed and accessible, it may provide a physical opportunity to interact with external memory.",
+                        remediation="Review the exact memory datasheet, PCB routing, enclosure access, and verified encryption and write-protection configuration.",
+                        applicability="candidate",
+                        validation_method="static",
+                        validation_status="not-validated",
+                    )
+                )
+                memory_bus_count += 1
+            if memory_bus_count >= MAX_MEMORY_BUS_FINDINGS:
+                break
+
     inventory = NetlistInventory(
         status="parsed",
         **base,
@@ -214,6 +287,11 @@ def inspect_kicad_netlist(
         debug_net_candidates=tuple(candidates),
         limitations=(
             "Netlist connectivity is design evidence only; verify PCB routing, physical access, and device configuration before drawing an exposure conclusion.",
+        )
+        + (
+            (f"Memory-bus candidate findings were capped at {MAX_MEMORY_BUS_FINDINGS}.",)
+            if memory_bus_count >= MAX_MEMORY_BUS_FINDINGS
+            else ()
         ),
     )
     return inventory, tuple(findings)

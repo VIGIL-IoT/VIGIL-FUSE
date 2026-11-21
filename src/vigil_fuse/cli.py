@@ -50,6 +50,7 @@ from .rule_execution import (
     validate_rule_timeout,
 )
 from .sarif import to_sarif
+from .sparta_mapping import sparta_mapping_document
 from .scanner import (
     DiscoveryPreview,
     preview_discovery,
@@ -260,6 +261,11 @@ def _parser() -> argparse.ArgumentParser:
         "--hardware-netlist",
         type=Path,
         help="inspect one KiCad XML netlist for debug-interface candidates; no PCB exposure is asserted",
+    )
+    scan_parser.add_argument(
+        "--flight-bus-policy",
+        type=Path,
+        help="apply explicit cFS application trust-zone and command-message classifications from JSON",
     )
     scan_parser.add_argument(
         "--vex",
@@ -580,6 +586,7 @@ def _scan_plan(
     compile_commands: Path | None,
     hardware_bom: Path | None,
     hardware_netlist: Path | None,
+    flight_bus_policy: Path | None,
     vex: Path | None,
     provenance: Path | None,
     sbom: bool,
@@ -760,6 +767,20 @@ def _scan_plan(
                         else "select a netlist with --hardware-netlist because multiple design variants were detected"
                         if netlist_count > 1
                         else "no electronic netlist was detected"
+                    ),
+                },
+                {
+                    "name": "cfs-software-bus-static",
+                    "requested": profile == "cfs" or flight_bus_policy is not None,
+                    "status": (
+                        "planned"
+                        if profile == "cfs" or flight_bus_policy is not None
+                        else "skipped"
+                    ),
+                    "reason": (
+                        "correlates direct cFS message initialization, transmission, and subscription calls with an explicit mission policy"
+                        if profile == "cfs" or flight_bus_policy is not None
+                        else "select --profile cfs or pass --flight-bus-policy to analyze cFS message paths"
                     ),
                 },
             )
@@ -1586,12 +1607,15 @@ def main(
             raise ValueError("--hardware-bom requires a project directory target")
         if args.hardware_netlist and not analyzer_target.is_dir():
             raise ValueError("--hardware-netlist requires a project directory target")
+        if args.flight_bus_policy and not analyzer_target.is_dir():
+            raise ValueError("--flight-bus-policy requires a project directory target")
         if (
             args.platformio_config is not None
             or args.platformio_env
             or args.compile_commands is not None
             or args.hardware_bom is not None
             or args.hardware_netlist is not None
+            or args.flight_bus_policy is not None
         ) and not analyzer_target.is_dir():
             raise ValueError(
                 "PlatformIO, compilation database, and hardware BOM options require a project directory target"
@@ -1698,6 +1722,7 @@ def main(
                 compile_commands=args.compile_commands,
                 hardware_bom=args.hardware_bom,
                 hardware_netlist=args.hardware_netlist,
+                flight_bus_policy=args.flight_bus_policy,
                 vex=args.vex,
                 provenance=args.provenance,
                 sbom=sbom,
@@ -1751,6 +1776,7 @@ def main(
             compile_commands=args.compile_commands,
             hardware_bom=args.hardware_bom,
             hardware_netlist=args.hardware_netlist,
+            flight_bus_policy=args.flight_bus_policy,
         )
         network_policy = (
             "no-network"
@@ -1834,6 +1860,26 @@ def main(
                     ),
                 ),
             )
+        if output_dir is not None:
+            sparta_content = sparta_mapping_document(result.findings)
+            if sparta_content is not None:
+                output_dir.mkdir(parents=True, exist_ok=True)
+                sparta_path = output_dir / "sparta-mapping.json"
+                if sparta_path.is_symlink():
+                    raise ValueError("Refusing to write the SPARTA mapping through a symbolic link")
+                sparta_path.write_text(sparta_content, encoding="utf-8")
+                sparta_digest = hashlib.sha256(sparta_content.encode("utf-8")).hexdigest()
+                result = replace(
+                    result,
+                    artifacts=(
+                        *result.artifacts,
+                        AnalysisArtifact(
+                            path=sparta_path.relative_to(output_dir).as_posix(),
+                            media_type="application/json",
+                            sha256=sparta_digest,
+                        ),
+                    ),
+                )
         if output_dir is not None:
             _write_reports(result, output_dir)
             _safe_print(f"Reports written to {output_dir}", file=sys.stderr)

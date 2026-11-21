@@ -49,6 +49,7 @@ def _read_report(report_root: Path, scan_id: str) -> dict[str, Any]:
         "1.9",
         "1.10",
         "1.11",
+        "1.12",
     }:
         raise ValueError(f"Unsupported or missing FUSE report schema in {path}")
     if not isinstance(report.get("summary"), dict) or not isinstance(report.get("coverage"), dict):

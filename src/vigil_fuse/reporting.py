@@ -26,7 +26,7 @@ def _input_inventory_scope(result: ScanResult) -> str:
 def to_json(result: ScanResult) -> str:
     counts = Counter(finding.severity for finding in result.findings)
     report = {
-        "schema_version": "1.11",
+        "schema_version": "1.12",
         "tool": {"name": "FUSE", "version": __version__},
         "target": result.target,
         "scan": {
@@ -192,6 +192,7 @@ def to_json(result: ScanResult) -> str:
                     "manufacturer": item.manufacturer,
                     "part_number": item.part_number,
                     "description": item.description,
+                    "revision": item.revision,
                 }
                 for item in result.hardware_bom.components
             ],

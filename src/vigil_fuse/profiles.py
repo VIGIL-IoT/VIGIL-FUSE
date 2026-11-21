@@ -118,6 +118,10 @@ PROFILES: dict[str, ScanProfile] = {
         ),
         additional_names=frozenset({"inittab", "rcs", "fstab", "cmakelists.txt"}),
     ),
+    "cfs": ScanProfile(
+        name="cfs",
+        description="Core Flight System projects, including source and mission configuration.",
+    ),
 }
 
 
