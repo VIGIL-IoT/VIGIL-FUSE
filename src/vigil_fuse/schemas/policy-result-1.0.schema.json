@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FUSE Policy Results 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "input_schema_version", "engine", "status", "evaluations"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "input_schema_version": {"const": "1.0"},
+    "engine": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "available", "version"],
+      "properties": {
+        "name": {"const": "OPA/Rego"},
+        "available": {"type": "boolean"},
+        "version": {"type": ["string", "null"], "maxLength": 120}
+      }
+    },
+    "status": {"enum": ["pass", "fail", "unknown"]},
+    "evaluations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["policy_id", "status", "violations", "unknowns", "mappings"],
+        "properties": {
+          "policy_id": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$"},
+          "status": {"enum": ["pass", "fail", "unknown"]},
+          "violations": {"$ref": "#/$defs/records"},
+          "unknowns": {"$ref": "#/$defs/records"},
+          "mappings": {
+            "type": "array",
+            "maxItems": 128,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["requirement", "status", "evidence_refs"],
+              "properties": {
+                "requirement": {"type": "string", "minLength": 1, "maxLength": 256},
+                "status": {"enum": ["mapped", "unknown"]},
+                "evidence_refs": {"$ref": "#/$defs/evidenceRefs"}
+              }
+            }
+          },
+          "reason": {"enum": ["opa_unavailable", "input_limit", "capabilities_unavailable", "evaluation_timeout", "output_limit", "evaluation_error", "invalid_output", "conflicting_result"]}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidenceRefs": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"type": "string", "maxLength": 128}},
+    "records": {
+      "type": "array",
+      "maxItems": 128,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule", "evidence_refs", "message"],
+        "properties": {
+          "rule": {"type": "string", "minLength": 1, "maxLength": 128},
+          "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+          "message": {"type": "string", "minLength": 1, "maxLength": 512}
+        }
+      }
+    }
+  }
+}
