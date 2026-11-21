@@ -108,11 +108,15 @@ jobs:
           python -m coverage report -m --fail-under=75
 
   package-smoke:
-    name: Build and install package
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    name: Wheel install on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     permissions:
       contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -122,61 +126,11 @@ jobs:
           python-version: "3.12"
       - name: Build wheel and source distribution
         run: |
-          python -m pip install --upgrade pip build twine
+          python -m pip install --upgrade pip "build>=1.2,<2" "twine>=6,<7"
           python -m build
-          python -m twine check dist/*
-      - name: Install wheel in a clean virtual environment and exercise CLI
-        run: |
-          python -m venv .venv-smoke
-          .venv-smoke/bin/python -m pip install --no-deps dist/*.whl
-          .venv-smoke/bin/vigil-fuse --version
-          .venv-smoke/bin/vigil-fuse doctor
-          .venv-smoke/bin/vigil-fuse scan --help
-          .venv-smoke/bin/python - <<'PY'
-          import pathlib
-          import vigil_fuse
-
-          package = pathlib.Path(vigil_fuse.__file__).parent
-          assert (package / "support-matrix.json").is_file()
-          assert list((package / "schemas").glob("*.json"))
-          assert (package / "schemas/ghidra-analysis.schema.json").is_file()
-          assert (package / "resources/ghidra/FuseExport.java").is_file()
-          PY
-          python - <<'PY'
-          import json
-          import pathlib
-          import subprocess
-          import tempfile
-
-          cli = pathlib.Path(".venv-smoke/bin/vigil-fuse").resolve()
-
-          with tempfile.TemporaryDirectory() as temporary:
-              target = pathlib.Path(temporary) / "embedded-project"
-              target.mkdir()
-              (target / "main.c").write_text(
-                  'const char *endpoint = "http://device.local";\n',
-                  encoding="utf-8",
-              )
-              report_path = pathlib.Path(temporary) / "findings.json"
-              subprocess.run(
-                  [
-                      str(cli),
-                      "scan",
-                      str(target),
-                      "--format",
-                      "json",
-                      "--output",
-                      str(report_path),
-                  ],
-                  check=True,
-                  capture_output=True,
-                  text=True,
-              )
-              report = json.loads(report_path.read_text(encoding="utf-8"))
-              assert report["tool"]["name"] == "FUSE"
-              assert report["summary"]["analysis_performed"] is True
-              assert any(finding["rule_id"] == "FUSE004" for finding in report["findings"])
-          PY
+          python -c "import pathlib,subprocess,sys; files=sorted(str(p) for p in pathlib.Path('dist').iterdir() if p.is_file()); subprocess.run([sys.executable,'-m','twine','check',*files],check=True)"
+      - name: Install the wheel and run tests outside the source tree
+        run: python scripts/verify_installed_wheel.py
 
   analyzer-sandbox:
     name: Docker analyzer sandbox integration

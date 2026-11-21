@@ -16,6 +16,7 @@ from vigil_fuse.model import AnalysisArtifact, AnalyzerStatus, Finding
 from vigil_fuse.reporting import to_json, to_text
 from vigil_fuse.sarif import to_sarif
 from vigil_fuse.scanner import scan
+from vigil_fuse.setup.manager import ToolCheck
 
 
 class ScannerAndReporterTests(unittest.TestCase):
@@ -554,13 +555,20 @@ class ScannerAndReporterTests(unittest.TestCase):
 
     def test_doctor_reports_optional_tools_without_blocking(self) -> None:
         tools = (
-            ("Syft", None, None),
-            ("OSV-Scanner", "C:/tools/osv-scanner.exe", "OSV-Scanner 2.3.0"),
-            ("Binwalk", None, None),
+            ToolCheck("syft", "Syft", "RECOMMENDED", "MISSING"),
+            ToolCheck(
+                "osv-scanner",
+                "OSV-Scanner",
+                "RECOMMENDED",
+                "AVAILABLE",
+                "2.7.0",
+                "C:/tools/osv-scanner.exe",
+            ),
+            ToolCheck("binwalk", "Binwalk", "OPTIONAL_HEAVY", "OPTIONAL"),
         )
         stdout = StringIO()
         with (
-            patch("vigil_fuse.cli.inspect_tools", return_value=tools),
+            patch("vigil_fuse.cli.inspect_environment", return_value=tools),
             patch("vigil_fuse.cli.lock_parser_available", return_value=False),
             redirect_stdout(stdout),
         ):
@@ -568,7 +576,7 @@ class ScannerAndReporterTests(unittest.TestCase):
 
         self.assertEqual(0, exit_code)
         self.assertIn("Syft: not installed", stdout.getvalue())
-        self.assertIn("OSV-Scanner: OSV-Scanner 2.3.0", stdout.getvalue())
+        self.assertIn("OSV-Scanner: 2.7.0", stdout.getvalue())
         self.assertIn("Platform:", stdout.getvalue())
         self.assertIn("Core scanner: available", stdout.getvalue())
 

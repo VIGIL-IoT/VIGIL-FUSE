@@ -7,6 +7,8 @@ on:
       - .github/workflows/external-analyzer-matrix.yml
       - pyproject.toml
       - scripts/install_ci_analyzers.py
+      - src/vigil_fuse/setup/manager.py
+      - src/vigil_fuse/setup/tools.json
       - scripts/verify_dependency_adapters.py
       - scripts/verify_gitleaks_adapter.py
       - src/vigil_fuse/analyzer_runtime.py
@@ -18,6 +20,8 @@ on:
       - .github/workflows/external-analyzer-matrix.yml
       - pyproject.toml
       - scripts/install_ci_analyzers.py
+      - src/vigil_fuse/setup/manager.py
+      - src/vigil_fuse/setup/tools.json
       - scripts/verify_dependency_adapters.py
       - scripts/verify_gitleaks_adapter.py
       - src/vigil_fuse/analyzer_runtime.py

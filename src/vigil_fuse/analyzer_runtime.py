@@ -107,17 +107,9 @@ class AdapterResult:
 
 def inspect_tools() -> tuple[tuple[str, str | None, str | None], ...]:
     """Return optional tool availability, executable path, and version for doctor."""
-    tools = []
-    for name, executable_name in (
-        ("Syft", "syft"),
-        ("OSV-Scanner", "osv-scanner"),
-        ("Binwalk", "binwalk"),
-        ("Gitleaks", "gitleaks"),
-    ):
-        executable = shutil.which(executable_name)
-        version = _tool_version(executable) if executable else None
-        tools.append((name, executable, version))
-    return tuple(tools)
+    from .setup.manager import inspect_tools as inspect_manifest_tools
+
+    return inspect_manifest_tools()
 
 
 class AnalyzerOutputLimitError(RuntimeError):
@@ -157,7 +149,12 @@ def resolve_analyzer_executable(
     """Resolve a host tool or an explicitly configured local image tool."""
     active = _ACTIVE_ANALYZER_SANDBOX.get()
     if active is None:
-        return (host_lookup or shutil.which)(name)
+        executable = (host_lookup or shutil.which)(name)
+        if executable:
+            return executable
+        from .setup.manager import resolve_managed_tool
+
+        return resolve_managed_tool(name)
     sandbox, _ = active
     if name not in SUPPORTED_ANALYZERS or sandbox.runtime is None:
         return None
