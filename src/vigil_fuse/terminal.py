@@ -274,12 +274,15 @@ def read_command(commands: Iterable[tuple[str, str]] = ()) -> str:
         width = max(1, get_app().output.get_size().columns - 2)
         return [(style, glyph * width)]
 
-    buffer = Buffer(multiline=False, history=_PROMPT_HISTORY)
+    buffer = Buffer(
+        multiline=False,
+        history=_PROMPT_HISTORY,
+        completer=CommandCompleter(),
+        complete_while_typing=True,
+    )
     editor = Window(
         BufferControl(
             buffer=buffer,
-            completer=CommandCompleter(),
-            complete_while_typing=True,
             input_processors=[BeforeInput(prompt_symbol, style=cursor_style)],
         ),
         height=1,
