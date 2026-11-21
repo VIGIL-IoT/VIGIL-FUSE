@@ -58,5 +58,8 @@ def show_banner() -> None:
         )
     if width >= 36:
         lines.append(f"{muted}Static evidence. Explicit coverage.{reset}")
-    lines.append(f"{muted}A VIGIL Project | v{__version__}{reset}")
+    project_line = f"A VIGIL Project | v{__version__}"
+    lines.append(
+        f"{muted}{project_line if len(project_line) <= width else 'A VIGIL Project'}{reset}"
+    )
     print("\n".join(lines), file=sys.stderr)

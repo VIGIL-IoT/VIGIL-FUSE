@@ -62,12 +62,12 @@ from .scanner import (
 from .setup.manager import (
     inspect_environment,
     load_manifest,
-    managed_tool_directory,
     normalize_platform,
     powershell_executable,
     setup_plan,
     setup_tools,
 )
+from .setup.tool_paths import managed_tool_directory
 from .support import CapabilitySummary, capability_for_plan, support_matrix
 from .input_types import MAX_SBOM_DETECTION_BYTES, is_sbom_candidate, is_sbom_file
 from .text_safety import safe_terminal_text

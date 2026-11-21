@@ -18,13 +18,14 @@ from typing import IO, Any, Callable
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
+from .tool_paths import MANAGED_TOOL_IDS, managed_tool_directory
+
 _CATEGORIES = {"CORE", "RECOMMENDED", "OPTIONAL_HEAVY", "RESEARCH"}
 _VERSION = re.compile(r"(?<!\d)(\d+)(?:\.(\d+))?(?:\.(\d+))?(?!\d)")
 _MAX_DOWNLOAD_BYTES = 256 * 1024 * 1024
 _MAX_EXECUTABLE_BYTES = 256 * 1024 * 1024
 _DOWNLOAD_TIMEOUT_SECONDS = 60
 _READ_CHUNK_BYTES = 1024 * 1024
-_MANAGED_TOOLS = frozenset({"syft", "osv-scanner", "gitleaks"})
 
 
 @dataclass(frozen=True)
@@ -223,25 +224,6 @@ def assets_for_platform(
     return selected
 
 
-def managed_tool_directory() -> Path:
-    override = os.environ.get("VIGIL_FUSE_TOOLS_DIR")
-    if override:
-        return Path(override).expanduser()
-    if os.name == "nt":
-        root = os.environ.get("LOCALAPPDATA")
-        return (
-            Path(root).expanduser() / "Vigil-FUSE" / "Tools"
-            if root
-            else Path.home() / "AppData" / "Local" / "Vigil-FUSE" / "Tools"
-        )
-    root = os.environ.get("XDG_DATA_HOME")
-    return (
-        (Path(root).expanduser() if root else Path.home() / ".local" / "share")
-        / "vigil-fuse"
-        / "tools"
-    )
-
-
 def _version_tuple(text: str | None) -> tuple[int, int, int] | None:
     if text is None:
         return None
@@ -273,7 +255,7 @@ def _find_executable(
         found = which(name)
         if found:
             return found
-    if spec.id not in _MANAGED_TOOLS:
+    if spec.id not in MANAGED_TOOL_IDS:
         return None
     directory = managed_directory or managed_tool_directory()
     for name in _executable_candidates(spec):

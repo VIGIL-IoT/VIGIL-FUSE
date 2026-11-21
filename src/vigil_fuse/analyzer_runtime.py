@@ -28,6 +28,7 @@ from .analyzer_sandbox import (
     report_mask_destination,
 )
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
+from .setup.tool_paths import resolve_managed_tool
 
 ANALYZER_TIMEOUT_SECONDS = 180
 TOOL_VERSION_TIMEOUT_SECONDS = 5
@@ -107,9 +108,16 @@ class AdapterResult:
 
 def inspect_tools() -> tuple[tuple[str, str | None, str | None], ...]:
     """Return optional tool availability, executable path, and version for doctor."""
-    from .setup.manager import inspect_tools as inspect_manifest_tools
-
-    return inspect_manifest_tools()
+    tools = []
+    for display_name, executable_name in (
+        ("Syft", "syft"),
+        ("OSV-Scanner", "osv-scanner"),
+        ("Binwalk", "binwalk"),
+        ("Gitleaks", "gitleaks"),
+    ):
+        executable = shutil.which(executable_name) or resolve_managed_tool(executable_name)
+        tools.append((display_name, executable, _tool_version(executable) if executable else None))
+    return tuple(tools)
 
 
 class AnalyzerOutputLimitError(RuntimeError):
@@ -152,8 +160,6 @@ def resolve_analyzer_executable(
         executable = (host_lookup or shutil.which)(name)
         if executable:
             return executable
-        from .setup.manager import resolve_managed_tool
-
         return resolve_managed_tool(name)
     sandbox, _ = active
     if name not in SUPPORTED_ANALYZERS or sandbox.runtime is None:
