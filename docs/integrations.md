@@ -14,10 +14,13 @@ FUSE keeps native rules, inventory observations, and optional external analyzers
 | GitHub Actions analyzer | Repository scan | Workflow inventory, exact workflow/job `write-all` scalar checks, floating action-ref signals, a narrow `pull_request_target` plus pull request head checkout candidate, and selected untrusted event expressions directly interpolated into step scripts | Built in. No workflow executes. It does not perform full YAML, shell, sanitization, or permission-inheritance analysis, and does not determine whether checked-out code executes. |
 | PlatformIO/build context | Repository scan or selected build metadata | Bounded `platformio.ini` includes and compilation database metadata | Built in. FUSE does not run PlatformIO, project scripts, compilers, or commands stored in `compile_commands.json`. |
 | KiCad netlist check | `--hardware-netlist` or one unique recognized netlist | UTF-8 XML connectivity to informational debug-interface candidates | Built in, bounded XML parser. FUSE does not invoke KiCad or infer physical access. |
+| OPA/Rego policy | `--policy <file-or-directory>` | Versioned normalized FUSE evidence to a separate `policy-results.json` decision report | Optional local OPA executable. Policy and input sizes, output size, and evaluation time are bounded. Network, host-runtime, and nondeterministic built-ins are disabled. |
 
 Optional executables are resolved from the current environment's `PATH`. FUSE passes argument arrays, never shell commands, and records analyzer status, version when available, output artifact hashes, timeouts, and diagnostic-output limit failures. These controls do not sandbox an external tool. Review `threat-model.md` before enabling optional tools on hostile inputs.
 
 Analyzer absence, failure, and partial coverage remain visible in reports. Use `docs/github-actions.md` for the separate workflow that runs FUSE in a repository's CI.
+
+Policy evaluation is an explicit second stage. It evaluates declared organizational rules over FUSE evidence and keeps its result separate from FUSE vulnerability findings. See [policy-as-code](policy-as-code.md).
 
 Read the [Ghidra guide](ghidra-analysis.md) for installation, raw firmware mapping, artifact schema, supported findings, and security limits. The Ghidra integration uses the external [official Ghidra project](https://github.com/NationalSecurityAgency/ghidra); FUSE does not bundle the application. See [third-party credits](THIRD_PARTY_CREDITS.md).
 

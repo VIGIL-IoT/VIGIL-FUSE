@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FUSE Policy Input 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "target", "components", "findings", "evidence", "coverage", "firmware", "hardware", "supply_chain"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "profile"],
+      "properties": {
+        "kind": {"enum": ["directory", "source-file", "unsupported-file", "firmware-image", "sbom"]},
+        "profile": {"type": "string", "maxLength": 64}
+      }
+    },
+    "components": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "version", "ecosystem"],
+        "properties": {
+          "name": {"type": "string", "maxLength": 256},
+          "version": {"type": "string", "maxLength": 128},
+          "ecosystem": {"type": "string", "maxLength": 128},
+          "purl": {"type": "string", "maxLength": 512},
+          "source_type": {"type": "string", "maxLength": 128}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 5000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "rule_id", "severity", "applicability", "validation_status", "vex_state"],
+        "properties": {
+          "ref": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "rule_id": {"type": "string", "maxLength": 128},
+          "severity": {"enum": ["critical", "high", "medium", "low", "info", "unknown"]},
+          "applicability": {"enum": ["unknown", "candidate", "applicable", "not_applicable"]},
+          "validation_status": {"enum": ["not-validated", "validated", "not-applicable"]},
+          "vex_state": {"type": ["string", "null"], "maxLength": 64},
+          "component_purl": {"type": "string", "maxLength": 512}
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plaintext_mqtt", "tls_verification", "private_key_material", "debug_interface_exposure", "unresolved_high_findings"],
+      "properties": {
+        "plaintext_mqtt": {"$ref": "#/$defs/findingSignal", "properties": {"status": {"enum": ["observed", "not_observed", "unknown"]}}},
+        "tls_verification": {"$ref": "#/$defs/findingSignal", "properties": {"status": {"enum": ["bypass_observed", "no_bypass_observed", "verification_confirmed", "unknown"]}}},
+        "private_key_material": {"$ref": "#/$defs/findingSignal", "properties": {"status": {"enum": ["observed", "not_observed", "unknown"]}}},
+        "debug_interface_exposure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "evidence_refs", "candidate_count"],
+          "properties": {
+            "status": {"enum": ["externally_exposed", "not_exposed", "candidate", "no_candidate", "unknown"]},
+            "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+            "candidate_count": {"type": "integer", "minimum": 0}
+          }
+        },
+        "unresolved_high_findings": {"$ref": "#/$defs/findingSignal", "properties": {"status": {"enum": ["unresolved", "uncertain", "none", "unknown"]}}}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scan_complete", "policy_input_complete", "files_scanned", "files_skipped", "limits_reached", "rules_enabled", "rule_statuses", "finding_count", "omitted_findings", "omitted_components"],
+      "properties": {
+        "scan_complete": {"type": "boolean"},
+        "policy_input_complete": {"type": "boolean"},
+        "files_scanned": {"type": "integer", "minimum": 0},
+        "files_skipped": {"type": "integer", "minimum": 0},
+        "limits_reached": {"type": "array", "maxItems": 128, "items": {"type": "string", "maxLength": 128}},
+        "rules_enabled": {"type": "array", "maxItems": 128, "items": {"type": "string", "maxLength": 128}},
+        "rule_statuses": {"type": "object", "maxProperties": 128, "additionalProperties": {"enum": ["completed", "partial", "unavailable", "incompatible", "timeout", "unsupported", "skipped", "failed"]}},
+        "finding_count": {"type": "integer", "minimum": 0},
+        "omitted_findings": {"type": "integer", "minimum": 0},
+        "omitted_components": {"type": "integer", "minimum": 0}
+      }
+    },
+    "firmware": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_status", "candidate_count", "signature_status", "provenance_status"],
+      "properties": {
+        "candidate_status": {"enum": ["not-inspected", "complete", "partial"]},
+        "candidate_count": {"type": "integer", "minimum": 0},
+        "signature_status": {"enum": ["verified", "not_verified", "unsigned", "unknown"]},
+        "provenance_status": {"enum": ["not-requested", "unverified", "subject-match", "subject-mismatch", "invalid"]}
+      }
+    },
+    "hardware": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["netlist_status", "debug_interface_status", "debug_net_candidate_count"],
+      "properties": {
+        "netlist_status": {"enum": ["not-detected", "parsed", "partial", "invalid"]},
+        "debug_interface_status": {"enum": ["externally_exposed", "not_exposed", "candidate", "no_candidate", "unknown"]},
+        "debug_net_candidate_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "supply_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["component_lock_status", "vex_status", "analyzers"],
+      "properties": {
+        "component_lock_status": {"enum": ["not-detected", "partial", "parser-unavailable", "invalid", "target-matches", "target-mismatch", "target-unverified"]},
+        "vex_status": {"enum": ["not-requested", "imported", "partial", "invalid"]},
+        "analyzers": {"type": "object", "maxProperties": 64, "additionalProperties": {"enum": ["completed", "partial", "unavailable", "incompatible", "timeout", "unsupported", "skipped", "failed"]}}
+      }
+    }
+  },
+  "$defs": {
+    "evidenceRefs": {"type": "array", "maxItems": 64, "uniqueItems": true, "items": {"type": "string", "maxLength": 128}},
+    "findingSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence_refs", "evidence_count", "omitted_ref_count"],
+      "properties": {
+        "status": {"type": "string"},
+        "evidence_refs": {"$ref": "#/$defs/evidenceRefs"},
+        "evidence_count": {"type": "integer", "minimum": 0},
+        "omitted_ref_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

@@ -121,6 +121,7 @@ The package follows inward dependency direction. The CLI is the composition root
 | Rule composition | `rules/registry.py` | Imports the rule contract and concrete rule definitions to build the registry |
 | Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
 | Execution boundaries | `rule_execution.py`, `rule_worker.py`, `analyzer_runtime.py` | Rule execution uses the model; the worker uses the model and registry; analyzer runtime uses the model and process primitives |
+| Optional policy adapter | `policy.py` | Builds a bounded policy view from the model, then invokes a local OPA executable only when a policy is explicitly selected |
 | Reporting | `reporting.py`, `sarif.py` | Consumes normalized results and presentation helpers; it does not run scans, rules, or analyzers |
 | Composition | `scanner.py`, `analyzers.py`, `cli.py` | May connect lower layers to expose a complete scan and command interface |
 
@@ -141,9 +142,16 @@ flowchart TD
     AnalyzerFacade --> Runtime[analyzer_runtime.py]
     AnalyzerFacade --> Optional[dependency, firmware, and history analyzers]
     Scanner --> Model[model.py]
+    Model --> PolicyInput[Versioned policy input]
+    PolicyInput --> OPA[Optional local OPA/Rego]
+    OPA --> PolicyResults[Separate policy results]
+    CLI --> PolicyInput
+    CLI --> PolicyResults
     Model --> Reporters
     Model --> Baseline
 ```
+
+When `scan --policy` is supplied, Python maps the scan result into the fixed policy input contract and runs the selected Rego module through OPA. The policy result is written separately from `findings.json`; policies do not create, suppress, or reprioritize FUSE findings. OPA is not required for a normal scan and FUSE never installs it.
 
 The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers receive per-run temporary default user, configuration, cache, data, and temporary directories, and use a temporary working directory unless an adapter explicitly selects one. Gitleaks retains its selected repository working directory. POSIX process sessions and Windows Job Objects support best-effort cleanup. Host mode remains the default and does not restrict filesystem, network, memory, or privilege access. Explicit Docker mode uses local digest-pinned images, verifies container settings before execution, mounts scan input read-only, and disables network unless online OSV lookup is explicitly allowed. The Docker daemon and selected images remain trusted. See the [threat model](threat-model.md) for trust boundaries and residual risks.
 
@@ -154,6 +162,8 @@ Each rule has a stable ID, title, severity, confidence, category, explanation, p
 Every rule change should include a vulnerable fixture that produces the intended finding and a secure fixture that produces no finding for that rule. The automated tests load fixtures and exercise the rule directly. Scanner and reporter tests cover end-to-end path handling and output shape.
 
 The package-level integration test complements the per-rule tests. It protects composition and report provenance across modules. It does not replace individual rule fixtures, schema validation, cross-platform CI, or independent evaluation.
+
+Policy evaluation uses only allow-listed normalized fields and has separate input and result schemas. See [policy-as-code](policy-as-code.md) for the evidence boundary, result states, custom policy format, and support limits.
 
 ## Deliberate boundaries
 

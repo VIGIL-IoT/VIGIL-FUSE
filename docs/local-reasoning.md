@@ -89,7 +89,7 @@ usage is not guaranteed. FUSE does not stop other applications' Ollama sessions.
 
 ## Evidence and privacy boundary
 
-Only canonical FUSE JSON versions 1.1 through 1.11 are accepted. TXT, PDF, SARIF
+Only canonical FUSE JSON version 1.11 is accepted in V1. TXT, PDF, SARIF
 and arbitrary context JSON are not inputs. No target source, firmware, compiler
 commands, environment variables, or artifact files are reopened. The builder
 allow-lists the selected finding, its report evidence, location, matching build
@@ -181,8 +181,11 @@ defined in [validation.py](../src/vigil_fuse/reasoning/validation.py).
 
 ## CLI consolidation boundary
 
-Existing integration files changed: `src/vigil_fuse/cli.py` and
-`src/vigil_fuse/config.py`. The main CLI only imports hooks, registers two
+Existing CLI integration files changed: `src/vigil_fuse/cli.py` and
+`src/vigil_fuse/config.py`. The merge preserves the interactive result callback,
+PDF prompt and Rego policy reporting/exit checks. Standalone `reason` and
+`reasoning-context` are argparse commands; `/scan TARGET --reason` also works
+through the existing interactive scan dispatcher. The main CLI only imports hooks, registers two
 commands and `--reason`, dispatches the commands, adds doctor text, and calls
 enrichment after reports are written. Reasoning-specific parsing, orchestration
 and rendering live under `src/vigil_fuse/reasoning/`. Preserve that ordering and

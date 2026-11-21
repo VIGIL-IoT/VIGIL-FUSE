@@ -10,7 +10,7 @@ import subprocess
 import sys
 from dataclasses import replace
 from pathlib import Path
-from typing import Literal, TextIO, TypedDict
+from typing import Callable, Literal, TextIO, TypedDict
 
 from . import __version__
 from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
@@ -28,6 +28,7 @@ from .analyzers import (
 from .baseline import create_baseline, diff_baseline, suppress_finding, unsuppress_finding
 from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
+from .cliui import ScanProgress, run_session
 from .ghidra_analyzer import (
     GHIDRA_DEFAULT_TIMEOUT_SECONDS,
     GHIDRA_MAXIMUM_INPUT_BYTES,
@@ -39,6 +40,12 @@ from .esp_idf_lock import lock_parser_available
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
+from .policy import (
+    evaluate_policies,
+    inspect_opa,
+    policy_results_json,
+    resolve_policy_files,
+)
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
@@ -265,6 +272,11 @@ def _parser() -> argparse.ArgumentParser:
         "--hardware-netlist",
         type=Path,
         help="inspect one KiCad XML netlist for debug-interface candidates; no PCB exposure is asserted",
+    )
+    scan_parser.add_argument(
+        "--policy",
+        type=Path,
+        help="evaluate an explicit .rego file or directory, or reference:production-iot",
     )
     scan_parser.add_argument(
         "--vex",
@@ -503,6 +515,15 @@ def _write_reports(result: ScanResult, output_dir: Path) -> None:
         path.write_text(content, encoding="utf-8")
 
 
+def _write_policy_results(document: dict[str, object], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_symlink():
+        raise OSError("Refusing to write policy results through a symbolic link")
+    if path.exists() and not path.is_file():
+        raise OSError("Policy results output path is not a regular file")
+    path.write_text(policy_results_json(document), encoding="utf-8")
+
+
 def _resolve_ghidra_install_dir(
     cli_path: Path | None,
     configured_path: str | None,
@@ -554,6 +575,10 @@ def _doctor(
         )
     )
     _safe_print(f"  Ghidra detail: {ghidra.detail}")
+    opa = inspect_opa()
+    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
+    _safe_print(f"OPA version: {opa.version or 'not detected'}")
+    _safe_print("policy engine: optional")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (
@@ -1385,75 +1410,8 @@ def _analyze_with_optional_tools(
     )
 
 
-def _interactive_launch() -> int:
-    target = Path.cwd()
-    _safe_print("Current folder:", target, file=sys.stderr)
-    _safe_print(
-        "If this is not your project, open a terminal in the project folder before launching FUSE.",
-        file=sys.stderr,
-    )
-    try:
-        answer = input("Run FUSE scan here? [y/N] ").strip().casefold()
-    except EOFError:
-        answer = ""
-    if answer not in {"y", "yes"}:
-        _safe_print("Scan cancelled.", file=sys.stderr)
-        return 0
-
-    _safe_print("Choose a scan type:", file=sys.stderr)
-    _safe_print("  1. Full project scan", file=sys.stderr)
-    _safe_print("  2. Profile-specific project scan", file=sys.stderr)
-    _safe_print("  3. Project and dependency scan (Syft and OSV-Scanner)", file=sys.stderr)
-    _safe_print("  4. Firmware signature scan (Binwalk, no extraction)", file=sys.stderr)
-    _safe_print("  5. Ghidra reverse-engineering analysis (one binary)", file=sys.stderr)
-    _safe_print("  0. Cancel", file=sys.stderr)
-    _safe_print(
-        "Ghidra records bounded binary metadata; FUSE checks supported signals in that evidence. "
-        "It does not export decompiled pseudocode.",
-        file=sys.stderr,
-    )
-    _safe_print("Run vigil-fuse doctor to check optional tools.", file=sys.stderr)
-    try:
-        choice = input("Scan type [1-5, 0 to cancel]: ").strip()
-    except EOFError:
-        choice = "0"
-    if choice == "0":
-        _safe_print("Scan cancelled.", file=sys.stderr)
-        return 0
-
-    scan_args = ["scan", str(target)]
-    if choice == "2":
-        for index, (name, profile) in enumerate(PROFILES.items(), start=1):
-            _safe_print(f"  {index}. {name}: {profile.description}", file=sys.stderr)
-        try:
-            selected = input(f"Profile [1-{len(PROFILES)}]: ").strip()
-        except EOFError:
-            selected = ""
-        names = tuple(PROFILES)
-        if not selected.isdigit() or not 1 <= int(selected) <= len(names):
-            _safe_print("Invalid profile selection. Scan cancelled.", file=sys.stderr)
-            return 2
-        scan_args.extend(["--profile", names[int(selected) - 1]])
-    elif choice == "3":
-        scan_args.extend(["--sbom", "--vulnerabilities"])
-    elif choice in {"4", "5"}:
-        label = "Firmware image" if choice == "4" else "Executable or firmware image"
-        try:
-            entered_path = input(f"{label} path: ").strip().strip('"').strip("'")
-        except EOFError:
-            entered_path = ""
-        if not entered_path:
-            _safe_print("Scan cancelled.", file=sys.stderr)
-            return 0
-        binary = Path(entered_path).expanduser()
-        if not binary.is_absolute():
-            binary = target / binary
-        scan_args = ["scan", str(binary), "--firmware" if choice == "4" else "--ghidra"]
-    elif choice != "1":
-        _safe_print("Choose a scan type from 0 through 5. Scan cancelled.", file=sys.stderr)
-        return 2
-
-    return main(scan_args, _show_banner=False, _prompt_for_pdf=True)
+def _interactive_shell() -> int:
+    return run_session(main)
 
 
 def main(
@@ -1461,12 +1419,14 @@ def main(
     *,
     _show_banner: bool = True,
     _prompt_for_pdf: bool = False,
+    _result_callback: Callable[[ScanResult, Path | None], None] | None = None,
+    _interactive_scan: bool = False,
 ) -> int:
     actual_argv = list(argv) if argv is not None else sys.argv[1:]
     if not actual_argv and sys.stdin.isatty() and sys.stdout.isatty() and sys.stderr.isatty():
         if _show_banner:
             show_banner()
-        return _interactive_launch()
+        return _interactive_shell()
 
     parser = _parser()
     args = parser.parse_args(actual_argv)
@@ -1525,6 +1485,10 @@ def main(
     try:
         config_path = args.config.expanduser() if args.config else None
         config = load_config(config_path) if config_path else ScanConfig()
+        if args.policy is not None:
+            if args.plan:
+                raise ValueError("--policy cannot be combined with --plan")
+            resolve_policy_files(args.policy)
         profile = args.profile or config.profile
         target_label = args.target_label if args.target_label is not None else config.target_label
         include = (*config.include, *args.include)
@@ -1743,30 +1707,31 @@ def main(
                 rule_timeout_seconds=args.rule_timeout,
             )
 
-        result = scan(
-            args.target,
-            profile=profile,
-            target_label=target_label,
-            include=include,
-            exclude=exclude,
-            disabled_rules=disabled_rules,
-            max_file_bytes=max_file_bytes,
-            max_firmware_bytes=max_firmware_bytes,
-            max_discovered_paths=max_discovered_paths,
-            max_discovered_directories=max_discovered_directories,
-            max_source_bytes=max_source_bytes,
-            max_scan_seconds=max_scan_seconds,
-            rule_timeout_seconds=args.rule_timeout,
-            firmware_image=firmware_input,
-            sbom_input=sbom_input,
-            build_dir=args.build_dir,
-            zephyr_hardening_report=args.zephyr_hardening_report,
-            platformio_config=args.platformio_config,
-            platformio_environments=tuple(args.platformio_env),
-            compile_commands=args.compile_commands,
-            hardware_bom=args.hardware_bom,
-            hardware_netlist=args.hardware_netlist,
-        )
+        with ScanProgress() if _interactive_scan else nullcontext():
+            result = scan(
+                args.target,
+                profile=profile,
+                target_label=target_label,
+                include=include,
+                exclude=exclude,
+                disabled_rules=disabled_rules,
+                max_file_bytes=max_file_bytes,
+                max_firmware_bytes=max_firmware_bytes,
+                max_discovered_paths=max_discovered_paths,
+                max_discovered_directories=max_discovered_directories,
+                max_source_bytes=max_source_bytes,
+                max_scan_seconds=max_scan_seconds,
+                rule_timeout_seconds=args.rule_timeout,
+                firmware_image=firmware_input,
+                sbom_input=sbom_input,
+                build_dir=args.build_dir,
+                zephyr_hardening_report=args.zephyr_hardening_report,
+                platformio_config=args.platformio_config,
+                platformio_environments=tuple(args.platformio_env),
+                compile_commands=args.compile_commands,
+                hardware_bom=args.hardware_bom,
+                hardware_netlist=args.hardware_netlist,
+            )
         network_policy = (
             "no-network"
             if args.no_network
@@ -1788,25 +1753,26 @@ def main(
                 else nullcontext()
             )
             with sandbox_scope:
-                result = _analyze_with_optional_tools(
-                    result,
-                    analyzer_target,
-                    output_dir,
-                    sbom=sbom,
-                    vulnerabilities=vulnerabilities,
-                    firmware=firmware,
-                    firmware_image=firmware_input,
-                    ghidra=ghidra,
-                    ghidra_install_dir=ghidra_install_dir,
-                    ghidra_timeout_seconds=ghidra_timeout_seconds,
-                    ghidra_language=args.ghidra_language,
-                    ghidra_base_address=args.ghidra_base_address,
-                    ghidra_compiler_spec=args.ghidra_compiler_spec,
-                    git_history=git_history,
-                    offline_vulnerabilities=offline_vulnerabilities,
-                    no_network=args.no_network,
-                    sbom_input=sbom_input,
-                )
+                with ScanProgress(optional=True) if _interactive_scan else nullcontext():
+                    result = _analyze_with_optional_tools(
+                        result,
+                        analyzer_target,
+                        output_dir,
+                        sbom=sbom,
+                        vulnerabilities=vulnerabilities,
+                        firmware=firmware,
+                        firmware_image=firmware_input,
+                        ghidra=ghidra,
+                        ghidra_install_dir=ghidra_install_dir,
+                        ghidra_timeout_seconds=ghidra_timeout_seconds,
+                        ghidra_language=args.ghidra_language,
+                        ghidra_base_address=args.ghidra_base_address,
+                        ghidra_compiler_spec=args.ghidra_compiler_spec,
+                        git_history=git_history,
+                        offline_vulnerabilities=offline_vulnerabilities,
+                        no_network=args.no_network,
+                        sbom_input=sbom_input,
+                    )
         if args.product_purl:
             result = replace(result, product_purl=args.product_purl)
         if args.vex:
@@ -1826,6 +1792,7 @@ def main(
                 max_firmware_bytes=max_firmware_bytes,
             )
             result = replace(result, provenance=provenance)
+        policy_results = evaluate_policies(args.policy, result) if args.policy is not None else None
         if result.hardware_bom.status in {"imported", "partial"}:
             if output_dir is None:
                 raise ValueError("A CycloneDX hardware BOM needs a report output directory")
@@ -1851,8 +1818,16 @@ def main(
             )
         if output_dir is not None:
             _write_reports(result, output_dir)
+            policy_output = output_dir / "policy-results.json"
+            if policy_results is not None:
+                _write_policy_results(policy_results, policy_output)
+                _safe_print(f"Policy results written to {policy_output}", file=sys.stderr)
             _safe_print(f"Reports written to {output_dir}", file=sys.stderr)
-            if args.output_dir is None and config.output_dir is None:
+            if (
+                args.output_dir is None
+                and config.output_dir is None
+                and (not _interactive_scan or args.format != "text")
+            ):
                 sys.stdout.write(
                     to_json(result)
                     if args.format == "json"
@@ -1873,6 +1848,10 @@ def main(
             )
             args.output.write_text(report, encoding="utf-8")
             _safe_print(f"Report written to {args.output}", file=sys.stderr)
+            if policy_results is not None:
+                policy_output = args.output.with_name(f"{args.output.stem}.policy-results.json")
+                _write_policy_results(policy_results, policy_output)
+                _safe_print(f"Policy results written to {policy_output}", file=sys.stderr)
         else:
             sys.stdout.write(
                 to_json(result)
@@ -1881,6 +1860,8 @@ def main(
                 if args.format == "sarif"
                 else to_text(result)
             )
+        if _result_callback is not None:
+            _result_callback(result, output_dir or (args.output.resolve() if args.output else None))
         if args.reason:
             canonical_path = (
                 output_dir / "findings.json"
@@ -1903,12 +1884,12 @@ def main(
                 reasoning_path,
                 show=args.format == "text",
             )
-        if _prompt_for_pdf:
+        if _prompt_for_pdf and output_dir is not None:
             try:
-                report_answer = input("Generate an aesthetic PDF report? [y/N] ").strip().casefold()
+                report_answer = input("Create a PDF report? [y/N] ").strip().casefold()
             except EOFError:
                 report_answer = ""
-            if report_answer in {"y", "yes"} and output_dir is not None:
+            if report_answer in {"y", "yes"}:
                 pdf_path, note = write_pdf_report(result, output_dir)
                 if pdf_path is not None:
                     _safe_print(f"PDF report written to {pdf_path}", file=sys.stderr)
@@ -1968,6 +1949,14 @@ def main(
         return 2
     if result.netlist_inventory.status in {"partial", "invalid"}:
         return 2
+
+    if policy_results is not None:
+        policy_status = str(policy_results["status"])
+        _safe_print(f"Policy evaluation: {policy_status.upper()}", file=sys.stderr)
+        if policy_status == "fail":
+            return 1
+        if policy_status == "unknown":
+            return 2
 
     if not result.analysis_performed:
         return 2

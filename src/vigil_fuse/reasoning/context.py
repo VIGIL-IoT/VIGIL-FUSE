@@ -35,9 +35,7 @@ _PRIVATE = re.compile(
 def load_report(raw: bytes) -> dict[str, Any]:
     """Check the canonical report boundary; never accept TXT, SARIF, PDF or context JSON."""
     report = strict_json(raw, MAX_REPORT_BYTES)
-    if not isinstance(report.get("schema_version"), str) or report["schema_version"] not in {
-        f"1.{i}" for i in range(1, 12)
-    }:
+    if report.get("schema_version") != "1.11":
         raise ValueError("Unsupported canonical FUSE report schema")
     if not isinstance(report.get("tool"), dict) or report["tool"].get("name") != "FUSE":
         raise ValueError("Expected a canonical FUSE report")

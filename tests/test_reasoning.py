@@ -566,3 +566,46 @@ def test_schema_fields_cannot_ground_invented_identifiers() -> None:
     response["summary"] = "Inspect unknown_evidence_ids."
     with pytest.raises(ValueError, match="unsupported identifiers"):
         validate_response(json.dumps(response).encode(), context())
+
+
+@pytest.mark.parametrize("policy_status,expected_code", [("pass", 0), ("fail", 1), ("unknown", 2)])
+def test_reasoning_preserves_policy_and_interactive_result(
+    tmp_path: Path,
+    policy_status: str,
+    expected_code: int,
+) -> None:
+    source = tmp_path / "main.c"
+    source.write_text('char *password = "bad-hardcoded-password";\n')
+    output = tmp_path / "reports"
+    seen = []
+    policy = {"status": policy_status}
+
+    def inspect() -> dict[str, bool]:
+        assert seen and (output / "findings.json").is_file()
+        assert json.loads((output / "policy-results.json").read_text()) == policy
+        return {"available": False, "installed": False}
+
+    with (
+        patch("vigil_fuse.cli.evaluate_policies", return_value=policy),
+        patch.object(Ollama, "inspect", side_effect=inspect),
+    ):
+        code = main(
+            [
+                "scan",
+                str(source),
+                "--reason",
+                "--policy",
+                "reference:production-iot",
+                "--output-dir",
+                str(output),
+            ],
+            _interactive_scan=True,
+            _result_callback=lambda result, path: seen.append((result, path)),
+        )
+    assert code == expected_code
+    assert len(seen) == 1
+    assert json.loads((output / "policy-results.json").read_text()) == policy
+    assert (
+        json.loads((output / "reasoning.json").read_text())["findings"][0]["reasoning_status"]
+        == "failed"
+    )
