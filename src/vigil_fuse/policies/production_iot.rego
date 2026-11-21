@@ -67,8 +67,14 @@ violation_list := [item | some item in violation_set]
 unknown_list := [item | some item in unknown_set]
 
 status := "fail" if count(violation_list) > 0
-status := "unknown" if count(violation_list) == 0; count(unknown_list) > 0
-status := "pass" if count(violation_list) == 0; count(unknown_list) == 0
+status := "unknown" if {
+	count(violation_list) == 0
+	count(unknown_list) > 0
+}
+status := "pass" if {
+	count(violation_list) == 0
+	count(unknown_list) == 0
+}
 
 result := {
 	"policy_id": policy_id,

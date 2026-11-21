@@ -6,7 +6,7 @@ FUSE can optionally evaluate an explicit organizational policy against a bounded
 FUSE evidence -> Python normalization -> OPA/Rego -> policy decisions -> Python reporting
 ```
 
-Use the bundled reference policy or provide a `.rego` module or a directory containing `.rego` modules:
+Use the bundled Rego v1 reference policy with OPA 1.0 or later, or provide a `.rego` module or a directory containing `.rego` modules:
 
 ```sh
 vigil-fuse scan path/to/project --policy reference:production-iot

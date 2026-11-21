@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -115,6 +116,25 @@ class PolicyInputTests(unittest.TestCase):
         modules = resolve_policy_files(BUILTIN_POLICY)
         self.assertEqual(1, len(modules))
         self.assertEqual("production_iot.rego", modules[0].name)
+
+    def test_reference_rego_evaluates_when_opa_is_available(self) -> None:
+        executable = shutil.which("opa")
+        if executable is None:
+            self.skipTest("OPA is optional")
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "main.c").write_text(
+                'const char *broker = "mqtt://broker.example:1883";\n', encoding="utf-8"
+            )
+            result = scan(root)
+        document = evaluate_policies(BUILTIN_POLICY, result)
+
+        self.assertTrue(document["engine"]["available"])
+        self.assertEqual("fail", document["status"])
+        evaluation = document["evaluations"][0]
+        self.assertEqual("fuse.reference.production-iot", evaluation["policy_id"])
+        self.assertEqual("fail", evaluation["status"])
+        self.assertIn("no_plaintext_mqtt", [item["rule"] for item in evaluation["violations"]])
 
 
 class PolicyEvaluationTests(unittest.TestCase):
