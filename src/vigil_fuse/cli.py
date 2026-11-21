@@ -43,6 +43,7 @@ from .product_context import import_vex, inspect_provenance, validate_package_pu
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
 from .report_pdf import write_pdf_report
+from .rtl_analysis import inspect_rtl_backend
 from .rule_execution import (
     DEFAULT_RULE_TIMEOUT_SECONDS,
     MAX_RULE_TIMEOUT_SECONDS,
@@ -549,6 +550,11 @@ def _doctor(
         )
     )
     _safe_print(f"  Ghidra detail: {ghidra.detail}")
+    rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
+    _safe_print(f"RTL analyzer: {rtl_availability}")
+    _safe_print(f"  backend: {rtl_backend}")
+    _safe_print(f"  version: {rtl_version}")
+    _safe_print(f"  Verible parser: {verible_status}")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (

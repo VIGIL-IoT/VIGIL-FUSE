@@ -32,4 +32,4 @@ The opt-in Docker analyzer path has a dedicated hosted Ubuntu fixture integratio
 
 ## Hardware and target projects
 
-FUSE accepts supported source, configuration, build-metadata, BOM, KiCad XML netlist, and selected firmware inputs across the core operating-system matrix. It does not validate a physical board, firmware behavior, device communications, or deployment. Filename inventories and selected netlist findings are candidate evidence. The [support matrix](../src/vigil_fuse/support-matrix.json) and [limitations](limitations.md) define input-specific scope.
+FUSE accepts supported source, configuration, build-metadata, BOM, KiCad XML netlist, HDL, and selected firmware inputs across the core operating-system matrix. Verilog/SystemVerilog scans use bounded structural extraction and an optional Verible parser. They do not validate synthesis, gate-level logic, timing, a physical board, runtime behavior, device communications, or deployment. Filename inventories and selected netlist/RTL findings are candidate evidence. The [support matrix](../src/vigil_fuse/support-matrix.json) and [limitations](limitations.md) define input-specific scope.

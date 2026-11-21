@@ -1,6 +1,6 @@
 # FUSE finding format
 
-FUSE JSON reports use `schema_version: "1.11"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.11.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan. Schema 1.11 also reports the optional Ghidra compiled-binary capability and analyzer coverage status.
+FUSE JSON reports use `schema_version: "1.12"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.12.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan. Schema 1.12 adds bounded RTL structure and security evidence under `hardware_inventory.rtl_analysis` while retaining older report schemas.
 
 The top-level `target` value is a shareable label. By default, it is the target basename. Pass `--target-label organization/repository` or set `scan.target_label` in TOML to give reports and baselines a stable identity when different repositories have the same folder name. Labels cannot be absolute paths or contain traversal segments. Local target paths are not included in reports.
 
@@ -49,7 +49,7 @@ The `coverage` object lists all available and enabled rules, analyzer status/ver
 
 `coverage.input_inventory` counts regular files not selected by the active source profile during bounded directory discovery. For firmware-image and supplied-SBOM inputs, the field states that source-profile inventory does not apply. Directory scope excludes symbolic links, configured/generated directories, and explicit exclude patterns. Include patterns limit selected source files but do not hide other types from this inventory. A file listed here may still be recognized by a separate inventory stage, such as hardware filename recognition. `complete` is false if discovery stopped at a resource limit, and `unsupported_file_types` uses lowercase extensions or `<no-extension>` as keys. These counts are a routing summary, not a claim that every file on disk was examined.
 
-The `hardware_inventory` object reports recognizable schematics, PCB design and fabrication artifacts, BOMs, CAD models, netlists, and HDL files. Detection uses filenames only and is independent of the source profile. `scope` is either the full directory target or a single file. `complete` is false if directory discovery stopped at a resource limit. Its entries are presence metadata, not vulnerability findings, and FUSE does not claim to validate hardware contents or security.
+The `hardware_inventory` object reports recognizable schematics, PCB design and fabrication artifacts, BOMs, CAD models, netlists, and HDL files. Detection uses filenames only and is independent of the source profile. `scope` is either the full directory target or a single file. `complete` is false if directory discovery stopped at a resource limit. Its `rtl_analysis` child reports normalized modules, ports, parameters, processes, assignments, instances, clock/reset signals, debug/test surfaces, contextual security constants, and state-machine candidates. `PRESENT` records file presence; only a literal path in a Yosys `read_verilog` command is marked `BUILD_INCLUDED`. Neither status proves that a source is programmed into an FPGA, reachable at runtime, or physically exposed.
 
 The `firmware_candidates` object records candidate paths, extensions, sizes, and counts across bounded source and common build-output directories. This is filename metadata only: candidate files are not opened, hashed, or validated as firmware. The path list is capped separately from the extension counts, and `omitted_count` shows when the displayed list was shortened.
 
@@ -79,7 +79,7 @@ Severity, its source, confidence, applicability, and validation are separate dim
 
 ```json
 {
-  "schema_version": "1.11",
+  "schema_version": "1.12",
   "tool": {"name": "FUSE", "version": "0.2.0"},
   "target": "device-project",
   "scan": {

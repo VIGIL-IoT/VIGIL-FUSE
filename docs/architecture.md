@@ -75,7 +75,7 @@ CLI
  ├─ optional Syft / OSV-Scanner / Binwalk / Gitleaks / Ghidra adapters run as bounded subprocesses
  ├─ product-context adapter correlates exact CycloneDX VEX identities and SLSA subject digests
  ├─ common Finding model carries severity, confidence, evidence, component identity, and review context
- ├─ reporters emit text, schema 1.11 JSON, SARIF, inventories, coverage, and artifact hashes
+ ├─ reporters emit text, schema 1.12 JSON, SARIF, inventories, coverage, and artifact hashes
  └─ baseline review consumes canonical JSON reports to compare changes and apply reasoned suppressions
 ```
 
@@ -90,6 +90,7 @@ CLI
 - `github_actions.py`: bounded, line-oriented checks for exact workflow-level and job-level `write-all` permission scalars, inventory of non-SHA action references, findings on obvious floating branch refs, a narrow `pull_request_target` plus `actions/checkout` pull request head-ref candidate, and selected untrusted event expressions directly interpolated into step `run` scripts. Findings remain repository workflow candidates; the adapter does not infer whether checked-out code is executed or whether shell interpolation is exploitable.
 - `hardware_netlist.py`: UTF-8 and DTD checks, streaming XML depth and element preflight, then bounded parsing of selected or uniquely detected KiCad netlists for named debug nets attached to connector candidates. It does not infer physical exposure.
 - `hardware.py`: filename-only recognition for hardware design, CAD, BOM, HDL, and fabrication artifacts.
+- `rtl_analysis.py`: bounded Verilog/SystemVerilog token parsing, optional Verible syntax parsing, literal Yosys inclusion metadata, and normalized RTL security evidence. Python FUSE interprets the evidence; it does not claim a formal proof or an effective FPGA build.
 - `build_context.py`: bounded PlatformIO `extra_configs` include resolution, environment and source-filter metadata, and compilation-database indexing. It records metadata only and never invokes PlatformIO, a compiler, or a build command.
 - `hardware_bom.py`: explicit CSV/TSV component import and CycloneDX 1.6 hardware BOM generation. Filename discovery remains separate from content parsing.
 - `product_context.py`: package URL construction, exact-match CycloneDX VEX annotations, and in-toto SLSA subject digest comparison for firmware. It does not authenticate signatures or trust builders.
@@ -119,7 +120,7 @@ The package follows inward dependency direction. The CLI is the composition root
 | Foundation | `model.py`, `input_types.py`, `limits.py`, `path_safety.py`, `profiles.py`, `target_labels.py`, `text_safety.py` | Python standard library only |
 | Rule contract and implementations | `rules/base.py`, individual `rules/*.py` modules | Rule implementations use the shared model and rule contract; they do not import scanner, CLI, reporter, analyzer, or worker modules |
 | Rule composition | `rules/registry.py` | Imports the rule contract and concrete rule definitions to build the registry |
-| Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
+| Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `rtl_analysis.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
 | Execution boundaries | `rule_execution.py`, `rule_worker.py`, `analyzer_runtime.py` | Rule execution uses the model; the worker uses the model and registry; analyzer runtime uses the model and process primitives |
 | Reporting | `reporting.py`, `sarif.py` | Consumes normalized results and presentation helpers; it does not run scans, rules, or analyzers |
 | Composition | `scanner.py`, `analyzers.py`, `cli.py` | May connect lower layers to expose a complete scan and command interface |
@@ -146,6 +147,8 @@ flowchart TD
 ```
 
 The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers receive per-run temporary default user, configuration, cache, data, and temporary directories, and use a temporary working directory unless an adapter explicitly selects one. Gitleaks retains its selected repository working directory. POSIX process sessions and Windows Job Objects support best-effort cleanup. Host mode remains the default and does not restrict filesystem, network, memory, or privilege access. Explicit Docker mode uses local digest-pinned images, verifies container settings before execution, mounts scan input read-only, and disables network unless online OSV lookup is explicitly allowed. The Docker daemon and selected images remain trusted. See the [threat model](threat-model.md) for trust boundaries and residual risks.
+
+The polyglot boundaries and RTL security-analysis scope are documented in [the FUSE polyglot platform](architecture/polyglot-platform.md) and [RTL analysis guide](rtl-security-analysis.md).
 
 ## Rule contract
 

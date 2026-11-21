@@ -1,0 +1,1 @@
+`define SECURITY_LOCKED 1'b0
