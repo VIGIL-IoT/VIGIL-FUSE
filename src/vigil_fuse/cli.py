@@ -42,6 +42,7 @@ from .platform_context import detect_project_frameworks, resolve_build_dir
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
+from .reasoning.cli import add_commands, doctor_text, enrich_scan, run_command
 from .report_pdf import write_pdf_report
 from .rule_execution import (
     DEFAULT_RULE_TIMEOUT_SECONDS,
@@ -145,6 +146,7 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--version", action="version", version=f"FUSE {__version__}")
     commands = parser.add_subparsers(dest="command")
+    add_commands(commands)
     doctor_parser = commands.add_parser(
         "doctor", help="show runtime and optional analyzer availability"
     )
@@ -223,6 +225,9 @@ def _parser() -> argparse.ArgumentParser:
     )
     scan_parser.add_argument(
         "target", nargs="?", default=".", help="project directory, file, SBOM, or firmware image"
+    )
+    scan_parser.add_argument(
+        "--reason", action="store_true", help="optionally explain completed findings locally"
     )
     scan_parser.add_argument("--config", type=Path, help="load scan options from a TOML file")
     scan_parser.add_argument("--profile", choices=tuple(PROFILES), help="input discovery profile")
@@ -556,6 +561,9 @@ def _doctor(
             if lock_parser_available()
             else "not installed; use vigil-fuse[esp-idf]"
         )
+    )
+    _safe_print(
+        doctor_text(config.reasoning if config is not None else ScanConfig().reasoning), end=""
     )
     _safe_print("Core scanner: available")
     _safe_print(
@@ -1482,6 +1490,13 @@ def main(
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
+    if args.command in {"reason", "reasoning-context"}:
+        try:
+            config = load_config(args.config) if args.config else ScanConfig()
+            return run_command(args, config.reasoning)
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
     if args.command == "baseline":
         try:
             if args.baseline_action == "create":
@@ -1865,6 +1880,28 @@ def main(
                 else to_sarif(result)
                 if args.format == "sarif"
                 else to_text(result)
+            )
+        if args.reason:
+            canonical_path = (
+                output_dir / "findings.json"
+                if output_dir is not None
+                else args.output
+                if args.format == "json"
+                else None
+            )
+            reasoning_path = (
+                output_dir / "reasoning.json"
+                if output_dir is not None
+                else args.output.with_suffix(".reasoning.json")
+                if args.output is not None
+                else Path(".fuse-results/reasoning.json")
+            )
+            enrich_scan(
+                to_json(result),
+                config.reasoning,
+                canonical_path,
+                reasoning_path,
+                show=args.format == "text",
             )
         if _prompt_for_pdf:
             try:

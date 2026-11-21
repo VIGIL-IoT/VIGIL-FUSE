@@ -133,3 +133,6 @@ Because this repository is public on GitHub, GitHub's [Terms of Service](https:/
 ## Multi-repository evaluation report
 
 Read the [LaTeX evaluation and reproduction record](reports/repository-scans/multi-repository-2026-11-14/README.md) or the [PDF on GitHub Pages](https://vigil-iot.github.io/VIGIL-FUSE/report.pdf). Four pinned scopes yielded three static review candidates across 4,347 scanned files, with coverage limitations recorded.
+
+Optional local reasoning over completed deterministic evidence is documented in
+[Local reasoning](docs/local-reasoning.md). It is opt-in and never downloads a model.
