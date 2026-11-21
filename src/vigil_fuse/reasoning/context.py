@@ -146,11 +146,23 @@ def build_context(
             return []
         if len(items) > limit:
             truncated.add(category)
-        return [
-            {key: text(item.get(key), category, path=key in {"path", "file"}) for key in keys}
-            for item in items[:limit]
-            if isinstance(item, dict)
-        ]
+        result = []
+        for item in items[:limit]:
+            if not isinstance(item, dict):
+                continue
+            values = {
+                key: text(item.get(key), category, path=key in {"path", "file"}) for key in keys
+            }
+            name = item.get("name")
+            if (
+                "value" in keys
+                and isinstance(name, str)
+                and re.search(r"(?i)password|passwd|secret|token|api[_-]?key|private[_-]?key", name)
+            ):
+                values["value"] = "[redacted]"
+                redacted.add(category)
+            result.append(values)
+        return result
 
     location = finding["location"]
     evidence: dict[str, list[dict[str, str]]] = {

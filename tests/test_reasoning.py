@@ -609,3 +609,20 @@ def test_reasoning_preserves_policy_and_interactive_result(
         json.loads((output / "reasoning.json").read_text())["findings"][0]["reasoning_status"]
         == "failed"
     )
+
+
+def test_separate_secret_setting_values_are_redacted() -> None:
+    report = load_report(RAW)
+    report["project_context"]["settings"] = [
+        {
+            "path": report["findings"][0]["location"]["file"],
+            "name": "CONFIG_WIFI_PASSWORD",
+            "value": "private short value",
+        }
+    ]
+    original = copy.deepcopy(report)
+    packet = build_context(report, report["findings"][0])
+    assert packet["build"][0]["value"] == "[redacted]"
+    assert "private short value" not in encode_context(packet).decode()
+    assert "build" in packet["redacted_categories"]
+    assert report == original
