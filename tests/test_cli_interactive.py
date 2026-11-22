@@ -1,5 +1,6 @@
 from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -11,6 +12,7 @@ from vigil_fuse.cliui import (
     REGISTRY,
     Session,
     completions,
+    composer_rule,
     parse_input,
     run_session,
 )
@@ -27,6 +29,11 @@ class InteractiveTests(unittest.TestCase):
         self.assertEqual([c.name for c in completions("/do")], ["doctor"])
         self.assertEqual(completions("/scan arg"), [])
         self.assertIn("scan", [c.name for c in completions("/sc")])
+
+    def test_composer_rules_fit_and_support_ascii(self) -> None:
+        for width in (30, 40, 80, 120):
+            self.assertEqual(composer_rule(width, "utf-8"), "â”€" * (width - 1))
+            self.assertEqual(composer_rule(width, "ascii"), "-" * (width - 1))
 
     def test_parse_quotes_and_windows_paths(self) -> None:
         self.assertEqual(
@@ -91,7 +98,7 @@ class InteractiveTests(unittest.TestCase):
             text = output.getvalue()
             self.assertIn("Reconnoitering project files", text)
             self.assertIn("1 findings to review", text)
-            self.assertIn(str(target / ".fuse-results" / "findings.txt"), text)
+            self.assertIn(str(target.resolve() / ".fuse-results" / "findings.txt"), text)
             self.assertNotIn("Potential impact:", text)
             self.assertTrue((target / ".fuse-results" / "findings.json").is_file())
 
@@ -124,8 +131,26 @@ class InteractiveTests(unittest.TestCase):
             patch("vigil_fuse.cliui.sys.stdout", TTYBuffer()) as output,
             patch.dict("os.environ", {"TERM": "xterm"}),
         ):
+            if os.name == "nt":
+                with patch("vigil_fuse.cliui.os.system", return_value=0) as clear:
+                    session.execute("/clear", lambda *a, **k: 0)
+                clear.assert_called_once_with("cls")
+                self.assertEqual(output.getvalue(), "")
+            else:
+                session.execute("/clear", lambda *a, **k: 0)
+                self.assertIn("\x1b[2J", output.getvalue())
+
+    def test_windows_clear_works_without_ansi_term_support(self) -> None:
+        session = Session(Path.cwd())
+        with (
+            patch("vigil_fuse.cliui.sys.stdout", TTYBuffer()) as output,
+            patch("vigil_fuse.cliui.os.name", "nt"),
+            patch("vigil_fuse.cliui.os.system", return_value=0) as clear,
+            patch.dict("os.environ", {"TERM": "dumb"}),
+        ):
             session.execute("/clear", lambda *a, **k: 0)
-            self.assertIn("\x1b[2J", output.getvalue())
+        clear.assert_called_once_with("cls")
+        self.assertEqual(output.getvalue(), "")
 
     def test_dispatch_restores_interrupt_handler_on_error(self) -> None:
         import signal

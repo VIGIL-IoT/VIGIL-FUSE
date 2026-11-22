@@ -6,6 +6,7 @@ from dataclasses import asdict, replace
 import hashlib
 import importlib.util
 import json
+import os
 import platform
 import shutil
 import subprocess
@@ -14,6 +15,7 @@ from pathlib import Path
 from typing import Callable, Literal, TextIO, TypedDict
 
 from . import __version__
+from .applicability import analyze_report, write_report as write_applicability_report
 from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
 from .analyzer_runtime import (
     analyzer_execution_detail,
@@ -32,7 +34,9 @@ from .analyzers import (
 from .baseline import create_baseline, diff_baseline, suppress_finding, unsuppress_finding
 from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
-from .cliui import ScanProgress, run_session
+from .component_graph import build_component_graph
+from .analysis_router import plan_analysis
+from .repo_dna import inspect_repository
 from .ghidra_analyzer import (
     GHIDRA_DEFAULT_TIMEOUT_SECONDS,
     GHIDRA_MAXIMUM_INPUT_BYTES,
@@ -41,6 +45,11 @@ from .ghidra_analyzer import (
     detect_binary_input,
 )
 from .esp_idf_lock import lock_parser_available
+from .frontier_cli import (
+    frontier_hints,
+    register_commands as register_frontier_commands,
+    run_command as run_frontier_command,
+)
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
@@ -118,6 +127,8 @@ class _ScanPlan(TypedDict):
     selected_zephyr_hardening_report: str | None
     detected_frameworks: list[_FrameworkHint]
     framework_hints_are_advisory: bool
+    frontier_hints: list[_FrameworkHint]
+    frontier_hints_note: str
     build_context: dict[str, object]
     discovery_preview: DiscoveryPreview | None
     support: CapabilitySummary
@@ -167,6 +178,9 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--version", action="version", version=f"FUSE {__version__}")
     commands = parser.add_subparsers(dest="command")
+    register_frontier_commands(commands)
+    inspect_parser = commands.add_parser("inspect", help="inspect repository characteristics")
+    inspect_parser.add_argument("target", type=Path)
     add_commands(commands)
     doctor_parser = commands.add_parser(
         "doctor", help="show runtime and optional analyzer availability"
@@ -270,6 +284,21 @@ def _parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path(".fuse-results/suppressions.json"),
         help="suppression JSON path",
+    )
+    applicability_parser = commands.add_parser(
+        "applicability", help="assess dependency findings against recorded product evidence"
+    )
+    applicability_commands = applicability_parser.add_subparsers(
+        dest="applicability_action", required=True
+    )
+    applicability_analyze = applicability_commands.add_parser(
+        "analyze", help="compose a conservative applicability report from a FUSE JSON report"
+    )
+    applicability_analyze.add_argument(
+        "--report", required=True, type=Path, help="source FUSE findings.json report"
+    )
+    applicability_analyze.add_argument(
+        "--output", type=Path, help="write applicability JSON to this path instead of stdout"
     )
     scan_parser = commands.add_parser(
         "scan", help="analyze a project, SBOM, or supported firmware input"
@@ -602,6 +631,9 @@ def _doctor(
         "incompatible": "WRONG_VERSION",
         "unsupported": "UNSUPPORTED",
     }.get(ghidra.status, "BROKEN")
+    from .clang_analyzer import inspect_clang
+
+    _, clang_status = inspect_clang()
     checks = inspect_environment()
     rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
     reasoning_config = config.reasoning if config is not None else ScanConfig().reasoning
@@ -642,6 +674,14 @@ def _doctor(
                 "impact": "Optional reasoning only; deterministic scans are unaffected.",
             },
             "core_python_dependencies": [],
+            "clang_semantic": {
+                "category": "OPTIONAL_HEAVY",
+                "status": "AVAILABLE"
+                if clang_status.status == "completed"
+                else clang_status.status.upper(),
+                "version": clang_status.version,
+                "detail": clang_status.detail,
+            },
             "optional_python_capabilities": {
                 "esp_idf_yaml_parser": {
                     "category": "RECOMMENDED",
@@ -680,8 +720,6 @@ def _doctor(
     _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
     _safe_print("External tools:")
     for check in checks:
-        if check.id == "opa":
-            continue
         if check.executable is None:
             detail = "not installed" if check.status == "MISSING" else check.status.lower()
             _safe_print(f"  {check.display_name}: {detail} [{check.status}]")
@@ -690,6 +728,10 @@ def _doctor(
                 f"  {check.display_name}: {check.version or 'version unavailable'} "
                 f"[{check.executable}] [{check.status}]"
             )
+    clang_availability = "available" if clang_status.status == "completed" else clang_status.status
+    _safe_print(f"  Clang semantic analyzer: {clang_availability}")
+    _safe_print(f"  LLVM/Clang version: {clang_status.version or 'not detected'}")
+    _safe_print(f"  Clang detail: {clang_status.detail}")
     _safe_print(f"  Ghidra: {ghidra.status} [{ghidra_status}]")
     _safe_print(f"  Ghidra version: {ghidra.version or 'not detected'}")
     _safe_print(
@@ -704,14 +746,15 @@ def _doctor(
         )
     )
     _safe_print(f"  Ghidra detail: {ghidra.detail}")
-    opa = inspect_opa()
-    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
-    _safe_print(f"OPA version: {opa.version or 'not detected'}")
-    _safe_print("policy engine: optional")
+    rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
     _safe_print(f"RTL analyzer: {rtl_availability}")
     _safe_print(f"  backend: {rtl_backend}")
     _safe_print(f"  version: {rtl_version}")
     _safe_print(f"  Verible parser: {verible_status}")
+    opa = inspect_opa()
+    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
+    _safe_print(f"OPA version: {opa.version or 'not detected'}")
+    _safe_print("policy engine: optional")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (
@@ -1343,6 +1386,17 @@ def _scan_plan(
             }
         )
 
+    cyber_physical_hints = (
+        frontier_hints(
+            discovery_preview["selected_files_sample"],
+            discovery_preview["unsupported_file_types"],
+            discovery_preview["hardware_category_counts"],
+            has_bom=hardware_bom is not None,
+            has_netlist=hardware_netlist is not None,
+        )
+        if discovery_preview is not None
+        else []
+    )
     plan: _ScanPlan = {
         "target": shareable_target,
         "target_kind": kind,
@@ -1356,6 +1410,11 @@ def _scan_plan(
         "selected_zephyr_hardening_report": selected_hardening_report,
         "detected_frameworks": framework_hints,
         "framework_hints_are_advisory": True,
+        "frontier_hints": cyber_physical_hints,
+        "frontier_hints_note": (
+            "Advisory filename evidence only; selected-file samples are capped at 100. "
+            "An absent hint is not proof of absence, and scan does not run these commands."
+        ),
         "build_context": {
             "platformio": {
                 "status": platformio_inventory.status,
@@ -1439,6 +1498,11 @@ def _scan_plan(
                 f"translation unit(s); commands will not run."
             )
         _safe_print(f"Selected profile controls analyzer routing: {profile}")
+        for hint in cyber_physical_hints:
+            _safe_print(
+                f"Experimental command available: {hint['name']} ({'; '.join(hint['evidence'])})"
+            )
+        _safe_print(plan["frontier_hints_note"])
         if discovery_preview is not None:
             _safe_print(
                 "Discovery preview: "
@@ -1662,8 +1726,179 @@ def _analyze_with_optional_tools(
     )
 
 
+def _interactive_launch(*, confirm: bool = True) -> int:
+    target = Path.cwd()
+    if confirm:
+        _safe_print("Current folder:", target, file=sys.stderr)
+        _safe_print(
+            "If this is not your project, open a terminal in the project folder before launching FUSE.",
+            file=sys.stderr,
+        )
+        try:
+            answer = input("Run FUSE scan here? [y/N] ").strip().casefold()
+        except EOFError:
+            answer = ""
+        if answer not in {"y", "yes"}:
+            _safe_print("Scan cancelled.", file=sys.stderr)
+            return 0
+    else:
+        _safe_print(f"\nScan target: {target}", file=sys.stderr)
+
+    _safe_print("Choose a scan type:", file=sys.stderr)
+    _safe_print("  1. Full project scan", file=sys.stderr)
+    _safe_print("  2. Profile-specific project scan", file=sys.stderr)
+    _safe_print("  3. Project and dependency scan (Syft and OSV-Scanner)", file=sys.stderr)
+    _safe_print("  4. Firmware signature scan (Binwalk, no extraction)", file=sys.stderr)
+    _safe_print("  5. Ghidra reverse-engineering analysis (one binary)", file=sys.stderr)
+    _safe_print("  0. Cancel", file=sys.stderr)
+    _safe_print(
+        "Ghidra records bounded binary metadata; FUSE checks supported signals in that evidence. "
+        "It does not export decompiled pseudocode.",
+        file=sys.stderr,
+    )
+    _safe_print("Run vigil-fuse doctor to check optional tools.", file=sys.stderr)
+    try:
+        choice = input("Scan type [1-5, 0 to cancel]: ").strip()
+    except EOFError:
+        choice = "0"
+    if choice == "0":
+        _safe_print("Scan cancelled.", file=sys.stderr)
+        return 0
+
+    scan_args = ["scan", str(target)]
+    if choice == "2":
+        for index, (name, profile) in enumerate(PROFILES.items(), start=1):
+            _safe_print(f"  {index}. {name}: {profile.description}", file=sys.stderr)
+        try:
+            selected = input(f"Profile [1-{len(PROFILES)}]: ").strip()
+        except EOFError:
+            selected = ""
+        names = tuple(PROFILES)
+        if not selected.isdigit() or not 1 <= int(selected) <= len(names):
+            _safe_print("Invalid profile selection. Scan cancelled.", file=sys.stderr)
+            return 2
+        scan_args.extend(["--profile", names[int(selected) - 1]])
+    elif choice == "3":
+        scan_args.extend(["--sbom", "--vulnerabilities"])
+    elif choice in {"4", "5"}:
+        label = "Firmware image" if choice == "4" else "Executable or firmware image"
+        try:
+            entered_path = input(f"{label} path: ").strip().strip('"').strip("'")
+        except EOFError:
+            entered_path = ""
+        if not entered_path:
+            _safe_print("Scan cancelled.", file=sys.stderr)
+            return 0
+        binary = Path(entered_path).expanduser()
+        if not binary.is_absolute():
+            binary = target / binary
+        scan_args = ["scan", str(binary), "--firmware" if choice == "4" else "--ghidra"]
+    elif choice != "1":
+        _safe_print("Choose a scan type from 0 through 5. Scan cancelled.", file=sys.stderr)
+        return 2
+
+    return main(scan_args, _show_banner=False, _prompt_for_pdf=True, _interactive_scan=True)
+
+
 def _interactive_shell() -> int:
-    return run_session(main)
+    """Start the FUSE shell without running a scan until requested."""
+    import shlex
+
+    from .terminal import read_command
+
+    _safe_print(f"\n  Workspace: {Path.cwd()}\n")
+
+    while True:
+        try:
+            command = read_command().strip()
+        except (EOFError, KeyboardInterrupt):
+            _safe_print("\nSession ended. — VIGIL")
+            return 0
+
+        if not command:
+            continue
+
+        name, _, tail = command.partition(" ")
+        name = name.casefold()
+        tail = tail.strip()
+
+        if name in {"/exit", "exit", "quit", "/quit"}:
+            _safe_print("\nSession ended. — VIGIL")
+            return 0
+
+        if name in {"/help", "help", "?"}:
+            _safe_print(
+                "\nFUSE COMMANDS\n"
+                "  /help                 Show this list\n"
+                "  /scan                 Open the interactive scan menu\n"
+                "  /scan PATH [OPTIONS]  Scan a target directly, e.g. /scan . --plan\n"
+                "  /doctor               Check optional analyzers and runtime\n"
+                "  /baseline ...         Run a baseline subcommand (see /baseline --help)\n"
+                "  /pwd                  Show the current workspace\n"
+                "  /cd PATH              Change workspace\n"
+                "  /version              Show the FUSE version\n"
+                "  /clear                Clear the screen\n"
+                "  /exit                 Close FUSE\n"
+            )
+            continue
+
+        if name in {"/pwd", "pwd"}:
+            _safe_print(f"Workspace: {Path.cwd()}")
+            continue
+
+        if name in {"/version", "version"}:
+            _safe_print(f"FUSE v{__version__} — by VIGIL")
+            continue
+
+        if name in {"/clear", "clear"}:
+            sys.stdout.write("\033[2J\033[H")
+            sys.stdout.flush()
+
+            # Restore the FUSE startup screen.
+            show_banner()
+            _safe_print(f"\n  Workspace: {Path.cwd()}\n")
+            continue
+
+        if name in {"/cd", "cd"}:
+            if not tail:
+                _safe_print("Usage: /cd PATH")
+                continue
+            try:
+                destination = Path(tail.strip("\"'")).expanduser()
+                if not destination.is_dir():
+                    _safe_print(f"Not a directory: {destination}")
+                    continue
+                os.chdir(destination)
+                _safe_print(f"Workspace: {Path.cwd()}")
+            except OSError as error:
+                _safe_print(f"Cannot change workspace: {error}")
+            continue
+
+        # Route shell commands through the existing CLI parser and scanner.
+        # shlex in non-POSIX mode preserves Windows backslashes in paths.
+        if name in {"/scan", "scan", "/doctor", "doctor", "/baseline", "baseline"}:
+            if name in {"/scan", "scan"} and not tail:
+                _interactive_launch(confirm=False)
+                continue
+            try:
+                args = [part.strip("\"'") for part in shlex.split(tail, posix=False)]
+            except ValueError as error:
+                _safe_print(f"Invalid command arguments: {error}")
+                continue
+            try:
+                main(
+                    [name.lstrip("/"), *args],
+                    _show_banner=False,
+                    _interactive_scan=name in {"/scan", "scan"},
+                )
+            except SystemExit as error:
+                # argparse raises SystemExit for --help and invalid syntax;
+                # returning to the shell should not terminate this session.
+                if error.code not in (0, None):
+                    _safe_print("Command failed. Type /help for examples.")
+            continue
+
+        _safe_print(f"Unknown command: {name}. Type /help for commands.")
 
 
 def main(
@@ -1685,6 +1920,25 @@ def main(
     if args.command is None:
         parser.print_help()
         return 0
+    if args.command in {"digital-twin", "flight-bus", "seu", "physical-reachability"}:
+        return run_frontier_command(args)
+    if args.command == "inspect":
+        try:
+            dna = inspect_repository(args.target)
+            _safe_print(
+                json.dumps(
+                    {
+                        **dna,
+                        "component_graph": build_component_graph(dna),
+                        "analysis_plan": plan_analysis(dna),
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
     if args.command == "doctor":
         try:
             config_path = args.config.expanduser() if args.config else None
@@ -1752,6 +2006,20 @@ def main(
                 args.format,
                 args.fail_on_new,
             )
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
+    if args.command == "applicability":
+        try:
+            applicability_result = analyze_report(args.report)
+            if args.output:
+                write_applicability_report(args.report, args.output, applicability_result)
+                _safe_print(f"Applicability report written to {args.output}", file=sys.stderr)
+            else:
+                sys.stdout.write(
+                    json.dumps(applicability_result, indent=2, ensure_ascii=False) + "\n"
+                )
+            return 0
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
@@ -1980,6 +2248,9 @@ def main(
                 rule_timeout_seconds=args.rule_timeout,
             )
 
+        if _interactive_scan:
+            from .cliui import ScanProgress
+
         with ScanProgress() if _interactive_scan else nullcontext():
             result = scan(
                 args.target,
@@ -2026,6 +2297,9 @@ def main(
                 else nullcontext()
             )
             with sandbox_scope:
+                if _interactive_scan:
+                    from .cliui import ScanProgress
+
                 with ScanProgress(optional=True) if _interactive_scan else nullcontext():
                     result = _analyze_with_optional_tools(
                         result,
@@ -2135,6 +2409,12 @@ def main(
             )
         if _result_callback is not None:
             _result_callback(result, output_dir or (args.output.resolve() if args.output else None))
+        if _interactive_scan:
+            from .cliui import present_scan_result
+
+            present_scan_result(
+                result, output_dir or (args.output.resolve() if args.output else None)
+            )
         if args.reason:
             canonical_path = (
                 output_dir / "findings.json"
@@ -2162,7 +2442,7 @@ def main(
                 report_answer = input("Create a PDF report? [y/N] ").strip().casefold()
             except EOFError:
                 report_answer = ""
-            if report_answer in {"y", "yes"}:
+            if report_answer in {"y", "yes"} and output_dir is not None:
                 pdf_path, note = write_pdf_report(result, output_dir)
                 if pdf_path is not None:
                     _safe_print(f"PDF report written to {pdf_path}", file=sys.stderr)

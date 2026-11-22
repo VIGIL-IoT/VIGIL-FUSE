@@ -60,7 +60,7 @@ class TerminalBannerTests(unittest.TestCase):
 
     def test_banner_contents_are_centered(self):
         banner = self.render(width=80, no_color=True)
-        for label in ("Firmware & Unified Security Engine", "A VIGIL Project"):
+        for label in ("Firmware & Unified Security Engine", "by VIGIL", "Static evidence."):
             line = next(line for line in banner.splitlines() if label in line)
             content = line[1:-1]
             self.assertLessEqual(

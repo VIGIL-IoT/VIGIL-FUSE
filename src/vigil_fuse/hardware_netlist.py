@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import re
 import xml.etree.ElementTree as ET
+from dataclasses import dataclass
 from xml.parsers import expat
 from pathlib import Path
 from typing import TypedDict
@@ -32,6 +33,29 @@ class _NetlistBase(TypedDict):
     path: str
     sha256: str
     byte_size: int
+
+
+@dataclass(frozen=True)
+class NetlistEndpoint:
+    reference: str
+    pin: str
+    connector_candidate: bool
+
+
+@dataclass(frozen=True)
+class NetlistNet:
+    name: str
+    endpoints: tuple[NetlistEndpoint, ...]
+
+
+@dataclass(frozen=True)
+class NetlistTopology:
+    status: str
+    path: str | None = None
+    sha256: str | None = None
+    components: tuple[str, ...] = ()
+    nets: tuple[NetlistNet, ...] = ()
+    limitations: tuple[str, ...] = ()
 
 
 def _preflight_xml(data: bytes) -> None:
@@ -72,6 +96,76 @@ def _preflight_xml(data: bytes) -> None:
     parser.ExternalEntityRefHandler = lambda *_args: 0
     parser.SetParamEntityParsing(expat.XML_PARAM_ENTITY_PARSING_NEVER)
     parser.Parse(data, True)
+
+
+def read_netlist_topology(root: Path, supplied: str | Path) -> NetlistTopology:
+    """Read KiCad connectivity; connector candidates are not proof of access."""
+    try:
+        path, display = _select_project_file(root, supplied, "--hardware-netlist")
+        data = _read_bounded(path, MAX_KICAD_NETLIST_BYTES, "KiCad netlist")
+        _preflight_xml(data)
+        document = ET.fromstring(data)
+    except (ValueError, OSError, expat.ExpatError, ET.ParseError, RecursionError) as error:
+        return NetlistTopology("invalid", limitations=(f"Could not read KiCad XML: {error}",))
+    digest = hashlib.sha256(data).hexdigest()
+    components_section = document.find("components")
+    nets_section = document.find("nets")
+    if document.tag != "export":
+        return NetlistTopology(
+            "unsupported", display, digest, limitations=("XML root is not a KiCad export.",)
+        )
+    if components_section is None or nets_section is None:
+        return NetlistTopology(
+            "partial", display, digest, limitations=("Missing KiCad export sections.",)
+        )
+    components: dict[str, str] = {}
+    incomplete = False
+    for component in components_section.findall("comp"):
+        reference = component.get("ref", "").strip()
+        if not reference or reference in components:
+            incomplete = True
+            continue
+        components[reference] = " ".join(
+            item.text or ""
+            for item in (component.find("value"), component.find("footprint"))
+            if item is not None
+        )
+    nets: list[NetlistNet] = []
+    seen_pins: set[tuple[str, str]] = set()
+    seen_names: set[str] = set()
+    for net in nets_section.findall("net"):
+        name = net.get("name", "")
+        if not name or name in seen_names:
+            incomplete = True
+        seen_names.add(name)
+        endpoints: list[NetlistEndpoint] = []
+        for node in net.findall("node"):
+            reference, pin = node.get("ref", ""), node.get("pin", "")
+            if not reference or not pin or reference not in components:
+                incomplete = True
+                continue
+            if (reference, pin) in seen_pins:
+                incomplete = True
+            seen_pins.add((reference, pin))
+            connector = bool(
+                _CONNECTOR_REFERENCE.fullmatch(reference)
+                or _CONNECTOR_WORDS.search(components[reference])
+            )
+            endpoints.append(NetlistEndpoint(reference, pin, connector))
+        nets.append(NetlistNet(name, tuple(sorted(endpoints, key=lambda e: (e.reference, e.pin)))))
+    limitations = [
+        "Connectivity is design evidence; PCB routing and physical access are unverified."
+    ]
+    if incomplete:
+        limitations.append("Missing or duplicate components, nets, or pin connections were found.")
+    return NetlistTopology(
+        "partial" if incomplete else "parsed",
+        display,
+        digest,
+        tuple(sorted(components)),
+        tuple(sorted(nets, key=lambda net: (net.name, repr(net.endpoints)))),
+        tuple(limitations),
+    )
 
 
 def inspect_kicad_netlist(

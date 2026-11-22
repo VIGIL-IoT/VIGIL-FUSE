@@ -337,6 +337,7 @@ def test_doctor_json_survives_missing_optional_python_capability(
     report = json.loads(capsys.readouterr().out)
     assert report["fuse"]["status"] == "AVAILABLE"
     assert report["core_python_dependencies"] == []
+    assert report["clang_semantic"]["category"] == "OPTIONAL_HEAVY"
     assert report["optional_python_capabilities"]["esp_idf_yaml_parser"]["status"] == "OPTIONAL"
     tool_checks = {tool["id"]: tool for tool in report["tools"]}
     assert tool_checks["syft"]["status"] == "MISSING"

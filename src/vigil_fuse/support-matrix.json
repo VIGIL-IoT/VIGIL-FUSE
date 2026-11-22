@@ -11,6 +11,19 @@
   },
   "capabilities": [
     {
+      "id": "source.clang-semantic",
+      "input": "Explicit compile_commands.json with passive arguments arrays",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Opt-in LibTooling AST observations, strict Python validation and selected-build inclusion evidence.",
+      "limitations": [
+        "Optional native LLVM/Clang build required",
+        "No automatic findings, data flow, symbolic execution or runtime reachability",
+        "Narrow compiler argument allowlist; main-file observations only",
+        "Host execution is not an OS sandbox; isolate untrusted inputs"
+      ]
+    },
+    {
       "id": "source.generic",
       "input": "Common source and configuration files",
       "profile": "generic",
@@ -88,7 +101,7 @@
       "profile": null,
       "label": "detected",
       "scope": "Indexes translation units and compiler families as bounded metadata.",
-      "limitations": ["Compiler commands and project code are never executed", "No compiler or semantic C/C++ analyzer is run"]
+      "limitations": ["Compiler commands and project code are never executed", "This metadata inventory does not run the separate opt-in Clang semantic stage"]
     },
     {
       "id": "inventory.esp-idf-lock",
@@ -193,6 +206,38 @@
       "label": "experimental",
       "scope": "Compares a supplied subject SHA-256 with the selected firmware image and records claimed builder metadata.",
       "limitations": ["Signature and builder trust are not verified", "Does not validate build policy or provenance completeness"]
+    },
+    {
+      "id": "cyber-physical.reachability",
+      "input": "Explicit DTS, KiCad XML netlist and caller-provided pin mapping",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Correlates explicit pin mappings to netlist connector candidates with partial device-tree evidence.",
+      "limitations": ["Does not resolve preprocessing or pinctrl", "Does not prove physical access or exploitability", "Requires an explicit finding and pin mapping"]
+    },
+    {
+      "id": "flight.cfe-bus",
+      "input": "Explicit cFE C source files and application assignments",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Extracts a partial symbolic cFE bus graph with duplicate-subscription and optional configured-boundary review observations.",
+      "limitations": ["No C preprocessing or application ownership inference", "Policy uses exact symbolic matches only", "No runtime routing or privilege validation", "F Prime is not implemented"]
+    },
+    {
+      "id": "flight.radiation-indicators",
+      "input": "Explicit C source file",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Observes selected named flight-state declarations and same-line resilience indicators.",
+      "limitations": ["Partial static patterns do not prove radiation safety or absence of protection", "No cross-file or hardware analysis"]
+    },
+    {
+      "id": "hardware.digital-twin",
+      "input": "Explicit local CMSIS-SVD and optional CSV or TSV BOM",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Builds a bounded partial peripheral description; an API can export constrained synthetic Renode mocks.",
+      "limitations": ["SVD derived entries, arrays and clusters are omitted", "BOM matches are unverified candidates", "Renode export has not been execution-tested", "No firmware execution or QEMU export"]
     },
     {
       "id": "policy.rego",
