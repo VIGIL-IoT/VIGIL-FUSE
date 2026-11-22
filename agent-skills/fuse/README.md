@@ -1,0 +1,7 @@
+# FUSE agent skill
+
+This portable skill instructs Codex, Claude Code, and compatible agents to invoke the canonical FUSE CLI and interpret its reports. It adds no scanner or rules. Install FUSE separately from this repository using its documented setup, then install or link the `fuse` directory into your agent's supported skill location. Consult that agent's installation documentation; keep this directory together so links resolve. Confirm `vigil-fuse --version` and `vigil-fuse doctor` use the intended installation.
+
+The workflow is repository selection, safe status inspection, doctor, scan plan, scan, evidence and coverage review, then optional user-requested remediation and rescan. Use quoted paths and an output directory outside the target. Use `--no-network` when required; it does not make optional offline advisory data available. Check your installed version's `scan --help` and `baseline --help` for supported options. See [examples](examples/workflows.md).
+
+Results are static evidence with limited coverage, not a guarantee of safety. Optional analyzers, policy, local reasoning and platform-specific context may be missing. Keep unknowns unknown, never treat a scan failure as a clean report, and protect secrets in source and reports. The skill cannot independently validate physical access, runtime reachability or exploitability. A baseline comparison requires compatible identity and sufficient coverage; preserve the original report and FUSE's own fingerprints.
