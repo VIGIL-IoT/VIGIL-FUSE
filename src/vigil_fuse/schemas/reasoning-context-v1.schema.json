@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FUSE Reasoning Context v1",
+  "type": "object",
+  "required": [
+    "schema_version", "finding", "evidence", "source", "semantic", "build",
+    "firmware", "hardware", "rtl", "policy_context", "coverage", "constraints",
+    "context_truncated", "truncated_categories", "redacted_categories"
+  ],
+  "properties": {
+    "schema_version": { "const": "reasoning_context_v1" },
+    "finding": { "$ref": "#/$defs/finding" },
+    "evidence": { "$ref": "#/$defs/evidence" },
+    "source": { "type": "array", "items": { "$ref": "#/$defs/source" }, "maxItems": 1 },
+    "semantic": { "type": "array", "maxItems": 0 },
+    "build": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "value", "path"],
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" },
+          "path": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 6
+    },
+    "firmware": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "format", "byte_size"],
+        "properties": {
+          "path": { "type": "string" },
+          "format": { "type": "string" },
+          "byte_size": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 6
+    },
+    "hardware": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "category", "format"],
+        "properties": {
+          "path": { "type": "string" },
+          "category": { "type": "string" },
+          "format": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 6
+    },
+    "rtl": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/rtl_observation" },
+      "maxItems": 6
+    },
+    "policy_context": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["state", "justification", "detail"],
+        "properties": {
+          "state": { "type": "string" },
+          "justification": { "type": "string" },
+          "detail": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 2
+    },
+    "coverage": { "$ref": "#/$defs/coverage" },
+    "constraints": { "$ref": "#/$defs/constraints" },
+    "context_truncated": { "type": "boolean" },
+    "truncated_categories": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "redacted_categories": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": [
+        "id", "rule_id", "title", "severity", "confidence", "applicability",
+        "validation_status", "analyzer", "category", "explanation", "remediation"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "rule_id": { "type": "string" },
+        "title": { "type": "string" },
+        "severity": { "enum": ["critical", "high", "medium", "low", "info", "unknown"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "applicability": { "enum": ["unknown", "candidate", "applicable", "not_applicable"] },
+        "validation_status": { "enum": ["not-validated", "validated", "not-applicable"] },
+        "analyzer": { "type": "string" },
+        "category": { "type": "string" },
+        "explanation": { "type": "string" },
+        "remediation": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "evidence_item": {
+      "type": "object",
+      "required": ["id", "text"],
+      "properties": {
+        "id": { "type": "string" },
+        "text": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["confirmed", "supported", "unknown", "contradicted"],
+      "properties": {
+        "confirmed": { "type": "array", "items": { "$ref": "#/$defs/evidence_item" }, "maxItems": 8 },
+        "supported": { "type": "array", "items": { "$ref": "#/$defs/evidence_item" }, "minItems": 1, "maxItems": 8 },
+        "unknown": { "type": "array", "items": { "$ref": "#/$defs/evidence_item" }, "maxItems": 8 },
+        "contradicted": { "type": "array", "items": { "$ref": "#/$defs/evidence_item" }, "maxItems": 8 }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["file", "start_line", "end_line"],
+      "properties": {
+        "file": { "type": "string" },
+        "start_line": { "type": ["integer", "null"], "minimum": 1 },
+        "end_line": { "type": ["integer", "null"], "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "rtl_observation": {
+      "type": "object",
+      "required": [
+        "path", "presence", "build_status", "parse_status", "kind", "module",
+        "signal", "file", "line", "source", "conditional"
+      ],
+      "properties": {
+        "path": { "type": "string" },
+        "presence": { "type": "string" },
+        "build_status": { "type": "string" },
+        "parse_status": { "type": "string" },
+        "kind": { "type": "string" },
+        "module": { "type": "string" },
+        "signal": { "type": "string" },
+        "file": { "type": "string" },
+        "line": { "type": ["integer", "string"], "minimum": 1 },
+        "source": { "type": "string" },
+        "conditional": { "type": ["boolean", "string"] }
+      },
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["discovery_complete", "limits_reached", "limitations", "analyzers"],
+      "properties": {
+        "discovery_complete": { "type": "boolean" },
+        "limits_reached": { "type": "array", "items": { "type": "string" }, "maxItems": 8 },
+        "limitations": { "type": "array", "items": { "type": "string" } },
+        "analyzers": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "required": ["name", "status", "detail"],
+            "properties": {
+              "name": { "type": "string" },
+              "status": { "type": "string" },
+              "detail": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "constraints": {
+      "type": "object",
+      "required": [
+        "finding_authoritative", "severity_authoritative", "confidence_authoritative",
+        "applicability_authoritative", "coverage_authoritative", "policy_authoritative",
+        "model_may_invent_evidence", "evidence_distinctions"
+      ],
+      "properties": {
+        "finding_authoritative": { "const": true },
+        "severity_authoritative": { "const": true },
+        "confidence_authoritative": { "const": true },
+        "applicability_authoritative": { "const": true },
+        "coverage_authoritative": { "const": true },
+        "policy_authoritative": { "const": true },
+        "model_may_invent_evidence": { "const": false },
+        "evidence_distinctions": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "enum": [
+              "PRESENT", "BUILD_INCLUDED", "LINKED", "RUNTIME_EXECUTED",
+              "PHYSICALLY_POPULATED", "EXTERNALLY_ACCESSIBLE"
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -317,6 +317,31 @@ def test_context_limits_and_no_repository_reads() -> None:
     assert "source" in build_context(report, finding)["truncated_categories"]
 
 
+def test_context_includes_only_matching_firmware_netlist_and_bom_facts() -> None:
+    report = load_report(RAW)
+    finding = report["findings"][0]
+    path = finding["location"]["file"]
+    report["firmware_candidates"]["candidates"] = [
+        {"path": path, "format": "ELF", "byte_size": 128},
+        {"path": "other.bin", "format": "raw", "byte_size": 256},
+    ]
+    report["hardware_netlist"].update(
+        {"path": path, "status": "parsed", "debug_net_candidates": ["NET_DEBUG_TX"]}
+    )
+    report["hardware_bom"].update(
+        {"source_path": path, "status": "imported", "component_count": 3}
+    )
+    packet = build_context(report, finding)
+    assert packet["firmware"] == [{"path": path, "format": "ELF", "byte_size": 128}]
+    hardware_details = [item["format"] for item in packet["hardware"]]
+    assert "NET_DEBUG_TX" in hardware_details
+    assert any("3 line items" in item and "population unverified" in item for item in hardware_details)
+    invalid = copy.deepcopy(report)
+    invalid["firmware_candidates"]["candidates"][0]["byte_size"] = True
+    with pytest.raises(ValueError, match="firmware candidate"):
+        build_context(invalid, invalid["findings"][0])
+
+
 def test_multiple_selected_empty_and_unknown_preservation() -> None:
     report = load_report(RAW)
     second = copy.deepcopy(report["findings"][0])
@@ -404,9 +429,48 @@ def test_cli_context_reason_and_artifact(
 ) -> None:
     report_path = tmp_path / "findings.json"
     report_path.write_bytes(RAW)
+    finding_id = load_report(RAW)["findings"][0]["id"]
     with patch.object(Ollama, "_request", side_effect=AssertionError("context is offline")):
-        assert main(["reasoning-context", str(report_path), "--finding", "FUSE-HW-014"]) == 0
-    assert json.loads(capsys.readouterr().out) == [context()]
+        assert main(["reasoning-context", str(report_path), "--finding", finding_id]) == 0
+    assert json.loads(capsys.readouterr().out) == context()
+    context_path = tmp_path / "context.json"
+    assert main(
+        [
+            "reasoning-context",
+            str(report_path),
+            "--finding",
+            finding_id,
+            "--output",
+            str(context_path),
+            "--pretty",
+        ]
+    ) == 0
+    assert json.loads(context_path.read_text()) == context()
+    assert "\n  \"build\"" in context_path.read_text()
+    capsys.readouterr()
+    rule_id = load_report(RAW)["findings"][0]["rule_id"]
+    assert main(["reasoning-context", str(report_path), "--finding", rule_id]) == 0
+    assert json.loads(capsys.readouterr().out) == context()
+    multi_report = load_report(RAW)
+    duplicate = copy.deepcopy(multi_report["findings"][0])
+    duplicate["id"] += "-second"
+    duplicate["fingerprint"] = "b" * 64
+    multi_report["findings"].append(duplicate)
+    multi_path = tmp_path / "multiple.json"
+    multi_path.write_text(json.dumps(multi_report))
+    assert main(["reasoning-context", str(multi_path), "--finding", rule_id]) == 2
+    assert "multiple findings" in capsys.readouterr().err
+    assert main(
+        [
+            "reasoning-context",
+            str(report_path),
+            "--finding",
+            finding_id,
+            "--output",
+            str(report_path),
+        ]
+    ) == 2
+    assert "must not replace" in capsys.readouterr().err
     with server() as (config, _):
         toml = tmp_path / "fuse.toml"
         toml.write_text(f'[reasoning]\nendpoint="{config.endpoint}"\n')
@@ -516,6 +580,17 @@ def test_fixture_and_response_match_published_schemas() -> None:
         ).read_text()
     )
     Draft202012Validator(schema).validate(json.loads(RAW))
+    context_schema = json.loads(
+        (
+            Path(__file__).parents[1]
+            / "src"
+            / "vigil_fuse"
+            / "schemas"
+            / "reasoning-context-v1.schema.json"
+        ).read_text()
+    )
+    Draft202012Validator.check_schema(context_schema)
+    Draft202012Validator(context_schema).validate(context())
     Draft202012Validator.check_schema(OUTPUT_SCHEMA)
     Draft202012Validator(OUTPUT_SCHEMA).validate(json.loads(VALID))
 
@@ -629,6 +704,7 @@ def test_separate_secret_setting_values_are_redacted() -> None:
 
 
 def test_latest_rtl_report_context_preserves_static_states() -> None:
+    from jsonschema import Draft202012Validator
     from vigil_fuse.reporting import to_json
     from vigil_fuse.scanner import scan
 
@@ -637,6 +713,16 @@ def test_latest_rtl_report_context_preserves_static_states() -> None:
     assert report["schema_version"] == "1.12"
     finding = next(item for item in report["findings"] if item["rule_id"].startswith("FUSE-RTL"))
     packet = build_context(report, finding)
+    schema = json.loads(
+        (
+            Path(__file__).parents[1]
+            / "src"
+            / "vigil_fuse"
+            / "schemas"
+            / "reasoning-context-v1.schema.json"
+        ).read_text()
+    )
+    Draft202012Validator(schema).validate(packet)
     assert packet["rtl"]
     assert packet["rtl"][0]["presence"] == "PRESENT"
     assert packet["rtl"][0]["build_status"] in {"PRESENT", "BUILD_INCLUDED"}

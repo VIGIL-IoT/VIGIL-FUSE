@@ -124,6 +124,7 @@ The package follows inward dependency direction. The CLI is the composition root
 | Execution boundaries | `rule_execution.py`, `rule_worker.py`, `analyzer_runtime.py` | Rule execution uses the model; the worker uses the model and registry; analyzer runtime uses the model and process primitives |
 | Optional policy adapter | `policy.py` | Builds a bounded policy view from the model, then invokes a local OPA executable only when a policy is explicitly selected |
 | Reporting | `reporting.py`, `sarif.py` | Consumes normalized results and presentation helpers; it does not run scans, rules, or analyzers |
+| Reasoning context | `reasoning/context.py` | Builds a bounded packet from one selected canonical JSON finding; it does not run scans or determine finding authority |
 | Composition | `scanner.py`, `analyzers.py`, `cli.py` | May connect lower layers to expose a complete scan and command interface |
 
 Architecture tests verify that internal imports remain acyclic, foundation modules stay independent, native rules depend only on the shared contract, the registry includes every rule module, and reporters stay independent from scan and analyzer orchestration. A separate CLI integration test runs both vulnerable and secure ESP-IDF project controls through source scanning, generated build context, hardware inventory, selected KiCad netlist parsing, BOM export, and report serialization. The positive fixture proves that the data path is wired together. The secure fixture prevents these four scoped signals from leaking into the paired control. Neither fixture validates a physical board or estimates field accuracy.
@@ -135,6 +136,7 @@ flowchart TD
     CLI --> Context[build_context.py and platform_context.py]
     CLI --> AnalyzerFacade[analyzers.py compatibility facade]
     CLI --> Reporters[reporting.py and sarif.py]
+    CLI --> ReasoningCLI[reasoning/cli.py]
     CLI --> Baseline[baseline.py]
     Scanner --> Rules[rule_execution.py and rules registry]
     Rules --> Worker[rule_worker.py]
@@ -150,9 +152,13 @@ flowchart TD
     CLI --> PolicyResults
     Model --> Reporters
     Model --> Baseline
+    ReasoningCLI --> ReasoningContext[reasoning/context.py]
+    ReasoningContext --> TextSafety[text_safety.py]
 ```
 
 When `scan --policy` is supplied, Python maps the scan result into the fixed policy input contract and runs the selected Rego module through OPA. The policy result is written separately from `findings.json`; policies do not create, suppress, or reprioritize FUSE findings. OPA is not required for a normal scan and FUSE never installs it.
+
+The `reasoning-context` command emits the bounded packet from one exact finding ID and does not call a provider. The optional reasoning provider is separate from deterministic scanning; see [the local reasoning guide](local-reasoning.md) for its existing input and authority limits.
 
 The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers receive per-run temporary default user, configuration, cache, data, and temporary directories, and use a temporary working directory unless an adapter explicitly selects one. Gitleaks retains its selected repository working directory. POSIX process sessions and Windows Job Objects support best-effort cleanup. Host mode remains the default and does not restrict filesystem, network, memory, or privilege access. Explicit Docker mode uses local digest-pinned images, verifies container settings before execution, mounts scan input read-only, and disables network unless online OSV lookup is explicitly allowed. The Docker daemon and selected images remain trusted. See the [threat model](threat-model.md) for trust boundaries and residual risks.
 

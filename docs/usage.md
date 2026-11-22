@@ -199,6 +199,17 @@ Review scan coverage and optional-stage status along with the findings. An unava
 
 Keep reports private when they contain project paths, dependency details, hardware inventory, or security findings. Check the output before sharing it.
 
+Build a bounded context packet for one finding from the JSON report when preparing it for a separate reasoning tool:
+
+```sh
+vigil-fuse reasoning-context .fuse-results/findings.json \
+  --finding FUSE-001-1 \
+  --output .fuse-results/context.json \
+  --pretty
+```
+
+This command requires no model or GPU and writes one exact finding packet. It preserves the scanner's finding and coverage status, redacts sensitive text, and keeps deployment stages such as configured, built, linked, run, physically populated, and externally accessible distinct. See [the local reasoning guide](local-reasoning.md) for the input and authority boundaries.
+
 ## Configuration and more detail
 
 Use `--config fuse.example.toml` as a starting point for repeatable scan settings. Command-line options can override supported settings.

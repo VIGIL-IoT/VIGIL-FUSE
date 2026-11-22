@@ -9,7 +9,7 @@ from pathlib import Path
 
 from ..text_safety import safe_terminal_text
 from .config import ReasoningConfig
-from .context import build_context, load_report, read_report, select_findings
+from .context import build_context, load_report, read_report
 from .engine import reason_report, render, write_artifact
 from .ollama import Ollama
 
@@ -21,21 +21,56 @@ def add_commands(commands: argparse._SubParsersAction[argparse.ArgumentParser]) 
     ):
         parser = commands.add_parser(name, help=help_text)
         parser.add_argument("report", type=Path, help="canonical FUSE findings.json")
-        parser.add_argument("--finding", help="exact finding instance ID or rule ID")
+        parser.add_argument(
+            "--finding",
+            required=name == "reasoning-context",
+            help=(
+                "exact finding instance ID or a unique rule ID"
+                if name == "reasoning-context"
+                else "exact finding instance ID or rule ID"
+            ),
+        )
         parser.add_argument("--config", type=Path, help="load reasoning settings from TOML")
         if name == "reason":
             parser.add_argument("--output", type=Path, help="separate reasoning JSON artifact")
+        else:
+            parser.add_argument("--output", type=Path, help="write the selected context packet")
+            parser.add_argument("--pretty", action="store_true", help="indent the output JSON")
 
 
 def run_command(args: argparse.Namespace, config: ReasoningConfig) -> int:
+    args.report = args.report.expanduser()
     raw = read_report(args.report)
     if args.command == "reasoning-context":
         report = load_report(raw)
-        packets = [
-            build_context(report, finding, config.context_tokens)
-            for finding in select_findings(report, args.finding)
-        ]
-        print(json.dumps(packets, indent=2, ensure_ascii=False, allow_nan=False))
+        findings = report["findings"]
+        selected = [item for item in findings if item["id"] == args.finding]
+        if not selected:
+            selected = [item for item in findings if item["rule_id"] == args.finding]
+        if not selected:
+            raise ValueError("Selected finding instance ID does not exist in the report")
+        if len(selected) > 1:
+            raise ValueError("Rule ID matches multiple findings; select one exact finding instance ID")
+        packet = build_context(report, selected[0], config.context_tokens)
+        rendered = json.dumps(
+            packet,
+            sort_keys=True,
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=2 if args.pretty else None,
+            separators=None if args.pretty else (",", ":"),
+        )
+        if args.output is None:
+            print(rendered)
+        else:
+            output = args.output.expanduser()
+            if output.is_symlink():
+                raise ValueError("Refusing to write context through a symbolic link")
+            if output.resolve() == args.report.expanduser().resolve():
+                raise ValueError("Context output must not replace its input report")
+            output.parent.mkdir(parents=True, exist_ok=True)
+            output.write_text(rendered + "\n", encoding="utf-8")
+            print(safe_terminal_text(f"Reasoning context written to {output}"), file=sys.stderr)
         return 0
     artifact = reason_report(raw, config, args.finding)
     path = args.output or args.report.with_suffix(".reasoning.json")
