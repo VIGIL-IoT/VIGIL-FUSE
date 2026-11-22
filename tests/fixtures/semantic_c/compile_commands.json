@@ -1,0 +1,122 @@
+[
+  {
+    "directory": ".",
+    "file": "unsafe/strcpy_literal.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "unsafe/strcpy_literal.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "secure/bounded_copy.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "secure/bounded_copy.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "unsafe/plain_http.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "unsafe/plain_http.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "secure/tls_verified.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "secure/tls_verified.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "unsafe/unvalidated_ota.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "unsafe/unvalidated_ota.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "secure/validated_ota.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "secure/validated_ota.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "boundary/not_calls.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "boundary/not_calls.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "boundary/indirect.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "boundary/indirect.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "boundary/macro.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "boundary/macro.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "boundary/memory.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "boundary/memory.c"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "boundary/cpp_names.cpp",
+    "arguments": [
+      "ignored-compiler",
+      "-c",
+      "-std=c++17",
+      "boundary/cpp_names.cpp"
+    ]
+  },
+  {
+    "directory": ".",
+    "file": "boundary/security_calls.c",
+    "arguments": [
+      "ignored-compiler",
+      "-c",
+      "-std=c11",
+      "boundary/security_calls.c"
+    ]
+  }
+]

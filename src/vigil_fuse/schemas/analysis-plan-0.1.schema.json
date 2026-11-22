@@ -1,0 +1,105 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "target",
+    "requested_analyzers",
+    "execution_mode",
+    "authorization",
+    "limits",
+    "network_policy",
+    "evidence_requirements",
+    "created_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "plan_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_id",
+        "sha256"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{0,62}$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "requested_analyzers": {
+      "const": [
+        "probe"
+      ]
+    },
+    "execution_mode": {
+      "enum": [
+        "local",
+        "docker",
+        "kubernetes"
+      ]
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "passive_execution"
+      ],
+      "properties": {
+        "passive_execution": {
+          "const": true
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cpu_millis",
+        "memory_mb",
+        "timeout_seconds"
+      ],
+      "properties": {
+        "cpu_millis": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4000
+        },
+        "memory_mb": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3600
+        }
+      }
+    },
+    "network_policy": {
+      "const": "deny"
+    },
+    "evidence_requirements": {
+      "const": [
+        "target-identity"
+      ]
+    },
+    "created_by": {
+      "const": "vigil-fuse"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
