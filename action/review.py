@@ -77,6 +77,18 @@ def checked(result: subprocess.CompletedProcess[str], allowed: set[int] = {0}) -
         raise RuntimeError(f"FUSE command exited {result.returncode}: {result.stderr[-2000:]}")
 
 
+def prepare_github_sarif(output: Path) -> None:
+    """Keep FUSE evidence hashes while leaving GitHub's reserved hash for GitHub."""
+    source = json.loads((output / "findings.sarif").read_text(encoding="utf-8"))
+    for run in source.get("runs", []):
+        for finding in run.get("results", []):
+            fingerprints = finding.get("partialFingerprints", {})
+            value = fingerprints.pop("primaryLocationLineHash", None)
+            if value is not None:
+                fingerprints["vigilIoTLocationEvidenceHash/v1"] = value
+    (output / "github.sarif").write_text(json.dumps(source), encoding="utf-8")
+
+
 def run_review() -> tuple[Path, str]:
     action = Path(os.environ["FUSE_ACTION_PATH"]).resolve(strict=True)
     workspace = Path(os.environ["GITHUB_WORKSPACE"]).resolve(strict=True)
@@ -124,6 +136,7 @@ def run_review() -> tuple[Path, str]:
     checked(current, {0, 1, 2})
     report_file = output / "findings.json"
     report = json.loads(report_file.read_text(encoding="utf-8"))
+    prepare_github_sarif(output)
     gate = {0: "pass", 1: "fail", 2: "unknown"}[current.returncode]
     diff = None
     note = "Baseline comparison not requested."

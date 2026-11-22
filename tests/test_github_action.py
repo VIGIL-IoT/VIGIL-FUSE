@@ -97,6 +97,13 @@ def test_real_scan_baseline_and_gate(tmp_path: Path):
         (directory / name).is_file() for name in ("findings.json", "findings.txt", "findings.sarif")
     )
     assert json.loads((directory / "findings.json").read_text(encoding="utf-8"))["findings"]
+    canonical = json.loads((directory / "findings.sarif").read_text(encoding="utf-8"))
+    uploaded = json.loads((directory / "github.sarif").read_text(encoding="utf-8"))
+    original = canonical["runs"][0]["results"][0]["partialFingerprints"]
+    adapted = uploaded["runs"][0]["results"][0]["partialFingerprints"]
+    assert adapted["vigilIoTLocationEvidenceHash/v1"] == original["primaryLocationLineHash"]
+    assert adapted["vigilIoTFingerprint/v1"] == original["vigilIoTFingerprint/v1"]
+    assert "primaryLocationLineHash" not in adapted
     (repo / "device.py").write_text(
         'import os\npassword = os.environ["DEVICE_PASSWORD"]\n', encoding="utf-8"
     )
