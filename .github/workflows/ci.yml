@@ -66,7 +66,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install development tools and FUSE
-        run: python -m pip install ".[dev]"
+        run: python -m pip install ".[dev,cliui]"
       - name: Run Ruff
         run: python -m ruff check src tests scripts
       - name: Run strict Mypy checks
@@ -126,7 +126,7 @@ jobs:
           python-version: "3.12"
       - name: Build wheel and source distribution
         run: |
-          python -m pip install --upgrade pip "build>=1.2,<2" "twine>=6,<7"
+          python -m pip install --upgrade pip "build>=1.2,<2" "twine>=7,<8"
           python -m build
           python -c "import pathlib,subprocess,sys; files=sorted(str(p) for p in pathlib.Path('dist').iterdir() if p.is_file()); subprocess.run([sys.executable,'-m','twine','check',*files],check=True)"
       - name: Install the wheel and run tests outside the source tree
