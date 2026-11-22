@@ -129,7 +129,20 @@ PROFILES: dict[str, ScanProfile] = {
         name="rtl",
         description="Verilog/SystemVerilog sources, Yosys scripts, and FPGA constraints.",
         additional_suffixes=frozenset(
-            {".v", ".vh", ".sv", ".svh", ".ys", ".xdc", ".sdc", ".qsf", ".qpf", ".pcf", ".lpf", ".xpr"}
+            {
+                ".v",
+                ".vh",
+                ".sv",
+                ".svh",
+                ".ys",
+                ".xdc",
+                ".sdc",
+                ".qsf",
+                ".qpf",
+                ".pcf",
+                ".lpf",
+                ".xpr",
+            }
         ),
         include_base=False,
     ),
