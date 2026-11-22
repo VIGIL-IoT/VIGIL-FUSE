@@ -1,12 +1,11 @@
 # FUSE
 
 ```text
-     ███████╗ ██╗   ██╗ ███████╗ ███████╗
-    ██╔════╝ ██║   ██║ ██╔════╝ ██╔════╝
-   █████╗   ██║   ██║ ███████╗ █████╗
-  ██╔══╝   ██║   ██║ ╚════██║ ██╔══╝
- ██║      ╚██████╔╝ ███████║ ███████╗
-╚═╝       ╚═════╝  ╚══════╝ ╚══════╝
+    FFFFFF   U   U   SSSSS   EEEEEE
+   F        U   U  S        E
+  FFFFF    U   U   SSSS    EEEEE
+ F        U   U      S    E
+F         UUU   SSSSS   EEEEEE
 ```
 
 ## Firmware & Unified Security Engine
