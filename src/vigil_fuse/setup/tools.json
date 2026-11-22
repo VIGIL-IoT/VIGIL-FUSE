@@ -421,7 +421,7 @@
     },
     {
       "id": "pdflatex",
-      "display_name": "pdfLaTeX",
+      "display_name": "XeLaTeX / pdfLaTeX",
       "category": "OPTIONAL_HEAVY",
       "publisher": null,
       "platforms": [
@@ -441,9 +441,10 @@
       "download_source": "https://www.latex-project.org/get/",
       "checksum_source": null,
       "estimated_size_bytes": null,
-      "doctor_capability": "Optional PDF report rendering.",
+      "doctor_capability": "Optional PDF reports; XeLaTeX enables Times New Roman.",
       "assets": {},
       "executable_names": [
+        "xelatex",
         "pdflatex"
       ]
     },

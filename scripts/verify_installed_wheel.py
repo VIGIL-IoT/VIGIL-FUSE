@@ -51,6 +51,8 @@ def main() -> int:
         environment["PYTHONNOUSERSITE"] = "1"
         run([str(python), "-m", "pip", "install", str(wheels[0])], cwd=outside, env=environment)
         run([str(cli), "--version"], cwd=outside, env=environment)
+        run([str(cli), "--help"], cwd=outside, env=environment)
+        run([str(cli), "scan", "--help"], cwd=outside, env=environment)
         doctor = run([str(cli), "doctor", "--format", "json"], cwd=outside, env=environment)
         report = json.loads(doctor.stdout)
         assert report["fuse"]["status"] == "AVAILABLE"
@@ -64,9 +66,12 @@ def main() -> int:
                 "-c",
                 "from importlib.metadata import metadata; "
                 "from importlib.resources import files; "
+                "import json; "
                 "m=metadata('vigil-fuse'); "
                 "assert not [r for r in m.get_all('Requires-Dist', []) if '; extra' not in r]; "
-                "assert files('vigil_fuse').joinpath('setup', 'tools.json').is_file(); "
+                "tools=json.loads(files('vigil_fuse').joinpath('setup', 'tools.json').read_text()); "
+                "latex=next(x for x in tools['tools'] if x['id']=='pdflatex'); "
+                "assert 'xelatex' in latex['executable_names']; "
                 "assert files('vigil_fuse').joinpath('resources/powershell/FuseBootstrap.psm1').is_file(); "
                 "assert files('vigil_fuse').joinpath('resources/powershell/fuse-setup.ps1').is_file(); "
                 "assert files('vigil_fuse').joinpath('resources/ghidra/FuseExport.java').is_file(); "
