@@ -1,5 +1,10 @@
 # FUSE feature opportunities
 
+**Implementation update - 22 November 2026:** an opt-in experimental Clang LibTooling
+stage now produces bounded C/C++ AST observations from an explicit compilation database.
+Python validates evidence and reports build inclusion; no security verdicts or worker
+execution are added. See [the contract, fixtures and measured scope](../cpp-semantic-analysis.md).
+
 **Research note - 26 October 2026**  
 **A [VIGIL](https://github.com/VIGIL-IoT) Project**
 

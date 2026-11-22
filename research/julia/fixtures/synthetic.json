@@ -1,0 +1,18 @@
+{
+  "nodes": [
+    {"id":"firmware", "type":"firmware", "uncertainty":0.9, "criticality":0.9},
+    {"id":"chip", "type":"hardware-component", "uncertainty":0.7, "criticality":0.8},
+    {"id":"isolated", "type":"source", "uncertainty":1.0, "criticality":0.4}
+  ],
+  "edges": [
+    {"source":"firmware", "target":"chip", "type":"depends-on", "confidence":0.8},
+    {"source":"chip", "target":"firmware", "type":"supports", "confidence":0.6},
+    {"source":"chip", "target":"firmware", "type":"contradicts", "confidence":0.4}
+  ],
+  "candidate_actions": [
+    {"id":"binary", "target":"firmware", "cost":2, "expected_information_gain":0.8, "available_evidence":0.5},
+    {"id":"manual", "target":"chip", "cost":8, "expected_information_gain":0.9},
+    {"id":"static", "target":"isolated", "cost":1, "expected_information_gain":0.2},
+    {"id":"simulation", "target":"firmware", "cost":3, "expected_information_gain":0.7, "dependencies":["binary"]}
+  ]
+}

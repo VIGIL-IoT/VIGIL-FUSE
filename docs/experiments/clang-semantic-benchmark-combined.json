@@ -1,0 +1,98 @@
+{
+  "mode": "combined",
+  "python": "3.12.3",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "elapsed_seconds": 22.923352899000747,
+  "source_files": 12,
+  "input_sha256": {
+    "unsafe/strcpy_literal.c": "c95a847762039b33e6e891311b87f9f321c54d57e5f16eff87b4a4bfc213f3f4",
+    "secure/bounded_copy.c": "78869b68a0d9b8094b83ee9c7a4a5997f8e318c8b520c0726caf0cd3923feb6c",
+    "unsafe/plain_http.c": "c19807202fecd960065fa9a41ffe4b166769dca10b3b575e5a436995ce59b662",
+    "secure/tls_verified.c": "b05c857e5f3751409b2eb415743cdebf850e0a957781935a257a50f7543f3ea4",
+    "unsafe/unvalidated_ota.c": "5fbba720758604a15bd811107ba6379e96fbac59ec7cb5b700eff5aab4cb4c08",
+    "secure/validated_ota.c": "f5bfdcbe12246efd90a4d59653c9f5d2627f8abfbf3d31edbe71855970aa55ca",
+    "boundary/not_calls.c": "407e4cbde0de78a18e6f9d7384740981e83eeea7c2c361b9d613cd80b16a6781",
+    "boundary/indirect.c": "6bd72dd51c3ba48cdb7604f7d1e252646ea07a262f509a72379daed1ce2d85c1",
+    "boundary/macro.c": "7169a473a93a6f4b2027a9cc59e8e94e6f1e99e55f4b0c3389f4fa4cb98727b0",
+    "boundary/memory.c": "89e63a6353bf44e47f2db209c01d3af72c9a89f41de429316add1786634d41bb",
+    "boundary/cpp_names.cpp": "3088e8b0b773996eb5b8137833984be7e23cb8591f9181e19881f4437af8f9cc",
+    "boundary/security_calls.c": "3f214c62ed52d5bab880acb442854ebdf000a9d84e7cc767296098495556627d",
+    "compile_commands.json": "dd1c5089888acdf39ca320600498a40b899e5201c572b3f01e21ccfb5dd240da"
+  },
+  "engine_source_sha256": "9755e021447f7d8a87576557fd79a83b477746a22b34a7f0b9e9ab776c031adb",
+  "adapter_source_sha256": "31f99748a19fb78a3d5341c23ea29e693868736cd0da60a43a5cabc6f906e326",
+  "text_findings": 0,
+  "new_security_findings": 0,
+  "semantic_status": {
+    "name": "Clang semantic analyzer",
+    "status": "completed",
+    "version": "18.1.3",
+    "detail": "Compiler observations only; no security verdict",
+    "findings": 0
+  },
+  "semantic_observations": 79,
+  "sensitive_call_observations": 30,
+  "expected_api_call_sites": 30,
+  "call_evidence_true_positive_sites": 30,
+  "call_evidence_false_positive_sites": 0,
+  "call_evidence_false_negative_sites": 0,
+  "coverage": [
+    {
+      "file": "unsafe/strcpy_literal.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "secure/bounded_copy.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "unsafe/plain_http.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "secure/tls_verified.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "unsafe/unvalidated_ota.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "secure/validated_ota.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "boundary/not_calls.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "boundary/indirect.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "boundary/macro.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "boundary/memory.c",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "boundary/cpp_names.cpp",
+      "state": "BUILD_INCLUDED"
+    },
+    {
+      "file": "boundary/security_calls.c",
+      "state": "BUILD_INCLUDED"
+    }
+  ],
+  "security_finding_true_positives": null,
+  "security_finding_false_positives": null,
+  "limitations": [
+    "One fresh process on a tiny synthetic corpus; not a scalability benchmark",
+    "Ground truth covers direct API call existence, not vulnerabilities or runtime reachability",
+    "Existing text rules do not implement these memory/API observation policies",
+    "Peak RSS is maximum individual process usage, not summed concurrent process-tree RSS"
+  ],
+  "peak_individual_process_rss_kib": 75780
+}

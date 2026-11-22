@@ -1,0 +1,11 @@
+case_id,configuration,repository,commit,fuse_version,finding_id,rule_id,severity,confidence,applicability,validation,ground_truth,reviewer,analyzer,execution_backend,prediction,status
+case1,native,synthetic,fixture,v0,f1,R1,high,high,unknown,reviewed,1,fixture,native,local,1,COMPLETE
+case2,native,synthetic,fixture,v0,f2,R2,medium,medium,unknown,reviewed,0,fixture,native,local,1,COMPLETE
+case3,native,synthetic,fixture,v0,,R1,,,,reviewed,1,fixture,native,local,0,COMPLETE
+case4,native,synthetic,fixture,v0,,R2,,,,reviewed,0,fixture,native,local,0,COMPLETE
+case5,native,synthetic,fixture,v0,,R1,,,,reviewed,1,fixture,native,local,,PARTIAL
+case1,semantic,synthetic,fixture,v0,f1,R1,high,high,unknown,reviewed,1,fixture,cpp,local,1,COMPLETE
+case2,semantic,synthetic,fixture,v0,,R2,,,,reviewed,0,fixture,cpp,local,0,COMPLETE
+case3,semantic,synthetic,fixture,v0,f3,R1,high,medium,unknown,reviewed,1,fixture,cpp,local,1,COMPLETE
+case4,semantic,synthetic,fixture,v0,,R2,,,,reviewed,0,fixture,cpp,local,0,COMPLETE
+case5,semantic,synthetic,fixture,v0,,R1,,,,reviewed,1,fixture,cpp,local,,UNKNOWN
