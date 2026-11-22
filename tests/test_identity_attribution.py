@@ -102,8 +102,9 @@ class IdentityAttributionTests(unittest.TestCase):
             (root / "main.py").write_text("print(1)\n", encoding="utf-8")
             target_entries_before = {path.relative_to(root).as_posix() for path in root.rglob("*")}
             output = _default_output_dir(root)
-            self.assertEqual(root.parent / ".fuse-results" / root.name, output)
-            self.assertFalse(output.is_relative_to(root))
+            expected = root.resolve().parent / ".fuse-results" / root.name
+            self.assertEqual(expected, output)
+            self.assertFalse(output.is_relative_to(root.resolve()))
             with redirect_stdout(StringIO()), redirect_stderr(StringIO()):
                 exit_code = main(["scan", str(root)])
             target_entries_after = {path.relative_to(root).as_posix() for path in root.rglob("*")}

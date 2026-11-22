@@ -168,6 +168,8 @@ jobs:
               "findings.json",
               "findings.txt",
               "findings.sarif",
+              "FUSE_SCAN_PROVENANCE.json",
+              "CITATION.cff",
               "ghidra-analysis.json",
           }
           for case in cases:

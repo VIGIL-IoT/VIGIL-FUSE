@@ -5,6 +5,7 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from vigil_fuse.project_identity import inspect_project_identity
 
@@ -191,7 +192,11 @@ class ProjectIdentityTests(unittest.TestCase):
             root = Path(temporary) / "empty"
             root.mkdir()
             (root / "nested").mkdir()
-            identity = inspect_project_identity(root, budget_seconds=1e-12)
+            with patch(
+                "vigil_fuse.project_identity.time.monotonic",
+                side_effect=(0.0, 0.25, 0.75),
+            ):
+                identity = inspect_project_identity(root, budget_seconds=0.5)
             self.assertFalse(identity.complete)
             self.assertIn("Project identity time limit reached.", identity.limitations)
 

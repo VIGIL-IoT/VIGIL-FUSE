@@ -581,9 +581,9 @@ def install_asset(
                 _copy_bounded(stream, binary_path)
         else:
             extract_binary(asset, download_path, binary_path)
-        version = _verify_executable(binary_path, asset, spec)
         if os.name != "nt":
             binary_path.chmod(0o755)
+        version = _verify_executable(binary_path, asset, spec)
         os.replace(binary_path, destination)
         _write_install_metadata(directory, spec.id, asset, version)
     return destination

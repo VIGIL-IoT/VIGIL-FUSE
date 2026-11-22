@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 import subprocess
 from typing import Any
@@ -123,6 +124,27 @@ def test_verified_installer_handles_paths_with_spaces_and_records_source(tmp_pat
     record = json.loads((directory / "install-record.json").read_text(encoding="utf-8"))
     assert record["tools"]["syft"]["source"] == asset.url
     assert record["tools"]["syft"]["version"] == "1.55.0"
+
+
+@pytest.mark.skipif(os.name == "nt", reason="Unix executable bits are not used on Windows")
+def test_unix_installer_sets_execute_permission_before_version_probe(tmp_path: Path) -> None:
+    spec = _spec()
+    asset = spec.assets["linux/x86_64"]
+
+    def probe_executable(path: str, _spec: manager.ToolSpec) -> tuple[str, None]:
+        assert Path(path).stat().st_mode & 0o111
+        return asset.version, None
+
+    with (
+        patch(
+            "vigil_fuse.setup.manager.download_verified",
+            side_effect=lambda _asset, path: path.write_bytes(b"binary"),
+        ),
+        patch("vigil_fuse.setup.manager._probe_version", side_effect=probe_executable),
+    ):
+        installed = manager.install_asset(tmp_path, asset, spec)
+
+    assert installed.stat().st_mode & 0o111
 
 
 def test_install_reuses_matching_copy_and_requires_explicit_upgrade_for_existing_copy(
