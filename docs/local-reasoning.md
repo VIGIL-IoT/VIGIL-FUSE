@@ -28,15 +28,19 @@ vigil-fuse scan TARGET --reason
 vigil-fuse reason .fuse-results/findings.json
 vigil-fuse reason .fuse-results/findings.json --finding FUSE001
 vigil-fuse reasoning-context .fuse-results/findings.json --finding FUSE001
+vigil-fuse reasoning-context .fuse-results/findings.json --finding FUSE001 --output context.json --pretty
 vigil-fuse doctor
 ```
 
-`--finding` accepts an exact instance ID, or a rule ID to select all its instances.
-FUSE IDs normally include a rule, relative file and line. Copy the actual ID from
-your report. Empty reports need no model request. `reasoning-context` requires no
-Ollama and prints the exact packet objects used as model evidence, one per finding.
-The chat request adds only stable system instructions, delimiters, the response
-schema and configured runtime options.
+`reason` accepts an exact instance ID or a rule ID to select all its instances.
+`reasoning-context` accepts an exact finding instance ID or a rule ID that matches
+only one finding, then emits one bounded packet. If a rule matches several
+findings, pass the exact instance ID. FUSE IDs normally include a rule, relative
+file and line. Copy the actual ID from your report. The context command requires no Ollama and never calls a
+provider. `--output` writes the packet JSON to a separate file, `--pretty` indents
+it, and `--config` supplies the context-token limit. The chat request adds only
+stable system instructions, delimiters, the response schema and configured runtime
+options.
 
 Use `--config fuse.toml` on these commands to select one model and runtime settings:
 
@@ -93,7 +97,8 @@ Only canonical FUSE JSON versions 1.11 and 1.12 are accepted in V1. TXT, PDF, SA
 and arbitrary context JSON are not inputs. No target source, firmware, compiler
 commands, environment variables, or artifact files are reopened. The builder
 allow-lists the selected finding, its report evidence, location, matching build
-settings, matching hardware artifact metadata matching RTL metadata/observations and its VEX review, if present.
+settings, exact-path firmware candidate metadata, hardware file inventory, matching
+netlist candidates and BOM counts, matching RTL metadata/observations and its VEX review, if present.
 Unrelated inventory entries and findings are excluded. Source and inventories
 remain untrusted data inside the system instruction boundary, even when they
 contain forged delimiters or commands.
@@ -108,8 +113,8 @@ Source presence, configuration and schematic routing do not establish later stat
 Semantic observations remain unavailable. For schema 1.12, matching RTL file metadata
 and observations at the finding line are bounded to 6 entries; presence, build
 status, parse status and conditionality are preserved without claiming deployed logic.
-Firmware evidence already normalized in a finding stays in its evidence string;
-binary dumps and unrelated candidates are never attached.
+Matching firmware candidate metadata can be attached by exact path; binary dumps
+and unrelated candidates are never attached.
 
 Limits are deterministic: 8 source/evidence text lines, 700 characters per string,
 8 evidence entries, 8 path segments, 6 build/hardware observations, 2 policy
