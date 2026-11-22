@@ -108,7 +108,7 @@ jobs:
           python -m coverage report -m --fail-under=75
 
   package-smoke:
-    name: Wheel install on ${{ matrix.os }}
+    name: ${{ matrix.display_name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     permissions:
@@ -116,7 +116,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            display_name: Build and install package
+          - os: windows-latest
+            display_name: Wheel install on windows-latest
+          - os: macos-latest
+            display_name: Wheel install on macos-latest
     steps:
       - name: Check out source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
