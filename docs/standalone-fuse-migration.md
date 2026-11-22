@@ -34,7 +34,11 @@ Branch-only reconciliation:
 
 - The donor cliui branch changed terminal artwork and prompt framing. Equivalent progress, PDF prompting, command completion, and narrow-terminal behavior are integrated in VIGIL's terminal. The single /target command provides both show and change behavior; separate /pwd and /cd aliases are not needed.
 - The contributor and CI hardening branch's names are retained in author metadata. Its public email address was not copied. Pinned workflow updates and Twine 7 checks were adapted. Its comparative claims are archived with an unverified disclaimer.
-- The release branch's local build and metadata checks are retained, while publication remains paused. The separate vulnerable-lab branch is excluded as confirmed by the user.
+- The release branch's local build and metadata checks are retained. Donor notes for 0.5.0 and 0.5.1 are preserved in `docs/archive/competition/CHANGELOG.md`; the local `v0.5.0` and `v0.5.1` tags point to donor snapshots, not canonical VIGIL releases. The separate vulnerable-lab branch is excluded as confirmed by the user.
+
+## Release and page status
+
+The canonical GitHub release page and PyPI still show 0.4.0 as the latest VIGIL-FUSE release. The PyPI page is available, and the Vercel homepage returned HTTP 200 on 2026-11-22. No package was published and no site deployment was performed during this migration. The Vercel content remains a legacy snapshot and is not the canonical project documentation.
 
 ## Feature parity ledger
 
@@ -74,8 +78,8 @@ Branch-only reconciliation:
 | NVIDIA regression record | Pinned `edk2-nvidia` snapshot and donor audit | Historical VIGIL record | Preserve the pinned result and caveats; rerun only if scanner changes materially. Never call the candidate a confirmed vulnerability. | Exact target comparison if needed | Migration record | ADAPTED_TO_VIGIL |
 | Cross-feature safe integration | `tests/test_consolidation_integration.py` | No equivalent integrated test at start | Adapt the safe scan, reports, baseline, policy UNKNOWN, reasoning context, and grounded mock workflow. | Consolidation integration test | Test documentation | ADAPTED_TO_VIGIL |
 | Package boundary and local artifacts | `pyproject.toml`, package resources, wheel verifier | Existing lightweight package | Keep optional runtimes out of core dependencies. Build and test a fresh wheel outside the source tree. | Build, install, CLI smoke | Installation | ADAPTED_TO_VIGIL |
-| Contributor and CI hardening branch | `feat/armaan-contributor-and-ci-hardening` | No equivalent branch content | Review useful CI changes and contributor attribution. Do not enable publishing while PyPI is paused. Preserve landscape material as a labeled, unverified research draft. | Workflow/schema/docs checks | Research draft and credits | ADAPTED_TO_VIGIL |
-| Website and release status | `site/`, release workflows | Existing site and workflows | Mark the website archived/paused. Keep PyPI publishing paused and do not make either a migration gate. | Docs and workflow checks | Website and release docs | ADAPTED_TO_VIGIL |
+| Contributor and CI hardening branch | `feat/armaan-contributor-and-ci-hardening` | No equivalent branch content | Review useful CI changes and contributor attribution. Keep package publication separate from migration completion. Preserve landscape material as a labeled, unverified research draft. | Workflow/schema/docs checks | Research draft and credits | ADAPTED_TO_VIGIL |
+| Website and release status | `site/`, release workflows | Existing site and workflows | Record that PyPI and Vercel are reachable while keeping the package at 0.4.0 and treating deployed site content as a legacy snapshot. Do not publish or deploy as part of this migration. | Docs and workflow checks | Website and release docs | ADAPTED_TO_VIGIL |
 | Vulnerable demonstration application | `demo/vulnerable-lab` | Not present in local main | Exclude per the user's clarification: it is an optional scan demonstration and is not needed in the canonical product. | No shipping demo test | Exclusion recorded here | `INTENTIONALLY_EXCLUDED_WITH_STRONG_REASON` |
 
 ## NVIDIA regression record

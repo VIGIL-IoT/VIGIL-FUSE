@@ -21,6 +21,12 @@ def test_detects_windows_profile_paths_without_matching_relative_paths() -> None
     assert not has_personal_profile_path(b"embedded-project/src/main.c")
 
 
+def test_ignores_generic_profile_names_used_only_by_legacy_fixtures() -> None:
+    assert not has_personal_profile_path(b"C:/Users/private/project/file.c")
+    assert not has_personal_profile_path(b"C:\\Users\\person\\project\\main.c")
+    assert not has_personal_profile_path(b"/home/runner/work/project/main.c")
+
+
 def test_detects_posix_home_paths_and_accepts_placeholders() -> None:
     path = b"project root: /" + b"home/" + b"fixture-user/embedded-project/src/main.c"
 

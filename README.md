@@ -8,7 +8,7 @@ FUSE is a local analysis tool for embedded and IoT repositories. It collects bou
 
 **Source version:** `0.4.1.dev0`
 
-**Last published package:** `0.4.0`; PyPI publishing is paused.
+**Latest PyPI package:** `0.4.0`. This migration has not published a new package.
 
 The standalone [ShivuXD/FUSE](https://github.com/ShivuXD/FUSE) repository was used for competition and integration work. The canonical repository now carries its adapted production and research features. See the [migration ledger](docs/standalone-fuse-migration.md) for branch accounting, exclusions, and verification evidence.
 
@@ -70,6 +70,6 @@ python scripts/validate_docs.py
 
 Optional analyzers run only when requested. Host mode is not an OS sandbox; explicit Docker mode is available for supported analyzers. Normal scans do not require or download Ollama, model weights, CUDA, Ghidra, Java, LLVM, OPA, Go, Kubernetes, R, Julia, Rust, Zig, or Docker. Read the [threat model](docs/threat-model.md), [architecture](docs/architecture.md), [C/C++ trust boundary](docs/cpp-semantic-analysis.md), and [local reasoning contract](docs/local-reasoning.md) before enabling optional stages.
 
-The static website source is retained in the repository but its deployment is paused and archived. PyPI publication is paused. Neither is a migration completion gate.
+The Vercel homepage is reachable, but its deployed content has not been reconciled with the migrated feature set. The PyPI project page is available and still lists `0.4.0`. This migration did not deploy a site build or publish a package; neither action is a completion gate.
 
 FUSE is distributed under the custom [VIGIL-FUSE Restricted Use License, version 1.2](LICENSE), which is not an OSI-approved open-source license. See the license for current permissions and [CITATION.cff](CITATION.cff) for contributor attribution.

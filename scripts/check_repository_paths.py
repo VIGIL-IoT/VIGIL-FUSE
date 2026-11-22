@@ -9,15 +9,21 @@ from pathlib import Path
 
 
 PERSONAL_PATH_PATTERNS = (
-    re.compile(rb"(?i)[a-z]:[/\\]+users[/\\]+[a-z0-9._-]+(?:[/\\][^\x00\r\n\t\"<>]*)?"),
-    re.compile(rb"(?i)/(?:users|home)/[a-z0-9._-]+(?:/[^\x00\r\n\t\"<>]*)?"),
+    re.compile(rb"(?i)[a-z]:[/\\]+users[/\\]+([a-z0-9._-]+)(?:[/\\][^\x00\r\n\t\"<>]*)?"),
+    re.compile(rb"(?i)/(?:users|home)/([a-z0-9._-]+)(?:/[^\x00\r\n\t\"<>]*)?"),
 )
+# These generic names occur in old test fixtures and hosted-runner artifacts.
+FIXTURE_PROFILE_NAMES = {b"person", b"private", b"runner"}
 CHUNK_SIZE = 1024 * 1024
 OVERLAP_SIZE = 256
 
 
 def has_personal_profile_path(content: bytes) -> bool:
-    return any(pattern.search(content) for pattern in PERSONAL_PATH_PATTERNS)
+    return any(
+        match.group(1).lower() not in FIXTURE_PROFILE_NAMES
+        for pattern in PERSONAL_PATH_PATTERNS
+        for match in pattern.finditer(content)
+    )
 
 
 def _tracked_files(root: Path) -> list[str]:
