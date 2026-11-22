@@ -12,18 +12,33 @@ PERSONAL_PATH_PATTERNS = (
     re.compile(rb"(?i)[a-z]:[/\\]+users[/\\]+([a-z0-9._-]+)(?:[/\\][^\x00\r\n\t\"<>]*)?"),
     re.compile(rb"(?i)/(?:users|home)/([a-z0-9._-]+)(?:/[^\x00\r\n\t\"<>]*)?"),
 )
-# These generic names occur in old test fixtures and hosted-runner artifacts.
-FIXTURE_PROFILE_NAMES = {b"person", b"private", b"runner"}
+# Exact historical test blobs retain synthetic paths used by privacy, reasoning, and
+# tool-output fixtures. Current tests assemble those values at runtime so new absolute
+# paths remain detectable in tracked files and newly created Git objects.
+LEGACY_SYNTHETIC_PATH_FIXTURE_BLOBS = {
+    "1e64466b0b5b9009cfa2cceacd93528893a625b6",
+    "60910a707e17b28a491bc27d9769375314d69962",
+    "b52613ecd99c73ac051621437b514b6543223851",
+    "0673a89998cfda68c2045f23fd5f6dfb0216c5ff",
+    "2cae7948e75dcfc676f77c6a89a4051ade83ba46",
+    "3e0de5a32880e9ac49af428a06322b9a56d75791",
+    "4e054cc2042a37e2a362ccaab243cc1041fc2c47",
+    "4e5c201f1335dcc0c94f712ec06e4ddc349e7eba",
+    "58a1ff5e073c8bb8622456cd6d48023301255423",
+    "62ce5a12c11eeebabcea8bbf42fac71fd8f1fddf",
+    "6c630e496c36422a10b78a8449d997962ee69ec6",
+    "9afd84eee99b6b5bff5f091df5ad8867ed4f612b",
+    "c132203f97aaf6bf1535c8d179ec57c2d39b2a5b",
+    "d25eea0de6f6c1035d3dab2c43b432f855156b4b",
+    "d85eedc5af89d091514cee72fcbb2cdc0e505b23",
+    "ec04abae251af7bee3760da6b2c6997a9c609362",
+}
 CHUNK_SIZE = 1024 * 1024
 OVERLAP_SIZE = 256
 
 
 def has_personal_profile_path(content: bytes) -> bool:
-    return any(
-        match.group(1).lower() not in FIXTURE_PROFILE_NAMES
-        for pattern in PERSONAL_PATH_PATTERNS
-        for match in pattern.finditer(content)
-    )
+    return any(pattern.search(content) for pattern in PERSONAL_PATH_PATTERNS)
 
 
 def _tracked_files(root: Path) -> list[str]:
@@ -93,7 +108,7 @@ def _scan_git_objects(root: Path) -> list[tuple[str, str]]:
                 remaining -= len(chunk)
             if process.stdout.read(1) != b"\n":
                 raise RuntimeError("Unexpected Git object stream terminator")
-            if matched:
+            if matched and object_id not in LEGACY_SYNTHETIC_PATH_FIXTURE_BLOBS:
                 findings.append((object_id, object_type))
     finally:
         process.stdin.close()
