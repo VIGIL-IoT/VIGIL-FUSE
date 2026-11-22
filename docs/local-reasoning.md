@@ -89,11 +89,11 @@ usage is not guaranteed. FUSE does not stop other applications' Ollama sessions.
 
 ## Evidence and privacy boundary
 
-Only canonical FUSE JSON version 1.11 is accepted in V1. TXT, PDF, SARIF
+Only canonical FUSE JSON versions 1.11 and 1.12 are accepted in V1. TXT, PDF, SARIF
 and arbitrary context JSON are not inputs. No target source, firmware, compiler
 commands, environment variables, or artifact files are reopened. The builder
 allow-lists the selected finding, its report evidence, location, matching build
-settings, matching hardware artifact metadata and its VEX review, if present.
+settings, matching hardware artifact metadata matching RTL metadata/observations and its VEX review, if present.
 Unrelated inventory entries and findings are excluded. Source and inventories
 remain untrusted data inside the system instruction boundary, even when they
 contain forged delimiters or commands.
@@ -105,7 +105,9 @@ It explicitly retains unknown applicability/validation and the absence of runtim
 population and accessibility evidence. `PRESENT`, `BUILD_INCLUDED`, `LINKED`,
 `RUNTIME_EXECUTED`, `PHYSICALLY_POPULATED` and `EXTERNALLY_ACCESSIBLE` remain distinct.
 Source presence, configuration and schematic routing do not establish later states.
-Semantic/RTL arrays are empty because this base schema supplies no such observations.
+Semantic observations remain unavailable. For schema 1.12, matching RTL file metadata
+and observations at the finding line are bounded to 6 entries; presence, build
+status, parse status and conditionality are preserved without claiming deployed logic.
 Firmware evidence already normalized in a finding stays in its evidence string;
 binary dumps and unrelated candidates are never attached.
 

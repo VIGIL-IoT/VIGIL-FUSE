@@ -626,3 +626,22 @@ def test_separate_secret_setting_values_are_redacted() -> None:
     assert "private short value" not in encode_context(packet).decode()
     assert "build" in packet["redacted_categories"]
     assert report == original
+
+
+def test_latest_rtl_report_context_preserves_static_states() -> None:
+    from vigil_fuse.reporting import to_json
+    from vigil_fuse.scanner import scan
+
+    root = Path(__file__).parent / "fixtures" / "rtl" / "insecure"
+    report = load_report(to_json(scan(root)).encode())
+    assert report["schema_version"] == "1.12"
+    finding = next(item for item in report["findings"] if item["rule_id"].startswith("FUSE-RTL"))
+    packet = build_context(report, finding)
+    assert packet["rtl"]
+    assert packet["rtl"][0]["presence"] == "PRESENT"
+    assert packet["rtl"][0]["build_status"] in {"PRESENT", "BUILD_INCLUDED"}
+    assert any(
+        item["text"].startswith("No structured runtime") for item in packet["evidence"]["unknown"]
+    )
+    assert len(packet["rtl"]) <= 6
+    assert report["findings"][report["findings"].index(finding)] == finding

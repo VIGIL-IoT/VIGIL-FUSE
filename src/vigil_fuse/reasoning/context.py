@@ -35,7 +35,7 @@ _PRIVATE = re.compile(
 def load_report(raw: bytes) -> dict[str, Any]:
     """Check the canonical report boundary; never accept TXT, SARIF, PDF or context JSON."""
     report = strict_json(raw, MAX_REPORT_BYTES)
-    if report.get("schema_version") != "1.11":
+    if report.get("schema_version") not in ("1.11", "1.12"):
         raise ValueError("Unsupported canonical FUSE report schema")
     if not isinstance(report.get("tool"), dict) or report["tool"].get("name") != "FUSE":
         raise ValueError("Expected a canonical FUSE report")
@@ -150,8 +150,11 @@ def build_context(
         for item in items[:limit]:
             if not isinstance(item, dict):
                 continue
-            values = {
-                key: text(item.get(key), category, path=key in {"path", "file"}) for key in keys
+            values: dict[str, Any] = {
+                key: item[key]
+                if type(item.get(key)) in {bool, int}
+                else text(item.get(key), category, path=key in {"path", "file"})
+                for key in keys
             }
             name = item.get("name")
             if (
@@ -195,6 +198,33 @@ def build_context(
     hardware = hardware if isinstance(hardware, dict) else {}
     artifacts = hardware.get("artifacts", [])
     artifacts = artifacts if isinstance(artifacts, list) else []
+    rtl = hardware.get("rtl_analysis", {})
+    rtl = rtl if isinstance(rtl, dict) else {}
+    rtl_files = rtl.get("files", [])
+    rtl_events = rtl.get("evidence", [])
+    relevant_rtl = (
+        [
+            item
+            for item in rtl_files
+            if isinstance(item, dict) and item.get("path") == location["file"]
+        ]
+        if isinstance(rtl_files, list)
+        else []
+    )
+    if isinstance(rtl_events, list):
+        for item in rtl_events:
+            if not isinstance(item, dict) or item.get("file") != location["file"]:
+                continue
+            if (
+                location.get("start_line") is not None
+                and item.get("line") != location["start_line"]
+            ):
+                continue
+            detail = item.get("evidence", {})
+            detail = detail if isinstance(detail, dict) else {}
+            relevant_rtl.append(
+                {**item, "source": detail.get("source"), "conditional": detail.get("conditional")}
+            )
     coverage = report["coverage"]
     coverage_view = {
         "discovery_complete": coverage.get("discovery_complete"),
@@ -205,7 +235,7 @@ def build_context(
         else [],
         "limitations": [
             "Only report evidence is supplied; inventories do not prove build inclusion, linking, runtime execution, population or accessibility.",
-            "Semantic and RTL observations are unavailable in this canonical schema.",
+            "Semantic observations are unavailable. RTL observations, if supplied, are static structure only.",
         ],
         "analyzers": rows(
             [
@@ -263,7 +293,24 @@ def build_context(
             ("path", "category", "format"),
             MAX_OBSERVATIONS,
         ),
-        "rtl": [],
+        "rtl": rows(
+            relevant_rtl,
+            "rtl",
+            (
+                "path",
+                "presence",
+                "build_status",
+                "parse_status",
+                "kind",
+                "module",
+                "signal",
+                "file",
+                "line",
+                "source",
+                "conditional",
+            ),
+            MAX_OBSERVATIONS,
+        ),
         "policy_context": rows(
             [finding["vex_review"]] if isinstance(finding.get("vex_review"), dict) else [],
             "policy_context",
@@ -294,7 +341,7 @@ def build_context(
     }
     # A byte cap is conservative, tokenizer-independent input accounting. Output has a reserve.
     byte_budget = min(12_000, context_tokens - 2300)
-    for category in ("build", "hardware", "policy_context"):
+    for category in ("build", "hardware", "rtl", "policy_context"):
         if len(encode_context(packet)) <= byte_budget:
             break
         if packet[category]:
