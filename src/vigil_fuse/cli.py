@@ -1969,12 +1969,14 @@ def main(
     if args.command == "inspect":
         try:
             dna = inspect_repository(args.target)
+            identity = dna["project_identity"]
             _safe_print(
                 json.dumps(
                     {
                         **dna,
+                        "project_identity": identity.to_dict(),
                         "component_graph": build_component_graph(dna),
-                        "analysis_plan": plan_analysis(dna),
+                        "analysis_plan": plan_analysis(identity),
                     },
                     indent=2,
                 )

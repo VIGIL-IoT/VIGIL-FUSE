@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import Literal, TypedDict
 
-from .repo_dna import RepoDNA
+from .project_identity import ProjectIdentity
 
 
 class Decision(TypedDict):
@@ -13,7 +13,7 @@ class Decision(TypedDict):
     reason: str
 
 
-def plan_analysis(dna: RepoDNA) -> list[Decision]:
+def plan_analysis(identity: ProjectIdentity) -> list[Decision]:
     """Return advisory passive decisions; never invoke or enable analyzers."""
     stages: list[Decision] = [
         {"stage": "native", "status": "selected", "reason": "passive source analysis"},
@@ -28,7 +28,7 @@ def plan_analysis(dna: RepoDNA) -> list[Decision]:
             "reason": "explicit controlled validation is required",
         },
     ]
-    if not dna["complete"]:
+    if not identity.complete:
         stages.append(
             {
                 "stage": "discovery",

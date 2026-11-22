@@ -5,6 +5,7 @@ import pytest
 from vigil_fuse.repo_dna import inspect_repository
 from vigil_fuse.cli import main
 from vigil_fuse.component_graph import build_component_graph
+from vigil_fuse.project_identity import inspect_project_identity
 
 
 def test_mixed_project_is_deterministic_and_passive(tmp_path: Path) -> None:
@@ -28,6 +29,7 @@ def test_mixed_project_is_deterministic_and_passive(tmp_path: Path) -> None:
     assert result["languages"] == ["C", "JavaScript"]
     assert result["complete"]
     assert all(item["confidence"] is None for item in result["classifications"])
+    assert result["project_identity"] == inspect_project_identity(tmp_path)
 
 
 def test_inspect_cli_emits_json(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -37,6 +39,12 @@ def test_inspect_cli_emits_json(tmp_path: Path, capsys: pytest.CaptureFixture[st
     assert main(["inspect", str(tmp_path)]) == 0
     output = json.loads(capsys.readouterr().out)
     assert output["classifications"][0]["type"] == "container"
+    assert output["project_identity"]["schema_version"] == "1.0"
+    assert output["analysis_plan"]
+    assert all(
+        decision["status"] != "selected" or decision["stage"] == "native"
+        for decision in output["analysis_plan"]
+    )
 
 
 def test_invalid_target_is_rejected(tmp_path: Path) -> None:
@@ -89,3 +97,20 @@ def test_esp_idf_framework_hints_reuse_existing_detection(tmp_path: Path) -> Non
     result = inspect_repository(tmp_path)
     assert "esp-idf" in result["frameworks"]
     assert any(item["type"] == "embedded" for item in result["classifications"])
+
+
+def test_file_symlink_makes_shared_identity_incomplete(tmp_path: Path) -> None:
+    target = tmp_path / "sdkconfig"
+    target.write_text("CONFIG_IDF_TARGET=esp32\n", encoding="utf-8")
+    root = tmp_path / "project"
+    root.mkdir()
+    try:
+        (root / "sdkconfig").symlink_to(target)
+    except (OSError, NotImplementedError) as error:
+        pytest.skip(f"Symbolic links unavailable: {error}")
+
+    result = inspect_repository(root)
+    identity = result["project_identity"]
+    assert not identity.complete
+    assert identity.primary_type == "unknown"
+    assert "symbolic link excluded" in result["limitations"]

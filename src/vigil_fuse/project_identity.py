@@ -335,6 +335,27 @@ def inspect_project_identity(
             if not complete:
                 break
 
+    return _classify_project_identity(
+        root,
+        paths,
+        directories,
+        complete=complete,
+        limitations=limitations,
+        single_file_target=single_file_target,
+    )
+
+
+def _classify_project_identity(
+    root: Path,
+    paths: list[str],
+    directories: set[str],
+    *,
+    complete: bool,
+    limitations: list[str],
+    single_file_target: bool,
+) -> ProjectIdentity:
+    """Classify a previously bounded path inventory without walking it again."""
+    limitations = list(limitations)
     manifest_frameworks, manifest_limitations = (
         (set(), []) if single_file_target else _manifest_frameworks(root, paths)
     )

@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import TypedDict
 
 from .scanner import SKIPPED_DIRECTORIES
+from .project_identity import ProjectIdentity, _classify_project_identity
 from .platform_context import detect_project_frameworks
 
 MAX_PATHS = 10_000
@@ -64,6 +65,7 @@ class RepoDNA(TypedDict):
     components: list[str]
     complete: bool
     limitations: list[str]
+    project_identity: ProjectIdentity
 
 
 def inspect_repository(target: str | Path) -> RepoDNA:
@@ -77,6 +79,8 @@ def inspect_repository(target: str | Path) -> RepoDNA:
     components: set[str] = set()
     limitations: list[str] = []
     frameworks: set[str] = set()
+    paths: list[str] = []
+    directory_paths: set[str] = set()
     count = 0
     directories = 0
 
@@ -90,10 +94,19 @@ def inspect_repository(target: str | Path) -> RepoDNA:
             limitations.append("directory limit reached")
             break
         current = Path(directory)
-        depth = len(current.relative_to(root).parts)
-        children = sorted(
-            n for n in names if n not in SKIPPED_DIRECTORIES and not (current / n).is_symlink()
-        )
+        relative_dir = current.relative_to(root).as_posix()
+        depth = 0 if relative_dir == "." else len(Path(relative_dir).parts)
+        if relative_dir != ".":
+            directory_paths.add(relative_dir.casefold())
+        children = []
+        for name in names:
+            if name in SKIPPED_DIRECTORIES:
+                continue
+            if (current / name).is_symlink():
+                limitations.append("symbolic link excluded")
+                continue
+            children.append(name)
+        children.sort()
         if depth >= MAX_DEPTH and children:
             limitations.append("directory depth limit reached")
             children = []
@@ -104,9 +117,17 @@ def inspect_repository(target: str | Path) -> RepoDNA:
                 break
             count += 1
             path = current / filename
-            if path.is_symlink() or not path.is_file():
+            try:
+                if path.is_symlink():
+                    limitations.append("symbolic link excluded")
+                    continue
+                if not path.is_file():
+                    continue
+            except OSError:
+                limitations.append("file entry could not be inspected")
                 continue
             relative = path.relative_to(root).as_posix()
+            paths.append(relative)
             lower = filename.casefold()
             if path.suffix.casefold() in LANGUAGES:
                 languages.add(LANGUAGES[path.suffix.casefold()])
@@ -153,6 +174,8 @@ def inspect_repository(target: str | Path) -> RepoDNA:
                 ):
                     signals.setdefault(label, set()).add(relative)
         if count >= MAX_PATHS:
+            if "path limit reached" not in limitations:
+                limitations.append("path limit reached")
             break
     if len(components) > MAX_COMPONENTS:
         limitations.append("component limit reached")
@@ -165,6 +188,14 @@ def inspect_repository(target: str | Path) -> RepoDNA:
                 )
         except OSError:
             limitations.append("framework context could not be inspected")
+    project_identity = _classify_project_identity(
+        root,
+        paths,
+        directory_paths,
+        complete=not limitations,
+        limitations=limitations,
+        single_file_target=False,
+    )
     classifications: list[Classification] = [
         {
             "type": label,
@@ -181,4 +212,5 @@ def inspect_repository(target: str | Path) -> RepoDNA:
         "components": sorted(components)[:MAX_COMPONENTS],
         "complete": not limitations,
         "limitations": sorted(set([*limitations, "confidence is not calibrated"])),
+        "project_identity": project_identity,
     }
