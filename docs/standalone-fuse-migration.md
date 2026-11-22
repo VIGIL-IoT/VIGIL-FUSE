@@ -1,3 +1,5 @@
+> Superseded by [the final migration report](standalone-fuse-final-migration.md) and [machine-readable parity ledger](../migration/full-parity-ledger.json). This document is an earlier checkpoint; its SHA, check, publication, and push state are historical and are not the completion result.
+
 # Standalone FUSE migration ledger
 
 This final ledger records the competition repository and its feature branches as adapted into canonical VIGIL-FUSE. It includes source snapshots, branch dispositions, test evidence, documentation updates, and exclusions.

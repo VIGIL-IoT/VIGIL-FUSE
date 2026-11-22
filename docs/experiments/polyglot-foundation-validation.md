@@ -1,5 +1,7 @@
 # Polyglot foundation validation
 
+> Historical donor-branch validation snapshot from a separate ShivuXD/FUSE checkout. The `0.5.1` label below is not a canonical VIGIL-FUSE release, and the test/tool results are not current-environment validation. See the [final canonical migration report](../standalone-fuse-final-migration.md) for current checks.
+
 Integration with main at `73060d7` (FUSE 0.5.1): the combined suite passed with 469 tests,
 6 optional skips and 184 subtests. Ruff, formatting (160 files), strict mypy (78 source
 files), documentation validation (121 Markdown files) and Go tests passed. Earlier

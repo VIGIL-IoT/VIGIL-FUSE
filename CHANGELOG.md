@@ -5,7 +5,7 @@
 ### Added
 
 - Adapted the standalone FUSE competition and integration features into canonical VIGIL-FUSE, including bounded Clang semantic observations, embedded and cyber-physical evidence, applicability analysis, optional PowerShell setup, the Go/Kubernetes identity-probe foundation, and offline research workflows.
-- Added branch and capability accounting at [docs/standalone-fuse-migration.md](docs/standalone-fuse-migration.md).
+- Added exhaustive path and feature accounting at [docs/standalone-fuse-final-migration.md](docs/standalone-fuse-final-migration.md), with the machine-readable [parity ledger](migration/full-parity-ledger.json).
 
 ### Changed
 

@@ -10,7 +10,7 @@ FUSE is a local analysis tool for embedded and IoT repositories. It collects bou
 
 **Latest PyPI package:** `0.4.0`. This migration has not published a new package.
 
-The standalone [ShivuXD/FUSE](https://github.com/ShivuXD/FUSE) repository was used for competition and integration work. The canonical repository now carries its adapted production and research features. See the [migration ledger](docs/standalone-fuse-migration.md) for branch accounting, exclusions, and verification evidence.
+The standalone [ShivuXD/FUSE](https://github.com/ShivuXD/FUSE) repository was used for competition and integration work. The canonical repository now carries its adapted production and research features. See the [final migration report](docs/standalone-fuse-final-migration.md) and [machine-readable parity ledger](migration/full-parity-ledger.json) for branch accounting, exclusions, and verification evidence.
 
 ## Install and run
 
@@ -38,7 +38,7 @@ The published `0.4.0` package predates the migrated features. New releases are n
 
 Non-interactive commands include `scan`, `doctor`, `setup`, `baseline`, `inspect`, `reason`, `reasoning-context`, `applicability analyze`, and the focused `digital-twin`, `flight-bus`, `seu`, and `physical-reachability` commands. Use `vigil-fuse --help` and `vigil-fuse scan --help` for the exact options.
 
-Reports include JSON, text, and SARIF, with coverage, analyzer statuses, inventories, and artifact hashes. Each report identifies FUSE and the VIGIL project. Report bundles also include `FUSE_SCAN_PROVENANCE.json` with report-file hashes and `CITATION.cff` with the runtime version. The bounded project identity summary in scan reports and `scan --plan` is advisory; its evidence scores are not probabilities and do not enable analyzers. By default, report files go to a sibling `.fuse-results/<target-name>/` directory so a scan does not write into the target. `--output-dir` selects another location. Interactive scans can also offer a PDF report when `pdflatex` is installed. The JSON report preserves separate severity, confidence, applicability, validation, and coverage fields. See the [finding format](docs/finding-schema.md) and [usage guide](docs/usage.md).
+Reports include JSON, text, and SARIF, with coverage, analyzer statuses, inventories, and artifact hashes. Each report identifies FUSE and the VIGIL project. Report bundles also include `FUSE_SCAN_PROVENANCE.json` with report-file hashes and `CITATION.cff` with the runtime version. The bounded project identity summary in scan reports and `scan --plan` is advisory; its evidence scores are not probabilities and do not enable analyzers. By default, report files go to a sibling `.fuse-results/<target-name>/` directory so a scan does not write into the target. `--output-dir` selects another location. Interactive scans can also offer a PDF report. XeLaTeX uses Times New Roman; a pdfLaTeX-only fallback uses a Times-compatible font. The JSON report preserves separate severity, confidence, applicability, validation, and coverage fields. See the [finding format](docs/finding-schema.md) and [usage guide](docs/usage.md).
 
 ## Analysis layers
 
@@ -56,7 +56,7 @@ The machine-readable [support matrix](src/vigil_fuse/support-matrix.json) labels
 
 ## Historical NVIDIA regression
 
-The migration record preserves a deterministic scan of `NVIDIA/edk2-nvidia` at commit `cb638768ec174bb2041f87569409c53e4af4292e` (`uefi-202609.1`): 1,223 files selected and scanned, none skipped, discovery complete, and one `FUSE001` review candidate with medium severity, high confidence, unknown applicability, and no validation. It is not a confirmed NVIDIA vulnerability, and the rules were not tuned to reproduce it. See the [full migration record](docs/standalone-fuse-migration.md).
+The migration record preserves a deterministic scan of `NVIDIA/edk2-nvidia` at commit `cb638768ec174bb2041f87569409c53e4af4292e` (`uefi-202609.1`): 1,223 files selected and scanned, none skipped, discovery complete, and one `FUSE001` review candidate with medium severity, high confidence, unknown applicability, and no validation. It is not a confirmed NVIDIA vulnerability, and the rules were not tuned to reproduce it. See the [full migration record](docs/standalone-fuse-final-migration.md).
 
 ## Development and boundaries
 

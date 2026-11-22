@@ -34,7 +34,7 @@ Use the repository installation above for the current source. Do not interpret a
 
 Run vigil-fuse from the project folder to open an interactive session without starting a scan. Type /help to list commands. /target [directory] displays or changes the current target; /profile [name] selects a profile; /scan, /plan, /findings, /baseline, and /doctor provide the main scan and review actions. The optional cliui extra enables command suggestions, editing, and in-memory command-name history. Paths and option values are not saved in that history.
 
-After an interactive scan, FUSE can ask whether to create a PDF report. Rendering requires pdflatex; if it is missing or fails, the LaTeX source is retained and JSON, text, and SARIF outputs remain available.
+After an interactive scan, FUSE can ask whether to create a PDF report. XeLaTeX uses Times New Roman. If only pdfLaTeX is installed, the PDF uses a Times-compatible font and reports that fallback. If compilation fails or neither engine is available, FUSE retains the LaTeX source and JSON, text, and SARIF outputs remain available.
 
 ## Optional setup command
 

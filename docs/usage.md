@@ -61,7 +61,7 @@ vigil-fuse
 
 FUSE opens a session without starting a scan. Use `/help` to list commands, `/target "path with spaces"` to change the target, `/profile esp-idf` to choose a profile, `/scan` to scan the current target, and `/findings` to review the most recent result without rescanning. `/plan`, `/sbom`, `/vulnerabilities`, `/firmware`, `/ghidra`, `/baseline`, `/doctor`, `/status`, and `/exit` are also available. Quote paths that contain spaces. Scans use the same options and evidence rules as the regular CLI; Ghidra does not export decompiled pseudocode.
 
-Install `vigil-fuse[cliui]` to enable command suggestions, editing, and in-memory command-name history. The history omits paths and option values. Without the optional extra, FUSE uses basic input. Scan progress wording is decorative and does not identify a specific analysis stage; use the report's coverage section for scan status. After an interactive scan, FUSE asks `Create a PDF report? [y/N]`; the optional PDF is saved in the selected report directory when `pdflatex` is available. JSON, text, and SARIF reports are written independently.
+Install `vigil-fuse[cliui]` to enable command suggestions, editing, and in-memory command-name history. The history omits paths and option values. Without the optional extra, FUSE uses basic input. Scan progress wording is decorative and does not identify a specific analysis stage; use the report's coverage section for scan status. After an interactive scan, FUSE asks `Create a PDF report? [y/N]`; XeLaTeX renders the PDF with Times New Roman. A pdfLaTeX-only installation uses a Times-compatible font. JSON, text, and SARIF reports are written independently.
 
 ## Preview a scan
 
@@ -228,4 +228,4 @@ Additional migrated layers:
 - [RTL and FPGA analysis](rtl-security-analysis.md) and [Rego/OPA policy evaluation](policy-as-code.md)
 - [Go/Kubernetes execution foundation](kubernetes-operator.md)
 - [Offline Julia research](research/julia-research-engine.md) and [R workflows](../research/R/README.md)
-- [Standalone repository migration ledger](standalone-fuse-migration.md)
+- [Final standalone repository migration report](standalone-fuse-final-migration.md) and [machine-readable parity ledger](../migration/full-parity-ledger.json)
