@@ -38,7 +38,7 @@ Branch-only reconciliation:
 
 ## Release and page status
 
-The canonical GitHub release page and PyPI still show 0.4.0 as the latest VIGIL-FUSE release. The PyPI page is available, and the Vercel homepage returned HTTP 200 on 2026-11-22. No package was published and no site deployment was performed during this migration. The Vercel content remains a legacy snapshot and is not the canonical project documentation.
+The canonical GitHub release page and PyPI still show 0.4.0 as the latest VIGIL-FUSE release. The PyPI page is available, and the Vercel homepage returned HTTP 200 on 2026-11-22. No package was published and no site deployment was performed during this migration. The Vercel content remains a legacy snapshot and is not the canonical project documentation. GitHub repository topics now include `embedded-security`, `firmware-analysis`, `iot-security`, `static-analysis`, `hardware-security`, `supply-chain-security`, and `fpga-security`.
 
 ## Feature parity ledger
 
@@ -96,15 +96,17 @@ The following results come from commands run during this adaptation. Optional to
 
 | Check | Result |
 | --- | --- |
-| Full Python suite | 638 passed, 11 skipped, 208 subtests passed; one third-party pytest deprecation warning. |
+| Full Python suite | 641 passed, 11 skipped, 208 subtests passed; one third-party pytest deprecation warning. |
 | Ruff | Lint passed; format check passed for 186 files. |
 | Mypy | Passed with no issues in 96 source files. |
 | Schema and documentation validation | Parsed 23 schema JSON files and the 30-capability support matrix; docs validation passed for 140 Markdown files; all 12 workflow YAML files parsed. |
-| Wheel and sdist build | Built vigil_fuse-0.4.1.dev0 wheel and sdist; Twine check passed for both. |
-| Fresh wheel install and CLI smoke | Fresh wheel install passed outside the source tree. Version, help, doctor, scan help, setup dry-run, controlled JSON scan, package-resource checks, and installed-wheel full suite passed. |
+| Repository path audit | Passed across 1,265 tracked files and Git history. The only historical matches were generic test placeholders and a hosted-runner path. |
+| Wheel and sdist build | Isolated build produced vigil_fuse-0.4.1.dev0 wheel and sdist; Twine check passed for both. |
+| PDF report | Generated and visually inspected; the PDF embeds Times New Roman and its bold face, and the CLI banner appears at the top. |
+| Fresh wheel install and CLI smoke | An earlier migration run passed the fresh install, CLI smoke, resource checks, and installed-wheel suite. This was not repeated after the PDF updates. |
 | Clang, Go, RTL, OPA, PowerShell, R, Julia | Python semantic, RTL, policy, and execution-contract tests passed. Four native Clang cases skipped because the optional executable is absent; one OPA case skipped because OPA is absent. Pester passed 9 tests. Go, R, and Julia runtimes were unavailable for current reruns. |
 | NVIDIA regression | Historical donor result preserved; not rerun because core scanner and rules were unchanged. |
-| Working tree and push state | Integration branch committed and fast-forwarded into local main; main is clean; not pushed. |
+| Working tree and push state | The full suite passed with local `main` clean. Code remains unpushed; hosted CI was not rerun. |
 
 Verification environment notes:
 
