@@ -69,6 +69,7 @@ The figure starts from the illustrative `FUSE001` record in the [finding format]
 - Selected ESP-IDF, Zephyr, PlatformIO, compilation database, and GitHub Actions metadata checks.
 - Optional Syft and OSV-Scanner dependency analysis, Binwalk firmware signature identification, and Gitleaks history checks.
 - Text, schema-versioned JSON, SARIF, CycloneDX inventory, scan coverage, evidence, and remediation guidance.
+- Optional local desktop interface for plans, findings, coverage, baselines, and report export. See [Desktop GUI](docs/desktop-gui.md).
 
 See [supported inputs and limits](src/vigil_fuse/support-matrix.json), [firmware analysis](docs/firmware-analysis.md), [optional Ghidra analysis](docs/ghidra-analysis.md), [hardware analysis](docs/hardware-analysis.md), and [known limitations](docs/limitations.md) for exact boundaries. FUSE does not provide compiler-semantic C/C++ analysis, general firmware extraction, device testing, or hardware-in-the-loop validation.
 

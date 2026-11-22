@@ -204,3 +204,13 @@ Keep reports private when they contain project paths, dependency details, hardwa
 Use `--config fuse.example.toml` as a starting point for repeatable scan settings. Command-line options can override supported settings.
 
 Read more about [finding fields](finding-schema.md), [optional integrations](integrations.md), [hardware analysis](hardware-analysis.md), [firmware analysis](firmware-analysis.md), and [rule development](rule-development.md).
+## Desktop GUI
+
+Install a Tk-enabled Python environment and launch the local desktop interface:
+
+```sh
+python -m pip install -e .
+vigil-fuse-gui
+```
+
+See [desktop GUI setup, workflow, coverage and limitations](desktop-gui.md).
