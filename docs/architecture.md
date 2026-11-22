@@ -20,8 +20,10 @@ flowchart LR
     Discovery --> Native[Native text rules in worker process]
     Discovery --> Context[Read-only platform and build context]
     Discovery --> Hardware[Hardware filename inventory and selected netlist or BOM]
+    Discovery --> Clang[Optional Clang AST evidence]
     Discovery --> Optional[Optional external analyzers]
     Native --> Model[Normalized findings and scan coverage]
+    Clang --> Model
     Context --> Model
     Hardware --> Model
     Optional --> Model
@@ -48,12 +50,12 @@ sequenceDiagram
 
 The deployment model is a local command-line process. There is no FUSE server or required cloud service. Optional analyzers are separate executables invoked only when selected. Physical devices, firmware flashing, and network probing are outside the analysis path.
 
-The repository also contains a separately configured static site. This diagram shows repository configuration, not proof that a deployment is currently active:
+The repository retains static site source for historical reference. Deployment is archived and paused, and the site is not the canonical project interface:
 
 ```mermaid
 flowchart LR
-    Repo[Git repository] --> VercelConfig[vercel.json selects site/]
-    VercelConfig --> StaticSite[Static information and reviewed result snapshots]
+    Repo[Git repository] --> ArchivedSource[Archived site source]
+    ArchivedSource -. deployment paused .-> StaticSite[Historical information and result snapshots]
     PackageConfig[pyproject.toml] --> LocalInstall[User local Python install]
     LocalInstall --> CLI[vigil-fuse CLI]
     Target[User-selected local project] --> CLI
@@ -110,6 +112,18 @@ CLI
 - `analyzers.py`: backward-compatible adapter facade used by the CLI. Optional analyzers run as bounded subprocesses separate from native rules and write artifact hashes into the report.
 - `schemas/`: machine-readable report schema shipped with the Python package.
 - `tests/fixtures/rules/`: vulnerable and secure inputs for each enabled rule.
+
+## Migrated feature families
+
+The canonical source also contains optional layers adapted from the standalone integration repository:
+
+- The Clang LibTooling producer returns bounded call, argument, macro, and translation-unit observations. A strict Python validator owns acceptance and coverage. These observations do not create findings.
+- Passive repository inspection records bounded repository traits, component relationships, target metadata, and analysis plans. Routing does not autonomously execute tools or expand scan scope.
+- Device Tree, CMSIS-SVD, physical reachability, cFE bus and policy, resilience indicators, digital-twin descriptions, and Renode mock export preserve partial evidence and unknown device state.
+- Applicability analysis composes an existing FUSE report and recorded product evidence. It does not rerun a scan or infer deployment, shipment, runtime reachability, or physical exposure.
+- The Go/Kubernetes foundation schedules an identity probe under a bounded execution contract. Python validates any returned evidence and remains the security authority.
+- Packaged PowerShell setup resources support Windows PowerShell 5.1 without adding a Python runtime requirement. R and Julia sources remain offline research tools; Rust and Zig are not runtime dependencies.
+- The shared support matrix and doctor command expose optional-tool availability and stage scope without making external toolchains part of the core scanner.
 
 ## Enforced dependency boundaries
 
@@ -178,7 +192,7 @@ Policy evaluation uses only allow-listed normalized fields and has separate inpu
 
 Native rules analyze selected source/configuration text only. The separate hardware inventory recognizes known formats by filename, records paths and counts, and makes no judgment about hardware security. Firmware candidate inventory records only extension and size. The GitHub Actions analyzer covers a small set of explicit static signals and is not a complete YAML, shell, or event-taint analysis; its workflow findings do not establish exploitability or determine whether checked-out code is executed. The KiCad netlist analyzer reports candidate connectivity only and does not establish physical access. Optional Syft inventories local directory/file inputs; OSV-Scanner matches generated or supplied CycloneDX/SPDX SBOMs or project manifests to known advisories; Binwalk identifies firmware signatures without extraction; Gitleaks inspects commits reachable from `HEAD` when explicitly enabled. The Gitleaks adapter does not retain raw secret values, and it marks shallow history as partial. FUSE does not contact device services, validate credentials, extract or execute firmware, or infer runtime reachability. OSV uses the network unless the user selects its local database or strict no-network mode. The executable adapters have explicit timeouts, streaming output limits, statuses, versions, and output hashes. Firmware parsing is performed by the selected external tool, so use Docker mode for hostile firmware and verify the trusted image before scanning.
 
-Profiles control source discovery and choose the platform context adapter. The experimental `--build-dir` adapter reads only bounded, known files in a user-selected directory. ESP-IDF context records the selected `sdkconfig`, observed defaults-file order, target-specific variants, and file hashes. Conventional defaults remain candidates if the selected build does not identify them. FUSE never evaluates project CMake, runs a build, resolves Kconfig dependencies, or claims the selected output was deployed. ESP-IDF scans can also inventory bounded `dependencies.lock` metadata with the optional PyYAML extra; resolved components are not claimed to be built into or shipped in an image, and manifest freshness is unverified. Zephyr context records its generated configuration, board, and version when available. With `--zephyr-hardening-report`, it can import a bounded JSON report emitted by Zephyr's own hardening tool without invoking `west` or a build. Imported deviations retain Zephyr's profile and rationale, use unknown severity, and remain candidate configuration signals. PlatformIO environments and compilation databases add build-selection context but do not run commands or provide compiler-semantic analysis. Explicit hardware BOM import is separate from filename inventory and records source provenance in its CycloneDX artifact. Product VEX stays review metadata attached only to exact product, package, and advisory matches; it does not change the finding or its threshold result. SLSA intake compares a selected firmware digest with an attested subject but does not authenticate the statement or builder. The result records profile, selected/skipped files, active rules, project and product context, analyzer status, an input-manifest digest, and artifact paths/hashes. The canonical JSON report is schema-versioned; new adapters must report missing tools, partial coverage, and failures explicitly instead of returning an empty result as if analysis completed. SARIF exports normalized findings for code-scanning tools; CycloneDX remains the component-inventory format.
+Profiles control source discovery and choose the platform context adapter. The experimental `--build-dir` adapter reads only bounded, known files in a user-selected directory. ESP-IDF context records the selected `sdkconfig`, observed defaults-file order, target-specific variants, and file hashes. Conventional defaults remain candidates if the selected build does not identify them. FUSE never evaluates project CMake, runs a build, resolves Kconfig dependencies, or claims the selected output was deployed. ESP-IDF scans can also inventory bounded `dependencies.lock` metadata with the optional PyYAML extra; resolved components are not claimed to be built into or shipped in an image, and manifest freshness is unverified. Zephyr context records its generated configuration, board, and version when available. With `--zephyr-hardening-report`, it can import a bounded JSON report emitted by Zephyr's own hardening tool without invoking `west` or a build. Imported deviations retain Zephyr's profile and rationale, use unknown severity, and remain candidate configuration signals. PlatformIO environments and compilation databases add build-selection context without running commands. An explicit compilation database can also feed the separate optional Clang LibTooling evidence stage. Explicit hardware BOM import is separate from filename inventory and records source provenance in its CycloneDX artifact. Product VEX stays review metadata attached only to exact product, package, and advisory matches; it does not change the finding or its threshold result. SLSA intake compares a selected firmware digest with an attested subject but does not authenticate the statement or builder. The result records profile, selected/skipped files, active rules, project and product context, analyzer status, an input-manifest digest, and artifact paths/hashes. The canonical JSON report is schema-versioned; new adapters must report missing tools, partial coverage, and failures explicitly instead of returning an empty result as if analysis completed. SARIF exports normalized findings for code-scanning tools; CycloneDX remains the component-inventory format.
 
 ## Hardware-software boundary
 

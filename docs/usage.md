@@ -2,7 +2,9 @@
 
 FUSE is a local command-line tool for reviewing embedded and IoT project sources, configuration, hardware inventories, dependency inputs, and selected firmware images. It gathers evidence for review. A finding is not proof that a deployed device is vulnerable.
 
-## Install from PyPI
+## Last published PyPI package
+
+PyPI publishing is paused. Version 0.4.0 is the last published package and predates the adapted features. Install from the repository below to use the current source.
 
 The published [`vigil-fuse` package](https://pypi.org/project/vigil-fuse/) requires Python 3.11 or newer. Install the isolated command-line tool with pipx:
 
@@ -215,3 +217,13 @@ This command requires no model or GPU and writes one exact finding packet. It pr
 Use `--config fuse.example.toml` as a starting point for repeatable scan settings. Command-line options can override supported settings.
 
 Read more about [finding fields](finding-schema.md), [optional integrations](integrations.md), [hardware analysis](hardware-analysis.md), [firmware analysis](firmware-analysis.md), and [rule development](rule-development.md).
+
+Additional migrated layers:
+
+- [Compiler-semantic C/C++ evidence](cpp-semantic-analysis.md)
+- [Embedded applicability](embedded-applicability.md)
+- [Cyber-physical analysis](physical-reachability.md), [digital-twin descriptions](digital-twin.md), [flight software](flight-software-analysis.md), and [resilience indicators](radiation-resilience.md)
+- [RTL and FPGA analysis](rtl-security-analysis.md) and [Rego/OPA policy evaluation](policy-as-code.md)
+- [Go/Kubernetes execution foundation](kubernetes-operator.md)
+- [Offline Julia research](research/julia-research-engine.md) and [R workflows](../research/R/README.md)
+- [Standalone repository migration ledger](standalone-fuse-migration.md)

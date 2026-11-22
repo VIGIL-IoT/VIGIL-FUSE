@@ -1,6 +1,6 @@
 # Embedded applicability
 
-**Status:** experimental, partial, and not part of the published 0.4.0 release.
+**Status:** experimental and partial. It is present in current source and was not part of published 0.4.0.
 
 ## Initial repository audit
 

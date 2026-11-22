@@ -1,8 +1,10 @@
+**Current status:** PyPI publishing is paused. The release instructions below describe the historical 0.4.0 process and do not authorize another release.
+
 # Release process
 
-VIGIL-FUSE remains in the 0.x alpha series. Version 0.4.0 was published on 2026-11-15 under the VIGIL-FUSE Restricted Use License v1.2 after the required technical checks passed. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license. Initial feature development is complete and maintenance mode is active.
+VIGIL-FUSE remains in the 0.x alpha series. Version 0.4.0 was published on 2026-11-15 under the VIGIL-FUSE Restricted Use License v1.2 after the required technical checks passed. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license. Current source is 0.4.1.dev0 and includes the standalone migration; the migration does not authorize a package release.
 
-The license has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. The owner has authorized the release while policy guidance is pending. A successful upload is not PyPI policy approval. The current owner decision and historical license record are in the [rights and distribution record](governance/rights-review-packet.md).
+The license has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. That authorization applied only to the historical 0.4.0 release and does not authorize future publication. A successful upload is not PyPI policy approval. The current owner decision and historical license record are in the [rights and distribution record](governance/rights-review-packet.md).
 
 ## 0.4.0 release acceptance record
 
@@ -46,6 +48,6 @@ Exercise representative text, JSON, and SARIF scans. Confirm machine-readable ou
 
 PyPI's [Terms of Service](https://policies.python.org/pypi.org/Terms-of-Service/) describe the rights required for PSF, PyPI users, and mirrors to redistribute unmodified package files. License v1.2 includes a narrow grant for Official PyPI Distributions. This project has not received a PyPI-specific approval, and publication must not be described as approval. The [current Acceptable Use Policy](https://policies.python.org/pypi.org/Acceptable-Use-Policy/) and support issue remain documented in the rights record.
 
-## Maintenance mode
+## Current release status
 
-Version 0.4.0 has been published and verified. Maintenance work is limited to confirmed defects, security fixes, dependency and supported-platform compatibility, packaging fixes, documentation corrections, and regression tests. New analyzers, rules, research features, firmware emulation, hardware programming, and UI redesigns require a separately approved future scope.
+The 0.4.0 release record above is historical. The current source includes the migrated feature set, and PyPI publishing is paused. Any future package or GitHub release requires a separate explicit release decision.

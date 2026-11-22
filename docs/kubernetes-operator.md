@@ -22,8 +22,4 @@ Pending, Running, Completed, Failed and Blocked are operational phases; Partial 
 reserved for future evidence-aware workers. A worker log is the current evidence handoff,
 so retrieve it before deleting the resource.
 
-Go compilation, vet and four unit tests passed. A disposable kind v0.33.0 cluster with
-Kubernetes v1.37.0 passed the probe roundtrip, immutable-plan rejection, Job cleanup and
-actual egress-denial checks. Docker checks covered restricted execution, invalid input,
-malformed output and OOM. Live cluster OOM, deadlines and killed-worker tests remain
-pending. The operator remains experimental. See the operator README for opt-in tests.
+The standalone donor record reports Go compilation, vet, and four unit tests passing. It also records a disposable kind v0.33.0 cluster with Kubernetes v1.37.0 passing the probe roundtrip, immutable-plan rejection, Job cleanup, and egress-denial checks. Docker checks covered restricted execution, invalid input, malformed output, and OOM. These donor checks were not rerun during this migration. Live cluster OOM, deadlines, and killed-worker tests remain pending. The operator remains experimental. See the operator README for opt-in tests.

@@ -1,38 +1,56 @@
 # Installation and setup
 
-FUSE's core scanner requires Python 3.11 or newer and has no third-party Python runtime dependencies. The setup command prepares optional external analysis tools separately.
+FUSE requires Python 3.11 or newer. The core Python package has no runtime dependencies. Optional analysis tools remain separate executables and are only used when requested.
 
-## Install the published package
+## Install the current source
 
-The published 0.4.0 package does not include the setup command from this branch. Install that version with:
+The adapted feature set is in this repository source. From the repository root:
 
-```powershell
-python -m pip install vigil-fuse==0.4.0
+~~~powershell
+python -m pip install .
 vigil-fuse --version
 vigil-fuse doctor
-```
+~~~
 
-## Preview the upcoming installer
+For development, include the test, documentation, and interactive terminal tools:
 
-The following flow is implemented on the `feat/pre-pypi-installer` branch and is not in the published 0.4.0 package. After the next package release, the intended user flow is:
+~~~powershell
+python -m pip install -e ".[dev,cliui]"
+~~~
 
-```powershell
-python -m pip install vigil-fuse
-vigil-fuse setup --recommended
-vigil-fuse doctor
-```
+The optional esp-idf extra installs PyYAML for bounded dependencies.lock parsing. It is not required for core scanning. The research extra is for optional Python analysis scripts and does not enable R or Julia.
 
-To try this branch before release, build and install its wheel in a fresh virtual environment. The root README and `docs/releasing.md` describe the local validation commands.
+## Published package status
 
-## Setup modes
+0.4.0 is the last published package and predates the adapted features described in this repository. PyPI publishing is paused. To install that historical release explicitly:
 
-- `vigil-fuse setup --minimal` checks the core Python environment. It does not download or install tools.
-- `vigil-fuse setup --recommended` detects Git, OPA/Rego, and Verible, and offers pinned Syft, OSV-Scanner, and Gitleaks releases. Only the pinned binaries are downloaded, after interactive or explicit `--yes` consent. They go to the current user's data directory.
-- `vigil-fuse setup --full` also lists Binwalk, Docker, Ollama, Ghidra, Java, and pdfLaTeX. These tools have no managed installer in this stage and require their official manual installation steps.
-- `vigil-fuse setup --research` reports Python research extras and R, Julia, Rust, and Zig. It never installs toolchains. Install the Python extras separately with `python -m pip install 'vigil-fuse[research]'`.
-- Add `--dry-run` to print the plan without downloading or changing the machine.
-- Add `--upgrade` to replace an older FUSE-managed copy. System-installed tools are left unchanged.
+~~~powershell
+python -m pip install vigil-fuse==0.4.0
+~~~
 
-FUSE continues to run when optional tools are missing. The affected analyzer stage is skipped and its coverage is reported as partial or unavailable. `vigil-fuse doctor --format json` reports tool status and detected versions without contacting external services. Its optional reasoning check contacts only the configured loopback Ollama endpoint.
+Use the repository installation above for the current source. Do not interpret an existing package-index version or the release workflow as authorization to publish a new version.
 
-If a tool download fails or the machine is offline, setup reports the tool, failure, affected capability, and official recovery source. It does not retry indefinitely, and the pip-installed core CLI remains available.
+## Interactive terminal
+
+Run vigil-fuse from the project folder to open an interactive session without starting a scan. Type /help to list commands. /target [directory] displays or changes the current target; /profile [name] selects a profile; /scan, /plan, /findings, /baseline, and /doctor provide the main scan and review actions. The optional cliui extra enables command suggestions, editing, and in-memory command-name history. Paths and option values are not saved in that history.
+
+After an interactive scan, FUSE can ask whether to create a PDF report. Rendering requires pdflatex; if it is missing or fails, the LaTeX source is retained and JSON, text, and SARIF outputs remain available.
+
+## Optional setup command
+
+vigil-fuse setup reports optional analyzers and can provision a bounded set of pinned tools after explicit consent. Use --dry-run to inspect the plan without downloading or changing the machine.
+
+- --minimal checks the Python environment and does not install tools.
+- --recommended checks Git, OPA, and Verible, and offers pinned Syft, OSV-Scanner, and Gitleaks releases for user-local installation.
+- --full also reports manually managed tools such as Binwalk, Docker, Ollama, Ghidra, Java, and pdfLaTeX.
+- --research reports Python extras and R, Julia, Rust, and Zig availability. It never installs language toolchains.
+
+Setup does not download models, weights, GPU components, or toolchains. A missing optional tool leaves its analysis stage unavailable or partial; it does not prevent the core scanner from running. See [Windows setup](windows-setup.md) for the PowerShell helper and [dependency model](dependency-model.md) for pinned versions and hashes.
+
+## Optional Clang adapter
+
+The Clang LibTooling analyzer is a separate native executable. LLVM is not a Python package dependency. Build it using the [native instructions](../native/clang-analyzer/README.md), then follow the [semantic evidence guide](cpp-semantic-analysis.md). Its observations do not create security findings automatically. Host execution is not an OS sandbox; use an isolated environment for untrusted source.
+
+## Package verification
+
+See [local release validation](releasing.md) for wheel and source archive builds, metadata checks, fresh virtual environment installation, installed CLI smoke checks, and package-resource verification. This workflow stops before tagging or publishing.
