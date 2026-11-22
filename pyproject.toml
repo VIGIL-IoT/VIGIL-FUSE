@@ -5,8 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "vigil-fuse"
 dynamic = ["version"]
-description = "FUSE, the Firmware & Unified Security Engine, a VIGIL Project"
-authors = [{ name = "Shantanu" }]
+description = "FUSE, the Firmware & Unified Security Engine, by Team VIGIL"
+authors = [
+  { name = "Shantanu" },
+  { name = "Shivam" },
+  { name = "Armaan Malhotra" },
+]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
@@ -45,13 +49,13 @@ dev = [
   "pytest>=9.0.3,<10",
   "pytest-cov>=6,<8",
   "ruff>=0.11,<1",
-  "twine>=6,<7",
+  "twine>=7.0.0,<8",
   "types-psutil>=7.2,<8",
   "types-PyYAML>=6,<7",
 ]
 
 [project.urls]
-Homepage = "https://vigil-fuse.vercel.app/"
+Homepage = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 Documentation = "https://github.com/VIGIL-IoT/VIGIL-FUSE/blob/main/docs/usage.md"
 Repository = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 Issues = "https://github.com/VIGIL-IoT/VIGIL-FUSE/issues"
@@ -66,7 +70,7 @@ version = { attr = "vigil_fuse.__version__" }
 where = ["src"]
 
 [tool.setuptools.package-data]
-vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "policies/*.rego", "setup/*.json", "support-matrix.json"]
+vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "policies/*.rego", "setup/*.json", "resources/powershell/*.ps1", "resources/powershell/*.psm1", "support-matrix.json"]
 
 [tool.ruff]
 target-version = "py311"
@@ -92,6 +96,7 @@ files = [
   "scripts/evaluate_sard_fuse001_catalogue.py",
   "scripts/compare_repository_scan_snapshots.py",
   "scripts/benchmark_ghidra_adapter.py",
+  "scripts/benchmark_clang_semantics.py",
   "scripts/benchmark_reasoning_model.py",
   "scripts/test_local_reasoning.py",
 ]

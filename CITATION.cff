@@ -4,8 +4,13 @@ type: software
 title: "FUSE: Firmware & Unified Security Engine"
 authors:
   - given-names: "Shantanu"
-version: "0.4.0"
-date-released: 2026-11-15
+    affiliation: "Team VIGIL"
+  - given-names: "Shivam"
+    affiliation: "Team VIGIL"
+  - given-names: "Armaan"
+    family-names: "Malhotra"
+    affiliation: "Team VIGIL"
+version: "0.4.1.dev0"
 url: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 repository-code: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 keywords:
@@ -13,3 +18,4 @@ keywords:
   - firmware analysis
   - IoT
   - static analysis
+  - cyber-physical security

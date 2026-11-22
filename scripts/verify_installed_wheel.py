@@ -67,12 +67,17 @@ def main() -> int:
                 "m=metadata('vigil-fuse'); "
                 "assert not [r for r in m.get_all('Requires-Dist', []) if '; extra' not in r]; "
                 "assert files('vigil_fuse').joinpath('setup', 'tools.json').is_file(); "
-                "print('package metadata and manifest OK')",
+                "assert files('vigil_fuse').joinpath('resources/powershell/FuseBootstrap.psm1').is_file(); "
+                "assert files('vigil_fuse').joinpath('resources/powershell/fuse-setup.ps1').is_file(); "
+                "assert files('vigil_fuse').joinpath('resources/ghidra/FuseExport.java').is_file(); "
+                "assert files('vigil_fuse').joinpath('policies/production_iot.rego').is_file(); "
+                "assert files('vigil_fuse').joinpath('schemas/fuse-report-1.12.schema.json').is_file(); "
+                "print('package metadata and resources OK')",
             ],
             cwd=outside,
             env=environment,
         )
-        assert "manifest OK" in package_info.stdout
+        assert "resources OK" in package_info.stdout
         target = outside / "sample project"
         target.mkdir()
         (target / "main.c").write_text(
@@ -86,13 +91,14 @@ def main() -> int:
         )
         scan = json.loads(output.read_text(encoding="utf-8"))
         assert scan["tool"]["name"] == "FUSE"
-        assert Path(
+        installed_module = Path(
             run(
                 [str(python), "-c", "import vigil_fuse; print(vigil_fuse.__file__)"],
                 cwd=outside,
                 env=environment,
             ).stdout.strip()
-        ).is_relative_to(environment_path)
+        ).resolve()
+        assert installed_module.is_relative_to(environment_path.resolve())
         run(
             [str(python), "-m", "pip", "install", f"{wheels[0]}[test]"],
             cwd=outside,
