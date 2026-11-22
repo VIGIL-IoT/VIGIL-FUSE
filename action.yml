@@ -1,0 +1,97 @@
+name: FUSE Security Review
+description: Run the canonical FUSE engine and optionally compare a PR against its base.
+inputs:
+  path:
+    description: Relative project path within the checkout.
+    default: .
+  profile:
+    description: FUSE scan profile.
+    default: generic
+  fail-on:
+    description: Minimum severity to fail on, or none. With baseline enabled only new findings count.
+    default: none
+  baseline:
+    description: Compare with the pull request base commit, true or false.
+    default: 'false'
+  network:
+    description: Advisory lookup network policy, offline or online.
+    default: offline
+  dependency-analysis:
+    description: Request Syft and OSV dependency analysis, true or false.
+    default: 'false'
+  require-complete:
+    description: Fail when the scan or requested baseline comparison is incomplete.
+    default: 'false'
+  sarif-upload:
+    description: Upload SARIF to GitHub Code Scanning, true or false.
+    default: 'false'
+  artifact-upload:
+    description: Upload the reports as an Actions artifact, true or false.
+    default: 'true'
+  comment-token:
+    description: Optional token with pull-requests write permission for one updated PR comment.
+    required: false
+outputs:
+  report-directory:
+    description: Directory containing FUSE reports.
+    value: ${{ steps.scan.outputs.report-directory }}
+  gate:
+    description: pass, fail, or unknown.
+    value: ${{ steps.scan.outputs.gate }}
+runs:
+  using: composite
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+      with:
+        python-version: '3.12'
+    - name: Run FUSE
+      id: scan
+      shell: bash
+      env:
+        FUSE_ACTION_PATH: ${{ github.action_path }}
+        FUSE_PATH: ${{ inputs.path }}
+        FUSE_PROFILE: ${{ inputs.profile }}
+        FUSE_FAIL_ON: ${{ inputs.fail-on }}
+        FUSE_BASELINE: ${{ inputs.baseline }}
+        FUSE_NETWORK: ${{ inputs.network }}
+        FUSE_DEPENDENCIES: ${{ inputs.dependency-analysis }}
+        FUSE_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        FUSE_EVENT: ${{ github.event_name }}
+        PYTHONNOUSERSITE: '1'
+      run: python "$FUSE_ACTION_PATH/action/review.py"
+    - name: Upload FUSE reports
+      if: ${{ !cancelled() && inputs.artifact-upload == 'true' && steps.scan.outputs.report-directory != '' }}
+      uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+      with:
+        name: fuse-security-reports
+        path: ${{ steps.scan.outputs.report-directory }}
+        if-no-files-found: error
+    - name: Upload SARIF
+      if: ${{ !cancelled() && inputs.sarif-upload == 'true' && steps.scan.outputs.report-directory != '' }}
+      uses: github/codeql-action/upload-sarif@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+      with:
+        sarif_file: ${{ steps.scan.outputs.report-directory }}/findings.sarif
+        category: fuse
+    - name: Update PR summary
+      if: ${{ !cancelled() && github.event_name == 'pull_request' && inputs.comment-token != '' && steps.scan.outputs.report-directory != '' }}
+      shell: bash
+      env:
+        FUSE_ACTION_PATH: ${{ github.action_path }}
+        FUSE_REVIEW_DIR: ${{ steps.scan.outputs.report-directory }}
+        FUSE_COMMENT_TOKEN: ${{ inputs.comment-token }}
+        FUSE_PR_NUMBER: ${{ github.event.pull_request.number }}
+        FUSE_REPOSITORY: ${{ github.repository }}
+        FUSE_API_URL: ${{ github.api_url }}
+      run: python "$FUSE_ACTION_PATH/action/comment.py"
+    - name: Apply FUSE gate
+      if: ${{ !cancelled() && steps.scan.outputs.report-directory != '' }}
+      shell: bash
+      env:
+        FUSE_GATE: ${{ steps.scan.outputs.gate }}
+        FUSE_REQUIRE_COMPLETE: ${{ inputs.require-complete }}
+      run: |
+        if [ "$FUSE_GATE" = fail ] || { [ "$FUSE_GATE" = unknown ] && [ "$FUSE_REQUIRE_COMPLETE" = true ]; }; then
+          printf 'FUSE security gate: %s\n' "$FUSE_GATE"
+          exit 1
+        fi
