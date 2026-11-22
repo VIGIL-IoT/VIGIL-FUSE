@@ -328,14 +328,14 @@ def test_context_includes_only_matching_firmware_netlist_and_bom_facts() -> None
     report["hardware_netlist"].update(
         {"path": path, "status": "parsed", "debug_net_candidates": ["NET_DEBUG_TX"]}
     )
-    report["hardware_bom"].update(
-        {"source_path": path, "status": "imported", "component_count": 3}
-    )
+    report["hardware_bom"].update({"source_path": path, "status": "imported", "component_count": 3})
     packet = build_context(report, finding)
     assert packet["firmware"] == [{"path": path, "format": "ELF", "byte_size": 128}]
     hardware_details = [item["format"] for item in packet["hardware"]]
     assert "NET_DEBUG_TX" in hardware_details
-    assert any("3 line items" in item and "population unverified" in item for item in hardware_details)
+    assert any(
+        "3 line items" in item and "population unverified" in item for item in hardware_details
+    )
     invalid = copy.deepcopy(report)
     invalid["firmware_candidates"]["candidates"][0]["byte_size"] = True
     with pytest.raises(ValueError, match="firmware candidate"):
@@ -434,19 +434,22 @@ def test_cli_context_reason_and_artifact(
         assert main(["reasoning-context", str(report_path), "--finding", finding_id]) == 0
     assert json.loads(capsys.readouterr().out) == context()
     context_path = tmp_path / "context.json"
-    assert main(
-        [
-            "reasoning-context",
-            str(report_path),
-            "--finding",
-            finding_id,
-            "--output",
-            str(context_path),
-            "--pretty",
-        ]
-    ) == 0
+    assert (
+        main(
+            [
+                "reasoning-context",
+                str(report_path),
+                "--finding",
+                finding_id,
+                "--output",
+                str(context_path),
+                "--pretty",
+            ]
+        )
+        == 0
+    )
     assert json.loads(context_path.read_text()) == context()
-    assert "\n  \"build\"" in context_path.read_text()
+    assert '\n  "build"' in context_path.read_text()
     capsys.readouterr()
     rule_id = load_report(RAW)["findings"][0]["rule_id"]
     assert main(["reasoning-context", str(report_path), "--finding", rule_id]) == 0
@@ -460,16 +463,19 @@ def test_cli_context_reason_and_artifact(
     multi_path.write_text(json.dumps(multi_report))
     assert main(["reasoning-context", str(multi_path), "--finding", rule_id]) == 2
     assert "multiple findings" in capsys.readouterr().err
-    assert main(
-        [
-            "reasoning-context",
-            str(report_path),
-            "--finding",
-            finding_id,
-            "--output",
-            str(report_path),
-        ]
-    ) == 2
+    assert (
+        main(
+            [
+                "reasoning-context",
+                str(report_path),
+                "--finding",
+                finding_id,
+                "--output",
+                str(report_path),
+            ]
+        )
+        == 2
+    )
     assert "must not replace" in capsys.readouterr().err
     with server() as (config, _):
         toml = tmp_path / "fuse.toml"

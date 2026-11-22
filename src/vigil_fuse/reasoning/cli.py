@@ -50,7 +50,9 @@ def run_command(args: argparse.Namespace, config: ReasoningConfig) -> int:
         if not selected:
             raise ValueError("Selected finding instance ID does not exist in the report")
         if len(selected) > 1:
-            raise ValueError("Rule ID matches multiple findings; select one exact finding instance ID")
+            raise ValueError(
+                "Rule ID matches multiple findings; select one exact finding instance ID"
+            )
         packet = build_context(report, selected[0], config.context_tokens)
         rendered = json.dumps(
             packet,

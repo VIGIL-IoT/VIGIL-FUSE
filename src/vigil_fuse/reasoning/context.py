@@ -212,7 +212,9 @@ def build_context(
                 raise ValueError("Invalid matching firmware candidate size")
             relevant_firmware.append(item)
     relevant_hardware = [
-        item for item in artifacts if isinstance(item, dict) and item.get("path") == location["file"]
+        item
+        for item in artifacts
+        if isinstance(item, dict) and item.get("path") == location["file"]
     ]
     netlist = report.get("hardware_netlist", {})
     if isinstance(netlist, dict) and netlist.get("path") == location["file"]:
