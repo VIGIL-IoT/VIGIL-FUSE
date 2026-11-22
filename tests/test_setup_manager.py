@@ -203,7 +203,7 @@ def test_setup_is_idempotent_when_recommended_tools_are_healthy(tmp_path: Path) 
         patch("vigil_fuse.setup.manager.install_asset") as install,
     ):
         results = manager.setup_tools("RECOMMENDED", directory=tmp_path)
-    assert len(results) == 4
+    assert len(results) == 6
     assert all("reused" in result for _, result in results)
     install.assert_not_called()
 
@@ -251,7 +251,7 @@ def test_setup_reports_offline_failures_per_tool_and_continues(tmp_path: Path) -
     ):
         results = manager.setup_tools("RECOMMENDED", directory=tmp_path)
     assert install.call_count == 3
-    failures = [result for name, result in results if name != "Git"]
+    failures = [result for _, result in results if result.startswith("failed:")]
     assert len(failures) == 3
     assert all(
         "offline" in result and "impact:" in result and "recovery:" in result for result in failures
@@ -309,6 +309,10 @@ def test_doctor_json_survives_missing_optional_python_capability(
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     check = manager.ToolCheck("syft", "Syft", "RECOMMENDED", "MISSING")
+    opa_check = manager.ToolCheck("opa", "OPA/Rego", "RECOMMENDED", "AVAILABLE", "1.22.4", "opa")
+    verible_check = manager.ToolCheck(
+        "verible-verilog-syntax", "Verible RTL parser", "RECOMMENDED", "MISSING"
+    )
     ghidra = MagicMock(
         status="unavailable",
         version=None,
@@ -318,8 +322,12 @@ def test_doctor_json_survives_missing_optional_python_capability(
         detail="not installed",
     )
     with (
-        patch("vigil_fuse.cli.inspect_environment", return_value=(check,)),
+        patch("vigil_fuse.cli.inspect_environment", return_value=(check, opa_check, verible_check)),
         patch("vigil_fuse.cli.inspect_ghidra", return_value=ghidra),
+        patch(
+            "vigil_fuse.cli.inspect_rtl_backend",
+            return_value=("AVAILABLE", "FUSE structural parser", "builtin-1", "UNAVAILABLE"),
+        ),
         patch("vigil_fuse.cli.lock_parser_available", return_value=False),
     ):
         assert main(["doctor", "--format", "json"]) == 0
@@ -327,5 +335,9 @@ def test_doctor_json_survives_missing_optional_python_capability(
     assert report["fuse"]["status"] == "AVAILABLE"
     assert report["core_python_dependencies"] == []
     assert report["optional_python_capabilities"]["esp_idf_yaml_parser"]["status"] == "OPTIONAL"
-    assert report["tools"][0]["status"] == "MISSING"
-    assert report["tools"][-1]["status"] == "OPTIONAL"
+    tool_checks = {tool["id"]: tool for tool in report["tools"]}
+    assert tool_checks["syft"]["status"] == "MISSING"
+    assert tool_checks["opa"]["status"] == "AVAILABLE"
+    assert tool_checks["verible-verilog-syntax"]["status"] == "MISSING"
+    assert tool_checks["ghidra"]["status"] == "OPTIONAL"
+    assert report["rtl_analyzer"]["status"] == "AVAILABLE"

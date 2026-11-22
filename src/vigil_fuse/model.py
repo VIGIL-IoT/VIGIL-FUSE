@@ -62,12 +62,35 @@ class HardwareArtifact:
 
 
 @dataclass(frozen=True)
+class RTLAnalysis:
+    """Bounded RTL structure and security evidence; never proof of deployed logic."""
+
+    status: Literal["not-detected", "completed", "partial"] = "not-detected"
+    backend: str = "FUSE structural parser"
+    version: str = "builtin-1"
+    file_count: int = 0
+    module_count: int = 0
+    package_count: int = 0
+    testbench_count: int = 0
+    top_module_candidates: tuple[str, ...] = ()
+    declared_top_modules: tuple[str, ...] = ()
+    files: tuple[dict[str, object], ...] = ()
+    related_files: tuple[dict[str, str], ...] = ()
+    evidence: tuple[dict[str, object], ...] = ()
+    omitted_files: int = 0
+    omitted_units: int = 0
+    omitted_evidence: int = 0
+    limitations: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
 class HardwareInventory:
     """Presence-only inventory of hardware artifacts in the selected target scope."""
 
     scope: str
     artifacts: tuple[HardwareArtifact, ...] = ()
     complete: bool = True
+    rtl_analysis: RTLAnalysis = RTLAnalysis()
 
     @property
     def category_counts(self) -> dict[str, int]:

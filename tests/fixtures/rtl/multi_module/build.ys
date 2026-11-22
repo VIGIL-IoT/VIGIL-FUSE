@@ -1,0 +1,2 @@
+read_verilog -sv rtl/top.sv rtl/secure_child.sv
+hierarchy -top fpga_top

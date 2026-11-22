@@ -1,0 +1,1 @@
+`define SAFE_STATUS_WIDTH 2

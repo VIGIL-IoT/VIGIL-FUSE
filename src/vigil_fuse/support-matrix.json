@@ -107,6 +107,14 @@
       "limitations": ["Does not resolve the selected image build or installed package set"]
     },
     {
+      "id": "source.rtl",
+      "input": "Verilog/SystemVerilog and FPGA project files",
+      "profile": "rtl",
+      "label": "experimental",
+      "scope": "Selects Verilog/SystemVerilog sources, Yosys scripts, and common FPGA constraints for bounded RTL analysis.",
+      "limitations": ["Source selection does not establish synthesis inclusion", "Does not resolve all FPGA project formats or macro values"]
+    },
+    {
       "id": "inventory.sbom-detected",
       "input": "CycloneDX or SPDX SBOM",
       "profile": null,
@@ -155,6 +163,14 @@
       "limitations": ["Presence-only filename detection does not assess hardware security", "KiCad netlist parsing is a separate candidate analyzer", "Detailed BOM parsing requires the explicit hardware.hbom-import capability"]
     },
     {
+      "id": "hardware.rtl-security-analysis",
+      "input": "Selected Verilog/SystemVerilog sources and literal Yosys project metadata",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Reports bounded module, port, parameter, process, assignment, instance, clock/reset, debug/test, security-constant, and state-machine candidates. Verible is optional; a built-in structural parser is the fallback.",
+      "limitations": ["No formal verification", "No gate-level proof", "No timing analysis", "No physical FPGA proof", "No runtime validation", "PRESENT is not synthesis inclusion; only literal Yosys read_verilog references are marked BUILD_INCLUDED", "No complete macro, include, or project elaboration"]
+    },
+    {
       "id": "hardware.hbom-import",
       "input": "Explicit CSV or TSV hardware BOM",
       "profile": null,
@@ -177,6 +193,14 @@
       "label": "experimental",
       "scope": "Compares a supplied subject SHA-256 with the selected firmware image and records claimed builder metadata.",
       "limitations": ["Signature and builder trust are not verified", "Does not validate build policy or provenance completeness"]
+    },
+    {
+      "id": "policy.rego",
+      "input": "Normalized FUSE evidence and an explicit Rego policy",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optionally evaluates bounded, versioned FUSE evidence with a locally installed OPA executable.",
+      "limitations": ["OPA is optional and is never installed by FUSE", "Policy results are separate from FUSE findings and do not assign vulnerability severity", "Unsupported or incomplete evidence is unknown", "No formal certification or compliance status is claimed"]
     },
     {
       "id": "runtime.lab-validation",

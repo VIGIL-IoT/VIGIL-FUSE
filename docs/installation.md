@@ -27,7 +27,7 @@ To try this branch before release, build and install its wheel in a fresh virtua
 ## Setup modes
 
 - `vigil-fuse setup --minimal` checks the core Python environment. It does not download or install tools.
-- `vigil-fuse setup --recommended` detects or offers pinned Syft, OSV-Scanner, and Gitleaks releases. Downloads require an interactive yes or explicit `--yes` consent. Binaries go to the current user's data directory.
+- `vigil-fuse setup --recommended` detects Git, OPA/Rego, and Verible, and offers pinned Syft, OSV-Scanner, and Gitleaks releases. Only the pinned binaries are downloaded, after interactive or explicit `--yes` consent. They go to the current user's data directory.
 - `vigil-fuse setup --full` also lists Binwalk, Docker, Ghidra, Java, and pdfLaTeX. These tools have no managed installer in this stage and require their official manual installation steps.
 - `vigil-fuse setup --research` reports Python research extras and R, Julia, Rust, and Zig. It never installs toolchains. Install the Python extras separately with `python -m pip install 'vigil-fuse[research]'`.
 - Add `--dry-run` to print the plan without downloading or changing the machine.

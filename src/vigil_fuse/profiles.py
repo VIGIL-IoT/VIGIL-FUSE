@@ -50,6 +50,11 @@ BASE_SUFFIXES = frozenset(
         ".mk",
         ".cmake",
         ".be",
+        ".v",
+        ".vh",
+        ".sv",
+        ".svh",
+        ".ys",
     }
 )
 BASE_NAMES = frozenset({"dockerfile", "makefile", "platformio.ini", "idf_component.yml"})
@@ -61,14 +66,16 @@ class ScanProfile:
     description: str
     additional_suffixes: frozenset[str] = frozenset()
     additional_names: frozenset[str] = frozenset()
+    include_base: bool = True
 
     def supports(self, path: Path) -> bool:
         name = path.name.lower()
+        suffixes = self.additional_suffixes | (BASE_SUFFIXES if self.include_base else frozenset())
+        names = self.additional_names | (BASE_NAMES if self.include_base else frozenset())
         return (
-            path.suffix.lower() in BASE_SUFFIXES | self.additional_suffixes
-            or name == ".env"
-            or name.startswith(".env.")
-            or name in BASE_NAMES | self.additional_names
+            path.suffix.lower() in suffixes
+            or (self.include_base and (name == ".env" or name.startswith(".env.")))
+            or name in names
             or (self.name == "esp-idf" and name.startswith("sdkconfig.defaults."))
         )
 
@@ -117,6 +124,27 @@ PROFILES: dict[str, ScanProfile] = {
             }
         ),
         additional_names=frozenset({"inittab", "rcs", "fstab", "cmakelists.txt"}),
+    ),
+    "rtl": ScanProfile(
+        name="rtl",
+        description="Verilog/SystemVerilog sources, Yosys scripts, and FPGA constraints.",
+        additional_suffixes=frozenset(
+            {
+                ".v",
+                ".vh",
+                ".sv",
+                ".svh",
+                ".ys",
+                ".xdc",
+                ".sdc",
+                ".qsf",
+                ".qpf",
+                ".pcf",
+                ".lpf",
+                ".xpr",
+            }
+        ),
+        include_base=False,
     ),
 }
 

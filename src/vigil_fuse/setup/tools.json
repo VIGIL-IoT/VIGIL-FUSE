@@ -228,6 +228,62 @@
       ]
     },
     {
+      "id": "opa",
+      "display_name": "OPA/Rego",
+      "category": "RECOMMENDED",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "version"
+      ],
+      "minimum_version": "1.0.0",
+      "install_method": "manual",
+      "download_source": "https://www.openpolicyagent.org/docs/latest/#running-opa",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Evaluate optional Rego policy against normalized scan evidence.",
+      "assets": {},
+      "executable_names": [
+        "opa"
+      ]
+    },
+    {
+      "id": "verible-verilog-syntax",
+      "display_name": "Verible RTL parser",
+      "category": "RECOMMENDED",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": null,
+      "install_method": "manual",
+      "download_source": "https://github.com/chipsalliance/verible",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Parse Verilog/SystemVerilog tokens; FUSE keeps its built-in fallback.",
+      "assets": {},
+      "executable_names": [
+        "verible-verilog-syntax"
+      ]
+    },
+    {
       "id": "binwalk",
       "display_name": "Binwalk",
       "category": "OPTIONAL_HEAVY",

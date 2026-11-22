@@ -104,6 +104,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Finding fields and JSON schema](docs/finding-schema.md)
 - [Rules and fixture requirements](docs/rule-development.md)
 - [Configuration and integrations](docs/integrations.md)
+- [Optional OPA/Rego policy evaluation](docs/policy-as-code.md)
 - [Ghidra analysis and its limits](docs/ghidra-analysis.md) · [Third-party credits](docs/THIRD_PARTY_CREDITS.md)
 - [Ghidra pipeline figure](site/diagrams/fuse-ghidra-pipeline.html) · [Controlled Ghidra benchmark](docs/experiments/ghidra-adapter-2026-11-03.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
