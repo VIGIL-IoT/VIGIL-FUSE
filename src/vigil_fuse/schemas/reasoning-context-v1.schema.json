@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FUSE Reasoning Context v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "finding",
+    "evidence_state",
+    "source",
+    "semantic_evidence",
+    "build_evidence",
+    "firmware_evidence",
+    "hardware_evidence",
+    "policy_context",
+    "deployment_stages",
+    "coverage",
+    "allowed_symbols",
+    "context_truncated",
+    "truncated_categories",
+    "constraints"
+  ],
+  "properties": {
+    "schema_version": { "const": "reasoning_context_v1" },
+    "finding": { "$ref": "#/$defs/finding" },
+    "evidence_state": { "$ref": "#/$defs/evidence_state" },
+    "source": { "$ref": "#/$defs/source" },
+    "semantic_evidence": { "$ref": "#/$defs/evidence_list" },
+    "build_evidence": { "$ref": "#/$defs/evidence_list" },
+    "firmware_evidence": { "$ref": "#/$defs/evidence_list" },
+    "hardware_evidence": { "$ref": "#/$defs/evidence_list" },
+    "policy_context": { "$ref": "#/$defs/evidence_list" },
+    "deployment_stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage", "state", "evidence"],
+        "properties": {
+          "stage": {
+            "enum": [
+              "configured",
+              "build_included",
+              "linked",
+              "runtime_executed",
+              "physically_populated",
+              "externally_accessible"
+            ]
+          },
+          "state": { "enum": ["CONFIRMED", "SUPPORTED", "UNKNOWN", "CONTRADICTED"] },
+          "evidence": { "$ref": "#/$defs/evidence_list" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["status", "discovery_complete", "files_skipped", "support_status", "limitations"],
+      "properties": {
+        "status": { "enum": ["complete", "partial"] },
+        "discovery_complete": { "type": "boolean" },
+        "files_skipped": { "type": "integer", "minimum": 0 },
+        "support_status": { "type": ["string", "null"] },
+        "limitations": { "type": "array", "items": { "type": "string" }, "uniqueItems": true }
+      },
+      "additionalProperties": false
+    },
+    "allowed_symbols": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "context_truncated": { "type": "boolean" },
+    "truncated_categories": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "constraints": {
+      "type": "object",
+      "required": ["may_change_finding", "may_change_severity", "may_invent_evidence"],
+      "properties": {
+        "may_change_finding": { "const": false },
+        "may_change_severity": { "const": false },
+        "may_invent_evidence": { "const": false }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "provenance": {
+      "type": "object",
+      "required": ["source_field", "finding_id", "rule_id", "file", "start_line"],
+      "properties": {
+        "source_field": { "type": "string" },
+        "finding_id": { "type": "string" },
+        "rule_id": { "type": "string" },
+        "file": { "type": "string" },
+        "start_line": { "type": ["integer", "null"], "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["kind", "summary", "provenance"],
+      "properties": {
+        "kind": { "type": "string" },
+        "summary": { "type": "string" },
+        "provenance": { "$ref": "#/$defs/provenance" }
+      },
+      "additionalProperties": false
+    },
+    "evidence_list": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+    "evidence_state": {
+      "type": "object",
+      "required": ["confirmed", "supported", "unknown", "contradicted"],
+      "properties": {
+        "confirmed": { "$ref": "#/$defs/evidence_list" },
+        "supported": { "$ref": "#/$defs/evidence_list" },
+        "unknown": { "$ref": "#/$defs/evidence_list" },
+        "contradicted": { "$ref": "#/$defs/evidence_list" }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["files", "snippets"],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["file", "start_line", "end_line"],
+            "properties": {
+              "file": { "type": "string" },
+              "start_line": { "type": ["integer", "null"], "minimum": 1 },
+              "end_line": { "type": ["integer", "null"], "minimum": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "snippets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["file", "start_line", "text"],
+            "properties": {
+              "file": { "type": "string" },
+              "start_line": { "type": ["integer", "null"], "minimum": 1 },
+              "text": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "finding": {
+      "type": "object",
+      "required": [
+        "id",
+        "rule_id",
+        "analyzer",
+        "title",
+        "severity",
+        "confidence",
+        "category",
+        "applicability",
+        "validation_method",
+        "validation_status",
+        "location",
+        "explanation",
+        "potential_impact",
+        "remediation"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "rule_id": { "type": "string" },
+        "analyzer": { "type": "string" },
+        "title": { "type": "string" },
+        "severity": { "enum": ["critical", "high", "medium", "low", "info", "unknown"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "category": { "type": "string" },
+        "applicability": { "enum": ["unknown", "candidate", "applicable", "not_applicable"] },
+        "validation_method": { "enum": ["static", "generated-config", "advisory-match", "external-tool", "lab", "operator-guided"] },
+        "validation_status": { "enum": ["not-validated", "validated", "not-applicable"] },
+        "location": {
+          "type": "object",
+          "required": ["file", "start_line", "end_line"],
+          "properties": {
+            "file": { "type": "string" },
+            "start_line": { "type": ["integer", "null"], "minimum": 1 },
+            "end_line": { "type": ["integer", "null"], "minimum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "explanation": { "type": "string" },
+        "potential_impact": { "type": "string" },
+        "remediation": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

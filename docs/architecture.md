@@ -121,7 +121,7 @@ The package follows inward dependency direction. The CLI is the composition root
 | Rule composition | `rules/registry.py` | Imports the rule contract and concrete rule definitions to build the registry |
 | Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
 | Execution boundaries | `rule_execution.py`, `rule_worker.py`, `analyzer_runtime.py` | Rule execution uses the model; the worker uses the model and registry; analyzer runtime uses the model and process primitives |
-| Reporting | `reporting.py`, `sarif.py` | Consumes normalized results and presentation helpers; it does not run scans, rules, or analyzers |
+| Reporting and reasoning context | `reporting.py`, `sarif.py`, `reasoning_context.py` | Serializes normalized results or builds a bounded packet from one canonical JSON finding; it does not run scans, rules, analyzers, or models |
 | Composition | `scanner.py`, `analyzers.py`, `cli.py` | May connect lower layers to expose a complete scan and command interface |
 
 Architecture tests verify that internal imports remain acyclic, foundation modules stay independent, native rules depend only on the shared contract, the registry includes every rule module, and reporters stay independent from scan and analyzer orchestration. A separate CLI integration test runs both vulnerable and secure ESP-IDF project controls through source scanning, generated build context, hardware inventory, selected KiCad netlist parsing, BOM export, and report serialization. The positive fixture proves that the data path is wired together. The secure fixture prevents these four scoped signals from leaking into the paired control. Neither fixture validates a physical board or estimates field accuracy.
@@ -133,6 +133,7 @@ flowchart TD
     CLI --> Context[build_context.py and platform_context.py]
     CLI --> AnalyzerFacade[analyzers.py compatibility facade]
     CLI --> Reporters[reporting.py and sarif.py]
+    CLI --> ReasoningContext[reasoning_context.py]
     CLI --> Baseline[baseline.py]
     Scanner --> Rules[rule_execution.py and rules registry]
     Rules --> Worker[rule_worker.py]
@@ -143,7 +144,22 @@ flowchart TD
     Scanner --> Model[model.py]
     Model --> Reporters
     Model --> Baseline
+    ReasoningContext --> TextSafety[text_safety.py]
 ```
+
+The `reasoning-context` command reads one schema-versioned JSON report and emits a compact packet for one finding. It does not invoke a model or provider. The packet preserves FUSE severity and validation fields, includes provenance and scan coverage, and keeps firmware, build, and hardware signals separate from evidence that a device is deployed or reachable. The optional local provider is planned only:
+
+```mermaid
+flowchart TD
+    Scan[Deterministic FUSE] --> Canonical[Canonical findings and evidence]
+    Canonical --> Builder[Reasoning context builder]
+    Builder -. planned .-> Provider[Optional local provider]
+    Provider -. optional explanation .-> Validate[Output schema validation]
+    Validate -. enrichment only .-> Present[Normal FUSE presentation]
+    Canonical --> Present
+```
+
+See [the reasoning context contract](reasoning-layer.md) for its data and authority boundaries.
 
 The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers receive per-run temporary default user, configuration, cache, data, and temporary directories, and use a temporary working directory unless an adapter explicitly selects one. Gitleaks retains its selected repository working directory. POSIX process sessions and Windows Job Objects support best-effort cleanup. Host mode remains the default and does not restrict filesystem, network, memory, or privilege access. Explicit Docker mode uses local digest-pinned images, verifies container settings before execution, mounts scan input read-only, and disables network unless online OSV lookup is explicitly allowed. The Docker daemon and selected images remain trusted. See the [threat model](threat-model.md) for trust boundaries and residual risks.
 

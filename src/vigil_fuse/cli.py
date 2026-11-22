@@ -44,6 +44,7 @@ from .product_context import import_vex, inspect_provenance, validate_package_pu
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
 from .report_pdf import write_pdf_report
+from .reasoning_context import ReasoningContextLimits, build_reasoning_context, load_scan_report
 from .rule_execution import (
     DEFAULT_RULE_TIMEOUT_SECONDS,
     MAX_RULE_TIMEOUT_SECONDS,
@@ -218,6 +219,25 @@ def _parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path(".fuse-results/suppressions.json"),
         help="suppression JSON path",
+    )
+    reasoning_parser = commands.add_parser(
+        "reasoning-context", help="build bounded context for one finding from a FUSE JSON report"
+    )
+    reasoning_parser.add_argument("report", type=Path, help="canonical FUSE findings.json report")
+    reasoning_parser.add_argument("--finding", required=True, help="finding ID from the report")
+    reasoning_parser.add_argument("--output", type=Path, help="write context JSON to this path")
+    reasoning_parser.add_argument("--pretty", action="store_true", help="indent the output JSON")
+    reasoning_parser.add_argument(
+        "--max-context-chars", type=int, default=12_000, help="maximum compact JSON size (default: 12000)"
+    )
+    reasoning_parser.add_argument(
+        "--max-text-chars", type=int, default=800, help="maximum characters per text field (default: 800)"
+    )
+    reasoning_parser.add_argument(
+        "--max-snippet-chars", type=int, default=1_200, help="maximum characters per evidence snippet (default: 1200)"
+    )
+    reasoning_parser.add_argument(
+        "--max-items", type=int, default=16, help="maximum evidence items per category (default: 16)"
     )
     scan_parser = commands.add_parser(
         "scan", help="analyze a project, SBOM, or supported firmware input"
@@ -1440,6 +1460,38 @@ def main(
                 args.format,
                 args.fail_on_new,
             )
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
+    if args.command == "reasoning-context":
+        try:
+            report_path = args.report.expanduser()
+            scan_report = load_scan_report(report_path)
+            limits = ReasoningContextLimits(
+                max_context_chars=args.max_context_chars,
+                max_text_chars=args.max_text_chars,
+                max_snippet_chars=args.max_snippet_chars,
+                max_items=args.max_items,
+            )
+            context = build_reasoning_context(scan_report, args.finding, limits)
+            rendered = json.dumps(
+                context,
+                ensure_ascii=False,
+                sort_keys=True,
+                indent=2 if args.pretty else None,
+                separators=None if args.pretty else (",", ":"),
+            )
+            if args.output is None:
+                print(rendered)
+            else:
+                output_path = args.output.expanduser()
+                if output_path.is_symlink():
+                    raise ValueError("refusing to write reasoning context through a symbolic link")
+                if output_path.resolve() == report_path.resolve():
+                    raise ValueError("reasoning context output must not replace its input report")
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                output_path.write_text(rendered + "\n", encoding="utf-8")
+            return 0
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
