@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fuse-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: fuse-operator
+rules:
+  - apiGroups: [fuse.vigil.dev]
+    resources: [fusescans]
+    verbs: [get, list, watch]
+  - apiGroups: [fuse.vigil.dev]
+    resources: [fusescans/status]
+    verbs: [get, update, patch]
+  - apiGroups: [batch]
+    resources: [jobs]
+    verbs: [get, list, watch, create]
+  - apiGroups: [networking.k8s.io]
+    resources: [networkpolicies]
+    verbs: [get, list, watch, create]
+  - apiGroups: ['']
+    resources: [configmaps]
+    verbs: [get, list, watch, create]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: fuse-operator
+subjects:
+  - kind: ServiceAccount
+    name: fuse-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: fuse-operator

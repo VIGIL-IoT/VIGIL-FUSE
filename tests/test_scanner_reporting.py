@@ -16,6 +16,7 @@ from vigil_fuse.model import AnalysisArtifact, AnalyzerStatus, Finding
 from vigil_fuse.reporting import to_json, to_text
 from vigil_fuse.sarif import to_sarif
 from vigil_fuse.scanner import scan
+from vigil_fuse.setup.manager import ToolCheck
 
 
 class ScannerAndReporterTests(unittest.TestCase):
@@ -72,7 +73,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             result = scan(root)
             payload = json.loads(to_json(result))
 
-        self.assertEqual("1.12", payload["schema_version"])
+        self.assertEqual("1.13", payload["schema_version"])
         self.assertEqual(root.name, payload["target"])
         self.assertNotIn(str(root), to_json(result))
         self.assertEqual(1, payload["summary"]["files_discovered"])
@@ -402,13 +403,14 @@ class ScannerAndReporterTests(unittest.TestCase):
 
     def test_default_scan_writes_report_set_to_fuse_results_folder(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary) / "project"
+            root.mkdir()
             (root / "app.py").write_text("value = 1\n", encoding="utf-8")
             stdout = StringIO()
             stderr = StringIO()
             with redirect_stdout(stdout), redirect_stderr(stderr):
                 exit_code = main(["scan", str(root)])
-            output_dir = root / ".fuse-results"
+            output_dir = root.parent / ".fuse-results" / root.name
             report = json.loads((output_dir / "findings.json").read_text(encoding="utf-8"))
             text_exists = (output_dir / "findings.txt").is_file()
             sarif_exists = (output_dir / "findings.sarif").is_file()
@@ -554,21 +556,32 @@ class ScannerAndReporterTests(unittest.TestCase):
 
     def test_doctor_reports_optional_tools_without_blocking(self) -> None:
         tools = (
-            ("Syft", None, None),
-            ("OSV-Scanner", "C:/tools/osv-scanner.exe", "OSV-Scanner 2.3.0"),
-            ("Binwalk", None, None),
+            ToolCheck("syft", "Syft", "RECOMMENDED", "MISSING"),
+            ToolCheck(
+                "osv-scanner",
+                "OSV-Scanner",
+                "RECOMMENDED",
+                "AVAILABLE",
+                "2.7.0",
+                "C:/tools/osv-scanner.exe",
+            ),
+            ToolCheck("binwalk", "Binwalk", "OPTIONAL_HEAVY", "OPTIONAL"),
         )
         stdout = StringIO()
         with (
-            patch("vigil_fuse.cli.inspect_tools", return_value=tools),
+            patch("vigil_fuse.cli.inspect_environment", return_value=tools),
             patch("vigil_fuse.cli.lock_parser_available", return_value=False),
+            patch(
+                "vigil_fuse.cli.doctor_status",
+                return_value={"available": False, "installed": False},
+            ),
             redirect_stdout(stdout),
         ):
             exit_code = main(["doctor"])
 
         self.assertEqual(0, exit_code)
         self.assertIn("Syft: not installed", stdout.getvalue())
-        self.assertIn("OSV-Scanner: OSV-Scanner 2.3.0", stdout.getvalue())
+        self.assertIn("OSV-Scanner: 2.7.0", stdout.getvalue())
         self.assertIn("Platform:", stdout.getvalue())
         self.assertIn("Core scanner: available", stdout.getvalue())
 
@@ -706,7 +719,7 @@ class ScannerAndReporterTests(unittest.TestCase):
             report = json.loads(report_path.read_text(encoding="utf-8"))
             output_dir_created = (root / "scan-results").exists()
         self.assertEqual(0, exit_code)
-        self.assertEqual("1.12", report["schema_version"])
+        self.assertEqual("1.13", report["schema_version"])
         self.assertFalse(output_dir_created)
 
     def test_firmware_target_is_hashed_without_claiming_native_content_scan(self) -> None:
@@ -789,7 +802,9 @@ class ScannerAndReporterTests(unittest.TestCase):
             ):
                 exit_code = main(["scan", str(firmware), "--firmware"])
             report = json.loads(
-                (Path(temporary) / ".fuse-results" / "findings.json").read_text(encoding="utf-8")
+                (Path(temporary) / ".fuse-results" / "device.bin" / "findings.json").read_text(
+                    encoding="utf-8"
+                )
             )
 
         self.assertEqual(0, exit_code)
@@ -950,7 +965,8 @@ class ScannerAndReporterTests(unittest.TestCase):
 
     def test_env_files_are_scanned_and_fail_threshold_is_applied(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary) / "project"
+            root.mkdir()
             env_key = "pass" + "word"
             env_content = f"{env_key}=embedded-env-value-123\n"
             (root / ".env").write_text(env_content, encoding="utf-8")

@@ -1,0 +1,7 @@
+case_id,configuration,execution_backend,runtime_ms,memory_mb
+case1,local,local,100,40
+case2,local,local,120,42
+case3,local,local,110,41
+case1,docker,Docker,140,55
+case2,docker,Docker,160,58
+case3,docker,Docker,150,56

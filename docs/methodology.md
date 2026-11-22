@@ -15,11 +15,11 @@ FUSE uses a local CLI with a small dependency-free Python core. The design prior
 5. **Context adapters:** Selected adapters read bounded known metadata such as platform configuration, compilation databases, KiCad netlists, hardware BOMs, VEX records, or provenance subjects. They do not run project build tools.
 6. **Optional external analyzers:** When explicitly enabled, FUSE invokes Syft, OSV-Scanner, Binwalk, or Gitleaks through argument arrays with time and output bounds. It removes common credential-named environment variables by default; exact tool-specific forwarding is available when explicitly configured. This does not sandbox analyzer processes. Their absence and failure status are represented in the report.
 7. **Finding normalization:** Findings retain separate severity, confidence, applicability, validation method, and validation status. Evidence is redacted where applicable and associated with stable identifiers and fingerprints.
-8. **Reporting:** The CLI writes text, schema-versioned JSON, and SARIF outputs. Requested inventory artifacts are stored in the selected output directory. Coverage and analyzer status accompany findings.
+8. **Reporting:** The CLI writes text, schema-versioned JSON, and SARIF outputs with canonical FUSE attribution and project identity evidence. A bundle provenance file hashes the exact three report files, and `CITATION.cff` records the runtime version. Requested inventory artifacts are stored in the selected output directory. Coverage and analyzer status accompany findings.
 
 ## Inputs and outputs
 
-Inputs include local source/configuration trees, optional selected build directories, explicit firmware files, optional SBOM/VEX/provenance files, and selected hardware netlist/BOM files. Outputs include findings, scan coverage, stage status, inventories, and artifact hashes. By default, output is written under `.fuse-results/` in the scanned target.
+Inputs include local source/configuration trees, optional selected build directories, explicit firmware files, optional SBOM/VEX/provenance files, and selected hardware netlist/BOM files. Outputs include findings, scan coverage, stage status, inventories, and artifact hashes. By default, reports are written to a sibling `.fuse-results/<target-name>/` directory outside the scanned target; an explicit `--output-dir` can select another location.
 
 ## Failure states
 

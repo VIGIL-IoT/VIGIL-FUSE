@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- Adapted the standalone FUSE competition and integration features into canonical VIGIL-FUSE, including bounded Clang semantic observations, embedded and cyber-physical evidence, applicability analysis, optional PowerShell setup, the Go/Kubernetes identity-probe foundation, and offline research workflows.
+- Added exhaustive path and feature accounting at [docs/standalone-fuse-final-migration.md](docs/standalone-fuse-final-migration.md), with the machine-readable [parity ledger](migration/full-parity-ledger.json).
+
+### Changed
+
+- Marked the static website archived and paused. PyPI publication remains paused; this migration creates no release.
+- Rebuilt installation and usage guidance around the current source tree and marked donor release notes as historical.
+
+### Excluded
+
+- The intentionally vulnerable demo application remains outside canonical production main per the user's clarification.
+
+The original standalone release history is preserved in [docs/archive/competition/CHANGELOG.md](docs/archive/competition/CHANGELOG.md).
+
 ## 0.4.0 - 2026-11-15
 
 ### Security analysis

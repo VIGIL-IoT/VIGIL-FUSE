@@ -5,7 +5,9 @@ import subprocess
 import tempfile
 from pathlib import Path
 
+from . import __version__
 from .model import ScanResult
+from .terminal import _ASCII_MARK
 from .text_safety import safe_report_text
 
 
@@ -36,7 +38,7 @@ def _latex_text(value: object, *, limit: int = 1600) -> str:
     return "".join(rendered).replace("/", r"/\allowbreak{}")
 
 
-def _render_report(result: ScanResult) -> str:
+def _render_report(result: ScanResult, *, xelatex: bool = True) -> str:
     counts = {name: 0 for name in ("critical", "high", "medium", "low", "info", "unknown")}
     for finding in result.findings:
         counts[finding.severity] += 1
@@ -104,23 +106,53 @@ def _render_report(result: ScanResult) -> str:
         )
         or "No findings"
     )
+    cli_logo = r"\par ".join(
+        r"\makebox[\linewidth][c]{\ttfamily " + line.replace(" ", r"\ ") + "}"
+        for line in _ASCII_MARK
+    )
+    font_setup = (
+        r"\usepackage{fontspec}"
+        "\n"
+        r"\setmainfont{Times New Roman}"
+        "\n"
+        r"\setsansfont{Times New Roman}"
+        if xelatex
+        else r"\usepackage[T1]{fontenc}"
+        "\n"
+        r"\usepackage[utf8]{inputenc}"
+        "\n"
+        r"\usepackage{mathptmx}"
+    )
 
     return rf"""\documentclass[10pt,a4paper]{{article}}
-\usepackage[margin=20mm]{{geometry}}
-\usepackage[T1]{{fontenc}}
-\usepackage[utf8]{{inputenc}}
-\usepackage{{lmodern,tabularx,array,xcolor,hyperref}}
-\definecolor{{signal}}{{HTML}}{{D92B21}}
-\hypersetup{{colorlinks=true,urlcolor=signal,linkcolor=signal,pdftitle={{FUSE scan report}}}}
+{font_setup}
+\usepackage{{color}}
+\definecolor{{signal}}{{rgb}}{{0.851,0.169,0.129}}
+\definecolor{{frame}}{{rgb}}{{0.376,0.396,0.851}}
+\setlength{{\oddsidemargin}}{{-15.6pt}}
+\setlength{{\textwidth}}{{481pt}}
+\setlength{{\topmargin}}{{-15.6pt}}
+\setlength{{\headheight}}{{0pt}}
+\setlength{{\headsep}}{{0pt}}
+\setlength{{\textheight}}{{720pt}}
 \setlength{{\parindent}}{{0pt}}
 \setlength{{\parskip}}{{5pt}}
 \begin{{document}}
 \begin{{center}}
-{{\sffamily\bfseries\color{{signal}}\fontsize{{34}}{{38}}\selectfont FUSE\par}}
-{{\sffamily\large Firmware \& Unified Security Engine\par}}
-{{\small A VIGIL Project\par}}
-\vspace{{5pt}}\color{{signal}}\rule{{\linewidth}}{{1.2pt}}
-{{\Large\sffamily\bfseries Scan report\par}}
+{{\setlength{{\fboxsep}}{{8pt}}\setlength{{\fboxrule}}{{0.8pt}}\color{{frame}}
+\fbox{{\begin{{minipage}}{{0.86\linewidth}}
+\color{{black}}\centering
+{{\small\color{{signal}}
+{cli_logo}
+\par}}
+{{\large Firmware \& Unified Security Engine\par}}
+{{\small by VIGIL \textbullet{{}} v{_latex_text(__version__)}\par}}
+{{\small Static evidence. Explicit coverage.\par}}
+{{\small\texttt{{LOCAL ANALYSIS / Type /help to begin}}\par}}
+\end{{minipage}}}}}}
+\par
+\vspace{{7pt}}
+{{\Large\bfseries Scan report\par}}
 \end{{center}}
 
 \textbf{{Target:}} {_latex_text(result.target)}\\
@@ -130,10 +162,10 @@ def _render_report(result: ScanResult) -> str:
 \textbf{{Completed:}} {_latex_text(result.completed_at)}
 
 \section*{{Scan summary}}
-\begin{{tabularx}}{{\linewidth}}{{>{{\centering\arraybackslash}}X >{{\centering\arraybackslash}}X >{{\centering\arraybackslash}}X}}
+\begin{{tabular}}{{ccc}}
 {{\Large\color{{signal}}{result.files_scanned}}} & {{\Large\color{{signal}}{len(result.findings)}}} & {{\Large\color{{signal}}{result.files_skipped}}}\\
 Files scanned & Finding candidates & Files skipped
-\end{{tabularx}}
+\end{{tabular}}
 
 \textbf{{Severity:}} {severity_counts}
 
@@ -150,7 +182,7 @@ Files scanned & Finding candidates & Files skipped
 
 
 def write_pdf_report(result: ScanResult, output_dir: Path) -> tuple[Path | None, str | None]:
-    """Save a LaTeX report and compile it when pdflatex is available."""
+    """Save a LaTeX report and compile it when a supported engine is available."""
     output_dir.mkdir(parents=True, exist_ok=True)
     tex_path = output_dir / "fuse-report.tex"
     pdf_path = output_dir / "fuse-report.pdf"
@@ -160,24 +192,31 @@ def write_pdf_report(result: ScanResult, output_dir: Path) -> tuple[Path | None,
         if path.exists() and not path.is_file():
             raise OSError(f"Report output path is not a regular file: {path.name}")
 
-    source = _render_report(result)
-    tex_path.write_text(source, encoding="utf-8")
+    xelatex = shutil.which("xelatex")
     pdflatex = shutil.which("pdflatex")
-    if pdflatex is None:
-        return None, "pdflatex was not found; the LaTeX source was saved."
+    engine = xelatex or pdflatex
+    source = _render_report(result, xelatex=xelatex is not None)
+    tex_path.write_text(source, encoding="utf-8")
+    if engine is None:
+        return None, "xelatex and pdflatex were not found; the LaTeX source was saved."
 
     try:
         with tempfile.TemporaryDirectory(prefix="vigil-fuse-report-") as temporary:
             build_dir = Path(temporary)
             (build_dir / tex_path.name).write_text(source, encoding="utf-8")
-            completed = subprocess.run(
+            arguments = [engine]
+            if "miktex" in engine.casefold():
+                arguments.append("-disable-installer")
+            arguments.extend(
                 [
-                    pdflatex,
                     "-no-shell-escape",
                     "-interaction=nonstopmode",
                     "-halt-on-error",
                     tex_path.name,
-                ],
+                ]
+            )
+            completed = subprocess.run(
+                arguments,
                 cwd=build_dir,
                 capture_output=True,
                 text=True,
@@ -186,8 +225,16 @@ def write_pdf_report(result: ScanResult, output_dir: Path) -> tuple[Path | None,
             )
             compiled_pdf = build_dir / "fuse-report.pdf"
             if completed.returncode != 0 or not compiled_pdf.is_file():
-                return None, "pdflatex could not build the PDF; the LaTeX source was saved."
+                return (
+                    None,
+                    f"{Path(engine).name} could not build the PDF; the LaTeX source was saved.",
+                )
             pdf_path.write_bytes(compiled_pdf.read_bytes())
     except (OSError, subprocess.TimeoutExpired):
         return None, "PDF compilation failed; the LaTeX source was saved."
-    return pdf_path, None
+    note = (
+        "XeLaTeX was unavailable; the report uses a Times-compatible font."
+        if xelatex is None
+        else None
+    )
+    return pdf_path, note

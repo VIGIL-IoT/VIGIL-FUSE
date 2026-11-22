@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 import shutil
 import sys
-from collections.abc import Iterable
 
 from . import __version__
 
@@ -110,7 +109,7 @@ def show_banner() -> None:
     if columns < 40:
         lines = [
             _paint("FUSE by VIGIL", "#A78BFA", color, bold=True),
-            _paint(f"v{__version__}  |  local security", "#94A3B8", color),
+            _paint(f"v{__version__}  |  local security"[:columns], "#94A3B8", color),
             _paint("Static evidence. Explicit coverage."[:columns], "#94A3B8", color),
         ]
         print("\n".join(lines) + "\n", file=sys.stderr)
@@ -163,7 +162,9 @@ def show_banner() -> None:
             frame(),
             frame("Firmware & Unified Security Engine", tint="#E2E8F0"),
             frame(
-                f"A VIGIL Project   {'•' if unicode_ok else '|'}   v{__version__}",
+                f"by VIGIL   •   v{__version__}"
+                if unicode_ok
+                else f"by VIGIL   |   v{__version__}",
                 tint="#94A3B8",
             ),
             frame("Static evidence. Explicit coverage.", tint="#94A3B8"),
@@ -211,20 +212,19 @@ def show_prompt_bottom() -> None:
 _PROMPT_HISTORY = None
 
 
-def read_command(commands: Iterable[tuple[str, str]] = ()) -> str:
+def read_command() -> str:
     """Read one command between red and blue rules, directly beside each other.
 
     prompt_toolkit's bottom_toolbar is deliberately not used here: it anchors
     to the *bottom of the terminal window*, not beneath the active input.
     The non-full-screen three-row layout keeps both rules next to the cursor.
     """
-    if not sys.stdin.isatty() or not sys.stdout.isatty() or os.environ.get("TERM") == "dumb":
+    if not sys.stdin.isatty() or not sys.stdout.isatty():
         return input("fuse > ")
 
     try:
         from prompt_toolkit.application import Application, get_app
         from prompt_toolkit.buffer import Buffer
-        from prompt_toolkit.completion import Completer, Completion
         from prompt_toolkit.formatted_text import StyleAndTextTuples
         from prompt_toolkit.history import InMemoryHistory
         from prompt_toolkit.key_binding import KeyBindings
@@ -244,23 +244,6 @@ def read_command(commands: Iterable[tuple[str, str]] = ()) -> str:
     if _PROMPT_HISTORY is None:
         _PROMPT_HISTORY = InMemoryHistory()
 
-    command_list = tuple(commands)
-    command_names = {name.casefold() for name, _ in command_list}
-
-    class CommandCompleter(Completer):
-        def get_completions(self, document, complete_event):  # type: ignore[no-untyped-def]
-            text = document.text_before_cursor
-            if not text.startswith("/") or any(char.isspace() for char in text):
-                return
-            prefix = text[1:].casefold()
-            for name, description in command_list:
-                if name.startswith(prefix):
-                    yield Completion(
-                        "/" + name,
-                        start_position=-len(text),
-                        display_meta=description,
-                    )
-
     use_color = supports_color()
     red_style = "fg:#dc2626" if use_color else ""
     blue_style = "fg:#60a5fa" if use_color else ""
@@ -274,16 +257,10 @@ def read_command(commands: Iterable[tuple[str, str]] = ()) -> str:
         width = max(1, get_app().output.get_size().columns - 2)
         return [(style, glyph * width)]
 
-    buffer = Buffer(
-        multiline=False,
-        history=_PROMPT_HISTORY,
-        completer=CommandCompleter(),
-        complete_while_typing=True,
-    )
+    buffer = Buffer(multiline=False, history=_PROMPT_HISTORY)
     editor = Window(
         BufferControl(
-            buffer=buffer,
-            input_processors=[BeforeInput(prompt_symbol, style=cursor_style)],
+            buffer=buffer, input_processors=[BeforeInput(prompt_symbol, style=cursor_style)]
         ),
         height=1,
         dont_extend_height=True,
@@ -311,9 +288,8 @@ def read_command(commands: Iterable[tuple[str, str]] = ()) -> str:
     @keys.add("enter")
     def accept(event: KeyPressEvent) -> None:
         command = buffer.text
-        name = command.strip().split(maxsplit=1)[0] if command.strip() else ""
-        if name.startswith("/") and name[1:].casefold() in command_names:
-            _PROMPT_HISTORY.append_string(name)
+        if command.strip():
+            _PROMPT_HISTORY.append_string(command)
         event.app.exit(result=command)
 
     @keys.add("c-c")

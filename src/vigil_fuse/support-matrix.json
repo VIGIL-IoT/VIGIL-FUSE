@@ -11,12 +11,28 @@
   },
   "capabilities": [
     {
+      "id": "source.clang-semantic",
+      "input": "Explicit compile_commands.json with passive arguments arrays",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Opt-in LibTooling AST observations, strict Python validation and selected-build inclusion evidence.",
+      "limitations": [
+        "Optional native LLVM/Clang build required",
+        "No automatic findings, data flow, symbolic execution or runtime reachability",
+        "Narrow compiler argument allowlist; main-file observations only",
+        "Host execution is not an OS sandbox; isolate untrusted inputs"
+      ]
+    },
+    {
       "id": "source.generic",
       "input": "Common source and configuration files",
       "profile": "generic",
       "label": "basic",
       "scope": "Seven native rules over selected source and configuration files.",
-      "limitations": ["No build resolution", "No runtime or device validation"]
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
     },
     {
       "id": "source.esp-idf",
@@ -24,7 +40,11 @@
       "profile": "esp-idf",
       "label": "basic",
       "scope": "Generic native rules plus explicit boot-image validation setting checks.",
-      "limitations": ["Source-only settings are conditional", "Generated build inspection requires explicit --build-dir", "Does not prove the selected build is released"]
+      "limitations": [
+        "Source-only settings are conditional",
+        "Generated build inspection requires explicit --build-dir",
+        "Does not prove the selected build is released"
+      ]
     },
     {
       "id": "source.zephyr",
@@ -32,7 +52,11 @@
       "profile": "zephyr",
       "label": "basic",
       "scope": "Generic native rules over the expanded Zephyr file profile.",
-      "limitations": ["Generated build metadata requires explicit --build-dir", "Does not run Zephyr hardenconfig", "Does not prove the selected build is released"]
+      "limitations": [
+        "Generated build metadata requires explicit --build-dir",
+        "Does not run Zephyr hardenconfig",
+        "Does not prove the selected build is released"
+      ]
     },
     {
       "id": "build-context.esp-idf",
@@ -40,7 +64,11 @@
       "profile": "esp-idf",
       "label": "experimental",
       "scope": "Reads bounded generated sdkconfig metadata, records selected sdkconfig and defaults provenance, and applies initial boot-validation checks to the selected configuration.",
-      "limitations": ["Does not invoke the build system", "Does not prove that the selected build is shipped", "Does not evaluate Kconfig dependencies"]
+      "limitations": [
+        "Does not invoke the build system",
+        "Does not prove that the selected build is shipped",
+        "Does not evaluate Kconfig dependencies"
+      ]
     },
     {
       "id": "build-context.zephyr",
@@ -48,7 +76,11 @@
       "profile": "zephyr",
       "label": "experimental",
       "scope": "Reads bounded generated Kconfig metadata and can import the selected build's JSON report from Zephyr hardenconfig.",
-      "limitations": ["Does not invoke west or the build system", "Hardening results require an explicit report produced by Zephyr", "Does not prove that the selected build is shipped"]
+      "limitations": [
+        "Does not invoke west or the build system",
+        "Hardening results require an explicit report produced by Zephyr",
+        "Does not prove that the selected build is shipped"
+      ]
     },
     {
       "id": "build-context.platformio",
@@ -56,7 +88,12 @@
       "profile": null,
       "label": "experimental",
       "scope": "Merges a bounded extra_configs graph and inventories declared environments, boards, platforms, frameworks, source directories, source-filter declarations, and selected defaults without invoking PlatformIO.",
-      "limitations": ["Does not evaluate variable substitutions, project scripts, or source filters into compiled files", "Missing or unsafe includes produce partial coverage", "Does not build or test any environment", "Does not compare environment-specific compiled output"]
+      "limitations": [
+        "Does not evaluate variable substitutions, project scripts, or source filters into compiled files",
+        "Missing or unsafe includes produce partial coverage",
+        "Does not build or test any environment",
+        "Does not compare environment-specific compiled output"
+      ]
     },
     {
       "id": "inventory.firmware-candidates",
@@ -64,7 +101,11 @@
       "profile": null,
       "label": "detected",
       "scope": "Records candidate paths, extensions, and sizes without opening binary contents.",
-      "limitations": ["An extension does not prove a file is firmware", "No digest or format validation is performed", "The listed path set is bounded"]
+      "limitations": [
+        "An extension does not prove a file is firmware",
+        "No digest or format validation is performed",
+        "The listed path set is bounded"
+      ]
     },
     {
       "id": "ci.github-actions-static",
@@ -72,7 +113,15 @@
       "profile": null,
       "label": "basic",
       "scope": "Checks exact workflow-level and job-level write-all permission scalars, counts recognized non-SHA action references, reports obvious floating branch refs, flags an exact pull_request_target plus actions/checkout pull-request-head-ref pattern, and detects selected untrusted GitHub event fields interpolated directly into step run scripts.",
-      "limitations": ["Only simple write-all, pull-request-head-ref, and step run-script YAML forms are checked", "The script check covers a documented allowlist of issue, pull request, review, comment, commit-message, and head-ref expressions", "Environment-mediated values and action inputs are not treated as direct shell interpolation", "Version-tag refs are counted but are not findings", "The pull_request_target check does not infer whether later steps build or execute checked-out content", "Not a general YAML, shell, expression, sanitization, permission-inheritance, or event-taint analyzer", "Findings describe workflow supply-chain candidates, not device vulnerabilities"]
+      "limitations": [
+        "Only simple write-all, pull-request-head-ref, and step run-script YAML forms are checked",
+        "The script check covers a documented allowlist of issue, pull request, review, comment, commit-message, and head-ref expressions",
+        "Environment-mediated values and action inputs are not treated as direct shell interpolation",
+        "Version-tag refs are counted but are not findings",
+        "The pull_request_target check does not infer whether later steps build or execute checked-out content",
+        "Not a general YAML, shell, expression, sanitization, permission-inheritance, or event-taint analyzer",
+        "Findings describe workflow supply-chain candidates, not device vulnerabilities"
+      ]
     },
     {
       "id": "hardware.kicad-netlist-debug-candidates",
@@ -80,7 +129,10 @@
       "profile": null,
       "label": "experimental",
       "scope": "Reports named debug/programming nets connected to connector-designator or connector-like components.",
-      "limitations": ["Does not validate PCB routing, physical access, population state, or debug-port configuration", "Does not export a netlist or invoke KiCad"]
+      "limitations": [
+        "Does not validate PCB routing, physical access, population state, or debug-port configuration",
+        "Does not export a netlist or invoke KiCad"
+      ]
     },
     {
       "id": "inventory.compilation-database",
@@ -88,7 +140,10 @@
       "profile": null,
       "label": "detected",
       "scope": "Indexes translation units and compiler families as bounded metadata.",
-      "limitations": ["Compiler commands and project code are never executed", "No compiler or semantic C/C++ analyzer is run"]
+      "limitations": [
+        "Compiler commands and project code are never executed",
+        "This metadata inventory does not run the separate opt-in Clang semantic stage"
+      ]
     },
     {
       "id": "inventory.esp-idf-lock",
@@ -96,7 +151,11 @@
       "profile": "esp-idf",
       "label": "experimental",
       "scope": "Optional, bounded inventory of resolved component versions and dependency edges.",
-      "limitations": ["Requires the optional PyYAML extra", "Does not prove a resolved component was built or shipped", "Manifest freshness is not verified"]
+      "limitations": [
+        "Requires the optional PyYAML extra",
+        "Does not prove a resolved component was built or shipped",
+        "Manifest freshness is not verified"
+      ]
     },
     {
       "id": "source.embedded-linux",
@@ -104,7 +163,9 @@
       "profile": "embedded-linux",
       "label": "basic",
       "scope": "Generic native rules over the expanded embedded Linux file profile.",
-      "limitations": ["Does not resolve the selected image build or installed package set"]
+      "limitations": [
+        "Does not resolve the selected image build or installed package set"
+      ]
     },
     {
       "id": "source.rtl",
@@ -112,7 +173,10 @@
       "profile": "rtl",
       "label": "experimental",
       "scope": "Selects Verilog/SystemVerilog sources, Yosys scripts, and common FPGA constraints for bounded RTL analysis.",
-      "limitations": ["Source selection does not establish synthesis inclusion", "Does not resolve all FPGA project formats or macro values"]
+      "limitations": [
+        "Source selection does not establish synthesis inclusion",
+        "Does not resolve all FPGA project formats or macro values"
+      ]
     },
     {
       "id": "inventory.sbom-detected",
@@ -120,7 +184,9 @@
       "profile": null,
       "label": "detected",
       "scope": "Recognizes the supplied inventory and records it as the analysis target.",
-      "limitations": ["Advisory matching requires OSV-Scanner"]
+      "limitations": [
+        "Advisory matching requires OSV-Scanner"
+      ]
     },
     {
       "id": "inventory.sbom-advisories",
@@ -128,7 +194,9 @@
       "profile": null,
       "label": "basic",
       "scope": "Matches identified package versions to OSV advisories.",
-      "limitations": ["Does not prove package inclusion in a shipped device or vulnerable code reachability"]
+      "limitations": [
+        "Does not prove package inclusion in a shipped device or vulnerable code reachability"
+      ]
     },
     {
       "id": "firmware.signature-identification",
@@ -136,7 +204,10 @@
       "profile": null,
       "label": "experimental",
       "scope": "Optional signature identification only.",
-      "limitations": ["No extraction, filesystem analysis, or execution", "Default 512 MiB input cap is configurable up to 2 GiB"]
+      "limitations": [
+        "No extraction, filesystem analysis, or execution",
+        "Default 512 MiB input cap is configurable up to 2 GiB"
+      ]
     },
     {
       "id": "firmware.compiled-binary-analysis",
@@ -144,7 +215,14 @@
       "profile": null,
       "label": "experimental",
       "scope": "Bounded static metadata, functions, symbols, imports, exports, strings, cross references, and selected API references.",
-      "limitations": ["Ghidra is an optional external installation and is never bundled", "Only Ghidra 12.2 with Java 25 or later is currently validated", "Static references do not prove runtime reachability or exploitability", "No symbolic execution, taint analysis, or full data-flow analysis is performed", "Raw binary analysis requires an explicit language ID and base address", "Host execution is process-bounded but is not an OS-level sandbox"]
+      "limitations": [
+        "Ghidra is an optional external installation and is never bundled",
+        "Only Ghidra 12.2 with Java 25 or later is currently validated",
+        "Static references do not prove runtime reachability or exploitability",
+        "No symbolic execution, taint analysis, or full data-flow analysis is performed",
+        "Raw binary analysis requires an explicit language ID and base address",
+        "Host execution is process-bounded but is not an OS-level sandbox"
+      ]
     },
     {
       "id": "history.git-secrets",
@@ -152,7 +230,11 @@
       "profile": null,
       "label": "experimental",
       "scope": "Optional Gitleaks history scan with redacted finding metadata.",
-      "limitations": ["Requires Git and Gitleaks", "Shallow history is partial", "Does not validate whether a matched credential is still usable"]
+      "limitations": [
+        "Requires Git and Gitleaks",
+        "Shallow history is partial",
+        "Does not validate whether a matched credential is still usable"
+      ]
     },
     {
       "id": "hardware.presence-inventory",
@@ -160,7 +242,11 @@
       "profile": null,
       "label": "detected",
       "scope": "Filename-based presence inventory with category counts and paths.",
-      "limitations": ["Presence-only filename detection does not assess hardware security", "KiCad netlist parsing is a separate candidate analyzer", "Detailed BOM parsing requires the explicit hardware.hbom-import capability"]
+      "limitations": [
+        "Presence-only filename detection does not assess hardware security",
+        "KiCad netlist parsing is a separate candidate analyzer",
+        "Detailed BOM parsing requires the explicit hardware.hbom-import capability"
+      ]
     },
     {
       "id": "hardware.rtl-security-analysis",
@@ -168,7 +254,15 @@
       "profile": null,
       "label": "experimental",
       "scope": "Reports bounded module, port, parameter, process, assignment, instance, clock/reset, debug/test, security-constant, and state-machine candidates. Verible is optional; a built-in structural parser is the fallback.",
-      "limitations": ["No formal verification", "No gate-level proof", "No timing analysis", "No physical FPGA proof", "No runtime validation", "PRESENT is not synthesis inclusion; only literal Yosys read_verilog references are marked BUILD_INCLUDED", "No complete macro, include, or project elaboration"]
+      "limitations": [
+        "No formal verification",
+        "No gate-level proof",
+        "No timing analysis",
+        "No physical FPGA proof",
+        "No runtime validation",
+        "PRESENT is not synthesis inclusion; only literal Yosys read_verilog references are marked BUILD_INCLUDED",
+        "No complete macro, include, or project elaboration"
+      ]
     },
     {
       "id": "hardware.hbom-import",
@@ -176,7 +270,10 @@
       "profile": null,
       "label": "experimental",
       "scope": "Imports allow-listed component columns and exports a CycloneDX 1.6 hardware inventory.",
-      "limitations": ["Does not validate part specifications or assess circuit security", "Import is limited to UTF-8 CSV and TSV"]
+      "limitations": [
+        "Does not validate part specifications or assess circuit security",
+        "Import is limited to UTF-8 CSV and TSV"
+      ]
     },
     {
       "id": "product.vex-context",
@@ -184,7 +281,11 @@
       "profile": null,
       "label": "experimental",
       "scope": "Attaches reviewed status to exact product, package PURL, and advisory matches while retaining findings.",
-      "limitations": ["VEX signatures are not authenticated", "Imported review does not change finding severity or fail thresholds", "Only exact PURL and advisory matches are applied"]
+      "limitations": [
+        "VEX signatures are not authenticated",
+        "Imported review does not change finding severity or fail thresholds",
+        "Only exact PURL and advisory matches are applied"
+      ]
     },
     {
       "id": "supply-chain.provenance-subject",
@@ -192,7 +293,59 @@
       "profile": null,
       "label": "experimental",
       "scope": "Compares a supplied subject SHA-256 with the selected firmware image and records claimed builder metadata.",
-      "limitations": ["Signature and builder trust are not verified", "Does not validate build policy or provenance completeness"]
+      "limitations": [
+        "Signature and builder trust are not verified",
+        "Does not validate build policy or provenance completeness"
+      ]
+    },
+    {
+      "id": "cyber-physical.reachability",
+      "input": "Explicit DTS, KiCad XML netlist and caller-provided pin mapping",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Correlates explicit pin mappings to netlist connector candidates with partial device-tree evidence.",
+      "limitations": [
+        "Does not resolve preprocessing or pinctrl",
+        "Does not prove physical access or exploitability",
+        "Requires an explicit finding and pin mapping"
+      ]
+    },
+    {
+      "id": "flight.cfe-bus",
+      "input": "Explicit cFE C source files and application assignments",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Extracts a partial symbolic cFE bus graph with duplicate-subscription and optional configured-boundary review observations.",
+      "limitations": [
+        "No C preprocessing or application ownership inference",
+        "Policy uses exact symbolic matches only",
+        "No runtime routing or privilege validation",
+        "F Prime is not implemented"
+      ]
+    },
+    {
+      "id": "flight.radiation-indicators",
+      "input": "Explicit C source file",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Observes selected named flight-state declarations and same-line resilience indicators.",
+      "limitations": [
+        "Partial static patterns do not prove radiation safety or absence of protection",
+        "No cross-file or hardware analysis"
+      ]
+    },
+    {
+      "id": "hardware.digital-twin",
+      "input": "Explicit local CMSIS-SVD and optional CSV or TSV BOM",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Builds a bounded partial peripheral description; an API can export constrained synthetic Renode mocks.",
+      "limitations": [
+        "SVD derived entries, arrays and clusters are omitted",
+        "BOM matches are unverified candidates",
+        "Renode export has not been execution-tested",
+        "No firmware execution or QEMU export"
+      ]
     },
     {
       "id": "policy.rego",
@@ -200,7 +353,12 @@
       "profile": null,
       "label": "experimental",
       "scope": "Optionally evaluates bounded, versioned FUSE evidence with a locally installed OPA executable.",
-      "limitations": ["OPA is optional and is never installed by FUSE", "Policy results are separate from FUSE findings and do not assign vulnerability severity", "Unsupported or incomplete evidence is unknown", "No formal certification or compliance status is claimed"]
+      "limitations": [
+        "OPA is optional and is never installed by FUSE",
+        "Policy results are separate from FUSE findings and do not assign vulnerability severity",
+        "Unsupported or incomplete evidence is unknown",
+        "No formal certification or compliance status is claimed"
+      ]
     },
     {
       "id": "runtime.lab-validation",
@@ -208,7 +366,22 @@
       "profile": null,
       "label": "planned",
       "scope": "Physical device testing is outside the current FUSE workflow.",
-      "limitations": ["Not performed by the current FUSE scanner"]
+      "limitations": [
+        "Not performed by the current FUSE scanner"
+      ]
+    },
+    {
+      "id": "project.identity",
+      "input": "Bounded local project tree names and selected small manifests",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Deterministic advisory classification for software, firmware, embedded, hardware, RTL, hybrid, or unknown project identity with independent evidence scores and bounded limitations.",
+      "limitations": [
+        "Evidence scores are heuristics, not calibrated probabilities or measures of security",
+        "Inspection does not execute code, build tools, package managers, or use the network",
+        "Symbolic links are excluded and make identity incomplete; bounded inspection can return unknown",
+        "Recommendations are advisory and do not enable analyzers or change scan routing"
+      ]
     }
   ]
 }

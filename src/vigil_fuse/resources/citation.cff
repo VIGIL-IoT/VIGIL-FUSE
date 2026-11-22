@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use FUSE in research or an engineering report, cite the version you used and the associated repository revision."
+type: software
+title: "FUSE: Firmware & Unified Security Engine"
+authors:
+  - given-names: "Shantanu"
+    affiliation: "Team VIGIL"
+  - given-names: "Shivam"
+    affiliation: "Team VIGIL"
+  - given-names: "Armaan"
+    family-names: "Malhotra"
+    affiliation: "Team VIGIL"
+version: "@VERSION@"
+url: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
+repository-code: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
+keywords:
+  - embedded security
+  - firmware analysis
+  - IoT
+  - static analysis
+  - cyber-physical security

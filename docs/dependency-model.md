@@ -1,0 +1,26 @@
+# Dependency model
+
+FUSE uses the Python standard library for its core scanner, CLI, reports, and setup coordination. `pyproject.toml` is the Python packaging source of truth. Its core `dependencies` list is empty, so `pip install vigil-fuse` does not install system software.
+
+The setup manifest is `src/vigil_fuse/setup/tools.json`, schema version 1. It is packaged in the wheel and stores platform assets, HTTPS publisher URLs, pinned SHA-256 digests, version commands, categories, and manual installation sources. The downloader checks the declared publisher, HTTPS redirect host, size limit, checksum, and extracted executable version before placing a tool in the managed directory.
+
+RECOMMENDED system binaries are detected by `setup`; pinned Syft, OSV-Scanner, and Gitleaks releases can be downloaded after consent. OPA and Verible are listed with their official manual installation sources. Ollama and local model files appear under `OPTIONAL_HEAVY` and are never downloaded by FUSE. Its reasoning client only connects to the configured loopback endpoint. Python extras are installed only with their named pip extra. FUSE includes a built-in RTL structural parser and uses Verible when it is available. R and Julia remain `RESEARCH`; future merged language tools should stay optional unless they become core capabilities.
+
+| Category | Tool or package | Why FUSE uses it | Platforms and installation | Version check and fallback |
+| --- | --- | --- | --- | --- |
+| CORE | Python 3.11+ and FUSE | CLI, local scanning, reports, setup, doctor | Windows, Linux, macOS; Python package | Doctor checks Python and package version. No external analyzer is required for core scans. |
+| CORE | Python runtime packages | None | Installed by pip from package metadata; currently no runtime dependencies | Core scanner remains usable without optional extras. |
+| RECOMMENDED | Syft | Local CycloneDX inventory | Pinned official releases for Linux and macOS x86_64/arm64 and Windows x86_64; user-local download after consent | `syft --version`, verified baseline 1.55.0; missing Syft skips SBOM generation. |
+| RECOMMENDED | OSV-Scanner | Match SBOM components against OSV advisories | Pinned official releases for Linux and macOS x86_64/arm64 and Windows x86_64; user-local download after consent | `osv-scanner --version`, verified baseline 2.7.0; missing scanner skips advisory matching. |
+| RECOMMENDED | Gitleaks | Optional Git history secret scanning | Pinned official releases for Linux and macOS x86_64/arm64 and Windows x86_64; user-local download after consent | `gitleaks --version`, verified baseline 8.30.0; missing tool skips history analysis. |
+| RECOMMENDED | Git | Read repository history for Gitleaks integration | Official system installer or package manager; setup only detects it | `git --version`; missing Git affects history scans only. |
+| OPTIONAL_HEAVY | Binwalk | Firmware signature identification | Manual official installation; platform packaging varies | `binwalk --version` with a help-banner fallback; missing Binwalk skips firmware signature analysis. |
+| OPTIONAL_HEAVY | Docker | Run explicitly configured analyzer images | Manual official installation; daemon and image setup are operator-controlled | `docker --version`; FUSE does not install or start Docker. |
+| OPTIONAL_HEAVY | Ollama and a local model | Optional local reasoning over completed scan evidence | Manual official installation and model download; never installed by FUSE | Doctor checks the Ollama version, local loopback endpoint, and whether the configured model is installed. Deterministic scans do not depend on it. |
+| OPTIONAL_HEAVY | Ghidra and Java JDK | Headless firmware binary analysis | Manual official installations; Ghidra is a large download and needs a compatible JDK | Existing Ghidra probe checks installation metadata, launcher, and Java compatibility. Missing Ghidra skips that stage. |
+| OPTIONAL_HEAVY | XeLaTeX / pdfLaTeX | Optional PDF reports; XeLaTeX uses Times New Roman | Manual TeX distribution installation | `xelatex --version` or `pdflatex --version`; pdfLaTeX is a Times-compatible fallback. JSON, text, and SARIF reports do not depend on either engine. |
+| RESEARCH | R, Julia, Rust, Zig | Research branches and experiments, not normal scans | Detected only; install with the official language installer | Version commands are recorded in the manifest. `--recommended` never installs these toolchains. |
+| RESEARCH | `jsonschema`, `matplotlib`, `psutil` | Dataset validation, research figures, and benchmark scripts | Optional Python extra: `vigil-fuse[research]` | Not installed by core pip installation or recommended setup. |
+| RECOMMENDED | PyYAML extra | ESP-IDF lockfile parsing | Python extra: `vigil-fuse[esp-idf]`; installed only when explicitly selected | Without it, lockfile parsing is unavailable while the rest of FUSE works. |
+
+Only the four requested class names are used for tool categories: `CORE`, `RECOMMENDED`, `OPTIONAL_HEAVY`, and `RESEARCH`. OPA, Verible, and Ollama are listed because their integrations are present in the merged `main`. The separate Clang semantic module requires an explicitly built LLVM/Clang analyzer; doctor reports its availability. No Zig runtime helper is integrated. R and Julia scripts remain offline research, independent of normal scans.

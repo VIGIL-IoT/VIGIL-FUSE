@@ -52,7 +52,8 @@ def _dependency_finding() -> Finding:
 class PlatformIOInventoryTests(unittest.TestCase):
     def test_platformio_environment_matrix_resolves_shared_and_extended_settings(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary) / "project"
+            root.mkdir()
             (root / "platformio.ini").write_text(
                 "[platformio]\n"
                 "default_envs = release\n"
@@ -236,7 +237,8 @@ class HardwareBOMTests(unittest.TestCase):
 
     def test_cli_writes_hbom_artifact_and_links_its_digest_in_report(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary) / "project"
+            root.mkdir()
             (root / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
             (root / "bom.csv").write_text(
                 "Reference,Value,Footprint\nR1,10k,0603\n", encoding="utf-8"
@@ -247,13 +249,15 @@ class HardwareBOMTests(unittest.TestCase):
                     ["scan", str(root), "--hardware-bom", "bom.csv", "--format", "json"]
                 )
             report = json.loads(
-                (root / ".fuse-results" / "findings.json").read_text(encoding="utf-8")
+                (root.parent / ".fuse-results" / root.name / "findings.json").read_text(
+                    encoding="utf-8"
+                )
             )
-            hbom_path = root / ".fuse-results" / "hardware-bom.cdx.json"
+            hbom_path = root.parent / ".fuse-results" / root.name / "hardware-bom.cdx.json"
             digest = hashlib.sha256(hbom_path.read_bytes()).hexdigest()
 
         self.assertEqual(0, exit_code)
-        self.assertEqual("1.12", report["schema_version"])
+        self.assertEqual("1.13", report["schema_version"])
         self.assertEqual(digest, report["artifacts"][0]["sha256"])
         self.assertEqual("hardware-bom.cdx.json", report["artifacts"][0]["path"])
 

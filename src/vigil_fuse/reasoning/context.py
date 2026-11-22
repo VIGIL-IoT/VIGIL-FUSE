@@ -35,7 +35,7 @@ _PRIVATE = re.compile(
 def load_report(raw: bytes) -> dict[str, Any]:
     """Check the canonical report boundary; never accept TXT, SARIF, PDF or context JSON."""
     report = strict_json(raw, MAX_REPORT_BYTES)
-    if report.get("schema_version") not in ("1.11", "1.12"):
+    if report.get("schema_version") not in ("1.11", "1.12", "1.13"):
         raise ValueError("Unsupported canonical FUSE report schema")
     if not isinstance(report.get("tool"), dict) or report["tool"].get("name") != "FUSE":
         raise ValueError("Expected a canonical FUSE report")
@@ -198,6 +198,50 @@ def build_context(
     hardware = hardware if isinstance(hardware, dict) else {}
     artifacts = hardware.get("artifacts", [])
     artifacts = artifacts if isinstance(artifacts, list) else []
+    firmware_inventory = report.get("firmware_candidates", {})
+    firmware_inventory = firmware_inventory if isinstance(firmware_inventory, dict) else {}
+    firmware_candidates = firmware_inventory.get("candidates", [])
+    relevant_firmware: list[dict[str, Any]] = []
+    if isinstance(firmware_candidates, list):
+        for item in firmware_candidates:
+            if not isinstance(item, dict) or item.get("path") != location["file"]:
+                continue
+            if not isinstance(item.get("format"), str) or type(item.get("byte_size")) is not int:
+                raise ValueError("Invalid matching firmware candidate")
+            if item["byte_size"] < 0:
+                raise ValueError("Invalid matching firmware candidate size")
+            relevant_firmware.append(item)
+    relevant_hardware = [
+        item
+        for item in artifacts
+        if isinstance(item, dict) and item.get("path") == location["file"]
+    ]
+    netlist = report.get("hardware_netlist", {})
+    if isinstance(netlist, dict) and netlist.get("path") == location["file"]:
+        candidates = netlist.get("debug_net_candidates", [])
+        if isinstance(candidates, list):
+            relevant_hardware.extend(
+                {
+                    "path": location["file"],
+                    "category": "netlist debug candidate",
+                    "format": candidate,
+                }
+                for candidate in candidates
+                if isinstance(candidate, str)
+            )
+    bom = report.get("hardware_bom", {})
+    if isinstance(bom, dict) and bom.get("source_path") == location["file"]:
+        status = bom.get("status") if isinstance(bom.get("status"), str) else "unknown"
+        count = bom.get("component_count")
+        if type(count) is not int or count < 0:
+            raise ValueError("Invalid matching BOM component count")
+        relevant_hardware.append(
+            {
+                "path": location["file"],
+                "category": "BOM inventory",
+                "format": f"{status}; {count} line items; physical population unverified",
+            }
+        )
     rtl = hardware.get("rtl_analysis", {})
     rtl = rtl if isinstance(rtl, dict) else {}
     rtl_files = rtl.get("files", [])
@@ -282,13 +326,14 @@ def build_context(
         ],
         "semantic": [],
         "build": rows(relevant_settings, "build", ("name", "value", "path"), MAX_OBSERVATIONS),
-        "firmware": [],
+        "firmware": rows(
+            relevant_firmware,
+            "firmware",
+            ("path", "format", "byte_size"),
+            MAX_OBSERVATIONS,
+        ),
         "hardware": rows(
-            [
-                item
-                for item in artifacts
-                if isinstance(item, dict) and item.get("path") == location["file"]
-            ],
+            relevant_hardware,
             "hardware",
             ("path", "category", "format"),
             MAX_OBSERVATIONS,
@@ -341,7 +386,7 @@ def build_context(
     }
     # A byte cap is conservative, tokenizer-independent input accounting. Output has a reserve.
     byte_budget = min(12_000, context_tokens - 2300)
-    for category in ("build", "hardware", "rtl", "policy_context"):
+    for category in ("build", "firmware", "hardware", "rtl", "policy_context"):
         if len(encode_context(packet)) <= byte_budget:
             break
         if packet[category]:

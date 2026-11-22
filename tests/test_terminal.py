@@ -60,7 +60,7 @@ class TerminalBannerTests(unittest.TestCase):
 
     def test_banner_contents_are_centered(self):
         banner = self.render(width=80, no_color=True)
-        for label in ("Firmware & Unified Security Engine", "A VIGIL Project"):
+        for label in ("Firmware & Unified Security Engine", "by VIGIL", "Static evidence."):
             line = next(line for line in banner.splitlines() if label in line)
             content = line[1:-1]
             self.assertLessEqual(
@@ -91,7 +91,8 @@ class TerminalBannerTests(unittest.TestCase):
 
     def test_explicit_structured_commands_have_no_decoration(self):
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary) / "project"
+            root.mkdir()
             (root / "main.c").write_text("int main(void) { return 0; }\n")
             for format_name in ("json", "sarif"):
                 out, err = TTYBuffer(), TTYBuffer()

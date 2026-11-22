@@ -160,7 +160,7 @@ jobs:
               "unreferenced-O2", "limited-O0", "positive-O2-stripped", "secure-O2-stripped",
               "unreferenced-O2-stripped",
           )
-          report_schema = json.loads((package / "fuse-report-1.11.schema.json").read_text(encoding="utf-8"))
+          report_schema = json.loads((package / "fuse-report-1.13.schema.json").read_text(encoding="utf-8"))
           artifact_schema = json.loads((package / "ghidra-analysis.schema.json").read_text(encoding="utf-8"))
           Draft202012Validator.check_schema(report_schema)
           Draft202012Validator.check_schema(artifact_schema)
@@ -168,6 +168,8 @@ jobs:
               "findings.json",
               "findings.txt",
               "findings.sarif",
+              "FUSE_SCAN_PROVENANCE.json",
+              "CITATION.cff",
               "ghidra-analysis.json",
           }
           for case in cases:

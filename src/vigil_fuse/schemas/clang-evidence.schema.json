@@ -1,0 +1,166 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tool",
+    "clang_version",
+    "status",
+    "translation_units",
+    "observations",
+    "diagnostic_count",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "tool": {
+      "const": "fuse-clang-analyzer"
+    },
+    "clang_version": {
+      "type": "string",
+      "maxLength": 256,
+      "pattern": "^[^\\u0000]*$"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "partial"
+      ]
+    },
+    "translation_units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "file",
+          "parsed"
+        ],
+        "properties": {
+          "file": {
+            "type": "string",
+            "maxLength": 1024,
+            "pattern": "^[^\\u0000]*$"
+          },
+          "parsed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "maxItems": 32,
+      "minItems": 1
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "name",
+          "file",
+          "line",
+          "column",
+          "spelling_file",
+          "spelling_line",
+          "function",
+          "definition",
+          "arguments"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "call",
+              "function"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256,
+            "pattern": "^[^\\u0000]*$"
+          },
+          "file": {
+            "type": "string",
+            "maxLength": 1024,
+            "pattern": "^[^\\u0000]*$"
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000000
+          },
+          "column": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000000
+          },
+          "spelling_file": {
+            "type": "string",
+            "maxLength": 1024,
+            "pattern": "^[^\\u0000]*$"
+          },
+          "spelling_line": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000000
+          },
+          "function": {
+            "type": "string",
+            "maxLength": 256,
+            "pattern": "^[^\\u0000]*$"
+          },
+          "definition": {
+            "type": "boolean"
+          },
+          "arguments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "expression",
+                "literal",
+                "integer_constant"
+              ],
+              "properties": {
+                "expression": {
+                  "type": "string",
+                  "maxLength": 256,
+                  "pattern": "^[^\\u0000]*$"
+                },
+                "literal": {
+                  "type": "boolean"
+                },
+                "integer_constant": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "maxItems": 32,
+            "minItems": 0
+          }
+        }
+      },
+      "maxItems": 1024,
+      "minItems": 0
+    },
+    "diagnostic_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 64
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 512,
+        "pattern": "^[^\\u0000]*$"
+      },
+      "maxItems": 16,
+      "minItems": 0
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

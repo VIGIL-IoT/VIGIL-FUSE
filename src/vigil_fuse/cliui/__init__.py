@@ -116,6 +116,15 @@ def completions(text: str) -> list[Command]:
     return [command for command in COMMANDS if command.name.startswith(text[1:].lower())]
 
 
+def composer_rule(width: int, encoding: str) -> str:
+    try:
+        "â”€".encode(encoding)
+        character = "â”€"
+    except (UnicodeEncodeError, LookupError):
+        character = "-"
+    return character * max(width - 1, 0)
+
+
 def _print(value: object = "") -> None:
     text = safe_terminal_text(str(value))
     encoding = sys.stdout.encoding
@@ -133,7 +142,6 @@ class ScanProgress:
     def __enter__(self) -> ScanProgress:
         self.stop = threading.Event()
         self.animated = sys.stdout.isatty() and os.environ.get("TERM") != "dumb"
-        self.width = max(10, min(64, shutil.get_terminal_size((80, 24)).columns - 2))
         if self.animated:
             self.thread = threading.Thread(target=self._animate, daemon=True)
             self.thread.start()
@@ -155,7 +163,7 @@ class ScanProgress:
         tick = 0
         while not self.stop.is_set():
             text = f"\r  {frames[tick % len(frames)]} {messages[(tick // 12) % len(messages)]}..."
-            sys.stdout.write(text[: self.width].ljust(self.width))
+            sys.stdout.write(text.ljust(64))
             sys.stdout.flush()
             tick += 1
             self.stop.wait(0.1)
@@ -164,7 +172,7 @@ class ScanProgress:
         self.stop.set()
         if self.animated:
             self.thread.join()
-            sys.stdout.write("\r" + " " * self.width + "\r")
+            sys.stdout.write("\r" + " " * 64 + "\r")
             sys.stdout.flush()
 
 
@@ -285,8 +293,12 @@ class Session:
             elif name == "version":
                 _print(f"FUSE {__version__}")
             elif name == "clear":
-                if sys.stdout.isatty() and os.environ.get("TERM") != "dumb":
-                    print("\033[2J\033[H", end="", flush=True)
+                if sys.stdout.isatty() and (os.name == "nt" or os.environ.get("TERM") != "dumb"):
+                    if os.name == "nt":
+                        if os.system("cls") != 0:
+                            _print("Clear failed in this terminal.")
+                    else:
+                        print("\033[2J\033[H", end="", flush=True)
                 else:
                     _print("Clear is unavailable in this terminal.")
             elif name == "target":
@@ -341,7 +353,6 @@ class Session:
                         code = dispatch(
                             argv,
                             _show_banner=False,
-                            _prompt_for_pdf=argv[0] == "scan" and name != "plan",
                             _result_callback=self.save_result,
                             _interactive_scan=argv[0] == "scan" and name != "plan",
                         )
@@ -359,17 +370,73 @@ def run_session(dispatch: Callable[..., int]) -> int:
     session = Session(Path.cwd())
     _print(f"Current target: {session.target}")
     _print("Type /help for commands.")
-    from ..terminal import read_command
+    use_prompt = False
+    try:
+        if os.environ.get("TERM") == "dumb":
+            raise ImportError
+        from prompt_toolkit import PromptSession
+        from prompt_toolkit.completion import Completer, Completion
+        from prompt_toolkit.history import InMemoryHistory
+        from prompt_toolkit.output import ColorDepth
 
-    command_details = tuple((item.name, item.description) for item in COMMANDS)
+        class CommandHistory(InMemoryHistory):
+            def append_string(self, string: str) -> None:
+                # Keep paths and option values out of history.
+                name = string.strip().split(maxsplit=1)[0] if string.strip() else ""
+                if name.startswith("/") and name[1:].lower() in REGISTRY:
+                    super().append_string(name)
+
+        class CommandCompleter(Completer):
+            def get_completions(self, document, complete_event):  # type: ignore[no-untyped-def]
+                text = document.text_before_cursor
+                for command in completions(text):
+                    yield Completion(
+                        "/" + command.name,
+                        start_position=-len(text),
+                        display_meta=command.description,
+                    )
+
+        prompt: PromptSession[str] = PromptSession(
+            history=CommandHistory(), completer=CommandCompleter(), complete_while_typing=True
+        )
+        use_prompt = True
+    except ImportError:
+        _print("Basic input mode; install vigil-fuse[cliui] for completion and command history.")
     while True:
         try:
-            _print(session.footer(shutil.get_terminal_size((80, 24)).columns))
-            line = read_command(command_details)
+            if not use_prompt:
+                _print(session.footer(shutil.get_terminal_size((80, 24)).columns))
+            line = (
+                prompt.prompt(
+                    lambda: [
+                        (
+                            "fg:#ef4444",
+                            composer_rule(
+                                shutil.get_terminal_size((80, 24)).columns,
+                                sys.stdout.encoding or "ascii",
+                            ),
+                        ),
+                        ("", "\n> "),
+                    ],
+                    color_depth=ColorDepth.DEPTH_1_BIT if "NO_COLOR" in os.environ else None,
+                    bottom_toolbar=lambda: [
+                        (
+                            "fg:#3b82f6",
+                            composer_rule(
+                                shutil.get_terminal_size((80, 24)).columns,
+                                sys.stdout.encoding or "ascii",
+                            ),
+                        ),
+                        ("", "\n" + session.footer(shutil.get_terminal_size((80, 24)).columns - 1)),
+                    ],
+                )
+                if use_prompt
+                else input("> ")
+            )
             if not session.execute(line, dispatch):
                 return 0
         except EOFError:
-            _print("\nSession ended.")
+            _print()
             return 0
         except KeyboardInterrupt:
             _print("\nCancelled.")

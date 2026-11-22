@@ -1,0 +1,13 @@
+[
+  {
+    "directory": ".",
+    "file": "compile_context/toggle.c",
+    "arguments": [
+      "clang",
+      "-c",
+      "-std=c11",
+      "-DENABLE_COPY=1",
+      "compile_context/toggle.c"
+    ]
+  }
+]

@@ -1,0 +1,53 @@
+{
+  "unsafe/strcpy_literal.c": [
+    "strcpy"
+  ],
+  "secure/bounded_copy.c": [],
+  "unsafe/plain_http.c": [
+    "esp_http_client_init"
+  ],
+  "secure/tls_verified.c": [
+    "mbedtls_ssl_conf_authmode"
+  ],
+  "unsafe/unvalidated_ota.c": [
+    "esp_ota_begin"
+  ],
+  "secure/validated_ota.c": [
+    "esp_secure_boot_verify_signature",
+    "esp_ota_begin"
+  ],
+  "boundary/not_calls.c": [],
+  "boundary/indirect.c": [],
+  "boundary/macro.c": [
+    "strcpy"
+  ],
+  "boundary/memory.c": [
+    "memcpy",
+    "memmove",
+    "strcat",
+    "sprintf",
+    "vsprintf",
+    "gets",
+    "sscanf",
+    "scanf",
+    "fscanf"
+  ],
+  "boundary/cpp_names.cpp": [
+    "strcpy"
+  ],
+  "boundary/security_calls.c": [
+    "esp_console_init",
+    "esp_http_client_init",
+    "esp_https_ota",
+    "esp_mqtt_client_init",
+    "esp_ota_begin",
+    "esp_ota_end",
+    "esp_secure_boot_verify_signature",
+    "esp_tls_conn_http_new",
+    "esp_tls_conn_new",
+    "mbedtls_pk_parse_key",
+    "mbedtls_ssl_conf_authmode",
+    "mbedtls_ssl_get_verify_result",
+    "mbedtls_ssl_set_hostname"
+  ]
+}

@@ -380,8 +380,12 @@ class PolicyEvaluationTests(unittest.TestCase):
             detail="not installed",
         )
         with (
-            patch("vigil_fuse.cli.inspect_tools", return_value=()),
+            patch("vigil_fuse.cli.inspect_environment", return_value=()),
             patch("vigil_fuse.cli.inspect_ghidra", return_value=ghidra),
+            patch(
+                "vigil_fuse.cli.doctor_status",
+                return_value={"available": False, "installed": False},
+            ),
             patch("vigil_fuse.cli.inspect_opa", return_value=OpaInfo("opa", "1.22.4")),
             patch("vigil_fuse.cli.sys.stdout", output),
         ):

@@ -21,6 +21,14 @@ def test_detects_windows_profile_paths_without_matching_relative_paths() -> None
     assert not has_personal_profile_path(b"embedded-project/src/main.c")
 
 
+def test_detects_common_profile_names_in_absolute_paths() -> None:
+    windows_prefix = b"C:" + b"/" + b"Users"
+    home_prefix = b"/" + b"home"
+    for username in (b"person", b"private", b"runner"):
+        assert has_personal_profile_path(windows_prefix + b"/" + username + b"/project/file.c")
+        assert has_personal_profile_path(home_prefix + b"/" + username + b"/project/file.c")
+
+
 def test_detects_posix_home_paths_and_accepts_placeholders() -> None:
     path = b"project root: /" + b"home/" + b"fixture-user/embedded-project/src/main.c"
 

@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from vigil_fuse.report_pdf import _render_report, write_pdf_report
+from vigil_fuse.terminal import _ASCII_MARK
 
 
 class PDFReportTests(unittest.TestCase):
@@ -50,6 +51,42 @@ class PDFReportTests(unittest.TestCase):
         self.assertIn(r"\textbackslash{}input", report)
         self.assertIn(r"\%", report)
         self.assertIn("source byte limit", report)
+        self.assertIn(r"\setmainfont{Times New Roman}", report)
+        self.assertIn(_ASCII_MARK[0].replace(" ", r"\ "), report)
+        self.assertIn("by VIGIL", report)
+        self.assertIn("Static evidence. Explicit coverage.", report)
+        self.assertIn("LOCAL ANALYSIS / Type /help to begin", report)
+        self.assertIn("v0.4.1.dev0", report)
+
+    def test_writer_prefers_xelatex_for_times_new_roman_pdf(self) -> None:
+        def compile_xelatex(arguments: list[str], **options: object) -> SimpleNamespace:
+            self.assertEqual(Path(arguments[0]).name, "xelatex")
+            self.assertIn("-disable-installer", arguments)
+            build_dir = Path(str(options["cwd"]))
+            self.assertIn(
+                r"\setmainfont{Times New Roman}", (build_dir / "fuse-report.tex").read_text()
+            )
+            (build_dir / "fuse-report.pdf").write_bytes(b"%PDF-1.4 test")
+            return SimpleNamespace(returncode=0)
+
+        with (
+            TemporaryDirectory() as temporary,
+            patch(
+                "vigil_fuse.report_pdf.shutil.which",
+                side_effect=lambda name: f"/opt/miktex/bin/{name}" if name == "xelatex" else None,
+            ),
+            patch("vigil_fuse.report_pdf.subprocess.run", side_effect=compile_xelatex),
+        ):
+            pdf_path, note = write_pdf_report(self._result(), Path(temporary))
+
+            self.assertIsNone(note)
+            self.assertTrue(pdf_path and pdf_path.is_file())
+
+    def test_pdflatex_template_uses_times_compatible_fallback(self) -> None:
+        report = _render_report(self._result(), xelatex=False)
+
+        self.assertIn(r"\usepackage{mathptmx}", report)
+        self.assertNotIn(r"\usepackage{fontspec}", report)
 
     def test_missing_latex_keeps_source_without_claiming_pdf_exists(self) -> None:
         with (
@@ -59,7 +96,7 @@ class PDFReportTests(unittest.TestCase):
             output_dir = Path(temporary)
             pdf_path, note = write_pdf_report(self._result(), output_dir)
             self.assertIsNone(pdf_path)
-            self.assertIn("pdflatex was not found", note or "")
+            self.assertIn("xelatex and pdflatex were not found", note or "")
             self.assertTrue((output_dir / "fuse-report.tex").is_file())
             self.assertFalse((output_dir / "fuse-report.pdf").exists())
 

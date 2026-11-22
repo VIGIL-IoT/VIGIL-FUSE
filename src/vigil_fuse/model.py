@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Literal
 
+from .project_identity import ProjectIdentity
+
 Severity = Literal["critical", "high", "medium", "low", "info", "unknown"]
 Confidence = Literal["high", "medium", "low"]
 Applicability = Literal["unknown", "candidate", "applicable", "not_applicable"]
@@ -496,6 +498,8 @@ class ScanResult:
     artifacts: tuple[AnalysisArtifact, ...] = ()
     encoding_fallback_count: int = 0
     encoding_fallback_files: tuple[str, ...] = ()
+    target_label: str | None = None
+    project_identity: ProjectIdentity = field(default_factory=ProjectIdentity)
 
     @property
     def files_skipped(self) -> int:

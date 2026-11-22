@@ -2,33 +2,42 @@ from __future__ import annotations
 
 import argparse
 from contextlib import nullcontext
+from dataclasses import asdict, replace
 import hashlib
+import importlib.util
 import json
+import os
 import platform
 import shutil
 import subprocess
 import sys
-from dataclasses import replace
 from pathlib import Path
 from typing import Callable, Literal, TextIO, TypedDict
 
 from . import __version__
+from .attribution import citation_cff_text, scan_provenance_json
+from .applicability import analyze_report, write_report as write_applicability_report
 from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
-from .analyzer_runtime import analyzer_execution_detail, analyzer_sandbox_context
+from .analyzer_runtime import (
+    analyzer_execution_detail,
+    analyzer_sandbox_context,
+    resolve_analyzer_executable,
+)
 from .analyzers import (
     AdapterResult,
     analyze_ghidra,
     generate_sbom,
     identify_firmware,
     inspect_ghidra,
-    inspect_tools,
     scan_git_history,
     scan_vulnerabilities,
 )
 from .baseline import create_baseline, diff_baseline, suppress_finding, unsuppress_finding
 from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
-from .cliui import ScanProgress, run_session
+from .component_graph import build_component_graph
+from .analysis_router import plan_analysis
+from .repo_dna import inspect_repository
 from .ghidra_analyzer import (
     GHIDRA_DEFAULT_TIMEOUT_SECONDS,
     GHIDRA_MAXIMUM_INPUT_BYTES,
@@ -37,9 +46,15 @@ from .ghidra_analyzer import (
     detect_binary_input,
 )
 from .esp_idf_lock import lock_parser_available
+from .frontier_cli import (
+    frontier_hints,
+    register_commands as register_frontier_commands,
+    run_command as run_frontier_command,
+)
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
+from .project_identity import inspect_project_identity
 from .policy import (
     evaluate_policies,
     inspect_opa,
@@ -49,7 +64,7 @@ from .policy import (
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
-from .reasoning.cli import add_commands, doctor_text, enrich_scan, run_command
+from .reasoning.cli import add_commands, doctor_status, doctor_text, enrich_scan, run_command
 from .report_pdf import write_pdf_report
 from .rtl_analysis import inspect_rtl_backend
 from .rule_execution import (
@@ -64,6 +79,15 @@ from .scanner import (
     preview_discovery,
     scan,
 )
+from .setup.manager import (
+    inspect_environment,
+    load_manifest,
+    normalize_platform,
+    powershell_executable,
+    setup_plan,
+    setup_tools,
+)
+from .setup.tool_paths import managed_tool_directory
 from .support import CapabilitySummary, capability_for_plan, support_matrix
 from .input_types import MAX_SBOM_DETECTION_BYTES, is_sbom_candidate, is_sbom_file
 from .text_safety import safe_terminal_text
@@ -100,11 +124,14 @@ class _ScanPlan(TypedDict):
     target: str
     target_kind: str
     profile: str
+    project_identity: dict[str, object]
     analyzer_execution: str
     selected_build_dir: str | None
     selected_zephyr_hardening_report: str | None
     detected_frameworks: list[_FrameworkHint]
     framework_hints_are_advisory: bool
+    frontier_hints: list[_FrameworkHint]
+    frontier_hints_note: str
     build_context: dict[str, object]
     discovery_preview: DiscoveryPreview | None
     support: CapabilitySummary
@@ -129,7 +156,7 @@ def _safe_print(
 
 def _optional_analyzer_available(name: str, sandbox: AnalyzerSandbox | None) -> bool:
     if sandbox is None:
-        return shutil.which(name) is not None
+        return resolve_analyzer_executable(name) is not None
     image = sandbox.image_for(name)
     if sandbox.runtime is None or image is None:
         return False
@@ -154,6 +181,9 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--version", action="version", version=f"FUSE {__version__}")
     commands = parser.add_subparsers(dest="command")
+    register_frontier_commands(commands)
+    inspect_parser = commands.add_parser("inspect", help="inspect repository characteristics")
+    inspect_parser.add_argument("target", type=Path)
     add_commands(commands)
     doctor_parser = commands.add_parser(
         "doctor", help="show runtime and optional analyzer availability"
@@ -163,6 +193,36 @@ def _parser() -> argparse.ArgumentParser:
         "--ghidra-install-dir",
         type=Path,
         help="override GHIDRA_INSTALL_DIR for installation discovery",
+    )
+    doctor_parser.add_argument(
+        "--format", choices=("text", "json"), default="text", help="doctor output format"
+    )
+    setup_parser = commands.add_parser(
+        "setup", help="check or prepare the FUSE analysis environment"
+    )
+    setup_modes = setup_parser.add_mutually_exclusive_group()
+    setup_modes.add_argument(
+        "--minimal", action="store_true", help="validate only the core Python environment"
+    )
+    setup_modes.add_argument(
+        "--recommended", action="store_true", help="install or detect recommended tools"
+    )
+    setup_modes.add_argument(
+        "--full", action="store_true", help="include optional-heavy production analyzers"
+    )
+    setup_modes.add_argument(
+        "--research", action="store_true", help="report research-only packages and toolchains"
+    )
+    setup_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="show actions without downloading or changing the machine",
+    )
+    setup_parser.add_argument(
+        "--upgrade", action="store_true", help="replace older FUSE-managed tool copies"
+    )
+    setup_parser.add_argument(
+        "--yes", action="store_true", help="consent to pinned user-local tool downloads"
     )
     baseline_parser = commands.add_parser(
         "baseline", help="compare findings and manage reasoned suppressions"
@@ -227,6 +287,21 @@ def _parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path(".fuse-results/suppressions.json"),
         help="suppression JSON path",
+    )
+    applicability_parser = commands.add_parser(
+        "applicability", help="assess dependency findings against recorded product evidence"
+    )
+    applicability_commands = applicability_parser.add_subparsers(
+        dest="applicability_action", required=True
+    )
+    applicability_analyze = applicability_commands.add_parser(
+        "analyze", help="compose a conservative applicability report from a FUSE JSON report"
+    )
+    applicability_analyze.add_argument(
+        "--report", required=True, type=Path, help="source FUSE findings.json report"
+    )
+    applicability_analyze.add_argument(
+        "--output", type=Path, help="write applicability JSON to this path instead of stdout"
     )
     scan_parser = commands.add_parser(
         "scan", help="analyze a project, SBOM, or supported firmware input"
@@ -472,13 +547,19 @@ def _resolve_output_dir(
 
 
 def _default_output_dir(target: Path) -> Path:
-    if target.is_dir():
-        base = target
-    elif target.is_file():
-        base = target.parent
+    resolved = target.expanduser().resolve()
+    if resolved.is_dir():
+        if resolved.parent == resolved:
+            raise ValueError("A filesystem root requires an explicit --output-dir")
+        base = resolved.parent
+        name = resolved.name
+    elif resolved.is_file():
+        base = resolved.parent
+        name = resolved.name or "scan"
     else:
-        base = Path.cwd()
-    return base / ".fuse-results"
+        base = Path.cwd().resolve()
+        name = resolved.name or "scan"
+    return base / ".fuse-results" / name
 
 
 def _exclude_output_directory(
@@ -503,9 +584,9 @@ def _exclude_output_directory(
 def _write_reports(result: ScanResult, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     reports = {
-        "findings.json": to_json(result),
-        "findings.txt": to_text(result),
-        "findings.sarif": to_sarif(result),
+        "findings.json": to_json(result).encode("utf-8"),
+        "findings.txt": to_text(result).encode("utf-8"),
+        "findings.sarif": to_sarif(result).encode("utf-8"),
     }
     for name, content in reports.items():
         path = output_dir / name
@@ -513,7 +594,17 @@ def _write_reports(result: ScanResult, output_dir: Path) -> None:
             raise OSError(f"Refusing to write report through symbolic link: {name}")
         if path.exists() and not path.is_file():
             raise OSError(f"Report output path is not a regular file: {name}")
-        path.write_text(content, encoding="utf-8")
+        path.write_bytes(content)
+    for name, content in {
+        "FUSE_SCAN_PROVENANCE.json": scan_provenance_json(result, reports).encode("utf-8"),
+        "CITATION.cff": citation_cff_text().encode("utf-8"),
+    }.items():
+        path = output_dir / name
+        if path.is_symlink():
+            raise OSError(f"Refusing to write bundle metadata through symbolic link: {name}")
+        if path.exists() and not path.is_file():
+            raise OSError(f"Bundle metadata output path is not a regular file: {name}")
+        path.write_bytes(content)
 
 
 def _write_policy_results(document: dict[str, object], path: Path) -> None:
@@ -545,24 +636,122 @@ def _doctor(
     config: ScanConfig | None = None,
     config_path: Path | None = None,
     ghidra_install_dir: Path | None = None,
+    output_format: str = "text",
 ) -> int:
-    _safe_print(f"FUSE {__version__}")
-    _safe_print(f"Python: {platform.python_version()} ({sys.executable})")
-    _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
-    _safe_print("Optional analyzers:")
-    for name, executable, version in inspect_tools():
-        if executable is None:
-            _safe_print(f"  {name}: not installed")
-        else:
-            detail = version or "version unavailable"
-            _safe_print(f"  {name}: {detail} [{executable}]")
     selected_install = _resolve_ghidra_install_dir(
         ghidra_install_dir,
         config.ghidra_install_dir if config is not None else None,
         config_path,
     )
     ghidra = inspect_ghidra(selected_install)
-    _safe_print(f"  Ghidra: {ghidra.status}")
+    ghidra_status = {
+        "available": "AVAILABLE",
+        "unavailable": "OPTIONAL",
+        "incompatible": "WRONG_VERSION",
+        "unsupported": "UNSUPPORTED",
+    }.get(ghidra.status, "BROKEN")
+    from .clang_analyzer import inspect_clang
+
+    _, clang_status = inspect_clang()
+    checks = inspect_environment()
+    rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
+    reasoning_config = config.reasoning if config is not None else ScanConfig().reasoning
+    reasoning_status = doctor_status(reasoning_config)
+    if output_format == "json":
+        report = {
+            "schema_version": 1,
+            "fuse": {"category": "CORE", "status": "AVAILABLE", "version": __version__},
+            "python": {
+                "category": "CORE",
+                "status": "AVAILABLE" if sys.version_info >= (3, 11) else "WRONG_VERSION",
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "minimum_version": "3.11",
+            },
+            "platform": {
+                "system": platform.system(),
+                "release": platform.release(),
+                "architecture": platform.machine(),
+            },
+            "rtl_analyzer": {
+                "category": "CORE",
+                "status": rtl_availability,
+                "backend": rtl_backend,
+                "version": rtl_version,
+                "verible_parser_status": verible_status,
+            },
+            "local_reasoning": {
+                "category": "OPTIONAL_HEAVY",
+                "status": (
+                    "AVAILABLE"
+                    if reasoning_status["available"] and reasoning_status["installed"]
+                    else "OPTIONAL"
+                ),
+                "endpoint_status": ("AVAILABLE" if reasoning_status["available"] else "MISSING"),
+                "model": reasoning_config.model,
+                "model_status": "AVAILABLE" if reasoning_status["installed"] else "MISSING",
+                "impact": "Optional reasoning only; deterministic scans are unaffected.",
+            },
+            "core_python_dependencies": [],
+            "clang_semantic": {
+                "category": "OPTIONAL_HEAVY",
+                "status": "AVAILABLE"
+                if clang_status.status == "completed"
+                else clang_status.status.upper(),
+                "version": clang_status.version,
+                "detail": clang_status.detail,
+            },
+            "optional_python_capabilities": {
+                "esp_idf_yaml_parser": {
+                    "category": "RECOMMENDED",
+                    "status": "AVAILABLE" if lock_parser_available() else "OPTIONAL",
+                    "install": "pip install vigil-fuse[esp-idf]",
+                }
+            },
+            "powershell": (
+                {
+                    "status": "AVAILABLE" if powershell_executable() else "OPTIONAL",
+                    "executable": powershell_executable(),
+                }
+                if platform.system().casefold() == "windows"
+                else {"status": "UNSUPPORTED", "executable": None}
+            ),
+            "tools": [asdict(check) for check in checks]
+            + [
+                {
+                    "id": "ghidra",
+                    "display_name": "Ghidra",
+                    "category": "OPTIONAL_HEAVY",
+                    "status": ghidra_status,
+                    "version": ghidra.version,
+                    "executable": str(ghidra.launcher) if ghidra.launcher else None,
+                    "source": "https://github.com/NationalSecurityAgency/ghidra/releases",
+                    "capability": "Headless firmware binary analysis.",
+                    "detail": ghidra.detail,
+                }
+            ],
+        }
+        _safe_print(json.dumps(report, indent=2, ensure_ascii=True))
+        return 0
+
+    _safe_print(f"FUSE {__version__} [AVAILABLE]")
+    _safe_print(f"Python: {platform.python_version()} ({sys.executable}) [AVAILABLE]")
+    _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
+    _safe_print("External tools:")
+    for check in checks:
+        if check.executable is None:
+            detail = "not installed" if check.status == "MISSING" else check.status.lower()
+            _safe_print(f"  {check.display_name}: {detail} [{check.status}]")
+        else:
+            _safe_print(
+                f"  {check.display_name}: {check.version or 'version unavailable'} "
+                f"[{check.executable}] [{check.status}]"
+            )
+    clang_availability = "available" if clang_status.status == "completed" else clang_status.status
+    _safe_print(f"  Clang semantic analyzer: {clang_availability}")
+    _safe_print(f"  LLVM/Clang version: {clang_status.version or 'not detected'}")
+    _safe_print(f"  Clang detail: {clang_status.detail}")
+    _safe_print(f"  Ghidra: {ghidra.status} [{ghidra_status}]")
     _safe_print(f"  Ghidra version: {ghidra.version or 'not detected'}")
     _safe_print(
         "  Headless Analyzer: " + ("available" if ghidra.launcher is not None else "not available")
@@ -576,15 +765,15 @@ def _doctor(
         )
     )
     _safe_print(f"  Ghidra detail: {ghidra.detail}")
-    opa = inspect_opa()
-    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
-    _safe_print(f"OPA version: {opa.version or 'not detected'}")
-    _safe_print("policy engine: optional")
     rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
     _safe_print(f"RTL analyzer: {rtl_availability}")
     _safe_print(f"  backend: {rtl_backend}")
     _safe_print(f"  version: {rtl_version}")
     _safe_print(f"  Verible parser: {verible_status}")
+    opa = inspect_opa()
+    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
+    _safe_print(f"OPA version: {opa.version or 'not detected'}")
+    _safe_print("policy engine: optional")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (
@@ -593,9 +782,10 @@ def _doctor(
             else "not installed; use vigil-fuse[esp-idf]"
         )
     )
-    _safe_print(
-        doctor_text(config.reasoning if config is not None else ScanConfig().reasoning), end=""
-    )
+    ps = powershell_executable()
+    if platform.system().casefold() == "windows":
+        _safe_print(f"PowerShell: {ps or 'not found'}")
+    _safe_print(doctor_text(reasoning_config, reasoning_status), end="")
     _safe_print("Core scanner: available")
     _safe_print(
         "Native rule execution: isolated subprocess, "
@@ -605,6 +795,124 @@ def _doctor(
     for capability in support_matrix()["capabilities"]:
         _safe_print(f"  {capability['id']}: {capability['label']} - {capability['scope']}")
     return 0
+
+
+def _setup(
+    *,
+    mode: str,
+    dry_run: bool,
+    upgrade: bool,
+    yes: bool,
+) -> int:
+    if mode == "minimal":
+        valid = sys.version_info >= (3, 11)
+        _safe_print(
+            f"CORE Python {platform.python_version()}: {'AVAILABLE' if valid else 'WRONG_VERSION'}"
+        )
+        _safe_print("CORE FUSE package: AVAILABLE")
+        _safe_print("Python runtime dependencies: none")
+        if dry_run:
+            _safe_print("Dry run complete. No downloads or machine changes were made.")
+        return 0 if valid else 1
+
+    if mode == "research":
+        _safe_print("RESEARCH Python packages:")
+        for package, import_name in (
+            ("jsonschema", "jsonschema"),
+            ("matplotlib", "matplotlib"),
+            ("psutil", "psutil"),
+        ):
+            _safe_print(
+                f"  {package}: {'AVAILABLE' if importlib.util.find_spec(import_name) else 'MISSING'}"
+            )
+        for line in setup_plan("RESEARCH"):
+            _safe_print(f"  {line}")
+        _safe_print(
+            "Install Python research extras with: python -m pip install 'vigil-fuse[research]'"
+        )
+        _safe_print(
+            "Research toolchains are detected only and are never installed by --recommended."
+        )
+        if dry_run:
+            _safe_print("Dry run complete. No downloads or machine changes were made.")
+        return 0
+
+    categories = ("RECOMMENDED", "OPTIONAL_HEAVY") if mode == "full" else ("RECOMMENDED",)
+    directory = managed_tool_directory()
+    plans: list[tuple[str, str]] = []
+    checks_by_id = {check.id: check for check in inspect_environment(include_research=False)}
+    for category in categories:
+        for spec in load_manifest():
+            if spec.category != category:
+                continue
+            check = checks_by_id.get(spec.id)
+            if check is not None and check.status == "AVAILABLE" and not upgrade:
+                action = f"reuse {check.version} at {check.executable}"
+            elif category == "OPTIONAL_HEAVY" or spec.install_method == "manual":
+                action = f"manual install, requires separate consent: {spec.download_source}"
+            elif (
+                check is not None
+                and check.status in {"WRONG_VERSION", "BROKEN"}
+                and check.executable
+            ):
+                managed = directory / Path(check.executable).name
+                action = (
+                    f"replace FUSE-managed copy at {managed}"
+                    if managed.resolve() == Path(check.executable).resolve() and upgrade
+                    else f"leave existing {check.status.lower()} installation unchanged"
+                )
+            else:
+                asset_key = "/".join(normalize_platform(platform.system(), platform.machine()))
+                asset = spec.assets.get(asset_key)
+                action = (
+                    f"download {asset.version} to {directory} after consent (SHA-256 verified)"
+                    if asset
+                    else "unsupported platform or architecture; no changes"
+                )
+            plans.append((spec.display_name, action))
+
+    _safe_print(f"Setup mode: {mode}")
+    for name, action in plans:
+        _safe_print(f"  {name}: {action}")
+    if mode == "full":
+        _safe_print(
+            "Heavy tools are not auto-installed; use their official installers from the links above."
+        )
+    if dry_run:
+        _safe_print("Dry run complete. No downloads or machine changes were made.")
+        return 0
+
+    installable_missing = any(
+        checks_by_id.get(spec.id) is not None
+        and checks_by_id[spec.id].status in {"MISSING", "UNSUPPORTED"}
+        and spec.install_method == "pinned_release"
+        and "/".join(normalize_platform(platform.system(), platform.machine())) in spec.assets
+        for spec in load_manifest()
+        if spec.category == "RECOMMENDED"
+    )
+    if not installable_missing and not upgrade:
+        _safe_print("Recommended tools are already available or require manual installation.")
+        return 0
+    consent = yes
+    if not consent and sys.stdin.isatty():
+        try:
+            consent = input(
+                f"Download missing recommended tools to {directory}? [y/N] "
+            ).strip().casefold() in {"y", "yes"}
+        except EOFError:
+            consent = False
+    if not consent:
+        _safe_print("No installation performed. Review the plan, then rerun with --yes to consent.")
+        return 0
+
+    failed = False
+    for name, result in setup_tools("RECOMMENDED", upgrade=upgrade):
+        _safe_print(f"  {name}: {result}")
+        failed = failed or result.startswith("failed:")
+    if mode == "full":
+        for name, result in setup_tools("OPTIONAL_HEAVY"):
+            _safe_print(f"  {name}: {result}")
+    return 1 if failed else 0
 
 
 def _scan_plan(
@@ -668,6 +976,12 @@ def _scan_plan(
             "Symbolic-link targets are not followed; pass the resolved file or directory explicitly"
         )
     shareable_target = report_target_label(target, target_label)
+    project_identity = inspect_project_identity(
+        target,
+        max_paths=max_discovered_paths,
+        max_directories=max_discovered_directories,
+        budget_seconds=min(float(max_scan_seconds), 2.0),
+    )
     selected_build_dir = None
     if build_dir is not None:
         if profile not in {"esp-idf", "zephyr"}:
@@ -1097,10 +1411,22 @@ def _scan_plan(
             }
         )
 
+    cyber_physical_hints = (
+        frontier_hints(
+            discovery_preview["selected_files_sample"],
+            discovery_preview["unsupported_file_types"],
+            discovery_preview["hardware_category_counts"],
+            has_bom=hardware_bom is not None,
+            has_netlist=hardware_netlist is not None,
+        )
+        if discovery_preview is not None
+        else []
+    )
     plan: _ScanPlan = {
         "target": shareable_target,
         "target_kind": kind,
         "profile": profile,
+        "project_identity": project_identity.to_dict(),
         "analyzer_execution": (
             "host tools run with the current user's permissions; external analyzers are unsandboxed"
             if analyzer_sandbox is None
@@ -1110,6 +1436,11 @@ def _scan_plan(
         "selected_zephyr_hardening_report": selected_hardening_report,
         "detected_frameworks": framework_hints,
         "framework_hints_are_advisory": True,
+        "frontier_hints": cyber_physical_hints,
+        "frontier_hints_note": (
+            "Advisory filename evidence only; selected-file samples are capped at 100. "
+            "An absent hint is not proof of absence, and scan does not run these commands."
+        ),
         "build_context": {
             "platformio": {
                 "status": platformio_inventory.status,
@@ -1170,6 +1501,24 @@ def _scan_plan(
     else:
         _safe_print(f"FUSE scan plan for {plan['target']} ({kind}, profile: {profile})")
         _safe_print("No analyzer ran; this is a bounded path and metadata preview.")
+        _safe_print(
+            "Project identity: "
+            f"{project_identity.primary_type}"
+            + (f" ({project_identity.subtype})" if project_identity.subtype else "")
+            + f" / {project_identity.confidence} confidence; advisory recommendations only"
+        )
+        _safe_print(
+            "  Domain evidence scores: "
+            + ", ".join(f"{name}={score:.3f}" for name, score in project_identity.domains.items())
+        )
+        for signal in project_identity.supporting_signals:
+            _safe_print(f"  Evidence: {signal}")
+        for limitation in project_identity.limitations:
+            _safe_print(f"  Identity limitation: {limitation}")
+        for name in project_identity.recommended_stages:
+            _safe_print(f"  Recommended stage: {name}")
+        for name in project_identity.optional_stages:
+            _safe_print(f"  Optional stage: {name}")
         _safe_print(f"Optional analyzer execution: {plan['analyzer_execution']}")
         _safe_print(
             "Framework hints: "
@@ -1193,6 +1542,11 @@ def _scan_plan(
                 f"translation unit(s); commands will not run."
             )
         _safe_print(f"Selected profile controls analyzer routing: {profile}")
+        for hint in cyber_physical_hints:
+            _safe_print(
+                f"Experimental command available: {hint['name']} ({'; '.join(hint['evidence'])})"
+            )
+        _safe_print(plan["frontier_hints_note"])
         if discovery_preview is not None:
             _safe_print(
                 "Discovery preview: "
@@ -1416,8 +1770,179 @@ def _analyze_with_optional_tools(
     )
 
 
+def _interactive_launch(*, confirm: bool = True) -> int:
+    target = Path.cwd()
+    if confirm:
+        _safe_print("Current folder:", target, file=sys.stderr)
+        _safe_print(
+            "If this is not your project, open a terminal in the project folder before launching FUSE.",
+            file=sys.stderr,
+        )
+        try:
+            answer = input("Run FUSE scan here? [y/N] ").strip().casefold()
+        except EOFError:
+            answer = ""
+        if answer not in {"y", "yes"}:
+            _safe_print("Scan cancelled.", file=sys.stderr)
+            return 0
+    else:
+        _safe_print(f"\nScan target: {target}", file=sys.stderr)
+
+    _safe_print("Choose a scan type:", file=sys.stderr)
+    _safe_print("  1. Full project scan", file=sys.stderr)
+    _safe_print("  2. Profile-specific project scan", file=sys.stderr)
+    _safe_print("  3. Project and dependency scan (Syft and OSV-Scanner)", file=sys.stderr)
+    _safe_print("  4. Firmware signature scan (Binwalk, no extraction)", file=sys.stderr)
+    _safe_print("  5. Ghidra reverse-engineering analysis (one binary)", file=sys.stderr)
+    _safe_print("  0. Cancel", file=sys.stderr)
+    _safe_print(
+        "Ghidra records bounded binary metadata; FUSE checks supported signals in that evidence. "
+        "It does not export decompiled pseudocode.",
+        file=sys.stderr,
+    )
+    _safe_print("Run vigil-fuse doctor to check optional tools.", file=sys.stderr)
+    try:
+        choice = input("Scan type [1-5, 0 to cancel]: ").strip()
+    except EOFError:
+        choice = "0"
+    if choice == "0":
+        _safe_print("Scan cancelled.", file=sys.stderr)
+        return 0
+
+    scan_args = ["scan", str(target)]
+    if choice == "2":
+        for index, (name, profile) in enumerate(PROFILES.items(), start=1):
+            _safe_print(f"  {index}. {name}: {profile.description}", file=sys.stderr)
+        try:
+            selected = input(f"Profile [1-{len(PROFILES)}]: ").strip()
+        except EOFError:
+            selected = ""
+        names = tuple(PROFILES)
+        if not selected.isdigit() or not 1 <= int(selected) <= len(names):
+            _safe_print("Invalid profile selection. Scan cancelled.", file=sys.stderr)
+            return 2
+        scan_args.extend(["--profile", names[int(selected) - 1]])
+    elif choice == "3":
+        scan_args.extend(["--sbom", "--vulnerabilities"])
+    elif choice in {"4", "5"}:
+        label = "Firmware image" if choice == "4" else "Executable or firmware image"
+        try:
+            entered_path = input(f"{label} path: ").strip().strip('"').strip("'")
+        except EOFError:
+            entered_path = ""
+        if not entered_path:
+            _safe_print("Scan cancelled.", file=sys.stderr)
+            return 0
+        binary = Path(entered_path).expanduser()
+        if not binary.is_absolute():
+            binary = target / binary
+        scan_args = ["scan", str(binary), "--firmware" if choice == "4" else "--ghidra"]
+    elif choice != "1":
+        _safe_print("Choose a scan type from 0 through 5. Scan cancelled.", file=sys.stderr)
+        return 2
+
+    return main(scan_args, _show_banner=False, _prompt_for_pdf=True, _interactive_scan=True)
+
+
 def _interactive_shell() -> int:
-    return run_session(main)
+    """Start the FUSE shell without running a scan until requested."""
+    import shlex
+
+    from .terminal import read_command
+
+    _safe_print(f"\n  Workspace: {Path.cwd()}\n")
+
+    while True:
+        try:
+            command = read_command().strip()
+        except (EOFError, KeyboardInterrupt):
+            _safe_print("\nSession ended. — VIGIL")
+            return 0
+
+        if not command:
+            continue
+
+        name, _, tail = command.partition(" ")
+        name = name.casefold()
+        tail = tail.strip()
+
+        if name in {"/exit", "exit", "quit", "/quit"}:
+            _safe_print("\nSession ended. — VIGIL")
+            return 0
+
+        if name in {"/help", "help", "?"}:
+            _safe_print(
+                "\nFUSE COMMANDS\n"
+                "  /help                 Show this list\n"
+                "  /scan                 Open the interactive scan menu\n"
+                "  /scan PATH [OPTIONS]  Scan a target directly, e.g. /scan . --plan\n"
+                "  /doctor               Check optional analyzers and runtime\n"
+                "  /baseline ...         Run a baseline subcommand (see /baseline --help)\n"
+                "  /pwd                  Show the current workspace\n"
+                "  /cd PATH              Change workspace\n"
+                "  /version              Show the FUSE version\n"
+                "  /clear                Clear the screen\n"
+                "  /exit                 Close FUSE\n"
+            )
+            continue
+
+        if name in {"/pwd", "pwd"}:
+            _safe_print(f"Workspace: {Path.cwd()}")
+            continue
+
+        if name in {"/version", "version"}:
+            _safe_print(f"FUSE v{__version__} — by VIGIL")
+            continue
+
+        if name in {"/clear", "clear"}:
+            sys.stdout.write("\033[2J\033[H")
+            sys.stdout.flush()
+
+            # Restore the FUSE startup screen.
+            show_banner()
+            _safe_print(f"\n  Workspace: {Path.cwd()}\n")
+            continue
+
+        if name in {"/cd", "cd"}:
+            if not tail:
+                _safe_print("Usage: /cd PATH")
+                continue
+            try:
+                destination = Path(tail.strip("\"'")).expanduser()
+                if not destination.is_dir():
+                    _safe_print(f"Not a directory: {destination}")
+                    continue
+                os.chdir(destination)
+                _safe_print(f"Workspace: {Path.cwd()}")
+            except OSError as error:
+                _safe_print(f"Cannot change workspace: {error}")
+            continue
+
+        # Route shell commands through the existing CLI parser and scanner.
+        # shlex in non-POSIX mode preserves Windows backslashes in paths.
+        if name in {"/scan", "scan", "/doctor", "doctor", "/baseline", "baseline"}:
+            if name in {"/scan", "scan"} and not tail:
+                _interactive_launch(confirm=False)
+                continue
+            try:
+                args = [part.strip("\"'") for part in shlex.split(tail, posix=False)]
+            except ValueError as error:
+                _safe_print(f"Invalid command arguments: {error}")
+                continue
+            try:
+                main(
+                    [name.lstrip("/"), *args],
+                    _show_banner=False,
+                    _interactive_scan=name in {"/scan", "scan"},
+                )
+            except SystemExit as error:
+                # argparse raises SystemExit for --help and invalid syntax;
+                # returning to the shell should not terminate this session.
+                if error.code not in (0, None):
+                    _safe_print("Command failed. Type /help for examples.")
+            continue
+
+        _safe_print(f"Unknown command: {name}. Type /help for commands.")
 
 
 def main(
@@ -1439,6 +1964,27 @@ def main(
     if args.command is None:
         parser.print_help()
         return 0
+    if args.command in {"digital-twin", "flight-bus", "seu", "physical-reachability"}:
+        return run_frontier_command(args)
+    if args.command == "inspect":
+        try:
+            dna = inspect_repository(args.target)
+            identity = dna["project_identity"]
+            _safe_print(
+                json.dumps(
+                    {
+                        **dna,
+                        "project_identity": identity.to_dict(),
+                        "component_graph": build_component_graph(dna),
+                        "analysis_plan": plan_analysis(identity),
+                    },
+                    indent=2,
+                )
+            )
+            return 0
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
     if args.command == "doctor":
         try:
             config_path = args.config.expanduser() if args.config else None
@@ -1452,6 +1998,27 @@ def main(
                 config=config,
                 config_path=config_path,
                 ghidra_install_dir=install_dir,
+                output_format=args.format,
+            )
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
+    if args.command == "setup":
+        mode = (
+            "minimal"
+            if args.minimal
+            else "full"
+            if args.full
+            else "research"
+            if args.research
+            else "recommended"
+        )
+        try:
+            return _setup(
+                mode=mode,
+                dry_run=args.dry_run,
+                upgrade=args.upgrade,
+                yes=args.yes,
             )
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
@@ -1485,6 +2052,20 @@ def main(
                 args.format,
                 args.fail_on_new,
             )
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
+    if args.command == "applicability":
+        try:
+            applicability_result = analyze_report(args.report)
+            if args.output:
+                write_applicability_report(args.report, args.output, applicability_result)
+                _safe_print(f"Applicability report written to {args.output}", file=sys.stderr)
+            else:
+                sys.stdout.write(
+                    json.dumps(applicability_result, indent=2, ensure_ascii=False) + "\n"
+                )
+            return 0
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
@@ -1713,6 +2294,9 @@ def main(
                 rule_timeout_seconds=args.rule_timeout,
             )
 
+        if _interactive_scan:
+            from .cliui import ScanProgress
+
         with ScanProgress() if _interactive_scan else nullcontext():
             result = scan(
                 args.target,
@@ -1759,6 +2343,9 @@ def main(
                 else nullcontext()
             )
             with sandbox_scope:
+                if _interactive_scan:
+                    from .cliui import ScanProgress
+
                 with ScanProgress(optional=True) if _interactive_scan else nullcontext():
                     result = _analyze_with_optional_tools(
                         result,
@@ -1868,6 +2455,12 @@ def main(
             )
         if _result_callback is not None:
             _result_callback(result, output_dir or (args.output.resolve() if args.output else None))
+        if _interactive_scan:
+            from .cliui import present_scan_result
+
+            present_scan_result(
+                result, output_dir or (args.output.resolve() if args.output else None)
+            )
         if args.reason:
             canonical_path = (
                 output_dir / "findings.json"
@@ -1895,7 +2488,7 @@ def main(
                 report_answer = input("Create a PDF report? [y/N] ").strip().casefold()
             except EOFError:
                 report_answer = ""
-            if report_answer in {"y", "yes"}:
+            if report_answer in {"y", "yes"} and output_dir is not None:
                 pdf_path, note = write_pdf_report(result, output_dir)
                 if pdf_path is not None:
                     _safe_print(f"PDF report written to {pdf_path}", file=sys.stderr)

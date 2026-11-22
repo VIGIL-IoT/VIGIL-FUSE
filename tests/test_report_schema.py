@@ -26,7 +26,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.12.schema.json"
+            / "fuse-report-1.13.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
@@ -43,11 +43,11 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.12.schema.json"
+            / "fuse-report-1.13.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         report = {
-            "schema_version": "1.12",
+            "schema_version": "1.13",
             "tool": {"name": "FUSE", "version": "test"},
             "target": ".",
             "unexpected": True,
@@ -55,13 +55,32 @@ class ReportSchemaTests(unittest.TestCase):
         validator = Draft202012Validator(schema)
         self.assertTrue(list(validator.iter_errors(report)))
 
+    def test_previous_report_schema_remains_available_for_existing_reports(self) -> None:
+        root = Path(__file__).parents[1] / "src" / "vigil_fuse" / "schemas"
+        previous_schema = json.loads(
+            (root / "fuse-report-1.12.schema.json").read_text(encoding="utf-8")
+        )
+        self.assertEqual("1.12", previous_schema["properties"]["schema_version"]["const"])
+        Draft202012Validator.check_schema(previous_schema)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "project"
+            target.mkdir()
+            (target / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
+            previous_report = json.loads(to_json(scan(target)))
+        previous_report["schema_version"] = "1.12"
+        previous_report.pop("generated_by")
+        previous_report.pop("project_identity")
+        previous_report["scan"].pop("target_label")
+        Draft202012Validator(previous_schema).validate(previous_report)
+
     def test_reviewed_advisory_report_validates_with_component_and_vex_context(self) -> None:
         schema_path = (
             Path(__file__).parents[1]
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.12.schema.json"
+            / "fuse-report-1.13.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         finding = Finding(
@@ -126,7 +145,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.12.schema.json"
+            / "fuse-report-1.13.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory() as temporary:

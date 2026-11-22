@@ -20,3 +20,21 @@ class SupportMatrixTests(unittest.TestCase):
         with patch("vigil_fuse.support.files", return_value=resource_package):
             with self.assertRaisesRegex(ValueError, "must be a JSON object"):
                 support_matrix()
+
+    def test_frontier_capabilities_are_experimental_and_disclose_limits(self) -> None:
+        capabilities = {item["id"]: item for item in support_matrix()["capabilities"]}
+        for name in (
+            "cyber-physical.reachability",
+            "flight.cfe-bus",
+            "flight.radiation-indicators",
+            "hardware.digital-twin",
+        ):
+            self.assertEqual("experimental", capabilities[name]["label"])
+            self.assertTrue(capabilities[name]["limitations"])
+
+    def test_project_identity_is_experimental_and_discloses_heuristic_limits(self) -> None:
+        capabilities = {item["id"]: item for item in support_matrix()["capabilities"]}
+        identity = capabilities["project.identity"]
+        self.assertEqual("experimental", identity["label"])
+        self.assertIn("not calibrated", " ".join(identity["limitations"]))
+        self.assertIn("advisory", " ".join(identity["limitations"]))

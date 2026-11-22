@@ -6,6 +6,7 @@ from collections import defaultdict
 from urllib.parse import quote
 
 from . import __version__
+from .attribution import FUSE_REPOSITORY, generated_by_metadata
 from .model import Finding, ScanResult
 
 _LEVEL = {
@@ -141,8 +142,11 @@ def to_sarif(result: ScanResult) -> str:
         )
 
     run_properties: dict[str, object] = {
+        "generatedBy": generated_by_metadata(),
         "target": result.target,
+        "targetLabel": result.target_label,
         "profile": result.profile,
+        "projectIdentity": result.project_identity.to_dict(),
         "networkPolicy": result.network_policy,
         "inputManifestSha256": result.input_manifest_sha256,
         "analysisPerformed": result.analysis_performed,
@@ -165,7 +169,9 @@ def to_sarif(result: ScanResult) -> str:
         "tool": {
             "driver": {
                 "name": "FUSE",
+                "version": __version__,
                 "semanticVersion": __version__,
+                "informationUri": FUSE_REPOSITORY,
                 "rules": list(definitions.values()),
             }
         },

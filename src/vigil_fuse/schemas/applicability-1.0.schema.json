@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vigil-iot.github.io/VIGIL-FUSE/schemas/applicability-1.0.schema.json",
+  "title": "FUSE Embedded Applicability Report",
+  "type": "object",
+  "required": ["schema_version", "tool", "source_report", "summary", "coverage", "claims", "assessments", "limitations"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "tool": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "FUSE" },
+        "version": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "source_report": {
+      "type": "object",
+      "required": ["schema_version", "sha256"],
+      "properties": {
+        "schema_version": { "type": "string" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["assessment_count", "assessment_states"],
+      "properties": {
+        "assessment_count": { "type": "integer", "minimum": 0 },
+        "assessment_states": {
+          "type": "object",
+          "required": ["AFFECTED", "NOT_AFFECTED", "UNDER_INVESTIGATION", "UNKNOWN"],
+          "properties": {
+            "AFFECTED": { "type": "integer", "minimum": 0 },
+            "NOT_AFFECTED": { "type": "integer", "minimum": 0 },
+            "UNDER_INVESTIGATION": { "type": "integer", "minimum": 0 },
+            "UNKNOWN": { "type": "integer", "minimum": 0 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["source_discovery_complete", "dependency_analyzer_status", "findings_assessed"],
+      "properties": {
+        "source_discovery_complete": { "type": ["boolean", "null"] },
+        "dependency_analyzer_status": {
+          "enum": ["completed", "partial", "unavailable", "incompatible", "timeout", "unsupported", "skipped", "failed", "not-reported"]
+        },
+        "findings_assessed": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "claims": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/claim" }
+    },
+    "assessments": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/assessment" }
+    },
+    "limitations": { "$ref": "#/$defs/strings" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "strings": { "type": "array", "items": { "type": "string" } },
+    "target_identity": {
+      "type": "object",
+      "properties": {
+        "framework": { "type": "string" },
+        "target": { "type": "string" },
+        "board": { "type": "string" },
+        "framework_version": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "component": {
+      "type": "object",
+      "required": ["name", "version", "ecosystem"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "ecosystem": { "type": "string" },
+        "purl": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "state": {
+      "type": "object",
+      "required": ["value", "confidence", "claim_ids", "limitations"],
+      "properties": {
+        "value": {
+          "enum": ["TRUE", "FALSE", "UNKNOWN", "PARTIAL", "UNSUPPORTED", "NOT_APPLICABLE", "NOT_CHECKED", "CONTRADICTORY"]
+        },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "claim_ids": { "type": "array", "items": { "$ref": "#/$defs/sha256" } },
+        "limitations": { "$ref": "#/$defs/strings" }
+      },
+      "additionalProperties": false
+    },
+    "claim": {
+      "type": "object",
+      "required": ["claim_id", "subject", "predicate", "value", "source", "source_version", "artifact_digest", "target_identity", "location", "extraction_method", "confidence", "coverage", "observation_context", "limitations"],
+      "properties": {
+        "claim_id": { "$ref": "#/$defs/sha256" },
+        "subject": { "type": "string" },
+        "predicate": { "type": "string" },
+        "value": {
+          "enum": ["TRUE", "FALSE", "UNKNOWN", "PARTIAL", "UNSUPPORTED", "NOT_APPLICABLE", "NOT_CHECKED", "CONTRADICTORY", "AFFECTED", "NOT_AFFECTED"]
+        },
+        "source": { "type": "string" },
+        "source_version": { "type": ["string", "null"] },
+        "artifact_digest": { "$ref": "#/$defs/sha256" },
+        "target_identity": { "$ref": "#/$defs/target_identity" },
+        "location": { "type": "string" },
+        "extraction_method": { "type": "string" },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "coverage": { "const": "observed" },
+        "observation_context": { "enum": ["STATIC", "EMULATED", "SIMULATED", "LAB_MEASURED", "FIELD_OBSERVED", "FIELD_ATTESTED", "REVIEWED"] },
+        "limitations": { "$ref": "#/$defs/strings" },
+        "justification": { "type": "string" },
+        "detail": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "assessment": {
+      "type": "object",
+      "required": ["finding_fingerprint", "vulnerability_id", "component", "assessment", "assessment_source", "assessment_claim_ids", "states"],
+      "properties": {
+        "finding_fingerprint": { "$ref": "#/$defs/sha256" },
+        "vulnerability_id": { "type": "string" },
+        "component": { "$ref": "#/$defs/component" },
+        "assessment": { "enum": ["AFFECTED", "NOT_AFFECTED", "UNDER_INVESTIGATION", "UNKNOWN"] },
+        "assessment_source": { "enum": ["evidence-gap", "unsupported-advisory-provider", "reviewed-vex"] },
+        "assessment_claim_ids": { "type": "array", "items": { "$ref": "#/$defs/sha256" } },
+        "states": {
+          "type": "object",
+          "required": ["DEPENDENCY_PRESENT", "VERSION_AFFECTED", "COMPONENT_RESOLVED_FOR_CONFIGURED_TARGET", "BUILD_INCLUDED", "FEATURE_ENABLED", "DEVICE_ENABLED", "BINARY_PRESENT", "RUNTIME_REACHABLE", "PHYSICALLY_EXPOSED"],
+          "properties": {
+            "DEPENDENCY_PRESENT": { "$ref": "#/$defs/state" },
+            "VERSION_AFFECTED": { "$ref": "#/$defs/state" },
+            "COMPONENT_RESOLVED_FOR_CONFIGURED_TARGET": { "$ref": "#/$defs/state" },
+            "BUILD_INCLUDED": { "$ref": "#/$defs/state" },
+            "FEATURE_ENABLED": { "$ref": "#/$defs/state" },
+            "DEVICE_ENABLED": { "$ref": "#/$defs/state" },
+            "BINARY_PRESENT": { "$ref": "#/$defs/state" },
+            "RUNTIME_REACHABLE": { "$ref": "#/$defs/state" },
+            "PHYSICALLY_EXPOSED": { "$ref": "#/$defs/state" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

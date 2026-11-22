@@ -15,13 +15,13 @@ class HoldoutScanSummaryTests(unittest.TestCase):
             report_path = report_root / "example" / "findings.json"
             report_path.parent.mkdir(parents=True)
             report_path.write_text(
-                json.dumps({"schema_version": "1.11", "summary": {}, "coverage": {}}),
+                json.dumps({"schema_version": "1.13", "summary": {}, "coverage": {}}),
                 encoding="utf-8",
             )
 
             report = _read_report(report_root, "example")
 
-        self.assertEqual("1.11", report["schema_version"])
+        self.assertEqual("1.13", report["schema_version"])
 
     def test_summary_keeps_an_independent_cohort_and_aggregates_coverage(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

@@ -2,7 +2,9 @@
 
 FUSE is a local command-line tool for reviewing embedded and IoT project sources, configuration, hardware inventories, dependency inputs, and selected firmware images. It gathers evidence for review. A finding is not proof that a deployed device is vulnerable.
 
-## Install from PyPI
+## Last published PyPI package
+
+PyPI publishing is paused. Version 0.4.0 is the last published package and predates the adapted features. Install from the repository below to use the current source.
 
 The published [`vigil-fuse` package](https://pypi.org/project/vigil-fuse/) requires Python 3.11 or newer. Install the isolated command-line tool with pipx:
 
@@ -59,7 +61,7 @@ vigil-fuse
 
 FUSE opens a session without starting a scan. Use `/help` to list commands, `/target "path with spaces"` to change the target, `/profile esp-idf` to choose a profile, `/scan` to scan the current target, and `/findings` to review the most recent result without rescanning. `/plan`, `/sbom`, `/vulnerabilities`, `/firmware`, `/ghidra`, `/baseline`, `/doctor`, `/status`, and `/exit` are also available. Quote paths that contain spaces. Scans use the same options and evidence rules as the regular CLI; Ghidra does not export decompiled pseudocode.
 
-Install `vigil-fuse[cliui]` to enable command suggestions, editing, and in-memory command-name history. The history omits paths and option values. Without the optional extra, FUSE uses basic input. Scan progress wording is decorative and does not identify a specific analysis stage; use the report's coverage section for scan status. After an interactive scan, FUSE asks `Create a PDF report? [y/N]`; the optional PDF is saved as `.fuse-results/fuse-report.pdf` when `pdflatex` is available. JSON, text, and SARIF reports are written independently.
+Install `vigil-fuse[cliui]` to enable command suggestions, editing, and in-memory command-name history. The history omits paths and option values. Without the optional extra, FUSE uses basic input. Scan progress wording is decorative and does not identify a specific analysis stage; use the report's coverage section for scan status. After an interactive scan, FUSE asks `Create a PDF report? [y/N]`; XeLaTeX renders the PDF with Times New Roman. A pdfLaTeX-only installation uses a Times-compatible font. JSON, text, and SARIF reports are written independently.
 
 ## Preview a scan
 
@@ -69,7 +71,7 @@ Use `--plan` to preview selected inputs, stages, limits, and optional tools befo
 vigil-fuse scan path/to/embedded-project --plan
 ```
 
-Planning does not run analyzers or project commands. Choose a profile when the target needs framework-specific discovery:
+Planning does not run analyzers or project commands. It also reports bounded project identity evidence and advisory stage recommendations; those recommendations do not enable tools. Choose a profile when the target needs framework-specific discovery:
 
 ```sh
 vigil-fuse scan path/to/esp-idf-project --profile esp-idf --plan
@@ -89,7 +91,9 @@ Run the scan and write its reports to a folder:
 vigil-fuse scan path/to/embedded-project --output-dir .fuse-results
 ```
 
-The output folder contains `findings.json`, `findings.txt`, and `findings.sarif`. JSON preserves structured findings and coverage details. Text is convenient for terminal review. SARIF is available for compatible code-scanning tools.
+The output folder contains `findings.json`, `findings.txt`, `findings.sarif`, `FUSE_SCAN_PROVENANCE.json`, and `CITATION.cff`. The provenance file records hashes of the exact three report files and a safe target/configuration identity. Citation metadata uses the canonical repository authors and runtime version. JSON preserves structured findings and coverage details. Text is convenient for terminal review. SARIF is available for compatible code-scanning tools.
+
+Without `--output-dir`, FUSE writes to a sibling `.fuse-results/<target-name>/` directory so the scan does not create output inside the target. An explicit output directory can be selected for CI or local workflows.
 
 Optionally evaluate an explicit Rego policy or the bundled reference policy:
 
@@ -199,8 +203,29 @@ Review scan coverage and optional-stage status along with the findings. An unava
 
 Keep reports private when they contain project paths, dependency details, hardware inventory, or security findings. Check the output before sharing it.
 
+Build a bounded context packet for one finding from the JSON report when preparing it for a separate reasoning tool:
+
+```sh
+vigil-fuse reasoning-context .fuse-results/findings.json \
+  --finding FUSE-001-1 \
+  --output .fuse-results/context.json \
+  --pretty
+```
+
+This command requires no model or GPU and writes one exact finding packet. It preserves the scanner's finding and coverage status, redacts sensitive text, and keeps deployment stages such as configured, built, linked, run, physically populated, and externally accessible distinct. See [the local reasoning guide](local-reasoning.md) for the input and authority boundaries.
+
 ## Configuration and more detail
 
 Use `--config fuse.example.toml` as a starting point for repeatable scan settings. Command-line options can override supported settings.
 
 Read more about [finding fields](finding-schema.md), [optional integrations](integrations.md), [hardware analysis](hardware-analysis.md), [firmware analysis](firmware-analysis.md), and [rule development](rule-development.md).
+
+Additional migrated layers:
+
+- [Compiler-semantic C/C++ evidence](cpp-semantic-analysis.md)
+- [Embedded applicability](embedded-applicability.md)
+- [Cyber-physical analysis](physical-reachability.md), [digital-twin descriptions](digital-twin.md), [flight software](flight-software-analysis.md), and [resilience indicators](radiation-resilience.md)
+- [RTL and FPGA analysis](rtl-security-analysis.md) and [Rego/OPA policy evaluation](policy-as-code.md)
+- [Go/Kubernetes execution foundation](kubernetes-operator.md)
+- [Offline Julia research](research/julia-research-engine.md) and [R workflows](../research/R/README.md)
+- [Final standalone repository migration report](standalone-fuse-final-migration.md) and [machine-readable parity ledger](../migration/full-parity-ledger.json)

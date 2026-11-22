@@ -89,6 +89,7 @@ class ArchitectureContractTests(unittest.TestCase):
     def test_foundation_modules_remain_independent_of_application_layers(self) -> None:
         foundations = {
             "vigil_fuse.model",
+            "vigil_fuse.project_identity",
             "vigil_fuse.input_types",
             "vigil_fuse.limits",
             "vigil_fuse.path_safety",
@@ -100,7 +101,10 @@ class ArchitectureContractTests(unittest.TestCase):
 
         for module in sorted(foundations):
             with self.subTest(module=module):
-                self.assertEqual(set(), graph[module])
+                allowed_foundation_imports = (
+                    {"vigil_fuse.project_identity"} if module == "vigil_fuse.model" else set()
+                )
+                self.assertEqual(allowed_foundation_imports, graph[module])
 
     def test_rule_implementations_depend_only_on_the_shared_contract(self) -> None:
         graph = _module_graph()
