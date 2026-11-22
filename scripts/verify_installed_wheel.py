@@ -72,6 +72,8 @@ def main() -> int:
                 "assert files('vigil_fuse').joinpath('resources/ghidra/FuseExport.java').is_file(); "
                 "assert files('vigil_fuse').joinpath('policies/production_iot.rego').is_file(); "
                 "assert files('vigil_fuse').joinpath('schemas/fuse-report-1.12.schema.json').is_file(); "
+                "assert files('vigil_fuse').joinpath('schemas/fuse-report-1.13.schema.json').is_file(); "
+                "assert files('vigil_fuse').joinpath('resources/citation.cff').is_file(); "
                 "print('package metadata and resources OK')",
             ],
             cwd=outside,
@@ -91,6 +93,9 @@ def main() -> int:
         )
         scan = json.loads(output.read_text(encoding="utf-8"))
         assert scan["tool"]["name"] == "FUSE"
+        assert scan["schema_version"] == "1.13"
+        assert scan["project_identity"]["schema_version"] == "1.0"
+        assert scan["generated_by"]["repository"] == "https://github.com/VIGIL-IoT/VIGIL-FUSE"
         installed_module = Path(
             run(
                 [str(python), "-c", "import vigil_fuse; print(vigil_fuse.__file__)"],

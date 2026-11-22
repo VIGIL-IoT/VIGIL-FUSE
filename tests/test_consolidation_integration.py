@@ -60,7 +60,7 @@ def test_scan_policy_context_reasoning_and_baseline_preserve_canonical_evidence(
     assert (output / "findings.txt").is_file()
     assert json.loads((output / "findings.sarif").read_bytes())["version"] == "2.1.0"
     schema = json.loads(
-        files("vigil_fuse").joinpath("schemas/fuse-report-1.12.schema.json").read_text()
+        files("vigil_fuse").joinpath("schemas/fuse-report-1.13.schema.json").read_text()
     )
     Draft202012Validator(schema).validate(report)
     context_path = tmp_path / "context.json"

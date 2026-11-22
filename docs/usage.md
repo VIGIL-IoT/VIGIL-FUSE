@@ -61,7 +61,7 @@ vigil-fuse
 
 FUSE opens a session without starting a scan. Use `/help` to list commands, `/target "path with spaces"` to change the target, `/profile esp-idf` to choose a profile, `/scan` to scan the current target, and `/findings` to review the most recent result without rescanning. `/plan`, `/sbom`, `/vulnerabilities`, `/firmware`, `/ghidra`, `/baseline`, `/doctor`, `/status`, and `/exit` are also available. Quote paths that contain spaces. Scans use the same options and evidence rules as the regular CLI; Ghidra does not export decompiled pseudocode.
 
-Install `vigil-fuse[cliui]` to enable command suggestions, editing, and in-memory command-name history. The history omits paths and option values. Without the optional extra, FUSE uses basic input. Scan progress wording is decorative and does not identify a specific analysis stage; use the report's coverage section for scan status. After an interactive scan, FUSE asks `Create a PDF report? [y/N]`; the optional PDF is saved as `.fuse-results/fuse-report.pdf` when `pdflatex` is available. JSON, text, and SARIF reports are written independently.
+Install `vigil-fuse[cliui]` to enable command suggestions, editing, and in-memory command-name history. The history omits paths and option values. Without the optional extra, FUSE uses basic input. Scan progress wording is decorative and does not identify a specific analysis stage; use the report's coverage section for scan status. After an interactive scan, FUSE asks `Create a PDF report? [y/N]`; the optional PDF is saved in the selected report directory when `pdflatex` is available. JSON, text, and SARIF reports are written independently.
 
 ## Preview a scan
 
@@ -71,7 +71,7 @@ Use `--plan` to preview selected inputs, stages, limits, and optional tools befo
 vigil-fuse scan path/to/embedded-project --plan
 ```
 
-Planning does not run analyzers or project commands. Choose a profile when the target needs framework-specific discovery:
+Planning does not run analyzers or project commands. It also reports bounded project identity evidence and advisory stage recommendations; those recommendations do not enable tools. Choose a profile when the target needs framework-specific discovery:
 
 ```sh
 vigil-fuse scan path/to/esp-idf-project --profile esp-idf --plan
@@ -91,7 +91,9 @@ Run the scan and write its reports to a folder:
 vigil-fuse scan path/to/embedded-project --output-dir .fuse-results
 ```
 
-The output folder contains `findings.json`, `findings.txt`, and `findings.sarif`. JSON preserves structured findings and coverage details. Text is convenient for terminal review. SARIF is available for compatible code-scanning tools.
+The output folder contains `findings.json`, `findings.txt`, `findings.sarif`, `FUSE_SCAN_PROVENANCE.json`, and `CITATION.cff`. The provenance file records hashes of the exact three report files and a safe target/configuration identity. Citation metadata uses the canonical repository authors and runtime version. JSON preserves structured findings and coverage details. Text is convenient for terminal review. SARIF is available for compatible code-scanning tools.
+
+Without `--output-dir`, FUSE writes to a sibling `.fuse-results/<target-name>/` directory so the scan does not create output inside the target. An explicit output directory can be selected for CI or local workflows.
 
 Optionally evaluate an explicit Rego policy or the bundled reference policy:
 

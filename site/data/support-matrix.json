@@ -249,6 +249,19 @@
       "limitations": [
         "Not performed by the current FUSE scanner"
       ]
+    },
+    {
+      "id": "project.identity",
+      "input": "Bounded local project tree names and selected small manifests",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Deterministic advisory classification for software, firmware, embedded, hardware, RTL, hybrid, or unknown project identity with independent evidence scores and bounded limitations.",
+      "limitations": [
+        "Evidence scores are heuristics, not calibrated probabilities or measures of security",
+        "Inspection does not execute code, build tools, package managers, or use the network",
+        "Symbolic links are excluded and make identity incomplete; bounded inspection can return unknown",
+        "Recommendations are advisory and do not enable analyzers or change scan routing"
+      ]
     }
   ]
 }

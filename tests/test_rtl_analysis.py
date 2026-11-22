@@ -18,7 +18,7 @@ from vigil_fuse.scanner import scan
 
 FIXTURES = Path(__file__).parent / "fixtures" / "rtl"
 SCHEMA = (
-    Path(__file__).parents[1] / "src" / "vigil_fuse" / "schemas" / "fuse-report-1.12.schema.json"
+    Path(__file__).parents[1] / "src" / "vigil_fuse" / "schemas" / "fuse-report-1.13.schema.json"
 )
 RTL_RULES = {"FUSE-RTL-001", "FUSE-RTL-002", "FUSE-RTL-003", "FUSE-RTL-004"}
 

@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Callable, Literal, TextIO, TypedDict
 
 from . import __version__
+from .attribution import citation_cff_text, scan_provenance_json
 from .applicability import analyze_report, write_report as write_applicability_report
 from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
 from .analyzer_runtime import (
@@ -53,6 +54,7 @@ from .frontier_cli import (
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
+from .project_identity import inspect_project_identity
 from .policy import (
     evaluate_policies,
     inspect_opa,
@@ -122,6 +124,7 @@ class _ScanPlan(TypedDict):
     target: str
     target_kind: str
     profile: str
+    project_identity: dict[str, object]
     analyzer_execution: str
     selected_build_dir: str | None
     selected_zephyr_hardening_report: str | None
@@ -544,13 +547,19 @@ def _resolve_output_dir(
 
 
 def _default_output_dir(target: Path) -> Path:
-    if target.is_dir():
-        base = target
-    elif target.is_file():
-        base = target.parent
+    resolved = target.expanduser().resolve()
+    if resolved.is_dir():
+        if resolved.parent == resolved:
+            raise ValueError("A filesystem root requires an explicit --output-dir")
+        base = resolved.parent
+        name = resolved.name
+    elif resolved.is_file():
+        base = resolved.parent
+        name = resolved.name or "scan"
     else:
-        base = Path.cwd()
-    return base / ".fuse-results"
+        base = Path.cwd().resolve()
+        name = resolved.name or "scan"
+    return base / ".fuse-results" / name
 
 
 def _exclude_output_directory(
@@ -575,9 +584,9 @@ def _exclude_output_directory(
 def _write_reports(result: ScanResult, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     reports = {
-        "findings.json": to_json(result),
-        "findings.txt": to_text(result),
-        "findings.sarif": to_sarif(result),
+        "findings.json": to_json(result).encode("utf-8"),
+        "findings.txt": to_text(result).encode("utf-8"),
+        "findings.sarif": to_sarif(result).encode("utf-8"),
     }
     for name, content in reports.items():
         path = output_dir / name
@@ -585,7 +594,17 @@ def _write_reports(result: ScanResult, output_dir: Path) -> None:
             raise OSError(f"Refusing to write report through symbolic link: {name}")
         if path.exists() and not path.is_file():
             raise OSError(f"Report output path is not a regular file: {name}")
-        path.write_text(content, encoding="utf-8")
+        path.write_bytes(content)
+    for name, content in {
+        "FUSE_SCAN_PROVENANCE.json": scan_provenance_json(result, reports).encode("utf-8"),
+        "CITATION.cff": citation_cff_text().encode("utf-8"),
+    }.items():
+        path = output_dir / name
+        if path.is_symlink():
+            raise OSError(f"Refusing to write bundle metadata through symbolic link: {name}")
+        if path.exists() and not path.is_file():
+            raise OSError(f"Bundle metadata output path is not a regular file: {name}")
+        path.write_bytes(content)
 
 
 def _write_policy_results(document: dict[str, object], path: Path) -> None:
@@ -957,6 +976,12 @@ def _scan_plan(
             "Symbolic-link targets are not followed; pass the resolved file or directory explicitly"
         )
     shareable_target = report_target_label(target, target_label)
+    project_identity = inspect_project_identity(
+        target,
+        max_paths=max_discovered_paths,
+        max_directories=max_discovered_directories,
+        budget_seconds=min(float(max_scan_seconds), 2.0),
+    )
     selected_build_dir = None
     if build_dir is not None:
         if profile not in {"esp-idf", "zephyr"}:
@@ -1401,6 +1426,7 @@ def _scan_plan(
         "target": shareable_target,
         "target_kind": kind,
         "profile": profile,
+        "project_identity": project_identity.to_dict(),
         "analyzer_execution": (
             "host tools run with the current user's permissions; external analyzers are unsandboxed"
             if analyzer_sandbox is None
@@ -1475,6 +1501,24 @@ def _scan_plan(
     else:
         _safe_print(f"FUSE scan plan for {plan['target']} ({kind}, profile: {profile})")
         _safe_print("No analyzer ran; this is a bounded path and metadata preview.")
+        _safe_print(
+            "Project identity: "
+            f"{project_identity.primary_type}"
+            + (f" ({project_identity.subtype})" if project_identity.subtype else "")
+            + f" / {project_identity.confidence} confidence; advisory recommendations only"
+        )
+        _safe_print(
+            "  Domain evidence scores: "
+            + ", ".join(f"{name}={score:.3f}" for name, score in project_identity.domains.items())
+        )
+        for signal in project_identity.supporting_signals:
+            _safe_print(f"  Evidence: {signal}")
+        for limitation in project_identity.limitations:
+            _safe_print(f"  Identity limitation: {limitation}")
+        for name in project_identity.recommended_stages:
+            _safe_print(f"  Recommended stage: {name}")
+        for name in project_identity.optional_stages:
+            _safe_print(f"  Optional stage: {name}")
         _safe_print(f"Optional analyzer execution: {plan['analyzer_execution']}")
         _safe_print(
             "Framework hints: "

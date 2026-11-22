@@ -15,8 +15,10 @@ The diagrams below describe implemented behavior. A stage marked optional runs o
 ```mermaid
 flowchart LR
     Operator[Operator] --> CLI[Local CLI]
-    Target[Project tree or selected artifact] --> Discovery[Bounded discovery and input validation]
+    Target[Project tree or selected artifact] --> Identity[Bounded project identity]
+    Target --> Discovery[Bounded discovery and input validation]
     CLI --> Discovery
+    CLI --> Identity
     Discovery --> Native[Native text rules in worker process]
     Discovery --> Context[Read-only platform and build context]
     Discovery --> Hardware[Hardware filename inventory and selected netlist or BOM]
@@ -27,8 +29,8 @@ flowchart LR
     Context --> Model
     Hardware --> Model
     Optional --> Model
-    Model --> Reports[Text, JSON, SARIF, and requested inventory artifacts]
-    Reports --> Output[Local output directory]
+    Model --> Reports[Text, JSON, SARIF, identity, and requested inventory artifacts]
+    Reports --> Output[Local report bundle with hashes and citation]
 ```
 
 ```mermaid
@@ -77,7 +79,9 @@ CLI
  ├─ optional Syft / OSV-Scanner / Binwalk / Gitleaks / Ghidra adapters run as bounded subprocesses
  ├─ product-context adapter correlates exact CycloneDX VEX identities and SLSA subject digests
  ├─ common Finding model carries severity, confidence, evidence, component identity, and review context
- ├─ reporters emit text, schema 1.12 JSON, SARIF, inventories, coverage, and artifact hashes
+ ├─ bounded identity engine scores independent project markers without executing project files
+ ├─ reporters emit text, schema 1.13 JSON, SARIF, inventories, coverage, and artifact hashes
+ ├─ bundle writer records report hashes and emits canonical FUSE attribution and CITATION.cff
  └─ baseline review consumes canonical JSON reports to compare changes and apply reasoned suppressions
 ```
 
@@ -88,6 +92,8 @@ CLI
 - `config.py` and `profiles.py`: validated TOML configuration and file-discovery profiles.
 - `input_types.py`: recognized existing CycloneDX/SPDX documents and routes them to the inventory/advisory stage.
 - `scanner.py`: deterministic text discovery, path filtering, generated-directory exclusions, unsupported file-type counts, input hashes, symlink and special-file policy, size limits, and text decoding. Its bounded path preview powers `scan --plan` without opening project source files.
+- `project_identity.py`: deterministic, bounded name and small-manifest evidence scoring for software, firmware, embedded, hardware, RTL, hybrid, or unknown projects. It does not execute code, build tools, package managers, or network requests. Scores are heuristics, and incomplete inspection yields unknown identity.
+- `attribution.py`: canonical VIGIL/FUSE metadata, packaged citation metadata, and report-bundle provenance hashes for exact report bytes.
 - `firmware_inventory.py`: bounded filename and size inventory across source and common build-output directories. It never reads candidate image bytes.
 - `github_actions.py`: bounded, line-oriented checks for exact workflow-level and job-level `write-all` permission scalars, inventory of non-SHA action references, findings on obvious floating branch refs, a narrow `pull_request_target` plus `actions/checkout` pull request head-ref candidate, and selected untrusted event expressions directly interpolated into step `run` scripts. Findings remain repository workflow candidates; the adapter does not infer whether checked-out code is executed or whether shell interpolation is exploitable.
 - `hardware_netlist.py`: UTF-8 and DTD checks, streaming XML depth and element preflight, then bounded parsing of selected or uniquely detected KiCad netlists for named debug nets attached to connector candidates. It does not infer physical exposure.

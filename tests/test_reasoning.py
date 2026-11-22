@@ -509,7 +509,9 @@ def test_scan_opt_in_preserves_reports_exit_and_json(
     assert before == after
     report = json.loads(capsys.readouterr().out)
     assert report["findings"]
-    artifact = json.loads((source / ".fuse-results" / "reasoning.json").read_text())
+    artifact = json.loads(
+        (source.parent / ".fuse-results" / source.name / "reasoning.json").read_text()
+    )
     assert artifact["findings"][0]["reasoning_status"] == "failed"
     assert report["findings"] == original_findings
 
@@ -717,7 +719,7 @@ def test_latest_rtl_report_context_preserves_static_states() -> None:
 
     root = Path(__file__).parent / "fixtures" / "rtl" / "insecure"
     report = load_report(to_json(scan(root)).encode())
-    assert report["schema_version"] == "1.12"
+    assert report["schema_version"] == "1.13"
     finding = next(item for item in report["findings"] if item["rule_id"].startswith("FUSE-RTL"))
     packet = build_context(report, finding)
     schema = json.loads(

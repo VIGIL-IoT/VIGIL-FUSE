@@ -110,7 +110,7 @@ It explicitly retains unknown applicability/validation and the absence of runtim
 population and accessibility evidence. `PRESENT`, `BUILD_INCLUDED`, `LINKED`,
 `RUNTIME_EXECUTED`, `PHYSICALLY_POPULATED` and `EXTERNALLY_ACCESSIBLE` remain distinct.
 Source presence, configuration and schematic routing do not establish later states.
-Semantic observations remain unavailable. For schema 1.12, matching RTL file metadata
+Semantic observations remain unavailable. For schemas 1.12 and 1.13, matching RTL file metadata
 and observations at the finding line are bounded to 6 entries; presence, build
 status, parse status and conditionality are preserved without claiming deployed logic.
 Matching firmware candidate metadata can be attached by exact path; binary dumps

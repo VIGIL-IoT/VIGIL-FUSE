@@ -1,8 +1,10 @@
 # FUSE finding format
 
-FUSE JSON reports use `schema_version: "1.12"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.12.schema.json). A report contains tool metadata, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan. Schema 1.12 adds bounded RTL structure and security evidence under `hardware_inventory.rtl_analysis` while retaining older report schemas.
+FUSE JSON reports use `schema_version: "1.13"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.13.schema.json). A report contains tool and VIGIL attribution, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, project identity evidence, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan. Schema 1.13 adds bounded project identity and attribution while retaining the prior 1.12 schema for existing reports.
 
 The top-level `target` value is a shareable label. By default, it is the target basename. Pass `--target-label organization/repository` or set `scan.target_label` in TOML to give reports and baselines a stable identity when different repositories have the same folder name. Labels cannot be absolute paths or contain traversal segments. Local target paths are not included in reports.
+
+The `project_identity` object classifies the inspected tree as `software`, `firmware`, `embedded`, `hardware`, `rtl`, `hybrid`, or `unknown`. It includes the selected subtype, confidence label, domain evidence scores, supporting signals, completeness, and limitations. Scores combine independent filename, structure, and selected small-manifest markers. They are heuristic evidence scores, not probabilities, security ratings, or proof of implementation. `scan --plan` uses the same bounded classifier. Its recommended and optional stages are advisory only and do not enable analyzers or change scan routing. Identity inspection never runs project code, a build tool, a package manager, or network requests. Symlinks are excluded, and limits or malformed selected manifests make the result incomplete and therefore `unknown`.
 
 ## Finding fields
 
@@ -41,7 +43,7 @@ Line numbers are `null` for findings such as dependency advisories when the inve
 
 ## Scan metadata and coverage
 
-The `scan` object identifies the target kind and profile, records the network policy and UTC start/completion times, and gives `input_manifest_sha256`. The network policy is `not-requested`, `network-allowed`, `offline-vulnerabilities`, or `no-network`. That digest covers selected source paths and file hashes, or their skip reasons. It is **not** a digest of every file in the target: unsupported files and files filtered by policy are excluded and counted separately.
+The `scan` object identifies the target kind, shareable `target_label`, and profile, records the network policy and UTC start/completion times, and gives `input_manifest_sha256`. The network policy is `not-requested`, `network-allowed`, `offline-vulnerabilities`, or `no-network`. That digest covers selected source paths and file hashes, or their skip reasons. It is **not** a digest of every file in the target: unsupported files and files filtered by policy are excluded and counted separately.
 
 The summary includes `source_bytes_read`, the number of bytes read while processing selected source files. Defaults cap discovery at 100,000 file paths or 20,000 directories, native source reads at 512 MiB, and native scanning at 10 minutes. CLI switches or the matching `[scan]` TOML fields can adjust these limits up to hard ceilings of 1,000,000 paths, 200,000 directories, 8 GiB of source, and 60 minutes. Optional external analyzers have separate timeouts. Native rules run in a worker subprocess with a configurable per-rule, per-input limit of 0.1 to 30 seconds, defaulting to 2 seconds. A timed-out rule is terminated and disabled for the rest of the scan. Its `coverage.analyzers` entry has a `native-rule:<ID>` name and `partial` status; a rule exception has `failed` status. The aggregate native analyzer reports `partial` and the CLI returns a nonzero status when a rule is incomplete. `coverage.discovery_complete`, `coverage.limits_reached`, and analyzer statuses make coverage limits visible. An empty finding list alone is never proof that all relevant content was analyzed.
 
@@ -67,9 +69,9 @@ The `provenance` object records fields selected from an in-toto SLSA statement a
 
 The `project_context` object records ESP-IDF or Zephyr project markers and, only when `--build-dir` is supplied, a small set of files from that selected build directory. Those generated files are hashed and bounded to 4 MiB each. ESP-IDF context records the selected `sdkconfig` path and whether it came from `CMakeCache.txt` or the conventional project default. It records defaults candidates in processing order, target-specific variants, hashes, and missing or unreadable inputs. An explicit `SDKCONFIG_DEFAULTS` value is taken from the selected build's cache; without that evidence, conventional defaults are candidates only because project CMake or environment settings may override them. The order follows Espressif's documented rule: each target-specific variant is tried immediately after its base entry. FUSE does not interpret Kconfig dependencies or claim that a selected build was released. Boot-validation settings found in selected generated configuration can produce findings with `applicability: "candidate"` and `validation_method: "generated-config"`. ESP-IDF scans also inventory a root `dependencies.lock` when present, using the optional `vigil-fuse[esp-idf]` extra. The lock summary preserves the file hash, lock version, target, manifest hash, and resolved component names, versions, source types, compatibility targets, and dependency edges. It does not expose raw source URLs or local paths. The manifest hash is not recomputed, so `manifest_freshness` remains `unverified`. A resolved lock entry is not proof that a component was built into or shipped in a firmware image. Zephyr scans can import the selected build's JSON hardening report with `--zephyr-hardening-report`. The report is hashed, limited to 4 MiB, and must be inside the selected build directory. FUSE preserves the Zephyr profile and rationale, and maps each upstream `FAIL` to a finding with unknown severity, high confidence in the reported configuration deviation, candidate applicability, and external-tool validation provenance. Passing and non-applicable check counts appear in the analyzer coverage detail. FUSE does not run `west` or the build. Both platform adapters are experimental.
 
-The `artifacts` array records each generated SBOM or analyzer output by relative path, media type, and SHA-256. The report itself is not listed as an artifact because it contains the artifact manifest.
+The `artifacts` array records each generated SBOM or analyzer output by relative path, media type, and SHA-256. The report itself is not listed as an artifact because it contains the artifact manifest. A report bundle also contains `FUSE_SCAN_PROVENANCE.json`, which hashes the exact UTF-8 bytes of `findings.json`, `findings.txt`, and `findings.sarif`, and records a safe target label and configuration identity. It does not hash itself. `CITATION.cff` uses canonical repository authorship and the runtime package version. Both sidecars are emitted with the three core reports.
 
-SARIF 2.1.0 uses `%SRCROOT%` for relative source locations and limits serialized output to 9 MiB. Its run properties include `resultsAvailable`, `resultsIncluded`, and `resultsOmitted`; consumers can detect a capped export without mistaking it for the complete JSON finding list.
+SARIF 2.1.0 identifies FUSE by runtime version and repository URL. Its run properties include attribution, target label, project identity, `resultsAvailable`, `resultsIncluded`, and `resultsOmitted`; consumers can detect a capped export without mistaking it for the complete JSON finding list. SARIF uses `%SRCROOT%` for relative source locations and limits serialized output to 9 MiB.
 
 For SARIF alert matching, FUSE includes GitHub's `primaryLocationLineHash`. It hashes normalized, already-redacted finding evidence and adds an occurrence counter for repeated same-rule evidence in one file. This remains stable when a finding moves because unrelated lines were inserted, while preserving distinct repeated matches. The JSON report's `fingerprint` remains location-sensitive, and the baseline diff uses its own line-insensitive comparison identity.
 
@@ -79,16 +81,36 @@ Severity, its source, confidence, applicability, and validation are separate dim
 
 ```json
 {
-  "schema_version": "1.12",
+  "schema_version": "1.13",
   "tool": {"name": "FUSE", "version": "0.2.0"},
+  "generated_by": {
+    "name": "FUSE",
+    "full_name": "Firmware & Unified Security Engine",
+    "project": "VIGIL",
+    "repository": "https://github.com/VIGIL-IoT/VIGIL-FUSE",
+    "version": "0.2.0"
+  },
   "target": "device-project",
   "scan": {
     "target_kind": "directory",
     "profile": "generic",
     "network_policy": "not-requested",
+    "target_label": "device-project",
     "started_at": "2026-10-26T12:00:00Z",
     "completed_at": "2026-10-26T12:00:01Z",
     "input_manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "project_identity": {
+    "schema_version": "1.0",
+    "primary_type": "software",
+    "subtype": null,
+    "confidence": "medium",
+    "evidence_score": 0.667,
+    "domains": {"software": 0.667, "firmware": 0.0, "embedded": 0.0, "hardware": 0.0, "rtl": 0.0},
+    "supporting_signals": ["Root software manifest: pyproject.toml", "Source files: 3"],
+    "complete": true,
+    "limitations": [],
+    "analysis_recommendations": {"recommended": ["native source checks"], "optional": [], "advisory_only": true}
   },
   "summary": {
     "files_discovered": 12,

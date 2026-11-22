@@ -91,7 +91,8 @@ class TerminalBannerTests(unittest.TestCase):
 
     def test_explicit_structured_commands_have_no_decoration(self):
         with tempfile.TemporaryDirectory() as temporary:
-            root = Path(temporary)
+            root = Path(temporary) / "project"
+            root.mkdir()
             (root / "main.c").write_text("int main(void) { return 0; }\n")
             for format_name in ("json", "sarif"):
                 out, err = TTYBuffer(), TTYBuffer()

@@ -904,12 +904,12 @@ class GhidraCliTests(unittest.TestCase):
                     / "src"
                     / "vigil_fuse"
                     / "schemas"
-                    / "fuse-report-1.12.schema.json"
+                    / "fuse-report-1.13.schema.json"
                 ).read_text(encoding="utf-8")
             )
         Draft202012Validator(schema).validate(report)
         self.assertEqual(0, result_code)
-        self.assertEqual("1.12", report["schema_version"])
+        self.assertEqual("1.13", report["schema_version"])
         self.assertEqual(2, report["summary"]["finding_count"])
         self.assertTrue(report["summary"]["analysis_performed"])
         self.assertEqual(

@@ -38,7 +38,7 @@ The published `0.4.0` package predates the migrated features. New releases are n
 
 Non-interactive commands include `scan`, `doctor`, `setup`, `baseline`, `inspect`, `reason`, `reasoning-context`, `applicability analyze`, and the focused `digital-twin`, `flight-bus`, `seu`, and `physical-reachability` commands. Use `vigil-fuse --help` and `vigil-fuse scan --help` for the exact options.
 
-Reports include JSON, text, and SARIF, with coverage, analyzer statuses, inventories, and artifact hashes. Interactive scans can also offer a PDF report when `pdflatex` is installed. The JSON report preserves separate severity, confidence, applicability, validation, and coverage fields. See the [finding format](docs/finding-schema.md) and [usage guide](docs/usage.md).
+Reports include JSON, text, and SARIF, with coverage, analyzer statuses, inventories, and artifact hashes. Each report identifies FUSE and the VIGIL project. Report bundles also include `FUSE_SCAN_PROVENANCE.json` with report-file hashes and `CITATION.cff` with the runtime version. The bounded project identity summary in scan reports and `scan --plan` is advisory; its evidence scores are not probabilities and do not enable analyzers. By default, report files go to a sibling `.fuse-results/<target-name>/` directory so a scan does not write into the target. `--output-dir` selects another location. Interactive scans can also offer a PDF report when `pdflatex` is installed. The JSON report preserves separate severity, confidence, applicability, validation, and coverage fields. See the [finding format](docs/finding-schema.md) and [usage guide](docs/usage.md).
 
 ## Analysis layers
 

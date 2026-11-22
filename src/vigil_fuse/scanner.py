@@ -42,6 +42,7 @@ from .model import (
 )
 from .rtl_analysis import RTL_SUFFIXES, analyze_rtl
 from .platform_context import inspect_project_context
+from .project_identity import MAX_IDENTITY_SECONDS, inspect_project_identity
 from .profiles import ScanProfile, get_profile
 from .rule_execution import (
     DEFAULT_RULE_TIMEOUT_SECONDS,
@@ -412,6 +413,12 @@ def scan(
     validate_rule_timeout(rule_timeout_seconds)
 
     profile_info = get_profile(profile)
+    project_identity = inspect_project_identity(
+        requested,
+        max_paths=max_discovered_paths,
+        max_directories=max_discovered_directories,
+        budget_seconds=min(float(max_scan_seconds), MAX_IDENTITY_SECONDS),
+    )
     project_context, generated_config_sources, context_warnings, dependency_status = (
         inspect_project_context(
             requested,
@@ -963,4 +970,6 @@ def scan(
         limits_reached=tuple(sorted(limits_reached)),
         encoding_fallback_count=encoding_fallback_count,
         encoding_fallback_files=tuple(encoding_fallback_files),
+        target_label=shareable_target,
+        project_identity=project_identity,
     )

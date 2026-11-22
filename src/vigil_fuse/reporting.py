@@ -4,6 +4,7 @@ import json
 from collections import Counter
 
 from . import __version__
+from .attribution import REPORT_SCHEMA_VERSION, generated_by_metadata
 from .model import ScanResult
 from .support import capability_for_scan
 from .text_safety import safe_terminal_text
@@ -26,13 +27,15 @@ def _input_inventory_scope(result: ScanResult) -> str:
 def to_json(result: ScanResult) -> str:
     counts = Counter(finding.severity for finding in result.findings)
     report = {
-        "schema_version": "1.12",
+        "schema_version": REPORT_SCHEMA_VERSION,
         "tool": {"name": "FUSE", "version": __version__},
+        "generated_by": generated_by_metadata(),
         "target": result.target,
         "scan": {
             "target_kind": result.target_kind,
             "profile": result.profile,
             "network_policy": result.network_policy,
+            "target_label": result.target_label,
             "started_at": result.started_at,
             "completed_at": result.completed_at,
             "input_manifest_sha256": result.input_manifest_sha256,
@@ -83,6 +86,7 @@ def to_json(result: ScanResult) -> str:
                 for item in result.analyzers
             ],
         },
+        "project_identity": result.project_identity.to_dict(),
         "hardware_inventory": {
             "scope": result.hardware_inventory.scope,
             "complete": result.hardware_inventory.complete,
@@ -345,9 +349,21 @@ def to_json(result: ScanResult) -> str:
 def _to_text(result: ScanResult) -> str:
     support = capability_for_scan(result)
     lines = [
+        "FUSE - Firmware & Unified Security Engine",
+        "A VIGIL Project",
+        "https://github.com/VIGIL-IoT/VIGIL-FUSE",
+        "",
         f"FUSE scan: {result.target}",
         f"Target kind: {result.target_kind}",
         f"Profile: {result.profile}",
+        f"Project identity: {result.project_identity.primary_type}"
+        + (f" ({result.project_identity.subtype})" if result.project_identity.subtype else "")
+        + f" / {result.project_identity.confidence} confidence"
+        + f" / evidence score {result.project_identity.evidence_score:.3f}",
+        "Project identity domain scores: "
+        + ", ".join(
+            f"{name}={score:.3f}" for name, score in result.project_identity.domains.items()
+        ),
         f"Support: {support['label']} / {support['status']}",
         f"Network policy: {result.network_policy}",
         f"Scanned manifest SHA-256: {result.input_manifest_sha256}",
@@ -361,6 +377,20 @@ def _to_text(result: ScanResult) -> str:
         f"Findings: {len(result.findings)}",
         f"Hardware artifacts: {len(result.hardware_inventory.artifacts)}",
     ]
+    if result.project_identity.supporting_signals:
+        lines.append("Project identity evidence:")
+        lines.extend(f"  {signal}" for signal in result.project_identity.supporting_signals)
+    if result.project_identity.limitations:
+        lines.extend(
+            f"Project identity limitation: {limitation}"
+            for limitation in result.project_identity.limitations
+        )
+    if result.project_identity.recommended_stages or result.project_identity.optional_stages:
+        lines.append("Advisory analysis recommendations (no tools auto-enabled):")
+        lines.extend(
+            f"  Recommended: {stage}" for stage in result.project_identity.recommended_stages
+        )
+        lines.extend(f"  Optional: {stage}" for stage in result.project_identity.optional_stages)
     rtl = result.hardware_inventory.rtl_analysis
     if rtl.status != "not-detected":
         lines.append(

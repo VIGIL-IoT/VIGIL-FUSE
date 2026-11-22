@@ -75,7 +75,8 @@ class InteractiveTests(unittest.TestCase):
 
     def test_result_callback_and_findings_without_rescan(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            target = Path(directory)
+            target = Path(directory) / "project"
+            target.mkdir()
             (target / "sample.py").write_text('print("hello")\n', encoding="utf-8")
             session = Session(target)
             with redirect_stdout(StringIO()):
@@ -90,7 +91,8 @@ class InteractiveTests(unittest.TestCase):
 
     def test_interactive_scan_shows_summary_and_report_paths(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            target = Path(directory)
+            target = Path(directory) / "project"
+            target.mkdir()
             (target / "device.py").write_text('password = "device-value-123"\n', encoding="utf-8")
             session = Session(target)
             with redirect_stdout(StringIO()) as output, redirect_stderr(StringIO()):
@@ -98,9 +100,13 @@ class InteractiveTests(unittest.TestCase):
             text = output.getvalue()
             self.assertIn("Reconnoitering project files", text)
             self.assertIn("1 findings to review", text)
-            self.assertIn(str(target.resolve() / ".fuse-results" / "findings.txt"), text)
+            self.assertIn(
+                str(target.resolve().parent / ".fuse-results" / target.name / "findings.txt"), text
+            )
             self.assertNotIn("Potential impact:", text)
-            self.assertTrue((target / ".fuse-results" / "findings.json").is_file())
+            self.assertTrue(
+                (target.parent / ".fuse-results" / target.name / "findings.json").is_file()
+            )
 
     def test_incomplete_scan_is_not_presented_as_clean(self) -> None:
         from dataclasses import replace
