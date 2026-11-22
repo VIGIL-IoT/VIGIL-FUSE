@@ -75,6 +75,8 @@ The figure starts from the illustrative `FUSE001` record in the [finding format]
 - Hardware and firmware candidate inventories. These report recognized files and metadata, not hardware or firmware security assessments.
 - Optional Ghidra 12.2 Headless Analyzer support for selected ELF, PE, Mach-O, or explicitly mapped raw binaries. It writes bounded evidence and keeps static endpoint references as unvalidated candidates.
 - Selected ESP-IDF, Zephyr, PlatformIO, compilation database, and GitHub Actions metadata checks.
+- Bounded Verilog/SystemVerilog inventory and candidate checks, with the built-in parser or optional Verible tokens; this is not formal verification.
+- Optional OPA/Rego policy evaluation and loopback-only local Ollama reasoning over completed scan evidence. Neither changes deterministic findings.
 - Optional Syft and OSV-Scanner dependency analysis, Binwalk firmware signature identification, and Gitleaks history checks.
 - Text, schema-versioned JSON, SARIF, CycloneDX inventory, scan coverage, evidence, and remediation guidance.
 
@@ -105,6 +107,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Rules and fixture requirements](docs/rule-development.md)
 - [Configuration and integrations](docs/integrations.md)
 - [Optional OPA/Rego policy evaluation](docs/policy-as-code.md)
+- [RTL security analysis](docs/rtl-security-analysis.md) · [Optional local reasoning](docs/local-reasoning.md)
 - [Ghidra analysis and its limits](docs/ghidra-analysis.md) · [Third-party credits](docs/THIRD_PARTY_CREDITS.md)
 - [Ghidra pipeline figure](site/diagrams/fuse-ghidra-pipeline.html) · [Controlled Ghidra benchmark](docs/experiments/ghidra-adapter-2026-11-03.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
@@ -143,3 +146,6 @@ Because this repository is public on GitHub, GitHub's [Terms of Service](https:/
 ## Multi-repository evaluation report
 
 Read the [LaTeX evaluation and reproduction record](reports/repository-scans/multi-repository-2026-11-14/README.md) or the [PDF on GitHub Pages](https://vigil-iot.github.io/VIGIL-FUSE/report.pdf). Four pinned scopes yielded three static review candidates across 4,347 scanned files, with coverage limitations recorded.
+
+Optional local reasoning over completed deterministic evidence is documented in
+[Local reasoning](docs/local-reasoning.md). It is opt-in and never downloads a model.

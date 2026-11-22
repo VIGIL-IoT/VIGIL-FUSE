@@ -340,6 +340,34 @@
       ]
     },
     {
+      "id": "ollama",
+      "display_name": "Ollama",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": null,
+      "install_method": "manual",
+      "download_source": "https://ollama.com/download",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Run explicitly requested local model reasoning; model storage is operator-controlled.",
+      "assets": {},
+      "executable_names": [
+        "ollama"
+      ]
+    },
+    {
       "id": "ghidra",
       "display_name": "Ghidra",
       "category": "OPTIONAL_HEAVY",

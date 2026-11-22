@@ -33,3 +33,14 @@ ghidra_timeout_seconds = 300
 offline_vulnerabilities = false
 # Opt-in scan of commits reachable from HEAD. Requires Git and Gitleaks.
 git_history = false
+
+# Optional settings only. A scan still requires --reason to use the local model.
+[reasoning]
+provider = "ollama"
+model = "qwen3.5:4b"
+endpoint = "http://127.0.0.1:11434"
+context_tokens = 8192
+temperature = 0.1
+keep_alive = 0
+connection_timeout = 2.0
+generation_timeout = 120.0

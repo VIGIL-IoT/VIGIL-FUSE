@@ -92,6 +92,8 @@ files = [
   "scripts/evaluate_sard_fuse001_catalogue.py",
   "scripts/compare_repository_scan_snapshots.py",
   "scripts/benchmark_ghidra_adapter.py",
+  "scripts/benchmark_reasoning_model.py",
+  "scripts/test_local_reasoning.py",
 ]
 mypy_path = "src"
 explicit_package_bases = true

@@ -570,6 +570,10 @@ class ScannerAndReporterTests(unittest.TestCase):
         with (
             patch("vigil_fuse.cli.inspect_environment", return_value=tools),
             patch("vigil_fuse.cli.lock_parser_available", return_value=False),
+            patch(
+                "vigil_fuse.cli.doctor_status",
+                return_value={"available": False, "installed": False},
+            ),
             redirect_stdout(stdout),
         ):
             exit_code = main(["doctor"])

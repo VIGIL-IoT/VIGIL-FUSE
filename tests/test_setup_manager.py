@@ -328,6 +328,9 @@ def test_doctor_json_survives_missing_optional_python_capability(
             "vigil_fuse.cli.inspect_rtl_backend",
             return_value=("AVAILABLE", "FUSE structural parser", "builtin-1", "UNAVAILABLE"),
         ),
+        patch(
+            "vigil_fuse.cli.doctor_status", return_value={"available": False, "installed": False}
+        ),
         patch("vigil_fuse.cli.lock_parser_available", return_value=False),
     ):
         assert main(["doctor", "--format", "json"]) == 0
@@ -341,3 +344,4 @@ def test_doctor_json_survives_missing_optional_python_capability(
     assert tool_checks["verible-verilog-syntax"]["status"] == "MISSING"
     assert tool_checks["ghidra"]["status"] == "OPTIONAL"
     assert report["rtl_analyzer"]["status"] == "AVAILABLE"
+    assert report["local_reasoning"]["status"] == "OPTIONAL"

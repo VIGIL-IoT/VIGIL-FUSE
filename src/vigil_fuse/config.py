@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from .profiles import PROFILES
+from .reasoning.config import ReasoningConfig, parse_config
 from .limits import (
     DEFAULT_MAX_DISCOVERED_DIRECTORIES,
     DEFAULT_MAX_DISCOVERED_PATHS,
@@ -48,6 +49,7 @@ class ScanConfig:
     ghidra_timeout_seconds: int = DEFAULT_GHIDRA_TIMEOUT_SECONDS
     offline_vulnerabilities: bool = False
     git_history: bool = False
+    reasoning: ReasoningConfig = ReasoningConfig()
 
 
 def _string_list(value: object, key: str) -> tuple[str, ...]:
@@ -65,18 +67,20 @@ def load_config(path: str | Path) -> ScanConfig:
     except tomllib.TOMLDecodeError as error:
         raise ValueError(f"Invalid TOML config '{config_path}': {error}") from error
 
-    unknown_sections = set(data) - {"scan", "rules", "report", "analysis"}
+    unknown_sections = set(data) - {"scan", "rules", "report", "analysis", "reasoning"}
     if unknown_sections:
         raise ValueError(f"Unknown config sections: {', '.join(sorted(unknown_sections))}")
     scan_data = data.get("scan", {})
     rules_data = data.get("rules", {})
     report_data = data.get("report", {})
     analysis_data = data.get("analysis", {})
+    reasoning_data = data.get("reasoning", {})
     for section_name, section in (
         ("scan", scan_data),
         ("rules", rules_data),
         ("report", report_data),
         ("analysis", analysis_data),
+        ("reasoning", reasoning_data),
     ):
         if not isinstance(section, dict):
             raise ValueError(f"Config section [{section_name}] must be a table")
@@ -182,6 +186,7 @@ def load_config(path: str | Path) -> ScanConfig:
         )
 
     return ScanConfig(
+        reasoning=parse_config(reasoning_data),
         profile=profile,
         target_label=target_label,
         include=_string_list(scan_data.get("include", []), "scan.include"),
