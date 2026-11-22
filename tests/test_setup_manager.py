@@ -129,7 +129,15 @@ def test_verified_installer_handles_paths_with_spaces_and_records_source(tmp_pat
 @pytest.mark.skipif(os.name == "nt", reason="Unix executable bits are not used on Windows")
 def test_unix_installer_sets_execute_permission_before_version_probe(tmp_path: Path) -> None:
     spec = _spec()
-    asset = spec.assets["linux/x86_64"]
+    asset = manager.ToolAsset(
+        "syft",
+        "https://github.com/anchore/syft/releases/download/v1.55.0/syft_linux_amd64",
+        "a" * 64,
+        None,
+        None,
+        "syft",
+        "1.55.0",
+    )
 
     def probe_executable(path: str, _spec: manager.ToolSpec) -> tuple[str, None]:
         assert Path(path).stat().st_mode & 0o111
