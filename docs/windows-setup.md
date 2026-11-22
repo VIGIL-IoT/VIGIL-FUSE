@@ -32,3 +32,11 @@ Paths with spaces are supported. `--dry-run` performs no network request and mak
 If a tool is already available and reports a supported version, setup reuses it. If the system copy is broken or too old, setup leaves it untouched and prints the official recovery source. `--upgrade` applies only to a copy managed under the selected FUSE tools directory.
 
 PowerShell discovery is informational. Python remains the cross-platform coordinator, and Windows bootstrap actions do not depend on a PowerShell version-specific installation script.
+
+## PowerShell integration contract
+
+The packaged `setup/tools.json` manifest is the source of truth for tool IDs, categories, supported assets, versions, download URLs, and checksums. The Python coordinator selects one asset, applies the category and consent rules, and chooses the user-local destination. A future PowerShell backend may perform that single selected install, but it must not choose tools or maintain a second download catalog.
+
+The Windows helper boundary uses the existing `fuse-setup.ps1 -Command install` inputs: `ToolName`, `Version`, `Uri`, `Sha256`, `ExecutableRelativePath`, `ArtifactFormat`, and `InstallRoot`, plus `Yes` and `DryRun`. The wrapper normalizes its response to one JSON object with `schemaVersion: 1`, a `status` (`planned`, `reused`, `installed`, `cancelled`, or `failed`), `tool`, `version`, `changesMade`, and `path` or `destination`. A failed operation returns a nonzero exit code. The Python coordinator remains responsible for presenting results and continuing setup for other selected tools.
+
+The current setup command does not invoke the separate PowerShell bootstrap branch. That branch must consume the packaged manifest and adopt this response contract before it is consolidated, which keeps asset selection and policy in one place.
