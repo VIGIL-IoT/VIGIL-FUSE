@@ -23,3 +23,17 @@ jobs:
           fail-on: none
           network: offline
           artifact-upload: 'true'
+  sarif:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Exercise Code Scanning upload
+        uses: ./
+        with:
+          fail-on: none
+          artifact-upload: 'false'
+          sarif-upload: 'true'
