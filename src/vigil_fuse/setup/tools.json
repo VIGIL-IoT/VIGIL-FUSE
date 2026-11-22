@@ -1,0 +1,563 @@
+{
+  "schema_version": 1,
+  "tools": [
+    {
+      "id": "syft",
+      "display_name": "Syft",
+      "category": "RECOMMENDED",
+      "publisher": "anchore/syft",
+      "platforms": [
+        "darwin",
+        "linux",
+        "windows"
+      ],
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "1.55.0",
+      "install_method": "pinned_release",
+      "download_source": "https://github.com/anchore/syft/releases/tag/v1.55.0",
+      "checksum_source": "pinned SHA-256 per release asset in this manifest",
+      "estimated_size_bytes": null,
+      "doctor_capability": "Generate a local CycloneDX software inventory.",
+      "assets": {
+        "linux/x86_64": {
+          "url": "https://github.com/anchore/syft/releases/download/v1.55.0/syft_1.55.0_linux_amd64.tar.gz",
+          "sha256": "bb65249542db5fedeeb4d3f9b018b75e7264dbfbbb10486f044581a92f90490d",
+          "archive_format": "tar.gz",
+          "member_name": "syft",
+          "executable_name": "syft",
+          "version": "1.55.0"
+        },
+        "linux/arm64": {
+          "url": "https://github.com/anchore/syft/releases/download/v1.55.0/syft_1.55.0_linux_arm64.tar.gz",
+          "sha256": "929bd163db2d7cd2255d3bcb8967208079813d7b46b0c952f7b794d8e2c7d304",
+          "archive_format": "tar.gz",
+          "member_name": "syft",
+          "executable_name": "syft",
+          "version": "1.55.0"
+        },
+        "darwin/x86_64": {
+          "url": "https://github.com/anchore/syft/releases/download/v1.55.0/syft_1.55.0_darwin_amd64.tar.gz",
+          "sha256": "e2e5831cbabaec9a36fe65c34755c1113982c842a685edce3ce0b54a0ded8003",
+          "archive_format": "tar.gz",
+          "member_name": "syft",
+          "executable_name": "syft",
+          "version": "1.55.0"
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/anchore/syft/releases/download/v1.55.0/syft_1.55.0_darwin_arm64.tar.gz",
+          "sha256": "1217c258bd5eb91ef3189cf22a82e02f9cac07e4ce934350f428e93aff674625",
+          "archive_format": "tar.gz",
+          "member_name": "syft",
+          "executable_name": "syft",
+          "version": "1.55.0"
+        },
+        "windows/x86_64": {
+          "url": "https://github.com/anchore/syft/releases/download/v1.55.0/syft_1.55.0_windows_amd64.zip",
+          "sha256": "ada4c9b93af575f479ce80fce6629897272a2d41f300a14bc49bace020767ca2",
+          "archive_format": "zip",
+          "member_name": "syft.exe",
+          "executable_name": "syft.exe",
+          "version": "1.55.0"
+        }
+      }
+    },
+    {
+      "id": "osv-scanner",
+      "display_name": "OSV-Scanner",
+      "category": "RECOMMENDED",
+      "publisher": "google/osv-scanner",
+      "platforms": [
+        "darwin",
+        "linux",
+        "windows"
+      ],
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "2.7.0",
+      "install_method": "pinned_release",
+      "download_source": "https://github.com/google/osv-scanner/releases/tag/v2.7.0",
+      "checksum_source": "pinned SHA-256 per release asset in this manifest",
+      "estimated_size_bytes": null,
+      "doctor_capability": "Match software inventory against OSV advisories.",
+      "assets": {
+        "linux/x86_64": {
+          "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_amd64",
+          "sha256": "160c6253e2922e9e0a6a9771c5c4c40a4b3c6090b34a3cdd5e80c96cc2e4218b",
+          "archive_format": null,
+          "member_name": null,
+          "executable_name": "osv-scanner",
+          "version": "2.7.0"
+        },
+        "linux/arm64": {
+          "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_arm64",
+          "sha256": "4061ef4c021ed3c47f203b818f337e351336cc5cd67c0274fc36bd1dfc728dd7",
+          "archive_format": null,
+          "member_name": null,
+          "executable_name": "osv-scanner",
+          "version": "2.7.0"
+        },
+        "darwin/x86_64": {
+          "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_darwin_amd64",
+          "sha256": "e82c5df7ab0a42dff29a1cd0660711447b56b4c0483ff66ad8634df10fd81a45",
+          "archive_format": null,
+          "member_name": null,
+          "executable_name": "osv-scanner",
+          "version": "2.7.0"
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_darwin_arm64",
+          "sha256": "d4926ef8da134332543be276dff157e4c170f99ad91fc48e89448a8816bdf70b",
+          "archive_format": null,
+          "member_name": null,
+          "executable_name": "osv-scanner",
+          "version": "2.7.0"
+        },
+        "windows/x86_64": {
+          "url": "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_windows_amd64.exe",
+          "sha256": "9964ed64ec9a387391eb4cc006ad5c531154821aef29b793e02c448de4686438",
+          "archive_format": null,
+          "member_name": null,
+          "executable_name": "osv-scanner.exe",
+          "version": "2.7.0"
+        }
+      }
+    },
+    {
+      "id": "gitleaks",
+      "display_name": "Gitleaks",
+      "category": "RECOMMENDED",
+      "publisher": "gitleaks/gitleaks",
+      "platforms": [
+        "darwin",
+        "linux",
+        "windows"
+      ],
+      "architectures": [
+        "arm64",
+        "x86_64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "8.30.0",
+      "install_method": "pinned_release",
+      "download_source": "https://github.com/gitleaks/gitleaks/releases/tag/v8.30.0",
+      "checksum_source": "pinned SHA-256 per release asset in this manifest",
+      "estimated_size_bytes": null,
+      "doctor_capability": "Scan Git history for possible secret exposure.",
+      "assets": {
+        "linux/x86_64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_linux_x64.tar.gz",
+          "sha256": "79a3ab579b53f71efd634f3aaf7e04a0fa0cf206b7ed434638d1547a2470a66e",
+          "archive_format": "tar.gz",
+          "member_name": "gitleaks",
+          "executable_name": "gitleaks",
+          "version": "8.30.0"
+        },
+        "linux/arm64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_linux_arm64.tar.gz",
+          "sha256": "b4cbbb6ddf7d1b2a603088cd03a4e3f7ce48ee7fd449b51f7de6ee2906f5fa2f",
+          "archive_format": "tar.gz",
+          "member_name": "gitleaks",
+          "executable_name": "gitleaks",
+          "version": "8.30.0"
+        },
+        "darwin/x86_64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_darwin_x64.tar.gz",
+          "sha256": "ca221d012d247080c2f6f61f4b7a83bffa2453806b0c195c795bbe9a8c775ed5",
+          "archive_format": "tar.gz",
+          "member_name": "gitleaks",
+          "executable_name": "gitleaks",
+          "version": "8.30.0"
+        },
+        "darwin/arm64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_darwin_arm64.tar.gz",
+          "sha256": "b251ab2bcd4cd8ba9e56ff37698c033ebf38582b477d21ebd86586d927cf87e7",
+          "archive_format": "tar.gz",
+          "member_name": "gitleaks",
+          "executable_name": "gitleaks",
+          "version": "8.30.0"
+        },
+        "windows/x86_64": {
+          "url": "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/gitleaks_8.30.0_windows_x64.zip",
+          "sha256": "54fe94f644b832dd08e8c3a5915efb3bfa862386d59fb27ca0792cb687a83573",
+          "archive_format": "zip",
+          "member_name": "gitleaks.exe",
+          "executable_name": "gitleaks.exe",
+          "version": "8.30.0"
+        }
+      }
+    },
+    {
+      "id": "git",
+      "display_name": "Git",
+      "category": "RECOMMENDED",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "2.0.0",
+      "install_method": "manual",
+      "download_source": "https://git-scm.com/downloads",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Required only for Git-history scanning.",
+      "assets": {},
+      "executable_names": [
+        "git"
+      ]
+    },
+    {
+      "id": "opa",
+      "display_name": "OPA/Rego",
+      "category": "RECOMMENDED",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "version"
+      ],
+      "minimum_version": "1.0.0",
+      "install_method": "manual",
+      "download_source": "https://www.openpolicyagent.org/docs/latest/#running-opa",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Evaluate optional Rego policy against normalized scan evidence.",
+      "assets": {},
+      "executable_names": [
+        "opa"
+      ]
+    },
+    {
+      "id": "verible-verilog-syntax",
+      "display_name": "Verible RTL parser",
+      "category": "RECOMMENDED",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": null,
+      "install_method": "manual",
+      "download_source": "https://github.com/chipsalliance/verible",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Parse Verilog/SystemVerilog tokens; FUSE keeps its built-in fallback.",
+      "assets": {},
+      "executable_names": [
+        "verible-verilog-syntax"
+      ]
+    },
+    {
+      "id": "binwalk",
+      "display_name": "Binwalk",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "2.3.3",
+      "install_method": "manual",
+      "download_source": "https://github.com/ReFirmLabs/binwalk",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Identify firmware signatures; extraction is not performed.",
+      "assets": {},
+      "executable_names": [
+        "binwalk"
+      ]
+    },
+    {
+      "id": "docker",
+      "display_name": "Docker",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "20.0.0",
+      "install_method": "manual",
+      "download_source": "https://docs.docker.com/get-docker/",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Run explicitly configured analyzer images in an isolated container.",
+      "assets": {},
+      "executable_names": [
+        "docker"
+      ]
+    },
+    {
+      "id": "ollama",
+      "display_name": "Ollama",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": null,
+      "install_method": "manual",
+      "download_source": "https://ollama.com/download",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Run explicitly requested local model reasoning; model storage is operator-controlled.",
+      "assets": {},
+      "executable_names": [
+        "ollama"
+      ]
+    },
+    {
+      "id": "ghidra",
+      "display_name": "Ghidra",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": null,
+      "minimum_version": null,
+      "install_method": "manual",
+      "download_source": "https://github.com/NationalSecurityAgency/ghidra/releases",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Analyze selected firmware binaries with the headless analyzer.",
+      "assets": {},
+      "executable_names": []
+    },
+    {
+      "id": "java",
+      "display_name": "Java JDK",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "-version"
+      ],
+      "minimum_version": "17.0.0",
+      "install_method": "manual",
+      "download_source": "https://adoptium.net/temurin/releases/",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Runtime prerequisite for the currently supported Ghidra release.",
+      "assets": {},
+      "executable_names": [
+        "java"
+      ]
+    },
+    {
+      "id": "pdflatex",
+      "display_name": "pdfLaTeX",
+      "category": "OPTIONAL_HEAVY",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "0.0.0",
+      "install_method": "manual",
+      "download_source": "https://www.latex-project.org/get/",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Optional PDF report rendering.",
+      "assets": {},
+      "executable_names": [
+        "pdflatex"
+      ]
+    },
+    {
+      "id": "Rscript",
+      "display_name": "R",
+      "category": "RESEARCH",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "4.0.0",
+      "install_method": "manual",
+      "download_source": "https://cran.r-project.org/",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Research scripts only; not required for FUSE scans.",
+      "assets": {},
+      "executable_names": [
+        "Rscript"
+      ]
+    },
+    {
+      "id": "julia",
+      "display_name": "Julia",
+      "category": "RESEARCH",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "1.0.0",
+      "install_method": "manual",
+      "download_source": "https://julialang.org/downloads/",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Research toolchain only; not required for FUSE scans.",
+      "assets": {},
+      "executable_names": [
+        "julia"
+      ]
+    },
+    {
+      "id": "rustc",
+      "display_name": "Rust",
+      "category": "RESEARCH",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "--version"
+      ],
+      "minimum_version": "1.0.0",
+      "install_method": "manual",
+      "download_source": "https://www.rust-lang.org/tools/install",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Research toolchain only; not required for FUSE scans.",
+      "assets": {},
+      "executable_names": [
+        "rustc"
+      ]
+    },
+    {
+      "id": "zig",
+      "display_name": "Zig",
+      "category": "RESEARCH",
+      "publisher": null,
+      "platforms": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "architectures": [
+        "x86_64",
+        "arm64"
+      ],
+      "version_command": [
+        "version"
+      ],
+      "minimum_version": "0.0.0",
+      "install_method": "manual",
+      "download_source": "https://ziglang.org/download/",
+      "checksum_source": null,
+      "estimated_size_bytes": null,
+      "doctor_capability": "Research toolchain only; not required for FUSE scans.",
+      "assets": {},
+      "executable_names": [
+        "zig"
+      ]
+    }
+  ]
+}

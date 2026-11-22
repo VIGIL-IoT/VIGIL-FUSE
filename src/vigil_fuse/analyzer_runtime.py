@@ -28,6 +28,7 @@ from .analyzer_sandbox import (
     report_mask_destination,
 )
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
+from .setup.tool_paths import resolve_managed_tool
 
 ANALYZER_TIMEOUT_SECONDS = 180
 TOOL_VERSION_TIMEOUT_SECONDS = 5
@@ -108,15 +109,14 @@ class AdapterResult:
 def inspect_tools() -> tuple[tuple[str, str | None, str | None], ...]:
     """Return optional tool availability, executable path, and version for doctor."""
     tools = []
-    for name, executable_name in (
+    for display_name, executable_name in (
         ("Syft", "syft"),
         ("OSV-Scanner", "osv-scanner"),
         ("Binwalk", "binwalk"),
         ("Gitleaks", "gitleaks"),
     ):
-        executable = shutil.which(executable_name)
-        version = _tool_version(executable) if executable else None
-        tools.append((name, executable, version))
+        executable = shutil.which(executable_name) or resolve_managed_tool(executable_name)
+        tools.append((display_name, executable, _tool_version(executable) if executable else None))
     return tuple(tools)
 
 
@@ -157,7 +157,10 @@ def resolve_analyzer_executable(
     """Resolve a host tool or an explicitly configured local image tool."""
     active = _ACTIVE_ANALYZER_SANDBOX.get()
     if active is None:
-        return (host_lookup or shutil.which)(name)
+        executable = (host_lookup or shutil.which)(name)
+        if executable:
+            return executable
+        return resolve_managed_tool(name)
     sandbox, _ = active
     if name not in SUPPORTED_ANALYZERS or sandbox.runtime is None:
         return None

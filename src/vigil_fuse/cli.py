@@ -2,26 +2,30 @@ from __future__ import annotations
 
 import argparse
 from contextlib import nullcontext
+from dataclasses import asdict, replace
 import hashlib
+import importlib.util
 import json
 import platform
 import shutil
 import subprocess
 import sys
-from dataclasses import replace
 from pathlib import Path
 from typing import Callable, Literal, TextIO, TypedDict
 
 from . import __version__
 from .analyzer_sandbox import AnalyzerSandbox, parse_image_assignments
-from .analyzer_runtime import analyzer_execution_detail, analyzer_sandbox_context
+from .analyzer_runtime import (
+    analyzer_execution_detail,
+    analyzer_sandbox_context,
+    resolve_analyzer_executable,
+)
 from .analyzers import (
     AdapterResult,
     analyze_ghidra,
     generate_sbom,
     identify_firmware,
     inspect_ghidra,
-    inspect_tools,
     scan_git_history,
     scan_vulnerabilities,
 )
@@ -49,7 +53,7 @@ from .policy import (
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
-from .reasoning.cli import add_commands, doctor_text, enrich_scan, run_command
+from .reasoning.cli import add_commands, doctor_status, doctor_text, enrich_scan, run_command
 from .report_pdf import write_pdf_report
 from .rtl_analysis import inspect_rtl_backend
 from .rule_execution import (
@@ -64,6 +68,15 @@ from .scanner import (
     preview_discovery,
     scan,
 )
+from .setup.manager import (
+    inspect_environment,
+    load_manifest,
+    normalize_platform,
+    powershell_executable,
+    setup_plan,
+    setup_tools,
+)
+from .setup.tool_paths import managed_tool_directory
 from .support import CapabilitySummary, capability_for_plan, support_matrix
 from .input_types import MAX_SBOM_DETECTION_BYTES, is_sbom_candidate, is_sbom_file
 from .text_safety import safe_terminal_text
@@ -129,7 +142,7 @@ def _safe_print(
 
 def _optional_analyzer_available(name: str, sandbox: AnalyzerSandbox | None) -> bool:
     if sandbox is None:
-        return shutil.which(name) is not None
+        return resolve_analyzer_executable(name) is not None
     image = sandbox.image_for(name)
     if sandbox.runtime is None or image is None:
         return False
@@ -163,6 +176,36 @@ def _parser() -> argparse.ArgumentParser:
         "--ghidra-install-dir",
         type=Path,
         help="override GHIDRA_INSTALL_DIR for installation discovery",
+    )
+    doctor_parser.add_argument(
+        "--format", choices=("text", "json"), default="text", help="doctor output format"
+    )
+    setup_parser = commands.add_parser(
+        "setup", help="check or prepare the FUSE analysis environment"
+    )
+    setup_modes = setup_parser.add_mutually_exclusive_group()
+    setup_modes.add_argument(
+        "--minimal", action="store_true", help="validate only the core Python environment"
+    )
+    setup_modes.add_argument(
+        "--recommended", action="store_true", help="install or detect recommended tools"
+    )
+    setup_modes.add_argument(
+        "--full", action="store_true", help="include optional-heavy production analyzers"
+    )
+    setup_modes.add_argument(
+        "--research", action="store_true", help="report research-only packages and toolchains"
+    )
+    setup_parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="show actions without downloading or changing the machine",
+    )
+    setup_parser.add_argument(
+        "--upgrade", action="store_true", help="replace older FUSE-managed tool copies"
+    )
+    setup_parser.add_argument(
+        "--yes", action="store_true", help="consent to pinned user-local tool downloads"
     )
     baseline_parser = commands.add_parser(
         "baseline", help="compare findings and manage reasoned suppressions"
@@ -545,24 +588,109 @@ def _doctor(
     config: ScanConfig | None = None,
     config_path: Path | None = None,
     ghidra_install_dir: Path | None = None,
+    output_format: str = "text",
 ) -> int:
-    _safe_print(f"FUSE {__version__}")
-    _safe_print(f"Python: {platform.python_version()} ({sys.executable})")
-    _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
-    _safe_print("Optional analyzers:")
-    for name, executable, version in inspect_tools():
-        if executable is None:
-            _safe_print(f"  {name}: not installed")
-        else:
-            detail = version or "version unavailable"
-            _safe_print(f"  {name}: {detail} [{executable}]")
     selected_install = _resolve_ghidra_install_dir(
         ghidra_install_dir,
         config.ghidra_install_dir if config is not None else None,
         config_path,
     )
     ghidra = inspect_ghidra(selected_install)
-    _safe_print(f"  Ghidra: {ghidra.status}")
+    ghidra_status = {
+        "available": "AVAILABLE",
+        "unavailable": "OPTIONAL",
+        "incompatible": "WRONG_VERSION",
+        "unsupported": "UNSUPPORTED",
+    }.get(ghidra.status, "BROKEN")
+    checks = inspect_environment()
+    rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
+    reasoning_config = config.reasoning if config is not None else ScanConfig().reasoning
+    reasoning_status = doctor_status(reasoning_config)
+    if output_format == "json":
+        report = {
+            "schema_version": 1,
+            "fuse": {"category": "CORE", "status": "AVAILABLE", "version": __version__},
+            "python": {
+                "category": "CORE",
+                "status": "AVAILABLE" if sys.version_info >= (3, 11) else "WRONG_VERSION",
+                "version": platform.python_version(),
+                "executable": sys.executable,
+                "minimum_version": "3.11",
+            },
+            "platform": {
+                "system": platform.system(),
+                "release": platform.release(),
+                "architecture": platform.machine(),
+            },
+            "rtl_analyzer": {
+                "category": "CORE",
+                "status": rtl_availability,
+                "backend": rtl_backend,
+                "version": rtl_version,
+                "verible_parser_status": verible_status,
+            },
+            "local_reasoning": {
+                "category": "OPTIONAL_HEAVY",
+                "status": (
+                    "AVAILABLE"
+                    if reasoning_status["available"] and reasoning_status["installed"]
+                    else "OPTIONAL"
+                ),
+                "endpoint_status": ("AVAILABLE" if reasoning_status["available"] else "MISSING"),
+                "model": reasoning_config.model,
+                "model_status": "AVAILABLE" if reasoning_status["installed"] else "MISSING",
+                "impact": "Optional reasoning only; deterministic scans are unaffected.",
+            },
+            "core_python_dependencies": [],
+            "optional_python_capabilities": {
+                "esp_idf_yaml_parser": {
+                    "category": "RECOMMENDED",
+                    "status": "AVAILABLE" if lock_parser_available() else "OPTIONAL",
+                    "install": "pip install vigil-fuse[esp-idf]",
+                }
+            },
+            "powershell": (
+                {
+                    "status": "AVAILABLE" if powershell_executable() else "OPTIONAL",
+                    "executable": powershell_executable(),
+                }
+                if platform.system().casefold() == "windows"
+                else {"status": "UNSUPPORTED", "executable": None}
+            ),
+            "tools": [asdict(check) for check in checks]
+            + [
+                {
+                    "id": "ghidra",
+                    "display_name": "Ghidra",
+                    "category": "OPTIONAL_HEAVY",
+                    "status": ghidra_status,
+                    "version": ghidra.version,
+                    "executable": str(ghidra.launcher) if ghidra.launcher else None,
+                    "source": "https://github.com/NationalSecurityAgency/ghidra/releases",
+                    "capability": "Headless firmware binary analysis.",
+                    "detail": ghidra.detail,
+                }
+            ],
+        }
+        _safe_print(json.dumps(report, indent=2, ensure_ascii=True))
+        return 0
+
+    _safe_print(f"FUSE {__version__} [AVAILABLE]")
+    _safe_print(f"Python: {platform.python_version()} ({sys.executable}) [AVAILABLE]")
+    _safe_print(f"Platform: {platform.system()} {platform.release()} ({platform.machine()})")
+    _safe_print("External tools:")
+    for check in checks:
+        if check.id == "opa":
+            continue
+        if check.executable is None:
+            detail = "not installed" if check.status == "MISSING" else check.status.lower()
+            _safe_print(f"  {check.display_name}: {detail} [{check.status}]")
+        else:
+            _safe_print(
+                f"  {check.display_name}: {check.version or 'version unavailable'} "
+                f"[{check.executable}] [{check.status}]"
+            )
+    _safe_print(f"  Ghidra: {ghidra.status} [{ghidra_status}]")
     _safe_print(f"  Ghidra version: {ghidra.version or 'not detected'}")
     _safe_print(
         "  Headless Analyzer: " + ("available" if ghidra.launcher is not None else "not available")
@@ -580,7 +708,6 @@ def _doctor(
     _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
     _safe_print(f"OPA version: {opa.version or 'not detected'}")
     _safe_print("policy engine: optional")
-    rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
     _safe_print(f"RTL analyzer: {rtl_availability}")
     _safe_print(f"  backend: {rtl_backend}")
     _safe_print(f"  version: {rtl_version}")
@@ -593,9 +720,10 @@ def _doctor(
             else "not installed; use vigil-fuse[esp-idf]"
         )
     )
-    _safe_print(
-        doctor_text(config.reasoning if config is not None else ScanConfig().reasoning), end=""
-    )
+    ps = powershell_executable()
+    if platform.system().casefold() == "windows":
+        _safe_print(f"PowerShell: {ps or 'not found'}")
+    _safe_print(doctor_text(reasoning_config, reasoning_status), end="")
     _safe_print("Core scanner: available")
     _safe_print(
         "Native rule execution: isolated subprocess, "
@@ -605,6 +733,124 @@ def _doctor(
     for capability in support_matrix()["capabilities"]:
         _safe_print(f"  {capability['id']}: {capability['label']} - {capability['scope']}")
     return 0
+
+
+def _setup(
+    *,
+    mode: str,
+    dry_run: bool,
+    upgrade: bool,
+    yes: bool,
+) -> int:
+    if mode == "minimal":
+        valid = sys.version_info >= (3, 11)
+        _safe_print(
+            f"CORE Python {platform.python_version()}: {'AVAILABLE' if valid else 'WRONG_VERSION'}"
+        )
+        _safe_print("CORE FUSE package: AVAILABLE")
+        _safe_print("Python runtime dependencies: none")
+        if dry_run:
+            _safe_print("Dry run complete. No downloads or machine changes were made.")
+        return 0 if valid else 1
+
+    if mode == "research":
+        _safe_print("RESEARCH Python packages:")
+        for package, import_name in (
+            ("jsonschema", "jsonschema"),
+            ("matplotlib", "matplotlib"),
+            ("psutil", "psutil"),
+        ):
+            _safe_print(
+                f"  {package}: {'AVAILABLE' if importlib.util.find_spec(import_name) else 'MISSING'}"
+            )
+        for line in setup_plan("RESEARCH"):
+            _safe_print(f"  {line}")
+        _safe_print(
+            "Install Python research extras with: python -m pip install 'vigil-fuse[research]'"
+        )
+        _safe_print(
+            "Research toolchains are detected only and are never installed by --recommended."
+        )
+        if dry_run:
+            _safe_print("Dry run complete. No downloads or machine changes were made.")
+        return 0
+
+    categories = ("RECOMMENDED", "OPTIONAL_HEAVY") if mode == "full" else ("RECOMMENDED",)
+    directory = managed_tool_directory()
+    plans: list[tuple[str, str]] = []
+    checks_by_id = {check.id: check for check in inspect_environment(include_research=False)}
+    for category in categories:
+        for spec in load_manifest():
+            if spec.category != category:
+                continue
+            check = checks_by_id.get(spec.id)
+            if check is not None and check.status == "AVAILABLE" and not upgrade:
+                action = f"reuse {check.version} at {check.executable}"
+            elif category == "OPTIONAL_HEAVY" or spec.install_method == "manual":
+                action = f"manual install, requires separate consent: {spec.download_source}"
+            elif (
+                check is not None
+                and check.status in {"WRONG_VERSION", "BROKEN"}
+                and check.executable
+            ):
+                managed = directory / Path(check.executable).name
+                action = (
+                    f"replace FUSE-managed copy at {managed}"
+                    if managed.resolve() == Path(check.executable).resolve() and upgrade
+                    else f"leave existing {check.status.lower()} installation unchanged"
+                )
+            else:
+                asset_key = "/".join(normalize_platform(platform.system(), platform.machine()))
+                asset = spec.assets.get(asset_key)
+                action = (
+                    f"download {asset.version} to {directory} after consent (SHA-256 verified)"
+                    if asset
+                    else "unsupported platform or architecture; no changes"
+                )
+            plans.append((spec.display_name, action))
+
+    _safe_print(f"Setup mode: {mode}")
+    for name, action in plans:
+        _safe_print(f"  {name}: {action}")
+    if mode == "full":
+        _safe_print(
+            "Heavy tools are not auto-installed; use their official installers from the links above."
+        )
+    if dry_run:
+        _safe_print("Dry run complete. No downloads or machine changes were made.")
+        return 0
+
+    installable_missing = any(
+        checks_by_id.get(spec.id) is not None
+        and checks_by_id[spec.id].status in {"MISSING", "UNSUPPORTED"}
+        and spec.install_method == "pinned_release"
+        and "/".join(normalize_platform(platform.system(), platform.machine())) in spec.assets
+        for spec in load_manifest()
+        if spec.category == "RECOMMENDED"
+    )
+    if not installable_missing and not upgrade:
+        _safe_print("Recommended tools are already available or require manual installation.")
+        return 0
+    consent = yes
+    if not consent and sys.stdin.isatty():
+        try:
+            consent = input(
+                f"Download missing recommended tools to {directory}? [y/N] "
+            ).strip().casefold() in {"y", "yes"}
+        except EOFError:
+            consent = False
+    if not consent:
+        _safe_print("No installation performed. Review the plan, then rerun with --yes to consent.")
+        return 0
+
+    failed = False
+    for name, result in setup_tools("RECOMMENDED", upgrade=upgrade):
+        _safe_print(f"  {name}: {result}")
+        failed = failed or result.startswith("failed:")
+    if mode == "full":
+        for name, result in setup_tools("OPTIONAL_HEAVY"):
+            _safe_print(f"  {name}: {result}")
+    return 1 if failed else 0
 
 
 def _scan_plan(
@@ -1452,6 +1698,27 @@ def main(
                 config=config,
                 config_path=config_path,
                 ghidra_install_dir=install_dir,
+                output_format=args.format,
+            )
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
+    if args.command == "setup":
+        mode = (
+            "minimal"
+            if args.minimal
+            else "full"
+            if args.full
+            else "research"
+            if args.research
+            else "recommended"
+        )
+        try:
+            return _setup(
+                mode=mode,
+                dry_run=args.dry_run,
+                upgrade=args.upgrade,
+                yes=args.yes,
             )
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)

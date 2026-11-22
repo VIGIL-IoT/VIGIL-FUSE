@@ -838,6 +838,10 @@ class GhidraCliTests(unittest.TestCase):
             stderr = StringIO()
             with (
                 patch("vigil_fuse.cli.inspect_ghidra", return_value=probe),
+                patch(
+                    "vigil_fuse.cli.doctor_status",
+                    return_value={"available": False, "installed": False},
+                ),
                 redirect_stdout(stdout),
                 redirect_stderr(stderr),
             ):

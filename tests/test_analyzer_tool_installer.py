@@ -32,7 +32,7 @@ def test_platform_assets_are_pinned_for_supported_runner_targets() -> None:
 
 
 def test_unsupported_runner_platform_fails_closed() -> None:
-    with pytest.raises(ValueError, match="Unsupported CI analyzer platform"):
+    with pytest.raises(ValueError, match="Unsupported FUSE platform"):
         assets_for_platform("Plan9", "x86_64")
 
 
@@ -40,19 +40,22 @@ def test_release_download_is_removed_when_digest_does_not_match(tmp_path: Path) 
     payload = b"not the pinned release bytes"
     response = MagicMock()
     response.headers = {}
+    response.geturl.return_value = (
+        "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/tool.zip"
+    )
     response.read.side_effect = [payload, b""]
     response.__enter__.return_value = response
     download = tmp_path / "tool.release"
     asset = ReleaseAsset(
         tool="gitleaks",
-        url="https://example.invalid/tool.zip",
+        url="https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/tool.zip",
         sha256="0" * 64,
         archive_format=None,
         member_name=None,
         executable_name="gitleaks",
     )
 
-    with patch("scripts.install_ci_analyzers.urlopen", return_value=response):
+    with patch("vigil_fuse.setup.manager.urlopen", return_value=response):
         with pytest.raises(ValueError, match="SHA-256 mismatch"):
             download_verified(asset, download)
 
@@ -62,12 +65,15 @@ def test_release_download_is_removed_when_digest_does_not_match(tmp_path: Path) 
 def test_oversized_partial_download_is_removed(tmp_path: Path) -> None:
     response = MagicMock()
     response.headers = {}
+    response.geturl.return_value = (
+        "https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/tool.zip"
+    )
     response.read.side_effect = [b"exceeds-limit", b""]
     response.__enter__.return_value = response
     download = tmp_path / "tool.release"
     asset = ReleaseAsset(
         tool="gitleaks",
-        url="https://example.invalid/tool.zip",
+        url="https://github.com/gitleaks/gitleaks/releases/download/v8.30.0/tool.zip",
         sha256="0" * 64,
         archive_format=None,
         member_name=None,
@@ -75,8 +81,8 @@ def test_oversized_partial_download_is_removed(tmp_path: Path) -> None:
     )
 
     with (
-        patch("scripts.install_ci_analyzers.urlopen", return_value=response),
-        patch("scripts.install_ci_analyzers.MAX_DOWNLOAD_BYTES", 4),
+        patch("vigil_fuse.setup.manager.urlopen", return_value=response),
+        patch("vigil_fuse.setup.manager._MAX_DOWNLOAD_BYTES", 4),
         pytest.raises(ValueError, match="download limit"),
     ):
         download_verified(asset, download)
@@ -135,19 +141,22 @@ def test_download_digest_matches_exact_asset_bytes(tmp_path: Path) -> None:
     payload = b"exact pinned release bytes"
     response = MagicMock()
     response.headers = {"Content-Length": str(len(payload))}
+    response.geturl.return_value = (
+        "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner"
+    )
     response.read.side_effect = [payload, b""]
     response.__enter__.return_value = response
     download = tmp_path / "tool.release"
     asset = ReleaseAsset(
         tool="osv-scanner",
-        url="https://example.invalid/osv-scanner",
+        url="https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner",
         sha256=hashlib.sha256(payload).hexdigest(),
         archive_format=None,
         member_name=None,
         executable_name="osv-scanner",
     )
 
-    with patch("scripts.install_ci_analyzers.urlopen", return_value=response):
+    with patch("vigil_fuse.setup.manager.urlopen", return_value=response):
         download_verified(asset, download)
 
     assert download.read_bytes() == payload

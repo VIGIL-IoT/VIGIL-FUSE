@@ -31,12 +31,14 @@ classifiers = [
 [project.optional-dependencies]
 cliui = ["prompt-toolkit>=3.0.48,<4"]
 esp-idf = ["PyYAML>=6,<7"]
+research = ["jsonschema>=4.23,<5", "matplotlib>=3.10,<4", "psutil>=7.2,<8"]
 test = ["jsonschema>=4.23,<5", "psutil>=7.2,<8", "pytest>=9.0.3,<10", "PyYAML>=6,<7"]
 dev = [
   "build>=1.2,<2",
   "coverage[toml]>=7.6,<8",
   "jsonschema>=4.23,<5",
   "mypy>=2.4.1,<3",
+  "matplotlib>=3.10,<4",
   "pip-audit>=2.10,<3",
   "psutil>=7.2,<8",
   "PyYAML>=6,<7",
@@ -64,7 +66,7 @@ version = { attr = "vigil_fuse.__version__" }
 where = ["src"]
 
 [tool.setuptools.package-data]
-vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "policies/*.rego", "support-matrix.json"]
+vigil_fuse = ["schemas/*.json", "resources/ghidra/*.java", "policies/*.rego", "setup/*.json", "support-matrix.json"]
 
 [tool.ruff]
 target-version = "py311"
@@ -85,6 +87,7 @@ files = [
   "scripts/install_ci_analyzers.py",
   "scripts/verify_binwalk_adapter.py",
   "scripts/verify_esp_idf_build_context.py",
+  "scripts/verify_installed_wheel.py",
   "scripts/evaluate_sard_fuse001_cohort.py",
   "scripts/evaluate_sard_fuse001_catalogue.py",
   "scripts/compare_repository_scan_snapshots.py",

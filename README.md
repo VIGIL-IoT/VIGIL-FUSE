@@ -23,21 +23,29 @@ Latest [binary detection comparison](reports/evaluation/2026-11-15/binary-detect
 
 ## Start here
 
-Requires Python 3.11 or newer. The native scanner has no runtime dependencies.
+Requires Python 3.11 or newer. The native scanner has no runtime dependencies. Install the current published package with:
 
 ```sh
-pipx install vigil-fuse==0.4.0
+python -m pip install vigil-fuse==0.4.0
 vigil-fuse
 vigil-fuse doctor
 vigil-fuse scan path/to/embedded-project --plan
 vigil-fuse scan path/to/embedded-project --output-dir .fuse-results
 ```
 
+**PRE-PyPI installer preview:** this branch adds `setup`; the command is not included in published version 0.4.0. After the next release, the intended setup flow is:
+
+```powershell
+python -m pip install vigil-fuse
+vigil-fuse setup --recommended
+vigil-fuse doctor
+```
+
 Run `vigil-fuse` from the project folder for an interactive scan menu with full project, profile-specific, dependency, firmware-signature, and Ghidra modes. It shows the resolved folder and asks before scanning. Ghidra inspects one binary and FUSE checks its structured metadata for supported signals; it does not export decompiled pseudocode. After the scan, you can request an aesthetic PDF report. PDF compilation needs `pdflatex`; FUSE keeps the `.tex` source if it is unavailable.
 
 A normal scan writes `findings.json`, `findings.txt`, and `findings.sarif` to `.fuse-results/`. Start with `--plan` to review selected inputs, supported stages, limits, and available tools before scanning.
 
-See the [usage guide](docs/usage.md) for setup, scan options, optional analyzers, and report review.
+See the [usage guide](docs/usage.md) for scan options and report review, plus [installation](docs/installation.md), [Windows setup](docs/windows-setup.md), the [dependency model](docs/dependency-model.md), and the [PRE-PyPI release workflow](docs/releasing.md).
 
 Install the published [PyPI package](https://pypi.org/project/vigil-fuse/) or browse the [GitHub releases](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases).
 
@@ -67,6 +75,8 @@ The figure starts from the illustrative `FUSE001` record in the [finding format]
 - Hardware and firmware candidate inventories. These report recognized files and metadata, not hardware or firmware security assessments.
 - Optional Ghidra 12.2 Headless Analyzer support for selected ELF, PE, Mach-O, or explicitly mapped raw binaries. It writes bounded evidence and keeps static endpoint references as unvalidated candidates.
 - Selected ESP-IDF, Zephyr, PlatformIO, compilation database, and GitHub Actions metadata checks.
+- Bounded Verilog/SystemVerilog inventory and candidate checks, with the built-in parser or optional Verible tokens; this is not formal verification.
+- Optional OPA/Rego policy evaluation and loopback-only local Ollama reasoning over completed scan evidence. Neither changes deterministic findings.
 - Optional Syft and OSV-Scanner dependency analysis, Binwalk firmware signature identification, and Gitleaks history checks.
 - Text, schema-versioned JSON, SARIF, CycloneDX inventory, scan coverage, evidence, and remediation guidance.
 
@@ -97,6 +107,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Rules and fixture requirements](docs/rule-development.md)
 - [Configuration and integrations](docs/integrations.md)
 - [Optional OPA/Rego policy evaluation](docs/policy-as-code.md)
+- [RTL security analysis](docs/rtl-security-analysis.md) · [Optional local reasoning](docs/local-reasoning.md)
 - [Ghidra analysis and its limits](docs/ghidra-analysis.md) · [Third-party credits](docs/THIRD_PARTY_CREDITS.md)
 - [Ghidra pipeline figure](site/diagrams/fuse-ghidra-pipeline.html) · [Controlled Ghidra benchmark](docs/experiments/ghidra-adapter-2026-11-03.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
@@ -104,6 +115,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Benchmark method and evidence](docs/benchmarks.md) · [Synthetic scan baseline](reports/benchmark/scan-performance.json) · [Pinned repository performance report](reports/benchmark/repository-scan-performance.json) · [Cross-platform report set](docs/experiments/repository-scan-performance-matrix-2026-10-31.md)
 - [Repository scan reports](reports/repository-scans/README.md) · [FUSE 0.3.0 transfer replay](reports/repository-scans/release-0.3.0-transfer-2026-11-12/README.md) · [Evaluation notes](docs/experiments/pilot-scan-2026-10.md)
 - [Development roadmap](docs/roadmap.md) · [Release process](docs/release-process.md)
+- [PRE-PyPI installer: installation](docs/installation.md) · [Windows setup](docs/windows-setup.md) · [dependency model](docs/dependency-model.md) · [release workflow](docs/releasing.md)
 - [Repository audit and maturity evidence](docs/REPOSITORY_AUDIT.md) · [AI skills and specialist tools reference](docs/AI_SKILLS_REFERENCE.md) · [Research source ledger](docs/research-sources.md)
 - [Project site](site/) · [Website maintenance notes](docs/website.md)
 

@@ -131,6 +131,10 @@ class RTLAnalysisTests(unittest.TestCase):
                     "UNAVAILABLE",
                 ),
             ),
+            patch(
+                "vigil_fuse.cli.doctor_status",
+                return_value={"available": False, "installed": False},
+            ),
             redirect_stdout(StringIO()) as output,
         ):
             exit_code = main(["doctor"])

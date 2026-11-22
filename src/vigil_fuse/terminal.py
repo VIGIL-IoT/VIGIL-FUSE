@@ -108,9 +108,12 @@ def show_banner() -> None:
 
     color = supports_color()
     if columns < 40:
+        version_line = f"v{__version__}  |  local security"
+        if len(version_line) > columns:
+            version_line = "Local security"
         lines = [
             _paint("FUSE by VIGIL", "#A78BFA", color, bold=True),
-            _paint(f"v{__version__}  |  local security", "#94A3B8", color),
+            _paint(version_line, "#94A3B8", color),
             _paint("Static evidence. Explicit coverage."[:columns], "#94A3B8", color),
         ]
         print("\n".join(lines) + "\n", file=sys.stderr)

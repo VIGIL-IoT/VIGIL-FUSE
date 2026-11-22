@@ -80,8 +80,12 @@ def run_command(args: argparse.Namespace, config: ReasoningConfig) -> int:
     return 2 if any(item["reasoning_status"] == "failed" for item in artifact["findings"]) else 0
 
 
-def doctor_text(config: ReasoningConfig) -> str:
-    status = Ollama(config).inspect()
+def doctor_status(config: ReasoningConfig) -> dict[str, bool]:
+    return Ollama(config).inspect()
+
+
+def doctor_text(config: ReasoningConfig, status: dict[str, bool] | None = None) -> str:
+    status = status or doctor_status(config)
     return (
         "Optional local reasoning\n"
         f"  Ollama endpoint: {'available' if status['available'] else 'unavailable'}\n"
