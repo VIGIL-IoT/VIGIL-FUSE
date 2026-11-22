@@ -6,6 +6,7 @@ from .plaintext_http import RULE as PLAINTEXT_HTTP
 from .plaintext_mqtt import RULE as PLAINTEXT_MQTT
 from .private_key import RULE as PRIVATE_KEY
 from .tls import RULE as TLS
+from .software_process import RULE as SOFTWARE_PROCESS
 
 RULES: tuple[RuleDefinition, ...] = (
     CREDENTIALS,
@@ -15,4 +16,5 @@ RULES: tuple[RuleDefinition, ...] = (
     PLAINTEXT_MQTT,
     ESP_IDF_BOOT_VALIDATION,
     ESP_IDF_DEEP_SLEEP_VALIDATION,
+    SOFTWARE_PROCESS,
 )

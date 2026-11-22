@@ -4,7 +4,7 @@ FUSE is an alpha-stage static inspection tool. A clean report means only that en
 
 ## Detection and accuracy
 
-- Seven native rules cover narrow textual or configuration indicators. They do not provide general semantic analysis of C/C++, linker output, preprocessor state, data flow, or runtime behavior.
+- Native rules cover narrow textual, configuration, and Python syntax indicators. They do not provide general semantic analysis of C/C++, linker output, preprocessor state, data flow, or runtime behavior.
 - The Python AST check for FUSE003 covers selected qualified Requests and HTTPX calls. Other languages and wrappers use narrower lexical logic.
 - Findings do not generally establish whether code is built, selected, reachable, shipped, or enabled. Product applicability often remains `unknown`.
 - Fixture benchmark labels are synthetic and authored for regression testing. They are not independent ground truth and do not estimate field precision or recall.

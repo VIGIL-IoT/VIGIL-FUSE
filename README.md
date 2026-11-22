@@ -63,7 +63,7 @@ The figure starts from the illustrative `FUSE001` record in the [finding format]
 
 ## Current scope
 
-- Seven conservative native rules for credential-like literals, private-key markers, TLS verification bypasses, plaintext HTTP and MQTT endpoints, and two ESP-IDF image-validation settings.
+- Conservative native rules for credential-like literals, private-key markers, TLS verification bypasses, plaintext HTTP and MQTT endpoints, ESP-IDF image-validation settings, and Python subprocess calls with shell execution enabled.
 - Hardware and firmware candidate inventories. These report recognized files and metadata, not hardware or firmware security assessments.
 - Optional Ghidra 12.2 Headless Analyzer support for selected ELF, PE, Mach-O, or explicitly mapped raw binaries. It writes bounded evidence and keeps static endpoint references as unvalidated candidates.
 - Selected ESP-IDF, Zephyr, PlatformIO, compilation database, and GitHub Actions metadata checks.
