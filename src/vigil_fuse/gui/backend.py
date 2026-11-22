@@ -87,7 +87,7 @@ class Runner:
         env["PYTHONNOUSERSITE"] = "1"
         kwargs: dict[str, Any] = {}
         if os.name == "nt":
-            kwargs["creationflags"] = subprocess.CREATE_NEW_PROCESS_GROUP
+            kwargs["creationflags"] = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
         else:
             kwargs["start_new_session"] = True
         with self._lock:
