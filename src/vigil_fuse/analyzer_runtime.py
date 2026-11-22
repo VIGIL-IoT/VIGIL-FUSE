@@ -880,6 +880,20 @@ def _tool_version(executable: str) -> str | None:
     return lines[0][:120] if lines else None
 
 
+def inspect_tool_version(executable: str) -> str | None:
+    """Return one bounded version line for an optional external tool."""
+    return _tool_version(executable)
+
+
+def run_bounded_host_tool(
+    command: Sequence[str], *, timeout: int, output_limit_bytes: int
+) -> subprocess.CompletedProcess[str]:
+    """Run a host-only optional parser without bypassing an explicitly selected sandbox."""
+    if analyzer_sandbox_active():
+        raise OSError("The selected analyzer sandbox is not configured for this tool")
+    return _run(list(command), timeout=timeout, output_limit_bytes=output_limit_bytes)
+
+
 def _output_exclude_pattern(target: Path, output_dir: Path) -> str | None:
     if not target.is_dir():
         return None

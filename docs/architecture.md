@@ -75,7 +75,7 @@ CLI
  ├─ optional Syft / OSV-Scanner / Binwalk / Gitleaks / Ghidra adapters run as bounded subprocesses
  ├─ product-context adapter correlates exact CycloneDX VEX identities and SLSA subject digests
  ├─ common Finding model carries severity, confidence, evidence, component identity, and review context
- ├─ reporters emit text, schema 1.11 JSON, SARIF, inventories, coverage, and artifact hashes
+ ├─ reporters emit text, schema 1.12 JSON, SARIF, inventories, coverage, and artifact hashes
  └─ baseline review consumes canonical JSON reports to compare changes and apply reasoned suppressions
 ```
 
@@ -90,6 +90,7 @@ CLI
 - `github_actions.py`: bounded, line-oriented checks for exact workflow-level and job-level `write-all` permission scalars, inventory of non-SHA action references, findings on obvious floating branch refs, a narrow `pull_request_target` plus `actions/checkout` pull request head-ref candidate, and selected untrusted event expressions directly interpolated into step `run` scripts. Findings remain repository workflow candidates; the adapter does not infer whether checked-out code is executed or whether shell interpolation is exploitable.
 - `hardware_netlist.py`: UTF-8 and DTD checks, streaming XML depth and element preflight, then bounded parsing of selected or uniquely detected KiCad netlists for named debug nets attached to connector candidates. It does not infer physical exposure.
 - `hardware.py`: filename-only recognition for hardware design, CAD, BOM, HDL, and fabrication artifacts.
+- `rtl_analysis.py`: bounded Verilog/SystemVerilog token parsing, optional Verible syntax parsing, literal Yosys inclusion metadata, and normalized RTL security evidence. Python FUSE interprets the evidence; it does not claim a formal proof or an effective FPGA build.
 - `build_context.py`: bounded PlatformIO `extra_configs` include resolution, environment and source-filter metadata, and compilation-database indexing. It records metadata only and never invokes PlatformIO, a compiler, or a build command.
 - `hardware_bom.py`: explicit CSV/TSV component import and CycloneDX 1.6 hardware BOM generation. Filename discovery remains separate from content parsing.
 - `product_context.py`: package URL construction, exact-match CycloneDX VEX annotations, and in-toto SLSA subject digest comparison for firmware. It does not authenticate signatures or trust builders.
@@ -119,9 +120,11 @@ The package follows inward dependency direction. The CLI is the composition root
 | Foundation | `model.py`, `input_types.py`, `limits.py`, `path_safety.py`, `profiles.py`, `target_labels.py`, `text_safety.py` | Python standard library only |
 | Rule contract and implementations | `rules/base.py`, individual `rules/*.py` modules | Rule implementations use the shared model and rule contract; they do not import scanner, CLI, reporter, analyzer, or worker modules |
 | Rule composition | `rules/registry.py` | Imports the rule contract and concrete rule definitions to build the registry |
-| Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
+| Context and inventory adapters | `build_context.py`, `platform_context.py`, `hardware*.py`, `rtl_analysis.py`, `firmware_inventory.py`, `github_actions.py`, and related metadata modules | Depend on the model and narrow lower-level helpers; they do not call the CLI |
 | Execution boundaries | `rule_execution.py`, `rule_worker.py`, `analyzer_runtime.py` | Rule execution uses the model; the worker uses the model and registry; analyzer runtime uses the model and process primitives |
-| Reporting and reasoning context | `reporting.py`, `sarif.py`, `reasoning_context.py` | Serializes normalized results or builds a bounded packet from one canonical JSON finding; it does not run scans, rules, analyzers, or models |
+| Optional policy adapter | `policy.py` | Builds a bounded policy view from the model, then invokes a local OPA executable only when a policy is explicitly selected |
+| Reporting | `reporting.py`, `sarif.py` | Consumes normalized results and presentation helpers; it does not run scans, rules, or analyzers |
+| Reasoning context | `reasoning/context.py` | Builds a bounded packet from one selected canonical JSON finding; it does not run scans or determine finding authority |
 | Composition | `scanner.py`, `analyzers.py`, `cli.py` | May connect lower layers to expose a complete scan and command interface |
 
 Architecture tests verify that internal imports remain acyclic, foundation modules stay independent, native rules depend only on the shared contract, the registry includes every rule module, and reporters stay independent from scan and analyzer orchestration. A separate CLI integration test runs both vulnerable and secure ESP-IDF project controls through source scanning, generated build context, hardware inventory, selected KiCad netlist parsing, BOM export, and report serialization. The positive fixture proves that the data path is wired together. The secure fixture prevents these four scoped signals from leaking into the paired control. Neither fixture validates a physical board or estimates field accuracy.
@@ -133,7 +136,7 @@ flowchart TD
     CLI --> Context[build_context.py and platform_context.py]
     CLI --> AnalyzerFacade[analyzers.py compatibility facade]
     CLI --> Reporters[reporting.py and sarif.py]
-    CLI --> ReasoningContext[reasoning_context.py]
+    CLI --> ReasoningCLI[reasoning/cli.py]
     CLI --> Baseline[baseline.py]
     Scanner --> Rules[rule_execution.py and rules registry]
     Rules --> Worker[rule_worker.py]
@@ -142,26 +145,24 @@ flowchart TD
     AnalyzerFacade --> Runtime[analyzer_runtime.py]
     AnalyzerFacade --> Optional[dependency, firmware, and history analyzers]
     Scanner --> Model[model.py]
+    Model --> PolicyInput[Versioned policy input]
+    PolicyInput --> OPA[Optional local OPA/Rego]
+    OPA --> PolicyResults[Separate policy results]
+    CLI --> PolicyInput
+    CLI --> PolicyResults
     Model --> Reporters
     Model --> Baseline
+    ReasoningCLI --> ReasoningContext[reasoning/context.py]
     ReasoningContext --> TextSafety[text_safety.py]
 ```
 
-The `reasoning-context` command reads one schema-versioned JSON report and emits a compact packet for one finding. It does not invoke a model or provider. The packet preserves FUSE severity and validation fields, includes provenance and scan coverage, and keeps firmware, build, and hardware signals separate from evidence that a device is deployed or reachable. The optional local provider is planned only:
+When `scan --policy` is supplied, Python maps the scan result into the fixed policy input contract and runs the selected Rego module through OPA. The policy result is written separately from `findings.json`; policies do not create, suppress, or reprioritize FUSE findings. OPA is not required for a normal scan and FUSE never installs it.
 
-```mermaid
-flowchart TD
-    Scan[Deterministic FUSE] --> Canonical[Canonical findings and evidence]
-    Canonical --> Builder[Reasoning context builder]
-    Builder -. planned .-> Provider[Optional local provider]
-    Provider -. optional explanation .-> Validate[Output schema validation]
-    Validate -. enrichment only .-> Present[Normal FUSE presentation]
-    Canonical --> Present
-```
-
-See [the reasoning context contract](reasoning-layer.md) for its data and authority boundaries.
+The `reasoning-context` command emits the bounded packet from one exact finding ID and does not call a provider. The optional reasoning provider is separate from deterministic scanning; see [the local reasoning guide](local-reasoning.md) for its existing input and authority limits.
 
 The native-rule worker receives decoded source text and relative paths over a private pipe. It does not import or execute project files. The subprocess exists to enforce timeouts; it does not reduce the worker's operating-system privileges or replace a sandbox for hostile analyzer inputs. Optional analyzers receive per-run temporary default user, configuration, cache, data, and temporary directories, and use a temporary working directory unless an adapter explicitly selects one. Gitleaks retains its selected repository working directory. POSIX process sessions and Windows Job Objects support best-effort cleanup. Host mode remains the default and does not restrict filesystem, network, memory, or privilege access. Explicit Docker mode uses local digest-pinned images, verifies container settings before execution, mounts scan input read-only, and disables network unless online OSV lookup is explicitly allowed. The Docker daemon and selected images remain trusted. See the [threat model](threat-model.md) for trust boundaries and residual risks.
+
+The polyglot boundaries and RTL security-analysis scope are documented in [the FUSE polyglot platform](architecture/polyglot-platform.md) and [RTL analysis guide](rtl-security-analysis.md).
 
 ## Rule contract
 
@@ -170,6 +171,8 @@ Each rule has a stable ID, title, severity, confidence, category, explanation, p
 Every rule change should include a vulnerable fixture that produces the intended finding and a secure fixture that produces no finding for that rule. The automated tests load fixtures and exercise the rule directly. Scanner and reporter tests cover end-to-end path handling and output shape.
 
 The package-level integration test complements the per-rule tests. It protects composition and report provenance across modules. It does not replace individual rule fixtures, schema validation, cross-platform CI, or independent evaluation.
+
+Policy evaluation uses only allow-listed normalized fields and has separate input and result schemas. See [policy-as-code](policy-as-code.md) for the evidence boundary, result states, custom policy format, and support limits.
 
 ## Deliberate boundaries
 

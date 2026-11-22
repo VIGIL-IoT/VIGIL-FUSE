@@ -40,11 +40,18 @@ from .esp_idf_lock import lock_parser_available
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .platform_context import detect_project_frameworks, resolve_build_dir
+from .policy import (
+    evaluate_policies,
+    inspect_opa,
+    policy_results_json,
+    resolve_policy_files,
+)
 from .product_context import import_vex, inspect_provenance, validate_package_purl
 from .profiles import PROFILES, get_profile
 from .reporting import to_json, to_text
+from .reasoning.cli import add_commands, doctor_text, enrich_scan, run_command
 from .report_pdf import write_pdf_report
-from .reasoning_context import ReasoningContextLimits, build_reasoning_context, load_scan_report
+from .rtl_analysis import inspect_rtl_backend
 from .rule_execution import (
     DEFAULT_RULE_TIMEOUT_SECONDS,
     MAX_RULE_TIMEOUT_SECONDS,
@@ -147,6 +154,7 @@ def _parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--version", action="version", version=f"FUSE {__version__}")
     commands = parser.add_subparsers(dest="command")
+    add_commands(commands)
     doctor_parser = commands.add_parser(
         "doctor", help="show runtime and optional analyzer availability"
     )
@@ -220,30 +228,14 @@ def _parser() -> argparse.ArgumentParser:
         default=Path(".fuse-results/suppressions.json"),
         help="suppression JSON path",
     )
-    reasoning_parser = commands.add_parser(
-        "reasoning-context", help="build bounded context for one finding from a FUSE JSON report"
-    )
-    reasoning_parser.add_argument("report", type=Path, help="canonical FUSE findings.json report")
-    reasoning_parser.add_argument("--finding", required=True, help="finding ID from the report")
-    reasoning_parser.add_argument("--output", type=Path, help="write context JSON to this path")
-    reasoning_parser.add_argument("--pretty", action="store_true", help="indent the output JSON")
-    reasoning_parser.add_argument(
-        "--max-context-chars", type=int, default=12_000, help="maximum compact JSON size (default: 12000)"
-    )
-    reasoning_parser.add_argument(
-        "--max-text-chars", type=int, default=800, help="maximum characters per text field (default: 800)"
-    )
-    reasoning_parser.add_argument(
-        "--max-snippet-chars", type=int, default=1_200, help="maximum characters per evidence snippet (default: 1200)"
-    )
-    reasoning_parser.add_argument(
-        "--max-items", type=int, default=16, help="maximum evidence items per category (default: 16)"
-    )
     scan_parser = commands.add_parser(
         "scan", help="analyze a project, SBOM, or supported firmware input"
     )
     scan_parser.add_argument(
         "target", nargs="?", default=".", help="project directory, file, SBOM, or firmware image"
+    )
+    scan_parser.add_argument(
+        "--reason", action="store_true", help="optionally explain completed findings locally"
     )
     scan_parser.add_argument("--config", type=Path, help="load scan options from a TOML file")
     scan_parser.add_argument("--profile", choices=tuple(PROFILES), help="input discovery profile")
@@ -281,6 +273,11 @@ def _parser() -> argparse.ArgumentParser:
         "--hardware-netlist",
         type=Path,
         help="inspect one KiCad XML netlist for debug-interface candidates; no PCB exposure is asserted",
+    )
+    scan_parser.add_argument(
+        "--policy",
+        type=Path,
+        help="evaluate an explicit .rego file or directory, or reference:production-iot",
     )
     scan_parser.add_argument(
         "--vex",
@@ -519,6 +516,15 @@ def _write_reports(result: ScanResult, output_dir: Path) -> None:
         path.write_text(content, encoding="utf-8")
 
 
+def _write_policy_results(document: dict[str, object], path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.is_symlink():
+        raise OSError("Refusing to write policy results through a symbolic link")
+    if path.exists() and not path.is_file():
+        raise OSError("Policy results output path is not a regular file")
+    path.write_text(policy_results_json(document), encoding="utf-8")
+
+
 def _resolve_ghidra_install_dir(
     cli_path: Path | None,
     configured_path: str | None,
@@ -570,6 +576,15 @@ def _doctor(
         )
     )
     _safe_print(f"  Ghidra detail: {ghidra.detail}")
+    opa = inspect_opa()
+    _safe_print(f"OPA/Rego: {'AVAILABLE' if opa.available else 'UNAVAILABLE'}")
+    _safe_print(f"OPA version: {opa.version or 'not detected'}")
+    _safe_print("policy engine: optional")
+    rtl_availability, rtl_backend, rtl_version, verible_status = inspect_rtl_backend()
+    _safe_print(f"RTL analyzer: {rtl_availability}")
+    _safe_print(f"  backend: {rtl_backend}")
+    _safe_print(f"  version: {rtl_version}")
+    _safe_print(f"  Verible parser: {verible_status}")
     _safe_print(
         "ESP-IDF lockfile parser: "
         + (
@@ -577,6 +592,9 @@ def _doctor(
             if lock_parser_available()
             else "not installed; use vigil-fuse[esp-idf]"
         )
+    )
+    _safe_print(
+        doctor_text(config.reasoning if config is not None else ScanConfig().reasoning), end=""
     )
     _safe_print("Core scanner: available")
     _safe_print(
@@ -1438,6 +1456,13 @@ def main(
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
+    if args.command in {"reason", "reasoning-context"}:
+        try:
+            config = load_config(args.config) if args.config else ScanConfig()
+            return run_command(args, config.reasoning)
+        except (OSError, ValueError) as error:
+            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
+            return 2
     if args.command == "baseline":
         try:
             if args.baseline_action == "create":
@@ -1463,41 +1488,13 @@ def main(
         except (OSError, ValueError) as error:
             _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
             return 2
-    if args.command == "reasoning-context":
-        try:
-            report_path = args.report.expanduser()
-            scan_report = load_scan_report(report_path)
-            limits = ReasoningContextLimits(
-                max_context_chars=args.max_context_chars,
-                max_text_chars=args.max_text_chars,
-                max_snippet_chars=args.max_snippet_chars,
-                max_items=args.max_items,
-            )
-            context = build_reasoning_context(scan_report, args.finding, limits)
-            rendered = json.dumps(
-                context,
-                ensure_ascii=False,
-                sort_keys=True,
-                indent=2 if args.pretty else None,
-                separators=None if args.pretty else (",", ":"),
-            )
-            if args.output is None:
-                print(rendered)
-            else:
-                output_path = args.output.expanduser()
-                if output_path.is_symlink():
-                    raise ValueError("refusing to write reasoning context through a symbolic link")
-                if output_path.resolve() == report_path.resolve():
-                    raise ValueError("reasoning context output must not replace its input report")
-                output_path.parent.mkdir(parents=True, exist_ok=True)
-                output_path.write_text(rendered + "\n", encoding="utf-8")
-            return 0
-        except (OSError, ValueError) as error:
-            _safe_print(f"vigil-fuse: {error}", file=sys.stderr)
-            return 2
     try:
         config_path = args.config.expanduser() if args.config else None
         config = load_config(config_path) if config_path else ScanConfig()
+        if args.policy is not None:
+            if args.plan:
+                raise ValueError("--policy cannot be combined with --plan")
+            resolve_policy_files(args.policy)
         profile = args.profile or config.profile
         target_label = args.target_label if args.target_label is not None else config.target_label
         include = (*config.include, *args.include)
@@ -1716,7 +1713,7 @@ def main(
                 rule_timeout_seconds=args.rule_timeout,
             )
 
-        with (ScanProgress() if _interactive_scan else nullcontext()):
+        with ScanProgress() if _interactive_scan else nullcontext():
             result = scan(
                 args.target,
                 profile=profile,
@@ -1762,9 +1759,7 @@ def main(
                 else nullcontext()
             )
             with sandbox_scope:
-                with (
-                    ScanProgress(optional=True) if _interactive_scan else nullcontext()
-                ):
+                with ScanProgress(optional=True) if _interactive_scan else nullcontext():
                     result = _analyze_with_optional_tools(
                         result,
                         analyzer_target,
@@ -1803,6 +1798,7 @@ def main(
                 max_firmware_bytes=max_firmware_bytes,
             )
             result = replace(result, provenance=provenance)
+        policy_results = evaluate_policies(args.policy, result) if args.policy is not None else None
         if result.hardware_bom.status in {"imported", "partial"}:
             if output_dir is None:
                 raise ValueError("A CycloneDX hardware BOM needs a report output directory")
@@ -1828,6 +1824,10 @@ def main(
             )
         if output_dir is not None:
             _write_reports(result, output_dir)
+            policy_output = output_dir / "policy-results.json"
+            if policy_results is not None:
+                _write_policy_results(policy_results, policy_output)
+                _safe_print(f"Policy results written to {policy_output}", file=sys.stderr)
             _safe_print(f"Reports written to {output_dir}", file=sys.stderr)
             if (
                 args.output_dir is None
@@ -1854,6 +1854,10 @@ def main(
             )
             args.output.write_text(report, encoding="utf-8")
             _safe_print(f"Report written to {args.output}", file=sys.stderr)
+            if policy_results is not None:
+                policy_output = args.output.with_name(f"{args.output.stem}.policy-results.json")
+                _write_policy_results(policy_results, policy_output)
+                _safe_print(f"Policy results written to {policy_output}", file=sys.stderr)
         else:
             sys.stdout.write(
                 to_json(result)
@@ -1864,6 +1868,28 @@ def main(
             )
         if _result_callback is not None:
             _result_callback(result, output_dir or (args.output.resolve() if args.output else None))
+        if args.reason:
+            canonical_path = (
+                output_dir / "findings.json"
+                if output_dir is not None
+                else args.output
+                if args.format == "json"
+                else None
+            )
+            reasoning_path = (
+                output_dir / "reasoning.json"
+                if output_dir is not None
+                else args.output.with_suffix(".reasoning.json")
+                if args.output is not None
+                else Path(".fuse-results/reasoning.json")
+            )
+            enrich_scan(
+                to_json(result),
+                config.reasoning,
+                canonical_path,
+                reasoning_path,
+                show=args.format == "text",
+            )
         if _prompt_for_pdf and output_dir is not None:
             try:
                 report_answer = input("Create a PDF report? [y/N] ").strip().casefold()
@@ -1929,6 +1955,14 @@ def main(
         return 2
     if result.netlist_inventory.status in {"partial", "invalid"}:
         return 2
+
+    if policy_results is not None:
+        policy_status = str(policy_results["status"])
+        _safe_print(f"Policy evaluation: {policy_status.upper()}", file=sys.stderr)
+        if policy_status == "fail":
+            return 1
+        if policy_status == "unknown":
+            return 2
 
     if not result.analysis_performed:
         return 2

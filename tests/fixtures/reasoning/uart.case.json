@@ -1,0 +1,17 @@
+{
+  "report": "uart.findings.json",
+  "finding": "FUSE-HW-014:src/debug_uart.c:12",
+  "must_preserve_unknown": [
+    "runtime",
+    "population",
+    "accessibility"
+  ],
+  "expected_evidence_ids": [
+    "E1"
+  ],
+  "forbidden_claims": [
+    "confirmed physical exposure",
+    "runtime execution is confirmed",
+    "connector is populated"
+  ]
+}

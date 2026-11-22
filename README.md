@@ -96,6 +96,7 @@ FUSE is a VIGIL Project. Within the wider [VIGIL-IoT suite](https://github.com/V
 - [Finding fields and JSON schema](docs/finding-schema.md)
 - [Rules and fixture requirements](docs/rule-development.md)
 - [Configuration and integrations](docs/integrations.md)
+- [Optional OPA/Rego policy evaluation](docs/policy-as-code.md)
 - [Ghidra analysis and its limits](docs/ghidra-analysis.md) · [Third-party credits](docs/THIRD_PARTY_CREDITS.md)
 - [Ghidra pipeline figure](site/diagrams/fuse-ghidra-pipeline.html) · [Controlled Ghidra benchmark](docs/experiments/ghidra-adapter-2026-11-03.md)
 - [Threat model](docs/threat-model.md) · [Limitations](docs/limitations.md)
@@ -133,3 +134,6 @@ Because this repository is public on GitHub, GitHub's [Terms of Service](https:/
 ## Multi-repository evaluation report
 
 Read the [LaTeX evaluation and reproduction record](reports/repository-scans/multi-repository-2026-11-14/README.md) or the [PDF on GitHub Pages](https://vigil-iot.github.io/VIGIL-FUSE/report.pdf). Four pinned scopes yielded three static review candidates across 4,347 scanned files, with coverage limitations recorded.
+
+Optional local reasoning over completed deterministic evidence is documented in
+[Local reasoning](docs/local-reasoning.md). It is opt-in and never downloads a model.

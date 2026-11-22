@@ -26,7 +26,7 @@ def _input_inventory_scope(result: ScanResult) -> str:
 def to_json(result: ScanResult) -> str:
     counts = Counter(finding.severity for finding in result.findings)
     report = {
-        "schema_version": "1.11",
+        "schema_version": "1.12",
         "tool": {"name": "FUSE", "version": __version__},
         "target": result.target,
         "scan": {
@@ -97,6 +97,28 @@ def to_json(result: ScanResult) -> str:
                 }
                 for item in result.hardware_inventory.artifacts
             ],
+            "rtl_analysis": {
+                "status": result.hardware_inventory.rtl_analysis.status,
+                "backend": result.hardware_inventory.rtl_analysis.backend,
+                "version": result.hardware_inventory.rtl_analysis.version,
+                "file_count": result.hardware_inventory.rtl_analysis.file_count,
+                "module_count": result.hardware_inventory.rtl_analysis.module_count,
+                "package_count": result.hardware_inventory.rtl_analysis.package_count,
+                "testbench_count": result.hardware_inventory.rtl_analysis.testbench_count,
+                "top_module_candidates": list(
+                    result.hardware_inventory.rtl_analysis.top_module_candidates
+                ),
+                "declared_top_modules": list(
+                    result.hardware_inventory.rtl_analysis.declared_top_modules
+                ),
+                "files": list(result.hardware_inventory.rtl_analysis.files),
+                "related_files": list(result.hardware_inventory.rtl_analysis.related_files),
+                "evidence": list(result.hardware_inventory.rtl_analysis.evidence),
+                "omitted_files": result.hardware_inventory.rtl_analysis.omitted_files,
+                "omitted_units": result.hardware_inventory.rtl_analysis.omitted_units,
+                "omitted_evidence": result.hardware_inventory.rtl_analysis.omitted_evidence,
+                "limitations": list(result.hardware_inventory.rtl_analysis.limitations),
+            },
         },
         "firmware_candidates": {
             "status": result.firmware_candidates.status,
@@ -339,6 +361,14 @@ def _to_text(result: ScanResult) -> str:
         f"Findings: {len(result.findings)}",
         f"Hardware artifacts: {len(result.hardware_inventory.artifacts)}",
     ]
+    rtl = result.hardware_inventory.rtl_analysis
+    if rtl.status != "not-detected":
+        lines.append(
+            f"RTL analysis: {rtl.status}; {rtl.file_count} file(s), {rtl.module_count} module(s), "
+            f"{rtl.package_count} package(s), {rtl.testbench_count} testbench candidate(s)"
+        )
+        lines.append(f"  Backend: {rtl.backend} ({rtl.version})")
+        lines.extend(f"  RTL limit: {item}" for item in rtl.limitations)
     pio = result.platformio_inventory
     if pio.status != "not-detected":
         lines.append(
