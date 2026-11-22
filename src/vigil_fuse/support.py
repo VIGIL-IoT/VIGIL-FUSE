@@ -108,6 +108,9 @@ def capability_for_scan(result: ScanResult) -> CapabilitySummary:
             "limitations": ["No security analysis was performed"],
         }
         status = "unsupported"
+    elif result.hardware_inventory.rtl_analysis.status != "not-detected":
+        capability = _capability("hardware.rtl-security-analysis")
+        status = result.hardware_inventory.rtl_analysis.status
     else:
         capability = source_capability(result.profile)
         native = next((item for item in result.analyzers if item.name == "fuse-native"), None)

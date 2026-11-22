@@ -40,6 +40,7 @@ from .model import (
     ScanResult,
     SourceFile,
 )
+from .rtl_analysis import RTL_SUFFIXES, analyze_rtl
 from .platform_context import inspect_project_context
 from .profiles import ScanProfile, get_profile
 from .rule_execution import (
@@ -546,6 +547,7 @@ def scan(
     platform_findings = 0
     if not discovery_complete:
         limits_reached.add("discovery-budget")
+    rtl_sources: list[SourceFile] = []
 
     if firmware_image:
         firmware_size = requested.stat().st_size
@@ -619,6 +621,8 @@ def scan(
                     encoding_fallback_files.append(source.path)
             files_scanned += 1
             manifest.update(f"{source.path}\0{source.sha256}\n".encode("utf-8"))
+            if Path(source.path).suffix.casefold() in RTL_SUFFIXES | {".ys"}:
+                rtl_sources.append(source)
             generated_esp_config_selected = profile == "esp-idf" and bool(generated_config_sources)
             source_rules_list = []
             for rule in enabled_rules:
@@ -721,6 +725,13 @@ def scan(
         rule_executor.close()
 
     native_findings_count = len(findings)
+    rtl_analysis, rtl_findings, rtl_status = analyze_rtl(
+        rtl_sources,
+        hardware_items,
+        requested if requested.is_dir() else requested.parent,
+        deadline=scan_deadline,
+    )
+    findings.extend(rtl_findings)
     findings.extend(hardening_findings)
     findings.extend(workflow_findings)
     findings.extend(netlist_findings)
@@ -879,6 +890,8 @@ def scan(
                 findings=len(netlist_findings),
             ),
         )
+    if rtl_status is not None:
+        analyzer_status = (*analyzer_status, rtl_status)
     if build_dir is not None:
         platform_rule_ids = {"FUSE006", "FUSE007"} if profile == "esp-idf" else set()
         platform_rules_incomplete = any(
@@ -936,6 +949,7 @@ def scan(
             scope="directory" if requested.is_dir() else "single-file",
             artifacts=tuple(hardware_items),
             complete=discovery_complete,
+            rtl_analysis=rtl_analysis,
         ),
         project_context=project_context,
         platformio_inventory=platformio_inventory,

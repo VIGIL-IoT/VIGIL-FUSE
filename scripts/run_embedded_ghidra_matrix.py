@@ -246,7 +246,7 @@ def analyze(case: dict, binary: Path, work: Path, ghidra: Path, timeout: int) ->
     report = json.loads(report_path.read_text()) if report_path.exists() else None
     artifact = json.loads(artifact_path.read_text()) if artifact_path.exists() else None
     schemas_valid = True
-    for document, name in ((report, "fuse-report-1.11"), (artifact, "ghidra-analysis")):
+    for document, name in ((report, "fuse-report-1.12"), (artifact, "ghidra-analysis")):
         if document is not None:
             schema = json.loads((ROOT / f"src/vigil_fuse/schemas/{name}.schema.json").read_text())
             Draft202012Validator(schema).validate(document)

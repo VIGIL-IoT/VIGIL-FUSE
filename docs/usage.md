@@ -79,6 +79,8 @@ vigil-fuse scan path/to/embedded-linux-project --profile embedded-linux --plan
 
 Use `generic` for projects without a specific profile. FUSE does not run PlatformIO, `west`, CMake, compilers, or commands listed in `compile_commands.json`.
 
+Use `rtl` to focus discovery on Verilog/SystemVerilog, Yosys scripts, and common FPGA constraints. Generic scans also select `.v`, `.vh`, `.sv`, `.svh`, and `.ys` files. RTL presence does not imply build inclusion; see the [RTL security-analysis guide](rtl-security-analysis.md).
+
 ## Scan a project
 
 Run the scan and write its reports to a folder:
