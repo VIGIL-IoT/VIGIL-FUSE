@@ -8,6 +8,13 @@
 F         UUU   SSSSS   EEEEEE
 ```
 
+[![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
+[![Evaluation report](https://img.shields.io/badge/evaluation-PDF%20report-C84335?logo=adobeacrobatreader&logoColor=white)](https://vigil-iot.github.io/VIGIL-FUSE/)
+[![PyPI version](https://img.shields.io/pypi/v/vigil-fuse.svg?logo=pypi&label=PyPI)](https://pypi.org/project/vigil-fuse/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![License: VIGIL-FUSE Restricted Use v1.2](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use%20v1.2-7c3aed)](LICENSE)
+
 ## Firmware & Unified Security Engine
 
 FUSE is a local analysis tool for embedded and IoT repositories. It collects bounded source, build, firmware, dependency, hardware, and policy evidence. Native findings remain review candidates: static signals do not prove exploitability, shipment, reachability, or physical exposure.
