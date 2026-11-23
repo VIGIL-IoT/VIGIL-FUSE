@@ -68,6 +68,10 @@ def relative_path(value: object) -> str:
 def read_json(path: Path, limit: int = MAX_BYTES) -> Any:
     with path.open("rb") as stream:
         payload = stream.read(limit + 1)
+    return decode_json(payload, limit)
+
+
+def decode_json(payload: bytes, limit: int = MAX_BYTES) -> Any:
     if len(payload) > limit:
         raise ValueError("Evidence exceeds byte limit")
 
