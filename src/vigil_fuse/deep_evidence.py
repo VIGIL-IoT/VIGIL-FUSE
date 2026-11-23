@@ -85,8 +85,24 @@ def main() -> int:
     runtime.add_argument("--graph", type=Path)
     runtime.add_argument("--links", type=Path)
     runtime.add_argument("--output", type=Path, required=True)
+    correlation = commands.add_parser("correlate", help="evaluate deterministic cross-layer rules")
+    correlation.add_argument("graph", type=Path)
+    correlation.add_argument("--facts", type=Path)
+    correlation.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command == "correlate":
+            from .evidence_graph import EvidenceGraph
+            from .cross_layer import correlate, import_facts, materialize_correlations
+
+            imported = EvidenceGraph.from_dict(read_json(args.graph))
+            if args.facts:
+                import_facts(imported, read_json(args.facts))
+            correlations = correlate(imported)
+            materialize_correlations(imported, correlations)
+            correlations["evidence_graph"] = imported.to_dict()
+            args.output.write_text(json.dumps(correlations, indent=2) + "\n", encoding="utf-8")
+            return 0
         if args.command == "runtime":
             from .evidence_graph import EvidenceGraph
             from .runtime_evidence import MAX_LOG, add_runtime, ingest_runtime

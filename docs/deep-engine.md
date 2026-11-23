@@ -180,3 +180,30 @@ Formats follow the upstream Clang documentation for
 [LSan](https://clang.llvm.org/docs/LeakSanitizer.html).
 Unrecognized or empty logs report partial coverage, never clean runtime execution.
 Tests: `python -m pytest -q tests/test_runtime_evidence.py`.
+
+## Cross-layer correlation
+
+`python -m vigil_fuse.deep_evidence correlate graph.json --facts bindings.json --output
+correlations.json` imports explicit producer/reviewer subject mappings and evaluates
+seven deterministic rules. It adds separate candidate finding nodes and support edges;
+existing finding verdicts remain unchanged. Rules in `cross_layer.RULES` require every
+listed `(layer, predicate)` and a distinct underlying artifact reference per required
+layer. Repeated signals, inferred facts and unknown underlying edges do not meet a
+threshold. NEGATED facts or contradicted underlying edges block the candidate.
+
+Bindings have `schema_version: "1.0"`, `producer`, `tool_version`, `artifact`, and `facts`.
+Each fact has `subject` (existing exact node ID), `feature`, `layer`, `predicate`,
+`assertion`, `evidence_nodes`, `evidence_edges`, and `limitations`. Every edge must
+reference a supporting node. No identity correspondence is inferred from a file name,
+string, connector label or function name. These bindings are auditable assertions;
+artifact reference diversity is not cryptographic proof of producer independence.
+
+Initial rules cover UART debug exposure, external flash exposure, firmware update
+paths, bootloader validation weakness, dependency/binary presence, source/build/firmware
+features, and RTL/hardware debug paths. Their mandatory predicates are the versioned
+rule contract, not heuristic signal scores. Output lists observed and asserted facts,
+the inferred candidate, unknown physical/runtime/authentication conditions, every
+supporting node/edge, limitations and artifact references. Severity and confidence
+remain null for correlation candidates. Missing layers appear under `unknown` and
+contradictions under `blocked`, preserving non-findings for evaluation.
+Tests: `python -m pytest -q tests/test_cross_layer.py`.
