@@ -151,3 +151,32 @@ The Binwalk v3 output directory is explicit and its input alias cleanup is enabl
 as documented in the [upstream CLI](https://github.com/ReFirmLabs/binwalk/blob/master/src/cliparser.rs)
 and [driver](https://github.com/ReFirmLabs/binwalk/blob/master/src/main.rs).
 Tests: `python -m pytest -q tests/test_firmware_rootfs.py`.
+
+## Runtime evidence
+
+`python -m vigil_fuse.deep_evidence runtime sanitizer.log metadata.json --graph graph.json
+--output runtime.json` passively imports symbolized ASan, UBSan, MSan, TSan and LSan logs.
+Metadata requires `tool`, `tool_version`, `binary_sha256`, `artifact_reference`,
+`source_root` (empty or an explicit build source prefix), and `reproducer_reference`
+(string or null). Input is bounded to 4 MiB, 256 observations and 64 frames per observation.
+The original artifact is identified by digest; diagnostic values, addresses, program
+output and process arguments are omitted. Absolute paths outside the declared prefix
+remain unknown. No reported sanitizer error is a claim of deployed exploitability.
+
+`--links links.json` accepts an array of explicit reviewer correspondences containing
+`observation` node ID, `target` finding/function/path ID, `artifact` review reference and
+`method`. Support is ASSERTED, retains both artifact references, and never changes the
+static finding. Matching names or locations alone never creates a support link. The
+generic `ingest_runtime(..., adapter=...)` boundary validates future passive adapters
+using the same RuntimeObservation envelope. Proof-specific validation states require
+a future versioned adapter contract. No command launches a target. Any future runtime
+execution API must require separate explicit authorization and a sandbox policy.
+
+Formats follow the upstream Clang documentation for
+[ASan](https://clang.llvm.org/docs/AddressSanitizer.html),
+[UBSan](https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html),
+[MSan](https://clang.llvm.org/docs/MemorySanitizer.html),
+[TSan](https://clang.llvm.org/docs/ThreadSanitizer.html) and
+[LSan](https://clang.llvm.org/docs/LeakSanitizer.html).
+Unrecognized or empty logs report partial coverage, never clean runtime execution.
+Tests: `python -m pytest -q tests/test_runtime_evidence.py`.

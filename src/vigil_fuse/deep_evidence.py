@@ -79,8 +79,30 @@ def main() -> int:
     extract.add_argument("--recursive", action="store_true")
     extract.add_argument("--authorize-extraction", action="store_true")
     extract.add_argument("--output", type=Path, required=True)
+    runtime = commands.add_parser("runtime", help="passively import a sanitizer log")
+    runtime.add_argument("input", type=Path)
+    runtime.add_argument("metadata", type=Path)
+    runtime.add_argument("--graph", type=Path)
+    runtime.add_argument("--links", type=Path)
+    runtime.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command == "runtime":
+            from .evidence_graph import EvidenceGraph
+            from .runtime_evidence import MAX_LOG, add_runtime, ingest_runtime
+
+            metadata = read_json(args.metadata)
+            with args.input.open("rb") as stream:
+                evidence = ingest_runtime(stream.read(MAX_LOG + 1), metadata)
+            imported = (
+                EvidenceGraph.from_dict(read_json(args.graph))
+                if args.graph
+                else EvidenceGraph(metadata["binary_sha256"])
+            )
+            add_runtime(imported, evidence, read_json(args.links) if args.links else None)
+            evidence["evidence_graph"] = imported.to_dict()
+            args.output.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
+            return 0
         if args.command in {"rootfs", "firmware-extract"}:
             from .evidence_graph import EvidenceGraph, decode_json
             from .firmware_rootfs import add_rootfs, extract_firmware
