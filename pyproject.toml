@@ -33,7 +33,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-cliui = ["prompt-toolkit>=3.0.48,<4"]
+cliui = ["prompt-toolkit>=3.0.53,<4"]
 esp-idf = ["PyYAML>=6,<7"]
 research = ["jsonschema>=4.23,<5", "matplotlib>=3.10,<4", "psutil>=7.2,<8"]
 test = ["jsonschema>=4.23,<5", "psutil>=7.2,<8", "pytest>=9.0.3,<10", "PyYAML>=6,<7"]
