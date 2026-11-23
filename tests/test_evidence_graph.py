@@ -176,3 +176,16 @@ def test_report_backward_compatibility_schema_and_integration(tmp_path: Path) ->
     Draft202012Validator(
         json.loads((schemas / "fuse-report-1.14.schema.json").read_text())
     ).validate(report)
+
+
+def test_existing_kicad_parser_status_is_normalized() -> None:
+    from vigil_fuse.hardware_netlist import read_netlist_topology
+
+    root = Path(__file__).parent / "fixtures/hardware"
+    g = eg.EvidenceGraph("kicad-fixture")
+    eg.import_netlist(g, read_netlist_topology(root, "debug-interface.net"))
+    assert "completed" in g.coverage.values()
+    assert any(e["relation"] == "connected_to" for e in g.edges.values())
+    failed = eg.EvidenceGraph("invalid-kicad")
+    eg.import_netlist(failed, read_netlist_topology(root, "missing.net"))
+    assert list(failed.coverage.values()) == ["failed"]
