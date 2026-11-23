@@ -35,3 +35,34 @@ src tests scripts`, `python -m mypy`, and `python scripts/validate_docs.py`.
 Branches start from the latest canonical main. Later branches cherry-pick explicit
 prerequisites so they can be tested independently without merging any branch into main.
 Authored fixtures verify contracts and regressions; they are not accuracy measurements.
+
+## Semantic flow
+
+`python -m vigil_fuse.deep_evidence semantic paths.sarif --language python --graph graph.json --output flows.json`
+imports CodeQL SARIF 2.1.0 paths. CWE query tags identify the thirteen supported families;
+unmapped results make coverage partial. Missing paths and failed invocations also make
+coverage partial. Unsupported languages are explicit. All paths retain query identity,
+locations, source, sink, sanitizer/barrier annotations and interprocedural evidence.
+Feasibility always remains unknown. Sanitizers that suppress an alert are not normally
+in SARIF: their absence is not proof that no sanitizer exists. Explicit call steps map
+to `calls`; ordinary path steps map only to `flows_to`.
+
+`--engine Joern` consumes the strict `fuse-joern-1.0` normalized adapter envelope. It is
+an offline experimental adapter, not a bundled Joern installation or a new CPG engine.
+Clang's existing source analyzer remains separate and does not gain taint semantics.
+
+To query an existing database, use `python -m vigil_fuse.deep_evidence codeql DATABASE
+QUERIES --image IMAGE@sha256:DIGEST --tool-version VERSION --authorize-query --output
+paths.sarif`. The locally available image must include Python 3, CodeQL and installed
+query packs. No image or query downloads are attempted. The shared `AnalyzerRequest`,
+`AnalyzerResult`, `SandboxPolicy` contract denies network/devices, mounts inputs read-only,
+copies the database into bounded tmpfs, and limits CPU, memory, PIDs, elapsed time,
+diagnostics and artifact bytes. It removes containers after errors/timeouts. No host
+fallback or database creation exists. Version supplied at invocation is an operator
+assertion; the raw SARIF also records engine metadata. CodeQL licensing and tool/image
+availability remain the operator's responsibility.
+
+The invocation follows the official [CodeQL database analyze reference](https://docs.github.com/en/code-security/reference/code-scanning/codeql/codeql-cli-manual/database-analyze).
+Tests: `python -m pytest -q tests/test_semantic_flow.py tests/test_evidence_graph.py`.
+Live CodeQL/Joern runs require those optional engines; fixtures test import and failure
+contracts without claiming live semantic accuracy.
