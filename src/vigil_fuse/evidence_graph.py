@@ -369,7 +369,10 @@ def import_sbom(graph: EvidenceGraph, document: dict[str, Any]) -> None:
 
 def import_netlist(graph: EvidenceGraph, topology: Any) -> None:
     """Consume the existing bounded KiCad parser's topology, never infer accessibility."""
-    run = graph.run("kicad", topology.status, artifact=text(topology.sha256))
+    status = {"parsed": "completed", "invalid": "failed"}.get(topology.status, topology.status)
+    run = graph.run("kicad", status, artifact=topology.sha256 or "unknown")
+    if status not in {"completed", "partial"}:
+        return
     components = {
         ref: graph.node("HardwareComponent", [topology.sha256, ref]) for ref in topology.components
     }
