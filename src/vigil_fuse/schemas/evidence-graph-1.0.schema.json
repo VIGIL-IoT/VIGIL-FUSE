@@ -1,0 +1,237 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "target_identity": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "type": {
+            "enum": [
+              "Advisory",
+              "AnalyzerRun",
+              "Binary",
+              "BuildTarget",
+              "CallPath",
+              "Component",
+              "Configuration",
+              "EvidenceArtifact",
+              "File",
+              "Filesystem",
+              "Finding",
+              "FirmwareImage",
+              "Function",
+              "HardwareComponent",
+              "Interface",
+              "Net",
+              "Package",
+              "Pin",
+              "Policy",
+              "RuntimeObservation",
+              "Service",
+              "Symbol",
+              "TranslationUnit",
+              "VulnerableSymbol"
+            ]
+          },
+          "identity": {},
+          "attributes": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "identity",
+          "attributes"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 10000
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "relation": {
+            "enum": [
+              "builds",
+              "calls",
+              "configured_by",
+              "connected_to",
+              "contains",
+              "contradicts",
+              "corresponds_to",
+              "depends_on",
+              "derived_from",
+              "flows_to",
+              "includes",
+              "may_call",
+              "references",
+              "sanitized_by",
+              "supports",
+              "verified_by"
+            ]
+          },
+          "assertion": {
+            "enum": [
+              "ASSERTED",
+              "INFERRED",
+              "NEGATED",
+              "OBSERVED",
+              "UNKNOWN"
+            ]
+          },
+          "confidence": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "method": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "producer": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            "maxItems": 1000,
+            "minItems": 1
+          },
+          "limitations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096
+            },
+            "maxItems": 1000
+          }
+        },
+        "required": [
+          "id",
+          "source",
+          "target",
+          "relation",
+          "assertion",
+          "confidence",
+          "method",
+          "producer",
+          "evidence_refs",
+          "limitations"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 30000
+    },
+    "producer_runs": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "producer": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "partial",
+              "unsupported",
+              "unavailable",
+              "timeout",
+              "failed",
+              "skipped",
+              "incompatible"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "artifact": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          }
+        },
+        "required": [
+          "producer",
+          "status",
+          "version",
+          "artifact"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "maxItems": 1000
+    }
+  },
+  "required": [
+    "schema_version",
+    "target_identity",
+    "nodes",
+    "edges",
+    "producer_runs",
+    "coverage",
+    "provenance"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
