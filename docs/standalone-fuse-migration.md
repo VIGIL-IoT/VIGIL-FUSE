@@ -88,7 +88,7 @@ The canonical GitHub release page and PyPI still show 0.4.0 as the latest VIGIL-
 
 The donor consolidation audit records target NVIDIA/edk2-nvidia at commit cb638768ec174bb2041f87569409c53e4af4292e, describe uefi-202609.1. It selected and scanned 1,223 files, skipped none, and completed discovery. One FUSE001 review candidate remained: medium severity, high confidence, unknown applicability, and not validated. The recorded fingerprint is d81a828a2fbb246ac3f1485b974ae43b55fba56bb3228ecbd7fd93cc28f0a7c1.
 
-This is a historical static candidate, not a confirmed NVIDIA vulnerability. No rule tuning was done to reproduce it. The core scanner and native rules were unchanged in this migration, so the pinned target was not rerun.
+This is a historical static candidate, not a confirmed NVIDIA vulnerability. Manual review later established that its literals came from mocked bootstrap credential responses in a `UnitTest` directory, with `MODULE_TYPE = HOST_APPLICATION` and inclusion from `Platform/NVIDIA/HostBasedTests/HostBasedTests.dsc`. The minimal synthetic regression and its limitations are recorded in [the FUSE001 context regression](experiments/fuse001-edk2-nvidia-unittest-context-2026-11-23.md). The rule change generalizes exact unit-test directory spelling in the shared classifier; it does not special-case NVIDIA or establish that every file outside test directories ships in production.
 
 The donor audit also records a live Qwen reasoning smoke that returned valid JSON but failed strict UNKNOWN-acknowledgement validation. FUSE rejected the response, did not change the deterministic report, and did not download a model. The current migration preserved that failure behavior; no live model was run here.
 

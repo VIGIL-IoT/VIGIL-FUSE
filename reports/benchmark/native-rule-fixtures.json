@@ -1,5 +1,5 @@
 {
-  "case_count": 24,
+  "case_count": 26,
   "cases": [
     {
       "case_id": "FUSE001-vulnerable",
@@ -128,6 +128,38 @@
       "rationale": "A non-placeholder password literal in the same macro remains detectable.",
       "source_path": "package/network/services/ead/src/tinysrp/t_pwd.h",
       "split": "development"
+    },
+    {
+      "case_id": "FUSE001-edk2-nvidia-unittest-context-negative",
+      "category": "synthetic-secure",
+      "expected_disposition": "no-finding",
+      "expected_rules": [],
+      "findings_by_rule": {},
+      "fixture": "FUSE001-edk2-nvidia-unittest.fixture",
+      "observed_rules": [],
+      "pinned_commit": "cb638768ec174bb2041f87569409c53e4af4292e",
+      "rationale": "The minimal synthetic macros represent test inputs under an exact unit-test directory, which FUSE001 excludes as production candidates.",
+      "source_path": "vendor/Library/CredentialLib/UnitTest/CredentialBootstrapUnitTest.c",
+      "split": "regression"
+    },
+    {
+      "case_id": "FUSE001-edk2-nvidia-production-control-positive",
+      "category": "synthetic-vulnerable",
+      "expected_disposition": "finding",
+      "expected_rules": [
+        "FUSE001"
+      ],
+      "findings_by_rule": {
+        "FUSE001": 1
+      },
+      "fixture": "FUSE001-edk2-nvidia-unittest.fixture",
+      "observed_rules": [
+        "FUSE001"
+      ],
+      "pinned_commit": "cb638768ec174bb2041f87569409c53e4af4292e",
+      "rationale": "The same minimal synthetic macros in an ordinary source path remain a FUSE001 static candidate.",
+      "source_path": "src/CredentialBootstrap.c",
+      "split": "regression"
     },
     {
       "case_id": "FUSE002-vulnerable",
@@ -387,27 +419,27 @@
     }
   ],
   "dataset_id": "native-rule-fixtures",
-  "dataset_sha256": "5efa37df913b1062504f855d506d53d1fd06ee0fa2610f290527a92bea94fd06",
+  "dataset_sha256": "499018ae28669e0b649a1920c2143849f78e2a4b5fb3ce7f2c4538df1179ee16",
   "errors": [],
   "evaluation_unit": "case-rule pair; a rule is positive for a case when it emits one or more findings",
-  "fixture_content_sha256": "5da39e6fbf3901f2f626b56e848aea3a01024e469b05c8667c44f82ce38e55ff",
+  "fixture_content_sha256": "d504e637c3d938bc82a96c41e1abccfe69e0c9fceface3a5191a7740343736f9",
   "interpretation": "Small synthetic positive and negative examples used by the native rule unit tests. This dataset measures fixture behavior only, not real-world accuracy.",
   "metrics": [
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
-      "positive_cases": 4,
+      "positive_cases": 5,
       "precision": 1.0,
       "recall": 1.0,
       "rule_id": "FUSE001",
       "specificity": 1.0,
-      "tn": 20,
-      "tp": 4
+      "tn": 21,
+      "tp": 5
     },
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -416,11 +448,11 @@
       "recall": 1.0,
       "rule_id": "FUSE002",
       "specificity": 1.0,
-      "tn": 23,
+      "tn": 25,
       "tp": 1
     },
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -429,11 +461,11 @@
       "recall": 1.0,
       "rule_id": "FUSE003",
       "specificity": 1.0,
-      "tn": 21,
+      "tn": 23,
       "tp": 3
     },
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -442,11 +474,11 @@
       "recall": 1.0,
       "rule_id": "FUSE004",
       "specificity": 1.0,
-      "tn": 23,
+      "tn": 25,
       "tp": 1
     },
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -455,11 +487,11 @@
       "recall": 1.0,
       "rule_id": "FUSE005",
       "specificity": 1.0,
-      "tn": 23,
+      "tn": 25,
       "tp": 1
     },
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -468,11 +500,11 @@
       "recall": 1.0,
       "rule_id": "FUSE006",
       "specificity": 1.0,
-      "tn": 23,
+      "tn": 25,
       "tp": 1
     },
     {
-      "cases": 24,
+      "cases": 26,
       "f1": 1.0,
       "fn": 0,
       "fp": 0,
@@ -481,11 +513,11 @@
       "recall": 1.0,
       "rule_id": "FUSE007",
       "specificity": 1.0,
-      "tn": 23,
+      "tn": 25,
       "tp": 1
     }
   ],
-  "python_version": "3.14.7",
+  "python_version": "3.14.0",
   "rule_count": 7,
   "rules": [
     {
@@ -520,6 +552,6 @@
   "schema_version": "1.0",
   "tool": {
     "name": "FUSE",
-    "version": "0.2.0"
+    "version": "0.4.1.dev0"
   }
 }

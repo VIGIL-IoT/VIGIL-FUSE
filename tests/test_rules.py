@@ -2,6 +2,7 @@ from pathlib import Path
 import unittest
 
 from vigil_fuse.model import SourceFile
+from vigil_fuse.rules.base import is_test_path
 from vigil_fuse.rules.registry import RULES
 
 ROOT = Path(__file__).parent
@@ -168,6 +169,53 @@ class RuleFixtureTests(unittest.TestCase):
         findings = list(rule.scan(env_source))
         self.assertEqual(1, len(findings))
         self.assertIn("[REDACTED]", findings[0].evidence)
+
+    def test_credentials_use_unit_test_directory_context_not_literal_shape(self) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        fixture = FIXTURES / "FUSE001-edk2-nvidia-unittest.fixture"
+        text = fixture.read_text(encoding="utf-8")
+        test_source = SourceFile(
+            "vendor/Library/CredentialLib/UnitTest/CredentialBootstrapUnitTest.c", text
+        )
+        production_source = SourceFile("src/CredentialBootstrap.c", text)
+
+        self.assertEqual([], list(rule.scan(test_source)))
+        findings = list(rule.scan(production_source))
+        self.assertEqual(1, len(findings))
+        self.assertEqual("FUSE001", findings[0].rule_id)
+        self.assertIn("[REDACTED]", findings[0].evidence)
+
+    def test_test_path_classifier_matches_exact_directory_variants(self) -> None:
+        recognized = (
+            "test/auth.c",
+            "tests/auth.c",
+            "unit_test/auth.c",
+            "unit_tests/auth.c",
+            "UnitTest/auth.c",
+            "UnitTests/auth.c",
+            "unit-test/auth.c",
+            "unit-tests/auth.c",
+            "unittest/auth.c",
+            "unittests/auth.c",
+        )
+        unrelated = (
+            "src/unittesting/auth.c",
+            "src/unit_testing/auth.c",
+            "src/unit-testable/auth.c",
+            "src/testsuite/auth.c",
+            "src/testimony/auth.c",
+            "src/contest/auth.c",
+        )
+
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        for path in recognized:
+            with self.subTest(path=path):
+                self.assertTrue(is_test_path(path))
+        for path in unrelated:
+            with self.subTest(path=path):
+                self.assertFalse(is_test_path(path))
+                source = SourceFile(path, '#define PASSWORD_STRING "BBBBBBBBBBBBBBBB"\n')
+                self.assertEqual(1, len(list(rule.scan(source))))
 
     def test_credentials_ignore_common_embedded_tutorial_placeholders(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE001")
