@@ -189,7 +189,7 @@ def main() -> None:
         digest = hashlib.file_digest(stream, "sha256").hexdigest()
     root = Path("/work/extracted")
     root.mkdir()
-    command = ["binwalk", "--extract"]
+    command = ["binwalk", "--extract", "--directory", str(root)]
     if "--recursive" in sys.argv:
         command.append("--matryoshka")
     subprocess.run(
@@ -199,6 +199,7 @@ def main() -> None:
         stderr=sys.stderr,
         timeout=250,
         check=True,
+        env={**os.environ, "BINWALK_RM_EXTRACTION_SYMLINK": "1"},
     )
     payload = json.dumps(inventory(root, digest), allow_nan=False)
     if len(payload.encode()) > 8 * 1024 * 1024:

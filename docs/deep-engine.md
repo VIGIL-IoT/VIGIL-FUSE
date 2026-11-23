@@ -147,4 +147,7 @@ Inventory rejects escaping/cyclic symlinks, special files, hardlinks, more than 
 entries, depth over 32, files over 16 MiB and aggregate file bytes over 64 MiB. Sparse
 files are bounded by logical size. Container tmpfs also bounds writes before inventory.
 External extractors must respect the container boundary; their output remains untrusted.
+The Binwalk v3 output directory is explicit and its input alias cleanup is enabled,
+as documented in the [upstream CLI](https://github.com/ReFirmLabs/binwalk/blob/master/src/cliparser.rs)
+and [driver](https://github.com/ReFirmLabs/binwalk/blob/master/src/main.rs).
 Tests: `python -m pytest -q tests/test_firmware_rootfs.py`.
