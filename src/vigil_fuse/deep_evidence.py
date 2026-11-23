@@ -45,8 +45,36 @@ def main() -> int:
     codeql.add_argument("--tool-version", required=True)
     codeql.add_argument("--authorize-query", action="store_true")
     codeql.add_argument("--output", type=Path, required=True)
+    reachability = commands.add_parser(
+        "reachability", help="assess exact package and symbol reachability"
+    )
+    reachability.add_argument("graph", type=Path)
+    reachability.add_argument("request", type=Path)
+    reachability.add_argument("--calls", type=Path)
+    reachability.add_argument("--advisory-symbols", type=Path)
+    reachability.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command == "reachability":
+            from .evidence_graph import EvidenceGraph
+            from .dependency_reachability import (
+                assess_dependency,
+                import_calls,
+                import_advisory_symbols,
+            )
+
+            imported = EvidenceGraph.from_dict(read_json(args.graph))
+            request = read_json(args.request)
+            if args.calls:
+                import_calls(imported, read_json(args.calls))
+            if args.advisory_symbols:
+                request["symbols"] = import_advisory_symbols(
+                    imported, read_json(args.advisory_symbols)
+                )
+            assessment = assess_dependency(imported, request)
+            assessment["evidence_graph"] = imported.to_dict()
+            args.output.write_text(json.dumps(assessment, indent=2) + "\n", encoding="utf-8")
+            return 0
         if args.command == "codeql":
             from dataclasses import asdict
             from .semantic_flow import analyze_codeql
