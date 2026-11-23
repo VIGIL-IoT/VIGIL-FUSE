@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="192" viewBox="0 0 660 192">
+  <title>FUSE CLI artwork</title>
+  <defs>
+    <linearGradient id="fuse-gradient" gradientUnits="userSpaceOnUse" x1="12" y1="0" x2="631.2" y2="0" color-interpolation="sRGB">
+      <stop offset="0%" stop-color="#DC2626" />
+      <stop offset="25%" stop-color="#FB7185" />
+      <stop offset="50%" stop-color="#A78BFA" />
+      <stop offset="75%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#3730FF" />
+    </linearGradient>
+  </defs>
+  <g fill="url(#fuse-gradient)" font-family="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace" font-size="24" xml:space="preserve">
+    <text x="12" y="37">     ███████╗  ██╗   ██╗  ███████╗  ███████╗</text>
+    <text x="12" y="65">    ██╔════╝  ██║   ██║  ██╔════╝  ██╔════╝</text>
+    <text x="12" y="93">   █████╗    ██║   ██║  ███████╗  █████╗&#32;&#32;</text>
+    <text x="12" y="121">  ██╔══╝    ██║   ██║  ╚════██║  ██╔══╝&#32;&#32;</text>
+    <text x="12" y="149"> ██║       ╚██████╔╝  ███████║  ███████╗</text>
+    <text x="12" y="177">╚═╝        ╚═════╝   ╚══════╝  ╚══════╝</text>
+  </g>
+</svg>

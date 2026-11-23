@@ -1,12 +1,6 @@
 # FUSE
 
-```text
-    FFFFFF   U   U   SSSSS   EEEEEE
-   F        U   U  S        E
-  FFFFF    U   U   SSSS    EEEEE
- F        U   U      S    E
-F         UUU   SSSSS   EEEEEE
-```
+![FUSE CLI artwork](docs/figures/fuse-cli-artwork.svg)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
