@@ -1,6 +1,8 @@
 # FUSE
 
-![FUSE CLI artwork](docs/figures/fuse-cli-artwork.svg)
+<p align="center">
+  <img src="docs/figures/fuse-cli-artwork.svg" alt="FUSE CLI artwork" />
+</p>
 
 [![CI](https://img.shields.io/github/actions/workflow/status/VIGIL-IoT/VIGIL-FUSE/ci.yml?branch=main&label=CI)](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/ci.yml)
 [![Latest release](https://img.shields.io/github/v/release/VIGIL-IoT/VIGIL-FUSE)](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases)
