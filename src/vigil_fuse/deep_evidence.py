@@ -30,8 +30,63 @@ def main() -> int:
     graph.add_argument("--policy", type=Path)
     graph.add_argument("--netlist", type=Path)
     graph.add_argument("--output", type=Path, required=True)
+    semantic = commands.add_parser("semantic", help="import CodeQL SARIF or offline Joern paths")
+    semantic.add_argument("input", type=Path)
+    semantic.add_argument("--engine", choices=("CodeQL", "Joern"), default="CodeQL")
+    semantic.add_argument("--language", default="python")
+    semantic.add_argument("--graph", type=Path)
+    semantic.add_argument("--output", type=Path, required=True)
+    codeql = commands.add_parser(
+        "codeql", help="explicitly query an existing database in a sandbox"
+    )
+    codeql.add_argument("database", type=Path)
+    codeql.add_argument("queries", type=Path)
+    codeql.add_argument("--image", required=True)
+    codeql.add_argument("--tool-version", required=True)
+    codeql.add_argument("--authorize-query", action="store_true")
+    codeql.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command == "codeql":
+            from dataclasses import asdict
+            from .semantic_flow import analyze_codeql
+
+            outcome = analyze_codeql(
+                args.database,
+                args.queries,
+                image=args.image,
+                version=args.tool_version,
+                authorized=args.authorize_query,
+            )
+            if outcome.status == "completed":
+                from .semantic_flow import normalize_sarif
+
+                from .evidence_graph import decode_json
+
+                document = decode_json(outcome.stdout.encode())
+                normalize_sarif(document, "python")
+                args.output.write_text(outcome.stdout, encoding="utf-8")
+            else:
+                args.output.write_text(
+                    json.dumps(asdict(outcome), indent=2) + "\n", encoding="utf-8"
+                )
+            return 0 if outcome.status == "completed" else 2
+        if args.command == "semantic":
+            from .evidence_graph import EvidenceGraph
+            from .semantic_flow import normalize_sarif, normalize_joern, add_flows
+
+            document = read_json(args.input)
+            evidence = (
+                normalize_sarif(document, args.language)
+                if args.engine == "CodeQL"
+                else normalize_joern(document)
+            )
+            if args.graph:
+                imported = EvidenceGraph.from_dict(read_json(args.graph))
+                add_flows(imported, evidence)
+                evidence["evidence_graph"] = imported.to_dict()
+            args.output.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
+            return 0
         result = graph_from_report(read_json(args.report))
         if args.sbom:
             import_sbom(result, read_json(args.sbom))
