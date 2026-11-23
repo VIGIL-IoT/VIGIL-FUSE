@@ -122,3 +122,29 @@ APIs: [LIEF ELF](https://lief.re/doc/latest/formats/elf/python.html),
 [LIEF Mach-O](https://lief.re/doc/latest/formats/macho/python.html),
 [Ghidra reference types](https://ghidra.re/ghidra_docs/api/ghidra/program/model/symbol/RefType.html).
 Tests: `python -m pytest -q tests/test_binary_intelligence.py tests/test_ghidra_analyzer.py`.
+
+## Firmware filesystems
+
+`python -m vigil_fuse.deep_evidence firmware-extract firmware.bin --image
+IMAGE@sha256:DIGEST --tool-version VERSION --authorize-extraction --output rootfs.json`
+runs Binwalk and the packaged inventory script inside the shared sandbox. The image
+must contain Python, Binwalk and its extraction helpers. Extraction is explicit,
+temporary, network-denied and read-only on the input. `--recursive` opts into Binwalk's
+recursive extraction; tmpfs, memory, PIDs, timeout, file, depth, aggregate-byte and
+artifact limits remain enforced. FUSE does not extract archives itself or emulate code.
+
+`python -m vigil_fuse.deep_evidence rootfs rootfs.json --graph graph.json --output
+firmware-graph.json` imports the allow-listed inventory envelope. Binwalk is the initial
+execution backend; offline EMBA/FACT adapters may emit the same strict envelope.
+Filesystem entries, init/systemd services, hashed account identities, dpkg/opkg package
+identities, certificate/key metadata, kernel security flags, binaries and libraries are
+represented. Web package presence retains unknown network exposure. Password hashes,
+key/certificate contents and arbitrary configuration values are not imported. Architecture
+remains unknown when no reliable binary producer supplies it. No extraction-completeness
+claim is made from a successful helper exit, so graph coverage is conservatively partial.
+
+Inventory rejects escaping/cyclic symlinks, special files, hardlinks, more than 4000
+entries, depth over 32, files over 16 MiB and aggregate file bytes over 64 MiB. Sparse
+files are bounded by logical size. Container tmpfs also bounds writes before inventory.
+External extractors must respect the container boundary; their output remains untrusted.
+Tests: `python -m pytest -q tests/test_firmware_rootfs.py`.

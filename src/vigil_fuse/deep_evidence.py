@@ -68,8 +68,54 @@ def main() -> int:
     analyze.add_argument("--tool-version", required=True)
     analyze.add_argument("--authorize-analysis", action="store_true")
     analyze.add_argument("--output", type=Path, required=True)
+    rootfs = commands.add_parser("rootfs", help="import redacted filesystem intelligence")
+    rootfs.add_argument("input", type=Path)
+    rootfs.add_argument("--graph", type=Path)
+    rootfs.add_argument("--output", type=Path, required=True)
+    extract = commands.add_parser("firmware-extract", help="explicit sandboxed Binwalk extraction")
+    extract.add_argument("input", type=Path)
+    extract.add_argument("--image", required=True)
+    extract.add_argument("--tool-version", required=True)
+    extract.add_argument("--recursive", action="store_true")
+    extract.add_argument("--authorize-extraction", action="store_true")
+    extract.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command in {"rootfs", "firmware-extract"}:
+            from .evidence_graph import EvidenceGraph, decode_json
+            from .firmware_rootfs import add_rootfs, extract_firmware
+
+            if args.command == "firmware-extract":
+                from dataclasses import asdict
+
+                outcome = extract_firmware(
+                    args.input,
+                    image=args.image,
+                    version=args.tool_version,
+                    recursive=args.recursive,
+                    authorized=args.authorize_extraction,
+                )
+                if outcome.status != "completed":
+                    args.output.write_text(
+                        json.dumps(asdict(outcome), indent=2) + "\n", encoding="utf-8"
+                    )
+                    return 2
+                document = decode_json(outcome.stdout.encode())
+                imported = EvidenceGraph(document["firmware_sha256"])
+                add_rootfs(imported, document)
+                args.output.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+                return 0
+            document = read_json(args.input)
+            imported = (
+                EvidenceGraph.from_dict(read_json(args.graph))
+                if args.graph
+                else EvidenceGraph(document["firmware_sha256"])
+            )
+            add_rootfs(imported, document)
+            args.output.write_text(
+                json.dumps(imported.to_dict(), indent=2) + "\n", encoding="utf-8"
+            )
+            return 0
         if args.command in {"binary", "binary-analyze"}:
             from .evidence_graph import EvidenceGraph, decode_json, identity
             from .binary_intelligence import (
