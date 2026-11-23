@@ -1,5 +1,13 @@
 # FUSE
 
+```text
+    FFFFFF   U   U   SSSSS   EEEEEE
+   F        U   U  S        E
+  FFFFF    U   U   SSSS    EEEEE
+ F        U   U      S    E
+F         UUU   SSSSS   EEEEEE
+```
+
 ## Firmware & Unified Security Engine
 
 FUSE is a local analysis tool for embedded and IoT repositories. It collects bounded source, build, firmware, dependency, hardware, and policy evidence. Native findings remain review candidates: static signals do not prove exploitability, shipment, reachability, or physical exposure.
