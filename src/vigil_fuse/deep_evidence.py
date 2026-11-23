@@ -53,8 +53,66 @@ def main() -> int:
     reachability.add_argument("--calls", type=Path)
     reachability.add_argument("--advisory-symbols", type=Path)
     reachability.add_argument("--output", type=Path, required=True)
+    binary = commands.add_parser("binary", help="import LIEF metadata or Ghidra calls")
+    binary.add_argument("input", type=Path)
+    binary.add_argument("--kind", choices=("lief", "ghidra-calls"), default="lief")
+    binary.add_argument("--graph", type=Path)
+    binary.add_argument("--correspondence", type=Path)
+    binary.add_argument("--output", type=Path, required=True)
+    analyze = commands.add_parser(
+        "binary-analyze", help="explicit sandboxed binary metadata or call analysis"
+    )
+    analyze.add_argument("input", type=Path)
+    analyze.add_argument("--engine", choices=("LIEF", "Ghidra"), default="LIEF")
+    analyze.add_argument("--image", required=True)
+    analyze.add_argument("--tool-version", required=True)
+    analyze.add_argument("--authorize-analysis", action="store_true")
+    analyze.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command in {"binary", "binary-analyze"}:
+            from .evidence_graph import EvidenceGraph, decode_json, identity
+            from .binary_intelligence import (
+                add_binary,
+                import_call_graph,
+                import_correspondence,
+                analyze_binary,
+                analyze_ghidra_calls,
+            )
+
+            if args.command == "binary-analyze":
+                from dataclasses import asdict
+
+                binary_adapter = analyze_binary if args.engine == "LIEF" else analyze_ghidra_calls
+                outcome = binary_adapter(
+                    args.input,
+                    image=args.image,
+                    version=args.tool_version,
+                    authorized=args.authorize_analysis,
+                )
+                if outcome.status != "completed":
+                    args.output.write_text(
+                        json.dumps(asdict(outcome), indent=2) + "\n", encoding="utf-8"
+                    )
+                    return 2
+                document = decode_json(outcome.stdout.encode())
+                imported = EvidenceGraph(identity("binary-project", document["sha256"]))
+                (add_binary if args.engine == "LIEF" else import_call_graph)(imported, document)
+                args.output.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+                return 0
+            document = read_json(args.input)
+            imported = (
+                EvidenceGraph.from_dict(read_json(args.graph))
+                if args.graph
+                else EvidenceGraph(identity("binary-project", document["sha256"]))
+            )
+            (add_binary if args.kind == "lief" else import_call_graph)(imported, document)
+            if args.correspondence:
+                import_correspondence(imported, read_json(args.correspondence))
+            args.output.write_text(
+                json.dumps(imported.to_dict(), indent=2) + "\n", encoding="utf-8"
+            )
+            return 0
         if args.command == "reachability":
             from .evidence_graph import EvidenceGraph
             from .dependency_reachability import (

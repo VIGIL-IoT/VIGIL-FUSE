@@ -410,7 +410,7 @@ def import_ghidra(graph: EvidenceGraph, document: dict[str, Any]) -> None:
         version=document["tool"]["version"],
         artifact=identity("ghidra", document),
     )
-    binary = graph.node("Binary", digest, format=document["input"]["format"])
+    binary = graph.node("Binary", digest)
     for group, kind, address in (
         ("functions", "Function", "entry_address"),
         ("imports", "Symbol", "address"),
@@ -425,6 +425,35 @@ def import_ghidra(graph: EvidenceGraph, document: dict[str, Any]) -> None:
                 method="ghidra-inventory",
                 evidence_refs=[digest],
             )
+    for record in document["api_references"]["records"]:
+        source = graph.node(
+            "Function", ["ghidra", digest, record["function_entry_address"], record["function"]]
+        )
+        target = graph.node("Symbol", ["ghidra", digest, record["address"], record["symbol"]])
+        graph.edge(
+            source,
+            target,
+            "references",
+            producer=run,
+            method="ghidra-import-reference",
+            evidence_refs=[digest],
+            limitations=["An imported API reference is not necessarily a direct call."],
+        )
+    for record in document["cross_references"]["records"]:
+        source = graph.node(
+            "Function", ["ghidra", digest, record["function_entry_address"], record["function"]]
+        )
+        target = graph.node(
+            "EvidenceArtifact", ["binary-string", digest, record["string_address"]], redacted=True
+        )
+        graph.edge(
+            target,
+            source,
+            "references",
+            producer=run,
+            method="ghidra-string-reference",
+            evidence_refs=[digest + ":" + record["from_address"]],
+        )
 
 
 def import_build(graph: EvidenceGraph, document: dict[str, Any]) -> None:

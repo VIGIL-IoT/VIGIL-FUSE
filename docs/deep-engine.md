@@ -90,3 +90,35 @@ VEX assertions are scoped to the same package version and advisory. Conflicting 
 and call/build evidence is reported for review. The applicability assessment is an
 additional evidence statement and never rewrites existing finding verdicts.
 Tests: `python -m pytest -q tests/test_dependency_reachability.py`.
+
+## Binary intelligence
+
+`python -m vigil_fuse.deep_evidence binary metadata.json --graph graph.json --output
+binary-graph.json` imports a strictly bounded LIEF metadata document. `--kind ghidra-calls`
+imports the separate `fuse-ghidra-calls-1.0` artifact. Existing `graph --ghidra` imports
+now retain API references and string-to-function references without emitting string
+contents. Explicit source/binary matches use `--correspondence` with source and binary
+function IDs, method and artifact reference. Names alone never establish a match.
+
+`python -m vigil_fuse.deep_evidence binary-analyze image.elf --image IMAGE@sha256:DIGEST
+--tool-version VERSION --authorize-analysis --output metadata.json` runs LIEF in the
+shared sandbox. The image needs Python and LIEF. `--engine Ghidra` instead requires
+Python and `analyzeHeadless` with compatible Java in the selected image. It runs the
+packaged `FuseCallGraph.java` producer in a fresh, temporary Ghidra project. Direct call
+references become `calls`; computed call targets become `may_call`. Unknown targets and
+inventory/visit limits make coverage partial. All inputs are read-only, there is no
+network, and no target program runs. Live optional engines are not bundled or downloaded.
+
+ELF metadata covers NX, PIE, RELRO segment presence, canary imports and FORTIFY imports.
+RELRO presence does not claim full RELRO. Missing canary/FORTIFY symbols remain unknown,
+especially for static/stripped binaries. PE records ASLR/DEP/CFG flags and embedded
+signature presence. Mach-O records PIE/signature presence; hardened runtime remains
+unknown unless reliable external evidence is separately supplied. Missing controls are
+posture observations, never automatically vulnerability findings. Signatures are not
+cryptographically verified by metadata presence.
+
+APIs: [LIEF ELF](https://lief.re/doc/latest/formats/elf/python.html),
+[LIEF PE](https://lief.re/doc/latest/formats/pe/python.html),
+[LIEF Mach-O](https://lief.re/doc/latest/formats/macho/python.html),
+[Ghidra reference types](https://ghidra.re/ghidra_docs/api/ghidra/program/model/symbol/RefType.html).
+Tests: `python -m pytest -q tests/test_binary_intelligence.py tests/test_ghidra_analyzer.py`.
