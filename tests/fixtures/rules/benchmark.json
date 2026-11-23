@@ -92,6 +92,28 @@
       "rationale": "A non-placeholder password literal in the same macro remains detectable."
     },
     {
+      "id": "FUSE001-edk2-nvidia-unittest-context-negative",
+      "fixture": "FUSE001-edk2-nvidia-unittest.fixture",
+      "source_path": "vendor/Library/CredentialLib/UnitTest/CredentialBootstrapUnitTest.c",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "regression",
+      "pinned_commit": "cb638768ec174bb2041f87569409c53e4af4292e",
+      "rationale": "The minimal synthetic macros represent test inputs under an exact unit-test directory, which FUSE001 excludes as production candidates."
+    },
+    {
+      "id": "FUSE001-edk2-nvidia-production-control-positive",
+      "fixture": "FUSE001-edk2-nvidia-unittest.fixture",
+      "source_path": "src/CredentialBootstrap.c",
+      "expected_rules": ["FUSE001"],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "regression",
+      "pinned_commit": "cb638768ec174bb2041f87569409c53e4af4292e",
+      "rationale": "The same minimal synthetic macros in an ordinary source path remain a FUSE001 static candidate."
+    },
+    {
       "id": "FUSE002-vulnerable",
       "fixture": "FUSE002-vulnerable.fixture",
       "source_path": "src/private_key.pem",
