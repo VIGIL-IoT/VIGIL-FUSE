@@ -66,3 +66,27 @@ The invocation follows the official [CodeQL database analyze reference](https://
 Tests: `python -m pytest -q tests/test_semantic_flow.py tests/test_evidence_graph.py`.
 Live CodeQL/Joern runs require those optional engines; fixtures test import and failure
 contracts without claiming live semantic accuracy.
+
+## Dependency reachability
+
+`python -m vigil_fuse.deep_evidence reachability graph.json request.json --calls
+calls.json --advisory-symbols symbols.json --output reachability.json` combines exact
+package/advisory identities, function-level metadata, build inclusion and external
+CodeQL/Joern/Ghidra/Clang call evidence. All inputs are data; no dependency or target
+code runs. `request.json` names graph node IDs in `package`, `advisory`, `symbols`,
+`build_target`, and `entry_points`. The optional metadata adapter supplies vulnerable
+symbol identities with a producer namespace and optional explicit function match.
+It does not guess symbol identities from names or merge multiple package versions.
+
+Package presence, build inclusion, symbol presence, references, static reachability,
+and runtime reachability are separate states. Inclusion can be YES, NO, UNKNOWN or
+CONTRADICTORY. A package-to-binary-to-function membership path establishes symbol
+presence. Only direct `calls` edges establish a static entry-point path; `may_call`
+remains a reference candidate. Build exclusion keeps inclusion NO even if an unused
+binary contains a function. Runtime reachability remains UNKNOWN. Missing paths in
+a partial graph never establish absence. Queries bound depth, path count and visits.
+
+VEX assertions are scoped to the same package version and advisory. Conflicting VEX
+and call/build evidence is reported for review. The applicability assessment is an
+additional evidence statement and never rewrites existing finding verdicts.
+Tests: `python -m pytest -q tests/test_dependency_reachability.py`.
