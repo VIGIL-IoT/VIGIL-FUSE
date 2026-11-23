@@ -89,8 +89,41 @@ def main() -> int:
     correlation.add_argument("graph", type=Path)
     correlation.add_argument("--facts", type=Path)
     correlation.add_argument("--output", type=Path, required=True)
+    attacks = commands.add_parser("attack-paths", help="query deterministic attack path candidates")
+    attacks.add_argument("graph", type=Path)
+    attacks.add_argument("request", type=Path)
+    attacks.add_argument("--format", choices=("json", "text"), default="json")
+    attacks.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command == "attack-paths":
+            from .evidence_graph import EvidenceGraph
+            from .attack_paths import RELATIONS, attack_paths, to_text
+
+            imported = EvidenceGraph.from_dict(read_json(args.graph))
+            request = read_json(args.request)
+            if not isinstance(request, dict) or set(request) - {
+                "starts",
+                "goals",
+                "relations",
+                "max_depth",
+                "max_paths",
+                "max_visits",
+                "validations",
+            }:
+                raise ValueError("Invalid attack path request")
+            if "relations" in request:
+                request["relations"] = frozenset(request["relations"])
+            else:
+                request["relations"] = RELATIONS
+            attacks_report = attack_paths(imported, **request)
+            args.output.write_text(
+                to_text(attacks_report)
+                if args.format == "text"
+                else json.dumps(attacks_report, indent=2) + "\n",
+                encoding="utf-8",
+            )
+            return 0
         if args.command == "correlate":
             from .evidence_graph import EvidenceGraph
             from .cross_layer import correlate, import_facts, materialize_correlations

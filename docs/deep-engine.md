@@ -207,3 +207,33 @@ supporting node/edge, limitations and artifact references. Severity and confiden
 remain null for correlation candidates. Missing layers appear under `unknown` and
 contradictions under `blocked`, preserving non-findings for evaluation.
 Tests: `python -m pytest -q tests/test_cross_layer.py`.
+
+## Attack path candidates
+
+`python -m vigil_fuse.deep_evidence attack-paths graph.json query.json --output paths.json`
+uses explicit `starts` and `goals` node-ID arrays. Optional request fields are `relations`,
+`max_depth`, `max_paths`, `max_visits` and `validations`. `--format text` produces the
+same evidence in readable text. The API is `attack_paths.attack_paths`; the underlying
+`graph_query.paths` API retains observed/asserted-only traversal by default for dependency
+reachability. Attack queries additionally retain inferred and unknown transitions.
+Traversal is deterministic, cycle-free per path, and bounded by depth (64), result count
+(256), visits (100000), and frontier (10000). Truncation is explicit. Missing paths do
+not prove safety, exclusion or unreachability.
+
+Each edge retains its original assertion, confidence, producer, method, references and
+limitations. Display states are OBSERVED, ASSERTED, INFERRED, UNKNOWN or VALIDATED.
+The weakest state is ranked in that order of increasing evidence strength: UNKNOWN,
+INFERRED, ASSERTED, OBSERVED, VALIDATED. Confidence is the minimum supplied edge value,
+not an exploit probability; it remains null if any confidence or transition is unknown.
+All transitions without reviewed runtime validation are listed as unvalidated assumptions.
+
+VALIDATED requires an explicit `validations` entry with `edge`, `observation`,
+`support_edge`, `review_artifact`, and `scope: "test-execution"`. The observation must be
+a validated RuntimeObservation envelope. Its support edge must point to a CallPath node
+whose `edge_ids` list contains that exact graph edge, and must cite the review artifact.
+Only observed/asserted edges can receive that test-scoped display state; the original
+assertion is preserved. This is a reviewer binding, not automatic trace verification or
+proof of deployed exploitability. Contradicted nodes and paths annotated with sanitizer
+or barrier evidence are conservatively excluded and reported; this does not claim those
+barriers effective. Every output remains an attack path candidate.
+Tests: `python -m pytest -q tests/test_attack_paths.py tests/test_dependency_reachability.py`.
