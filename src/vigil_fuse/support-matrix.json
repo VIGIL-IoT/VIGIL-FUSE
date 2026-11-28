@@ -382,6 +382,108 @@
         "Symbolic links are excluded and make identity incomplete; bounded inspection can return unknown",
         "Recommendations are advisory and do not enable analyzers or change scan routing"
       ]
+    },
+    {
+      "id": "evidence.graph-v1",
+      "input": "FUSE JSON reports and explicit evidence imports",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Versioned graph identity, provenance, coverage and deterministic evidence connections.",
+      "limitations": [
+        "Opt-in section; existing finding verdicts are unchanged",
+        "Imported producer assertions are not independent verification"
+      ]
+    },
+    {
+      "id": "source.semantic-flow",
+      "input": "Existing CodeQL SARIF or offline Joern paths",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Bounded source-to-sink, call, sanitizer and barrier normalization.",
+      "limitations": [
+        "No target build or FUSE-owned compiler/CPG",
+        "Path feasibility and deployed exploitability remain unknown",
+        "Live optional engines are not verified by fixture tests"
+      ]
+    },
+    {
+      "id": "dependency.function-reachability",
+      "input": "Exact package/advisory/symbol/build and call graph bindings",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Separate package presence, inclusion, symbol presence/reference and static entry-point reachability.",
+      "limitations": [
+        "Runtime exposure remains unknown",
+        "Name-only or inferred calls do not establish reachability"
+      ]
+    },
+    {
+      "id": "binary.deep-intelligence",
+      "input": "LIEF metadata and Ghidra function/call artifacts",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Binary hardening posture, direct calls, indirect candidates and explicit source correspondence.",
+      "limitations": [
+        "Missing hardening is not a confirmed vulnerability",
+        "Live LIEF and new Ghidra producer execution remain unverified"
+      ]
+    },
+    {
+      "id": "firmware.rootfs-intelligence",
+      "input": "Explicit sandboxed Binwalk extraction or normalized inventories",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Bounded filesystem, service, package, account and redacted key/certificate metadata.",
+      "limitations": [
+        "Extraction is opt-in and needs a pinned sandbox image",
+        "No emulation or physical/runtime exposure claim",
+        "Live extraction remains unverified"
+      ]
+    },
+    {
+      "id": "runtime.evidence",
+      "input": "Existing ASan, UBSan, MSan, TSan and LSan logs",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Passive runtime observations and explicit reviewer support links.",
+      "limitations": [
+        "No automatic target execution",
+        "Runtime observations do not establish deployed exploitability"
+      ]
+    },
+    {
+      "id": "correlation.cross-layer",
+      "input": "Explicit graph fact and identity bindings",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Seven deterministic multi-layer candidate rules with distinct artifact requirements.",
+      "limitations": [
+        "Observed, asserted, inferred and unknown evidence remain separate",
+        "No automatic severity upgrade or physical access claim"
+      ]
+    },
+    {
+      "id": "attack-paths.graph-query",
+      "input": "Explicit graph start/goal queries and optional runtime review bindings",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Bounded deterministic candidates with weakest-edge and assumption reporting.",
+      "limitations": [
+        "No AI-generated chains or automatic exploitability verdict",
+        "VALIDATED display state is reviewed test scope only"
+      ]
+    },
+    {
+      "id": "benchmark.independent",
+      "input": "Pinned external corpus labels and provenance-bound predictions",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Per-capability confusion outcomes, unknown/review coverage and measured performance.",
+      "limitations": [
+        "Authored fixtures are regression evidence only",
+        "Initial OWASP semantic predictions are UNKNOWN; accuracy is unmeasured",
+        "Independent human field review and other capability corpora remain pending"
+      ]
     }
   ]
 }

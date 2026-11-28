@@ -94,8 +94,36 @@ def main() -> int:
     attacks.add_argument("request", type=Path)
     attacks.add_argument("--format", choices=("json", "text"), default="json")
     attacks.add_argument("--output", type=Path, required=True)
+    prepare = commands.add_parser("benchmark-prepare", help="freeze all official OWASP Java labels")
+    prepare.add_argument("root", type=Path)
+    prepare.add_argument("--revision", required=True)
+    prepare.add_argument("--analysis-commit", required=True)
+    prepare.add_argument("--output", type=Path, required=True)
+    transfer = commands.add_parser(
+        "benchmark-transfer", help="measure frozen native transfer signals"
+    )
+    transfer.add_argument("manifest", type=Path)
+    transfer.add_argument("root", type=Path)
+    transfer.add_argument("--output", type=Path, required=True)
+    benchmark = commands.add_parser("benchmark-evaluate", help="score reviewed independent labels")
+    benchmark.add_argument("manifest", type=Path)
+    benchmark.add_argument("predictions", type=Path)
+    benchmark.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
+        if args.command in {"benchmark-prepare", "benchmark-transfer", "benchmark-evaluate"}:
+            from .independent_benchmark import evaluate, prepare_owasp, run_native_transfer
+
+            if args.command == "benchmark-prepare":
+                benchmark_report = prepare_owasp(
+                    args.root, revision=args.revision, analysis_commit=args.analysis_commit
+                )
+            elif args.command == "benchmark-transfer":
+                benchmark_report = run_native_transfer(read_json(args.manifest), args.root)
+            else:
+                benchmark_report = evaluate(read_json(args.manifest), read_json(args.predictions))
+            args.output.write_text(json.dumps(benchmark_report, indent=2) + "\n", encoding="utf-8")
+            return 0
         if args.command == "attack-paths":
             from .evidence_graph import EvidenceGraph
             from .attack_paths import RELATIONS, attack_paths, to_text

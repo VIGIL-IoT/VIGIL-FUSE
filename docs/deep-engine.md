@@ -237,3 +237,19 @@ proof of deployed exploitability. Contradicted nodes and paths annotated with sa
 or barrier evidence are conservatively excluded and reported; this does not claim those
 barriers effective. Every output remains an attack path candidate.
 Tests: `python -m pytest -q tests/test_attack_paths.py tests/test_dependency_reachability.py`.
+
+## Independent benchmark program
+
+The [benchmark protocol and CLI](independent-benchmark.md) freezes external corpus labels,
+sources, analyzer identity and evaluation split. It reviews both findings and non-findings,
+keeps UNKNOWN/UNREVIEWED outside confusion counts, and separates semantic, dependency,
+firmware, cross-layer and native metrics. Missing capability coverage does not become a
+negative prediction. Performance records retain measured values or explicit unknowns.
+The initial OWASP Java corpus run is a native transfer/performance measurement, with
+semantic accuracy unmeasured because the optional semantic producers were not run.
+
+`tests/test_deep_engine_integration.py` verifies the source/build/dependency/binary/
+firmware/hardware/RTL graph through semantic flow, static reachability, passive runtime
+evidence, conservative correlation, attack path candidates, policy references and versioned
+report validation. It preserves original findings and unknown exposure. This is an adapter
+contract fixture, not a live engine, physical measurement or independent accuracy study.
