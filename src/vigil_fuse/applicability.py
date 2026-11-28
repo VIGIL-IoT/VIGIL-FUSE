@@ -4,11 +4,11 @@ import hashlib
 import json
 import os
 import re
-import tempfile
 from pathlib import Path
 from typing import Any
 
 from . import __version__
+from .path_safety import assert_no_path_aliases, is_path_alias, safe_write_text
 from .text_safety import safe_report_text
 
 MAX_APPLICABILITY_INPUT_BYTES = 50 * 1024 * 1024
@@ -38,8 +38,9 @@ _ANALYZER_STATUSES = {
 
 
 def _read_report(path: Path) -> tuple[dict[str, Any], str]:
-    if path.is_symlink():
-        raise ValueError(f"Refusing to read a symbolic-link report: {path}")
+    assert_no_path_aliases(path)
+    if is_path_alias(path):
+        raise ValueError(f"Refusing to read a symbolic-link or reparse-point report: {path}")
     if not path.is_file():
         raise ValueError(f"Applicability input is not a regular file: {path}")
     if path.stat().st_size > MAX_APPLICABILITY_INPUT_BYTES:
@@ -478,29 +479,10 @@ def analyze_report(path: Path) -> dict[str, Any]:
 
 
 def write_report(input_path: Path, output_path: Path, report: dict[str, Any]) -> None:
-    if output_path.is_symlink():
-        raise ValueError(f"Refusing to write through a symbolic link: {output_path}")
-    if output_path.exists() and not output_path.is_file():
-        raise ValueError(f"Applicability output must be a regular file: {output_path}")
+    assert_no_path_aliases(input_path)
+    assert_no_path_aliases(output_path, allow_missing=True)
     input_resolved = input_path.resolve(strict=True)
     output_resolved = output_path.resolve(strict=False)
     if os.path.normcase(str(input_resolved)) == os.path.normcase(str(output_resolved)):
         raise ValueError("Applicability output cannot overwrite its source FUSE report")
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path: Path | None = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            mode="w",
-            encoding="utf-8",
-            newline="\n",
-            prefix=f".{output_path.name}.",
-            suffix=".tmp",
-            dir=output_path.parent,
-            delete=False,
-        ) as temporary:
-            temporary.write(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
-            temporary_path = Path(temporary.name)
-        os.replace(temporary_path, output_path)
-    finally:
-        if temporary_path is not None and temporary_path.exists():
-            temporary_path.unlink()
+    safe_write_text(output_path, json.dumps(report, indent=2, ensure_ascii=False) + "\n")

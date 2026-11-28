@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 from typing import TypedDict
 
+from .path_safety import assert_no_path_aliases, is_path_alias
 from .scanner import SKIPPED_DIRECTORIES
 from .project_identity import ProjectIdentity, _classify_project_identity
 from .platform_context import detect_project_frameworks
@@ -71,8 +72,9 @@ class RepoDNA(TypedDict):
 def inspect_repository(target: str | Path) -> RepoDNA:
     """Classify a directory without reading or executing its contents."""
     root = Path(target).expanduser()
-    if root.is_symlink() or not root.is_dir():
-        raise ValueError("target must be a non-symlink directory")
+    if not root.exists() or not root.is_dir() or is_path_alias(root):
+        raise ValueError("target must be a regular directory without filesystem aliases")
+    assert_no_path_aliases(root)
     root = root.resolve(strict=True)
     signals: dict[str, set[str]] = {}
     languages: set[str] = set()
@@ -94,6 +96,12 @@ def inspect_repository(target: str | Path) -> RepoDNA:
             limitations.append("directory limit reached")
             break
         current = Path(directory)
+        try:
+            assert_no_path_aliases(current)
+        except (OSError, ValueError):
+            limitations.append("symbolic link or reparse-point directory excluded")
+            names[:] = []
+            continue
         relative_dir = current.relative_to(root).as_posix()
         depth = 0 if relative_dir == "." else len(Path(relative_dir).parts)
         if relative_dir != ".":
@@ -102,8 +110,8 @@ def inspect_repository(target: str | Path) -> RepoDNA:
         for name in names:
             if name in SKIPPED_DIRECTORIES:
                 continue
-            if (current / name).is_symlink():
-                limitations.append("symbolic link excluded")
+            if is_path_alias(current / name):
+                limitations.append("symbolic link or reparse point excluded")
                 continue
             children.append(name)
         children.sort()
@@ -118,8 +126,9 @@ def inspect_repository(target: str | Path) -> RepoDNA:
             count += 1
             path = current / filename
             try:
-                if path.is_symlink():
+                if is_path_alias(path):
                     limitations.append("symbolic link excluded")
+                    limitations.append("reparse points were also excluded when present")
                     continue
                 if not path.is_file():
                     continue

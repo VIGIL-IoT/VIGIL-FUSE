@@ -7,6 +7,7 @@ import json
 import sys
 from pathlib import Path
 
+from ..path_safety import assert_no_path_aliases, safe_write_text
 from ..text_safety import safe_terminal_text
 from .config import ReasoningConfig
 from .context import build_context, load_report, read_report
@@ -66,12 +67,11 @@ def run_command(args: argparse.Namespace, config: ReasoningConfig) -> int:
             print(rendered)
         else:
             output = args.output.expanduser()
-            if output.is_symlink():
-                raise ValueError("Refusing to write context through a symbolic link")
+            assert_no_path_aliases(args.report)
+            assert_no_path_aliases(output, allow_missing=True)
             if output.resolve() == args.report.expanduser().resolve():
                 raise ValueError("Context output must not replace its input report")
-            output.parent.mkdir(parents=True, exist_ok=True)
-            output.write_text(rendered + "\n", encoding="utf-8")
+            safe_write_text(output, rendered + "\n")
             print(safe_terminal_text(f"Reasoning context written to {output}"), file=sys.stderr)
         return 0
     artifact = reason_report(raw, config, args.finding)

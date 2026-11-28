@@ -3,6 +3,8 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+from ..path_safety import assert_no_path_aliases
+
 MANAGED_TOOL_IDS = frozenset({"syft", "osv-scanner", "gitleaks"})
 
 
@@ -30,4 +32,8 @@ def resolve_managed_tool(name: str) -> str | None:
         return None
     executable = name if os.name != "nt" or name.endswith(".exe") else f"{name}.exe"
     path = managed_tool_directory() / executable
-    return str(path) if path.is_file() and not path.is_symlink() else None
+    try:
+        assert_no_path_aliases(path)
+    except (OSError, ValueError):
+        return None
+    return str(path) if path.is_file() else None

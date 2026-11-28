@@ -13,6 +13,8 @@ from math import exp, isfinite
 from pathlib import Path
 from typing import Literal
 
+from .path_safety import assert_no_path_aliases, is_path_alias
+
 ProjectType = Literal["software", "firmware", "embedded", "hardware", "rtl", "hybrid", "unknown"]
 ProjectConfidence = Literal["high", "medium", "low", "unknown"]
 PROJECT_DOMAINS = ("software", "firmware", "embedded", "hardware", "rtl")
@@ -135,8 +137,7 @@ def _unknown(
 
 
 def _read_manifest(path: Path) -> bytes:
-    if path.is_symlink():
-        raise ValueError("symbolic-link manifest was not read")
+    assert_no_path_aliases(path)
     flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
     descriptor = os.open(path, flags)
     try:
@@ -255,10 +256,11 @@ def inspect_project_identity(
         raise ValueError("budget_seconds must be a finite positive number")
 
     root = Path(target).expanduser()
-    if root.is_symlink():
-        raise ValueError("Symbolic-link targets are not followed")
+    if is_path_alias(root):
+        raise ValueError("Symbolic-link or reparse-point targets are not followed")
     if not root.exists() or (not root.is_dir() and not root.is_file()):
         raise ValueError("target must be an existing regular file or directory")
+    assert_no_path_aliases(root)
     root = root.resolve(strict=True)
 
     limitations: list[str] = []
@@ -284,6 +286,13 @@ def inspect_project_identity(
                 complete = False
                 break
             current = Path(directory)
+            try:
+                assert_no_path_aliases(current)
+            except (OSError, ValueError):
+                limitations.append("A symbolic link or reparse-point directory was not inspected.")
+                complete = False
+                names[:] = []
+                continue
             directories_seen += 1
             if directories_seen > min(max_directories, MAX_IDENTITY_DIRECTORIES):
                 limitations.append("Project identity directory limit reached.")
@@ -302,8 +311,10 @@ def inspect_project_identity(
                 candidate = current / name
                 if name.casefold() in _SKIPPED_DIRECTORIES:
                     continue
-                if candidate.is_symlink():
-                    limitations.append("Symbolic links were excluded from project identity.")
+                if is_path_alias(candidate):
+                    limitations.append(
+                        "Symbolic links and reparse points were excluded from project identity."
+                    )
                     complete = False
                     continue
                 kept_names.append(name)
@@ -320,10 +331,10 @@ def inspect_project_identity(
                 paths_seen += 1
                 path = current / filename
                 try:
-                    if path.is_symlink() or not path.is_file():
-                        if path.is_symlink():
+                    if is_path_alias(path) or not path.is_file():
+                        if is_path_alias(path):
                             limitations.append(
-                                "Symbolic links were excluded from project identity."
+                                "Symbolic links and reparse points were excluded from project identity."
                             )
                             complete = False
                         continue

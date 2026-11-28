@@ -47,6 +47,32 @@ class SandboxImageValidationTests(unittest.TestCase):
             parse_image_assignments([f"syft=sha256:{_DIGEST}", f"syft=sha256:{_DIGEST}"])
 
 
+class SandboxBoundaryCliTests(unittest.TestCase):
+    def test_scan_help_states_host_analyzer_authority(self) -> None:
+        output = StringIO()
+        with redirect_stdout(output), self.assertRaises(SystemExit) as exit_info:
+            main(["scan", "--help"])
+
+        self.assertEqual(0, exit_info.exception.code)
+        help_text = " ".join(output.getvalue().split())
+        self.assertIn("unsandboxed host", help_text)
+        self.assertIn("current user's permissions", help_text)
+
+    def test_default_host_plan_states_analyzers_are_unsandboxed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            target = Path(temporary) / "project"
+            target.mkdir()
+            (target / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
+            output = StringIO()
+            with redirect_stdout(output), redirect_stderr(StringIO()):
+                exit_code = main(["scan", str(target), "--plan", "--sbom", "--format", "json"])
+
+        plan = json.loads(output.getvalue())
+        self.assertEqual(0, exit_code)
+        self.assertIn("current user's permissions", plan["analyzer_execution"])
+        self.assertIn("unsandboxed", plan["analyzer_execution"])
+
+
 class SandboxCommandTests(unittest.TestCase):
     def test_create_command_uses_confinement_and_translates_mount_paths(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

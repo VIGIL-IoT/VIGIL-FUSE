@@ -2,15 +2,14 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import re
-import tempfile
 from collections import Counter, defaultdict
 from datetime import date, datetime, timezone
 from pathlib import Path, PureWindowsPath
 from typing import Any
 
 from . import __version__
+from .path_safety import safe_write_text
 from .target_labels import validate_target_label
 
 BASELINE_FORMAT_VERSION = "1.1"
@@ -61,29 +60,8 @@ def _load_json(path: Path) -> dict[str, Any]:
 
 
 def _write_json(path: Path, value: dict[str, Any]) -> None:
-    if path.is_symlink():
-        raise ValueError(f"Refusing to write through a symbolic link: {path}")
-    if path.exists() and not path.is_file():
-        raise ValueError(f"Review output must be a regular file: {path}")
-    path.parent.mkdir(parents=True, exist_ok=True)
     serialized = json.dumps(value, indent=2, ensure_ascii=False) + "\n"
-    temporary_path: Path | None = None
-    try:
-        with tempfile.NamedTemporaryFile(
-            mode="w",
-            encoding="utf-8",
-            newline="\n",
-            prefix=f".{path.name}.",
-            suffix=".tmp",
-            dir=path.parent,
-            delete=False,
-        ) as temporary:
-            temporary.write(serialized)
-            temporary_path = Path(temporary.name)
-        os.replace(temporary_path, path)
-    finally:
-        if temporary_path is not None and temporary_path.exists():
-            temporary_path.unlink()
+    safe_write_text(path, serialized)
 
 
 def _normalized_path(value: str) -> str:

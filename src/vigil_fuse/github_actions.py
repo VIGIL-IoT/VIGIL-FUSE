@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from .model import Finding, GitHubActionsInventory, GitHubWorkflowFile
+from .path_safety import assert_no_path_aliases, is_path_alias
 from .text_safety import safe_report_text
 
 MAX_WORKFLOW_FILES = 200
@@ -302,13 +303,14 @@ def inspect_github_actions(
     """Inspect bounded workflow text for a few explicit supply-chain risk patterns."""
     if not root.is_dir():
         return GitHubActionsInventory(), ()
+    assert_no_path_aliases(root)
     root_path = root.resolve(strict=True)
     workflow_dir = root_path / ".github" / "workflows"
-    if (root_path / ".github").is_symlink() or workflow_dir.is_symlink():
+    if is_path_alias(root_path / ".github") or is_path_alias(workflow_dir):
         return GitHubActionsInventory(
             status="partial",
             limitations=(
-                "The .github/workflows directory is a symbolic link and was not followed.",
+                "The .github/workflows directory is a symbolic link or reparse point and was not followed.",
             ),
         ), ()
     if not workflow_dir.is_dir():
@@ -334,7 +336,7 @@ def inspect_github_actions(
         relative = path.relative_to(root_path).as_posix()
         if any(_matches_exclude(relative, pattern) for pattern in exclude):
             continue
-        if path.is_symlink() or not path.is_file():
+        if is_path_alias(path) or not path.is_file():
             limitations.append(f"{relative} is not a regular workflow file and was not read.")
             continue
         if len(files) >= MAX_WORKFLOW_FILES:

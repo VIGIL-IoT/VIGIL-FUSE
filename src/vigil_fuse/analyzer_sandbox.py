@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Mapping, Sequence
 
+from .path_safety import assert_no_path_aliases
+
 SUPPORTED_ANALYZERS = frozenset({"syft", "osv-scanner", "binwalk", "gitleaks"})
 _DIGEST_REFERENCE = re.compile(r"(?:^|@)sha256:([0-9a-f]{64})$")
 
@@ -78,6 +80,8 @@ def parse_image_assignments(values: Sequence[str]) -> dict[str, str]:
 
 def _container_path(path: Path, root: Path, destination: str) -> str | None:
     try:
+        assert_no_path_aliases(path)
+        assert_no_path_aliases(root)
         relative = path.resolve().relative_to(root.resolve())
     except (OSError, ValueError):
         return None
@@ -90,6 +94,8 @@ def report_mask_destination(sandbox: AnalyzerSandbox) -> str | None:
     if sandbox.target is None or sandbox.output_dir is None or not sandbox.target.is_dir():
         return None
     try:
+        assert_no_path_aliases(sandbox.target)
+        assert_no_path_aliases(sandbox.output_dir, allow_missing=True)
         relative = sandbox.output_dir.resolve().relative_to(sandbox.target.resolve())
     except (OSError, ValueError):
         return None
@@ -224,6 +230,7 @@ def build_create_command(
 
 
 def _mount_argument(source: Path, destination: str, *, readonly: bool) -> str:
+    assert_no_path_aliases(source)
     resolved = source.resolve()
     if not resolved.exists():
         raise FileNotFoundError(f"Sandbox mount source does not exist: {resolved.name}")

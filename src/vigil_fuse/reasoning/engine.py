@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import json
-import os
-import tempfile
 from pathlib import Path
 from time import perf_counter
 from typing import Any
@@ -18,6 +16,7 @@ from .context import (
 )
 from .ollama import Ollama
 from .validation import validate_response
+from ..path_safety import safe_write_text
 
 
 def reason_report(
@@ -82,17 +81,10 @@ def write_artifact(path: Path, artifact: dict[str, Any], source: Path | None = N
         or (path.exists() and source.exists() and path.samefile(source))
     ):
         raise ValueError("Reasoning artifact must not overwrite the canonical report")
-    if path.is_symlink() or path.parent.is_symlink() or (path.exists() and not path.is_file()):
-        raise ValueError("Reasoning output must be a regular file, not a symbolic link")
-    path.parent.mkdir(parents=True, exist_ok=True)
-    descriptor, temporary = tempfile.mkstemp(prefix=".reasoning-", dir=path.parent)
-    try:
-        with os.fdopen(descriptor, "w", encoding="utf-8", newline="\n") as output:
-            json.dump(artifact, output, indent=2, ensure_ascii=False, allow_nan=False)
-            output.write("\n")
-        os.replace(temporary, path)
-    finally:
-        Path(temporary).unlink(missing_ok=True)
+    safe_write_text(
+        path,
+        json.dumps(artifact, indent=2, ensure_ascii=False, allow_nan=False) + "\n",
+    )
 
 
 def render(artifact: dict[str, Any]) -> str:

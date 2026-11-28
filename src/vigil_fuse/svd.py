@@ -8,6 +8,8 @@ import re
 import xml.etree.ElementTree as ET
 from xml.parsers import expat
 
+from .xml_safety import preflight_xml
+
 MAX_SVD_BYTES = 10 * 1024 * 1024
 MAX_SVD_ELEMENTS = 100_000
 MAX_SVD_DEPTH = 128
@@ -69,32 +71,12 @@ class SvdResult:
 
 
 def _preflight(data: bytes) -> None:
-    data.decode("utf-8-sig")
-    parser = expat.ParserCreate()
-    depth = 0
-    count = 0
-
-    def start(_name: str, _attributes: dict[str, str]) -> None:
-        nonlocal depth, count
-        depth += 1
-        count += 1
-        if depth > MAX_SVD_DEPTH or count > MAX_SVD_ELEMENTS:
-            raise ValueError("SVD XML structure limit exceeded")
-
-    def end(_name: str) -> None:
-        nonlocal depth
-        depth -= 1
-
-    def reject(*_args: object) -> None:
-        raise ValueError("SVD DTD and entity declarations are not accepted")
-
-    parser.StartElementHandler = start
-    parser.EndElementHandler = end
-    parser.StartDoctypeDeclHandler = reject
-    parser.EntityDeclHandler = reject
-    parser.ExternalEntityRefHandler = lambda *_args: 0
-    parser.SetParamEntityParsing(expat.XML_PARAM_ENTITY_PARSING_NEVER)
-    parser.Parse(data, True)
+    preflight_xml(
+        data,
+        max_bytes=MAX_SVD_BYTES,
+        max_elements=MAX_SVD_ELEMENTS,
+        max_depth=MAX_SVD_DEPTH,
+    )
 
 
 def _text(element: ET.Element, tag: str) -> str | None:

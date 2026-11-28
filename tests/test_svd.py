@@ -33,6 +33,15 @@ def test_svd_records_registers_fields_and_provenance() -> None:
     )
 
 
+def test_svd_accepts_well_formed_utf16_after_encoding_independent_preflight() -> None:
+    source = '<?xml version="1.0" encoding="UTF-16"?>' + VALID.decode("utf-8")
+    result = parse_svd(source.encode("utf-16"), "board.svd")
+
+    assert result.status == "partial"
+    assert result.device is not None
+    assert result.device.name == "Example"
+
+
 def test_svd_rejects_unsafe_invalid_and_duplicate_input() -> None:
     assert (
         parse_svd(b'<!DOCTYPE device [<!ENTITY x SYSTEM "file:///secret">]><device/>', "x").status
@@ -61,3 +70,13 @@ def test_unsupported_derived_peripheral_is_omitted_and_partial() -> None:
 def test_text_and_source_labels_are_bounded() -> None:
     assert parse_svd(VALID, "x" * 1025).status == "invalid"
     assert parse_svd(VALID.replace(b"Example", b"x" * 1025), "x").status == "invalid"
+
+
+def test_utf16_dtd_and_entity_declaration_is_rejected() -> None:
+    source = (
+        '<?xml version="1.0" encoding="UTF-16"?>'
+        '<!DOCTYPE device [<!ENTITY x "Example">]>'
+        "<device><name>&x;</name></device>"
+    )
+
+    assert parse_svd(source.encode("utf-16"), "x").status == "invalid"

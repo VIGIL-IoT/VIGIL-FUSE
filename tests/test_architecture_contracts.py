@@ -101,9 +101,10 @@ class ArchitectureContractTests(unittest.TestCase):
 
         for module in sorted(foundations):
             with self.subTest(module=module):
-                allowed_foundation_imports = (
-                    {"vigil_fuse.project_identity"} if module == "vigil_fuse.model" else set()
-                )
+                allowed_foundation_imports = {
+                    "vigil_fuse.model": {"vigil_fuse.project_identity"},
+                    "vigil_fuse.project_identity": {"vigil_fuse.path_safety"},
+                }.get(module, set())
                 self.assertEqual(allowed_foundation_imports, graph[module])
 
     def test_rule_implementations_depend_only_on_the_shared_contract(self) -> None:

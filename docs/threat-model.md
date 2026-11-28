@@ -24,7 +24,7 @@ Reports are local artifacts, not automatically safe to publish. Secret values de
 
 ### Target repository and selected files
 
-Treat every target file name and byte as untrusted. FUSE reads regular files selected by a profile, rejects symbolic links in discovery, ignores generated directories by policy, and applies explicit path, directory, file, source-byte, and wall-clock budgets. The current defaults and hard ceilings are recorded in `src/vigil_fuse/limits.py`. Input files are not executed. A project can still change files while a scan is running, so the input digest is evidence of files actually read, not a transactionally consistent repository snapshot.
+Treat every target file name and byte as untrusted. FUSE reads regular files selected by a profile, rejects symbolic links and Windows reparse points in discovery, ignores generated directories by policy, and applies explicit path, directory, file, source-byte, and wall-clock budgets. The current defaults and hard ceilings are recorded in `src/vigil_fuse/limits.py`. Input files are not executed. A project can still change files while a scan is running, so the input digest is evidence of files actually read, not a transactionally consistent repository snapshot.
 
 ### Native rules
 
@@ -48,28 +48,28 @@ Ghidra is not supported by the Docker analyzer adapter. A requested Ghidra stage
 
 - CycloneDX and SPDX detection is size bounded. Full input parsing and matching have schema and size limitations documented by the relevant adapter.
 - ESP-IDF `dependencies.lock` is size bounded, uses an optional safe PyYAML loader, rejects aliases and duplicate keys, and caps YAML events and nesting.
-- KiCad XML netlists must be UTF-8, are capped at 10 MiB, reject DTD and entity declarations during a streaming Expat preflight, and are limited to 100,000 elements and 128 levels before ElementTree builds the tree. The format follows KiCad's documented UTF-8 XML export. FUSE does not invoke KiCad.
+- KiCad XML netlists accept UTF-8 and UTF-16, are capped at 10 MiB, reject DTD and entity declarations during a byte-level Expat preflight, and are limited to 100,000 elements, 128 levels, 200,000 aggregate attributes, and 5,000,000 aggregate text characters before ElementTree builds the tree. FUSE does not invoke KiCad.
 - TOML, JSON, VEX, provenance, and Zephyr hardening inputs are parsed as data. They do not invoke commands described by those documents.
 
 ### Report output and terminal
 
-Report paths are target relative where applicable. Fixed artifact names are written only under the selected output directory; symbolic-link destinations are rejected. A regular existing report file can be replaced, so choose a dedicated output directory and inspect it before use. Text output escapes control and bidirectional characters so untrusted file names or evidence cannot issue terminal control sequences. JSON and SARIF are serialized as data, not printed as free-form terminal text.
+Report paths are target relative where applicable. Output directories and their existing path components reject symbolic links and Windows reparse points. Report files are written to a same-directory temporary file and atomically replace regular destinations; existing hard links, symbolic links, and non-regular files are refused before any content is written. Concurrent filesystem changes can still race with path checks, so use a dedicated output directory. Text output escapes control and bidirectional characters so untrusted file names or evidence cannot issue terminal control sequences. JSON and SARIF are serialized as data, not printed as free-form terminal text.
 
 ## Threats and current controls
 
 | Threat | Current controls | Residual risk |
 | --- | --- | --- |
 | Huge trees or files | Configurable discovery, byte, time, and per-file budgets; incomplete coverage is reported | A scan can still consume the configured CPU and memory budget; hard ceilings are not OS resource controls |
-| Symlink escape or special files | Discovery skips symlinks and non-regular files; selected metadata inputs validate paths | Files can be swapped between checks and reads; platform-specific race resistance is not equivalent to descriptor-based sandboxing |
+| Symlink, reparse-point escape, or special files | Discovery prunes aliases and non-regular files; selected metadata and installation paths validate every component | Files can be swapped between checks and reads; platform-specific race resistance is not equivalent to descriptor-based sandboxing |
 | Terminal escape and bidi spoofing | Human-readable report and CLI text escape terminal control and bidi characters | JSON consumers may render text differently; inspect before publishing reports |
-| XML entities and parser exhaustion | UTF-8 check, DTD/entity rejection, streaming structural preflight, byte, element, and depth limits | XML parsing still occurs in-process and shares FUSE's memory and privileges |
+| XML entities and parser exhaustion | Encoding-aware DTD/entity rejection, streaming structural preflight, byte, element, depth, attribute, and text limits | XML parsing still occurs in-process and shares FUSE's memory and privileges |
 | Malformed JSON/YAML/configuration | Bounded reads, safe loader, duplicate-key and depth/event checks where applicable, explicit invalid or partial status | Not every format has a complete adversarial corpus or independent parser sandbox |
 | Malicious or malformed executable parsed by Ghidra | Explicit opt-in, one staged file, 128 MiB input cap, Ghidra per-file timeout, FUSE wall-time limit, one CPU, bounded script records and artifact, diagnostic cap, temporary project cleanup | Ghidra is a complex host parser, not a sandbox; host file access and privileges remain available, and process cleanup is best effort |
 | Analyzer output flood or hang | Output capture and wall-time limits; Docker mode removes the container after each invocation; host mode uses process-tree cleanup | Runtime or daemon failures can interrupt cleanup; host mode remains unsandboxed |
 | Host file or credential access by an analyzer | Docker mode mounts selected inputs read-only, masks a nested report path with bounded tmpfs, captures bounded stdout, drops capabilities, and disables networking by default | Host mode can read files available to the user; Docker daemon, kernel, and selected image remain trusted; a malicious image can falsify the returned artifact |
 | Resource limits ignored by rootless Docker | FUSE requires cgroup v2 and systemd for rootless resource limits and checks the created container configuration | Runtime configuration inspection cannot prove every host kernel enforces every limit identically |
 | Secret exposure in output | Native credential and private-key evidence is redacted; history scanning stores redacted metadata | Secrets may appear in unsupported files, imported artifacts, filenames, external tool data, or other fields; review before sharing |
-| Output overwrite or symlink target | Output directory and fixed artifact destinations are checked; symlink report destinations are refused | Existing regular files can be replaced; concurrent filesystem changes can create races |
+| Output overwrite or filesystem alias | Shared atomic writer rejects aliased parents and special destinations, checks hard links, and replaces directory entries instead of writing through existing inodes | Concurrent filesystem changes can still race with path checks |
 | Misleading vulnerability claims | Severity, confidence, applicability, validation, and coverage are separate; static findings remain unvalidated by default | Users can still misinterpret findings if they ignore these fields and limitations |
 
 ## FMEA-lite: operational failure modes

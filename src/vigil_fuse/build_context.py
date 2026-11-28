@@ -15,6 +15,7 @@ from .model import (
     PlatformIOEnvironment,
     PlatformIOInventory,
 )
+from .path_safety import assert_no_path_aliases, resolve_inside_directory
 from .text_safety import safe_report_text
 
 MAX_PLATFORMIO_BYTES = 2 * 1024 * 1024
@@ -27,30 +28,21 @@ MAX_COMPILATION_DATABASE_ENTRIES = 100_000
 
 
 def _select_project_file(root: Path, supplied: str | Path, option: str) -> tuple[Path, str]:
+    assert_no_path_aliases(root)
     root_path = root.resolve(strict=True)
-    requested = Path(supplied).expanduser()
-    candidate = requested if requested.is_absolute() else root_path / requested
-    lexical = Path(os.path.abspath(candidate))
     try:
-        relative = lexical.relative_to(root_path)
-    except ValueError as error:
-        raise ValueError(f"{option} must resolve inside the scan target directory") from error
-    cursor = root_path
-    for part in relative.parts:
-        cursor = cursor / part
-        if cursor.is_symlink():
-            raise ValueError(f"{option} cannot follow symbolic links")
-    selected = lexical.resolve(strict=True)
-    try:
-        display = selected.relative_to(root_path).as_posix()
-    except ValueError as error:
-        raise ValueError(f"{option} must resolve inside the scan target directory") from error
+        selected, display = resolve_inside_directory(root_path, Path(supplied))
+    except (OSError, ValueError) as error:
+        raise ValueError(
+            f"{option} must resolve inside the scan target without filesystem aliases"
+        ) from error
     if not selected.is_file():
         raise ValueError(f"{option} must identify a regular file")
     return selected, safe_report_text(display, limit=1000) or "unknown-path"
 
 
 def _read_bounded(path: Path, limit: int, option: str) -> bytes:
+    assert_no_path_aliases(path)
     try:
         size = path.stat().st_size
     except OSError as error:
@@ -84,6 +76,7 @@ def _load_platformio_config_graph(
     sections: dict[str, dict[str, str]] = {}
     artifacts: list[PlatformIOConfigArtifact] = []
     limitations: list[str] = []
+    assert_no_path_aliases(root)
     root_path = root.resolve(strict=True)
     visited: set[Path] = set()
     active: set[Path] = set()
@@ -99,18 +92,19 @@ def _load_platformio_config_graph(
             return
         lexical = Path(os.path.abspath(config_path))
         try:
-            relative = lexical.relative_to(root_path)
+            lexical.relative_to(root_path)
         except ValueError:
             limitations.append(
                 "A PlatformIO extra_configs entry resolved outside the scan target and was not read."
             )
             return
-        cursor = root_path
-        for part in relative.parts:
-            cursor = cursor / part
-            if cursor.is_symlink():
-                limitations.append("A symbolic link in PlatformIO extra_configs was not followed.")
-                return
+        try:
+            assert_no_path_aliases(lexical)
+        except (OSError, ValueError):
+            limitations.append(
+                "A symbolic link or reparse point in PlatformIO extra_configs was not followed."
+            )
+            return
         try:
             resolved = lexical.resolve(strict=True)
             display_path = resolved.relative_to(root_path).as_posix()
@@ -468,6 +462,7 @@ def inspect_compilation_database(
             byte_size=len(data),
             limitations=("Compilation database root must be an array.",),
         )
+    assert_no_path_aliases(root)
     root_path = root.resolve(strict=True)
     if len(document) > MAX_COMPILATION_DATABASE_ENTRIES:
         document = document[:MAX_COMPILATION_DATABASE_ENTRIES]

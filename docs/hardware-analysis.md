@@ -12,7 +12,7 @@ Directory scans identify recognizable schematic, PCB, CAD, BOM, netlist, HDL, an
 
 ## KiCad XML netlist review
 
-`--hardware-netlist` selects a KiCad XML netlist. If a project contains one unique recognized netlist, FUSE can use it for the bounded check. The parser accepts UTF-8, rejects DTD and entity declarations, and limits input to 10 MiB, 100,000 XML elements, and 128 nesting levels. CI includes fixed adversarial cases for encoding, entity declarations, structure limits, and a seeded malformed-input loop. This is a small regression corpus, not a full fuzzing campaign.
+`--hardware-netlist` selects a KiCad XML netlist. If a project contains one unique recognized netlist, FUSE can use it for the bounded check. The parser accepts UTF-8 and UTF-16, rejects DTD and entity declarations before ElementTree parsing, and limits input to 10 MiB, 100,000 XML elements, 128 nesting levels, 200,000 aggregate attributes, and 5,000,000 aggregate text characters. CI includes fixed adversarial cases for encodings, entity declarations, structure and content limits, and a seeded malformed-input loop. This is a small regression corpus, not a full fuzzing campaign.
 
 The current check emits an informational candidate when a debug-like net name such as JTAG, SWD, or UART connects to a connector-designator or connector-like component. The evidence means only that the exported design records that connectivity.
 

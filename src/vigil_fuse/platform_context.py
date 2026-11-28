@@ -16,7 +16,7 @@ from .model import (
     ProjectContext,
     SourceFile,
 )
-from .path_safety import resolve_inside_directory
+from .path_safety import assert_no_path_aliases, is_path_alias, resolve_inside_directory
 
 MAX_CONTEXT_FILE_BYTES = 4 * 1024 * 1024
 _SAFE_METADATA_VALUE = re.compile(r"^[A-Za-z0-9_.+-]{1,120}$")
@@ -36,7 +36,11 @@ _ProjectPathError = Literal["outside-target", "unreadable"]
 
 
 def _read_limited(path: Path) -> bytes | None:
-    if path.is_symlink() or not path.is_file():
+    try:
+        assert_no_path_aliases(path)
+    except (OSError, ValueError):
+        return None
+    if not path.is_file():
         return None
     try:
         if path.stat().st_size > MAX_CONTEXT_FILE_BYTES:
@@ -63,7 +67,7 @@ def _project_markers(root: Path, framework: str) -> tuple[bool, tuple[str, ...]]
             evidence.append("CMakeLists.txt references project.cmake")
         for relative in ("idf_component.yml", "main/idf_component.yml"):
             path = root / relative
-            if path.is_file() and not path.is_symlink():
+            if path.is_file() and not is_path_alias(path):
                 evidence.append(f"{relative} component manifest exists")
         return bool(evidence), tuple(evidence)
 
@@ -71,10 +75,10 @@ def _project_markers(root: Path, framework: str) -> tuple[bool, tuple[str, ...]]
         if re.search(r"find_package\s*\(\s*zephyr\b", cmake_text):
             evidence.append("CMakeLists.txt requests the Zephyr CMake package")
         west = root / "west.yml"
-        if west.is_file() and not west.is_symlink():
+        if west.is_file() and not is_path_alias(west):
             evidence.append("west.yml manifest exists")
         prj_conf = root / "prj.conf"
-        if prj_conf.is_file() and not prj_conf.is_symlink():
+        if prj_conf.is_file() and not is_path_alias(prj_conf):
             evidence.append("prj.conf exists")
         return bool(
             "CMakeLists.txt requests the Zephyr CMake package" in evidence
@@ -87,8 +91,9 @@ def _project_markers(root: Path, framework: str) -> tuple[bool, tuple[str, ...]]
 def detect_project_frameworks(target: str | Path) -> tuple[tuple[str, tuple[str, ...]], ...]:
     """Return bounded ESP-IDF and Zephyr project hints without selecting an analyzer."""
     root = Path(target).expanduser()
-    if root.is_symlink() or not root.is_dir():
+    if is_path_alias(root) or not root.is_dir():
         return ()
+    assert_no_path_aliases(root)
     root = root.resolve(strict=True)
     hints = []
     for framework in ("esp-idf", "zephyr"):
@@ -99,6 +104,7 @@ def detect_project_frameworks(target: str | Path) -> tuple[tuple[str, tuple[str,
 
 
 def resolve_build_dir(root: Path, build_dir: str | Path) -> tuple[Path, str]:
+    assert_no_path_aliases(root)
     root_path = root.resolve(strict=True)
     supplied = Path(build_dir).expanduser()
     candidate = supplied if supplied.is_absolute() else root_path / supplied
@@ -129,7 +135,7 @@ def _read_context_file(
     path_has_symlink = False
     for part in Path(relative).parts:
         cursor = cursor / part
-        if cursor.is_symlink():
+        if is_path_alias(cursor):
             path_has_symlink = True
             break
     if path_has_symlink:
@@ -264,7 +270,7 @@ def _inspect_esp_idf_configuration_origin(
     else:
         defaults_source = "conventional-candidate"
         conventional = root / "sdkconfig.defaults"
-        conventional_exists = conventional.exists() or conventional.is_symlink()
+        conventional_exists = conventional.exists() or is_path_alias(conventional)
         bases = ["sdkconfig.defaults"] if conventional_exists else []
         order_resolved = False
         limitations.append(
@@ -299,7 +305,7 @@ def _inspect_esp_idf_configuration_origin(
             if target_specific
             else f"ESP-IDF defaults candidate, order {order}"
         )
-        if not candidate.exists() and not candidate.is_symlink():
+        if not candidate.exists() and not is_path_alias(candidate):
             defaults.append(ConfigurationDefault(display_path, order, target_specific, "missing"))
             artifacts.append(ContextArtifact(display_path, role, None, 0))
             continue
@@ -496,7 +502,7 @@ def inspect_project_context(
 
     if framework == "esp-idf":
         cache_path = build_root / "CMakeCache.txt"
-        if cache_path.exists() or cache_path.is_symlink():
+        if cache_path.exists() or is_path_alias(cache_path):
             artifact, cache_source, warning = _read_context_file(
                 cache_path,
                 root,
@@ -523,7 +529,7 @@ def inspect_project_context(
         metadata_path = None
 
     for path, role in config_candidates:
-        if path.exists() or path.is_symlink():
+        if path.exists() or is_path_alias(path):
             artifact, source, warning = _read_context_file(
                 path,
                 root,
@@ -574,7 +580,7 @@ def inspect_project_context(
             # Prefer Zephyr's textual .config and do not process the equivalent header twice.
             break
 
-    if metadata_path is not None and (metadata_path.exists() or metadata_path.is_symlink()):
+    if metadata_path is not None and (metadata_path.exists() or is_path_alias(metadata_path)):
         artifact, metadata_source, warning = _read_context_file(
             metadata_path,
             root,

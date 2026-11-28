@@ -24,6 +24,7 @@ from .analyzer_runtime import (
     analyzer_sandbox_active,
 )
 from .model import AnalyzerStatus, Finding
+from .path_safety import assert_no_path_aliases, ensure_safe_directory, safe_write_text
 from .text_safety import safe_terminal_text
 
 GHIDRA_SUPPORTED_VERSION = "12.2"
@@ -1089,6 +1090,7 @@ def analyze_ghidra(
     try:
         with tempfile.TemporaryDirectory(prefix="vigil-fuse-ghidra-") as temporary:
             workspace = Path(temporary)
+            assert_no_path_aliases(workspace)
             staged_input = workspace / "input.bin"
             raw_output = workspace / "ghidra-raw.json"
             project_dir = workspace / "project"
@@ -1183,13 +1185,9 @@ def analyze_ghidra(
                         detail="Normalized Ghidra artifact exceeded the 8 MiB output limit.",
                     )
                 )
-            if output_dir.is_symlink():
-                raise OSError("Refusing to write Ghidra output through a symbolic-link directory.")
-            if output_dir.exists() and not output_dir.is_dir():
-                raise OSError("Ghidra output path is not a directory.")
-            output_dir.mkdir(parents=True, exist_ok=True)
+            output_dir = ensure_safe_directory(output_dir)
             artifact_path = _artifact_destination(output_dir, "ghidra-analysis.json")
-            artifact_path.write_text(normalized_text, encoding="utf-8")
+            safe_write_text(artifact_path, normalized_text)
             artifact = _artifact(
                 artifact_path,
                 "application/vnd.vigil-fuse.ghidra-analysis+json",

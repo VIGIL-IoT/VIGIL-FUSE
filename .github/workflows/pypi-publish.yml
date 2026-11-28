@@ -4,19 +4,14 @@ on:
   release:
     types: [published]
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
-  publish:
-    name: Build and publish release
+  build:
+    name: Build and verify distributions
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/project/vigil-fuse/
     permissions:
       contents: read
-      id-token: write
     steps:
       - name: Check out release tag
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -26,21 +21,65 @@ jobs:
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
+      - name: Install pinned build tools
+        run: python -m pip install build==1.6.1 twine==7.0.0 setuptools==84.2.1
       - name: Build and validate distributions
         run: |
-          python -m pip install 'build>=1.2,<2' 'twine>=7,<8'
           python -m build
           python -m twine check dist/*
-      - name: Verify distribution version matches release tag
+      - name: Verify release artifacts and create SHA-256 manifest
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           python - <<'PY'
           import os
           from pathlib import Path
 
-          expected = f"vigil_fuse-{os.environ['GITHUB_REF_NAME'].removeprefix('v')}"
-          artifacts = list(Path("dist").iterdir())
-          assert len(artifacts) == 2
-          assert all(path.name.startswith(expected) for path in artifacts)
+          version = os.environ["RELEASE_TAG"].removeprefix("v")
+          expected = {
+              f"vigil_fuse-{version}-py3-none-any.whl",
+              f"vigil_fuse-{version}.tar.gz",
+          }
+          artifacts = {path.name for path in Path("dist").iterdir() if path.is_file()}
+          assert artifacts == expected, f"unexpected release distributions: {sorted(artifacts)}"
           PY
+          sha256sum dist/* > dist/SHA256SUMS
+      - name: Upload verified distributions
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: pypi-distributions
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish verified distributions
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/vigil-fuse/
+    permissions:
+      id-token: write
+    steps:
+      - name: Download distributions from the build job
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: pypi-distributions
+          path: dist/
+      - name: Verify artifact digests and release filenames
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          version="${RELEASE_TAG#v}"
+          expected_wheel="vigil_fuse-${version}-py3-none-any.whl"
+          expected_sdist="vigil_fuse-${version}.tar.gz"
+          test -f dist/SHA256SUMS
+          (cd dist && sha256sum --check SHA256SUMS)
+          test -f "dist/${expected_wheel}"
+          test -f "dist/${expected_sdist}"
+          test "$(find dist -mindepth 1 -maxdepth 1 -type f | wc -l)" -eq 3
       - name: Publish to PyPI using trusted publishing
         uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086
+        with:
+          packages-dir: dist/

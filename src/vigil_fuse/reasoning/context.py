@@ -7,6 +7,8 @@ import unicodedata
 from pathlib import Path
 from typing import Any
 
+from ..path_safety import assert_no_path_aliases
+
 from ..text_safety import safe_report_text
 from .validation import strict_json
 
@@ -91,7 +93,8 @@ def load_report(raw: bytes) -> dict[str, Any]:
 
 
 def read_report(path: Path) -> bytes:
-    if path.is_symlink() or not path.is_file():
+    assert_no_path_aliases(path)
+    if not path.is_file():
         raise ValueError("Reasoning input must be a regular canonical JSON file")
     with path.open("rb") as source:
         raw = source.read(MAX_REPORT_BYTES + 1)

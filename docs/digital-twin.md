@@ -1,6 +1,6 @@
 # Digital twin: SVD inventory foundation
 
-The internal `parse_svd` API accepts a single explicitly supplied UTF-8 CMSIS-SVD
+The internal `parse_svd` API accepts a single explicitly supplied UTF-8 or UTF-16 CMSIS-SVD
 document as bytes and a source label. It records the SHA-256 digest, device name
 and version, peripheral base addresses, interrupts, registers, access and reset
 values, fields and enumerated values. Device and peripheral defaults are applied

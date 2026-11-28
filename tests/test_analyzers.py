@@ -388,12 +388,8 @@ class OptionalAnalyzerTests(unittest.TestCase):
             output = target / "reports"
 
             def run(command: list[str], **_: object) -> subprocess.CompletedProcess[str]:
-                path = Path(command[-1].split("=", 1)[1])
-                path.write_text(
-                    json.dumps({"bomFormat": "CycloneDX", "components": [{"name": "x"}]}),
-                    encoding="utf-8",
-                )
-                return subprocess.CompletedProcess(command, 0, "", "")
+                document = json.dumps({"bomFormat": "CycloneDX", "components": [{"name": "x"}]})
+                return subprocess.CompletedProcess(command, 0, document, "")
 
             with (
                 patch("vigil_fuse.dependency_analyzers.shutil.which", return_value="syft"),
@@ -412,6 +408,7 @@ class OptionalAnalyzerTests(unittest.TestCase):
         self.assertIn(f"dir:{target.resolve()}", mocked_run.call_args.args[0])
         self.assertIn("--exclude", mocked_run.call_args.args[0])
         self.assertIn("./reports/**", mocked_run.call_args.args[0])
+        self.assertEqual(["--output", "cyclonedx-json"], mocked_run.call_args.args[0][-2:])
 
     def test_osv_exit_code_one_is_valid_when_findings_are_returned(self) -> None:
         document = {

@@ -7,6 +7,7 @@ from collections import Counter
 from pathlib import Path
 
 from .model import FirmwareCandidate, FirmwareCandidateInventory
+from .path_safety import assert_no_path_aliases, is_path_alias
 from .text_safety import safe_report_text
 
 FIRMWARE_EXTENSIONS = frozenset(
@@ -65,6 +66,12 @@ def inspect_firmware_candidates(
     max_directories: int,
 ) -> FirmwareCandidateInventory:
     """Inventory firmware-like extensions and sizes only. Never opens binary contents."""
+    if is_path_alias(target):
+        return FirmwareCandidateInventory(
+            status="partial",
+            scope="directory" if target.is_dir() else "single-file",
+            limitations=("The selected target is a symbolic link or reparse point.",),
+        )
     if target.is_file():
         extension = _firmware_extension(target)
         if extension not in FIRMWARE_EXTENSIONS:
@@ -108,10 +115,19 @@ def inspect_firmware_candidates(
             limitations.append("Firmware candidate inventory reached a directory or time limit.")
             break
         current = Path(directory)
+        try:
+            assert_no_path_aliases(current)
+        except (OSError, ValueError):
+            complete = False
+            limitations.append("A symbolic link or reparse-point directory was not inventoried.")
+            names[:] = []
+            continue
         kept: list[str] = []
         for name in names:
             child = current / name
-            if child.is_symlink():
+            if is_path_alias(child):
+                complete = False
+                limitations.append("A symbolic link or reparse-point directory was excluded.")
                 continue
             if name.casefold() in SKIP_DIRECTORY_NAMES:
                 continue
@@ -124,7 +140,11 @@ def inspect_firmware_candidates(
                 limitations.append("Firmware candidate inventory reached a path or time limit.")
                 break
             path = current / filename
-            if path.is_symlink() or not path.is_file():
+            if is_path_alias(path):
+                complete = False
+                limitations.append("A symbolic link or reparse-point file was excluded.")
+                continue
+            if not path.is_file():
                 continue
             relative = path.relative_to(target).as_posix()
             if any(fnmatch.fnmatchcase(relative, pattern) for pattern in exclude):

@@ -1,5 +1,36 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "site",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- site vercel.json"
+  "ignoreCommand": "if [ -z \"$VERCEL_GIT_PREVIOUS_SHA\" ] || ! git cat-file -e \"$VERCEL_GIT_PREVIOUS_SHA^{commit}\" 2>/dev/null; then exit 1; fi; if git diff --quiet \"$VERCEL_GIT_PREVIOUS_SHA\" HEAD -- site vercel.json; then exit 0; else exit 1; fi",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; frame-ancestors 'self'; script-src 'self' 'sha256-y8X06YZq/jRQOAwBXOKn4g1/WpHfHH78lMhf5zmYMYE=' 'sha256-tUCiMr5CGfbkiZS2g1bp1v8EtSgM+arE8PerJ09sZus=' 'sha256-wLF0Oxx15Uv/Oq7Xl1Bd5ya9ux+SqA1I5FqPSHMF0bA=' 'sha256-2bHRpy6NCJnBMLP1uWLpzCNclUMg79W5Fzj8fNLlOAI=' 'sha256-6H2wY4N+ukEkbFPOVPIYr+0zgaFbXtCdCqyuUVZ1xdE=' 'sha256-vWkfXmtFCBH5/yU8CnaHCsQC4XhPJ2a/ERSvvI9dOTU=' 'sha256-jxdcigWTgd0NoHEYLyjn0jaj1OCzd/uyY58jRk0Z5HI=' 'sha256-71AktKnqOHqB4qfUyJpKIoemVZ8RrouX17GQeDuvXNg='; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com 'sha256-zX9j+sh8qzZ1H6ZxGdm+dByFAeOW/DkcUdgC6+1nvC4=' 'sha256-GeZs9hY6Jq7tP5+4XOJabL6JgJQCR0TV8G0zdZfR7Ys=' 'sha256-FOp/GrM2IKL3T1Y/nBlHYpD89LZo0A1RzieYQyC9h/o=' 'sha256-1wsPYLG4E6CEvmht5ruXnRctxvMm/MvOuloJtFmeWI0=' 'sha256-YEpoVvcU8WzaHZUSgcDFqh+bpC5VQzRI/Ik0Eg6CpK8=' 'sha256-NHsuQ/0BN4XQ2YdPG8Xner27kFHIPFH6E9H8+7veEiI=' 'sha256-AbSyHM/h//7aL/PJfdsUo82TrBFVj1NwDU2din+KD0g=' 'sha256-L9TVgZ995GLp1qFK3Us8XOaGgBUB5Cf9a6iomaH5/Wo='; style-src-attr 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; frame-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
+      ]
+    }
+  ]
 }
