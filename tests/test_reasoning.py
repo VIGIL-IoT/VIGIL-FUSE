@@ -742,3 +742,20 @@ def test_latest_rtl_report_context_preserves_static_states() -> None:
     )
     assert len(packet["rtl"]) <= 6
     assert report["findings"][report["findings"].index(finding)] == finding
+
+
+def test_secret_context_withholds_raw_finding_and_related_evidence() -> None:
+    report = load_report(RAW)
+    finding = report["findings"][0]
+    finding["category"] = "secrets"
+    finding["id"] = "secret-short-value"
+    finding["evidence"] = "short-value"
+    finding["explanation"] = "short-value"
+    finding["location"]["file"] = "short-value"
+    report["project_context"]["settings"] = [
+        {"path": "short-value", "name": "OTHER", "value": "short-value"}
+    ]
+    packet = build_context(report, finding)
+    assert "short-value" not in encode_context(packet).decode()
+    assert packet["evidence"]["supported"][0]["text"] == "Secret evidence withheld."
+    assert "secret-finding" in packet["redacted_categories"]

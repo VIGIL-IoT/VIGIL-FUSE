@@ -387,6 +387,29 @@ def build_context(
         "truncated_categories": [],
         "redacted_categories": sorted(redacted),
     }
+    if finding["category"] in {"secrets", "historical-secret-exposure"}:
+        packet["finding"] = {
+            "id": hashlib.sha256(finding["id"].encode("utf-8")).hexdigest(),
+            "rule_id": "secret-candidate",
+            "title": "Possible secret exposure",
+            "severity": finding["severity"],
+            "confidence": finding["confidence"],
+            "applicability": finding["applicability"],
+            "validation_status": finding["validation_status"],
+            "analyzer": "secret-detector",
+            "category": "secrets",
+            "explanation": "A deterministic detector reported a possible secret exposure.",
+            "remediation": "Review the finding and rotate any exposed credential if appropriate.",
+        }
+        packet["evidence"]["supported"] = [{"id": "E1", "text": "Secret evidence withheld."}]
+        packet["source"] = []
+        packet["build"] = []
+        packet["hardware"] = []
+        packet["rtl"] = []
+        packet["policy_context"] = []
+        packet["coverage"]["analyzers"] = []
+        packet["coverage"]["limits_reached"] = []
+        redacted.add("secret-finding")
     # A byte cap is conservative, tokenizer-independent input accounting. Output has a reserve.
     byte_budget = min(12_000, context_tokens - 2300)
     for category in ("build", "firmware", "hardware", "rtl", "policy_context"):

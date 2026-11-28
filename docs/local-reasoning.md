@@ -197,3 +197,4 @@ commands and `--reason`, dispatches the commands, adds doctor text, and calls
 enrichment after reports are written. Reasoning-specific parsing, orchestration
 and rendering live under `src/vigil_fuse/reasoning/`. Preserve that ordering and
 the existing scan exit checks when integrating a parallel CLI branch.
+Secret-candidate reasoning contexts withhold finding text, source paths, related settings and policy details before model calls. The deterministic finding and report remain authoritative.
