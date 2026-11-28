@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title description" viewBox="0 0 520 1254" width="520" height="1254">
+<title id="title">FUSE language composition</title>
+<desc id="description">Every Linguist-detected textual language in the tracked source commit, weighted by bytes.</desc>
+<rect width="100%" height="100%" rx="16" fill="#0d1421"/>
+<text x="20" y="34" fill="#f4f7fb" font-size="20" font-weight="700" font-family="Segoe UI, Arial, sans-serif">FUSE · Language Composition</text>
+<text x="20" y="56" fill="#9aabc0" font-size="12" font-family="Segoe UI, Arial, sans-serif">Tracked textual files · byte-weighted · all detected languages</text>
+<text x="20" y="82" fill="#cbd5e1" font-size="12" font-family="Segoe UI, Arial, sans-serif">32 languages  ·  1,236 files  ·  18,458,497 bytes</text>
+<text x="20" y="122" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">JSON</text>
+<text x="500" y="122" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">67.50%  ·  535 files</text>
+<rect x="20" y="128" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="128" width="323.9761417194476885089831529" height="7" rx="3" fill="#292929"/>
+<text x="20" y="156" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Python</text>
+<text x="500" y="156" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">10.31%  ·  189 files</text>
+<rect x="20" y="162" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="162" width="49.49759452245759771231644700" height="7" rx="3" fill="#3572A5"/>
+<text x="20" y="190" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">HTML</text>
+<text x="500" y="190" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">5.80%  ·  9 files</text>
+<rect x="20" y="196" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="196" width="27.84720771144042767945840878" height="7" rx="3" fill="#e34c26"/>
+<text x="20" y="224" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Markdown</text>
+<text x="500" y="224" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">5.55%  ·  141 files</text>
+<rect x="20" y="230" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="230" width="26.64354741342158031610049291" height="7" rx="3" fill="#083fa1"/>
+<text x="20" y="258" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Text</text>
+<text x="500" y="258" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">4.74%  ·  165 files</text>
+<rect x="20" y="264" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="264" width="22.72904451537955663454072127" height="7" rx="3" fill="hsl(180, 72%, 64%)"/>
+<text x="20" y="292" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">SVG</text>
+<text x="500" y="292" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">2.82%  ·  69 files</text>
+<rect x="20" y="298" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="298" width="13.54232904228334517160308339" height="7" rx="3" fill="#ff9900"/>
+<text x="20" y="326" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">CSV</text>
+<text x="500" y="326" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.942%  ·  23 files</text>
+<rect x="20" y="332" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="332" width="4.520662760353673432891096171" height="7" rx="3" fill="#237346"/>
+<text x="20" y="360" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">JavaScript</text>
+<text x="500" y="360" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.631%  ·  5 files</text>
+<rect x="20" y="366" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="366" width="3.030461255864981856323404880" height="7" rx="3" fill="#f1e05a"/>
+<text x="20" y="394" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">CSS</text>
+<text x="500" y="394" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.470%  ·  3 files</text>
+<rect x="20" y="400" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="400" width="2.257015833954411347792834920" height="7" rx="3" fill="#663399"/>
+<text x="20" y="428" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">YAML</text>
+<text x="500" y="428" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.308%  ·  25 files</text>
+<rect x="20" y="434" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="434" width="1.480605923656731097878662602" height="7" rx="3" fill="#cb171e"/>
+<text x="20" y="462" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">PowerShell</text>
+<text x="500" y="462" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.234%  ·  3 files</text>
+<rect x="20" y="468" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="468" width="1.125179368612731578307811302" height="7" rx="3" fill="#012456"/>
+<text x="20" y="496" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Java</text>
+<text x="500" y="496" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.143%  ·  1 files</text>
+<rect x="20" y="502" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="502" width="0.6856029502293713296375105730" height="7" rx="3" fill="#b07219"/>
+<text x="20" y="530" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Go Checksums</text>
+<text x="500" y="530" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.089%  ·  1 files</text>
+<rect x="20" y="536" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="536" width="0.4266002806187307666490939105" height="7" rx="3" fill="#00ADD8"/>
+<text x="20" y="564" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Go</text>
+<text x="500" y="564" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.077%  ·  3 files</text>
+<rect x="20" y="570" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="570" width="0.3707950869455947577963687943" height="7" rx="3" fill="#00ADD8"/>
+<text x="20" y="598" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Julia</text>
+<text x="500" y="598" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.063%  ·  7 files</text>
+<rect x="20" y="604" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="604" width="0.3018057212350496359481489744" height="7" rx="3" fill="#a270ba"/>
+<text x="20" y="632" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">C++</text>
+<text x="500" y="632" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.061%  ·  2 files</text>
+<rect x="20" y="638" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="638" width="0.2915600333006528104644706446" height="7" rx="3" fill="#f34b7d"/>
+<text x="20" y="666" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">TOML</text>
+<text x="500" y="666" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.059%  ·  4 files</text>
+<rect x="20" y="672" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="672" width="0.2831866538212726637493832786" height="7" rx="3" fill="#9c4221"/>
+<text x="20" y="700" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">R</text>
+<text x="500" y="700" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.056%  ·  5 files</text>
+<rect x="20" y="706" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="706" width="0.2711206660000540672406859562" height="7" rx="3" fill="#198CE7"/>
+<text x="20" y="734" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">TeX</text>
+<text x="500" y="734" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.046%  ·  2 files</text>
+<rect x="20" y="740" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="740" width="0.2210884233965528179244496451" height="7" rx="3" fill="#3D6117"/>
+<text x="20" y="768" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">C</text>
+<text x="500" y="768" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.022%  ·  14 files</text>
+<rect x="20" y="774" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="774" width="0.1063055133903914278611091683" height="7" rx="3" fill="#555555"/>
+<text x="20" y="802" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Rego</text>
+<text x="500" y="802" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.021%  ·  1 files</text>
+<rect x="20" y="808" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="808" width="0.1001685023433923141196165647" height="7" rx="3" fill="#7d9199"/>
+<text x="20" y="836" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Go Module</text>
+<text x="500" y="836" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.017%  ·  1 files</text>
+<rect x="20" y="842" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="842" width="0.08235556773663641194621642271" height="7" rx="3" fill="#00ADD8"/>
+<text x="20" y="870" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">SystemVerilog</text>
+<text x="500" y="870" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.015%  ·  12 files</text>
+<rect x="20" y="876" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="876" width="0.07119972985882870095002859659" height="7" rx="3" fill="#DAE1C2"/>
+<text x="20" y="904" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">CMake</text>
+<text x="500" y="904" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.007%  ·  1 files</text>
+<rect x="20" y="910" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="910" width="0.03448168071322383398821691712" height="7" rx="3" fill="#DA3434"/>
+<text x="20" y="938" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Shell</text>
+<text x="500" y="938" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.007%  ·  1 files</text>
+<rect x="20" y="944" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="944" width="0.03247935083771988586069602525" height="7" rx="3" fill="#89e051"/>
+<text x="20" y="972" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">XML</text>
+<text x="500" y="972" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.005%  ·  2 files</text>
+<rect x="20" y="978" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="978" width="0.02579624982467424081169772382" height="7" rx="3" fill="#0060ac"/>
+<text x="20" y="1006" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Dockerfile</text>
+<text x="500" y="1006" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.004%  ·  3 files</text>
+<rect x="20" y="1012" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="1012" width="0.02017932445962420450592483234" height="7" rx="3" fill="#384d54"/>
+<text x="20" y="1040" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">INI</text>
+<text x="500" y="1040" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.002%  ·  3 files</text>
+<rect x="20" y="1046" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="1046" width="0.009491563695570663201884747171" height="7" rx="3" fill="#d1dbe0"/>
+<text x="20" y="1074" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Verilog</text>
+<text x="500" y="1074" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.001%  ·  3 files</text>
+<rect x="20" y="1080" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="1080" width="0.006527075308460921818282387781" height="7" rx="3" fill="#DAE1C2"/>
+<text x="20" y="1108" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Ignore List</text>
+<text x="500" y="1108" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.001%  ·  1 files</text>
+<rect x="20" y="1114" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="1114" width="0.004862801126223874023979308825" height="7" rx="3" fill="#000000"/>
+<text x="20" y="1142" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Git Attributes</text>
+<text x="500" y="1142" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.001%  ·  1 files</text>
+<rect x="20" y="1148" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="1148" width="0.003172522659889372357890244260" height="7" rx="3" fill="#F44D27"/>
+<text x="20" y="1176" fill="#e6edf5" font-size="15" font-weight="600" font-family="Segoe UI, Arial, sans-serif">Tcl</text>
+<text x="500" y="1176" text-anchor="end" fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">0.0003%  ·  1 files</text>
+<rect x="20" y="1182" width="480" height="7" rx="3" fill="#1d2a3b"/>
+<rect x="20" y="1182" width="0.001430235625359962948229208478" height="7" rx="3" fill="#e4cc98"/>
+<text x="20" y="1216" fill="#9aabc0" font-size="11" font-family="Segoe UI, Arial, sans-serif">Unclassified text: 26  ·  Non-language assets: 12</text>
+<text x="20" y="1234" fill="#718198" font-size="10" font-family="Segoe UI, Arial, sans-serif">main @ 8c3ded9  ·  generated 2026-11-23T06:25:34Z</text>
+</svg>
