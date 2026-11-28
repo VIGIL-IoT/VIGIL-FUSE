@@ -1,0 +1,4 @@
+import builtins as interpreter
+
+def parse_input(user_input):
+    return interpreter.eval(user_input)

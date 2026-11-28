@@ -338,6 +338,78 @@
       "split": "development",
       "pinned_commit": null,
       "rationale": "The subprocess call explicitly keeps shell execution disabled."
+    },
+    {
+      "id": "FUSE-SW002-mutable-container-tag",
+      "fixture": "FUSE-SW002-vulnerable.fixture",
+      "source_path": "Dockerfile",
+      "expected_rules": [
+        "FUSE-SW002"
+      ],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The Dockerfile selects a mutable latest tag."
+    },
+    {
+      "id": "FUSE-SW002-pinned-container-tag",
+      "fixture": "FUSE-SW002-secure.fixture",
+      "source_path": "Dockerfile",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The Dockerfile uses an explicit version tag rather than latest."
+    },
+    {
+      "id": "FUSE-SW003-pyyaml-unsafe-load",
+      "fixture": "FUSE-SW003-vulnerable.fixture",
+      "source_path": "src/loader.py",
+      "expected_rules": [
+        "FUSE-SW003"
+      ],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The Python source imports PyYAML and calls unsafe_load."
+    },
+    {
+      "id": "FUSE-SW003-pyyaml-safe-load",
+      "fixture": "FUSE-SW003-secure.fixture",
+      "source_path": "src/loader.py",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The Python source imports PyYAML and calls safe_load."
+    },
+    {
+      "id": "FUSE-SW004-imported-builtins-eval",
+      "fixture": "FUSE-SW004-vulnerable.fixture",
+      "source_path": "src/parser.py",
+      "expected_rules": [
+        "FUSE-SW004"
+      ],
+      "expected_disposition": "finding",
+      "category": "synthetic-vulnerable",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The Python source aliases builtins and calls the imported eval function."
+    },
+    {
+      "id": "FUSE-SW004-literal-eval",
+      "fixture": "FUSE-SW004-secure.fixture",
+      "source_path": "src/parser.py",
+      "expected_rules": [],
+      "expected_disposition": "no-finding",
+      "category": "synthetic-secure",
+      "split": "development",
+      "pinned_commit": null,
+      "rationale": "The Python source uses ast.literal_eval rather than builtins dynamic evaluation."
     }
   ]
 }

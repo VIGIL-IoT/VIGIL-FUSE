@@ -76,6 +76,7 @@ class ScanProfile:
             path.suffix.lower() in suffixes
             or (self.include_base and (name == ".env" or name.startswith(".env.")))
             or name in names
+            or (self.include_base and name.startswith("dockerfile."))
             or (self.name == "esp-idf" and name.startswith("sdkconfig.defaults."))
         )
 
