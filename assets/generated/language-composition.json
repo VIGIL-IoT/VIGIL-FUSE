@@ -1,8 +1,8 @@
 {
   "schema_version": "1.0",
-  "commit": "e3937f308c997133ad872cb4713ab90698abd5ba",
-  "generated_at": "2026-11-28T07:23:39Z",
-  "total_classified_bytes": 18487096,
+  "commit": "21802eae8f1383844c7f2d34507e5afdd207b079",
+  "generated_at": "2026-11-28T07:59:46Z",
+  "total_classified_bytes": 18488909,
   "total_classified_files": 1241,
   "language_count": 33,
   "languages": [
@@ -10,231 +10,231 @@
       "name": "JSON",
       "bytes": 12458568,
       "files": 535,
-      "percentage": 67.39061667662676,
+      "percentage": 67.38400843446198,
       "color": "#292929"
     },
     {
       "name": "Python",
-      "bytes": 1924347,
+      "bytes": 1925979,
       "files": 191,
-      "percentage": 10.409136188831388,
+      "percentage": 10.416942395032612,
       "color": "#3572A5"
     },
     {
       "name": "HTML",
       "bytes": 1070870,
       "files": 9,
-      "percentage": 5.792526852243316,
+      "percentage": 5.791958844083228,
       "color": "#e34c26"
     },
     {
       "name": "Markdown",
-      "bytes": 1026641,
+      "bytes": 1026822,
       "files": 142,
-      "percentage": 5.553284301655598,
+      "percentage": 5.5537187186112495,
       "color": "#083fa1"
     },
     {
       "name": "Text",
       "bytes": 874050,
       "files": 165,
-      "percentage": 4.727892363408509,
+      "percentage": 4.727428752015601,
       "color": "hsl(180, 72%, 64%)"
     },
     {
       "name": "SVG",
       "bytes": 520773,
       "files": 69,
-      "percentage": 2.8169540527079,
+      "percentage": 2.8166778256088554,
       "color": "#ff9900"
     },
     {
       "name": "CSV",
       "bytes": 173843,
       "files": 23,
-      "percentage": 0.9403477971878331,
+      "percentage": 0.9402555878229484,
       "color": "#237346"
     },
     {
       "name": "JavaScript",
       "bytes": 116537,
       "files": 5,
-      "percentage": 0.6303694209193267,
+      "percentage": 0.6303076076581912,
       "color": "#f1e05a"
     },
     {
       "name": "CSS",
       "bytes": 86794,
       "files": 3,
-      "percentage": 0.46948422835041265,
+      "percentage": 0.4694381912961982,
       "color": "#663399"
     },
     {
       "name": "YAML",
       "bytes": 61319,
       "files": 26,
-      "percentage": 0.33168540910914296,
+      "percentage": 0.3316528844400716,
       "color": "#cb171e"
     },
     {
       "name": "PowerShell",
       "bytes": 43269,
       "files": 3,
-      "percentage": 0.2340497393425122,
+      "percentage": 0.2340267887088416,
       "color": "#012456"
     },
     {
       "name": "Java",
       "bytes": 26365,
       "files": 1,
-      "percentage": 0.14261298799984595,
+      "percentage": 0.1425990035431512,
       "color": "#b07219"
     },
     {
       "name": "Go Checksums",
       "bytes": 16405,
       "files": 1,
-      "percentage": 0.0887375713308353,
+      "percentage": 0.08872886983217884,
       "color": "#00ADD8"
     },
     {
       "name": "Go",
       "bytes": 14259,
       "files": 3,
-      "percentage": 0.07712947452644807,
+      "percentage": 0.07712191130369023,
       "color": "#00ADD8"
     },
     {
       "name": "Julia",
       "bytes": 11606,
       "files": 7,
-      "percentage": 0.0627789242831865,
+      "percentage": 0.06277276825798644,
       "color": "#a270ba"
     },
     {
       "name": "C++",
       "bytes": 11212,
       "files": 2,
-      "percentage": 0.060647708001299934,
+      "percentage": 0.06064176096058453,
       "color": "#f34b7d"
     },
     {
       "name": "TOML",
       "bytes": 10936,
       "files": 4,
-      "percentage": 0.059154774768303255,
+      "percentage": 0.0591489741228106,
       "color": "#9c4221"
     },
     {
       "name": "R",
       "bytes": 10426,
       "files": 5,
-      "percentage": 0.05639609379428765,
+      "percentage": 0.0563905636617066,
       "color": "#198CE7"
     },
     {
       "name": "TeX",
       "bytes": 8502,
       "files": 2,
-      "percentage": 0.045988834590354265,
+      "percentage": 0.04598432498099266,
       "color": "#3D6117"
     },
     {
       "name": "C",
       "bytes": 4088,
       "files": 14,
-      "percentage": 0.022112721219168224,
+      "percentage": 0.022110552872535636,
       "color": "#555555"
     },
     {
       "name": "Rego",
       "bytes": 3852,
       "files": 1,
-      "percentage": 0.020836155121388453,
+      "percentage": 0.020834111953279666,
       "color": "#7d9199"
     },
     {
       "name": "Go Module",
       "bytes": 3167,
       "files": 1,
-      "percentage": 0.017130867930798866,
+      "percentage": 0.01712918809865958,
       "color": "#00ADD8"
     },
     {
       "name": "SystemVerilog",
       "bytes": 2738,
       "files": 12,
-      "percentage": 0.014810330405597504,
+      "percentage": 0.014808878122554447,
       "color": "#DAE1C2"
     },
     {
       "name": "CMake",
       "bytes": 1326,
       "files": 1,
-      "percentage": 0.007172570532440574,
+      "percentage": 0.007171867198870415,
       "color": "#DA3434"
     },
     {
       "name": "Shell",
       "bytes": 1249,
       "files": 1,
-      "percentage": 0.006756063797148022,
+      "percentage": 0.006755401305723339,
       "color": "#89e051"
     },
     {
       "name": "Ruby",
       "bytes": 1206,
       "files": 1,
-      "percentage": 0.006523469126789843,
+      "percentage": 0.006522829443316531,
       "color": "#701516"
     },
     {
       "name": "XML",
       "bytes": 992,
       "files": 2,
-      "percentage": 0.005365904953379373,
+      "percentage": 0.005365378779245439,
       "color": "#0060ac"
     },
     {
       "name": "Dockerfile",
       "bytes": 776,
       "files": 3,
-      "percentage": 0.004197522423208058,
+      "percentage": 0.004197110819248448,
       "color": "#384d54"
     },
     {
       "name": "INI",
       "bytes": 365,
       "files": 3,
-      "percentage": 0.001974350108854306,
+      "percentage": 0.0019741565064763963,
       "color": "#d1dbe0"
     },
     {
       "name": "Verilog",
       "bytes": 251,
       "files": 3,
-      "percentage": 0.0013577037734861116,
+      "percentage": 0.0013575706387002067,
       "color": "#DAE1C2"
     },
     {
       "name": "Ignore List",
       "bytes": 187,
       "files": 1,
-      "percentage": 0.0010115163571390552,
+      "percentage": 0.0010114171690714688,
       "color": "#000000"
     },
     {
       "name": "Git Attributes",
       "bytes": 122,
       "files": 1,
-      "percentage": 0.0006599197624115762,
+      "percentage": 0.0006598550514797817,
       "color": "#F44D27"
     },
     {
       "name": "Tcl",
       "bytes": 55,
       "files": 1,
-      "percentage": 0.00029750481092325154,
+      "percentage": 0.0002974756379621967,
       "color": "#e4cc98"
     }
   ],
@@ -616,7 +616,7 @@
     },
     {
       "path": "README.md",
-      "bytes": 9101,
+      "bytes": 9146,
       "language": "Markdown",
       "classification": "language",
       "generated": false,
@@ -1336,7 +1336,7 @@
     },
     {
       "path": "docs/language-composition.md",
-      "bytes": 1673,
+      "bytes": 1809,
       "language": "Markdown",
       "classification": "language",
       "generated": false,
@@ -9067,7 +9067,7 @@
     },
     {
       "path": "scripts/generate_language_composition.py",
-      "bytes": 11846,
+      "bytes": 12794,
       "language": "Python",
       "classification": "language",
       "generated": false,
@@ -11614,7 +11614,7 @@
     },
     {
       "path": "tests/test_language_composition.py",
-      "bytes": 9061,
+      "bytes": 9745,
       "language": "Python",
       "classification": "language",
       "generated": false,
