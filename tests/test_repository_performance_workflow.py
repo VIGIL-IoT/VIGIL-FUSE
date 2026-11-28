@@ -63,7 +63,7 @@ class RepositoryPerformanceWorkflowTests(unittest.TestCase):
             step for step in steps if step.get("name") == "Validate benchmark report schema"
         )
 
-        self.assertIn('"psutil>=7.2,<8"', dependency_step["run"])
+        self.assertIn('"psutil>=7.2.2,<8"', dependency_step["run"])
         self.assertIn("--sample-interval-ms 20", benchmark_step["run"])
         self.assertIn(
             'report["configuration"]["memory_sampling_enabled"] is True', validation_step["run"]

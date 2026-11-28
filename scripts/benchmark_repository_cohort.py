@@ -384,7 +384,7 @@ def run_benchmark(
     except ImportError as error:
         raise RepositoryBenchmarkError(
             "psutil is required for process-tree RSS sampling; install with "
-            '`python -m pip install "psutil>=7.2,<8"` or `python -m pip install -e ".[dev]"`.'
+            '`python -m pip install "psutil>=7.2.2,<8"` or `python -m pip install -e ".[dev]"`.'
         ) from error
     manifest_path = manifest_path.resolve()
     checkouts_root = checkouts_root.resolve()
