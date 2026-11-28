@@ -56,7 +56,7 @@ This report records remediation of findings FUSE-SELF-001 through FUSE-SELF-006 
 
 ## Validation
 
-- Full suite with branch coverage on the pushed source: **689 passed, 12 skipped, 225 subtests passed**. Total coverage was **78%**, above the 75% threshold.
+- Full suite with branch coverage at `72f58c5f5d7a9dc04fc16c233feac23a6e9cbb49`: **689 passed, 12 skipped, 225 subtests passed**. Total coverage was **79%**, above the 75% threshold.
 - Focused path, CLI, and integration regressions: **76 passed, 23 subtests passed**.
 - Ruff lint and format checks passed. Strict Mypy passed for 99 source files.
 - Documentation links validated for 143 Markdown files in the local working tree, including the local untracked audit. All 25 JSON schemas validated. Six Mermaid diagrams rendered.
