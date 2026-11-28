@@ -1,4 +1,4 @@
-# FUSE finding format
+FUSE JSON reports use `schema_version: "1.15"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.15.schema.json). Reports retain bounded identity scores and a separate classification, a bounded path inventory with explicit completeness, optional deterministic evidence graphs, attribution, provenance, coverage, findings, and analyzer statuses. Inventory counts describe observed filenames and do not prove package installation or runtime behavior. Historical schemas 1.13 and 1.14 remain available for existing canonical reports.
 
 FUSE JSON reports use `schema_version: "1.13"`, defined in the packaged [JSON Schema](../src/vigil_fuse/schemas/fuse-report-1.13.schema.json). A report contains tool and VIGIL attribution, a privacy-preserving target label, profile and timestamps, a deterministic scanned-input manifest digest, project identity evidence, summary, coverage, hardware and build-context inventories, optional product-context evidence, unsupported file-type counts, findings, and generated artifacts. Counts distinguish discovered, selected, filtered, scanned, skipped, and unsupported files so an unsupported or filtered target is not presented as a clean scan. Schema 1.13 adds bounded project identity and attribution while retaining the prior 1.12 schema for existing reports.
 
@@ -83,7 +83,7 @@ Severity, its source, confidence, applicability, and validation are separate dim
 
 ```json
 {
-  "schema_version": "1.13",
+  "schema_version": "1.15",
   "tool": {"name": "FUSE", "version": "0.2.0"},
   "generated_by": {
     "name": "FUSE",
@@ -109,10 +109,19 @@ Severity, its source, confidence, applicability, and validation are separate dim
     "confidence": "medium",
     "evidence_score": 0.667,
     "domains": {"software": 0.667, "firmware": 0.0, "embedded": 0.0, "hardware": 0.0, "rtl": 0.0},
+    "classifications": ["software"],
     "supporting_signals": ["Root software manifest: pyproject.toml", "Source files: 3"],
     "complete": true,
     "limitations": [],
     "analysis_recommendations": {"recommended": ["native source checks"], "optional": [], "advisory_only": true}
+  },
+  "project_inventory": {
+    "source": "bounded-project-identity-paths",
+    "complete": true,
+    "limitations": [],
+    "files_observed": 12,
+    "languages": {"Python": 3},
+    "dependency_manifests": {"pyproject.toml": 1}
   },
   "summary": {
     "files_discovered": 12,

@@ -174,7 +174,7 @@ def test_report_backward_compatibility_schema_and_integration(tmp_path: Path) ->
         json.loads((schemas / "evidence-graph-1.0.schema.json").read_text())
     ).validate(g.to_dict())
     Draft202012Validator(
-        json.loads((schemas / "fuse-report-1.14.schema.json").read_text())
+        json.loads((schemas / "fuse-report-1.15.schema.json").read_text())
     ).validate(report)
 
 

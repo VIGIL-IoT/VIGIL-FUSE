@@ -1,0 +1,557 @@
+{
+  "schema_version": "1.14",
+  "tool": {
+    "name": "FUSE",
+    "version": "0.4.1.dev0"
+  },
+  "generated_by": {
+    "name": "FUSE",
+    "full_name": "Firmware & Unified Security Engine",
+    "project": "VIGIL",
+    "repository": "https://github.com/VIGIL-IoT/VIGIL-FUSE",
+    "version": "0.4.1.dev0"
+  },
+  "target": "fixtures/schema",
+  "scan": {
+    "target_kind": "directory",
+    "profile": "generic",
+    "network_policy": "not-requested",
+    "target_label": "fixtures/schema",
+    "started_at": "2026-11-28T13:31:08Z",
+    "completed_at": "2026-11-28T13:31:08Z",
+    "input_manifest_sha256": "511fda4b8d85c10c85b0f1c8f5f29f936cc03f47de7707dc1d225d2fb7f75f75"
+  },
+  "summary": {
+    "files_discovered": 1,
+    "files_selected": 1,
+    "files_filtered": 0,
+    "files_scanned": 1,
+    "source_bytes_read": 30,
+    "files_skipped": 0,
+    "analysis_performed": true,
+    "finding_count": 0,
+    "severity_counts": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    }
+  },
+  "coverage": {
+    "files_skipped_by_reason": {},
+    "encoding_fallback": {
+      "encoding": "iso-8859-1",
+      "count": 0,
+      "files": [],
+      "omitted_count": 0
+    },
+    "discovery_complete": true,
+    "limits_reached": [],
+    "input_inventory": {
+      "scope": "Regular non-symbolic files encountered under traversed target paths that are not selected by the active source profile. Configured and generated directories and explicit excludes are omitted; include patterns affect selected source files only. Separate inventory stages may still classify a file type.",
+      "complete": true,
+      "unsupported_file_count": 0,
+      "unsupported_file_types": {}
+    },
+    "support": {
+      "capability_id": "source.generic",
+      "label": "basic",
+      "status": "completed",
+      "scope": "Native rules over selected source and configuration files, including a narrow Python subprocess check.",
+      "limitations": [
+        "No build resolution",
+        "No runtime or device validation"
+      ]
+    },
+    "rules_available": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007",
+      "FUSE-SW001"
+    ],
+    "rules_enabled": [
+      "FUSE001",
+      "FUSE002",
+      "FUSE003",
+      "FUSE004",
+      "FUSE005",
+      "FUSE006",
+      "FUSE007",
+      "FUSE-SW001"
+    ],
+    "analyzers": [
+      {
+        "name": "fuse-native",
+        "status": "completed",
+        "version": "0.4.1.dev0",
+        "detail": "Native rules completed.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE001",
+        "status": "skipped",
+        "version": "1.9.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE003",
+        "status": "skipped",
+        "version": "1.4.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "native-rule:FUSE-SW001",
+        "status": "skipped",
+        "version": "1.0.0",
+        "detail": "No selected input matched this rule's supported input scope.",
+        "findings": 0
+      },
+      {
+        "name": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": null,
+        "detail": "Recorded 0 filename and size candidate(s); no image contents were read or verified.",
+        "findings": 0
+      }
+    ]
+  },
+  "project_identity": {
+    "schema_version": "1.0",
+    "primary_type": "unknown",
+    "subtype": null,
+    "confidence": "unknown",
+    "evidence_score": 0.197,
+    "domains": {
+      "software": 0.197,
+      "firmware": 0.0,
+      "embedded": 0.0,
+      "hardware": 0.0,
+      "rtl": 0.0
+    },
+    "supporting_signals": [
+      "Source files: 1"
+    ],
+    "complete": true,
+    "limitations": [
+      "No sufficiently independent project markers were observed."
+    ],
+    "analysis_recommendations": {
+      "recommended": [],
+      "optional": [],
+      "advisory_only": true
+    }
+  },
+  "hardware_inventory": {
+    "scope": "directory",
+    "complete": true,
+    "present": false,
+    "file_count": 0,
+    "category_counts": {},
+    "artifacts": [],
+    "rtl_analysis": {
+      "status": "not-detected",
+      "backend": "FUSE structural parser",
+      "version": "builtin-1",
+      "file_count": 0,
+      "module_count": 0,
+      "package_count": 0,
+      "testbench_count": 0,
+      "top_module_candidates": [],
+      "declared_top_modules": [],
+      "files": [],
+      "related_files": [],
+      "evidence": [],
+      "omitted_files": 0,
+      "omitted_units": 0,
+      "omitted_evidence": 0,
+      "limitations": []
+    }
+  },
+  "firmware_candidates": {
+    "status": "complete",
+    "scope": "bounded filename and size inventory across source and common output directories",
+    "candidate_count": 0,
+    "extension_counts": {},
+    "candidates": [],
+    "omitted_count": 0,
+    "limitations": []
+  },
+  "github_actions": {
+    "status": "not-detected",
+    "workflow_count": 0,
+    "files": [],
+    "non_sha_action_reference_count": 0,
+    "floating_branch_reference_count": 0,
+    "finding_count": 0,
+    "limitations": []
+  },
+  "hardware_netlist": {
+    "status": "not-detected",
+    "path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "component_count": 0,
+    "net_count": 0,
+    "debug_net_candidates": [],
+    "limitations": []
+  },
+  "build_context": {
+    "platformio": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "default_environments": [],
+      "selected_environments": [],
+      "environments": [],
+      "configurations": [],
+      "limitations": []
+    },
+    "compilation_database": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "entry_count": 0,
+      "unique_translation_units": 0,
+      "in_target_source_count": 0,
+      "external_source_count": 0,
+      "compiler_families": {},
+      "malformed_entries": 0,
+      "limitations": []
+    }
+  },
+  "hardware_bom": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "format": null,
+    "component_count": 0,
+    "quantity_total": 0,
+    "components": [],
+    "limitations": []
+  },
+  "product_context": {
+    "product_purl": null,
+    "vex_import": {
+      "status": "not-requested",
+      "source_path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "product_purl": null,
+      "record_count": 0,
+      "matched_findings": 0,
+      "unmatched_records": 0,
+      "limitations": []
+    }
+  },
+  "provenance": {
+    "status": "not-requested",
+    "source_path": null,
+    "sha256": null,
+    "byte_size": 0,
+    "predicate_type": null,
+    "builder_id": null,
+    "build_type": null,
+    "subject_name": null,
+    "subject_sha256": null,
+    "signature_verified": false,
+    "limitations": []
+  },
+  "project_context": {
+    "framework": null,
+    "status": "not-detected",
+    "project_detected": false,
+    "build_dir": null,
+    "target": null,
+    "board": null,
+    "framework_version": null,
+    "adapter_capability_id": null,
+    "adapter_support_label": "planned",
+    "evidence": [],
+    "configuration_files": [],
+    "settings": [],
+    "configuration_origin": {
+      "status": "not-inspected",
+      "selected_sdkconfig": null,
+      "selected_sdkconfig_source": "none",
+      "defaults_source": "not-applicable",
+      "defaults_order_resolved": false,
+      "default_files": [],
+      "limitations": []
+    },
+    "component_lock": {
+      "status": "not-detected",
+      "path": null,
+      "sha256": null,
+      "byte_size": 0,
+      "lock_version": null,
+      "target": null,
+      "selected_target_match": null,
+      "manifest_hash": null,
+      "manifest_freshness": "unverified",
+      "direct_dependencies": [],
+      "components": [],
+      "limitations": []
+    },
+    "limitations": []
+  },
+  "findings": [],
+  "artifacts": [],
+  "evidence_graph": {
+    "schema_version": "1.0",
+    "target_identity": "project:9554f6077282089a74f7f2e3584b1e3a1b48dd0f27615a792abd5f470ce3140f",
+    "nodes": [
+      {
+        "id": "AnalyzerRun:00a1fd7f38b4cf7a05598c76dd9f3a6df422282ba093612bdbc3a2edcd6df766",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE003",
+          "1.4.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:21451bb72eb4be01ea978cc00fb3b86715fa77349dc8662a1f14475f877a0d8d",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE001",
+          "1.9.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:31c5d53317665daca2742cc216b5c93586f441ee272a93fc0969f11a13ed0720",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE004",
+          "1.2.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:4058519aec0b8f632fb22b5b60149aa7c45086cc2993df5080ce2a0614822566",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE005",
+          "1.1.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:420e9e6822ca83bc2143cb98330c074dc62e7d83036605cae2212f2b28c681f3",
+        "type": "AnalyzerRun",
+        "identity": [
+          "fuse-native",
+          "0.4.1.dev0",
+          "unknown",
+          "completed"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:4a03f3892d08e42fc4937e838d0648612af5f8109eaac3f23e24e886d9ae5092",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE007",
+          "1.2.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:b9ece125980d4782178bc46a2fa37dd8ba66e6159e658ac1d5477c06da6335e2",
+        "type": "AnalyzerRun",
+        "identity": [
+          "fuse-report",
+          "1.14",
+          "report:264af227aa5698cf69bde96781aac132c0b19aab0d39575284a9e85d80b29c34",
+          "completed"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:d193aa628265b6ab83649d12d36fb4f843e0f39db3fb0e8470584c75ee88121f",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE-SW001",
+          "1.0.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:d94cc7129e3c8ebf1babd70c17245cd47d98e2160371be01e2d79c0b418ed661",
+        "type": "AnalyzerRun",
+        "identity": [
+          "firmware-candidate-inventory",
+          "unknown",
+          "unknown",
+          "completed"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:f30b3351fa0ff877644dd151db41506af3f1985093e95251fcce42632cb86c8f",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE006",
+          "1.2.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      },
+      {
+        "id": "AnalyzerRun:fae593725fafc1f1c1cc960fe569ef973755627e0c69d9637a0288135d6e6c59",
+        "type": "AnalyzerRun",
+        "identity": [
+          "native-rule:FUSE002",
+          "1.1.0",
+          "unknown",
+          "skipped"
+        ],
+        "attributes": {}
+      }
+    ],
+    "edges": [],
+    "producer_runs": {
+      "AnalyzerRun:00a1fd7f38b4cf7a05598c76dd9f3a6df422282ba093612bdbc3a2edcd6df766": {
+        "producer": "native-rule:FUSE003",
+        "status": "skipped",
+        "version": "1.4.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:21451bb72eb4be01ea978cc00fb3b86715fa77349dc8662a1f14475f877a0d8d": {
+        "producer": "native-rule:FUSE001",
+        "status": "skipped",
+        "version": "1.9.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:31c5d53317665daca2742cc216b5c93586f441ee272a93fc0969f11a13ed0720": {
+        "producer": "native-rule:FUSE004",
+        "status": "skipped",
+        "version": "1.2.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:4058519aec0b8f632fb22b5b60149aa7c45086cc2993df5080ce2a0614822566": {
+        "producer": "native-rule:FUSE005",
+        "status": "skipped",
+        "version": "1.1.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:420e9e6822ca83bc2143cb98330c074dc62e7d83036605cae2212f2b28c681f3": {
+        "producer": "fuse-native",
+        "status": "completed",
+        "version": "0.4.1.dev0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:4a03f3892d08e42fc4937e838d0648612af5f8109eaac3f23e24e886d9ae5092": {
+        "producer": "native-rule:FUSE007",
+        "status": "skipped",
+        "version": "1.2.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:b9ece125980d4782178bc46a2fa37dd8ba66e6159e658ac1d5477c06da6335e2": {
+        "producer": "fuse-report",
+        "status": "completed",
+        "version": "1.14",
+        "artifact": "report:264af227aa5698cf69bde96781aac132c0b19aab0d39575284a9e85d80b29c34"
+      },
+      "AnalyzerRun:d193aa628265b6ab83649d12d36fb4f843e0f39db3fb0e8470584c75ee88121f": {
+        "producer": "native-rule:FUSE-SW001",
+        "status": "skipped",
+        "version": "1.0.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:d94cc7129e3c8ebf1babd70c17245cd47d98e2160371be01e2d79c0b418ed661": {
+        "producer": "firmware-candidate-inventory",
+        "status": "completed",
+        "version": "unknown",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:f30b3351fa0ff877644dd151db41506af3f1985093e95251fcce42632cb86c8f": {
+        "producer": "native-rule:FUSE006",
+        "status": "skipped",
+        "version": "1.2.0",
+        "artifact": "unknown"
+      },
+      "AnalyzerRun:fae593725fafc1f1c1cc960fe569ef973755627e0c69d9637a0288135d6e6c59": {
+        "producer": "native-rule:FUSE002",
+        "status": "skipped",
+        "version": "1.1.0",
+        "artifact": "unknown"
+      }
+    },
+    "coverage": {
+      "AnalyzerRun:00a1fd7f38b4cf7a05598c76dd9f3a6df422282ba093612bdbc3a2edcd6df766": "skipped",
+      "AnalyzerRun:21451bb72eb4be01ea978cc00fb3b86715fa77349dc8662a1f14475f877a0d8d": "skipped",
+      "AnalyzerRun:31c5d53317665daca2742cc216b5c93586f441ee272a93fc0969f11a13ed0720": "skipped",
+      "AnalyzerRun:4058519aec0b8f632fb22b5b60149aa7c45086cc2993df5080ce2a0614822566": "skipped",
+      "AnalyzerRun:420e9e6822ca83bc2143cb98330c074dc62e7d83036605cae2212f2b28c681f3": "completed",
+      "AnalyzerRun:4a03f3892d08e42fc4937e838d0648612af5f8109eaac3f23e24e886d9ae5092": "skipped",
+      "AnalyzerRun:b9ece125980d4782178bc46a2fa37dd8ba66e6159e658ac1d5477c06da6335e2": "completed",
+      "AnalyzerRun:d193aa628265b6ab83649d12d36fb4f843e0f39db3fb0e8470584c75ee88121f": "skipped",
+      "AnalyzerRun:d94cc7129e3c8ebf1babd70c17245cd47d98e2160371be01e2d79c0b418ed661": "completed",
+      "AnalyzerRun:f30b3351fa0ff877644dd151db41506af3f1985093e95251fcce42632cb86c8f": "skipped",
+      "AnalyzerRun:fae593725fafc1f1c1cc960fe569ef973755627e0c69d9637a0288135d6e6c59": "skipped"
+    },
+    "provenance": [
+      "report:264af227aa5698cf69bde96781aac132c0b19aab0d39575284a9e85d80b29c34"
+    ]
+  }
+}

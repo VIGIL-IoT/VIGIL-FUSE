@@ -721,7 +721,7 @@ def test_latest_rtl_report_context_preserves_static_states() -> None:
 
     root = Path(__file__).parent / "fixtures" / "rtl" / "insecure"
     report = load_report(to_json(scan(root)).encode())
-    assert report["schema_version"] == "1.13"
+    assert report["schema_version"] == "1.15"
     finding = next(item for item in report["findings"] if item["rule_id"].startswith("FUSE-RTL"))
     packet = build_context(report, finding)
     schema = json.loads(

@@ -86,7 +86,8 @@ def to_json(result: ScanResult, *, include_evidence_graph: bool = False) -> str:
                 for item in result.analyzers
             ],
         },
-        "project_identity": result.project_identity.to_dict(),
+        "project_identity": result.project_identity.to_report_dict(),
+        "project_inventory": result.project_identity.inventory,
         "hardware_inventory": {
             "scope": result.hardware_inventory.scope,
             "complete": result.hardware_inventory.complete,
@@ -346,7 +347,6 @@ def to_json(result: ScanResult, *, include_evidence_graph: bool = False) -> str:
     if include_evidence_graph:
         from .evidence_graph import graph_from_report
 
-        report["schema_version"] = "1.14"
         report["evidence_graph"] = graph_from_report(report).to_dict()
     return json.dumps(report, indent=2, ensure_ascii=False) + "\n"
 

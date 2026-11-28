@@ -26,7 +26,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.13.schema.json"
+            / "fuse-report-1.15.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)
@@ -43,11 +43,11 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.13.schema.json"
+            / "fuse-report-1.15.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         report = {
-            "schema_version": "1.13",
+            "schema_version": "1.15",
             "tool": {"name": "FUSE", "version": "test"},
             "target": ".",
             "unexpected": True,
@@ -69,6 +69,7 @@ class ReportSchemaTests(unittest.TestCase):
             (target / "main.c").write_text("int main(void) { return 0; }\n", encoding="utf-8")
             previous_report = json.loads(to_json(scan(target)))
         previous_report["schema_version"] = "1.12"
+        previous_report.pop("project_inventory")
         previous_report.pop("generated_by")
         previous_report.pop("project_identity")
         previous_report["scan"].pop("target_label")
@@ -80,7 +81,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.13.schema.json"
+            / "fuse-report-1.15.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         finding = Finding(
@@ -145,7 +146,7 @@ class ReportSchemaTests(unittest.TestCase):
             / "src"
             / "vigil_fuse"
             / "schemas"
-            / "fuse-report-1.13.schema.json"
+            / "fuse-report-1.15.schema.json"
         )
         schema = json.loads(schema_path.read_text(encoding="utf-8"))
         with tempfile.TemporaryDirectory() as temporary:

@@ -13,7 +13,7 @@ from .model import ScanResult
 FUSE_NAME = "FUSE"
 FUSE_FULL_NAME = "Firmware & Unified Security Engine"
 FUSE_REPOSITORY = "https://github.com/VIGIL-IoT/VIGIL-FUSE"
-REPORT_SCHEMA_VERSION = "1.13"
+REPORT_SCHEMA_VERSION = "1.15"
 
 
 def generated_by_metadata() -> dict[str, str]:
@@ -57,7 +57,7 @@ def scan_provenance_json(result: ScanResult, report_artifacts: Mapping[str, byte
             "input_manifest_sha256": result.input_manifest_sha256,
             "configuration": configuration,
             "configuration_sha256": hashlib.sha256(canonical_configuration).hexdigest(),
-            "project_identity": result.project_identity.to_dict(),
+            "project_identity": result.project_identity.to_report_dict(),
         },
         "artifacts": {
             name: {"sha256": hashlib.sha256(content).hexdigest()}

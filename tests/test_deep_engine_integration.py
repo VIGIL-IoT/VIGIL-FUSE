@@ -260,9 +260,9 @@ def test_project_to_graph_flow_reachability_runtime_correlation_paths_policy(
     assert restored.to_dict() == graph.to_dict()
     assert all(graph.nodes[n] == row for n, row in original.items())
     assert to_json(scan_result) == baseline
-    report.update(schema_version="1.14", evidence_graph=graph.to_dict())
+    report.update(evidence_graph=graph.to_dict())
     schema = json.loads(
-        files("vigil_fuse").joinpath("schemas/fuse-report-1.14.schema.json").read_text()
+        files("vigil_fuse").joinpath("schemas/fuse-report-1.15.schema.json").read_text()
     )
     Draft202012Validator(schema).validate(report)
     assert "integration_secret_value" not in json.dumps(report)

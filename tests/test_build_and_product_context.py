@@ -257,7 +257,7 @@ class HardwareBOMTests(unittest.TestCase):
             digest = hashlib.sha256(hbom_path.read_bytes()).hexdigest()
 
         self.assertEqual(0, exit_code)
-        self.assertEqual("1.13", report["schema_version"])
+        self.assertEqual("1.15", report["schema_version"])
         self.assertEqual(digest, report["artifacts"][0]["sha256"])
         self.assertEqual("hardware-bom.cdx.json", report["artifacts"][0]["path"])
 

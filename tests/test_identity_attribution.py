@@ -27,7 +27,7 @@ class IdentityAttributionTests(unittest.TestCase):
             result = scan(root, target_label="team/sample")
 
         report = json.loads(to_json(result))
-        self.assertEqual("1.13", report["schema_version"])
+        self.assertEqual("1.15", report["schema_version"])
         self.assertEqual(generated_by_metadata(), report["generated_by"])
         self.assertEqual("team/sample", report["scan"]["target_label"])
         self.assertEqual("software", report["project_identity"]["primary_type"])

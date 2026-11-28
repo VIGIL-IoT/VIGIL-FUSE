@@ -24,6 +24,7 @@ class ProjectIdentityTests(unittest.TestCase):
             self.assertFalse(partial.inventory["complete"])
             self.assertLessEqual(partial.inventory["files_observed"], 1)
             self.assertTrue(partial.inventory["limitations"])
+            self.assertEqual([], partial.to_report_dict()["classifications"])
 
     @staticmethod
     def _write(root: Path, relative: str, content: str = "") -> None:
@@ -72,6 +73,7 @@ class ProjectIdentityTests(unittest.TestCase):
                 self.assertEqual(subtype, identity.subtype)
                 self.assertIn(identity.confidence, {"low", "medium", "high"})
                 self.assertGreater(identity.domains["software"], 0.5)
+                self.assertIn("software", identity.to_report_dict()["classifications"])
 
     def test_classifies_embedded_firmware_hardware_rtl_and_hybrid_projects(self) -> None:
         fixtures = (

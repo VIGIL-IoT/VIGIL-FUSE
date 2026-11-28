@@ -5,9 +5,10 @@ from __future__ import annotations
 from typing import Any
 
 
-def require_canonical_114(report: dict[str, Any]) -> None:
-    """Reject the independently developed, incompatible software 1.14 format."""
-    if report.get("schema_version") != "1.14":
+def require_canonical_report(report: dict[str, Any]) -> None:
+    """Reject incompatible report lineages with colliding version identifiers."""
+    version = report.get("schema_version")
+    if version not in {"1.14", "1.15"}:
         return
     identity = report.get("project_identity")
     generated = report.get("generated_by")
@@ -19,4 +20,9 @@ def require_canonical_114(report: dict[str, Any]) -> None:
         or generated.get("name") != "FUSE"
         or "software_security" in report
     ):
-        raise ValueError("Unsupported or ambiguous FUSE 1.14 report lineage")
+        raise ValueError(f"Unsupported or ambiguous FUSE {version} report lineage")
+    if version == "1.15" and (
+        not isinstance(identity.get("classifications"), list)
+        or not isinstance(report.get("project_inventory"), dict)
+    ):
+        raise ValueError("Invalid FUSE 1.15 identity or inventory")

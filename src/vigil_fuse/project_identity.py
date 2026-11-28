@@ -120,7 +120,16 @@ class ProjectIdentity:
     limitations: tuple[str, ...] = ()
     recommended_stages: tuple[str, ...] = ()
     optional_stages: tuple[str, ...] = ()
-    inventory: dict[str, object] = field(default_factory=dict)
+    inventory: dict[str, object] = field(
+        default_factory=lambda: {
+            "source": "not-observed",
+            "complete": False,
+            "limitations": ["Project path inventory was not collected."],
+            "files_observed": 0,
+            "languages": {},
+            "dependency_manifests": {},
+        }
+    )
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -139,6 +148,14 @@ class ProjectIdentity:
                 "advisory_only": True,
             },
         }
+
+    def to_report_dict(self) -> dict[str, object]:
+        result = self.to_dict()
+        labels = [domain for domain in PROJECT_DOMAINS if self.domains.get(domain, 0) >= 0.57]
+        if self.complete and self.primary_type not in {"unknown", "hybrid"}:
+            labels = sorted(set(labels) | {self.primary_type})
+        result["classifications"] = sorted(labels) if self.complete else []
+        return result
 
 
 def _unknown(
