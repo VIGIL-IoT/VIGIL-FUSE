@@ -16,6 +16,8 @@ PERSONAL_PATH_PATTERNS = (
 # tool-output fixtures. Current tests assemble those values at runtime so new absolute
 # paths remain detectable in tracked files and newly created Git objects.
 LEGACY_SYNTHETIC_PATH_FIXTURE_BLOBS = {
+    "52290cfa1745c78511aef327644fd47e0d51c51e",
+    "9675a0b3451700f61e32cf53543cc114f3f1f314",
     "1e64466b0b5b9009cfa2cceacd93528893a625b6",
     "60910a707e17b28a491bc27d9769375314d69962",
     "b52613ecd99c73ac051621437b514b6543223851",
