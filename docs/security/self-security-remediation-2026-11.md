@@ -49,19 +49,20 @@ This report records remediation of findings FUSE-SELF-001 through FUSE-SELF-006 
 ### FUSE-SELF-006: Static site lacked defense-in-depth response headers
 
 - **Risk:** Missing browser policy headers reduced protection against future content injection and framing mistakes.
-- **Fix:** `vercel.json` now configures a restrictive CSP with reviewed script and style hashes, `frame-ancestors`, no `unsafe-eval` or script `unsafe-inline`, and `script-src-attr 'none'`. Existing inline script blocks are hash-allowlisted. Inline style attributes remain enabled for the two static diagram pages. It also sets `nosniff`, strict referrer policy, Permissions-Policy, same-origin framing, and HSTS.
-- **Tests:** `tests/test_site_security_headers.py` passed; six Mermaid diagrams rendered with the pinned renderer.
-- **Residual:** A deployed response check is pending the branch deployment. Production will not receive these headers until a deployment containing this change is promoted.
-- **Status:** Implemented in configuration; deployed verification pending.
+- **Fix:** `vercel.json` now configures a restrictive CSP with reviewed script and style hashes, `frame-ancestors`, no `unsafe-eval` or script `unsafe-inline`, and `script-src-attr 'none'`. Existing inline script blocks are hash-allowlisted. Inline style attributes remain enabled for the two static diagram pages. It also sets `nosniff`, strict referrer policy, Permissions-Policy, same-origin framing, and HSTS. Its ignore command compares against Vercel's last successful branch deployment and forces a build when no previous deployment exists.
+- **Tests:** `tests/test_site_security_headers.py` passed. The ignore command was exercised with Bash for first deployment, changed site content, and unchanged site content. Six Mermaid diagrams rendered with the pinned renderer.
+- **Residual:** Vercel reported a successful status for the pushed commit, but its deployment detail redirected to login and the preview hostname could not be confirmed. A production HEAD request returned 200 but still lacked CSP, nosniff, Referrer-Policy, Permissions-Policy, and X-Frame-Options. It still sends `Access-Control-Allow-Origin: *`; the reviewed site is static and exposes no authenticated API. Production has not been promoted.
+- **Status:** Header configuration is implemented. Deployed response verification remains blocked by unavailable Vercel deployment access.
 
 ## Validation
 
-- Full suite with branch coverage: **688 passed, 12 skipped, 225 subtests passed**. Total coverage was **78%**, above the 75% threshold.
+- Full suite with branch coverage on the pushed source: **689 passed, 12 skipped, 225 subtests passed**. Total coverage was **78%**, above the 75% threshold.
 - Focused path, CLI, and integration regressions: **76 passed, 23 subtests passed**.
 - Ruff lint and format checks passed. Strict Mypy passed for 99 source files.
 - Documentation links validated for 143 Markdown files in the local working tree, including the local untracked audit. All 25 JSON schemas validated. Six Mermaid diagrams rendered.
 - Native rule fixture benchmark passed: 24 synthetic cases across seven rules; FUSE001 had 4 true positives, 0 false positives, and 0 false negatives.
 - Isolated `pip-audit --local` found no known vulnerable dependencies. It could not audit the editable `vigil-fuse 0.4.1.dev0` package because that version is not published on PyPI.
-- Fresh wheel and source distribution built with the pinned backend; Twine checks passed. The wheel was installed outside the source checkout and its full test suite passed with the same 688 passed, 12 skipped, and 225 subtests.
-- Self-scan completed over 642 files with complete discovery and native rules. It reported six findings, all from intentionally vulnerable RTL fixtures, and no high or critical findings. RTL analysis remains partial because Verible was unavailable.
-- GitHub-hosted CI, external analyzer integrations, and a deployed site response were not run as part of these local checks.
+- Fresh wheel and source distribution built with the pinned backend; Twine checks passed. The wheel was installed outside the source checkout and its CLI smoke checks and full test suite passed with 688 passed, 12 skipped, and 225 subtests before the Vercel ignore regression test was added. The final source suite passed with 689 tests.
+- Self-scan completed over 690 files with complete discovery and native rules. It reported six findings, all from intentionally vulnerable RTL fixtures, and no high or critical findings. RTL analysis remains partial because Verible was unavailable.
+- The isolated branch-history path audit passed for 1,282 tracked files and reachable Git history. The local source audit file remained untracked and was not included.
+- GitHub Actions workflow runs and external analyzer integrations were not inspected. Vercel's status check succeeded, but deployed response verification remains incomplete because the preview host could not be confirmed and production still serves the old headers.

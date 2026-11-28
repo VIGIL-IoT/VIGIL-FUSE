@@ -24,7 +24,7 @@ def test_vercel_applies_security_headers_to_every_static_route() -> None:
     assert headers["x-content-type-options"] == "nosniff"
     assert headers["referrer-policy"] == "strict-origin-when-cross-origin"
     assert headers["x-frame-options"] == "SAMEORIGIN"
-    assert headers["strict-transport-security"] == "max-age=31536000; includeSubDomains"
+    assert headers["strict-transport-security"] == "max-age=63072000; includeSubDomains; preload"
     assert "camera=()" in headers["permissions-policy"]
     assert "microphone=()" in headers["permissions-policy"]
 
