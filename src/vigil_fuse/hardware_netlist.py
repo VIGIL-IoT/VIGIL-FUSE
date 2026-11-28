@@ -11,10 +11,16 @@ from typing import TypedDict
 from .build_context import _read_bounded, _select_project_file
 from .model import Finding, NetlistInventory
 from .text_safety import safe_report_text
+from .xml_safety import (
+    MAX_XML_DEPTH,
+    MAX_XML_ELEMENTS,
+    XmlSafetyError,
+    preflight_xml,
+)
 
 MAX_KICAD_NETLIST_BYTES = 10 * 1024 * 1024
-MAX_KICAD_XML_ELEMENTS = 100_000
-MAX_KICAD_XML_DEPTH = 128
+MAX_KICAD_XML_ELEMENTS = MAX_XML_ELEMENTS
+MAX_KICAD_XML_DEPTH = MAX_XML_DEPTH
 _DEBUG_NET = re.compile(
     r"(?:jtag|swdio|swclk|swdclk|\bswd\b|\btms\b|\btdi\b|\btdo\b|\btck\b|debug|uart)",
     re.IGNORECASE,
@@ -59,43 +65,11 @@ class NetlistTopology:
 
 
 def _preflight_xml(data: bytes) -> None:
-    """Reject unsafe encodings, DTDs, and oversized XML structure before tree parsing."""
+    """Reject unsafe XML and over-budget structures before tree parsing."""
     try:
-        data.decode("utf-8-sig")
-    except UnicodeDecodeError as error:
-        raise _UnsafeNetlistXml("KiCad XML netlists must use UTF-8 encoding.") from error
-
-    parser = expat.ParserCreate()
-    depth = 0
-    element_count = 0
-
-    def on_start(_name: str, _attributes: dict[str, str]) -> None:
-        nonlocal depth, element_count
-        depth += 1
-        element_count += 1
-        if depth > MAX_KICAD_XML_DEPTH:
-            raise _UnsafeNetlistXml(
-                f"KiCad XML nesting exceeds the limit of {MAX_KICAD_XML_DEPTH} elements."
-            )
-        if element_count > MAX_KICAD_XML_ELEMENTS:
-            raise _UnsafeNetlistXml(
-                f"KiCad XML exceeds the limit of {MAX_KICAD_XML_ELEMENTS} elements."
-            )
-
-    def on_end(_name: str) -> None:
-        nonlocal depth
-        depth -= 1
-
-    def reject_doctype(*_args: object) -> None:
-        raise _UnsafeNetlistXml("DTD and entity declarations are not accepted in KiCad netlists.")
-
-    parser.StartElementHandler = on_start
-    parser.EndElementHandler = on_end
-    parser.StartDoctypeDeclHandler = reject_doctype
-    parser.EntityDeclHandler = reject_doctype
-    parser.ExternalEntityRefHandler = lambda *_args: 0
-    parser.SetParamEntityParsing(expat.XML_PARAM_ENTITY_PARSING_NEVER)
-    parser.Parse(data, True)
+        preflight_xml(data, max_bytes=MAX_KICAD_NETLIST_BYTES)
+    except XmlSafetyError as error:
+        raise _UnsafeNetlistXml(f"KiCad XML preflight failed: {error}") from error
 
 
 def read_netlist_topology(root: Path, supplied: str | Path) -> NetlistTopology:
@@ -105,7 +79,7 @@ def read_netlist_topology(root: Path, supplied: str | Path) -> NetlistTopology:
         data = _read_bounded(path, MAX_KICAD_NETLIST_BYTES, "KiCad netlist")
         _preflight_xml(data)
         document = ET.fromstring(data)
-    except (ValueError, OSError, expat.ExpatError, ET.ParseError, RecursionError) as error:
+    except (ValueError, OSError, ET.ParseError, RecursionError) as error:
         return NetlistTopology("invalid", limitations=(f"Could not read KiCad XML: {error}",))
     digest = hashlib.sha256(data).hexdigest()
     components_section = document.find("components")

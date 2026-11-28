@@ -500,8 +500,19 @@ class KiCadNetlistTests(unittest.TestCase):
             inventory, findings = inspect_kicad_netlist(root, "unsafe.net")
 
         self.assertEqual("invalid", inventory.status)
-        self.assertIn("UTF-8", inventory.limitations[0])
+        self.assertIn("DTD and entity", inventory.limitations[0])
         self.assertFalse(findings)
+
+    def test_utf16_netlist_without_entities_is_parsed(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            fixture = (FIXTURES / "hardware" / "debug-interface.net").read_text(encoding="utf-8")
+            (root / "valid.net").write_bytes(
+                fixture.replace('encoding="UTF-8"', 'encoding="UTF-16"', 1).encode("utf-16")
+            )
+            inventory, _findings = inspect_kicad_netlist(root, "valid.net")
+
+        self.assertEqual("parsed", inventory.status)
 
     def test_netlist_with_excessive_element_count_is_rejected_before_tree_parse(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
