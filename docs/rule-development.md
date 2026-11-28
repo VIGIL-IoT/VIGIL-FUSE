@@ -12,6 +12,7 @@ Native rules are small, evidence-oriented checks over selected source or configu
 | FUSE004 | Generic source and configuration | medium | high | Non-loopback plaintext HTTP endpoint in endpoint context |
 | FUSE005 | Generic source and configuration | medium | high | Plaintext MQTT URI in broker or endpoint context |
 | FUSE006 | ESP-IDF Kconfig inputs and selected generated config | medium | high | `CONFIG_BOOTLOADER_SKIP_VALIDATE_ALWAYS=y` |
+| FUSE-SW001 | Python subprocess calls with explicit `shell=True` | medium | high | Imported module call using shell execution |
 | FUSE007 | ESP-IDF Kconfig inputs and selected generated config | medium | high | `CONFIG_BOOTLOADER_SKIP_VALIDATE_IN_DEEP_SLEEP=y` |
 
 ### FUSE001: Credential-like literal in source
@@ -86,3 +87,7 @@ Native rules are small, evidence-oriented checks over selected source or configu
 5. Update the support matrix and documentation only when the implementation and tests support the claim.
 
 The small fixture benchmark is a regression check only. Use `docs/detection-benchmark.md` for its limitations and the separate development, regression, and holdout corpora.
+
+### FUSE-SW001: Python shell execution candidate
+
+The Python AST check identifies explicit `shell=True` on calls to imported `subprocess` module aliases. It reports a medium severity candidate because shell interpretation may enable CWE-78 when untrusted input reaches the command. High confidence describes the observed syntax, not exploitability. It does not perform data-flow, resolve runtime bindings, inspect command contents, or recognize `from subprocess import ...` and dynamic shell values. Rebound aliases are conservatively excluded, which can miss calls. Unsupported Python syntax or a parse failure marks the rule failed for the scan. Findings contain no command or secret values.

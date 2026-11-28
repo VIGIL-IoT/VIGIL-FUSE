@@ -14,6 +14,8 @@ class RuleFixtureTests(unittest.TestCase):
     def fixture_source(rule_id: str, kind: str) -> SourceFile:
         path = FIXTURES / f"{rule_id}-{kind}.fixture"
         source_path = "sdkconfig" if rule_id in {"FUSE006", "FUSE007"} else path.name
+        if rule_id.startswith("FUSE-SW"):
+            source_path = "fixture.py"
         return SourceFile(path=source_path, text=path.read_text(encoding="utf-8"))
 
     def test_each_vulnerable_fixture_produces_expected_rule(self) -> None:

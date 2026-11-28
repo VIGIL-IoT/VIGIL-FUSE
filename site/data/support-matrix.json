@@ -15,7 +15,7 @@
       "input": "Common source and configuration files",
       "profile": "generic",
       "label": "basic",
-      "scope": "Seven native rules over selected source and configuration files.",
+      "scope": "Native rules over selected source and configuration files, including a narrow Python subprocess check.",
       "limitations": [
         "No build resolution",
         "No runtime or device validation"

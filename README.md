@@ -55,7 +55,7 @@ The optional [desktop GUI](docs/desktop-gui.md) provides local plans, findings, 
 
 ## Analysis layers
 
-- **Deterministic source checks:** seven conservative rules for credential-like literals, private-key markers, TLS verification bypasses, plaintext HTTP and MQTT endpoints, and ESP-IDF image validation settings.
+- **Deterministic source checks:** conservative rules, including a Python subprocess shell check, for credential-like literals, private-key markers, TLS verification bypasses, plaintext HTTP and MQTT endpoints, and ESP-IDF image validation settings.
 - **Build context:** bounded ESP-IDF, Zephyr, and PlatformIO metadata, hardenconfig report intake, dependency lock inventory, and passive `compile_commands.json` indexing. FUSE does not run project build commands or compiler commands.
 - **C/C++ semantics:** an experimental optional Clang LibTooling adapter returns bounded AST observations. Python validates the evidence. Observations do not create findings by themselves. See [compiler-semantic evidence](docs/cpp-semantic-analysis.md).
 - **Firmware and supply chain:** candidate inventory, optional Binwalk signature identification without extraction, optional Ghidra static metadata, Syft SBOM generation, OSV advisory matching, Gitleaks history scanning, VEX review context, and provenance subject digest comparison.
