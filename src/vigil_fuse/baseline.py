@@ -10,6 +10,7 @@ from typing import Any
 
 from . import __version__
 from .path_safety import safe_write_text
+from .report_compatibility import require_canonical_114
 from .target_labels import validate_target_label
 
 BASELINE_FORMAT_VERSION = "1.1"
@@ -279,8 +280,10 @@ def _validate_report(report: dict[str, Any]) -> None:
         "1.11",
         "1.12",
         "1.13",
+        "1.14",
     }:
         raise ValueError("Unsupported FUSE report schema version")
+    require_canonical_114(report)
     _project(report)
     _findings(report)
     _completion(report)
