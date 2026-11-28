@@ -14,6 +14,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+from vigil_fuse.analyzer_runtime import _analyzer_temp_directory_parent
+
 
 ROOT = Path(__file__).resolve().parents[1]
 RUN_TIMEOUT_SECONDS = 240
@@ -193,7 +195,9 @@ def main() -> int:
         part for part in (source_path, env.get("PYTHONPATH", "")) if part
     )
 
-    with tempfile.TemporaryDirectory(prefix="fuse-gitleaks-e2e-") as temporary:
+    with tempfile.TemporaryDirectory(
+        prefix="fuse-gitleaks-e2e-", dir=_analyzer_temp_directory_parent()
+    ) as temporary:
         root = Path(temporary)
         cases = (
             ("positive", True),
