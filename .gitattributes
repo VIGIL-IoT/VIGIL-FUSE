@@ -1,2 +1,6 @@
 # Preserve measured artifact bytes and SHA-256 digests across platforms.
 reports/evaluation/** -text whitespace=cr-at-eol
+
+# Keep Unix shell entrypoints executable in Docker and Linux environments.
+*.sh text eol=lf
+tests/fixtures/analyzer-sandbox/syft text eol=lf
