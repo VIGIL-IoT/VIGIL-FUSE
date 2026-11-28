@@ -182,7 +182,9 @@ class HardwareAdvisoryTests(unittest.TestCase):
             parse_advisory_catalog(b" " * (MAX_ADVISORY_CATALOG_BYTES + 1))
 
         malformed = json.loads(
-            Path("src/vigil_fuse/hardware_advisories.json").read_text(encoding="utf-8")
+            (Path(__file__).parents[1] / "src/vigil_fuse/hardware_advisories.json").read_text(
+                encoding="utf-8"
+            )
         )
         malformed["advisories"][0]["cve_ids"] = ["CVE-NOT-VALID"]
         with self.assertRaisesRegex(ValueError, "CVE"):
