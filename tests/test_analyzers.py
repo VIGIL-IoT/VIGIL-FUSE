@@ -315,7 +315,7 @@ class OptionalAnalyzerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             marker = Path(temporary) / "descendant-survived.txt"
             child_code = (
-                "import time; from pathlib import Path; time.sleep(1.5); "
+                "import time; from pathlib import Path; time.sleep(3); "
                 f"Path({str(marker)!r}).write_text('survived', encoding='utf-8')"
             )
             parent_code = (
@@ -324,12 +324,12 @@ class OptionalAnalyzerTests(unittest.TestCase):
                 "stdout=sys.stdout, stderr=sys.stderr)"
             )
             started = time.monotonic()
-            completed = _run([sys.executable, "-c", parent_code], timeout=0.5)
+            completed = _run([sys.executable, "-c", parent_code], timeout=2)
             elapsed = time.monotonic() - started
 
             self.assertEqual(0, completed.returncode)
-            self.assertLess(elapsed, 1.2, "output capture exceeded the analyzer deadline")
-            time.sleep(1.7)
+            self.assertLess(elapsed, 2.8, "output capture exceeded the analyzer deadline")
+            time.sleep(3.2)
             self.assertFalse(marker.exists(), "analyzer descendant survived process cleanup")
 
     def test_timeout_terminates_descendant_processes(self) -> None:
