@@ -178,59 +178,82 @@ def fallback_color(language: str) -> str:
 
 
 def render_svg(data: dict[str, Any]) -> str:
-    width = 520
+    languages = data["languages"]
+    width = max(560, 120 + len(languages) * 15)
     padding = 20
-    row_height = 34
-    header_height = 108
-    footer_height = 58
-    height = header_height + len(data["languages"]) * row_height + footer_height
-    track_width = width - (padding * 2)
+    plot_left = 44
+    plot_right = width - 18
+    plot_top = 104
+    plot_bottom = 224
+    plot_height = plot_bottom - plot_top
     total_bytes = data["total_classified_bytes"]
+    labels = [
+        (language, format_percentage(language["bytes"], total_bytes)) for language in languages
+    ]
+    label_y = plot_bottom + 10
+    longest_label = max((len(f"{item['name']} · {percent}") for item, percent in labels), default=0)
+    footer_y = label_y + longest_label * 7 + 14
+    height = footer_y + 42
+    x_step = (plot_right - plot_left) / max(1, len(languages) - 1)
+    points = []
+    for index, language in enumerate(languages):
+        x = (plot_left + index * x_step) if len(languages) > 1 else (plot_left + plot_right) / 2
+        share = (
+            Decimal(language["bytes"]) * Decimal(100) / Decimal(total_bytes)
+            if total_bytes
+            else Decimal(0)
+        )
+        y = plot_bottom - float(share) * plot_height / 100
+        points.append((x, y))
+    polyline_points = " ".join(f"{x:.3f},{y:.3f}" for x, y in points)
     lines = [
         f'<svg xmlns="http://www.w3.org/2000/svg" role="img" '
         f'aria-labelledby="title description" viewBox="0 0 {width} {height}" '
         f'width="{width}" height="{height}">',
         '<title id="title">FUSE language composition</title>',
-        '<desc id="description">Every Linguist-detected textual language in the tracked source commit, weighted by bytes.</desc>',
+        '<desc id="description">A compact line graph of every detected textual language, sorted by byte share. Rotated point labels show each language name and exact percentage.</desc>',
         '<rect width="100%" height="100%" rx="16" fill="#0d1421"/>',
         f'<text x="{padding}" y="34" fill="#f4f7fb" font-size="20" '
         'font-weight="700" font-family="Segoe UI, Arial, sans-serif">FUSE · Language Composition</text>',
-        f'<text x="{padding}" y="56" fill="#9aabc0" font-size="12" '
-        'font-family="Segoe UI, Arial, sans-serif">Tracked textual files · byte-weighted · all detected languages</text>',
+        f'<text x="{padding}" y="55" fill="#9aabc0" font-size="12" '
+        'font-family="Segoe UI, Arial, sans-serif">Sorted by byte share · each point label gives its exact percentage</text>',
     ]
     summary = (
         f"{data['language_count']} languages  ·  {data['total_classified_files']:,} files  ·  "
         f"{data['total_classified_bytes']:,} bytes"
     )
     lines.append(
-        f'<text x="{padding}" y="82" fill="#cbd5e1" font-size="12" '
+        f'<text x="{padding}" y="78" fill="#cbd5e1" font-size="12" '
         f'font-family="Segoe UI, Arial, sans-serif">{xml.sax.saxutils.escape(summary)}</text>'
     )
-    for index, language in enumerate(data["languages"]):
-        y = header_height + index * row_height
-        name = xml.sax.saxutils.escape(language["name"])
-        percent = format_percentage(language["bytes"], total_bytes)
-        details = f"{percent}  ·  {language['files']} files"
-        color = language["color"]
-        bar_width = (
-            Decimal(track_width) * Decimal(language["bytes"]) / Decimal(total_bytes)
-            if total_bytes
-            else Decimal(0)
-        )
+    for tick in range(0, 101, 25):
+        y = plot_bottom - tick * plot_height / 100
         lines.extend(
             [
-                f'<text x="{padding}" y="{y + 14}" fill="#e6edf5" font-size="15" '
-                f'font-weight="600" font-family="Segoe UI, Arial, sans-serif">{name}</text>',
-                f'<text x="{width - padding}" y="{y + 14}" text-anchor="end" '
-                'fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">'
-                f"{details}</text>",
-                f'<rect x="{padding}" y="{y + 20}" width="{track_width}" height="7" '
-                'rx="3" fill="#1d2a3b"/>',
-                f'<rect x="{padding}" y="{y + 20}" width="{format(bar_width, "f")}" height="7" '
-                f'rx="3" fill="{xml.sax.saxutils.escape(color).replace(chr(34), "&quot;")}"/>',
+                f'<line x1="{plot_left}" y1="{y:.3f}" x2="{plot_right}" y2="{y:.3f}" '
+                'stroke="#26364a" stroke-width="1"/>',
+                f'<text x="{plot_left - 8}" y="{y + 3:.3f}" text-anchor="end" '
+                'fill="#91a2b7" font-size="10" font-family="Segoe UI, Arial, sans-serif">'
+                f"{tick}%</text>",
             ]
         )
-    footer_y = header_height + len(data["languages"]) * row_height + 20
+    if points:
+        lines.append(
+            f'<polyline points="{polyline_points}" fill="none" stroke="#7aa2d6" '
+            'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+        )
+    for (language, percent), (x, y) in zip(labels, points, strict=True):
+        color = xml.sax.saxutils.escape(language["color"])
+        label = xml.sax.saxutils.escape(f"{language['name']} · {percent}")
+        lines.extend(
+            [
+                f'<circle cx="{x:.3f}" cy="{y:.3f}" r="3.5" fill="{color}" '
+                'stroke="#0d1421" stroke-width="1.2"/>',
+                f'<text x="{x:.3f}" y="{label_y}" transform="rotate(90 {x:.3f} {label_y})" '
+                'text-anchor="start" fill="#d5dfeb" font-size="11" '
+                f'font-family="Segoe UI, Arial, sans-serif">{label}</text>',
+            ]
+        )
     source = f"main @ {data['commit'][:7]}  ·  generated {data['generated_at']}"
     footer = (
         f"Unclassified text: {len(data['unclassified_files'])}  ·  "

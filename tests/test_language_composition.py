@@ -4,6 +4,7 @@ import json
 import os
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
@@ -93,7 +94,7 @@ def test_tiny_language_percentage_never_rounds_to_zero() -> None:
             {"path": "tiny.rs", "bytes": 1, "language": "Rust", "text": True},
         ],
     }
-    assert 'width="0.00048"' in render_svg(aggregate_inventory(raw))
+    assert "0.0001%" in render_svg(aggregate_inventory(raw))
 
 
 def test_zero_byte_language_does_not_divide_by_zero() -> None:
@@ -108,7 +109,7 @@ def test_zero_byte_language_does_not_divide_by_zero() -> None:
     assert "0.00%" in render_svg(data)
 
 
-def test_svg_escapes_language_names_and_has_every_language_row() -> None:
+def test_svg_escapes_names_and_draws_every_language_point() -> None:
     raw = _inventory()
     raw["files"].append(
         {
@@ -122,10 +123,32 @@ def test_svg_escapes_language_names_and_has_every_language_row() -> None:
     data = aggregate_inventory(raw)
     svg = render_svg(data)
 
-    assert 'C &amp; &lt;Template&gt; "Tools"' in svg
-    assert svg.count("<rect x=") == len(data["languages"]) * 2
+    assert 'C &amp; &lt;Template&gt; "Tools" · ' in svg
+    assert svg.count("<circle ") == len(data["languages"])
+    assert "<polyline " in svg
     assert "<script" not in svg
     assert "https://" not in svg
+
+
+def test_line_graph_keeps_every_language_in_a_compact_svg() -> None:
+    raw = _inventory()
+    raw["files"].extend(
+        {
+            "path": f"src/language_{index}.txt",
+            "bytes": 1,
+            "language": f"Language {index}",
+            "text": True,
+        }
+        for index in range(30)
+    )
+    data = aggregate_inventory(raw)
+    svg = render_svg(data)
+    root = ET.fromstring(svg)
+
+    assert svg.count("<circle ") == data["language_count"]
+    assert int(root.get("height", "0")) < data["language_count"] * 25
+    for language in data["languages"]:
+        assert f">{language['name']} · " in svg
 
 
 def test_outputs_are_deterministic_and_include_special_paths(tmp_path: Path) -> None:

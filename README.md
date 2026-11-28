@@ -11,11 +11,6 @@
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![License: VIGIL-FUSE Restricted Use v1.2](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use%20v1.2-7c3aed)](LICENSE)
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/VIGIL-IoT/VIGIL-FUSE/generated-metrics/assets/generated/language-composition.svg" alt="Automatically generated FUSE language composition" width="700" />
-</p>
-<p align="center"><sub>Automatically generated from the current main branch. <a href="docs/language-composition.md">How the inventory is measured</a>.</sub></p>
-
 ## Firmware & Unified Security Engine
 
 FUSE is a local analysis tool for embedded and IoT repositories. It collects bounded source, build, firmware, dependency, hardware, and policy evidence. Native findings remain review candidates: static signals do not prove exploitability, shipment, reachability, or physical exposure.
@@ -89,3 +84,10 @@ Optional analyzers run only when requested. Host mode is not an OS sandbox; expl
 The Vercel homepage is reachable, but its deployed content has not been reconciled with the migrated feature set. The PyPI project page is available and still lists `0.4.0`. This migration did not deploy a site build or publish a package; neither action is a completion gate.
 
 FUSE is distributed under the custom [VIGIL-FUSE Restricted Use License, version 1.2](LICENSE), which is not an OSI-approved open-source license. See the license for current permissions and [CITATION.cff](CITATION.cff) for contributor attribution.
+
+## Language composition
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/VIGIL-IoT/VIGIL-FUSE/generated-metrics/assets/generated/language-composition.svg" alt="FUSE language composition line graph" width="700" />
+</p>
+<p align="center"><sub>Compact byte-weighted line graph. Each point label shows its language and exact share. <a href="docs/language-composition.md">How the inventory is measured</a>.</sub></p>
