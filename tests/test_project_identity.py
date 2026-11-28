@@ -11,6 +11,20 @@ from vigil_fuse.project_identity import inspect_project_identity
 
 
 class ProjectIdentityTests(unittest.TestCase):
+    def test_inventory_reports_bounded_path_observations_and_partial_state(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self._write(root, "pyproject.toml", "[project]\nname='sample'\n")
+            self._write(root, "app.py", "pass\n")
+            identity = inspect_project_identity(root)
+            self.assertEqual({"Python": 1}, identity.inventory["languages"])
+            self.assertEqual({"pyproject.toml": 1}, identity.inventory["dependency_manifests"])
+            self.assertTrue(identity.inventory["complete"])
+            partial = inspect_project_identity(root, max_paths=1)
+            self.assertFalse(partial.inventory["complete"])
+            self.assertLessEqual(partial.inventory["files_observed"], 1)
+            self.assertTrue(partial.inventory["limitations"])
+
     @staticmethod
     def _write(root: Path, relative: str, content: str = "") -> None:
         path = root / relative

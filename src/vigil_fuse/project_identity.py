@@ -8,7 +8,7 @@ import stat
 import time
 import tomllib
 from collections import Counter
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from math import exp, isfinite
 from pathlib import Path
 from typing import Literal
@@ -79,6 +79,29 @@ _ROOT_SOFTWARE_MANIFESTS = {
 }
 _FIRMWARE_SUFFIXES = {".bin", ".efi", ".elf", ".fw", ".hex", ".img", ".rom"}
 _RTL_SUFFIXES = {".v", ".vh", ".sv", ".svh"}
+_INVENTORY_LANGUAGES = {
+    ".py": "Python",
+    ".js": "JavaScript",
+    ".jsx": "JavaScript",
+    ".ts": "TypeScript",
+    ".tsx": "TypeScript",
+    ".c": "C",
+    ".h": "C/C++",
+    ".cc": "C++",
+    ".cpp": "C++",
+    ".hpp": "C++",
+    ".go": "Go",
+    ".java": "Java",
+    ".rs": "Rust",
+    ".r": "R",
+    ".jl": "Julia",
+    ".ps1": "PowerShell",
+    ".psm1": "PowerShell",
+    ".v": "Verilog",
+    ".sv": "SystemVerilog",
+    ".svh": "SystemVerilog",
+    ".vh": "Verilog",
+}
 
 
 @dataclass(frozen=True)
@@ -97,6 +120,7 @@ class ProjectIdentity:
     limitations: tuple[str, ...] = ()
     recommended_stages: tuple[str, ...] = ()
     optional_stages: tuple[str, ...] = ()
+    inventory: dict[str, object] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -357,6 +381,47 @@ def inspect_project_identity(
 
 
 def _classify_project_identity(
+    root: Path,
+    paths: list[str],
+    directories: set[str],
+    *,
+    complete: bool,
+    limitations: list[str],
+    single_file_target: bool,
+) -> ProjectIdentity:
+    """Classify and summarize the same bounded path inventory."""
+    identity = _classify_project_identity_impl(
+        root,
+        paths,
+        directories,
+        complete=complete,
+        limitations=limitations,
+        single_file_target=single_file_target,
+    )
+    languages = Counter(
+        _INVENTORY_LANGUAGES[extension]
+        for path in paths
+        if (extension := Path(path).suffix.casefold()) in _INVENTORY_LANGUAGES
+    )
+    manifests = Counter(
+        Path(path).name.casefold()
+        for path in paths
+        if Path(path).name.casefold() in _ROOT_SOFTWARE_MANIFESTS
+    )
+    return replace(
+        identity,
+        inventory={
+            "source": "bounded-project-identity-paths",
+            "complete": identity.complete,
+            "limitations": list(identity.limitations),
+            "files_observed": len(paths),
+            "languages": dict(sorted(languages.items())),
+            "dependency_manifests": dict(sorted(manifests.items())),
+        },
+    )
+
+
+def _classify_project_identity_impl(
     root: Path,
     paths: list[str],
     directories: set[str],
