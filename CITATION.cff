@@ -10,7 +10,7 @@ authors:
   - given-names: "Armaan"
     family-names: "Malhotra"
     affiliation: "Team VIGIL"
-version: "0.4.1.dev0"
+version: "0.5.0"
 url: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 repository-code: "https://github.com/VIGIL-IoT/VIGIL-FUSE"
 keywords:

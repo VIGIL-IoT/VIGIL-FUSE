@@ -6,7 +6,7 @@
 - **Affiliation:** A VIGIL Project in the VIGIL-IoT initiative
 - **Created and maintained by:** Shantanu
 - **Type:** Local CLI software for embedded and IoT cybersecurity analysis, with research and engineering evaluation data
-- **Maturity:** Alpha, version `0.4.0`; source-available under the custom VIGIL-FUSE Restricted Use License, version 1.2
+- **Maturity:** Alpha, version `0.5.0`; source-available under the custom VIGIL-FUSE Restricted Use License, version 1.2
 
 ## Problem and motivation
 

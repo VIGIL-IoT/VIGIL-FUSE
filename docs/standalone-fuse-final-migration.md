@@ -1,5 +1,9 @@
 # Final FUSE to VIGIL-FUSE migration
 
+> **Release follow-up (2026-11-28):** This report's repository and package snapshots describe the migration checkpoint. The canonical release is now VIGIL-FUSE 0.5.0; see the [GitHub release](https://github.com/VIGIL-IoT/VIGIL-FUSE/releases/tag/v0.5.0) and [PyPI package](https://pypi.org/project/vigil-fuse/0.5.0/). The release keeps the intentionally vulnerable demonstration application excluded from production.
+
+Statements below that describe an unpublished package, an unpushed destination branch, or a pending publication are specific to the frozen migration snapshot and are superseded by this follow-up.
+
 ## Scope and snapshots
 
 Canonical destination: [VIGIL-IoT/VIGIL-FUSE](https://github.com/VIGIL-IoT/VIGIL-FUSE). Donor: [ShivuXD/FUSE](https://github.com/ShivuXD/FUSE).

@@ -17,9 +17,9 @@ FUSE is a local analysis tool for embedded and IoT repositories. It collects bou
 
 **Canonical repository:** [VIGIL-IoT/VIGIL-FUSE](https://github.com/VIGIL-IoT/VIGIL-FUSE)
 
-**Source version:** `0.4.1.dev0`
+**Source version:** `0.5.0`
 
-**Latest PyPI package:** `0.4.0`. This migration has not published a new package.
+**Latest PyPI package:** `0.5.0`.
 
 The standalone [ShivuXD/FUSE](https://github.com/ShivuXD/FUSE) repository was used for competition and integration work. The canonical repository now carries its adapted production and research features. See the [final migration report](docs/standalone-fuse-final-migration.md) and [machine-readable parity ledger](migration/full-parity-ledger.json) for branch accounting, exclusions, and verification evidence.
 
@@ -41,7 +41,7 @@ For development, install the optional CLI prompt and development tools:
 python -m pip install -e ".[dev,cliui]"
 ```
 
-The published `0.4.0` package predates the migrated features. New releases are not part of this migration. See [installation](docs/installation.md) and [local release validation](docs/releasing.md).
+The `0.5.0` package includes the adapted production features. See [installation](docs/installation.md), [usage](docs/usage.md), and [release validation](docs/releasing.md).
 
 ## CLI
 
@@ -84,7 +84,7 @@ python scripts/validate_docs.py
 
 Optional analyzers run only when requested. Host mode is not an OS sandbox; explicit Docker mode is available for supported analyzers. Normal scans do not require or download Ollama, model weights, CUDA, Ghidra, Java, LLVM, OPA, Go, Kubernetes, R, Julia, Rust, Zig, or Docker. Read the [threat model](docs/threat-model.md), [architecture](docs/architecture.md), [C/C++ trust boundary](docs/cpp-semantic-analysis.md), and [local reasoning contract](docs/local-reasoning.md) before enabling optional stages.
 
-The Vercel homepage is reachable, but its deployed content has not been reconciled with the migrated feature set. The PyPI project page is available and still lists `0.4.0`. This migration did not deploy a site build or publish a package; neither action is a completion gate.
+The project homepage and evaluation report are maintained separately from the Python package. Release publication does not claim a site deployment; see the [canonical repository](https://github.com/VIGIL-IoT/VIGIL-FUSE) for the source and release status.
 
 FUSE is distributed under the custom [VIGIL-FUSE Restricted Use License, version 1.2](LICENSE), which is not an OSI-approved open-source license. See the license for current permissions and [CITATION.cff](CITATION.cff) for contributor attribution.
 

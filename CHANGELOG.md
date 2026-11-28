@@ -1,16 +1,18 @@
 # Changelog
 
-## Unreleased
+## 0.5.0 - 2026-11-28
 
 ### Added
 
-- Adapted the standalone FUSE competition and integration features into canonical VIGIL-FUSE, including bounded Clang semantic observations, embedded and cyber-physical evidence, applicability analysis, optional PowerShell setup, the Go/Kubernetes identity-probe foundation, and offline research workflows.
+- Consolidated the standalone FUSE competition work into canonical VIGIL-FUSE, including the interactive CLI, desktop GUI, GitHub Action, research workflows, embedded and cyber-physical evidence, applicability analysis, optional PowerShell setup, and the Go/Kubernetes identity-probe foundation.
+- Added bounded local Semgrep, existing CodeQL database, Trivy configuration, Trivy secret, explicit container-image, and SBOM inventory adapters with provenance and explicit partial, unavailable, and failure states.
+- Added hardware BOM advisory matching, silicon revision context, SPARTA analyst mappings, and external-memory exposure candidates without claiming physical reachability.
+- Added canonical report schema 1.15 with bounded project inventory and explicit completeness while retaining 1.13 and 1.14 historical report support.
 - Added exhaustive path and feature accounting at [docs/standalone-fuse-final-migration.md](docs/standalone-fuse-final-migration.md), with the machine-readable [parity ledger](migration/full-parity-ledger.json).
 
 ### Changed
 
-- Marked the static website archived and paused. PyPI publication remains paused; this migration creates no release.
-- Rebuilt installation and usage guidance around the current source tree and marked donor release notes as historical.
+- Updated installation and usage guidance for the canonical 0.5.0 release. Donor release notes remain historical and do not substitute for canonical VIGIL releases.
 
 ### Excluded
 

@@ -1,10 +1,10 @@
-**Current status:** PyPI publishing is paused. The release instructions below describe the historical 0.4.0 process and do not authorize another release.
+**Current release:** `0.5.0`, published from the canonical `v0.5.0` tag through GitHub Trusted Publishing.
 
 # Release process
 
-VIGIL-FUSE remains in the 0.x alpha series. Version 0.4.0 was published on 2026-11-15 under the VIGIL-FUSE Restricted Use License v1.2 after the required technical checks passed. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license. Current source is 0.4.1.dev0 and includes the standalone migration; the migration does not authorize a package release.
+VIGIL-FUSE remains in the 0.x alpha series. Version 0.5.0 is the current canonical release and includes the reviewed standalone migration and security adapters. Shantanu is the copyright holder for current and future releases. VIGIL-IoT remains the project organization and repository namespace. The source is available under a custom license, not an OSI-approved open-source license.
 
-The license has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. That authorization applied only to the historical 0.4.0 release and does not authorize future publication. A successful upload is not PyPI policy approval. The current owner decision and historical license record are in the [rights and distribution record](governance/rights-review-packet.md).
+The license has not received external legal review. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open. A successful upload is not PyPI policy approval. The current owner decision and historical license record are in the [rights and distribution record](governance/rights-review-packet.md).
 
 ## 0.4.0 release acceptance record
 
@@ -50,4 +50,4 @@ PyPI's [Terms of Service](https://policies.python.org/pypi.org/Terms-of-Service/
 
 ## Current release status
 
-The 0.4.0 release record above is historical. The current source includes the migrated feature set, and PyPI publishing is paused. Any future package or GitHub release requires a separate explicit release decision.
+The 0.4.0 acceptance record above is historical. Version 0.5.0 is the current canonical release. Any future package or GitHub release requires a separate explicit release decision and the same clean build, hosted checks, security review, and public-install verification.

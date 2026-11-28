@@ -1,6 +1,6 @@
 # Local package validation
 
-PyPI publishing is paused. The commands here build and verify local artifacts only. They do not publish to TestPyPI or PyPI and do not authorize a release.
+These commands build and verify local artifacts only. Release publication uses the tag-triggered GitHub Trusted Publishing workflow and requires an explicit release decision.
 
 ## Build and validate locally
 
@@ -36,6 +36,6 @@ The release workflow builds in a job with read-only repository access and no OID
 
 Build-tool pins are deliberate: the workflow and local validation commands pin `build` and `twine`, while `[build-system].requires` pins the backend used by isolated builds. When updating a pin, check the package's current PyPI release metadata for Python compatibility, update the workflow, build-system requirement, and these commands together, then run the package build, Twine check, and installed-wheel verifier. Developer extras remain version ranges so routine development does not require pin maintenance.
 
-## Future release gate
+## Release publication
 
-Any future release requires a separate explicit release decision. Before then, complete the repository's version, license, clean-wheel, platform CI, security review, and release-record checks. Do not tag or publish from this migration. Do not store upload tokens in the repository; if publication is later authorized, use the repository's trusted-publishing workflow and verify the resulting artifacts and metadata.
+For a future release, complete the repository's version, license, clean-wheel, platform CI, security review, and release-record checks before tagging. Do not store upload tokens in the repository. The trusted-publishing workflow builds and validates the distributions, then publishes them using GitHub OIDC.

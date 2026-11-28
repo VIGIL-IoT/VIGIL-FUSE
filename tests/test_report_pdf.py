@@ -56,7 +56,7 @@ class PDFReportTests(unittest.TestCase):
         self.assertIn("by VIGIL", report)
         self.assertIn("Static evidence. Explicit coverage.", report)
         self.assertIn("LOCAL ANALYSIS / Type /help to begin", report)
-        self.assertIn("v0.4.1.dev0", report)
+        self.assertIn("v0.5.0", report)
 
     def test_writer_prefers_xelatex_for_times_new_roman_pdf(self) -> None:
         def compile_xelatex(arguments: list[str], **options: object) -> SimpleNamespace:

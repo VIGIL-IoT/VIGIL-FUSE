@@ -14,6 +14,10 @@
 - Shantanu accepts responsibility for this distribution model. No claim is made that counsel reviewed the license or that PyPI approved FUSE.
 - Public code contributions remain paused. No contributor license or other third-party permission is inferred.
 
+### 0.5.0 release authorization
+
+On 2026-11-28, the owner directly authorized completing the canonical 0.5.0 repository consolidation, pushing the verified release commit, creating the canonical `v0.5.0` tag and GitHub release, and publishing through the existing PyPI Trusted Publishing workflow after required checks pass. This authorization does not change the license or claim PyPI policy approval. PyPI Support issue [#12999](https://github.com/pypi/support/issues/12999) remains open.
+
 ## Historical license record
 
 Earlier publicly distributed revisions included MIT terms, including the license text in commit [`ec91524`](https://github.com/VIGIL-IoT/VIGIL-FUSE/commit/ec91524). License v1.2 applies to current releases within the rights-holder's authority. It does not retroactively revoke permissions already granted to copies received under MIT terms. Historical commits, tags, and release artifacts have not been rewritten or altered.
@@ -36,7 +40,7 @@ The owner has authorized proceeding with 0.4.0 while project-specific policy gui
 | Project organization and repository namespace | VIGIL-IoT |
 | Authorized license | VIGIL-FUSE Restricted Use License v1.2 |
 | Authorized publisher route | PyPI Trusted Publishing workflow `pypi-publish.yml`, environment `pypi` |
-| Authorized release | VIGIL-FUSE 0.4.0, published after required technical checks passed |
+| Authorized releases | VIGIL-FUSE 0.4.0 (published 2026-11-15); 0.5.0 (owner-authorized 2026-11-28, subject to release checks) |
 | Verified release artifacts | Recorded with hashes in [project completion](../PROJECT_COMPLETION.md) |
 | External legal review | None claimed |
 | PyPI project-specific approval | None claimed; issue #12999 remains open |

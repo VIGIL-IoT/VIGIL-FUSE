@@ -22,13 +22,13 @@ The optional esp-idf extra installs PyYAML for bounded dependencies.lock parsing
 
 ## Published package status
 
-0.4.0 is the last published package and predates the adapted features described in this repository. PyPI publishing is paused. To install that historical release explicitly:
+Version 0.5.0 is the current canonical package and includes the adapted production features:
 
 ~~~powershell
-python -m pip install vigil-fuse==0.4.0
+python -m pip install vigil-fuse==0.5.0
 ~~~
 
-Use the repository installation above for the current source. Do not interpret an existing package-index version or the release workflow as authorization to publish a new version.
+To install the latest release instead, use `python -m pip install vigil-fuse`.
 
 ## Interactive terminal
 
