@@ -126,7 +126,7 @@ def safe_write_text(path: Path, content: str, *, encoding: str = "utf-8") -> Pat
 
 
 def resolve_inside_directory(root: Path, candidate: Path) -> tuple[Path, str]:
-    """Return a canonical in-root path and relative label without following aliases."""
+    """Return a canonical in-root path, rejecting aliases that escape the root."""
     assert_no_path_aliases(root)
     root_path = root.resolve(strict=True)
     supplied = Path(candidate).expanduser()
@@ -134,22 +134,17 @@ def resolve_inside_directory(root: Path, candidate: Path) -> tuple[Path, str]:
         raise ValueError("path contains a parent traversal segment")
     lexical = supplied if supplied.is_absolute() else root_path / supplied
     lexical = _absolute(lexical)
-    assert_no_path_aliases(lexical)
-
-    cursor = lexical
-    suffix: list[str] = []
-    while True:
-        try:
-            matches_root = os.path.samefile(cursor, root_path)
-        except OSError:
-            matches_root = False
-        if matches_root:
-            break
-        if cursor == cursor.parent:
-            raise ValueError("path is outside the selected directory")
-        suffix.append(cursor.name)
-        cursor = cursor.parent
-
-    relative = Path(*reversed(suffix)) if suffix else Path()
-    resolved = root_path / relative
-    return resolved, relative.as_posix() or "."
+    had_alias = any(is_path_alias(prefix) for prefix in _path_prefixes(lexical))
+    try:
+        canonical = lexical.resolve(strict=False)
+    except (OSError, RuntimeError) as error:
+        raise ValueError("path contains a symbolic link or reparse point") from error
+    try:
+        relative = canonical.relative_to(root_path)
+    except ValueError as error:
+        if had_alias:
+            raise ValueError(
+                "path contains a symbolic link or reparse point that escapes the selected directory"
+            ) from error
+        raise ValueError("path is outside the selected directory") from error
+    return root_path / relative, relative.as_posix() or "."

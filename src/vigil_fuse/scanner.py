@@ -370,7 +370,7 @@ def scan(
         raise FileNotFoundError(f"Target does not exist: {requested}") from error
     except ValueError as error:
         raise ValueError(
-            "Symbolic-link or reparse-point targets are not followed; pass the real path explicitly"
+            "Symbolic-link targets are not followed; reparse-point targets are not followed either; pass the real path explicitly"
         ) from error
     if not requested.is_file() and not requested.is_dir():
         raise ValueError(f"Target is not a file or directory: {requested}")

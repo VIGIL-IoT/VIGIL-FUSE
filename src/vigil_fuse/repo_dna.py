@@ -127,7 +127,8 @@ def inspect_repository(target: str | Path) -> RepoDNA:
             path = current / filename
             try:
                 if is_path_alias(path):
-                    limitations.append("symbolic link or reparse point excluded")
+                    limitations.append("symbolic link excluded")
+                    limitations.append("reparse points were also excluded when present")
                     continue
                 if not path.is_file():
                     continue
