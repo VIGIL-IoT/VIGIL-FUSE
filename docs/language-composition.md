@@ -14,4 +14,4 @@ To regenerate locally, install Docker Desktop, then run:
 python scripts/generate_language_composition.py --ref main
 ```
 
-The script runs the official Linguist container pinned by digest with network access disabled. It writes `assets/generated/language-composition.svg` and `assets/generated/language-composition.json`. The `language-composition` workflow refreshes these files from `main` and publishes them to the `generated-metrics` branch.
+The script runs the official Linguist container pinned by digest with network access disabled. It writes `assets/generated/language-composition.svg` and `assets/generated/language-composition.json`. The `language-composition` workflow generates the same files from `main` and uploads them as a seven-day GitHub Actions artifact. No long-lived generated branch is required.

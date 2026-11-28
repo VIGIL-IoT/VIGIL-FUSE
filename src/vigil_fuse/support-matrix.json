@@ -28,7 +28,7 @@
       "input": "Common source and configuration files",
       "profile": "generic",
       "label": "basic",
-      "scope": "Native rules over selected source and configuration files, including a narrow Python subprocess check.",
+      "scope": "Native source/configuration rules including bounded Python AST and Dockerfile checks.",
       "limitations": [
         "No build resolution",
         "No runtime or device validation"
@@ -132,6 +132,29 @@
       "limitations": [
         "Does not validate PCB routing, physical access, population state, or debug-port configuration",
         "Does not export a netlist or invoke KiCad"
+      ]
+    },
+    {
+      "id": "hardware.bom-advisory-review",
+      "input": "Selected hardware BOM CSV or TSV",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Matches selected part and silicon revision metadata against the bounded packaged advisory catalog and identifies likely external nonvolatile memory.",
+      "limitations": [
+        "Catalog coverage is narrow and does not represent every hardware advisory",
+        "BOM identifiers and silicon revisions are user-supplied and not independently verified",
+        "A match does not establish affected configuration, exploitability, or deployed-product exposure"
+      ]
+    },
+    {
+      "id": "hardware.external-memory-bus-candidates",
+      "input": "Selected BOM and KiCad XML netlist",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Reports bus-labeled netlist connections between BOM-listed external nonvolatile memory and connector candidates.",
+      "limitations": [
+        "Does not validate PCB routing, physical access, plaintext storage, or readable contents",
+        "Requires a selected or uniquely detected KiCad XML netlist and an explicit BOM"
       ]
     },
     {
@@ -483,6 +506,97 @@
         "Authored fixtures are regression evidence only",
         "Initial OWASP semantic predictions are UNKNOWN; accuracy is unmeasured",
         "Independent human field review and other capability corpora remain pending"
+      ]
+    },
+    {
+      "id": "software.native",
+      "input": "Software projects",
+      "profile": null,
+      "label": "basic",
+      "scope": "Python subprocess shell, imported builtins eval/exec, unsafe YAML, and Dockerfile mutable-tag checks; existing native credential and TLS checks.",
+      "limitations": [
+        "No taint tracking",
+        "No runtime verification"
+      ]
+    },
+    {
+      "id": "software.semgrep",
+      "input": "Software projects",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional local-rule Semgrep evidence.",
+      "limitations": [
+        "Host execution is skipped with strict no-network",
+        "No live version verified"
+      ]
+    },
+    {
+      "id": "software.codeql",
+      "input": "Software projects",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional existing-database CodeQL analysis.",
+      "limitations": [
+        "No database construction",
+        "No live version verified"
+      ]
+    },
+    {
+      "id": "software.dependencies",
+      "input": "Software projects",
+      "profile": null,
+      "label": "partial",
+      "scope": "Optional Syft CycloneDX inventory, supplied CycloneDX or SPDX 2.x JSON, Trivy local-image inventory, and OSV advisory matching; reports component presence separately from advisory matches.",
+      "limitations": [
+        "Requires explicit analyzer options and installed tools",
+        "Inventory presence and advisory matches do not prove reachability",
+        "Component report is capped at 10000 entries"
+      ]
+    },
+    {
+      "id": "software.secrets",
+      "input": "Software projects",
+      "profile": null,
+      "label": "partial",
+      "scope": "Native redacted checks, optional Gitleaks history scanning, and optional Trivy filesystem secret scanning in the no-network Docker sandbox.",
+      "limitations": [
+        "Trivy reports findings only and cannot prove file-level coverage",
+        "No live Trivy version verified",
+        "No comprehensive secret detection claim"
+      ]
+    },
+    {
+      "id": "software.iac",
+      "input": "Software projects",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional no-network Docker Trivy configuration scan.",
+      "limitations": [
+        "No live Trivy version verified",
+        "Remote modules cannot be fetched"
+      ]
+    },
+    {
+      "id": "software.container",
+      "input": "Software projects and explicit local images",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Passive Dockerfile latest-tag check plus explicit Trivy vulnerability scanning of an already-present local Docker image.",
+      "limitations": [
+        "No image pull or registry fallback",
+        "Requires pre-cached Trivy databases",
+        "No image scan in Docker analyzer sandbox",
+        "No live Trivy validation"
+      ]
+    },
+    {
+      "id": "software.cicd",
+      "input": "Software projects",
+      "profile": null,
+      "label": "basic",
+      "scope": "Existing GitHub Actions static checks.",
+      "limitations": [
+        "No general CI taint analysis"
       ]
     }
   ]

@@ -10,6 +10,22 @@ from scripts import build_repository_scan_dashboard as dashboard
 
 
 class RepositoryScanDashboardTests(unittest.TestCase):
+    def test_normalize_report_accepts_current_schema_115(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            run = root / "current"
+            run.mkdir()
+            (run / "findings.json").write_text(
+                '{"schema_version":"1.15","target":"local/path","findings":[]}',
+                encoding="utf-8",
+            )
+            with patch.object(dashboard, "REPORT_ROOT", root):
+                report = dashboard.normalize_report(
+                    {"id": "current", "target_label": "fixture/project"}
+                )
+
+        self.assertEqual("fixture/project", report["target"])
+
     def test_report_only_does_not_write_generated_site_files(self) -> None:
         summary = {
             "repositories": [],

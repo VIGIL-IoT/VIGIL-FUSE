@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "advisories": [
+    {
+      "advisory_id": "AR2023-005",
+      "title": "ESP32 secure boot and flash encryption EMFI bypass",
+      "manufacturer": "Espressif Systems",
+      "manufacturer_aliases": ["Espressif"],
+      "affected_products": ["ESP32 classic SoC"],
+      "part_number_aliases": [
+        "ESP32",
+        "ESP32-D0WD",
+        "ESP32-D0WDQ6",
+        "ESP32-WROOM-32",
+        "ESP32-WROVER",
+        "ESP32-PICO-V3",
+        "ESP32-PICO-V3-02"
+      ],
+      "affected_revisions": ["v3.0", "v3.1"],
+      "unaffected_revisions": [],
+      "component_type": "microcontroller",
+      "cve_ids": ["CVE-2023-35818"],
+      "cwe_ids": [],
+      "sparta_mappings": [
+        {
+          "id": "EX-0006",
+          "title": "Disable/Bypass Encryption",
+          "source": "https://sparta.aerospace.org/related-work/questionnaire",
+          "mapping_basis": "Analyst association: the manufacturer advisory documents bypass of Flash Encryption; SPARTA lists EX-0006 as Disable/Bypass Encryption. This is a threat mapping, not a compliance result."
+        }
+      ],
+      "severity": "unknown",
+      "confidence": "high",
+      "description": "Espressif advisory AR2023-005 describes an electromagnetic fault-injection technique affecting the classic ESP32. Its stated scenario uses Secure Boot V2 and Flash Encryption in Release mode with UART Download mode permanently disabled; it requires physical device access and sophisticated laboratory equipment. The advisory identifies chip revisions v3.0 and v3.1 and notes earlier revisions had a separate UART Download mode limitation.",
+      "conditions": [
+        "Secure Boot V2 is enabled in Release mode",
+        "Flash Encryption is enabled in Release mode",
+        "UART Download mode is permanently disabled",
+        "The attacker has physical access and sophisticated EMFI equipment"
+      ],
+      "mitigations": [
+        "Review Espressif advisory AR2023-005 for the exact chip and product form factor.",
+        "Do not treat unknown chip revision or configuration as not affected.",
+        "Evaluate product-specific physical and operational mitigations with the manufacturer guidance."
+      ],
+      "sources": [
+        "https://documentation.espressif.com/AR2023-005%20Security%20Advisory%20Concerning%20Bypassing%20Secure%20Boot%20and%20Flash%20Encryption%20Using%20EMFI%20EN.html",
+        "https://nvd.nist.gov/vuln/detail/CVE-2023-35818"
+      ],
+      "last_verified": "2026-11-21"
+    }
+  ]
+}

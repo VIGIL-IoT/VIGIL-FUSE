@@ -22,7 +22,8 @@
     "provenance",
     "generated_by",
     "project_identity",
-    "project_inventory"
+    "project_inventory",
+    "software_security"
   ],
   "properties": {
     "schema_version": {
@@ -355,6 +356,13 @@
               "findings": {
                 "type": "integer",
                 "minimum": 0
+              },
+              "configuration_sha256": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
               }
             },
             "additionalProperties": false
@@ -1423,7 +1431,8 @@
               "footprint",
               "manufacturer",
               "part_number",
-              "description"
+              "description",
+              "revision"
             ],
             "properties": {
               "reference": {
@@ -1455,6 +1464,12 @@
                 ]
               },
               "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "revision": {
                 "type": [
                   "string",
                   "null"
@@ -2296,6 +2311,145 @@
         }
       },
       "additionalProperties": false
+    },
+    "software_security": {
+      "type": "object",
+      "required": [
+        "lanes",
+        "finding_count",
+        "severity_counts",
+        "scope",
+        "reachability",
+        "dependency_inventory"
+      ],
+      "properties": {
+        "lanes": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "completed",
+              "partial",
+              "skipped",
+              "unavailable",
+              "unsupported",
+              "timeout",
+              "failed",
+              "incompatible"
+            ]
+          }
+        },
+        "finding_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "severity_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "scope": {
+          "type": "string"
+        },
+        "reachability": {
+          "const": "unknown"
+        },
+        "dependency_inventory": {
+          "type": "object",
+          "required": [
+            "status",
+            "component_count",
+            "advisory_match_count",
+            "component_presence_means",
+            "advisory_match_means",
+            "reachability",
+            "components"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "completed",
+                "partial",
+                "incompatible",
+                "skipped",
+                "unavailable",
+                "unsupported",
+                "timeout",
+                "failed",
+                "not-requested"
+              ]
+            },
+            "component_count": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "advisory_match_count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "component_presence_means": {
+              "type": "string"
+            },
+            "advisory_match_means": {
+              "type": "string"
+            },
+            "reachability": {
+              "const": "unknown"
+            },
+            "components": {
+              "type": "array",
+              "maxItems": 10000,
+              "items": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "version",
+                  "ecosystem",
+                  "purl",
+                  "source",
+                  "direct_dependency"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "maxLength": 2048
+                  },
+                  "version": {
+                    "type": "string",
+                    "maxLength": 2048
+                  },
+                  "ecosystem": {
+                    "type": "string",
+                    "maxLength": 128
+                  },
+                  "purl": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "maxLength": 2048
+                  },
+                  "source": {
+                    "type": "string",
+                    "maxLength": 128
+                  },
+                  "direct_dependency": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
     }
   },
   "$defs": {
@@ -2553,6 +2707,63 @@
               "additionalProperties": false
             }
           ]
+        },
+        "engine_rule_id": {
+          "type": "string"
+        },
+        "engine_rule_name": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "cwe": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^CWE-[0-9]+$"
+          }
+        },
+        "external_severity": {
+          "type": "string"
+        },
+        "correlation_group": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "precision": {
+          "type": "string"
+        },
+        "code_flow": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "file": {
+                  "type": "string"
+                },
+                "line": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "kinds": {
+                  "type": "array",
+                  "uniqueItems": true,
+                  "items": {
+                    "enum": [
+                      "source",
+                      "sink"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "file",
+                "line"
+              ],
+              "additionalProperties": false
+            }
+          }
         }
       },
       "additionalProperties": false

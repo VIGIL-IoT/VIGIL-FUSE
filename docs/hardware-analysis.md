@@ -1,6 +1,6 @@
 # Hardware analysis boundaries
 
-FUSE currently provides three distinct hardware-related stages. None is a physical security assessment.
+FUSE provides hardware filename inventory, selected BOM import and advisory review, and KiCad netlist checks. None is a physical security assessment.
 
 ## Filename inventory
 
@@ -8,13 +8,17 @@ Directory scans identify recognizable schematic, PCB, CAD, BOM, netlist, HDL, an
 
 ## Explicit BOM import
 
-`--hardware-bom` accepts a selected CSV or TSV and creates a CycloneDX hardware BOM artifact. This is an inventory operation. Component identity is only as reliable as the fields supplied in the BOM. Without stable manufacturer and part-number identifiers, part-level advisory matching is not assessable. Imported values can reveal board composition, so review the output before sharing it.
+`--hardware-bom` accepts a selected CSV or TSV and creates a CycloneDX hardware BOM artifact. It preserves reference, name, quantity, footprint, manufacturer, part number, description, and silicon revision when supplied. A small packaged catalog checks recognized part aliases and explicit revisions; the current catalog is narrow and does not cover all advisories. Unknown revisions, configurations, and conditions remain visible instead of being inferred. BOM identity is not independently verified, and imported values can reveal board composition, so review the output before sharing it.
+
+When a catalog match has a SPARTA association, FUSE writes `hardware-sparta-mapping.json` as an analyst review aid. It explicitly states that it is not a compliance assessment. External nonvolatile memory is also identified as a candidate, without asserting that data are plaintext or readable.
 
 ## KiCad XML netlist review
 
 `--hardware-netlist` selects a KiCad XML netlist. If a project contains one unique recognized netlist, FUSE can use it for the bounded check. The parser accepts UTF-8 and UTF-16, rejects DTD and entity declarations before ElementTree parsing, and limits input to 10 MiB, 100,000 XML elements, 128 nesting levels, 200,000 aggregate attributes, and 5,000,000 aggregate text characters. CI includes fixed adversarial cases for encodings, entity declarations, structure and content limits, and a seeded malformed-input loop. This is a small regression corpus, not a full fuzzing campaign.
 
 The current check emits an informational candidate when a debug-like net name such as JTAG, SWD, or UART connects to a connector-designator or connector-like component. The evidence means only that the exported design records that connectivity.
+
+When both a BOM and netlist are selected, a separate candidate may report a bus-labeled net connecting BOM-listed external memory to a connector candidate. This does not establish a physical path or readable memory contents.
 
 It does not establish:
 

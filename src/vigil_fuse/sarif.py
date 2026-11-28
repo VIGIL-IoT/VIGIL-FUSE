@@ -8,6 +8,7 @@ from urllib.parse import quote
 from . import __version__
 from .attribution import FUSE_REPOSITORY, generated_by_metadata
 from .model import Finding, ScanResult
+from .software_summary import software_summary
 
 _LEVEL = {
     "critical": "error",
@@ -141,6 +142,47 @@ def to_sarif(result: ScanResult) -> str:
             }
         )
 
+    for entry, finding in zip(results, result.findings):
+        properties = entry["properties"]
+        assert isinstance(properties, dict)
+        if finding.correlation_group:
+            properties["correlationGroup"] = finding.correlation_group
+        if finding.engine_rule_id:
+            properties["engineRuleId"] = finding.engine_rule_id
+        if finding.engine_rule_name:
+            properties["engineRuleName"] = finding.engine_rule_name
+        if finding.external_severity:
+            properties["externalSeverity"] = finding.external_severity
+        if finding.precision:
+            properties["precision"] = finding.precision
+        if finding.cwe:
+            properties["cwe"] = list(finding.cwe)
+        if finding.code_flow:
+            entry["codeFlows"] = [
+                {
+                    "threadFlows": [
+                        {
+                            "locations": [
+                                {
+                                    "location": {
+                                        "physicalLocation": {
+                                            "artifactLocation": {
+                                                "uri": quote(loc.file, safe="/._-"),
+                                                "uriBaseId": "%SRCROOT%",
+                                            },
+                                            "region": {"startLine": loc.line},
+                                        }
+                                    },
+                                    **({"kinds": list(loc.kinds)} if loc.kinds else {}),
+                                }
+                                for loc in path
+                            ]
+                        }
+                    ]
+                }
+                for path in finding.code_flow
+            ]
+
     run_properties: dict[str, object] = {
         "generatedBy": generated_by_metadata(),
         "target": result.target,
@@ -148,6 +190,7 @@ def to_sarif(result: ScanResult) -> str:
         "profile": result.profile,
         "projectIdentity": result.project_identity.to_dict(),
         "networkPolicy": result.network_policy,
+        "softwareSecurity": software_summary(result),
         "inputManifestSha256": result.input_manifest_sha256,
         "analysisPerformed": result.analysis_performed,
         "analyzers": [
@@ -155,6 +198,7 @@ def to_sarif(result: ScanResult) -> str:
                 "name": analyzer.name,
                 "status": analyzer.status,
                 "version": analyzer.version,
+                "configurationSha256": analyzer.configuration_sha256,
             }
             for analyzer in result.analyzers
         ],

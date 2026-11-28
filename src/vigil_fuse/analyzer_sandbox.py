@@ -8,7 +8,7 @@ from typing import Mapping, Sequence
 
 from .path_safety import assert_no_path_aliases
 
-SUPPORTED_ANALYZERS = frozenset({"syft", "osv-scanner", "binwalk", "gitleaks"})
+SUPPORTED_ANALYZERS = frozenset({"syft", "osv-scanner", "binwalk", "gitleaks", "trivy"})
 _DIGEST_REFERENCE = re.compile(r"(?:^|@)sha256:([0-9a-f]{64})$")
 
 

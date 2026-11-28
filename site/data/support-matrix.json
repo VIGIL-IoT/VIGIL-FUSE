@@ -11,11 +11,24 @@
   },
   "capabilities": [
     {
+      "id": "source.clang-semantic",
+      "input": "Explicit compile_commands.json with passive arguments arrays",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Opt-in LibTooling AST observations, strict Python validation and selected-build inclusion evidence.",
+      "limitations": [
+        "Optional native LLVM/Clang build required",
+        "No automatic findings, data flow, symbolic execution or runtime reachability",
+        "Narrow compiler argument allowlist; main-file observations only",
+        "Host execution is not an OS sandbox; isolate untrusted inputs"
+      ]
+    },
+    {
       "id": "source.generic",
       "input": "Common source and configuration files",
       "profile": "generic",
       "label": "basic",
-      "scope": "Native rules over selected source and configuration files, including a narrow Python subprocess check.",
+      "scope": "Native source/configuration rules including bounded Python AST and Dockerfile checks.",
       "limitations": [
         "No build resolution",
         "No runtime or device validation"
@@ -99,11 +112,14 @@
       "input": "GitHub Actions workflow YAML",
       "profile": null,
       "label": "basic",
-      "scope": "Checks exact workflow-level and job-level write-all permission scalars, counts recognized non-SHA action references, and reports only obvious floating branch refs as findings.",
+      "scope": "Checks exact workflow-level and job-level write-all permission scalars, counts recognized non-SHA action references, reports obvious floating branch refs, flags an exact pull_request_target plus actions/checkout pull-request-head-ref pattern, and detects selected untrusted GitHub event fields interpolated directly into step run scripts.",
       "limitations": [
-        "Only simple write-all scalar forms are checked",
+        "Only simple write-all, pull-request-head-ref, and step run-script YAML forms are checked",
+        "The script check covers a documented allowlist of issue, pull request, review, comment, commit-message, and head-ref expressions",
+        "Environment-mediated values and action inputs are not treated as direct shell interpolation",
         "Version-tag refs are counted but are not findings",
-        "Not a general YAML, expression, permission-inheritance, or event-taint analyzer",
+        "The pull_request_target check does not infer whether later steps build or execute checked-out content",
+        "Not a general YAML, shell, expression, sanitization, permission-inheritance, or event-taint analyzer",
         "Findings describe workflow supply-chain candidates, not device vulnerabilities"
       ]
     },
@@ -119,6 +135,29 @@
       ]
     },
     {
+      "id": "hardware.bom-advisory-review",
+      "input": "Selected hardware BOM CSV or TSV",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Matches selected part and silicon revision metadata against the bounded packaged advisory catalog and identifies likely external nonvolatile memory.",
+      "limitations": [
+        "Catalog coverage is narrow and does not represent every hardware advisory",
+        "BOM identifiers and silicon revisions are user-supplied and not independently verified",
+        "A match does not establish affected configuration, exploitability, or deployed-product exposure"
+      ]
+    },
+    {
+      "id": "hardware.external-memory-bus-candidates",
+      "input": "Selected BOM and KiCad XML netlist",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Reports bus-labeled netlist connections between BOM-listed external nonvolatile memory and connector candidates.",
+      "limitations": [
+        "Does not validate PCB routing, physical access, plaintext storage, or readable contents",
+        "Requires a selected or uniquely detected KiCad XML netlist and an explicit BOM"
+      ]
+    },
+    {
       "id": "inventory.compilation-database",
       "input": "compile_commands.json",
       "profile": null,
@@ -126,7 +165,7 @@
       "scope": "Indexes translation units and compiler families as bounded metadata.",
       "limitations": [
         "Compiler commands and project code are never executed",
-        "No compiler or semantic C/C++ analyzer is run"
+        "This metadata inventory does not run the separate opt-in Clang semantic stage"
       ]
     },
     {
@@ -149,6 +188,17 @@
       "scope": "Generic native rules over the expanded embedded Linux file profile.",
       "limitations": [
         "Does not resolve the selected image build or installed package set"
+      ]
+    },
+    {
+      "id": "source.rtl",
+      "input": "Verilog/SystemVerilog and FPGA project files",
+      "profile": "rtl",
+      "label": "experimental",
+      "scope": "Selects Verilog/SystemVerilog sources, Yosys scripts, and common FPGA constraints for bounded RTL analysis.",
+      "limitations": [
+        "Source selection does not establish synthesis inclusion",
+        "Does not resolve all FPGA project formats or macro values"
       ]
     },
     {
@@ -183,6 +233,21 @@
       ]
     },
     {
+      "id": "firmware.compiled-binary-analysis",
+      "input": "One executable or firmware binary with Ghidra Headless Analyzer",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Bounded static metadata, functions, symbols, imports, exports, strings, cross references, and selected API references.",
+      "limitations": [
+        "Ghidra is an optional external installation and is never bundled",
+        "Only Ghidra 12.2 with Java 25 or later is currently validated",
+        "Static references do not prove runtime reachability or exploitability",
+        "No symbolic execution, taint analysis, or full data-flow analysis is performed",
+        "Raw binary analysis requires an explicit language ID and base address",
+        "Host execution is process-bounded but is not an OS-level sandbox"
+      ]
+    },
+    {
       "id": "history.git-secrets",
       "input": "Git commits reachable from HEAD",
       "profile": null,
@@ -204,6 +269,22 @@
         "Presence-only filename detection does not assess hardware security",
         "KiCad netlist parsing is a separate candidate analyzer",
         "Detailed BOM parsing requires the explicit hardware.hbom-import capability"
+      ]
+    },
+    {
+      "id": "hardware.rtl-security-analysis",
+      "input": "Selected Verilog/SystemVerilog sources and literal Yosys project metadata",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Reports bounded module, port, parameter, process, assignment, instance, clock/reset, debug/test, security-constant, and state-machine candidates. Verible is optional; a built-in structural parser is the fallback.",
+      "limitations": [
+        "No formal verification",
+        "No gate-level proof",
+        "No timing analysis",
+        "No physical FPGA proof",
+        "No runtime validation",
+        "PRESENT is not synthesis inclusion; only literal Yosys read_verilog references are marked BUILD_INCLUDED",
+        "No complete macro, include, or project elaboration"
       ]
     },
     {
@@ -241,6 +322,68 @@
       ]
     },
     {
+      "id": "cyber-physical.reachability",
+      "input": "Explicit DTS, KiCad XML netlist and caller-provided pin mapping",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Correlates explicit pin mappings to netlist connector candidates with partial device-tree evidence.",
+      "limitations": [
+        "Does not resolve preprocessing or pinctrl",
+        "Does not prove physical access or exploitability",
+        "Requires an explicit finding and pin mapping"
+      ]
+    },
+    {
+      "id": "flight.cfe-bus",
+      "input": "Explicit cFE C source files and application assignments",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Extracts a partial symbolic cFE bus graph with duplicate-subscription and optional configured-boundary review observations.",
+      "limitations": [
+        "No C preprocessing or application ownership inference",
+        "Policy uses exact symbolic matches only",
+        "No runtime routing or privilege validation",
+        "F Prime is not implemented"
+      ]
+    },
+    {
+      "id": "flight.radiation-indicators",
+      "input": "Explicit C source file",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Observes selected named flight-state declarations and same-line resilience indicators.",
+      "limitations": [
+        "Partial static patterns do not prove radiation safety or absence of protection",
+        "No cross-file or hardware analysis"
+      ]
+    },
+    {
+      "id": "hardware.digital-twin",
+      "input": "Explicit local CMSIS-SVD and optional CSV or TSV BOM",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Builds a bounded partial peripheral description; an API can export constrained synthetic Renode mocks.",
+      "limitations": [
+        "SVD derived entries, arrays and clusters are omitted",
+        "BOM matches are unverified candidates",
+        "Renode export has not been execution-tested",
+        "No firmware execution or QEMU export"
+      ]
+    },
+    {
+      "id": "policy.rego",
+      "input": "Normalized FUSE evidence and an explicit Rego policy",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optionally evaluates bounded, versioned FUSE evidence with a locally installed OPA executable.",
+      "limitations": [
+        "OPA is optional and is never installed by FUSE",
+        "Policy results are separate from FUSE findings and do not assign vulnerability severity",
+        "Unsupported or incomplete evidence is unknown",
+        "No formal certification or compliance status is claimed"
+      ]
+    },
+    {
       "id": "runtime.lab-validation",
       "input": "Physical device or controlled lab evidence",
       "profile": null,
@@ -261,6 +404,199 @@
         "Inspection does not execute code, build tools, package managers, or use the network",
         "Symbolic links are excluded and make identity incomplete; bounded inspection can return unknown",
         "Recommendations are advisory and do not enable analyzers or change scan routing"
+      ]
+    },
+    {
+      "id": "evidence.graph-v1",
+      "input": "FUSE JSON reports and explicit evidence imports",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Versioned graph identity, provenance, coverage and deterministic evidence connections.",
+      "limitations": [
+        "Opt-in section; existing finding verdicts are unchanged",
+        "Imported producer assertions are not independent verification"
+      ]
+    },
+    {
+      "id": "source.semantic-flow",
+      "input": "Existing CodeQL SARIF or offline Joern paths",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Bounded source-to-sink, call, sanitizer and barrier normalization.",
+      "limitations": [
+        "No target build or FUSE-owned compiler/CPG",
+        "Path feasibility and deployed exploitability remain unknown",
+        "Live optional engines are not verified by fixture tests"
+      ]
+    },
+    {
+      "id": "dependency.function-reachability",
+      "input": "Exact package/advisory/symbol/build and call graph bindings",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Separate package presence, inclusion, symbol presence/reference and static entry-point reachability.",
+      "limitations": [
+        "Runtime exposure remains unknown",
+        "Name-only or inferred calls do not establish reachability"
+      ]
+    },
+    {
+      "id": "binary.deep-intelligence",
+      "input": "LIEF metadata and Ghidra function/call artifacts",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Binary hardening posture, direct calls, indirect candidates and explicit source correspondence.",
+      "limitations": [
+        "Missing hardening is not a confirmed vulnerability",
+        "Live LIEF and new Ghidra producer execution remain unverified"
+      ]
+    },
+    {
+      "id": "firmware.rootfs-intelligence",
+      "input": "Explicit sandboxed Binwalk extraction or normalized inventories",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Bounded filesystem, service, package, account and redacted key/certificate metadata.",
+      "limitations": [
+        "Extraction is opt-in and needs a pinned sandbox image",
+        "No emulation or physical/runtime exposure claim",
+        "Live extraction remains unverified"
+      ]
+    },
+    {
+      "id": "runtime.evidence",
+      "input": "Existing ASan, UBSan, MSan, TSan and LSan logs",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Passive runtime observations and explicit reviewer support links.",
+      "limitations": [
+        "No automatic target execution",
+        "Runtime observations do not establish deployed exploitability"
+      ]
+    },
+    {
+      "id": "correlation.cross-layer",
+      "input": "Explicit graph fact and identity bindings",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Seven deterministic multi-layer candidate rules with distinct artifact requirements.",
+      "limitations": [
+        "Observed, asserted, inferred and unknown evidence remain separate",
+        "No automatic severity upgrade or physical access claim"
+      ]
+    },
+    {
+      "id": "attack-paths.graph-query",
+      "input": "Explicit graph start/goal queries and optional runtime review bindings",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Bounded deterministic candidates with weakest-edge and assumption reporting.",
+      "limitations": [
+        "No AI-generated chains or automatic exploitability verdict",
+        "VALIDATED display state is reviewed test scope only"
+      ]
+    },
+    {
+      "id": "benchmark.independent",
+      "input": "Pinned external corpus labels and provenance-bound predictions",
+      "profile": "generic",
+      "label": "experimental",
+      "scope": "Per-capability confusion outcomes, unknown/review coverage and measured performance.",
+      "limitations": [
+        "Authored fixtures are regression evidence only",
+        "Initial OWASP semantic predictions are UNKNOWN; accuracy is unmeasured",
+        "Independent human field review and other capability corpora remain pending"
+      ]
+    },
+    {
+      "id": "software.native",
+      "input": "Software projects",
+      "profile": null,
+      "label": "basic",
+      "scope": "Python subprocess shell, imported builtins eval/exec, unsafe YAML, and Dockerfile mutable-tag checks; existing native credential and TLS checks.",
+      "limitations": [
+        "No taint tracking",
+        "No runtime verification"
+      ]
+    },
+    {
+      "id": "software.semgrep",
+      "input": "Software projects",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional local-rule Semgrep evidence.",
+      "limitations": [
+        "Host execution is skipped with strict no-network",
+        "No live version verified"
+      ]
+    },
+    {
+      "id": "software.codeql",
+      "input": "Software projects",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional existing-database CodeQL analysis.",
+      "limitations": [
+        "No database construction",
+        "No live version verified"
+      ]
+    },
+    {
+      "id": "software.dependencies",
+      "input": "Software projects",
+      "profile": null,
+      "label": "partial",
+      "scope": "Optional Syft CycloneDX inventory, supplied CycloneDX or SPDX 2.x JSON, Trivy local-image inventory, and OSV advisory matching; reports component presence separately from advisory matches.",
+      "limitations": [
+        "Requires explicit analyzer options and installed tools",
+        "Inventory presence and advisory matches do not prove reachability",
+        "Component report is capped at 10000 entries"
+      ]
+    },
+    {
+      "id": "software.secrets",
+      "input": "Software projects",
+      "profile": null,
+      "label": "partial",
+      "scope": "Native redacted checks, optional Gitleaks history scanning, and optional Trivy filesystem secret scanning in the no-network Docker sandbox.",
+      "limitations": [
+        "Trivy reports findings only and cannot prove file-level coverage",
+        "No live Trivy version verified",
+        "No comprehensive secret detection claim"
+      ]
+    },
+    {
+      "id": "software.iac",
+      "input": "Software projects",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Optional no-network Docker Trivy configuration scan.",
+      "limitations": [
+        "No live Trivy version verified",
+        "Remote modules cannot be fetched"
+      ]
+    },
+    {
+      "id": "software.container",
+      "input": "Software projects and explicit local images",
+      "profile": null,
+      "label": "experimental",
+      "scope": "Passive Dockerfile latest-tag check plus explicit Trivy vulnerability scanning of an already-present local Docker image.",
+      "limitations": [
+        "No image pull or registry fallback",
+        "Requires pre-cached Trivy databases",
+        "No image scan in Docker analyzer sandbox",
+        "No live Trivy validation"
+      ]
+    },
+    {
+      "id": "software.cicd",
+      "input": "Software projects",
+      "profile": null,
+      "label": "basic",
+      "scope": "Existing GitHub Actions static checks.",
+      "limitations": [
+        "No general CI taint analysis"
       ]
     }
   ]

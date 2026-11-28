@@ -32,6 +32,13 @@ from .analyzers import (
     scan_git_history,
     scan_vulnerabilities,
 )
+from .software_semgrep import run_semgrep
+from .software_codeql import run_codeql
+from .software_iac import run_trivy_config
+from .software_secrets import run_trivy_secrets
+from .software_container_image import run_trivy_image
+from .software_correlation import correlate_findings
+from .dependency_analyzers import read_sbom_components
 from .baseline import create_baseline, diff_baseline, suppress_finding, unsuppress_finding
 from .build_context import inspect_compilation_database, inspect_platformio
 from .config import ScanConfig, load_config
@@ -52,6 +59,7 @@ from .frontier_cli import (
     run_command as run_frontier_command,
 )
 from .hardware_bom import hardware_bom_document
+from .sparta_mapping import sparta_mapping_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
 from .path_safety import (
     assert_no_path_aliases,
@@ -478,6 +486,31 @@ def _parser() -> argparse.ArgumentParser:
         help="optional Ghidra compiler specification for raw firmware with a language ID",
     )
     scan_parser.add_argument(
+        "--semgrep-config", type=Path, help="run installed Semgrep with trusted local rules"
+    )
+    scan_parser.add_argument(
+        "--codeql-database",
+        type=Path,
+        help="analyze an existing CodeQL database outside the target",
+    )
+    scan_parser.add_argument(
+        "--codeql-queries", type=Path, help="trusted local CodeQL query or suite"
+    )
+    scan_parser.add_argument(
+        "--iac",
+        action="store_true",
+        help="run offline Trivy configuration checks in the Docker analyzer sandbox",
+    )
+    scan_parser.add_argument(
+        "--trivy-secrets",
+        action="store_true",
+        help="run redacted Trivy secret checks in the Docker analyzer sandbox",
+    )
+    scan_parser.add_argument(
+        "--container-image",
+        help="scan an explicitly selected local Docker image with Trivy; no pulls or database updates",
+    )
+    scan_parser.add_argument(
         "--git-history",
         action=argparse.BooleanOptionalAction,
         default=None,
@@ -508,7 +541,7 @@ def _parser() -> argparse.ArgumentParser:
         action="append",
         default=[],
         metavar="TOOL=IMAGE@sha256:DIGEST",
-        help="local digest-pinned analyzer image; repeat for syft, osv-scanner, binwalk, or gitleaks",
+        help="local digest-pinned analyzer image; repeat for syft, osv-scanner, binwalk, gitleaks, or trivy",
     )
     scan_parser.add_argument(
         "--sandbox-allow-osv-network",
@@ -948,6 +981,12 @@ def _scan_plan(
     include: tuple[str, ...],
     exclude: tuple[str, ...],
     rule_timeout_seconds: float,
+    semgrep_config: Path | None = None,
+    codeql_database: Path | None = None,
+    iac: bool = False,
+    trivy_secrets: bool = False,
+    container_image: str | None = None,
+    path_filtered: bool = False,
 ) -> int:
     validate_rule_timeout(rule_timeout_seconds)
     for name, value, maximum in (
@@ -1401,6 +1440,34 @@ def _scan_plan(
             }
         )
 
+    for name, tool, requested, host_only in (
+        ("semgrep", "semgrep", semgrep_config is not None, True),
+        ("codeql", "codeql", codeql_database is not None, True),
+        ("trivy-config", "trivy", iac, False),
+        ("trivy-secrets", "trivy", trivy_secrets, False),
+        ("trivy-image", "trivy", container_image is not None, True),
+    ):
+        status: _PlanStageStatus = "skipped"
+        reason = "Not requested."
+        if requested:
+            if path_filtered and name != "trivy-image":
+                reason = "This adapter cannot preserve the requested FUSE path filters."
+            elif host_only and analyzer_sandbox is not None:
+                reason = "This adapter cannot run in the selected Docker analyzer sandbox."
+            elif not host_only and analyzer_sandbox is None:
+                reason = "This adapter requires the no-network Docker analyzer sandbox."
+            elif no_network and name in {"semgrep", "codeql", "trivy-image"}:
+                reason = "Strict host network isolation is unavailable; the adapter will not run."
+            else:
+                installed = _optional_analyzer_available(tool, analyzer_sandbox)
+                status = "planned" if installed else "unavailable"
+                reason = (
+                    "Explicit bounded analysis; coverage and applicability require review."
+                    if installed
+                    else "The configured optional analyzer is unavailable."
+                )
+        stages.append({"name": name, "requested": requested, "status": status, "reason": reason})
+
     cyber_physical_hints = (
         frontier_hints(
             discovery_preview["selected_files_sample"],
@@ -1610,15 +1677,26 @@ def _analyze_with_optional_tools(
     git_history: bool = False,
     no_network: bool = False,
     sbom_input: bool = False,
+    semgrep_config: Path | None = None,
+    codeql_database: Path | None = None,
+    codeql_queries: Path | None = None,
+    iac: bool = False,
+    trivy_secrets: bool = False,
+    container_image: str | None = None,
+    path_filtered: bool = False,
+    docker_sandbox: bool = False,
 ) -> ScanResult:
     analyzers = list(result.analyzers)
     findings = list(result.findings)
     artifacts = list(result.artifacts)
     sbom_path: Path | None = None
+    components = result.software_components
+    inventory_status = result.package_inventory_status
     sbom_too_large = sbom_input and target.stat().st_size > MAX_SBOM_DETECTION_BYTES
 
     if sbom_input:
         if sbom_too_large:
+            inventory_status = "partial"
             if sbom or vulnerabilities:
                 analyzers.append(
                     AnalyzerStatus(
@@ -1638,6 +1716,10 @@ def _analyze_with_optional_tools(
         else:
             sbom_path = target
         if (sbom or vulnerabilities) and not sbom_too_large:
+            inventory_result = read_sbom_components(target)
+            components = inventory_result.software_components
+            inventory_status = inventory_result.status.status
+            analyzers.append(replace(inventory_result.status, name="sbom-inventory"))
             analyzers.append(
                 AnalyzerStatus(
                     "syft",
@@ -1650,7 +1732,9 @@ def _analyze_with_optional_tools(
         analyzers.append(syft_result.status)
         findings.extend(syft_result.findings)
         artifacts.extend(syft_result.artifacts)
-        if syft_result.status.status == "completed":
+        components = syft_result.software_components
+        inventory_status = syft_result.status.status
+        if syft_result.status.status in {"completed", "partial"} and syft_result.artifacts:
             sbom_path = output_dir / "components.cdx.json"
 
     if vulnerabilities:
@@ -1730,6 +1814,73 @@ def _analyze_with_optional_tools(
         findings.extend(history_result.findings)
         artifacts.extend(history_result.artifacts)
 
+    for name, requested in (
+        ("semgrep", semgrep_config is not None),
+        ("codeql", codeql_database is not None),
+        ("trivy-config", iac),
+        ("trivy-secrets", trivy_secrets),
+        ("trivy-image", container_image is not None),
+    ):
+        if not requested:
+            continue
+        if path_filtered and name != "trivy-image":
+            adapter = AdapterResult(
+                AnalyzerStatus(
+                    name,
+                    "skipped",
+                    detail="This adapter cannot preserve requested FUSE path filters.",
+                )
+            )
+        elif name in {"semgrep", "codeql", "trivy-image"} and docker_sandbox:
+            adapter = AdapterResult(
+                AnalyzerStatus(
+                    name,
+                    "skipped",
+                    detail="This host adapter cannot run in the selected Docker analyzer sandbox.",
+                )
+            )
+        elif name == "semgrep":
+            assert semgrep_config is not None
+            adapter = run_semgrep(
+                target, semgrep_config, no_network=no_network, output_dir=output_dir
+            )
+        elif name == "codeql":
+            assert codeql_database is not None and codeql_queries is not None
+            adapter = run_codeql(target, codeql_database, codeql_queries, no_network=no_network)
+        elif name == "trivy-config":
+            adapter = run_trivy_config(target)
+        elif name == "trivy-secrets":
+            adapter = run_trivy_secrets(target)
+        elif no_network:
+            adapter = AdapterResult(
+                AnalyzerStatus(
+                    name,
+                    "skipped",
+                    detail="Strict host network isolation is unavailable; image scanning was not launched.",
+                )
+            )
+        else:
+            assert container_image is not None
+            adapter = run_trivy_image(container_image)
+        analyzers.append(adapter.status)
+        findings.extend(adapter.findings)
+        artifacts.extend(adapter.artifacts)
+        if name == "trivy-image":
+            merged = {
+                (c.source, c.ecosystem, c.name, c.version): c
+                for c in (*components, *adapter.software_components)
+            }
+            inventory_status = (
+                adapter.status.status
+                if inventory_status == "not-requested"
+                else "completed"
+                if inventory_status == adapter.status.status == "completed"
+                else "partial"
+            )
+            if len(merged) > 10_000:
+                inventory_status = "partial"
+            components = tuple(merged[key] for key in sorted(merged)[:10_000])
+    findings = list(correlate_findings(tuple(findings)))
     findings.sort(key=lambda item: (item.file.casefold(), item.start_line or 0, item.rule_id))
     analyzer_names = {
         "syft": "syft",
@@ -1757,6 +1908,8 @@ def _analyze_with_optional_tools(
         analyzers=tuple(analyzers),
         findings=tuple(findings),
         artifacts=tuple(artifacts),
+        software_components=components,
+        package_inventory_status=inventory_status,
     )
 
 
@@ -2229,6 +2382,18 @@ def main(
             output_dir=output_dir,
             allow_osv_network=args.sandbox_allow_osv_network,
         )
+        if (args.codeql_database is None) != (args.codeql_queries is None):
+            raise ValueError("--codeql-database and --codeql-queries must be supplied together")
+        optional_analysis = optional_analysis or any(
+            (
+                args.semgrep_config,
+                args.codeql_database,
+                args.iac,
+                args.trivy_secrets,
+                args.container_image,
+            )
+        )
+        path_filtered = bool(include or exclude)
         if optional_analysis and args.output is not None:
             raise ValueError("Use --output-dir when enabling external analyzers")
         if args.hardware_bom and args.output is not None:
@@ -2277,6 +2442,12 @@ def main(
                 include=include,
                 exclude=exclude,
                 rule_timeout_seconds=args.rule_timeout,
+                semgrep_config=args.semgrep_config,
+                codeql_database=args.codeql_database,
+                iac=args.iac,
+                trivy_secrets=args.trivy_secrets,
+                container_image=args.container_image,
+                path_filtered=path_filtered,
             )
 
         if _interactive_scan:
@@ -2314,6 +2485,11 @@ def main(
             if offline_vulnerabilities
             else "network-allowed"
             if vulnerabilities
+            or args.semgrep_config
+            or args.codeql_database
+            or args.container_image
+            else "no-network"
+            if (args.iac or args.trivy_secrets) and args.analyzer_sandbox == "docker"
             else "not-requested"
         )
         result = replace(result, network_policy=network_policy)
@@ -2350,6 +2526,14 @@ def main(
                         offline_vulnerabilities=offline_vulnerabilities,
                         no_network=args.no_network,
                         sbom_input=sbom_input,
+                        semgrep_config=args.semgrep_config,
+                        codeql_database=args.codeql_database,
+                        codeql_queries=args.codeql_queries,
+                        iac=args.iac,
+                        trivy_secrets=args.trivy_secrets,
+                        container_image=args.container_image,
+                        path_filtered=path_filtered,
+                        docker_sandbox=args.analyzer_sandbox == "docker",
                     )
         if args.product_purl:
             result = replace(result, product_purl=args.product_purl)
@@ -2390,6 +2574,22 @@ def main(
                     ),
                 ),
             )
+            mapping_content = sparta_mapping_document(result.findings)
+            if mapping_content is not None:
+                mapping_path = output_dir / "hardware-sparta-mapping.json"
+                mapping_bytes = mapping_content.encode("utf-8")
+                safe_write_bytes(mapping_path, mapping_bytes)
+                result = replace(
+                    result,
+                    artifacts=(
+                        *result.artifacts,
+                        AnalysisArtifact(
+                            path=mapping_path.relative_to(output_dir).as_posix(),
+                            media_type="application/json",
+                            sha256=hashlib.sha256(mapping_bytes).hexdigest(),
+                        ),
+                    ),
+                )
         if output_dir is not None:
             _write_reports(result, output_dir)
             policy_output = output_dir / "policy-results.json"
@@ -2482,6 +2682,11 @@ def main(
         "binwalk": firmware,
         "ghidra": ghidra,
         "gitleaks-history": git_history,
+        "semgrep": args.semgrep_config is not None,
+        "codeql": args.codeql_database is not None,
+        "trivy-config": args.iac,
+        "trivy-secrets": args.trivy_secrets,
+        "trivy-image": args.container_image is not None,
     }
     if any(
         analyzer.status

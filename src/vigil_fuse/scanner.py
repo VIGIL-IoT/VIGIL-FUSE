@@ -16,6 +16,8 @@ from .firmware_inventory import inspect_firmware_candidates
 from .github_actions import inspect_github_actions
 from .hardware import classify_hardware_file
 from .hardware_bom import inspect_hardware_bom
+from .hardware_advisories import findings_from_matches, match_hardware_bom
+from .bus_exposure import external_memory_findings
 from .hardware_netlist import inspect_kicad_netlist
 from .input_types import MAX_SBOM_DETECTION_BYTES
 from .limits import (
@@ -550,8 +552,18 @@ def scan(
             )
     if selected_netlist is not None:
         netlist_inventory, netlist_findings = inspect_kicad_netlist(
-            requested, selected_netlist, strict_format=not auto_selected_netlist
+            requested,
+            selected_netlist,
+            strict_format=not auto_selected_netlist,
+            hardware_bom=hardware_bom_inventory,
         )
+    hardware_bom_findings = (
+        *findings_from_matches(
+            match_hardware_bom(hardware_bom_inventory),
+            source_path=hardware_bom_inventory.source_path or "hardware-bom",
+        ),
+        *external_memory_findings(hardware_bom_inventory),
+    )
     findings: list[Finding] = []
     skipped: Counter[str] = Counter()
     if sbom_too_large:
@@ -760,6 +772,7 @@ def scan(
     findings.extend(hardening_findings)
     findings.extend(workflow_findings)
     findings.extend(netlist_findings)
+    findings.extend(hardware_bom_findings)
     for artifact in project_context.configuration_files:
         if artifact.sha256:
             manifest.update(
@@ -913,6 +926,26 @@ def scan(
                     else "; ".join(netlist_inventory.limitations)
                 ),
                 findings=len(netlist_findings),
+            ),
+        )
+    if hardware_bom_inventory.status != "not-requested":
+        analyzer_status = (
+            *analyzer_status,
+            AnalyzerStatus(
+                name="hardware-bom-advisory-static",
+                status=(
+                    "completed"
+                    if hardware_bom_inventory.status == "imported"
+                    else "partial"
+                    if hardware_bom_inventory.status == "partial"
+                    else "failed"
+                ),
+                detail=(
+                    f"Reviewed {hardware_bom_inventory.component_count} BOM component(s) against the packaged hardware advisory catalog; matches remain conditional on product and configuration evidence."
+                    if hardware_bom_inventory.status in {"imported", "partial"}
+                    else "; ".join(hardware_bom_inventory.limitations)
+                ),
+                findings=len(hardware_bom_findings),
             ),
         )
     if rtl_status is not None:

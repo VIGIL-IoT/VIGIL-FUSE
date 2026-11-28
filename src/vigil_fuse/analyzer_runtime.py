@@ -27,7 +27,7 @@ from .analyzer_sandbox import (
     container_user,
     report_mask_destination,
 )
-from .model import AnalysisArtifact, AnalyzerStatus, Finding
+from .model import AnalysisArtifact, AnalyzerStatus, Finding, SoftwareComponent
 from .path_safety import assert_no_path_aliases
 from .setup.tool_paths import resolve_managed_tool
 
@@ -105,6 +105,8 @@ class AdapterResult:
     status: AnalyzerStatus
     findings: tuple[Finding, ...] = ()
     artifacts: tuple[AnalysisArtifact, ...] = ()
+    software_components: tuple[SoftwareComponent, ...] = ()
+    component_inventory_complete: bool = False
 
 
 def inspect_tools() -> tuple[tuple[str, str | None, str | None], ...]:
@@ -115,6 +117,9 @@ def inspect_tools() -> tuple[tuple[str, str | None, str | None], ...]:
         ("OSV-Scanner", "osv-scanner"),
         ("Binwalk", "binwalk"),
         ("Gitleaks", "gitleaks"),
+        ("Semgrep", "semgrep"),
+        ("CodeQL", "codeql"),
+        ("Trivy", "trivy"),
     ):
         executable = shutil.which(executable_name) or resolve_managed_tool(executable_name)
         tools.append((display_name, executable, _tool_version(executable) if executable else None))

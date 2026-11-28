@@ -38,7 +38,12 @@ def scan_provenance_json(result: ScanResult, report_artifacts: Mapping[str, byte
         "network_policy": result.network_policy,
         "rules_enabled": list(result.rules_enabled),
         "analyzers": [
-            {"name": analyzer.name, "status": analyzer.status, "version": analyzer.version}
+            {
+                "name": analyzer.name,
+                "status": analyzer.status,
+                "version": analyzer.version,
+                "configuration_sha256": analyzer.configuration_sha256,
+            }
             for analyzer in result.analyzers
         ],
     }

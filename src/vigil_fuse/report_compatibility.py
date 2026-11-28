@@ -18,7 +18,7 @@ def require_canonical_report(report: dict[str, Any]) -> None:
         or not isinstance(identity.get("primary_type"), str)
         or not isinstance(generated, dict)
         or generated.get("name") != "FUSE"
-        or "software_security" in report
+        or (version == "1.14" and "software_security" in report)
     ):
         raise ValueError(f"Unsupported or ambiguous FUSE {version} report lineage")
     if version == "1.15" and (

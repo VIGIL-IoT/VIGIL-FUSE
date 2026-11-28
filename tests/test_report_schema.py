@@ -70,6 +70,9 @@ class ReportSchemaTests(unittest.TestCase):
             previous_report = json.loads(to_json(scan(target)))
         previous_report["schema_version"] = "1.12"
         previous_report.pop("project_inventory")
+        previous_report.pop("software_security")
+        for analyzer in previous_report["coverage"]["analyzers"]:
+            analyzer.pop("configuration_sha256", None)
         previous_report.pop("generated_by")
         previous_report.pop("project_identity")
         previous_report["scan"].pop("target_label")

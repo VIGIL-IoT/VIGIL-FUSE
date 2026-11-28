@@ -6,6 +6,7 @@ from collections import Counter
 from . import __version__
 from .attribution import REPORT_SCHEMA_VERSION, generated_by_metadata
 from .model import ScanResult
+from .software_summary import software_summary
 from .support import capability_for_scan
 from .text_safety import safe_terminal_text
 
@@ -82,12 +83,14 @@ def to_json(result: ScanResult, *, include_evidence_graph: bool = False) -> str:
                     "version": item.version,
                     "detail": item.detail,
                     "findings": item.findings,
+                    "configuration_sha256": item.configuration_sha256,
                 }
                 for item in result.analyzers
             ],
         },
         "project_identity": result.project_identity.to_report_dict(),
         "project_inventory": result.project_identity.inventory,
+        "software_security": software_summary(result),
         "hardware_inventory": {
             "scope": result.hardware_inventory.scope,
             "complete": result.hardware_inventory.complete,
@@ -219,6 +222,7 @@ def to_json(result: ScanResult, *, include_evidence_graph: bool = False) -> str:
                     "manufacturer": item.manufacturer,
                     "part_number": item.part_number,
                     "description": item.description,
+                    "revision": item.revision,
                 }
                 for item in result.hardware_bom.components
             ],
@@ -440,6 +444,11 @@ def _to_text(result: ScanResult) -> str:
             f"{bom.quantity_total} listed part(s)"
         )
         lines.extend(f"  BOM limit: {item}" for item in bom.limitations)
+    if result.package_inventory_status != "not-requested":
+        lines.append(
+            f"Software package inventory: {result.package_inventory_status}; "
+            f"{len(result.software_components)} components; reachability unknown"
+        )
     if result.product_purl:
         lines.append(f"Product PURL: {result.product_purl}")
     if result.vex_import.status != "not-requested":

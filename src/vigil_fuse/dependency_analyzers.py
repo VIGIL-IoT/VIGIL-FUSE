@@ -7,7 +7,7 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 from .analyzer_runtime import (
     MAX_SBOM_BYTES,
@@ -22,8 +22,8 @@ from .analyzer_runtime import (
     analyzer_unavailable_detail,
     resolve_analyzer_executable,
 )
-from .model import AnalyzerStatus, Finding
-from .path_safety import ensure_safe_directory, safe_write_text
+from .model import AnalyzerStatus, Finding, SoftwareComponent
+from .path_safety import assert_no_path_aliases, ensure_safe_directory, safe_write_text
 from .product_context import dependency_component
 
 
@@ -112,7 +112,9 @@ def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
         )
     try:
         artifact = _artifact(sbom_path, "application/vnd.cyclonedx+json", output_dir)
-        document = json.loads(sbom_path.read_text(encoding="utf-8"))
+        document = json.loads(
+            sbom_path.read_text(encoding="utf-8"), object_pairs_hook=_unique_json_object
+        )
     except (OSError, ValueError, TypeError):
         return AdapterResult(
             AnalyzerStatus(
@@ -131,17 +133,268 @@ def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
                 detail="Syft output was not a CycloneDX document.",
             )
         )
-    components = document.get("components", [])
-    component_count = len(components) if isinstance(components, list) else 0
+    components = _software_components(document)
+    component_count = len(components[0])
+    inventory_complete = components[1]
+    component_status: Literal["completed", "partial"] = (
+        "completed" if inventory_complete else "partial"
+    )
     return AdapterResult(
         AnalyzerStatus(
             "syft",
-            "completed",
+            component_status,
             version=version,
-            detail=f"Generated CycloneDX component inventory ({component_count} components).",
+            detail=(
+                f"Generated CycloneDX component inventory ({component_count} components)."
+                if inventory_complete
+                else f"Generated a bounded CycloneDX component inventory ({component_count} components); additional entries were omitted."
+            ),
         ),
         artifacts=(artifact,),
+        software_components=components[0],
+        component_inventory_complete=inventory_complete,
     )
+
+
+_MAX_SOFTWARE_COMPONENTS = 10_000
+_MAX_COMPONENT_TEXT = 2_048
+_PURL_ECOSYSTEMS = {
+    "npm": "npm",
+    "pypi": "Python",
+    "golang": "Go",
+    "maven": "Maven",
+    "nuget": "NuGet",
+    "composer": "Composer",
+    "gem": "Bundler",
+    "cargo": "Cargo",
+    "pub": "Dart",
+    "hex": "Hex",
+    "cran": "R",
+    "conan": "Conan",
+}
+
+
+def _software_components(
+    document: dict[str, Any], *, source: str = "CycloneDX SBOM"
+) -> tuple[tuple[SoftwareComponent, ...], bool]:
+    """Extract a bounded, non-executable package inventory from CycloneDX data."""
+    roots = document.get("components")
+    if not isinstance(roots, list):
+        return (), False
+    pending: list[tuple[object, int]] = [(item, 0) for item in roots[:_MAX_SOFTWARE_COMPONENTS]]
+    found: dict[tuple[str, str, str], SoftwareComponent] = {}
+    complete = len(roots) <= _MAX_SOFTWARE_COMPONENTS
+    visited = 0
+    while pending:
+        item, depth = pending.pop()
+        visited += 1
+        if not isinstance(item, dict):
+            complete = False
+            continue
+        if depth > 16:
+            complete = False
+            continue
+        nested = item.get("components", [])
+        if isinstance(nested, list):
+            remaining = max(0, _MAX_SOFTWARE_COMPONENTS - visited - len(pending))
+            pending.extend((child, depth + 1) for child in nested[:remaining])
+            if len(nested) > remaining:
+                complete = False
+        elif "components" in item:
+            complete = False
+        name = item.get("name")
+        version = item.get("version")
+        if not isinstance(name, str) or not name.strip() or any(ord(char) < 32 for char in name):
+            complete = False
+            continue
+        name = name.strip()
+        if len(name) > _MAX_COMPONENT_TEXT:
+            complete = False
+            continue
+        if version is not None and not isinstance(version, str):
+            complete = False
+            continue
+        version = version.strip() if version else "unknown"
+        if len(version) > _MAX_COMPONENT_TEXT or any(ord(char) < 32 for char in version):
+            complete = False
+            continue
+        purl = item.get("purl")
+        if (
+            not isinstance(purl, str)
+            or len(purl) > _MAX_COMPONENT_TEXT
+            or not purl.startswith("pkg:")
+            or any(ord(char) < 32 for char in purl)
+        ):
+            purl = None
+        ecosystem = _ecosystem_for_purl(purl)
+        key = (ecosystem.casefold(), name.casefold(), version.casefold())
+        component = SoftwareComponent(
+            name=name,
+            version=version or "unknown",
+            ecosystem=ecosystem,
+            purl=purl,
+            source=source,
+        )
+        previous = found.get(key)
+        if previous is None or (component.purl or "") < (previous.purl or ""):
+            found[key] = component
+        if visited >= _MAX_SOFTWARE_COMPONENTS and pending:
+            complete = False
+            break
+    ordered = tuple(found[key] for key in sorted(found)[:_MAX_SOFTWARE_COMPONENTS])
+    return ordered, complete
+
+
+def _ecosystem_for_purl(purl: str | None) -> str:
+    if not purl:
+        return "unknown"
+    purl_type = purl[4:].split("/", 1)[0].split("@", 1)[0].casefold()
+    return _PURL_ECOSYSTEMS.get(purl_type, "unknown")
+
+
+def _spdx_package_purl(package: dict[str, Any]) -> tuple[str | None, bool]:
+    references = package.get("externalRefs", [])
+    if not isinstance(references, list):
+        return None, False
+    complete = len(references) <= 1000
+    for reference in references[:1000]:
+        if not isinstance(reference, dict):
+            complete = False
+            continue
+        reference_type = reference.get("referenceType")
+        if not isinstance(reference_type, str) or reference_type.casefold() != "purl":
+            continue
+        locator = reference.get("referenceLocator")
+        if (
+            isinstance(locator, str)
+            and len(locator) <= _MAX_COMPONENT_TEXT
+            and locator.startswith("pkg:")
+            and not any(ord(char) < 32 for char in locator)
+        ):
+            return locator, complete
+        complete = False
+    return None, complete
+
+
+def _spdx_software_components(
+    document: dict[str, Any],
+) -> tuple[tuple[SoftwareComponent, ...], bool]:
+    packages = document.get("packages")
+    if not isinstance(packages, list):
+        return (), False
+    complete = len(packages) <= _MAX_SOFTWARE_COMPONENTS
+    found: dict[tuple[str, str, str], SoftwareComponent] = {}
+    for package in packages[:_MAX_SOFTWARE_COMPONENTS]:
+        if not isinstance(package, dict):
+            complete = False
+            continue
+        name = package.get("name")
+        version = package.get("versionInfo")
+        if (
+            not isinstance(name, str)
+            or not name.strip()
+            or len(name) > _MAX_COMPONENT_TEXT
+            or any(ord(char) < 32 for char in name)
+        ):
+            complete = False
+            continue
+        if version is not None and (
+            not isinstance(version, str)
+            or len(version) > _MAX_COMPONENT_TEXT
+            or any(ord(char) < 32 for char in version)
+        ):
+            complete = False
+            continue
+        purl, references_complete = _spdx_package_purl(package)
+        complete = complete and references_complete
+        version = version.strip() if version and version.strip() else "unknown"
+        name = name.strip()
+        ecosystem = _ecosystem_for_purl(purl)
+        component = SoftwareComponent(
+            name=name,
+            version=version,
+            ecosystem=ecosystem,
+            purl=purl,
+            source="supplied SPDX SBOM",
+        )
+        key = (ecosystem.casefold(), name.casefold(), version.casefold())
+        previous = found.get(key)
+        if previous is None or (component.purl or "") < (previous.purl or ""):
+            found[key] = component
+    ordered = tuple(found[key] for key in sorted(found))
+    return ordered, complete
+
+
+def _read_bounded_sbom(path: Path) -> str:
+    with path.open("rb") as stream:
+        raw = stream.read(MAX_SBOM_BYTES + 1)
+    if len(raw) > MAX_SBOM_BYTES:
+        raise ValueError("SBOM exceeded byte limit")
+    return raw.decode("utf-8")
+
+
+def read_sbom_components(path: Path) -> AdapterResult:
+    """Read a supplied bounded CycloneDX file for reporting without running a tool."""
+    try:
+        assert_no_path_aliases(path)
+        if path.stat().st_size > MAX_SBOM_BYTES:
+            return AdapterResult(
+                AnalyzerStatus(
+                    "syft", "partial", detail="SBOM exceeded the 50 MiB inventory limit."
+                ),
+                component_inventory_complete=False,
+            )
+        document = json.loads(
+            _read_bounded_sbom(path),
+            object_pairs_hook=_unique_json_object,
+        )
+    except (OSError, UnicodeDecodeError, ValueError, RecursionError):
+        return AdapterResult(
+            AnalyzerStatus(
+                "syft",
+                "failed",
+                detail="Supplied SBOM could not be parsed for its package inventory.",
+            )
+        )
+    if not isinstance(document, dict):
+        return AdapterResult(
+            AnalyzerStatus(
+                "syft", "unsupported", detail="Package inventory reporting requires a JSON SBOM."
+            )
+        )
+    if document.get("bomFormat") == "CycloneDX":
+        components, complete = _software_components(document, source="supplied CycloneDX SBOM")
+    elif isinstance(document.get("spdxVersion"), str) and document["spdxVersion"].startswith(
+        "SPDX-2."
+    ):
+        components, complete = _spdx_software_components(document)
+    else:
+        return AdapterResult(
+            AnalyzerStatus(
+                "syft",
+                "unsupported",
+                detail="Package inventory reporting supports CycloneDX JSON and SPDX 2.x JSON.",
+            )
+        )
+    status: Literal["completed", "partial"] = "completed" if complete else "partial"
+    return AdapterResult(
+        AnalyzerStatus(
+            "syft",
+            status,
+            detail=f"Read {len(components)} components from the supplied SBOM.",
+        ),
+        software_components=components,
+        component_inventory_complete=complete,
+    )
+
+
+def _unique_json_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate JSON object key")
+        result[key] = value
+    return result
 
 
 def _source_location(source_path: str, target: Path) -> str:

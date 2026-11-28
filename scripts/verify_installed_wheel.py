@@ -78,6 +78,7 @@ def main() -> int:
                 "assert files('vigil_fuse').joinpath('policies/production_iot.rego').is_file(); "
                 "assert files('vigil_fuse').joinpath('schemas/fuse-report-1.12.schema.json').is_file(); "
                 "assert files('vigil_fuse').joinpath('schemas/fuse-report-1.15.schema.json').is_file(); "
+                "assert files('vigil_fuse').joinpath('hardware_advisories.json').is_file(); "
                 "assert files('vigil_fuse').joinpath('resources/citation.cff').is_file(); "
                 "print('package metadata and resources OK')",
             ],

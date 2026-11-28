@@ -9,7 +9,8 @@ from pathlib import Path
 from typing import TypedDict
 
 from .build_context import _read_bounded, _select_project_file
-from .model import Finding, NetlistInventory
+from .bus_exposure import is_external_nonvolatile_memory
+from .model import Finding, HardwareBOMInventory, NetlistInventory
 from .text_safety import safe_report_text
 from .xml_safety import (
     MAX_XML_DEPTH,
@@ -143,7 +144,11 @@ def read_netlist_topology(root: Path, supplied: str | Path) -> NetlistTopology:
 
 
 def inspect_kicad_netlist(
-    root: Path, supplied: str | Path, *, strict_format: bool = True
+    root: Path,
+    supplied: str | Path,
+    *,
+    strict_format: bool = True,
+    hardware_bom: HardwareBOMInventory | None = None,
 ) -> tuple[NetlistInventory, tuple[Finding, ...]]:
     """Read a bounded KiCad XML netlist and report debug-interface candidates only."""
     try:
@@ -273,6 +278,85 @@ def inspect_kicad_netlist(
                 validation_status="not-validated",
             )
         )
+
+    if hardware_bom is not None and hardware_bom.status in {"imported", "partial"}:
+        memory_by_reference = {
+            item.reference.casefold(): item
+            for item in hardware_bom.components
+            if is_external_nonvolatile_memory(item)
+        }
+        bus_name = re.compile(
+            r"(?:^|[/_\-])(?:spi|qspi|i2c|sck|sclk|miso|mosi|sda|scl|cs|io[0-3])(?:$|[/_\-])",
+            re.IGNORECASE,
+        )
+        for net in nets:
+            name = safe_report_text(net.attrib.get("name"), limit=240)
+            if not name or not bus_name.search(name):
+                continue
+            connected = [
+                node for node in net.findall("node") if node.attrib.get("ref") in components
+            ]
+            memory_nodes = [
+                node
+                for node in connected
+                if node.attrib.get("ref", "").casefold() in memory_by_reference
+            ]
+            connector_nodes = [
+                node
+                for node in connected
+                if _CONNECTOR_REFERENCE.fullmatch(node.attrib.get("ref", ""))
+                or _CONNECTOR_WORDS.search(components.get(node.attrib.get("ref", ""), ""))
+            ]
+            if not memory_nodes or not connector_nodes:
+                continue
+            memory_refs = ", ".join(
+                f"{node.attrib.get('ref', '?')}.{node.attrib.get('pin', '?')}"
+                for node in memory_nodes[:10]
+            )
+            connector_refs = ", ".join(
+                f"{node.attrib.get('ref', '?')}.{node.attrib.get('pin', '?')}"
+                for node in connector_nodes[:10]
+            )
+            evidence = (
+                safe_report_text(
+                    f"KiCad bus net {name!r} connects BOM-listed external memory {memory_refs} to connector candidate {connector_refs}.",
+                    limit=1000,
+                )
+                or "A bus-labeled net links external memory to a connector candidate."
+            )
+            fingerprint = hashlib.sha256(
+                f"FUSE-HW-BUS-001\0{display}\0{name}\0{evidence}".encode("utf-8")
+            ).hexdigest()
+            findings.append(
+                Finding(
+                    id=f"FUSE-HW-BUS-001:{display}:{net.attrib.get('code', 'unknown')}",
+                    fingerprint=fingerprint,
+                    rule_id="FUSE-HW-BUS-001",
+                    rule_version="1.0.0",
+                    analyzer="external-memory-static",
+                    title="External memory bus reaches a connector candidate",
+                    severity="unknown",
+                    confidence="medium",
+                    category="hardware-bus-exposure",
+                    file=display,
+                    start_line=None,
+                    end_line=None,
+                    evidence=evidence,
+                    explanation=(
+                        "The selected KiCad netlist and BOM identify a bus connection between external memory and a connector candidate. "
+                        "This does not prove PCB routing, physical accessibility, plaintext storage, or readable contents."
+                    ),
+                    potential_impact=(
+                        "If the bus is routed and physically accessible, and the device stores unprotected sensitive data, confidentiality or integrity may be affected."
+                    ),
+                    remediation=(
+                        "Review the PCB routing, physical access, exact memory part, and firmware encryption and write-protection configuration."
+                    ),
+                    applicability="candidate",
+                    validation_method="static",
+                    validation_status="not-validated",
+                )
+            )
 
     inventory = NetlistInventory(
         status="parsed",

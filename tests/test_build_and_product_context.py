@@ -203,9 +203,9 @@ class HardwareBOMTests(unittest.TestCase):
             root = Path(temporary)
             source = root / "board-bom.csv"
             source.write_text(
-                "Reference,Value,Footprint,Manufacturer,MPN\n"
+                "Reference,Value,Footprint,Manufacturer,MPN,Revision\n"
                 "R1,R 10k,0603,Acme,RES-10K\n"
-                "C1; C2,100nF,0402,Parts Inc,CAP-100N\n",
+                "C1; C2,100nF,0402,Parts Inc,CAP-100N,rev 2.0\n",
                 encoding="utf-8",
             )
             inventory = inspect_hardware_bom(root, source.name)
@@ -216,11 +216,16 @@ class HardwareBOMTests(unittest.TestCase):
         self.assertEqual("imported", inventory.status)
         self.assertEqual(2, inventory.component_count)
         self.assertEqual(3, inventory.quantity_total)
+        self.assertEqual("rev 2.0", inventory.components[1].revision)
         self.assertEqual("CycloneDX", document["bomFormat"])
         self.assertEqual("1.6", document["specVersion"])
         self.assertEqual("device", document["metadata"]["component"]["type"])
         self.assertEqual(
             ["R1", "C1; C2"], [item["properties"][0]["value"] for item in document["components"]]
+        )
+        self.assertIn(
+            {"name": "fuse:silicon-revision", "value": "rev 2.0"},
+            document["components"][1]["properties"],
         )
         self.assertEqual(2, report["hardware_bom"]["component_count"])
 

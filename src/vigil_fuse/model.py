@@ -43,6 +43,7 @@ class AnalyzerStatus:
     version: str | None = None
     detail: str | None = None
     findings: int = 0
+    configuration_sha256: str | None = None
 
 
 @dataclass(frozen=True)
@@ -214,6 +215,7 @@ class HardwareBOMComponent:
     manufacturer: str | None = None
     part_number: str | None = None
     description: str | None = None
+    revision: str | None = None
 
 
 @dataclass(frozen=True)
@@ -235,6 +237,18 @@ class DependencyComponent:
     version: str
     ecosystem: str
     purl: str | None = None
+
+
+@dataclass(frozen=True)
+class SoftwareComponent:
+    """A package recorded in a resolved SBOM, not proof of deployment or reachability."""
+
+    name: str
+    version: str
+    ecosystem: str
+    purl: str | None = None
+    source: str = "CycloneDX SBOM"
+    direct_dependency: bool | None = None
 
 
 @dataclass(frozen=True)
@@ -384,6 +398,13 @@ class ProjectContext:
 
 
 @dataclass(frozen=True)
+class CodeFlowLocation:
+    file: str
+    line: int
+    kinds: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
 class Finding:
     id: str
     fingerprint: str
@@ -411,6 +432,13 @@ class Finding:
     severity_version: str | None = None
     component: DependencyComponent | None = None
     vex_review: VexReview | None = None
+    engine_rule_id: str | None = None
+    engine_rule_name: str | None = None
+    cwe: tuple[str, ...] = ()
+    external_severity: str | None = None
+    correlation_group: str | None = None
+    precision: str | None = None
+    code_flow: tuple[tuple[CodeFlowLocation, ...], ...] = ()
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -449,6 +477,29 @@ class Finding:
                 }
                 if self.component
                 else None
+            ),
+            **({"engine_rule_id": self.engine_rule_id} if self.engine_rule_id else {}),
+            **({"engine_rule_name": self.engine_rule_name} if self.engine_rule_name else {}),
+            **({"cwe": list(self.cwe)} if self.cwe else {}),
+            **({"external_severity": self.external_severity} if self.external_severity else {}),
+            **({"correlation_group": self.correlation_group} if self.correlation_group else {}),
+            **({"precision": self.precision} if self.precision else {}),
+            **(
+                {
+                    "code_flow": [
+                        [
+                            {
+                                "file": loc.file,
+                                "line": loc.line,
+                                **({"kinds": list(loc.kinds)} if loc.kinds else {}),
+                            }
+                            for loc in path
+                        ]
+                        for path in self.code_flow
+                    ]
+                }
+                if self.code_flow
+                else {}
             ),
             "vex_review": (
                 {
@@ -498,6 +549,8 @@ class ScanResult:
     artifacts: tuple[AnalysisArtifact, ...] = ()
     encoding_fallback_count: int = 0
     encoding_fallback_files: tuple[str, ...] = ()
+    software_components: tuple[SoftwareComponent, ...] = ()
+    package_inventory_status: str = "not-requested"
     target_label: str | None = None
     project_identity: ProjectIdentity = field(default_factory=ProjectIdentity)
 

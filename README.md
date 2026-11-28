@@ -90,7 +90,6 @@ FUSE is distributed under the custom [VIGIL-FUSE Restricted Use License, version
 
 ## Language composition
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/VIGIL-IoT/VIGIL-FUSE/generated-metrics/assets/generated/language-composition.svg" alt="FUSE language composition line graph" width="700" />
-</p>
-<p align="center"><sub>Compact byte-weighted line graph. Each point label shows its language and exact share. <a href="docs/language-composition.md">How the inventory is measured</a>.</sub></p>
+The [language-composition workflow](https://github.com/VIGIL-IoT/VIGIL-FUSE/actions/workflows/language-composition.yml) classifies the tracked `main` tree and uploads reproducible SVG and JSON files as a seven-day workflow artifact. Run it locally with Docker Desktop using the steps in [the measurement guide](docs/language-composition.md).
+
+Optional [software security adapters](docs/software-security-analysis.md) cover trusted local Semgrep rules, existing CodeQL databases, Docker-isolated Trivy configuration and redacted secret checks, explicit local container images, and bounded SBOM package inventory. Unavailable and partial lanes remain explicit.
