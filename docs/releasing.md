@@ -7,7 +7,7 @@ PyPI publishing is paused. The commands here build and verify local artifacts on
 From the repository root with Python 3.11 or newer:
 
 ~~~powershell
-python -m pip install "build>=1.2,<2" "twine>=7,<8"
+python -m pip install "build==1.6.1" "twine==7.0.0" "setuptools==84.2.1"
 python -m build
 python -m twine check dist/*
 python scripts/verify_installed_wheel.py
@@ -31,6 +31,10 @@ vigil-fuse scan path\to\controlled-fixture --plan
 ~~~
 
 Confirm schemas, policies, the support matrix, the Ghidra exporter, PowerShell resources, and setup catalog are present in the wheel. Record artifact hashes when creating a reviewed release candidate.
+
+The release workflow builds in a job with read-only repository access and no OIDC permission. It checks the wheel and source archive, writes a SHA-256 manifest, and uploads them as a workflow artifact. The protected `pypi` job receives only that artifact, verifies its manifest and release-tag filenames, and requests OIDC only for trusted publishing. It does not check out source or run package build commands.
+
+Build-tool pins are deliberate: the workflow and local validation commands pin `build` and `twine`, while `[build-system].requires` pins the backend used by isolated builds. When updating a pin, check the package's current PyPI release metadata for Python compatibility, update the workflow, build-system requirement, and these commands together, then run the package build, Twine check, and installed-wheel verifier. Developer extras remain version ranges so routine development does not require pin maintenance.
 
 ## Future release gate
 
