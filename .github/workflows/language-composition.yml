@@ -1,0 +1,106 @@
+name: FUSE language composition
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: fuse-language-composition
+  cancel-in-progress: true
+
+jobs:
+  generate:
+    name: Classify current main
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      FUSE_LINGUIST_IMAGE: ghcr.io/github-linguist/linguist@sha256:cfe77ac6fe1d7d46c2e705922f53ddb8260f2bbe37ccceb8d9ef13ddce151fb6
+    steps:
+      - name: Check out current main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+      - name: Install test runner
+        run: python -m pip install "pytest==9.0.3"
+      - name: Pull the pinned Linguist image
+        run: docker pull "$FUSE_LINGUIST_IMAGE"
+      - name: Test inventory and Linguist file classification
+        run: python -m pytest -q tests/test_language_composition.py
+      - name: Generate SVG and JSON from main
+        run: >-
+          python scripts/generate_language_composition.py
+          --repo "$GITHUB_WORKSPACE"
+          --ref main
+          --output-dir "$RUNNER_TEMP/language-composition"
+      - name: Upload generated assets
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: language-composition
+          path: ${{ runner.temp }}/language-composition/*
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    name: Publish generated metrics branch
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download generated assets
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: language-composition
+          path: ${{ runner.temp }}/language-composition
+      - name: Publish only the generated assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          METRICS_DIR: ${{ runner.temp }}/language-composition
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "$METRICS_DIR/language-composition.svg"
+          test -s "$METRICS_DIR/language-composition.json"
+          source_sha="$(jq -r .commit "$METRICS_DIR/language-composition.json")"
+          auth_header="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 --wrap=0)"
+          remote="https://github.com/${GITHUB_REPOSITORY}.git"
+          main_sha="$(git -c "http.https://github.com/.extraheader=$auth_header" ls-remote "$remote" refs/heads/main | cut -f1)"
+          if [[ "$source_sha" != "$main_sha" ]]; then
+            echo "main advanced during generation; a newer workflow run will publish its metrics"
+            exit 1
+          fi
+          workdir="$(mktemp -d)"
+          trap 'rm -rf "$workdir"' EXIT
+          cd "$workdir"
+          git init -q
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add origin "$remote"
+          if git -c "http.https://github.com/.extraheader=$auth_header" ls-remote --exit-code origin refs/heads/generated-metrics >/dev/null; then
+            git -c "http.https://github.com/.extraheader=$auth_header" fetch --no-tags origin refs/heads/generated-metrics:refs/remotes/origin/generated-metrics
+            git checkout -q -B generated-metrics origin/generated-metrics
+          else
+            git checkout -q --orphan generated-metrics
+          fi
+          mkdir -p assets/generated
+          cp "$METRICS_DIR/language-composition.svg" assets/generated/
+          cp "$METRICS_DIR/language-composition.json" assets/generated/
+          git add assets/generated/language-composition.svg assets/generated/language-composition.json
+          if git diff --cached --quiet; then
+            echo "generated metrics already match main"
+            exit 0
+          fi
+          git commit -m "chore: refresh language composition"
+          git -c "http.https://github.com/.extraheader=$auth_header" push origin HEAD:refs/heads/generated-metrics

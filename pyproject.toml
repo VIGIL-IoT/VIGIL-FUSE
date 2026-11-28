@@ -84,6 +84,7 @@ python_version = "3.11"
 files = [
   "src/vigil_fuse",
   "scripts/benchmark_scan.py",
+  "scripts/generate_language_composition.py",
   "scripts/benchmark_repository_cohort.py",
   "scripts/prepare_repository_benchmark_cohort.py",
   "scripts/benchmark_process.py",
