@@ -9,6 +9,12 @@ from . import __version__
 from .model import ScanResult
 from .terminal import _ASCII_MARK
 from .text_safety import safe_report_text
+from .path_safety import (
+    assert_no_path_aliases,
+    ensure_safe_directory,
+    safe_write_bytes,
+    safe_write_text,
+)
 
 
 _LATEX_ESCAPES = str.maketrans(
@@ -183,27 +189,22 @@ Files scanned & Finding candidates & Files skipped
 
 def write_pdf_report(result: ScanResult, output_dir: Path) -> tuple[Path | None, str | None]:
     """Save a LaTeX report and compile it when a supported engine is available."""
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = ensure_safe_directory(output_dir)
     tex_path = output_dir / "fuse-report.tex"
     pdf_path = output_dir / "fuse-report.pdf"
-    for path in (tex_path, pdf_path):
-        if path.is_symlink():
-            raise OSError(f"Refusing to write report through symbolic link: {path.name}")
-        if path.exists() and not path.is_file():
-            raise OSError(f"Report output path is not a regular file: {path.name}")
-
     xelatex = shutil.which("xelatex")
     pdflatex = shutil.which("pdflatex")
     engine = xelatex or pdflatex
     source = _render_report(result, xelatex=xelatex is not None)
-    tex_path.write_text(source, encoding="utf-8")
+    safe_write_text(tex_path, source)
     if engine is None:
         return None, "xelatex and pdflatex were not found; the LaTeX source was saved."
 
     try:
         with tempfile.TemporaryDirectory(prefix="vigil-fuse-report-") as temporary:
             build_dir = Path(temporary)
-            (build_dir / tex_path.name).write_text(source, encoding="utf-8")
+            assert_no_path_aliases(build_dir)
+            safe_write_text(build_dir / tex_path.name, source)
             arguments = [engine]
             if "miktex" in engine.casefold():
                 arguments.append("-disable-installer")
@@ -229,7 +230,7 @@ def write_pdf_report(result: ScanResult, output_dir: Path) -> tuple[Path | None,
                     None,
                     f"{Path(engine).name} could not build the PDF; the LaTeX source was saved.",
                 )
-            pdf_path.write_bytes(compiled_pdf.read_bytes())
+            safe_write_bytes(pdf_path, compiled_pdf.read_bytes())
     except (OSError, subprocess.TimeoutExpired):
         return None, "PDF compilation failed; the LaTeX source was saved."
     note = (

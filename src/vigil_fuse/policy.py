@@ -19,6 +19,7 @@ from .analyzer_runtime import (
     _run_with_environment,
 )
 from .model import Finding, ScanResult
+from .path_safety import assert_no_path_aliases, is_path_alias, safe_write_text
 
 POLICY_INPUT_SCHEMA_VERSION = "1.0"
 POLICY_RESULT_SCHEMA_VERSION = "1.0"
@@ -85,8 +86,9 @@ def resolve_policy_files(policy: str | Path) -> tuple[Path, ...]:
     path = Path(supplied).expanduser()
     if not path.exists() and supplied == BUILTIN_POLICY:
         path = Path(__file__).parent / "policies" / "production_iot.rego"
-    if path.is_symlink():
-        raise ValueError("Policy path must not be a symbolic link")
+    if not path.exists():
+        raise ValueError("Policy path does not exist or is not a regular file or directory")
+    assert_no_path_aliases(path)
     if path.is_file():
         if path.suffix.casefold() != ".rego":
             raise ValueError("Policy file must use the .rego extension")
@@ -102,8 +104,9 @@ def resolve_policy_files(policy: str | Path) -> tuple[Path, ...]:
 
     total_bytes = 0
     for candidate in candidates:
-        if candidate.is_symlink() or not candidate.is_file():
-            raise ValueError("Policy modules must be regular, non-symbolic files")
+        assert_no_path_aliases(candidate)
+        if not candidate.is_file():
+            raise ValueError("Policy modules must be regular files without filesystem aliases")
         size = candidate.stat().st_size
         if size > MAX_POLICY_FILE_BYTES:
             raise ValueError(
@@ -347,12 +350,11 @@ def evaluate_policies(policy: str | Path, result: ScanResult) -> dict[str, objec
     evaluations: list[dict[str, object]] = []
     with tempfile.TemporaryDirectory(prefix="vigil-fuse-policy-") as temporary:
         root = Path(temporary)
+        assert_no_path_aliases(root)
         input_path = root / "input.json"
         capabilities_path = root / "capabilities.json"
-        input_path.write_text(input_json, encoding="utf-8")
-        capabilities_path.write_text(
-            json.dumps(capabilities, separators=(",", ":")), encoding="utf-8"
-        )
+        safe_write_text(input_path, input_json)
+        safe_write_text(capabilities_path, json.dumps(capabilities, separators=(",", ":")))
         deadline = time.monotonic() + MAX_POLICY_EVALUATION_SECONDS
         for module in modules:
             fallback_id = _fallback_policy_id(module)
@@ -565,6 +567,7 @@ def _normalize_decision(raw: object, known_refs: set[str]) -> dict[str, object]:
 
 def _policy_directory_files(directory: Path) -> list[Path]:
     candidates: list[Path] = []
+    assert_no_path_aliases(directory)
     root = directory.resolve()
     directories = [directory]
     visited_directories = 0
@@ -580,11 +583,12 @@ def _policy_directory_files(directory: Path) -> list[Path]:
                     visited_entries += 1
                     if visited_entries > MAX_POLICY_DIRECTORY_ENTRIES:
                         raise ValueError("Policy directory exceeds the traversal limit")
-                    if entry.is_symlink():
+                    candidate_path = Path(entry.path)
+                    if is_path_alias(candidate_path):
                         if entry.name.casefold().endswith(".rego"):
-                            raise ValueError("Policy modules must be regular, non-symbolic files")
+                            raise ValueError("Policy modules must be regular files without aliases")
                     elif entry.is_dir(follow_symlinks=False):
-                        child = Path(entry.path)
+                        child = candidate_path
                         if not child.resolve().is_relative_to(root):
                             raise ValueError(
                                 "Policy directory traversal cannot leave the selected root"
@@ -593,7 +597,7 @@ def _policy_directory_files(directory: Path) -> list[Path]:
                     elif entry.is_file(follow_symlinks=False) and entry.name.casefold().endswith(
                         ".rego"
                     ):
-                        candidate = Path(entry.path)
+                        candidate = candidate_path
                         if not candidate.resolve().is_relative_to(root):
                             raise ValueError("Policy modules must stay within the selected root")
                         candidates.append(candidate)

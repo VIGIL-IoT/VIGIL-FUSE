@@ -10,7 +10,6 @@ from pathlib import Path
 from typing import Any
 
 from .analyzer_runtime import (
-    MAX_ANALYZER_OUTPUT_BYTES,
     MAX_SBOM_BYTES,
     AdapterResult,
     AnalyzerOutputLimitError,
@@ -24,6 +23,7 @@ from .analyzer_runtime import (
     resolve_analyzer_executable,
 )
 from .model import AnalyzerStatus, Finding
+from .path_safety import ensure_safe_directory, safe_write_text
 from .product_context import dependency_component
 
 
@@ -42,32 +42,19 @@ def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
         )
 
     version = _tool_version(executable)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = ensure_safe_directory(output_dir)
     try:
         sbom_path = _artifact_destination(output_dir, "components.cdx.json")
     except OSError as error:
         return AdapterResult(AnalyzerStatus("syft", "failed", version=version, detail=str(error)))
     source = f"{'dir' if target.is_dir() else 'file'}:{target.resolve()}"
-    sandboxed = analyzer_sandbox_active()
-    if sandboxed and sbom_path.exists():
-        try:
-            sbom_path.unlink()
-        except OSError as error:
-            return AdapterResult(
-                AnalyzerStatus("syft", "failed", version=version, detail=str(error))
-            )
     command = [executable, "scan", source]
     exclude_pattern = _output_exclude_pattern(target, output_dir)
     if exclude_pattern:
         command.extend(["--exclude", f"./{exclude_pattern}"])
-    command.extend(
-        ["--output", "cyclonedx-json"] if sandboxed else ["--output", f"cyclonedx-json={sbom_path}"]
-    )
+    command.extend(["--output", "cyclonedx-json"])
     try:
-        completed = _run(
-            command,
-            output_limit_bytes=MAX_SBOM_BYTES if sandboxed else MAX_ANALYZER_OUTPUT_BYTES,
-        )
+        completed = _run(command, output_limit_bytes=MAX_SBOM_BYTES)
     except subprocess.TimeoutExpired:
         return AdapterResult(
             AnalyzerStatus("syft", "failed", version=version, detail="Timed out after 180 seconds.")
@@ -87,17 +74,22 @@ def generate_sbom(target: Path, output_dir: Path) -> AdapterResult:
                 "syft",
                 "failed",
                 version=version,
-                detail=(
-                    "Syft output exceeded the 50 MiB SBOM limit."
-                    if sandboxed
-                    else "Syft diagnostics exceeded the 10 MiB limit."
-                ),
+                detail="Syft output and diagnostics exceeded the combined 50 MiB limit.",
             )
         )
 
-    if sandboxed and completed.returncode == 0 and completed.stdout:
+    if completed.returncode == 0 and completed.stdout:
+        if len(completed.stdout.encode("utf-8")) > MAX_SBOM_BYTES:
+            return AdapterResult(
+                AnalyzerStatus(
+                    "syft",
+                    "failed",
+                    version=version,
+                    detail="Generated SBOM exceeded 50 MiB limit.",
+                )
+            )
         try:
-            sbom_path.write_text(completed.stdout, encoding="utf-8")
+            safe_write_text(sbom_path, completed.stdout)
         except OSError as error:
             return AdapterResult(
                 AnalyzerStatus("syft", "failed", version=version, detail=str(error))
@@ -535,12 +527,12 @@ def scan_vulnerabilities(
             )
         )
 
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = ensure_safe_directory(output_dir)
     try:
         result_path = _artifact_destination(output_dir, "osv-results.json")
-        result_path.write_text(
+        safe_write_text(
+            result_path,
             json.dumps(document, ensure_ascii=False, separators=(",", ":")) + "\n",
-            encoding="utf-8",
         )
     except OSError as error:
         return AdapterResult(

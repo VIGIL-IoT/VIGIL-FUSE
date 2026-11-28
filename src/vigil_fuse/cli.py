@@ -53,6 +53,12 @@ from .frontier_cli import (
 )
 from .hardware_bom import hardware_bom_document
 from .model import AnalysisArtifact, AnalyzerStatus, ScanResult
+from .path_safety import (
+    assert_no_path_aliases,
+    ensure_safe_directory,
+    safe_write_bytes,
+    safe_write_text,
+)
 from .platform_context import detect_project_frameworks, resolve_build_dir
 from .project_identity import inspect_project_identity
 from .policy import (
@@ -492,7 +498,10 @@ def _parser() -> argparse.ArgumentParser:
         "--analyzer-sandbox",
         choices=("host", "docker"),
         default="host",
-        help="run optional external analyzers on the host or inside Docker; no automatic fallback",
+        help=(
+            "run analyzers on the unsandboxed host with the current user's permissions, "
+            "or inside Docker; no automatic fallback"
+        ),
     )
     scan_parser.add_argument(
         "--sandbox-image",
@@ -582,38 +591,22 @@ def _exclude_output_directory(
 
 
 def _write_reports(result: ScanResult, output_dir: Path) -> None:
-    output_dir.mkdir(parents=True, exist_ok=True)
     reports = {
         "findings.json": to_json(result).encode("utf-8"),
         "findings.txt": to_text(result).encode("utf-8"),
         "findings.sarif": to_sarif(result).encode("utf-8"),
     }
     for name, content in reports.items():
-        path = output_dir / name
-        if path.is_symlink():
-            raise OSError(f"Refusing to write report through symbolic link: {name}")
-        if path.exists() and not path.is_file():
-            raise OSError(f"Report output path is not a regular file: {name}")
-        path.write_bytes(content)
+        safe_write_bytes(output_dir / name, content)
     for name, content in {
         "FUSE_SCAN_PROVENANCE.json": scan_provenance_json(result, reports).encode("utf-8"),
         "CITATION.cff": citation_cff_text().encode("utf-8"),
     }.items():
-        path = output_dir / name
-        if path.is_symlink():
-            raise OSError(f"Refusing to write bundle metadata through symbolic link: {name}")
-        if path.exists() and not path.is_file():
-            raise OSError(f"Bundle metadata output path is not a regular file: {name}")
-        path.write_bytes(content)
+        safe_write_bytes(output_dir / name, content)
 
 
 def _write_policy_results(document: dict[str, object], path: Path) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    if path.is_symlink():
-        raise OSError("Refusing to write policy results through a symbolic link")
-    if path.exists() and not path.is_file():
-        raise OSError("Policy results output path is not a regular file")
-    path.write_text(policy_results_json(document), encoding="utf-8")
+    safe_write_text(path, policy_results_json(document))
 
 
 def _resolve_ghidra_install_dir(
@@ -971,10 +964,7 @@ def _scan_plan(
             raise ValueError(f"{name} must be between 1 and {maximum}")
     if not target.exists() or (not target.is_file() and not target.is_dir()):
         raise ValueError(f"Target does not exist or is not a regular file/directory: {target}")
-    if target.is_symlink():
-        raise ValueError(
-            "Symbolic-link targets are not followed; pass the resolved file or directory explicitly"
-        )
+    assert_no_path_aliases(target)
     shareable_target = report_target_label(target, target_label)
     project_identity = inspect_project_identity(
         target,
@@ -2121,10 +2111,7 @@ def main(
         if offline_vulnerabilities and not vulnerabilities:
             raise ValueError("--offline-vulnerabilities requires --vulnerabilities")
         analyzer_target = Path(args.target).expanduser()
-        if analyzer_target.is_symlink():
-            raise ValueError(
-                "Symbolic-link targets are not followed; pass the resolved file or directory explicitly"
-            )
+        assert_no_path_aliases(analyzer_target)
         if firmware and not analyzer_target.is_file():
             raise ValueError("--firmware requires a single firmware image file")
         if ghidra and not analyzer_target.is_file() and not args.plan:
@@ -2211,10 +2198,8 @@ def main(
         )
         if args.output is None and output_dir is None:
             output_dir = _default_output_dir(analyzer_target)
-        if output_dir is not None and output_dir.is_symlink():
-            raise ValueError("Report output directory must not be a symbolic link")
         if output_dir is not None:
-            output_dir = output_dir.resolve()
+            output_dir = assert_no_path_aliases(output_dir, allow_missing=True)
         optional_analysis = sbom or vulnerabilities or firmware or ghidra or git_history
         sandbox_images = parse_image_assignments(args.sandbox_image)
         if args.analyzer_sandbox == "host" and (sandbox_images or args.sandbox_allow_osv_network):
@@ -2333,7 +2318,7 @@ def main(
         )
         result = replace(result, network_policy=network_policy)
         if optional_analysis and output_dir is not None:
-            output_dir.mkdir(parents=True, exist_ok=True)
+            output_dir = ensure_safe_directory(output_dir)
             sandbox_scope = (
                 analyzer_sandbox_context(
                     analyzer_sandbox,
@@ -2389,15 +2374,11 @@ def main(
         if result.hardware_bom.status in {"imported", "partial"}:
             if output_dir is None:
                 raise ValueError("A CycloneDX hardware BOM needs a report output directory")
-            output_dir.mkdir(parents=True, exist_ok=True)
             bom_path = output_dir / "hardware-bom.cdx.json"
-            if bom_path.is_symlink():
-                raise ValueError(
-                    "Refusing to write the CycloneDX hardware BOM through a symbolic link"
-                )
             bom_content = hardware_bom_document(result.hardware_bom, product_name=result.target)
-            bom_path.write_bytes(bom_content.encode("utf-8"))
-            bom_digest = hashlib.sha256(bom_path.read_bytes()).hexdigest()
+            bom_bytes = bom_content.encode("utf-8")
+            safe_write_bytes(bom_path, bom_bytes)
+            bom_digest = hashlib.sha256(bom_bytes).hexdigest()
             result = replace(
                 result,
                 artifacts=(
@@ -2429,9 +2410,6 @@ def main(
                     else to_text(result)
                 )
         elif args.output:
-            args.output.parent.mkdir(parents=True, exist_ok=True)
-            if args.output.is_symlink():
-                raise ValueError("Refusing to write report through symbolic link")
             report = (
                 to_json(result)
                 if args.format == "json"
@@ -2439,7 +2417,7 @@ def main(
                 if args.format == "sarif"
                 else to_text(result)
             )
-            args.output.write_text(report, encoding="utf-8")
+            safe_write_text(args.output, report)
             _safe_print(f"Report written to {args.output}", file=sys.stderr)
             if policy_results is not None:
                 policy_output = args.output.with_name(f"{args.output.stem}.policy-results.json")

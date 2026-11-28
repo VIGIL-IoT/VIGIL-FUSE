@@ -40,6 +40,7 @@ from .model import (
     ScanResult,
     SourceFile,
 )
+from .path_safety import assert_no_path_aliases, is_path_alias
 from .rtl_analysis import RTL_SUFFIXES, analyze_rtl
 from .platform_context import inspect_project_context
 from .project_identity import MAX_IDENTITY_SECONDS, inspect_project_identity
@@ -171,11 +172,17 @@ def _candidate_paths(
             discovery_complete = False
             break
         current = Path(directory)
+        try:
+            assert_no_path_aliases(current)
+        except (OSError, ValueError):
+            discovery_complete = False
+            names[:] = []
+            continue
         for name in names:
             library = current / name
             if (
                 name.casefold().endswith(".pretty")
-                and not library.is_symlink()
+                and not is_path_alias(library)
                 and _selected(library, target, (), exclude)
             ):
                 hardware_items.append(
@@ -185,18 +192,26 @@ def _candidate_paths(
                         "KiCad footprint library",
                     )
                 )
-        names[:] = sorted(
-            name
-            for name in names
-            if name not in SKIPPED_DIRECTORIES and not (current / name).is_symlink()
-        )
+        kept_names: list[str] = []
+        for name in names:
+            child = current / name
+            if name in SKIPPED_DIRECTORIES:
+                continue
+            if is_path_alias(child):
+                discovery_complete = False
+                continue
+            kept_names.append(name)
+        names[:] = sorted(kept_names)
         for filename in sorted(filenames):
             if paths_seen >= max_discovered_paths or time.monotonic() >= deadline:
                 discovery_complete = False
                 break
             paths_seen += 1
             path = current / filename
-            if path.is_symlink() or not path.is_file():
+            if is_path_alias(path):
+                discovery_complete = False
+                continue
+            if not path.is_file():
                 continue
             relative = _display_path(path, target)
             if _selected(path, target, (), exclude):
@@ -234,6 +249,7 @@ def preview_discovery(
 ) -> DiscoveryPreview:
     """Summarize path selection without opening source files or invoking analyzers."""
     root = Path(target).expanduser()
+    assert_no_path_aliases(root)
     candidates, discovered, hardware, complete, unsupported = _candidate_paths(
         root,
         get_profile(profile),
@@ -348,12 +364,14 @@ def scan(
     max_scan_seconds: int = MAX_SCAN_SECONDS,
 ) -> ScanResult:
     requested = Path(target).expanduser()
-    if requested.is_symlink():
+    try:
+        assert_no_path_aliases(requested)
+    except FileNotFoundError as error:
+        raise FileNotFoundError(f"Target does not exist: {requested}") from error
+    except ValueError as error:
         raise ValueError(
-            "Symbolic-link targets are not followed; pass the resolved file or directory explicitly"
-        )
-    if not requested.exists():
-        raise FileNotFoundError(f"Target does not exist: {requested}")
+            "Symbolic-link or reparse-point targets are not followed; pass the real path explicitly"
+        ) from error
     if not requested.is_file() and not requested.is_dir():
         raise ValueError(f"Target is not a file or directory: {requested}")
     shareable_target = _report_target(requested, target_label)

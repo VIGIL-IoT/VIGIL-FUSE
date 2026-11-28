@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .model import AnalyzerStatus, ContextArtifact, Finding
-from .path_safety import resolve_inside_directory
+from .path_safety import assert_no_path_aliases, resolve_inside_directory
 from .platform_context import MAX_CONTEXT_FILE_BYTES, resolve_build_dir
 
 _SAFE_SYMBOL = re.compile(r"^(?:CONFIG_)?[A-Z0-9_]{1,160}$")
@@ -24,7 +24,9 @@ def resolve_hardening_report_path(
     report_path: str | Path,
 ) -> tuple[Path, str]:
     """Resolve a report only when it is a regular file inside the selected build directory."""
-    root = Path(target).expanduser().resolve(strict=True)
+    target_path = Path(target).expanduser()
+    assert_no_path_aliases(target_path)
+    root = target_path.resolve(strict=True)
     build_root, _ = resolve_build_dir(root, build_dir)
     supplied = Path(report_path).expanduser()
     candidate = supplied if supplied.is_absolute() else root / supplied

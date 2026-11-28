@@ -22,6 +22,7 @@ from .analyzer_runtime import (
     resolve_analyzer_executable,
 )
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
+from .path_safety import assert_no_path_aliases, ensure_safe_directory, safe_write_text
 
 
 def _git_command(target: Path, *arguments: str) -> subprocess.CompletedProcess[str] | None:
@@ -148,7 +149,17 @@ def _gitleaks_findings(document: object, target: Path, version: str | None) -> t
 
 def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
     """Optionally scan commits reachable from HEAD without persisting secret values."""
-    if not target.is_dir() or target.is_symlink():
+    try:
+        assert_no_path_aliases(target)
+    except (OSError, ValueError):
+        return AdapterResult(
+            AnalyzerStatus(
+                "gitleaks-history",
+                "skipped",
+                detail="Git-history scanning requires a regular repository directory without filesystem aliases.",
+            )
+        )
+    if not target.is_dir():
         return AdapterResult(
             AnalyzerStatus(
                 "gitleaks-history",
@@ -250,8 +261,9 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
     try:
         with tempfile.TemporaryDirectory(prefix="vigil-fuse-gitleaks-") as temporary:
             temporary_dir = Path(temporary)
+            assert_no_path_aliases(temporary_dir)
             config_path = temporary_dir / "gitleaks.toml"
-            config_path.write_text("[extend]\nuseDefault = true\n", encoding="utf-8")
+            safe_write_text(config_path, "[extend]\nuseDefault = true\n")
             command = [
                 executable,
                 "git",
@@ -337,7 +349,7 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
         detail += " The repository's shallow-history state could not be confirmed."
     artifacts: tuple[AnalysisArtifact, ...] = ()
     try:
-        output_dir.mkdir(parents=True, exist_ok=True)
+        output_dir = ensure_safe_directory(output_dir)
         artifact_path = _artifact_destination(output_dir, "git-history-findings.json")
         safe_report = {
             "schema_version": "1.0",
@@ -360,8 +372,9 @@ def scan_git_history(target: Path, output_dir: Path) -> AdapterResult:
                 for finding in findings
             ],
         }
-        artifact_path.write_text(
-            json.dumps(safe_report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        safe_write_text(
+            artifact_path,
+            json.dumps(safe_report, indent=2, ensure_ascii=False) + "\n",
         )
         artifacts = (_artifact(artifact_path, "application/json", output_dir),)
     except (OSError, ValueError, TypeError) as error:

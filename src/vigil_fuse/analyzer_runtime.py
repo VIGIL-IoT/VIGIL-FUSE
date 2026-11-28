@@ -28,6 +28,7 @@ from .analyzer_sandbox import (
     report_mask_destination,
 )
 from .model import AnalysisArtifact, AnalyzerStatus, Finding
+from .path_safety import assert_no_path_aliases
 from .setup.tool_paths import resolve_managed_tool
 
 ANALYZER_TIMEOUT_SECONDS = 180
@@ -462,6 +463,7 @@ def _terminate_process_tree(
 
 
 def _artifact(path: Path, media_type: str, output_dir: Path) -> AnalysisArtifact:
+    assert_no_path_aliases(path)
     data = path.read_bytes()
     return AnalysisArtifact(
         path=path.relative_to(output_dir).as_posix(),
@@ -472,8 +474,7 @@ def _artifact(path: Path, media_type: str, output_dir: Path) -> AnalysisArtifact
 
 def _artifact_destination(output_dir: Path, filename: str) -> Path:
     path = output_dir / filename
-    if path.is_symlink():
-        raise OSError(f"Refusing to write analyzer output through symbolic link: {path.name}")
+    assert_no_path_aliases(path, allow_missing=True)
     if path.exists() and not path.is_file():
         raise OSError(f"Analyzer output path is not a regular file: {path.name}")
     return path
@@ -497,6 +498,7 @@ def _run(
         prefix="vigil-fuse-analyzer-", ignore_cleanup_errors=True
     ) as temporary:
         root = Path(temporary)
+        assert_no_path_aliases(root)
         environment = _isolated_analyzer_environment(command, root)
         excluded_names = {name.casefold() for name in environment_exclude}
         if excluded_names:

@@ -20,7 +20,7 @@ from .analyzer_runtime import (
     run_bounded_host_tool,
 )
 from .model import AnalyzerStatus, Finding, HardwareArtifact, RTLAnalysis, Severity, SourceFile
-from .path_safety import resolve_inside_directory
+from .path_safety import assert_no_path_aliases, resolve_inside_directory, safe_write_text
 
 RTL_SUFFIXES = frozenset({".v", ".vh", ".sv", ".svh"})
 _RTL_MAX_FILES = 200
@@ -237,8 +237,10 @@ def _verible_tokens(
 ) -> tuple[list[_Token] | None, int, str | None]:
     try:
         with tempfile.TemporaryDirectory(prefix="fuse-rtl-") as temporary:
-            path = Path(temporary) / f"input-{index}{suffix}"
-            path.write_text(source_text, encoding="utf-8")
+            directory = Path(temporary)
+            assert_no_path_aliases(directory)
+            path = directory / f"input-{index}{suffix}"
+            safe_write_text(path, source_text)
             result = run_bounded_host_tool(
                 [
                     executable,

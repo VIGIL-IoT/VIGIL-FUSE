@@ -18,6 +18,7 @@ from .analyzer_runtime import (
     TOOL_VERSION_TIMEOUT_SECONDS,
 )
 from .model import AnalyzerStatus
+from .path_safety import ensure_safe_directory, safe_write_bytes
 
 
 def _binwalk_version(executable: str) -> str | None:
@@ -83,7 +84,7 @@ def identify_firmware(target: Path, output_dir: Path) -> AdapterResult:
             )
         )
 
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = ensure_safe_directory(output_dir)
     try:
         report_path = _artifact_destination(output_dir, "firmware-identification.txt")
     except OSError as error:
@@ -95,7 +96,12 @@ def identify_firmware(target: Path, output_dir: Path) -> AdapterResult:
         content = "Binwalk produced no signature output."
     content_bytes = content.encode("utf-8")
     output_truncated = len(content_bytes) > MAX_BINWALK_REPORT_BYTES
-    report_path.write_bytes(content_bytes[:MAX_BINWALK_REPORT_BYTES])
+    try:
+        safe_write_bytes(report_path, content_bytes[:MAX_BINWALK_REPORT_BYTES])
+    except OSError as error:
+        return AdapterResult(
+            AnalyzerStatus("binwalk", "failed", version=version, detail=str(error))
+        )
     status = (
         "failed" if completed.returncode != 0 else "partial" if output_truncated else "completed"
     )

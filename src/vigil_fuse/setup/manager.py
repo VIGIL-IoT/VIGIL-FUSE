@@ -18,6 +18,7 @@ from typing import IO, Any, Callable
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
+from ..path_safety import assert_no_path_aliases, ensure_safe_directory, safe_write_text
 from .tool_paths import MANAGED_TOOL_IDS, managed_tool_directory
 
 _CATEGORIES = {"CORE", "RECOMMENDED", "OPTIONAL_HEAVY", "RESEARCH"}
@@ -506,9 +507,11 @@ def extract_binary(asset: ToolAsset, archive_path: Path, destination: Path) -> N
 
 def _read_install_metadata(directory: Path) -> dict[str, Any]:
     path = directory / "install-record.json"
+    assert_no_path_aliases(directory)
+    assert_no_path_aliases(path, allow_missing=True)
     if not path.exists():
         return {"schema_version": 1, "tools": {}}
-    if path.is_symlink() or path.stat().st_size > 64 * 1024:
+    if not path.is_file() or path.stat().st_size > 64 * 1024:
         raise ValueError("Invalid FUSE tool install record")
     value = json.loads(path.read_text(encoding="utf-8"))
     if (
@@ -522,18 +525,9 @@ def _read_install_metadata(directory: Path) -> dict[str, Any]:
 
 def _write_install_metadata(directory: Path, tool_id: str, asset: ToolAsset, version: str) -> None:
     record_path = directory / "install-record.json"
-    if record_path.is_symlink():
-        raise ValueError("Refusing to write a FUSE tool record through a symbolic link")
     metadata = _read_install_metadata(directory)
     metadata["tools"][tool_id] = {"version": version, "source": asset.url, "sha256": asset.sha256}
-    fd, temporary_name = tempfile.mkstemp(prefix="install-record-", suffix=".tmp", dir=directory)
-    try:
-        with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as output:
-            json.dump(metadata, output, indent=2)
-            output.write("\n")
-        os.replace(temporary_name, record_path)
-    finally:
-        Path(temporary_name).unlink(missing_ok=True)
+    safe_write_text(record_path, json.dumps(metadata, indent=2) + "\n")
 
 
 def _verify_executable(path: Path, asset: ToolAsset, spec: ToolSpec) -> str:
@@ -556,12 +550,11 @@ def install_asset(
     *,
     upgrade: bool = False,
 ) -> Path:
-    if directory.is_symlink():
-        raise ValueError("Refusing to install analyzer binaries through a symbolic-link directory")
-    directory.mkdir(parents=True, exist_ok=True)
+    directory = ensure_safe_directory(directory)
     destination = directory / asset.executable_name
-    if destination.is_symlink():
-        raise ValueError(f"Refusing to replace symbolic-link executable for {asset.tool}")
+    assert_no_path_aliases(destination, allow_missing=True)
+    if destination.exists() and not destination.is_file():
+        raise ValueError(f"Managed executable path is not a regular file for {asset.tool}")
     if destination.exists():
         existing_version, error = _probe_version(str(destination), spec)
         comparison = _compare_versions(existing_version or "", asset.version)
@@ -573,6 +566,7 @@ def install_asset(
             )
     with tempfile.TemporaryDirectory(prefix="vigil-fuse-", dir=directory) as temporary:
         staging = Path(temporary)
+        assert_no_path_aliases(staging)
         download_path = staging / f"{asset.tool}.release"
         binary_path = staging / asset.executable_name
         download_verified(asset, download_path)
@@ -584,6 +578,8 @@ def install_asset(
         if os.name != "nt":
             binary_path.chmod(0o755)
         version = _verify_executable(binary_path, asset, spec)
+        assert_no_path_aliases(directory)
+        assert_no_path_aliases(destination, allow_missing=True)
         os.replace(binary_path, destination)
         _write_install_metadata(directory, spec.id, asset, version)
     return destination
