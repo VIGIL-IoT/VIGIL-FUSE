@@ -195,6 +195,9 @@ def _scan(source: SourceFile, rule: RuleDefinition) -> Iterable[Finding]:
                 continue
         if is_bitbake_metadata and _BITBAKE_METADATA_ASSIGNMENT.match(line):
             continue
+        lowered_line = line.casefold()
+        if not any(marker in lowered_line for marker in _SECRET_PREFILTER_TOKENS):
+            continue
         matches = (
             list(_ASSIGNMENT.finditer(line))
             + list(_C_DEFINE.finditer(line))
