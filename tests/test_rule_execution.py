@@ -108,6 +108,24 @@ class RuleExecutionProtocolTests(unittest.TestCase):
         self.assertEqual(["FUSE001"], request["rule_ids"])
         self.assertNotIn("embedded-secret-value", json.dumps(row))
 
+    def test_isolated_worker_uses_utf8_for_non_ascii_source(self) -> None:
+        text = "# builtins exec \x9d\n"
+        source = SourceFile(
+            path="sample.py",
+            text=text,
+            sha256="a" * 64,
+            byte_size=len(text.encode("utf-8")),
+        )
+
+        with IsolatedRuleExecutor() as executor:
+            result = executor.execute(
+                source, ("FUSE-SW004",), scan_deadline=time.monotonic() + 5
+            )
+
+        self.assertEqual({"FUSE-SW004"}, result.completed_rule_ids)
+        self.assertEqual({}, result.failed)
+        self.assertEqual([], result.findings)
+
     def test_invalid_finding_marks_only_its_rule_failed_and_continues(self) -> None:
         executor, _, _ = self._executor(
             [

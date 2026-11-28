@@ -14,6 +14,10 @@
 
 - Updated installation and usage guidance for the canonical 0.5.0 release. Donor release notes remain historical and do not substitute for canonical VIGIL releases.
 
+### Fixed
+
+- Configured isolated rule-worker pipes for UTF-8 so legacy-encoded source text with non-ASCII control bytes does not fail Python AST checks on Windows.
+
 ### Excluded
 
 - The intentionally vulnerable demo application remains outside canonical production main per the user's clarification.

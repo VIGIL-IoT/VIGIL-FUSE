@@ -136,6 +136,7 @@ class IsolatedRuleExecutor:
         environment = os.environ.copy()
         environment["PYTHONPATH"] = source_root
         environment["PYTHONDONTWRITEBYTECODE"] = "1"
+        environment["PYTHONIOENCODING"] = "utf-8"
         try:
             process = subprocess.Popen(
                 [sys.executable, "-m", "vigil_fuse.rule_worker"],
