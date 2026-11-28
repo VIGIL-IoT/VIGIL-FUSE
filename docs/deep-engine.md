@@ -14,9 +14,10 @@ OSV findings retain package/advisory relationships and VEX assertions separately
 The report supplies RTL build candidates and hardware inventories. Unavailable artifact
 contents remain unknown; a manifest reference is not an imported inventory.
 
-`reporting.to_json(result, include_evidence_graph=True)` opts into report schema 1.14.
-The default report remains 1.13, including existing baseline fingerprints and findings.
-Both schemas are packaged. The graph also has its own 1.0 schema. Graph loading checks
+`reporting.to_json(result, include_evidence_graph=True)` includes an evidence graph in
+current report schema 1.15. The default report also uses schema 1.15; the graph remains
+optional. Historical schemas 1.13 and 1.14 are packaged for existing report readers.
+The graph also has its own 1.0 schema. Graph loading checks
 referential integrity, deterministic identities, producer runs, duplicate keys, numeric
 bounds, maximum 10000 nodes, 30000 edges and 16 MiB JSON. Exceeding limits rejects the
 graph; it never silently truncates evidence. Duplicate assertions deduplicate, whereas

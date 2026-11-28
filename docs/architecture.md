@@ -80,7 +80,7 @@ CLI
  ├─ product-context adapter correlates exact CycloneDX VEX identities and SLSA subject digests
  ├─ common Finding model carries severity, confidence, evidence, component identity, and review context
  ├─ bounded identity engine scores independent project markers without executing project files
- ├─ reporters emit text, schema 1.13 JSON, SARIF, inventories, coverage, and artifact hashes
+ ├─ reporters emit text, schema 1.15 JSON, SARIF, inventories, coverage, and artifact hashes
  ├─ bundle writer records report hashes and emits canonical FUSE attribution and CITATION.cff
  └─ baseline review consumes canonical JSON reports to compare changes and apply reasoned suppressions
 ```
