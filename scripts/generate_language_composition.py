@@ -33,12 +33,19 @@ def read_linguist_inventory(repo: Path, ref: str, image: str) -> dict[str, Any]:
     if not re.fullmatch(r"[^\s]+@sha256:[0-9a-f]{64}", image):
         raise ValueError("Linguist image must be pinned by sha256 digest")
     helper = Path(__file__).with_name("language_composition_linguist.rb").resolve()
+    docker_user = []
+    if hasattr(os, "getuid") and hasattr(os, "getgid"):
+        docker_user = [
+            "--user",
+            f"{getattr(os, 'getuid')()}:{getattr(os, 'getgid')()}",
+        ]
     command = [
         "docker",
         "run",
         "--rm",
         "--network",
         "none",
+        *docker_user,
         "--volume",
         f"{_docker_path(repo)}:/repo:ro",
         "--volume",
