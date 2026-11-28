@@ -24,7 +24,7 @@ def _input_inventory_scope(result: ScanResult) -> str:
     )
 
 
-def to_json(result: ScanResult) -> str:
+def to_json(result: ScanResult, *, include_evidence_graph: bool = False) -> str:
     counts = Counter(finding.severity for finding in result.findings)
     report = {
         "schema_version": REPORT_SCHEMA_VERSION,
@@ -343,6 +343,11 @@ def to_json(result: ScanResult) -> str:
             for artifact in result.artifacts
         ],
     }
+    if include_evidence_graph:
+        from .evidence_graph import graph_from_report
+
+        report["schema_version"] = "1.14"
+        report["evidence_graph"] = graph_from_report(report).to_dict()
     return json.dumps(report, indent=2, ensure_ascii=False) + "\n"
 
 

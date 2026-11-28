@@ -1,0 +1,43 @@
+{
+  "python": "3.14.7",
+  "os": "Windows",
+  "os_release": "11",
+  "machine": "AMD64",
+  "fuse_version": "0.4.1.dev0",
+  "analysis_commit": "3304e2656a018488994695fa4ddd46cc3243d14d",
+  "native_fingerprint": "b93bb9097e72023d27aa853fe1dbc21eb6a1e2efa6ccb05e030c317d376284b8",
+  "rules": [
+    {
+      "id": "FUSE001",
+      "version": "1.9.0"
+    },
+    {
+      "id": "FUSE002",
+      "version": "1.1.0"
+    },
+    {
+      "id": "FUSE003",
+      "version": "1.4.0"
+    },
+    {
+      "id": "FUSE004",
+      "version": "1.2.0"
+    },
+    {
+      "id": "FUSE005",
+      "version": "1.1.0"
+    },
+    {
+      "id": "FUSE006",
+      "version": "1.2.0"
+    },
+    {
+      "id": "FUSE007",
+      "version": "1.2.0"
+    }
+  ],
+  "selection": "all 2740 official labels, no sampling or random seed",
+  "target_execution": false,
+  "optional_semantic_engines_run": [],
+  "source_materialization": "binary git cat-file at pinned revision, outside repository"
+}
