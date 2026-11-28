@@ -180,7 +180,7 @@ def _software_components(
     """Extract a bounded, non-executable package inventory from CycloneDX data."""
     roots = document.get("components")
     if not isinstance(roots, list):
-        return (), False
+        return (), "components" not in document
     pending: list[tuple[object, int]] = [(item, 0) for item in roots[:_MAX_SOFTWARE_COMPONENTS]]
     found: dict[tuple[str, str, str], SoftwareComponent] = {}
     complete = len(roots) <= _MAX_SOFTWARE_COMPONENTS

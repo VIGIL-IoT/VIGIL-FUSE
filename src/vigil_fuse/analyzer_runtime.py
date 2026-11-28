@@ -9,6 +9,7 @@ import signal
 import shutil
 import select
 import subprocess
+import sys
 import tempfile
 import threading
 import time
@@ -485,6 +486,26 @@ def _artifact_destination(output_dir: Path, filename: str) -> Path:
     return path
 
 
+def _macos_temp_directory_parent(temp_directory: Path, var_target: Path) -> Path | None:
+    var_alias = Path("/var")
+    if var_target != Path("/private/var") or not temp_directory.is_relative_to(var_alias):
+        return None
+    return var_target / temp_directory.relative_to(var_alias)
+
+
+def _analyzer_temp_directory_parent() -> Path | None:
+    if sys.platform != "darwin":
+        return None
+    var_alias = Path("/var")
+    if not var_alias.is_symlink():
+        return None
+    try:
+        var_target = var_alias.resolve(strict=True)
+    except (OSError, RuntimeError):
+        return None
+    return _macos_temp_directory_parent(Path(tempfile.gettempdir()), var_target)
+
+
 def _run(
     command: list[str],
     *,
@@ -500,7 +521,9 @@ def _run(
     adds read-only input, no-network execution by default, and resource limits.
     """
     with tempfile.TemporaryDirectory(
-        prefix="vigil-fuse-analyzer-", ignore_cleanup_errors=True
+        prefix="vigil-fuse-analyzer-",
+        dir=_analyzer_temp_directory_parent(),
+        ignore_cleanup_errors=True,
     ) as temporary:
         root = Path(temporary)
         assert_no_path_aliases(root)

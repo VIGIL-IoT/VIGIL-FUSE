@@ -18,7 +18,11 @@ from vigil_fuse.analyzers import (
     scan_git_history,
     scan_vulnerabilities,
 )
-from vigil_fuse.analyzer_runtime import AnalyzerOutputLimitError, _run
+from vigil_fuse.analyzer_runtime import (
+    AnalyzerOutputLimitError,
+    _macos_temp_directory_parent,
+    _run,
+)
 from vigil_fuse.dependency_analyzers import _cvss_v3_score, _source_location
 
 
@@ -139,6 +143,16 @@ class OSVNormalizationTests(unittest.TestCase):
 
 
 class OptionalAnalyzerTests(unittest.TestCase):
+    def test_macos_temp_directory_uses_the_physical_var_prefix(self) -> None:
+        self.assertEqual(
+            Path("/private/var/folders/session/T"),
+            _macos_temp_directory_parent(Path("/var/folders/session/T"), Path("/private/var")),
+        )
+        self.assertIsNone(_macos_temp_directory_parent(Path("/tmp/fuse"), Path("/private/var")))
+        self.assertIsNone(
+            _macos_temp_directory_parent(Path("/var/folders/session/T"), Path("/other"))
+        )
+
     def test_missing_syft_is_reported_as_unavailable(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

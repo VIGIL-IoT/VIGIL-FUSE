@@ -53,6 +53,23 @@ def test_cyclonedx_inventory_retains_additional_supported_ecosystems() -> None:
     assert {item.ecosystem for item in components} == {"Dart", "Hex", "R", "Conan"}
 
 
+def test_cyclonedx_sbom_without_components_is_a_complete_empty_inventory(tmp_path: Path) -> None:
+    sbom = tmp_path / "components.cdx.json"
+    sbom.write_text('{"bomFormat":"CycloneDX"}', encoding="utf-8")
+
+    result = read_sbom_components(sbom)
+
+    assert result.status.status == "completed"
+    assert result.component_inventory_complete
+    assert result.software_components == ()
+
+    sbom.write_text('{"bomFormat":"CycloneDX","components":null}', encoding="utf-8")
+    malformed = read_sbom_components(sbom)
+
+    assert malformed.status.status == "partial"
+    assert not malformed.component_inventory_complete
+
+
 def test_cyclonedx_inventory_marks_malformed_and_bounded_input_partial(monkeypatch) -> None:
     monkeypatch.setattr("vigil_fuse.dependency_analyzers._MAX_SOFTWARE_COMPONENTS", 1)
     components, complete = _software_components(
