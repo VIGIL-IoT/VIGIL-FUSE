@@ -51,6 +51,8 @@ Non-interactive commands include `scan`, `doctor`, `setup`, `baseline`, `inspect
 
 Reports include JSON, text, and SARIF, with coverage, analyzer statuses, inventories, and artifact hashes. Each report identifies FUSE and the VIGIL project. Report bundles also include `FUSE_SCAN_PROVENANCE.json` with report-file hashes and `CITATION.cff` with the runtime version. The bounded project identity summary in scan reports and `scan --plan` is advisory; its evidence scores are not probabilities and do not enable analyzers. By default, report files go to a sibling `.fuse-results/<target-name>/` directory so a scan does not write into the target. `--output-dir` selects another location. Interactive scans can also offer a PDF report. XeLaTeX uses Times New Roman; a pdfLaTeX-only fallback uses a Times-compatible font. The JSON report preserves separate severity, confidence, applicability, validation, and coverage fields. See the [finding format](docs/finding-schema.md) and [usage guide](docs/usage.md).
 
+The optional [desktop GUI](docs/desktop-gui.md) provides local plans, findings, coverage, baselines, and report export. Launch it with `vigil-fuse-gui` from a Tk-enabled Python environment.
+
 ## Analysis layers
 
 - **Deterministic source checks:** seven conservative rules for credential-like literals, private-key markers, TLS verification bypasses, plaintext HTTP and MQTT endpoints, and ESP-IDF image validation settings.

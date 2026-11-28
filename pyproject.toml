@@ -62,6 +62,7 @@ Issues = "https://github.com/VIGIL-IoT/VIGIL-FUSE/issues"
 
 [project.scripts]
 vigil-fuse = "vigil_fuse.cli:main"
+vigil-fuse-gui = "vigil_fuse.gui.app:main"
 
 [tool.setuptools.dynamic]
 version = { attr = "vigil_fuse.__version__" }

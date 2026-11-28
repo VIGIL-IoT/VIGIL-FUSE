@@ -229,3 +229,7 @@ Additional migrated layers:
 - [Go/Kubernetes execution foundation](kubernetes-operator.md)
 - [Offline Julia research](research/julia-research-engine.md) and [R workflows](../research/R/README.md)
 - [Final standalone repository migration report](standalone-fuse-final-migration.md) and [machine-readable parity ledger](../migration/full-parity-ledger.json)
+
+## Desktop GUI
+
+Install with `python -m pip install -e .` in a Tk-enabled Python environment, then run `vigil-fuse-gui`. See [desktop GUI setup, workflow, coverage and limitations](desktop-gui.md).
