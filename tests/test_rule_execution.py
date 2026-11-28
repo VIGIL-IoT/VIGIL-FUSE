@@ -118,9 +118,7 @@ class RuleExecutionProtocolTests(unittest.TestCase):
         )
 
         with IsolatedRuleExecutor() as executor:
-            result = executor.execute(
-                source, ("FUSE-SW004",), scan_deadline=time.monotonic() + 5
-            )
+            result = executor.execute(source, ("FUSE-SW004",), scan_deadline=time.monotonic() + 5)
 
         self.assertEqual({"FUSE-SW004"}, result.completed_rule_ids)
         self.assertEqual({}, result.failed)
