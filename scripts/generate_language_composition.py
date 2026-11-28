@@ -171,8 +171,8 @@ def fallback_color(language: str) -> str:
 
 
 def render_svg(data: dict[str, Any]) -> str:
-    width = 760
-    padding = 24
+    width = 520
+    padding = 20
     row_height = 34
     header_height = 108
     footer_height = 58
@@ -212,14 +212,14 @@ def render_svg(data: dict[str, Any]) -> str:
         )
         lines.extend(
             [
-                f'<text x="{padding}" y="{y + 14}" fill="#e6edf5" font-size="13" '
+                f'<text x="{padding}" y="{y + 14}" fill="#e6edf5" font-size="15" '
                 f'font-weight="600" font-family="Segoe UI, Arial, sans-serif">{name}</text>',
                 f'<text x="{width - padding}" y="{y + 14}" text-anchor="end" '
-                'fill="#b6c3d4" font-size="12" font-family="Segoe UI, Arial, sans-serif">'
+                'fill="#b6c3d4" font-size="13" font-family="Segoe UI, Arial, sans-serif">'
                 f"{details}</text>",
-                f'<rect x="{padding}" y="{y + 20}" width="{track_width}" height="6" '
+                f'<rect x="{padding}" y="{y + 20}" width="{track_width}" height="7" '
                 'rx="3" fill="#1d2a3b"/>',
-                f'<rect x="{padding}" y="{y + 20}" width="{format(bar_width, "f")}" height="6" '
+                f'<rect x="{padding}" y="{y + 20}" width="{format(bar_width, "f")}" height="7" '
                 f'rx="3" fill="{xml.sax.saxutils.escape(color).replace(chr(34), "&quot;")}"/>',
             ]
         )

@@ -12,7 +12,7 @@
 [![License: VIGIL-FUSE Restricted Use v1.2](https://img.shields.io/badge/license-VIGIL--FUSE%20Restricted%20Use%20v1.2-7c3aed)](LICENSE)
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/VIGIL-IoT/VIGIL-FUSE/generated-metrics/assets/generated/language-composition.svg" alt="Automatically generated FUSE language composition" width="100%" />
+  <img src="https://raw.githubusercontent.com/VIGIL-IoT/VIGIL-FUSE/generated-metrics/assets/generated/language-composition.svg" alt="Automatically generated FUSE language composition" width="700" />
 </p>
 <p align="center"><sub>Automatically generated from the current main branch. <a href="docs/language-composition.md">How the inventory is measured</a>.</sub></p>
 

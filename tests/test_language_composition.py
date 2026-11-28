@@ -93,7 +93,7 @@ def test_tiny_language_percentage_never_rounds_to_zero() -> None:
             {"path": "tiny.rs", "bytes": 1, "language": "Rust", "text": True},
         ],
     }
-    assert 'width="0.000712"' in render_svg(aggregate_inventory(raw))
+    assert 'width="0.00048"' in render_svg(aggregate_inventory(raw))
 
 
 def test_zero_byte_language_does_not_divide_by_zero() -> None:
