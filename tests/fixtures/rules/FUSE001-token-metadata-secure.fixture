@@ -1,0 +1,2 @@
+for index, token in enumerate(tokens):
+    directive = token.value.lstrip("`").casefold() if token.kind == "directive" else ""

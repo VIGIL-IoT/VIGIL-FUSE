@@ -72,6 +72,20 @@ _NON_SECRET_NAME_SUFFIX = re.compile(
     r"(?i)(?:^|[_-]|(?<=[a-z0-9]))"
     r"(?:file|filename|path|characteristic|uuid|label|prompt|message|title|description|placeholder|text|reserved)$"
 )
+_TOKEN_METADATA_NAME = re.compile(r"(?i)(?:^|[._-])token\.(?:kind|type|category)$")
+_TOKEN_METADATA_VALUES = frozenset(
+    {
+        "comment",
+        "directive",
+        "identifier",
+        "keyword",
+        "number",
+        "operator",
+        "punctuation",
+        "string",
+        "symbol",
+    }
+)
 _TINY_SRP_PASSWD_HEADER = re.compile(r"(?i)(?:^|/)tinysrp/t_pwd\.h$")
 _EXPRESSION_CONTINUATION = re.compile(r"(?i)^\s*(?:\+|\.|\|\||&&|\?|\b(?:or|and|if)\b)")
 _NMEA_SENTENCE_TOKEN = re.compile(r"^\$?(?:GP|GN|GL|GA|GB|BD|II|HE|HC|EC|SD|IN|TI)[A-Z]{3}$")
@@ -145,6 +159,8 @@ def _is_secret_literal(match: re.Match[str], line: str, source: SourceFile) -> b
         return False
     value = match.group("value").strip()
     name = match.group("name").strip("_.-").casefold()
+    if _TOKEN_METADATA_NAME.fullmatch(name) and value.casefold() in _TOKEN_METADATA_VALUES:
+        return False
     is_nmea_parser_token = (
         name == "token"
         and re.search(r"(?i)\.\s*token\s*=", line)

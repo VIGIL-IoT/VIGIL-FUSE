@@ -92,6 +92,21 @@ class RuleFixtureTests(unittest.TestCase):
             with self.subTest(text=source.text):
                 self.assertEqual([], list(rule.scan(source)))
 
+    def test_credentials_ignore_lexer_token_metadata_but_detect_auth_token_comparison(
+        self,
+    ) -> None:
+        rule = next(rule for rule in RULES if rule.id == "FUSE001")
+        lexer_source = SourceFile(
+            "src/vigil_fuse/rtl_analysis.py",
+            (FIXTURES / "FUSE001-token-metadata-secure.fixture").read_text(encoding="utf-8"),
+        )
+        credential_source = SourceFile(
+            "src/auth.py", 'if auth_token == "valid-looking-token-123": return True\n'
+        )
+
+        self.assertEqual([], list(rule.scan(lexer_source)))
+        self.assertEqual(["FUSE001"], [item.rule_id for item in rule.scan(credential_source)])
+
     def test_private_key_contents_are_not_in_evidence(self) -> None:
         rule = next(rule for rule in RULES if rule.id == "FUSE002")
         source = self.fixture_source("FUSE002", "vulnerable")
