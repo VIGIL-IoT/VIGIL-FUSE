@@ -44,6 +44,16 @@ def test_vercel_applies_security_headers_to_every_static_route() -> None:
     assert csp["style-src-attr"] == ["'unsafe-inline'"]
 
 
+def test_first_site_change_is_not_skipped_by_vercel_ignore_command() -> None:
+    config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
+    ignore_command = config["ignoreCommand"]
+
+    assert "VERCEL_GIT_PREVIOUS_SHA" in ignore_command
+    assert "git cat-file -e" in ignore_command
+    assert 'git diff --quiet "$VERCEL_GIT_PREVIOUS_SHA" HEAD -- site vercel.json' in ignore_command
+    assert "then exit 0; else exit 1; fi" in ignore_command
+
+
 def test_csp_hashes_match_every_inline_script_and_style_block() -> None:
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
     header_items = config["headers"][0]["headers"]
